@@ -12,7 +12,7 @@ Ce client représente l'ensemble du côté administrateur du site web du LAN de 
 
 ### Outils recommandés
 
- - Un IDE polyvalent pour développer en PHP (ex: atom, sublime, WebStorm, etc...)
+ - Un IDE polyvalent pour développer en Angular (ex: atom, sublime, WebStorm, etc...)
 
 ### Exécuter pour la première fois
 
