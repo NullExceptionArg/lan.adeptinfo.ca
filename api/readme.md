@@ -1,7 +1,13 @@
-
 # API LAN de l'ADEPT
 
 Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemble donc le côté utilisateur, ainsi que le côté administrateur du site.
+
+## Information générale
+
+ - Version de Lumen: 5.6
+ - Documentation Lumen: https://lumen.laravel.com/docs/5.6 
+ - Documentation Laravel: https://laravel.com/docs/5.6
+
 
 ## Développer en local
 
@@ -20,7 +26,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 ### Exécuter
  - Avec un terminal de commande, se placer à la racine du projet API
  - Exécuter `php -S localhost:8000 -t public`
- - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000]
+ - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000](http://localhost:8000)
 
 ### Déboguer avec PhpStorm
 
