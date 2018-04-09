@@ -1,21 +1,38 @@
-# Lumen PHP Framework
 
-[![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
-[![Total Downloads](https://poser.pugx.org/laravel/lumen-framework/d/total.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/lumen-framework/v/stable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/lumen-framework/v/unstable.svg)](https://packagist.org/packages/laravel/lumen-framework)
-[![License](https://poser.pugx.org/laravel/lumen-framework/license.svg)](https://packagist.org/packages/laravel/lumen-framework)
+# API LAN de l'ADEPT
 
-Laravel Lumen is a stunningly fast PHP micro-framework for building web applications with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Lumen attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as routing, database abstraction, queueing, and caching.
+Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemble donc le côté utilisateur, ainsi que le côté administrateur du site.
 
-## Official Documentation
+## Développer en local
 
-Documentation for the framework can be found on the [Lumen website](http://lumen.laravel.com/docs).
+### Outils recommandés
 
-## Security Vulnerabilities
+ - Un IDE polyvalent pour développer en PHP (ex: atom, sublime, PhpStorm, etc...)
+ - Postman
 
-If you discover a security vulnerability within Lumen, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+### Exécuter pour la première fois
 
-## License
+ - Avec un terminal de commande, se placer à la racine du projet API
+ - Exécuter `composer install` (prend un certain temps)
+ - Exécuter `php -S localhost:8000 -t public`
+ - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000](http://localhost:8000)
 
-The Lumen framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+### Exécuter
+ - Avec un terminal de commande, se placer à la racine du projet API
+ - Exécuter `php -S localhost:8000 -t public`
+ - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000]
+
+### Déboguer avec PhpStorm
+
+ - Prérequis: Interpréteur PHP CLI
+ - Créer une nouvelle configuration "PHP Built-in Web Server"
+ - Host: `localhost`
+ - Document root: `[...]/lanadept.com/api`
+ - Use router script (coché): `[...]/lanadept.com/api/public/index.php`
+- Interpreter options:
+  - -dxdebug.remote_enable=1
+  - dxdebug.remote_mode=req
+  - dxdebug.remote_port=9000
+  - dxdebug.remote_host=127.0.0.1
+ - (Optionnel) "Cocher Single Instance Only"
+ - Cliquer sur "Apply"
