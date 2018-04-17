@@ -99,6 +99,9 @@ $app->register(Laravel\Passport\PassportServiceProvider::class);
 Dusterio\LumenPassport\LumenPassport::routes($app);
 // Lumen generator - https://github.com/flipboxstudio/lumen-generator
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+// Dingo
+//$app->register(Dingo\Api\Provider\LumenServiceProvider::class);
+$app->register(App\Providers\DingoServiceProvider::class);
 // CORS - https://github.com/barryvdh/laravel-cors
 $app->register(Barryvdh\Cors\ServiceProvider::class);
 
@@ -113,9 +116,7 @@ $app->register(Barryvdh\Cors\ServiceProvider::class);
 |
 */
 
-$app->router->group([
-    'namespace' => 'App\Http\Controllers',
-], function ($router) {
+$app->router->group([], function () {
     require __DIR__ . '/../routes/web.php';
 });
 

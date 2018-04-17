@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Services\Implementation\UserServiceImpl;
+use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    use Helpers;
+
     protected $userService;
 
     /**

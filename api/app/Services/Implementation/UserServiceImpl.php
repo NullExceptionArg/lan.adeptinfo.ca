@@ -24,13 +24,13 @@ class UserServiceImpl implements UserService
         $this->userRepository = $userRepositoryImpl;
     }
 
-
     public function signUp(Request $input): User
     {
         $userValidator = Validator::make($input->all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|unique:users|max:255',
+            'password' => 'required'
         ]);
 
         if($userValidator->fails()){
