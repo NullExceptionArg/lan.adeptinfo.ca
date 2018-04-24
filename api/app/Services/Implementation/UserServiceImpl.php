@@ -29,8 +29,8 @@ class UserServiceImpl implements UserService
         $userValidator = Validator::make($input->all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'email' => 'required|unique:users|max:255',
-            'password' => 'required'
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|max:20'
         ]);
 
         if($userValidator->fails()){

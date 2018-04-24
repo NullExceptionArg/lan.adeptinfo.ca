@@ -9,6 +9,12 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Laravel\Passport\HasApiTokens;
 
+/**
+ * @property string first_name
+ * @property string last_name
+ * @property string email
+ * @property string password
+ */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
     use HasApiTokens, Authenticatable, Authorizable;
