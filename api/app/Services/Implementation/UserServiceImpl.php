@@ -5,7 +5,7 @@ namespace App\Services\Implementation;
 
 
 use App\Model\User;
-use App\Repositories\UserRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

@@ -1,10 +1,11 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Repositories\Implementation;
 
 
 use App\Model\User;
+use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepositoryImpl implements UserRepository
