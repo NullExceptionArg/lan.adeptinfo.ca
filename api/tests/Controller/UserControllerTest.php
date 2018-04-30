@@ -24,19 +24,19 @@ class UserControllerTest extends TestCase
         // Default
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
-                "first_name" => "John",
-                "last_name" => "Doe",
-                "email" => "john@doe.com"
+                "first_name" => $this->requestContent['first_name'],
+                "last_name" => $this->requestContent['last_name'],
+                "email" => $this->requestContent['email']
             ])
             ->assertResponseStatus(201);
     }
 
-    public function testSignUpUniqueEmailConstraints()
+    public function testSignUpEmailConstraints()
     {
         // Required
         $this->requestContent['email'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -50,7 +50,7 @@ class UserControllerTest extends TestCase
         // Formatted email
         $this->requestContent['email'] = 'john.doe.com';
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -70,7 +70,7 @@ class UserControllerTest extends TestCase
         $user->password = Hash::make($this->requestContent['password']);
         $user->save();
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -87,7 +87,7 @@ class UserControllerTest extends TestCase
         // Required
         $this->requestContent['password'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -101,7 +101,7 @@ class UserControllerTest extends TestCase
         // Min Length
         $this->requestContent['password'] = str_repeat('☭', 2);
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -115,7 +115,7 @@ class UserControllerTest extends TestCase
         // Max Length
         $this->requestContent['password'] = str_repeat('☭', 22);
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -132,7 +132,7 @@ class UserControllerTest extends TestCase
         // Required
         $this->requestContent['first_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -146,7 +146,7 @@ class UserControllerTest extends TestCase
         // Max Length
         $this->requestContent['first_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -163,7 +163,7 @@ class UserControllerTest extends TestCase
         // Required
         $this->requestContent['last_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
@@ -177,7 +177,7 @@ class UserControllerTest extends TestCase
         // Max Length
         $this->requestContent['last_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJson([
+            ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [

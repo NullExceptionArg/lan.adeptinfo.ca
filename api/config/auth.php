@@ -2,18 +2,18 @@
 return [
     'defaults' => [
         'guard' => 'api',
-        'passwords' => 'users',
+        'passwords' => 'user',
     ],
 
     'guards' => [
         'api' => [
             'driver' => 'passport',
-            'provider' => 'users',
+            'provider' => 'user',
         ],
     ],
 
     'providers' => [
-        'users' => [
+        'user' => [
             'driver' => 'eloquent',
             'model' => \App\Model\User::class
         ]

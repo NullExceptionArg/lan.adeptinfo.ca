@@ -19,7 +19,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use HasApiTokens, Authenticatable, Authorizable;
 
-    protected $table = 'users';
+    protected $table = 'user';
 
     /**
      * The attributes that are mass assignable.
@@ -38,4 +38,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password', 'id', 'created_at', 'updated_at',
     ];
+
+    /**
+     * The lan(s) that belong to the user.
+     */
+    public function lan()
+    {
+        return $this->belongsToMany('App\Model\Lan');
+    }
 }

@@ -33,7 +33,7 @@ class UserRepositoryTest extends TestCase
             $this->paramsContent['email'],
             $this->paramsContent['password']
         );
-        $this->seeInDatabase('users', [
+        $this->seeInDatabase('user', [
             'first_name' => $this->paramsContent['first_name'],
             'last_name' => $this->paramsContent['last_name'],
             'email' => $this->paramsContent['email'],
