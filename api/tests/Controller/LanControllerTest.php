@@ -1,11 +1,6 @@
 <?php
 
-namespace Tests\Controller;
-
-use DateInterval;
-use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use TestCase;
 
 class LanControllerTest extends TestCase
 {
@@ -24,7 +19,6 @@ class LanControllerTest extends TestCase
 
     public function testCreateLan()
     {
-        // Default
         $user = factory('App\Model\User')->make();
         $this->actingAs($user)
             ->json('POST', '/api/lan', $this->requestContent)
@@ -45,9 +39,8 @@ class LanControllerTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanStartConstraints()
+    public function testCreateLanStartRequiredConstraint()
     {
-        // Required
         $user = factory('App\Model\User')->make();
         $this->requestContent['lan_start'] = '';
         $this->actingAs($user)
@@ -62,8 +55,13 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // After reservation
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanAfterReservationConstraint()
+    {
         $user = factory('App\Model\User')->make();
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->requestContent['reservation_start']));
@@ -86,8 +84,13 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // After tournament start
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanAfterTournamentStartConstraint()
+    {
         $user = factory('App\Model\User')->make();
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->requestContent['tournament_start']));
@@ -115,9 +118,8 @@ class LanControllerTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanEndConstraints()
+    public function testCreateLanEndRequiredConstraint()
     {
-        // Required
         $user = factory('App\Model\User')->make();
         $this->requestContent['lan_end'] = '';
         $this->actingAs($user)
@@ -132,8 +134,12 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // After lan start
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanEndAfterLanStartConstraint(){
         $user = factory('App\Model\User')->make();
         // Set the lan end date to one day before lan start
         $newLanEnd = (new DateTime($this->requestContent['lan_start']));
@@ -157,9 +163,8 @@ class LanControllerTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanReservationStartConstraints()
+    public function testCreateLanReservationStartRequiredConstraint()
     {
-        // Required
         $user = factory('App\Model\User')->make();
         $this->requestContent['reservation_start'] = '';
         $this->actingAs($user)
@@ -174,8 +179,13 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // After or equal now
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanReservationStartAfterOrEqualNowConstraint()
+    {
         $user = factory('App\Model\User')->make();
         // Set the reservation date to yesterday
         $newReservationDate = (new DateTime());
@@ -199,10 +209,8 @@ class LanControllerTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanTournamentStartConstraints()
+    public function testCreateLanTournamentStartRequiredConstraint()
     {
-
-        // Required
         $user = factory('App\Model\User')->make();
         $this->requestContent['tournament_start'] = '';
         $this->actingAs($user)
@@ -217,8 +225,13 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // After or equal now
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanTournamentStartAfterOrEqualNowConstraint()
+    {
         $user = factory('App\Model\User')->make();
         // Set the reservation date to yesterday
         $newReservationDate = (new DateTime());
@@ -239,9 +252,8 @@ class LanControllerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdConstraints()
+    public function testCreateLanEventKeyIdRequiredConstraint()
     {
-        // Required
         $user = factory('App\Model\User')->make();
         $this->requestContent['event_key_id'] = '';
         $this->actingAs($user)
@@ -256,8 +268,10 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Max length
+    public function testCreateLanEventKeyIdMaxLengthConstraint()
+    {
         $user = factory('App\Model\User')->make();
         $this->requestContent['event_key_id'] = str_repeat('☭', 256);
         $this->actingAs($user)
@@ -274,7 +288,7 @@ class LanControllerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdConstraints()
+    public function testCreateLanPublicKeyIdRequiredConstraint()
     {
         // Required
         $user = factory('App\Model\User')->make();
@@ -291,8 +305,10 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Max length
+    public function testCreateLanPublicKeyIdMaxLengthConstraint()
+    {
         $user = factory('App\Model\User')->make();
         $this->requestContent['public_key_id'] = str_repeat('☭', 256);
         $this->actingAs($user)
@@ -309,9 +325,8 @@ class LanControllerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdConstraints()
+    public function testCreateLanSecretKeyIdRequiredConstraint()
     {
-        // Required
         $user = factory('App\Model\User')->make();
         $this->requestContent['secret_key_id'] = '';
         $this->actingAs($user)
@@ -326,8 +341,10 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Max length
+    public function testCreateLanSecretKeyIdMaxLengthConstraint()
+    {
         $user = factory('App\Model\User')->make();
         $this->requestContent['secret_key_id'] = str_repeat('☭', 256);
         $this->actingAs($user)
@@ -344,9 +361,8 @@ class LanControllerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceConstraints()
+    public function testCreateLanPriceRequiredConstraint()
     {
-        // Required
         $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '';
         $this->actingAs($user)
@@ -361,8 +377,10 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Minimum
+    public function testCreateLanPriceMinimumConstraint()
+    {
         $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '-1';
         $this->actingAs($user)
@@ -377,8 +395,10 @@ class LanControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Integer
+    public function testCreateLanPriceIntegerConstraint()
+    {
         $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '☭';
         $this->actingAs($user)

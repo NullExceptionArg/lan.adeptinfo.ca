@@ -27,7 +27,6 @@ class UserServiceTest extends TestCase
 
     public function testSignUp()
     {
-        // Default
         $request = new Request($this->paramsContent);
         $result = $this->userService->signUp($request);
 
@@ -36,9 +35,8 @@ class UserServiceTest extends TestCase
         $this->assertEquals($this->paramsContent['email'], $result->email);
     }
 
-    public function testSignUpUniqueEmailConstraints()
+    public function testSignUpEmailRequiredConstraint()
     {
-        // Required
         $this->paramsContent['email'] = '';
         $request = new Request($this->paramsContent);
         try {
@@ -48,9 +46,10 @@ class UserServiceTest extends TestCase
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"email":["The email field is required."]}', $e->getMessage());
         }
+    }
 
-
-        // Formatted email
+    public function testSignUpEmailFormattedEmailConstraint()
+    {
         $this->paramsContent['email'] = 'john.doe.com';
         $request = new Request($this->paramsContent);
         try {
@@ -60,8 +59,10 @@ class UserServiceTest extends TestCase
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"email":["The email must be a valid email address."]}', $e->getMessage());
         }
+    }
 
-        // Unique email
+    public function testSignUpEmailUniqueConstraint()
+    {
         $this->paramsContent['email'] = 'john@doe.com';
         $user = new User();
         $user->first_name = $this->paramsContent['first_name'];
@@ -79,9 +80,8 @@ class UserServiceTest extends TestCase
         }
     }
 
-    public function testSignUpPasswordConstraints()
+    public function testSignUpPasswordRequiredConstraint()
     {
-        // Required
         $this->paramsContent['password'] = '';
         $request = new Request($this->paramsContent);
         try {
@@ -91,8 +91,10 @@ class UserServiceTest extends TestCase
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"password":["The password field is required."]}', $e->getMessage());
         }
+    }
 
-        // Min Length
+    public function testSignUpPasswordMinLengthConstraint()
+    {
         $this->paramsContent['password'] = str_repeat('☭', 2);
         $request = new Request($this->paramsContent);
         try {
@@ -102,8 +104,10 @@ class UserServiceTest extends TestCase
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"password":["The password must be at least 6 characters."]}', $e->getMessage());
         }
+    }
 
-        // Max Length
+    public function testSignUpPasswordMaxLengthConstraint()
+    {
         $this->paramsContent['password'] = str_repeat('☭', 22);
         $request = new Request($this->paramsContent);
         try {
@@ -115,9 +119,8 @@ class UserServiceTest extends TestCase
         }
     }
 
-    public function testSignUpFirstNameConstraints()
+    public function testSignUpFirstNameRequiredConstraint()
     {
-        // Required
         $this->paramsContent['first_name'] = '';
         $request = new Request($this->paramsContent);
         try {
@@ -127,8 +130,10 @@ class UserServiceTest extends TestCase
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"first_name":["The first name field is required."]}', $e->getMessage());
         }
+    }
 
-        // Max Length
+    public function testSignUpFirstNameMaxLengthConstraint()
+    {
         $this->paramsContent['first_name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
@@ -140,9 +145,8 @@ class UserServiceTest extends TestCase
         }
     }
 
-    public function testSignUpLastNameConstraints()
+    public function testSignUpLastNameRequiredConstraint()
     {
-        // Required
         $this->paramsContent['last_name'] = '';
         $request = new Request($this->paramsContent);
         try {
@@ -152,8 +156,10 @@ class UserServiceTest extends TestCase
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"last_name":["The last name field is required."]}', $e->getMessage());
         }
+    }
 
-        // Max Length
+    public function testSignUpLastNameMaxLengthConstraint()
+    {
         $this->paramsContent['last_name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {

@@ -1,8 +1,8 @@
 <?php
 
-
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class LanServiceTest extends TestCase
 {
@@ -41,5 +41,286 @@ class LanServiceTest extends TestCase
         $this->assertEquals($this->paramsContent['public_key_id'], $result->public_key_id);
         $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
         $this->assertEquals($this->paramsContent['price'], $result->price);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanStartRequiredConstraint()
+    {
+        $this->paramsContent['lan_start'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"lan_start":["The lan start field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_start":["The lan start field is required."]}', $e->getMessage());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanStartAfterReservationStartConstraint()
+    {
+        // Set the lan_start date to one day before reservation
+        $newLanStart = (new DateTime($this->paramsContent['reservation_start']));
+        $newLanStart->sub(new DateInterval('P1D'));
+        $this->paramsContent['lan_start'] = $newLanStart->format('Y-m-d\TH:i:s');
+        // Set the tournament_start to one day before the new lan_start
+        $newTournamentStart = (new DateTime($this->paramsContent['lan_start']));
+        $newTournamentStart->sub(new DateInterval('P1D'));
+        $this->paramsContent['tournament_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"lan_start":["The lan start must be a date after reservation start."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_start":["The lan start must be a date after reservation start."]}', $e->getMessage());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanStartAfterTournamentStartConstraint()
+    {
+        // Set the lan_start date to one day before tournament start
+        $newLanStart = (new DateTime($this->paramsContent['tournament_start']));
+        $newLanStart->sub(new DateInterval('P1D'));
+        $this->paramsContent['lan_start'] = $newLanStart->format('Y-m-d\TH:i:s');
+        // Set the reservation_start to one day before the new lan_start
+        $newTournamentStart = (new DateTime($this->paramsContent['lan_start']));
+        $newTournamentStart->sub(new DateInterval('P1D'));
+        $this->paramsContent['reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"lan_start":["The lan start must be a date after tournament start."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_start":["The lan start must be a date after tournament start."]}', $e->getMessage());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanEndRequiredConstraint()
+    {
+        $this->paramsContent['lan_end'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"lan_end":["The lan end field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_end":["The lan end field is required."]}', $e->getMessage());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanEndAfterLanStartConstraint()
+    {
+        // Set the lan_end date to one day before lan_start
+        $newLanEnd = (new DateTime($this->paramsContent['lan_start']));
+        $newLanEnd->sub(new DateInterval('P1D'));
+        $this->paramsContent['lan_end'] = $newLanEnd->format('Y-m-d\TH:i:s');
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"lan_end":["The lan end must be a date after lan start."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_end":["The lan end must be a date after lan start."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanReservationStartRequiredConstraint()
+    {
+        $this->paramsContent['reservation_start'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"reservation_start":["The reservation start field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"reservation_start":["The reservation start field is required."]}', $e->getMessage());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanReservationStartAfterOrEqualNowConstraint()
+    {
+        // Set the reservation_start date to one day before today
+        $newTournamentStart = (new DateTime());
+        $newTournamentStart->sub(new DateInterval('P1D'));
+        $this->paramsContent['reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"reservation_start":["The reservation start must be a date after or equal to now."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"reservation_start":["The reservation start must be a date after or equal to now."]}', $e->getMessage());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanTournamentStartRequiredConstraint()
+    {
+        $this->paramsContent['tournament_start'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"tournament_start":["The tournament start field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"tournament_start":["The tournament start field is required."]}', $e->getMessage());
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function testCreateLanTournamentStartAfterOrEqualNowConstraint()
+    {
+        // Set the tournament_start date to one day before today
+        $newTournamentStart = (new DateTime());
+        $newTournamentStart->sub(new DateInterval('P1D'));
+        $this->paramsContent['tournament_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"tournament_start":["The tournament start must be a date after or equal to now."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"tournament_start":["The tournament start must be a date after or equal to now."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanEventKeyIdRequiredConstraint()
+    {
+        $this->paramsContent['event_key_id'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"event_key_id":["The event key id field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"event_key_id":["The event key id field is required."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanEventKeyIdMaxLengthConstraint()
+    {
+        $this->paramsContent['event_key_id'] = str_repeat('☭', 256);
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"event_key_id":["The event key id may not be greater than 255 characters."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"event_key_id":["The event key id may not be greater than 255 characters."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanPublicKeyIdRequiredConstraint()
+    {
+        $this->paramsContent['public_key_id'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"public_key_id":["The public key id field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"public_key_id":["The public key id field is required."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanPublicKeyIdMaxLengthConstraint()
+    {
+        $this->paramsContent['public_key_id'] = str_repeat('☭', 256);
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"public_key_id":["The public key id may not be greater than 255 characters."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"public_key_id":["The public key id may not be greater than 255 characters."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanSecretKeyIdRequiredConstraint()
+    {
+        $this->paramsContent['secret_key_id'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"secret_key_id":["The secret key id field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"secret_key_id":["The secret key id field is required."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanSecretKeyIdMaxLengthConstraint()
+    {
+        $this->paramsContent['secret_key_id'] = str_repeat('☭', 256);
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"secret_key_id":["The secret key id may not be greater than 255 characters."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"secret_key_id":["The secret key id may not be greater than 255 characters."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanPriceConstraint()
+    {
+        $this->paramsContent['price'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"price":["The price field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"price":["The price field is required."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanMinimumConstraint()
+    {
+        $this->paramsContent['price'] = "-1";
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"price":["The price must be at least 0."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"price":["The price must be at least 0."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanIntegerConstraint()
+    {
+        $this->paramsContent['price'] = "☭";
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"price":["The price must be an integer."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"price":["The price must be an integer."]}', $e->getMessage());
+        }
     }
 }

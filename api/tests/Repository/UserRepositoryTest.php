@@ -26,7 +26,6 @@ class UserRepositoryTest extends TestCase
 
     public function testSignUp()
     {
-        // Default
         $this->userRepository->createUser(
             $this->paramsContent['first_name'],
             $this->paramsContent['last_name'],
@@ -40,9 +39,8 @@ class UserRepositoryTest extends TestCase
         ]);
     }
 
-    public function testSignUpUniqueEmailConstraints()
+    public function testSignUpUniqueEmailConstraint()
     {
-        // Unique email
         $user = new User();
         $user->first_name = $this->paramsContent['first_name'];
         $user->last_name = $this->paramsContent['last_name'];

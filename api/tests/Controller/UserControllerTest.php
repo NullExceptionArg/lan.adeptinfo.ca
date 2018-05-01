@@ -21,7 +21,6 @@ class UserControllerTest extends TestCase
 
     public function testSignUp()
     {
-        // Default
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
                 "first_name" => $this->requestContent['first_name'],
@@ -31,9 +30,8 @@ class UserControllerTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testSignUpEmailConstraints()
+    public function testSignUpEmailRequiredConstraint()
     {
-        // Required
         $this->requestContent['email'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -46,8 +44,10 @@ class UserControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Formatted email
+    public function testSignUpEmailFormattedEmailConstraint()
+    {
         $this->requestContent['email'] = 'john.doe.com';
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -60,8 +60,10 @@ class UserControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Unique email
+    public function testSignUpEmailUniqueConstraint()
+    {
         $this->requestContent['email'] = 'john@doe.com';
         $user = new User();
         $user->first_name = $this->requestContent['first_name'];
@@ -82,9 +84,8 @@ class UserControllerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpPasswordConstraints()
+    public function testSignUpPasswordRequiredConstraint()
     {
-        // Required
         $this->requestContent['password'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -97,8 +98,10 @@ class UserControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Min Length
+    public function testSignUpPasswordMinLengthConstraint()
+    {
         $this->requestContent['password'] = str_repeat('☭', 2);
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -111,8 +114,10 @@ class UserControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Max Length
+    public function testSignUpPasswordMaxLengthConstraint()
+    {
         $this->requestContent['password'] = str_repeat('☭', 22);
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -127,9 +132,8 @@ class UserControllerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpFirstNameConstraints()
+    public function testSignUpFirstNameRequiredConstraint()
     {
-        // Required
         $this->requestContent['first_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -142,8 +146,10 @@ class UserControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Max Length
+    public function testSignUpFirstNameMaxLengthConstraint()
+    {
         $this->requestContent['first_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -158,9 +164,8 @@ class UserControllerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpLastNameConstraints()
+    public function testSignUpLastNameRequiredConstraint()
     {
-        // Required
         $this->requestContent['last_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -173,8 +178,10 @@ class UserControllerTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
 
-        // Max Length
+    public function testSignUpLastNameMaxLengthConstraint()
+    {
         $this->requestContent['last_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -188,5 +195,4 @@ class UserControllerTest extends TestCase
             ])
             ->assertResponseStatus(400);
     }
-
 }
