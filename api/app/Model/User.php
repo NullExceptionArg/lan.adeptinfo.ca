@@ -38,12 +38,4 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
         'password', 'id', 'created_at', 'updated_at',
     ];
-
-    /**
-     * The lan(s) that belong to the user.
-     */
-    public function lan()
-    {
-        return $this->belongsToMany('App\Model\Lan');
-    }
 }

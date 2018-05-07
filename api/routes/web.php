@@ -25,9 +25,9 @@ $api->version('v1', function ($api) {
     // Authorized requests
     $api->group(['middleware' => ['auth:api', 'cors']], function ($api) {
 
-    $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
-        $api->post('lan', 'LanController@createLan');
-    });
+        $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
+            $api->post('lan', 'LanController@createLan');
+        });
 
     });
 
