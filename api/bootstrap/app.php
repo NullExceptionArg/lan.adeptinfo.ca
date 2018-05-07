@@ -1,9 +1,9 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    (new Dotenv\Dotenv(__DIR__.'/../'))->load();
+    (new Dotenv\Dotenv(__DIR__ . '/../'))->load();
 } catch (Dotenv\Exception\InvalidPathException $e) {
     //
 }
@@ -20,13 +20,24 @@ try {
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__.'/../')
+    realpath(__DIR__ . '/../')
 );
 
-// $app->withFacades();
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    App\Exceptions\Handler::class
+);
 
-// $app->withEloquent();
+$app->singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    App\Console\Kernel::class
+);
 
+$app->withFacades();
+$app->withEloquent();
+
+$app->configure('auth');
+$app->configure('cors');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -63,9 +74,10 @@ $app->singleton(
 //    App\Http\Middleware\ExampleMiddleware::class
 // ]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+    'cors' => \Barryvdh\Cors\HandleCors::class
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -78,9 +90,20 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+// Main provider
+$app->register(App\Providers\AppServiceProvider::class);
+// Passport & Auth - https://github.com/dusterio/lumen-passport
+$app->register(App\Providers\AuthServiceProvider::class);
+$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
+$app->register(Laravel\Passport\PassportServiceProvider::class);
+Dusterio\LumenPassport\LumenPassport::routes($app);
+// Lumen generator - https://github.com/flipboxstudio/lumen-generator
+$app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+// Dingo
+//$app->register(Dingo\Api\Provider\LumenServiceProvider::class);
+$app->register(App\Providers\DingoServiceProvider::class);
+// CORS - https://github.com/barryvdh/laravel-cors
+$app->register(Barryvdh\Cors\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -93,10 +116,8 @@ $app->singleton(
 |
 */
 
-$app->router->group([
-    'namespace' => 'App\Http\Controllers',
-], function ($router) {
-    require __DIR__.'/../routes/web.php';
+$app->router->group([], function () {
+    require __DIR__ . '/../routes/web.php';
 });
 
 return $app;
