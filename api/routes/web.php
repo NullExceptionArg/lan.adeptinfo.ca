@@ -29,7 +29,7 @@ $api->version('v1', function ($api) {
 
             $api->post('lan', 'LanController@createLan');
 
-            $api->post('book', 'SeatController@book');
+            $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@book');
 
         });
 
