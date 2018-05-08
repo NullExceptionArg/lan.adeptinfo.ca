@@ -7,6 +7,7 @@ namespace App\Repositories\Implementation;
 use App\Model\Lan;
 use App\Repositories\LanRepository;
 use DateTime;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 class LanRepositoryImpl implements LanRepository
 {
@@ -39,5 +40,12 @@ class LanRepositoryImpl implements LanRepository
     public function findById(int $id): ?Lan
     {
         return Lan::find($id);
+    }
+
+    public function attachUserLan(Authenticatable $user, Lan $lan, string $seatId): void
+    {
+        $lan->user()->attach($user->id, [
+            $seatId
+        ]);
     }
 }

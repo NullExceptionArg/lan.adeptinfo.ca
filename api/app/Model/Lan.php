@@ -30,6 +30,10 @@ class Lan extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class, 'Reservation');
+        return $this->belongsToMany(User::class, 'reservation')
+            ->using(Reservation::class)
+            ->as('reservation')
+            ->withPivot('seat_id')
+            ->withTimestamps();
     }
 }

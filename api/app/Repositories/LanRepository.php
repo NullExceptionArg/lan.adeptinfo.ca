@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Model\Lan;
 use DateTime;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 interface LanRepository
 {
@@ -21,4 +22,6 @@ interface LanRepository
     ): Lan;
 
     public function findById(int $id): ?Lan;
+
+    public function attachUserLan(Authenticatable $user, Lan $lan, string $seatId): void;
 }

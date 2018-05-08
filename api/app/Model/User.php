@@ -41,7 +41,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
     public function lan()
     {
-        return $this->belongsToMany(Lan::class, 'Reservation')
+        return $this->belongsToMany(Lan::class, 'reservation')
             ->using(Reservation::class)
             ->as('reservation')
             ->withPivot('seat_id')
