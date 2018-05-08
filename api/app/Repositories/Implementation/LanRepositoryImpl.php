@@ -35,4 +35,9 @@ class LanRepositoryImpl implements LanRepository
 
         return $lan;
     }
+
+    public function findById(int $id): ?Lan
+    {
+        return Lan::find($id);
+    }
 }

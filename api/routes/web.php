@@ -27,6 +27,7 @@ $api->version('v1', function ($api) {
 
         $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
             $api->post('lan', 'LanController@createLan');
+            $api->post('lan/reserve', 'LanController@reserve');
         });
 
     });

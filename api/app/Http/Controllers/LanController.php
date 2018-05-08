@@ -24,4 +24,8 @@ class LanController extends Controller
     public function createLan(Request $request){
         return response()->json($this->lanService->createLan($request), 201);
     }
+
+    public function reserve(Request $request) {
+        return response()->json($this->lanService->createReservation($request), 201);
+    }
 }

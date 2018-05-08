@@ -19,4 +19,6 @@ interface LanRepository
         string $secretKeyId,
         int $price
     ): Lan;
+
+    public function findById(int $id): ?Lan;
 }

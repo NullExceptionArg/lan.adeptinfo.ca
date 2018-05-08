@@ -6,9 +6,11 @@ namespace App\Services\Implementation;
 
 use App\Model\Lan;
 use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Model\Reservation;
 use App\Services\LanService;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -53,5 +55,27 @@ class LanServiceImpl implements LanService
             $input['secret_key_id'],
             $input['price']
         );
+    }
+
+    public function createReservation(Request $input): Reservation
+    {
+        $user = Auth::user();
+        $lan = $this->lanRepository->findById($input['lan_id']);
+
+
+        // validate data
+            // user can only be once in a lan
+            // seat can only be once in a lan
+            // seat is a required string
+            // lan is a required unsigned integer
+            //
+
+        // assign place to user in lan
+
+
+        // send the place to the api
+
+        // return the reservation
+        return new Reservation();
     }
 }
