@@ -1,14 +1,12 @@
 <?php
 
-
 namespace App\Services;
 
 
-use App\Model\Lan;
 use App\Model\Reservation;
 use Illuminate\Http\Request;
 
-interface LanService
+interface SeatService
 {
-    public function createLan(Request $input): Lan;
+    public function book(Request $input): Reservation;
 }

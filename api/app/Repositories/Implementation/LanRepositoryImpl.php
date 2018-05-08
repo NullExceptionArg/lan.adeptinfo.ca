@@ -37,15 +37,8 @@ class LanRepositoryImpl implements LanRepository
         return $lan;
     }
 
-    public function findById(int $id): ?Lan
+    public function findLanById(int $id): ?Lan
     {
         return Lan::find($id);
-    }
-
-    public function attachUserLan(Authenticatable $user, Lan $lan, string $seatId): void
-    {
-        $lan->user()->attach($user->id, [
-            $seatId
-        ]);
     }
 }
