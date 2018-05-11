@@ -28,7 +28,7 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository = $seatRepositoryImpl;
     }
 
-    public function book(int $lanId, string $seatId): Reservation
+    public function book(string $lanId, string $seatId): Reservation
     {
         // Internal validation
 

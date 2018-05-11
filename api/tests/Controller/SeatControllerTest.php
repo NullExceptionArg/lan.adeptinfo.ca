@@ -9,8 +9,7 @@ class SeatControllerTest extends SeatsTestCase
     use DatabaseMigrations;
 
     protected $requestContent = [
-        'seat_id' => "A-1",
-        'lan_id' => 1
+        'seat_id' => "A-1"
     ];
 
 
@@ -131,6 +130,25 @@ class SeatControllerTest extends SeatsTestCase
                 'message' => [
                     'seat_id' => [
                         0 => 'Seat with id ' . $this->requestContent['seat_id'] . ' is already taken for this event'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testBookSeatLanIdInteger()
+    {
+        $user = factory('App\Model\User')->create();
+        $badLanId = '☭';
+
+        $this->actingAs($user)
+            ->json('POST', '/api/lan/' . $badLanId . '/book/' . $this->requestContent['seat_id'])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'lan_id' => [
+                        0 => 'The lan id must be an integer.'
                     ],
                 ]
             ])
