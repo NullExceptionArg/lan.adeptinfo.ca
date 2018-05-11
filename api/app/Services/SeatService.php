@@ -8,5 +8,5 @@ use Illuminate\Http\Request;
 
 interface SeatService
 {
-    public function book(Request $input): Reservation;
+    public function book(int $lanId, string $seatId): Reservation;
 }

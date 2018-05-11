@@ -15,8 +15,8 @@ class LanRepositoryImpl implements LanRepository
     public function createLan(
         DateTime $lanStart,
         DateTime $lanEnd,
-        DateTime $reservationStart,
-        DateTime $tournamentStart,
+        DateTime $seatReservationStart,
+        DateTime $tournamentReservationStart,
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
@@ -26,8 +26,8 @@ class LanRepositoryImpl implements LanRepository
         $lan = new Lan();
         $lan->lan_start = $lanStart->format('Y-m-d\TH:i:s');
         $lan->lan_end = $lanEnd->format('Y-m-d\TH:i:s');
-        $lan->reservation_start = $reservationStart->format('Y-m-d\TH:i:s');
-        $lan->tournament_start = $tournamentStart->format('Y-m-d\TH:i:s');
+        $lan->seat_reservation_start = $seatReservationStart->format('Y-m-d\TH:i:s');
+        $lan->tournament_reservation_start = $tournamentReservationStart->format('Y-m-d\TH:i:s');
         $lan->event_key_id = $eventKeyId;
         $lan->public_key_id = $publicKeyId;
         $lan->secret_key_id = $secretKeyId;

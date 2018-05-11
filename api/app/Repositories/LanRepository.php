@@ -12,8 +12,8 @@ interface LanRepository
     public function createLan(
         DateTime $lanStart,
         DateTime $lanEnd,
-        DateTime $reservationStart,
-        DateTime $tournamentStart,
+        DateTime $seatReservationStart,
+        DateTime $tournamentReservationStart,
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
