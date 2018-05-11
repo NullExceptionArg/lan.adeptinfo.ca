@@ -17,9 +17,15 @@ class SeatRepositoryImpl implements SeatRepository
         ]);
     }
 
-    public function findReservationByLanAndUserId(int $userId, int $lanId): Reservation
+    public function findReservationByLanIdAndUserId(int $userId, int $lanId): ?Reservation
     {
         return Reservation::where('user_id', $userId)
             ->where('lan_id', $lanId)->first();
+    }
+
+    public function findReservationByLanIdAndSeatId(string $seatId, int $lanId): ?Reservation
+    {
+        return Reservation::where('lan_id', $lanId)
+            ->where('seat_id', $seatId)->first();
     }
 }

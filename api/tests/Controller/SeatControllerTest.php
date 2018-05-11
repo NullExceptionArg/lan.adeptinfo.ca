@@ -2,7 +2,6 @@
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
-
 use Tests\SeatsTestCase;
 
 class SeatControllerTest extends SeatsTestCase
@@ -90,12 +89,52 @@ class SeatControllerTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatUniqueUserInLanConstraint(){
+    public function testBookSeatUniqueUserInLanConstraint()
+    {
+        $user = factory('App\Model\User')->create();
+        $lan = factory('App\Model\Lan')->create();
 
+        $lan->user()->attach($user->id, [
+            "seat_id" => $this->requestContent['seat_id']
+        ]);
+
+        $this->actingAs($user)
+            ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'lan_id' => [
+                        0 => 'The user already has a seat at this event'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 
-    public function testBookSeatOnceInLanConstraint(){
+    public function testBookSeatOnceInLanConstraint()
+    {
+        $user = factory('App\Model\User')->create();
+        $lan = factory('App\Model\Lan')->create();
 
+        $otherUser = factory('App\Model\User')->create();
+
+        $lan->user()->attach($otherUser->id, [
+            "seat_id" => $this->requestContent['seat_id']
+        ]);
+
+        $this->actingAs($user)
+            ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'seat_id' => [
+                        0 => 'Seat with id ' . $this->requestContent['seat_id'] . ' is already taken for this event'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 
 }
