@@ -11,7 +11,7 @@ interface SeatRepository
 {
     public function attachLanUser(Authenticatable $user, Lan $lan, string $seatId): void;
 
-    public function findReservationByLanIdAndUserId(int $userId, int $lanId): ?Reservation;
+    public function findReservationByLanIdAndUserId(int $lanId, int $userId): ?Reservation;
 
-    public function findReservationByLanIdAndSeatId(string $seatId, int $lanId): ?Reservation;
+    public function findReservationByLanIdAndSeatId(int $lanId, string $seatId): ?Reservation;
 }

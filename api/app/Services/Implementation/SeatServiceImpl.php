@@ -58,7 +58,7 @@ class SeatServiceImpl implements SeatService
         $seatsClient = new SeatsioClient($lan->secret_key_id);
 
         // User can only have one seat in a lan
-        $lanUserReservation = $this->seatRepository->findReservationByLanIdAndUserId($user->id, $lan->id);
+        $lanUserReservation = $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
         if ($lanUserReservation != null && $lanUserReservation->count() > 0) {
             throw new BadRequestHttpException(json_encode([
                 "lan_id" => [
@@ -68,7 +68,7 @@ class SeatServiceImpl implements SeatService
         }
 
         // Seat can only be once in a lan
-        $lanSeatReservation = $this->seatRepository->findReservationByLanIdAndSeatId($seatId, $user->id);
+        $lanSeatReservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
         if ($lanSeatReservation != null && $lanSeatReservation->count() > 0) {
             throw new BadRequestHttpException(json_encode([
                 "seat_id" => [
@@ -105,6 +105,6 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository->attachLanUser($user, $lan, $seatId);
 
         // return the reservation
-        return $this->seatRepository->findReservationByLanIdAndUserId($user->id, $lan->id);
+        return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
     }
 }
