@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int id
  * @property DateTime lan_start
  * @property DateTime lan_end
  * @property DateTime seat_reservation_start
@@ -27,6 +28,7 @@ class Lan extends Model
     protected $hidden = [
         'created_at', 'updated_at',
     ];
+
 
     public function user()
     {
