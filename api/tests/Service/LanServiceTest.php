@@ -16,15 +16,20 @@ class LanServiceTest extends TestCase
         'lan_end' => "2100-10-12T12:00:00",
         'seat_reservation_start' => "2100-10-04T12:00:00",
         'tournament_reservation_start' => "2100-10-07T00:00:00",
-        "event_key_id" => "123456789",
-        "public_key_id" => "123456789",
-        "secret_key_id" => "123456789",
+        "event_key_id" => "",
+        "public_key_id" => "",
+        "secret_key_id" => "",
         "price" => 0
     ];
 
     public function setUp()
     {
         parent::setUp();
+
+        $this->paramsContent['event_key_id'] = env('EVENT_KEY_ID');
+        $this->paramsContent['secret_key_id'] = env('SECRET_KEY_ID');
+        $this->paramsContent['public_key_id'] = env('PUBLIC_KEY_ID');
+
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
     }
 
@@ -322,6 +327,32 @@ class LanServiceTest extends TestCase
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"price":["The price must be an integer."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanSecretKeyId()
+    {
+        $this->paramsContent['secret_key_id'] = '-1';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"secret_key_id":["Secret key id: ' . $this->paramsContent['secret_key_id'] . ' is not valid."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"secret_key_id":["Secret key id: ' . $this->paramsContent['secret_key_id'] . ' is not valid."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanEventKeyId()
+    {
+        $this->paramsContent['event_key_id'] = '-1';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"event_key_id":["Event key id: ' . $this->paramsContent['event_key_id'] . ' is not valid."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"event_key_id":["Event key id: ' . $this->paramsContent['event_key_id'] . ' is not valid."]}', $e->getMessage());
         }
     }
 }

@@ -12,11 +12,21 @@ class LanControllerTest extends TestCase
         'lan_end' => "2100-10-12T12:00:00",
         'seat_reservation_start' => "2100-10-04T12:00:00",
         'tournament_reservation_start' => "2100-10-07T00:00:00",
-        "event_key_id" => "123456789",
-        "public_key_id" => "123456789",
-        "secret_key_id" => "123456789",
+        "event_key_id" => "",
+        "public_key_id" => "1",
+        "secret_key_id" => "1",
         "price" => 0
     ];
+
+    public function setUp()
+    {
+        parent::setUp();
+
+        $this->requestContent['event_key_id'] = env('EVENT_KEY_ID');
+        $this->requestContent['secret_key_id'] = env('SECRET_KEY_ID');
+        $this->requestContent['public_key_id'] = env('PUBLIC_KEY_ID');
+    }
+
 
     public function testCreateLan()
     {
@@ -140,7 +150,8 @@ class LanControllerTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanEndAfterLanStartConstraint(){
+    public function testCreateLanEndAfterLanStartConstraint()
+    {
         $user = factory('App\Model\User')->make();
         // Set the lan end date to one day before lan start
         $newLanEnd = (new DateTime($this->requestContent['lan_start']));
@@ -410,6 +421,42 @@ class LanControllerTest extends TestCase
                 'message' => [
                     'price' => [
                         0 => 'The price must be an integer.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanSecretKeyId()
+    {
+        $user = factory('App\Model\User')->make();
+        $this->requestContent['secret_key_id'] = '☭';
+        $this->actingAs($user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'secret_key_id' => [
+                        0 => 'Secret key id: ' . $this->requestContent['secret_key_id'] . ' is not valid.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanEventKeyId()
+    {
+        $user = factory('App\Model\User')->make();
+        $this->requestContent['event_key_id'] = '☭';
+        $this->actingAs($user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'event_key_id' => [
+                        0 => 'Event key id: ' . $this->requestContent['event_key_id'] . ' is not valid.',
                     ],
                 ]
             ])
