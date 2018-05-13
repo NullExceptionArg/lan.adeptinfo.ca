@@ -12,6 +12,9 @@ before_script:
 
 script:
   - vendor/bin/phpunit
+  
+notifications:
+  - slack: adeptinformatique:BRxN09oiktZ11Szz9Mq74Y7u
 
 addons:
     apt:
