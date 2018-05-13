@@ -14,15 +14,20 @@ class LanRepositoryTest extends TestCase
         'lan_end' => "2100-10-12T12:00:00",
         'seat_reservation_start' => "2100-10-04T12:00:00",
         'tournament_reservation_start' => "2100-10-07T00:00:00",
-        "event_key_id" => "123456789",
-        "public_key_id" => "123456789",
-        "secret_key_id" => "123456789",
+        "event_key_id" => "",
+        "public_key_id" => "",
+        "secret_key_id" => "",
         "price" => 0
     ];
 
     public function setUp()
     {
         parent::setUp();
+
+        $this->paramsContent['event_key_id'] = env('EVENT_KEY_ID');
+        $this->paramsContent['secret_key_id'] = env('SECRET_KEY_ID');
+        $this->paramsContent['public_key_id'] = env('PUBLIC_KEY_ID');
+
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }
 
