@@ -10,6 +10,8 @@ use App\Services\LanService;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Seatsio\SeatsioClient;
+use Seatsio\SeatsioException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class LanServiceImpl implements LanService
@@ -27,6 +29,9 @@ class LanServiceImpl implements LanService
 
     public function createLan(Request $input): Lan
     {
+
+        // Internal validation
+
         $lanValidator = Validator::make($input->all(), [
             'lan_start' => 'required|after:seat_reservation_start|after:tournament_reservation_start',
             'lan_end' => 'required|after:lan_start',
@@ -41,6 +46,32 @@ class LanServiceImpl implements LanService
         if ($lanValidator->fails()) {
             throw new BadRequestHttpException($lanValidator->errors());
         }
+
+        // Seats.io validation
+
+        $seatsClient = new SeatsioClient($input['secret_key_id']);
+        // Test if secret key is id valid
+        try {
+            $seatsClient->charts()->listAllTags();
+        } catch (SeatsioException $exception) {
+            throw new BadRequestHttpException(json_encode([
+                "secret_key_id" => [
+                    'Secret key id: ' . $input['secret_key_id'] . ' is not valid.'
+                ]
+            ]));
+        }
+
+        // Test if event key id is valid
+        try {
+            $seatsClient->events()->retrieve($input['event_key_id']);
+        } catch (SeatsioException $exception) {
+            throw new BadRequestHttpException(json_encode([
+                "event_key_id" => [
+                    'Event key id: ' . $input['event_key_id'] . ' is not valid.'
+                ]
+            ]));
+        }
+
 
         return $this->lanRepository->createLan
         (
