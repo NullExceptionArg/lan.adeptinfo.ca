@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Controller;
+namespace Tests\Unit\Controller\User;
 
 use App\Model\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class UserControllerTest extends TestCase
+class CreateUserTest extends TestCase
 {
 
     use DatabaseMigrations;

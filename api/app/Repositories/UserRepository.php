@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Model\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 interface UserRepository
 {
@@ -17,4 +18,6 @@ interface UserRepository
      * @return User User that was created
      */
     public function createUser(string $firstName, string $lastName, string $email, string $password): User;
+
+    public function deleteUser(Authenticatable $user): void;
 }

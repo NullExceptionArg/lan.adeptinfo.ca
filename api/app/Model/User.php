@@ -3,11 +3,12 @@
 namespace App\Model;
 
 use Illuminate\Auth\Authenticatable;
-use Laravel\Lumen\Auth\Authorizable;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Model;
+use Laravel\Lumen\Auth\Authorizable;
 use Laravel\Passport\HasApiTokens;
+use Seatsio\SeatsioClient;
 
 /**
  * @property string first_name
@@ -17,6 +18,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
+
     use HasApiTokens, Authenticatable, Authorizable;
 
     protected $table = 'user';
@@ -46,5 +48,21 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             ->as('reservation')
             ->withPivot('seat_id')
             ->withTimestamps();
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($user) {
+            $reservations = Reservation::where('user_id', $user->id)->get();
+            foreach ($reservations as $reservation) {
+                $lan = Lan::find($reservation->lan_id);
+
+                $seatsClient = new SeatsioClient($lan->secret_key_id);
+                $seatsClient->events()->release($lan->event_key_id, $reservation->seat_id);
+            }
+            $user->lan()->detach();
+        });
     }
 }

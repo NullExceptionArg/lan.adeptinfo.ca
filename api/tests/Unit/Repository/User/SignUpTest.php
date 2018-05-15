@@ -1,9 +1,11 @@
 <?php
 
+namespace Tests\Unit\Repository\User;
+
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class UserRepositoryTest extends TestCase
+class SignUpTest extends TestCase
 {
     use DatabaseMigrations;
 

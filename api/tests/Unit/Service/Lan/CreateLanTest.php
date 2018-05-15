@@ -1,11 +1,16 @@
 <?php
 
+namespace Tests\Unit\Service\Lan;
+
+use DateInterval;
+use DateTime;
+use Exception;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class LanServiceTest extends TestCase
+class CreateLanTest extends TestCase
 {
     protected $lanService;
 

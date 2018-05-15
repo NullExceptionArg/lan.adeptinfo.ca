@@ -1,10 +1,12 @@
 <?php
 
+namespace Tests\Unit\Controller\Seat;
+
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Tests\SeatsTestCase;
 
-class SeatControllerTest extends SeatsTestCase
+class BookSeatTest extends SeatsTestCase
 {
     use DatabaseMigrations;
 

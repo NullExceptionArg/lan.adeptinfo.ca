@@ -10,4 +10,6 @@ use Illuminate\Http\Request;
 interface UserService
 {
     public function signUp(Request $request): User;
+
+    public function delete(Request $request): void;
 }

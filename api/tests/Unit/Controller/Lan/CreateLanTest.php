@@ -1,9 +1,14 @@
 <?php
 
+namespace Tests\Unit\Controller\Lan;
+
+use DateInterval;
+use DateTime;
+use Exception;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class LanControllerTest extends TestCase
+class CreateLanTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -13,8 +18,8 @@ class LanControllerTest extends TestCase
         'seat_reservation_start' => "2100-10-04T12:00:00",
         'tournament_reservation_start' => "2100-10-07T00:00:00",
         "event_key_id" => "",
-        "public_key_id" => "1",
-        "secret_key_id" => "1",
+        "public_key_id" => "",
+        "secret_key_id" => "",
         "price" => 0
     ];
 

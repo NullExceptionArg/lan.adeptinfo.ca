@@ -6,6 +6,7 @@ namespace App\Repositories\Implementation;
 
 use App\Model\User;
 use App\Repositories\UserRepository;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepositoryImpl implements UserRepository
@@ -20,5 +21,10 @@ class UserRepositoryImpl implements UserRepository
         $user->save();
 
         return $user;
+    }
+
+    public function deleteUser(Authenticatable $user): void
+    {
+        $user->delete();
     }
 }
