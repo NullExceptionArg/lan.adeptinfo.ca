@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Service;
+namespace Tests\Unit\Service\Seat;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\SeatsTestCase;
 
-class SeatServiceImplTest extends SeatsTestCase
+class BookSeatTest extends SeatsTestCase
 {
     protected $seatService;
 

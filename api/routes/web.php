@@ -31,6 +31,8 @@ $api->version('v1', function ($api) {
 
             $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
 
+            $api->delete('user', 'UserController@delete');
+
         });
 
     });

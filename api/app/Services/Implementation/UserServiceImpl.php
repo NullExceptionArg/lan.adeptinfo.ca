@@ -8,6 +8,7 @@ use App\Model\User;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -43,5 +44,11 @@ class UserServiceImpl implements UserService
             $input['email'],
             $input['password']
         );
+    }
+
+    public function delete(Request $request): void
+    {
+        $user = Auth::user();
+        $this->userRepository->deleteUser($user);
     }
 }

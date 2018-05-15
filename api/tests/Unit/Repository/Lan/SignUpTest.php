@@ -1,9 +1,12 @@
 <?php
 
+namespace Tests\Unit\Repository\Lan;
+
+use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class LanRepositoryTest extends TestCase
+class SignUpTest extends TestCase
 {
     use DatabaseMigrations;
 

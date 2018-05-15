@@ -21,8 +21,15 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function signUp(Request $request){
+    public function signUp(Request $request)
+    {
         return response()->json($this->userService->signUp($request), 201);
+    }
+
+    public function delete(Request $request)
+    {
+        $this->userService->delete($request);
+        return response()->json([], 200);
     }
 
 }
