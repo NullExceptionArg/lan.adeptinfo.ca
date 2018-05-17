@@ -14,7 +14,9 @@ script:
   - vendor/bin/phpunit
   
 notifications:
-  - slack: adeptinformatique:BRxN09oiktZ11Szz9Mq74Y7u
+  webhooks:
+    urls:
+      - https://discordapp.com/api/webhooks/446691250746425354/g8VdqZAiG-XjlF3RVnUrv1uNlOsi2vLlCvUtgxyq01niW-50wDKW2ClLWSLqivAcwcfv
 
 addons:
     apt:
