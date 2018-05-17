@@ -26,6 +26,12 @@ class UserController extends Controller
         return response()->json($this->userService->signUp($request), 201);
     }
 
+    public function logOut()
+    {
+        $this->userService->logOut();
+        return response()->json([], 200);
+    }
+
     public function delete(Request $request)
     {
         $this->userService->delete($request);
