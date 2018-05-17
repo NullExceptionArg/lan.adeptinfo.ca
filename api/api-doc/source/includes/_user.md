@@ -100,6 +100,26 @@ expire_in | Temps en seconde avant l'expiration du token. Passé ce délai il se
 access_token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
 refresh_token | Token unique à utiliser pour étendre la durée de la validitée du access_token.
 
+## Déconnexion
+
+Se déconnecter dans l'application
+
+### Requête HTTP
+
+`POST /api/user/logout`
+
+Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l'utilisateur à partir du token d'authentication.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+[]
+```
+
+La réponse de la suppression de utilisateur est vide.
+
 
 ## Supprimer
 
