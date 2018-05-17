@@ -7,7 +7,9 @@ namespace App\Repositories\Implementation;
 use App\Model\User;
 use App\Repositories\UserRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Token;
 
 class UserRepositoryImpl implements UserRepository
 {
@@ -26,5 +28,19 @@ class UserRepositoryImpl implements UserRepository
     public function deleteUser(Authenticatable $user): void
     {
         $user->delete();
+    }
+
+    public function revokeAccessToken(Token $token)
+    {
+        $token->revoke();
+    }
+
+    public function revokeRefreshToken(Token $token)
+    {
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $token->id)
+            ->update([
+                'revoked' => true
+            ]);
     }
 }

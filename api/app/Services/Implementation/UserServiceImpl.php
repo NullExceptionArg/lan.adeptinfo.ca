@@ -46,6 +46,14 @@ class UserServiceImpl implements UserService
         );
     }
 
+    public function logOut()
+    {
+        $accessToken = Auth::user()->token();
+
+        $this->userRepository->revokeRefreshToken($accessToken);
+        $this->userRepository->revokeAccessToken($accessToken);
+    }
+
     public function delete(Request $request): void
     {
         $user = Auth::user();
