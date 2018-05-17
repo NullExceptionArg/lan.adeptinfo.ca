@@ -1,0 +1,732 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Documentation de l'API du LAN de l'ADEPT</title>
+
+    <style>
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .cd {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all.js"></script>
+  </head>
+
+  <body class="index" data-languages="[&quot;json&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" alt="Navbar" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo.png" class="logo" alt="Logo" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="json">json</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <div id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="introduction">Introduction</a>
+          </li>
+          <li>
+            <a href="#authentification" class="toc-h1 toc-link" data-title="authentification">Authentification</a>
+          </li>
+          <li>
+            <a href="#utilisateur" class="toc-h1 toc-link" data-title="utilisateur">Utilisateur</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#creer-un-compte" class="toc-h2 toc-link" data-title="creer-un-compte">Créer un compte</a>
+                  </li>
+                  <li>
+                    <a href="#connection" class="toc-h2 toc-link" data-title="connection">Connection</a>
+                  </li>
+                  <li>
+                    <a href="#supprimer" class="toc-h2 toc-link" data-title="supprimer">Supprimer</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#lan" class="toc-h1 toc-link" data-title="lan">LAN</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#creer" class="toc-h2 toc-link" data-title="creer">Créer</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#places" class="toc-h1 toc-link" data-title="places">Places</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#reserver" class="toc-h2 toc-link" data-title="reserver">Réserver</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#erreurs" class="toc-h1 toc-link" data-title="erreurs">Erreurs</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#format-d-39-erreur" class="toc-h2 toc-link" data-title="format-d-erreur">Format d'erreur</a>
+                  </li>
+              </ul>
+          </li>
+      </div>
+        <ul class="toc-footer">
+            <li><a href='https://github.com/ADEPT-Informatique/lan.adeptinfo.ca'>Repo du site du LAN de l'ADEPT</a></li>
+            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Bienvenue sur l&#39;API du LAN de l&#39;ADEPT! Vous pouvez utiliser l&#39;API pour gérer l&#39;ensemble des LANs organisés par l&#39;ADEPT et bien plus!.</p>
+
+<p>L&#39;ensemble de nos requêtes sont faites en HTTP! Vous pouvez voir des exemples de code à droite, dans la section foncée. Le contenu des requêtes et des réponses est toujours en JSON.</p>
+
+<p>Nous n&#39;avons pas encore de console de test en ligne. C&#39;est pourquoi vous devez absolument rouler le site en local pour tester l&#39;API.</p>
+
+<p>L&#39;ensemble de cette page est faite avec du Markdown. Pour modifier cette page, simplement éditer le fichier slate/source/index.html.md .</p>
+<h1 id='authentification'>Authentification</h1>
+<p>Notre API utilise un système de token basé sur oauth2 pour s&#39;authentifier à l&#39;API.</p>
+
+<p>Pour chaques requêtes qui nécessite d&#39;être autorisée, veuillez inclure dans le header de votre requête le token qui vous a été remis avec la requête d&#39;autentification. Le header devrait ressembler à ceci:</p>
+
+<p><code>Authorization: Bearer prolétaire</code></p>
+
+<aside class="notice">
+Vous devez remplacer <code>prolétaire</code> par votre token d'authentification.
+</aside>
+<h1 id='utilisateur'>Utilisateur</h1><h2 id='creer-un-compte'>Créer un compte</h2>
+<p>Se créer un compte utilisateur.</p>
+<h3 id='requete-http'>Requête HTTP</h3>
+<p><code>POST /api/user</code></p>
+<h3 id='parametres-post'>Paramètres POST</h3>
+<blockquote>
+<p>Exemple de requȩte</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Karl"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Marx"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"karl.marx@unite.org"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"C4P1T4L3"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+<td>Prénom de l&#39;utilisateur à créer.</td>
+<td>Requis, 255 caractères max.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>Nom de l&#39;utilisateur à créer.</td>
+<td>Requis, 255 caractères max.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>Identifiant (courriel) de l&#39;utilisateur à créer.</td>
+<td>Requis, courriel valide.</td>
+</tr>
+<tr>
+<td>password</td>
+<td>Mot de passe de l&#39;utilisateur à créer.</td>
+<td>Requis, entre 6 et 20 caratères.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pierre-Olivier"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Brillant"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pierreolivier@gmail.com"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+<td>Prénom de l&#39;utilisateur créé.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>Nom de l&#39;utilisateur créé.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>Identifiant (courriel) de l&#39;utilisateur créé.</td>
+</tr>
+</tbody></table>
+<h2 id='connection'>Connection</h2>
+<p>S&#39;authentifier dans l&#39;application.</p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>POST /oauth/token</code></p>
+<h3 id='parametres-post-2'>Paramètres POST</h3>
+<blockquote>
+<p>Exemple de requȩte</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"grant_type"</span><span class="p">:</span><span class="s2">"password"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"client_id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"client_secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2euundsZe439sGf6M4K6UkzRs7gakncVG0rNEye9"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"username"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dimitri@bolshevik.ru"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Passw0rd!"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>grant_type</td>
+<td>Type d&#39;authentification pour oauth2. Nous utilisons &quot;password&quot; pour notre application</td>
+<td>Requis</td>
+</tr>
+<tr>
+<td>client_id</td>
+<td>Identifiant du client d&#39;authentification oauth2.</td>
+<td>Requis</td>
+</tr>
+<tr>
+<td>client_secret</td>
+<td>Mot de passe généré du client oauth2.</td>
+<td>Requis</td>
+</tr>
+<tr>
+<td>username</td>
+<td>Identifiant (courriel) de l&#39;utilisateur.</td>
+<td>Requis</td>
+</tr>
+<tr>
+<td>password</td>
+<td>Mot de passe de l&#39;utilisateur.</td>
+<td>Requis</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"token_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bearer"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"expires_in"</span><span class="p">:</span><span class="w"> </span><span class="mi">31536000</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImZhNDg(...)"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"refresh_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"def50200b2b02aa7c25d452bf2362c5199532ff0fa261b712a(...)"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token_type</td>
+<td>Type de token retourné. Dans le contexte de l&#39;application, le token sera de type &#39;Bearer&#39;.</td>
+</tr>
+<tr>
+<td>expire_in</td>
+<td>Temps en seconde avant l&#39;expiration du token. Passé ce délai il sera impossible de l&#39;utiliser.</td>
+</tr>
+<tr>
+<td>access_token</td>
+<td>Token unique à inclure avec toutes les requêtes nécessitant un authentification.</td>
+</tr>
+<tr>
+<td>refresh_token</td>
+<td>Token unique à utiliser pour étendre la durée de la validitée du access_token.</td>
+</tr>
+</tbody></table>
+<h2 id='supprimer'>Supprimer</h2>
+<p>Supprimer un utilisateur authentifié</p>
+<h3 id='requete-http-3'>Requête HTTP</h3>
+<p><code>DELETE /api/user</code></p>
+
+<p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
+<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[]</span><span class="w">
+</span></code></pre>
+<p>La réponse de la suppression de utilisateur est vide.</p>
+<h1 id='lan'>LAN</h1><h2 id='creer'>Créer</h2>
+<p>Créer un nouveau LAN.</p>
+<h3 id='requete-http'>Requête HTTP</h3>
+<p><code>POST /api/lan</code></p>
+<h3 id='parametres-post'>Paramètres POST</h3>
+<blockquote>
+<p>Exemple de requȩte</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11T12:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12T12:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T12:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T00:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"price"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_start</td>
+<td>Date et heure de début du LAN.</td>
+<td>Requis, après le début des réservations et après le début des inscriptions aux tournois.</td>
+</tr>
+<tr>
+<td>lan_end</td>
+<td>Date et heure de fin du LAN.</td>
+<td>Requis, après le début du LAN.</td>
+</tr>
+<tr>
+<td>seat_reservation_start</td>
+<td>Date et heure du début des réservations des places du LAN.</td>
+<td>Requis, après maintenant.</td>
+</tr>
+<tr>
+<td>tournament_reservation_start</td>
+<td>Date et heure du début des inscriptions aux tournois du LAN.</td>
+<td>Requis, après maintenant.</td>
+</tr>
+<tr>
+<td>event_key_id</td>
+<td>Clé de l&#39;événement de seats.io pour le LAN.</td>
+<td>Requis, 255 caractères max.</td>
+</tr>
+<tr>
+<td>public_key_id</td>
+<td>Clé publique de seats.io .</td>
+<td>Requis, 255 caractères max.</td>
+</tr>
+<tr>
+<td>secret_key_id</td>
+<td>Clé secrète de seats.io .</td>
+<td>Requis, 255 caractères max.</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Prix du LAN.</td>
+<td>Requis, plus grand ou égale à 0.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11T12:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12T12:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T12:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T00:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_start</td>
+<td>Date et heure de début du LAN créé.</td>
+</tr>
+<tr>
+<td>lan_end</td>
+<td>Date et heure de fin du LAN créé.</td>
+</tr>
+<tr>
+<td>seat_reservation_start</td>
+<td>Date et heure du début des réservations des places du LAN créé.</td>
+</tr>
+<tr>
+<td>tournament_reservation_start</td>
+<td>Date et heure du début des inscriptions aux tournois du LAN créé.</td>
+</tr>
+<tr>
+<td>event_key_id</td>
+<td>Clé de l&#39;événement de seats.io pour le LAN pour le LAN créé.</td>
+</tr>
+<tr>
+<td>public_key_id</td>
+<td>Clé publique de seats.io pour le LAN créé.</td>
+</tr>
+<tr>
+<td>secret_key_id</td>
+<td>Clé secrète de seats.io pour le LAN créé.</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Prix du LAN créé.</td>
+</tr>
+<tr>
+<td>id</td>
+<td>Id du LAN créé.</td>
+</tr>
+</tbody></table>
+<h1 id='places'>Places</h1><h2 id='reserver'>Réserver</h2>
+<p>Réserver une place à un LAN.</p>
+<h3 id='requete-http'>Requête HTTP</h3>
+<p><code>POST /api/lan/&lt;lan_id&gt;/book/&lt;seat_id&gt;</code></p>
+<h3 id='parametres-d-39-url'>Paramètres d&#39;URL</h3>
+<p>L&#39;ensembl des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
+
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;utilisateur veut réserver une place.</td>
+<td>Requis, string, un seul utilisateur par LAN.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;utilisateur veut réserver.</td>
+<td>Requis, integer, un seul Id de place par LAN.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;utilisateur a réservé une place.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;utilisateur a réservé.</td>
+</tr>
+</tbody></table>
+<h1 id='erreurs'>Erreurs</h1>
+<p>L&#39;API du LAN de l&#39;ADEPT peut renvoyer les code d&#39;erreur suivants:</p>
+
+<table><thead>
+<tr>
+<th>Code</th>
+<th>Signification</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Votre reqûete n&#39;est pas valide. Peut contenir des détails sur l&#39;erreur.</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- Votre clé d&#39;API n&#39;est pas valide.</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Forbidden -- Cette section est destinée à un autre rôle.</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- L&#39;URL demandé n&#39;existe pas.</td>
+</tr>
+<tr>
+<td>418</td>
+<td>I&#39;m a teapot.</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- Erreur innatendu. Vous seriez gentil de communiquer avec l&#39;équipe de développement si vous voyez cette erreur.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- Nous sommes temporairement hors ligne. Veuillez réessayer plus tard.</td>
+</tr>
+</tbody></table>
+<h3 id='format-d-39-erreur'>Format d&#39;erreur</h3>
+<p>Chaque erreur devrait être retourné sous la structure suivante:</p>
+
+<blockquote>
+<p>Exemple d&#39;erreur 400 pour une requête de création de compte</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The first name field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The last name field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The email field is required."</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="s2">"The password field is required."</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>success</td>
+<td>Bad Request -- Votre reqûete n&#39;est pas valide.</td>
+</tr>
+<tr>
+<td>status</td>
+<td>Code d&#39;erreurs.</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Contient une liste d&#39;erreurs sur chaque champs fautifs.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="json">json</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
