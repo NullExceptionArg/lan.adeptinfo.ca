@@ -234,6 +234,9 @@
                     <a href="#connection" class="toc-h2 toc-link" data-title="connection">Connection</a>
                   </li>
                   <li>
+                    <a href="#deconnexion" class="toc-h2 toc-link" data-title="deconnexion">Déconnexion</a>
+                  </li>
+                  <li>
                     <a href="#supprimer" class="toc-h2 toc-link" data-title="supprimer">Supprimer</a>
                   </li>
               </ul>
@@ -448,13 +451,26 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Token unique à utiliser pour étendre la durée de la validitée du access_token.</td>
 </tr>
 </tbody></table>
-<h2 id='supprimer'>Supprimer</h2>
-<p>Supprimer un utilisateur authentifié</p>
+<h2 id='deconnexion'>Déconnexion</h2>
+<p>Se déconnecter dans l&#39;application</p>
 <h3 id='requete-http-3'>Requête HTTP</h3>
-<p><code>DELETE /api/user</code></p>
+<p><code>POST /api/user/logout</code></p>
 
 <p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[]</span><span class="w">
+</span></code></pre>
+<p>La réponse de la suppression de utilisateur est vide.</p>
+<h2 id='supprimer'>Supprimer</h2>
+<p>Supprimer un utilisateur authentifié</p>
+<h3 id='requete-http-4'>Requête HTTP</h3>
+<p><code>DELETE /api/user</code></p>
+
+<p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
+<h3 id='format-de-reponse-4'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
