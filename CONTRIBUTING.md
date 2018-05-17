@@ -7,7 +7,7 @@ Merci! C'est très apprécié que vous prenieez de votre temps pour contribuer �
 Le projet lanadept.com suit une architecture REST, ce qui signifie que des clients autorisés font des requêtes a une ressource backend séparée qui est appelée un API.
 
  Le repository est séparé en 3 différents projets:
-  - `/api` Un API qui s'occupe de toute la logique dans le backend
+  - `/api` Un API qui s'occupe de toute la logique dans le backend. Vous trouverez une documentation des appels HTTP disponibles [ici](https://adept-informatique.github.io/lan.adeptinfo.ca/)
   - `/client-user` Un client qui s'occupe de toutes les actions du joueur, comme la réservation des places, l'enregistrement aux tournois, l'information générale, etc...
   - `/client-admin` Un client qui s'occupe de toutes les tâches administratives du LAN, comme les dates du LAN, les paramètres des sièges, les options des tournois, la définition des règles générales, etc...
 ## API
