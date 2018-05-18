@@ -17,7 +17,8 @@ interface LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
-        int $price
+        ?int $price,
+        ?string $rules
     ): Lan;
 
     public function findLanById(int $id): ?Lan;

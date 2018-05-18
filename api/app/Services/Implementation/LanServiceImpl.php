@@ -40,7 +40,8 @@ class LanServiceImpl implements LanService
             'event_key_id' => 'required|string|max:255',
             'public_key_id' => 'required|string|max:255',
             'secret_key_id' => 'required|string|max:255',
-            'price' => 'required|integer|min:0'
+            'price' => 'integer|min:0',
+            'rules' => 'string'
         ]);
 
         if ($lanValidator->fails()) {
@@ -72,17 +73,17 @@ class LanServiceImpl implements LanService
             ]));
         }
 
-
         return $this->lanRepository->createLan
         (
-            new DateTime($input['lan_start']),
-            new DateTime($input['lan_end']),
-            new DateTime($input['seat_reservation_start']),
-            new DateTime($input['tournament_reservation_start']),
-            $input['event_key_id'],
-            $input['public_key_id'],
-            $input['secret_key_id'],
-            $input['price']
+            new DateTime($input->input('lan_start')),
+            new DateTime($input->input('lan_end')),
+            new DateTime($input->input('seat_reservation_start')),
+            new DateTime($input->input('tournament_reservation_start')),
+            $input->input('event_key_id'),
+            $input->input('public_key_id'),
+            $input->input('secret_key_id'),
+            intval($input->input('price')),
+            $input->input('rules')
         );
     }
 

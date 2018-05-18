@@ -48,6 +48,28 @@ class CreateLanTest extends TestCase
                 "public_key_id" => $this->requestContent['public_key_id'],
                 "secret_key_id" => $this->requestContent['secret_key_id'],
                 "price" => $this->requestContent['price'],
+                "rules" => $this->requestContent['rules'],
+                "id" => 1
+            ])
+            ->assertResponseStatus(201);
+    }
+
+    public function testCreateLanPriceDefault()
+    {
+        $user = factory('App\Model\User')->make();
+        $this->requestContent['price'] = '';
+        $this->actingAs($user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'lan_start' => $this->requestContent['lan_start'],
+                'lan_end' => $this->requestContent['lan_end'],
+                'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
+                'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
+                "event_key_id" => $this->requestContent['event_key_id'],
+                "public_key_id" => $this->requestContent['public_key_id'],
+                "secret_key_id" => $this->requestContent['secret_key_id'],
+                "price" => 0,
+                "rules" => $this->requestContent['rules'],
                 "id" => 1
             ])
             ->assertResponseStatus(201);
@@ -379,24 +401,6 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceRequired()
-    {
-        $user = factory('App\Model\User')->make();
-        $this->requestContent['price'] = '';
-        $this->actingAs($user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'price' => [
-                        0 => 'The price field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testCreateLanPriceMinimum()
     {
         $user = factory('App\Model\User')->make();
@@ -463,6 +467,25 @@ class CreateLanTest extends TestCase
                 'message' => [
                     'event_key_id' => [
                         0 => 'Event key id: ' . $this->requestContent['event_key_id'] . ' is not valid.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanRulesString()
+    {
+        $user = factory('App\Model\User')->create();
+        $this->requestContent['rules'] = 1;
+
+        $this->actingAs($user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'rules' => [
+                        0 => 'The rules must be a string.'
                     ],
                 ]
             ])

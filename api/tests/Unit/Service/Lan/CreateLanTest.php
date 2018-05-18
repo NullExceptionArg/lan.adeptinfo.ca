@@ -54,6 +54,22 @@ class CreateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['price'], $result->price);
     }
 
+    public function testCreateLanPriceDefault()
+    {
+        $this->paramsContent['price'] = '';
+        $request = new Request($this->paramsContent);
+        $result = $this->lanService->createLan($request);
+
+        $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
+        $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
+        $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
+        $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
+        $this->assertEquals($this->paramsContent['event_key_id'], $result->event_key_id);
+        $this->assertEquals($this->paramsContent['public_key_id'], $result->public_key_id);
+        $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
+        $this->assertEquals(0, $result->price);
+    }
+
     /**
      * @throws Exception
      */
@@ -296,19 +312,6 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanPrice()
-    {
-        $this->paramsContent['price'] = '';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->lanService->createLan($request);
-            $this->fail('Expected: {"price":["The price field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"price":["The price field is required."]}', $e->getMessage());
-        }
-    }
-
     public function testCreateLanMinimum()
     {
         $this->paramsContent['price'] = "-1";
@@ -358,6 +361,19 @@ class CreateLanTest extends TestCase
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"event_key_id":["Event key id: ' . $this->paramsContent['event_key_id'] . ' is not valid."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanRulesString()
+    {
+        $this->paramsContent['rules'] = 1;
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"rules":["The rules must be a string."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"rules":["The rules must be a string."]}', $e->getMessage());
         }
     }
 }

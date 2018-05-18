@@ -45,7 +45,8 @@ class CreateLanTest extends TestCase
             $this->paramsContent['event_key_id'],
             $this->paramsContent['public_key_id'],
             $this->paramsContent['secret_key_id'],
-            $this->paramsContent['price']
+            $this->paramsContent['price'],
+            $this->paramsContent['rules']
         );
         $this->seeInDatabase('lan', [
             'lan_start' => $this->paramsContent['lan_start'],
@@ -56,6 +57,7 @@ class CreateLanTest extends TestCase
             'public_key_id' => $this->paramsContent['public_key_id'],
             'secret_key_id' => $this->paramsContent['secret_key_id'],
             'price' => $this->paramsContent['price'],
+            'rules' => $this->paramsContent['rules'],
         ]);
     }
 }
