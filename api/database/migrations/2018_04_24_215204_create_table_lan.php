@@ -23,7 +23,7 @@ class CreateTableLan extends Migration
             $table->string('public_key_id'); // seats.io
             $table->string('secret_key_id'); // seats.io
             $table->unsignedInteger('price');
-            $table->text('rules');
+            $table->text('rules')->nullable(true);
             $table->timestamps();
         });
     }
