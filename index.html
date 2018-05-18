@@ -251,7 +251,7 @@
                     <a href="#mettre-a-jour-les-regles" class="toc-h2 toc-link" data-title="mettre-a-jour-les-regles">Mettre à jour les règles</a>
                   </li>
                   <li>
-                    <a href="#mettre-a-jour-les-regles-2" class="toc-h2 toc-link" data-title="mettre-a-jour-les-regles">Mettre à jour les règles</a>
+                    <a href="#obtenir-les-regles" class="toc-h2 toc-link" data-title="obtenir-les-regles">Obtenir les règles</a>
                   </li>
               </ul>
           </li>
@@ -499,7 +499,8 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
   </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"price"</span><span class="p">:</span><span class="s2">"0"</span><span class="w">
+  </span><span class="s2">"price"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"rules"</span><span class="p">:</span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -508,47 +509,62 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <th>Paramètre</th>
 <th>Description</th>
 <th>Règles de validation</th>
+<th>Defaut</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>lan_start</td>
 <td>Date et heure de début du LAN.</td>
 <td>Requis, après le début des réservations et après le début des inscriptions aux tournois.</td>
+<td></td>
 </tr>
 <tr>
 <td>lan_end</td>
 <td>Date et heure de fin du LAN.</td>
 <td>Requis, après le début du LAN.</td>
+<td></td>
 </tr>
 <tr>
 <td>seat_reservation_start</td>
 <td>Date et heure du début des réservations des places du LAN.</td>
 <td>Requis, après maintenant.</td>
+<td></td>
 </tr>
 <tr>
 <td>tournament_reservation_start</td>
 <td>Date et heure du début des inscriptions aux tournois du LAN.</td>
 <td>Requis, après maintenant.</td>
+<td></td>
 </tr>
 <tr>
 <td>event_key_id</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
 <td>Requis, 255 caractères max.</td>
+<td></td>
 </tr>
 <tr>
 <td>public_key_id</td>
 <td>Clé publique de seats.io .</td>
 <td>Requis, 255 caractères max.</td>
+<td></td>
 </tr>
 <tr>
 <td>secret_key_id</td>
 <td>Clé secrète de seats.io .</td>
 <td>Requis, 255 caractères max.</td>
+<td></td>
 </tr>
 <tr>
 <td>price</td>
 <td>Prix du LAN.</td>
-<td>Requis, plus grand ou égale à 0.</td>
+<td>Plus grand ou égale à 0.</td>
+<td>0</td>
+</tr>
+<tr>
+<td>rules</td>
+<td>Texte des règles du LAN.</td>
+<td>String.</td>
+<td></td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse'>Format de réponse</h3>
@@ -564,6 +580,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
     </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="p">,</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
@@ -605,6 +622,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>price</td>
 <td>Prix du LAN créé.</td>
+</tr>
+<tr>
+<td>rules</td>
+<td>Texte des règles du LAN créé.</td>
 </tr>
 <tr>
 <td>id</td>
@@ -671,7 +692,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Texte des nouvelles règles du LAN.</td>
 </tr>
 </tbody></table>
-<h2 id='mettre-a-jour-les-regles-2'>Mettre à jour les règles</h2>
+<h2 id='obtenir-les-regles'>Obtenir les règles</h2>
 <p>Obtenir les règles d&#39;un LAN</p>
 <h3 id='requete-http-3'>Requête HTTP</h3>
 <p><code>GET /api/lan/&lt;lan_id&gt;/rules</code></p>
