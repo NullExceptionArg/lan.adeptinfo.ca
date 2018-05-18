@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Service\Seat;
 
+use App\Model\Reservation;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -86,9 +87,11 @@ class BookSeatTest extends SeatsTestCase
         $this->be($user);
         $lan = factory('App\Model\Lan')->create();
 
-        $lan->user()->attach($user->id, [
-            "seat_id" => $this->paramsContent['seat_id']
-        ]);
+        $reservation = new Reservation();
+        $reservation->lan_id = $lan->id;
+        $reservation->user_id = $user->id;
+        $reservation->seat_id = $this->paramsContent['seat_id'];
+        $reservation->save();
 
         try {
             $this->seatService->book($lan->id, $this->paramsContent['seat_id']);
@@ -106,9 +109,11 @@ class BookSeatTest extends SeatsTestCase
 
         $otherUser = factory('App\Model\User')->create();
 
-        $lan->user()->attach($otherUser->id, [
-            "seat_id" => $this->paramsContent['seat_id']
-        ]);
+        $reservation = new Reservation();
+        $reservation->lan_id = $lan->id;
+        $reservation->user_id = $otherUser->id;
+        $reservation->seat_id = $this->paramsContent['seat_id'];
+        $reservation->save();
 
         try {
             $this->seatService->book($lan->id, $this->paramsContent['seat_id']);

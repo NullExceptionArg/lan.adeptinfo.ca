@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Seat;
 
+use App\Model\Reservation;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Tests\SeatsTestCase;
@@ -95,9 +96,11 @@ class BookSeatTest extends SeatsTestCase
         $user = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
 
-        $lan->user()->attach($user->id, [
-            "seat_id" => $this->requestContent['seat_id']
-        ]);
+        $reservation = new Reservation();
+        $reservation->lan_id = $lan->id;
+        $reservation->user_id = $user->id;
+        $reservation->seat_id = $this->requestContent['seat_id'];
+        $reservation->save();
 
         $this->actingAs($user)
             ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])
@@ -120,9 +123,11 @@ class BookSeatTest extends SeatsTestCase
 
         $otherUser = factory('App\Model\User')->create();
 
-        $lan->user()->attach($otherUser->id, [
-            "seat_id" => $this->requestContent['seat_id']
-        ]);
+        $reservation = new Reservation();
+        $reservation->lan_id = $lan->id;
+        $reservation->user_id = $otherUser->id;
+        $reservation->seat_id = $this->requestContent['seat_id'];
+        $reservation->save();
 
         $this->actingAs($user)
             ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])

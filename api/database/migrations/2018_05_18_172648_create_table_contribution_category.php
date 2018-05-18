@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReservationTable extends Migration
+class CreateTableContributionCategory extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,11 @@ class CreateReservationTable extends Migration
      */
     public function up()
     {
-        Schema::create('reservation', function (Blueprint $table) {
+        Schema::create('contribution_category', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('name')->nullable(false);
             $table->unsignedInteger('lan_id');
-            $table->unsignedInteger('user_id');
-            $table->string('seat_id');
-            $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('user');
             $table->foreign('lan_id')->references('id')->on('lan');
         });
     }
@@ -32,6 +29,6 @@ class CreateReservationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reservation');
+        Schema::dropIfExists('contribution_category');
     }
 }

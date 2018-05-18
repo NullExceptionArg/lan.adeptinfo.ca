@@ -31,12 +31,18 @@ class Lan extends Model
     ];
 
 
-    public function user()
+    public function reservation()
     {
-        return $this->belongsToMany(User::class, 'reservation')
-            ->using(Reservation::class)
-            ->as('reservation')
-            ->withPivot('seat_id')
-            ->withTimestamps();
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function contribution()
+    {
+        return $this->hasMany(Contribution::class);
+    }
+
+    public function contributionCategory()
+    {
+        return $this->hasMany(ContributionCategory::class);
     }
 }

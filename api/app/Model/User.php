@@ -41,13 +41,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password', 'id', 'created_at', 'updated_at',
     ];
 
-    public function lan()
+    public function reservation()
     {
-        return $this->belongsToMany(Lan::class, 'reservation')
-            ->using(Reservation::class)
-            ->as('reservation')
-            ->withPivot('seat_id')
-            ->withTimestamps();
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function contribution()
+    {
+        return $this->hasMany(Contribution::class);
     }
 
     protected static function boot()
@@ -61,8 +62,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
                 $seatsClient = new SeatsioClient($lan->secret_key_id);
                 $seatsClient->events()->release($lan->event_key_id, $reservation->seat_id);
+
+                $reservation->delete();
             }
-            $user->lan()->detach();
         });
     }
 }

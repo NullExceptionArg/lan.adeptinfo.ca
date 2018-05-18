@@ -101,8 +101,8 @@ class SeatServiceImpl implements SeatService
         // send the place to the api
         $seatsClient->events()->book($lan->event_key_id, [$seatId]);
 
-        // assign place to user in lan
-        $this->seatRepository->attachLanUser($user, $lan, $seatId);
+        // create reservation
+        $this->seatRepository->createReservation($user, $lan, $seatId);
 
         // return the reservation
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
