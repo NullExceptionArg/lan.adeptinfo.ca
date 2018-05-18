@@ -20,7 +20,8 @@ class CreateLanTest extends TestCase
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",
-        "price" => 0
+        "price" => 0,
+        "rules" => '☭'
     ];
 
     public function setUp()

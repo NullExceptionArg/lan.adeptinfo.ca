@@ -7,11 +7,11 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class UpdateLanRulesTest extends TestCase
+class UpdateLanTest extends TestCase
 {
-    protected $lanService;
-
     use DatabaseMigrations;
+
+    protected $lanService;
 
     protected $paramsContent = [
         'text' => "☭"
@@ -33,7 +33,7 @@ class UpdateLanRulesTest extends TestCase
         $this->assertEquals($this->paramsContent['text'], $result['text']);
     }
 
-    public function testUpdateLanRulesLanIdExist()
+    public function testUpdateRulesLanIdExist()
     {
         $badLanId = -1;
         $request = new Request($this->paramsContent);
@@ -46,7 +46,7 @@ class UpdateLanRulesTest extends TestCase
         }
     }
 
-    public function testUpdateLanRulesLanIdInteger()
+    public function testUpdateRulesLanIdInteger()
     {
         $badLanId = '☭';
         $request = new Request($this->paramsContent);
@@ -59,7 +59,7 @@ class UpdateLanRulesTest extends TestCase
         }
     }
 
-    public function testUpdateLanRulesTextRequired()
+    public function testUpdateRulesTextRequired()
     {
         $lan = factory('App\Model\Lan')->create();
         $this->paramsContent['text'] = null;
@@ -73,7 +73,7 @@ class UpdateLanRulesTest extends TestCase
         }
     }
 
-    public function testUpdateLanRulesTextString()
+    public function testUpdateRulesTextString()
     {
         $lan = factory('App\Model\Lan')->create();
         $this->paramsContent['text'] = 1;
