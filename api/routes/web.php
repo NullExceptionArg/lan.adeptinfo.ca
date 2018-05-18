@@ -23,6 +23,8 @@ $api->version('v1', function ($api) {
 
         $api->get('lan/{lan_id}/rules', 'LanController@getLanRules');
 
+        $api->get('lan/{lan_id}/contribution-category', 'ContributionController@getContributionCategory');
+
     });
 
 
@@ -33,6 +35,8 @@ $api->version('v1', function ($api) {
 
             $api->post('lan', 'LanController@createLan');
             $api->post('lan/{lan_id}/rules', 'LanController@updateLanRules');
+
+            $api->post('lan/{lan_id}/contribution-category', 'ContributionController@createContributionCategory');
 
             $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
 
