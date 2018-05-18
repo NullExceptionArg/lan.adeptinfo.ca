@@ -46,7 +46,7 @@ class UserServiceImpl implements UserService
         );
     }
 
-    public function logOut()
+    public function logOut(): void
     {
         $accessToken = Auth::user()->token();
 

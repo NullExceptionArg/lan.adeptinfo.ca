@@ -19,7 +19,8 @@ class LanRepositoryImpl implements LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
-        int $price
+        ?int $price,
+        ?string $rules
     ): Lan
     {
         $lan = new Lan();
@@ -30,7 +31,8 @@ class LanRepositoryImpl implements LanRepository
         $lan->event_key_id = $eventKeyId;
         $lan->public_key_id = $publicKeyId;
         $lan->secret_key_id = $secretKeyId;
-        $lan->price = intval($price);
+        $lan->price = $price;
+        $lan->rules = $rules;
         $lan->save();
 
         return $lan;
@@ -39,5 +41,16 @@ class LanRepositoryImpl implements LanRepository
     public function findLanById(int $id): ?Lan
     {
         return Lan::find($id);
+    }
+
+    public function updateLanRules(Lan $lan, string $text): void
+    {
+        $lan->rules = $text;
+        $lan->save();
+    }
+
+    public function getRules(Lan $lan): string
+    {
+        // TODO: Implement getRules() method.
     }
 }

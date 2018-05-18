@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string public_key_id
  * @property string secret_key_id
  * @property int price
+ * @property string rules
  */
 class Lan extends Model
 {

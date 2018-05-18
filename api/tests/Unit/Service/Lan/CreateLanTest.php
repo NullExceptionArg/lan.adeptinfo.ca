@@ -24,7 +24,8 @@ class CreateLanTest extends TestCase
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",
-        "price" => 0
+        "price" => 0,
+        "rules" => '☭'
     ];
 
     public function setUp()
@@ -40,7 +41,6 @@ class CreateLanTest extends TestCase
 
     public function testCreateLan()
     {
-        // Default
         $request = new Request($this->paramsContent);
         $result = $this->lanService->createLan($request);
 
@@ -54,10 +54,26 @@ class CreateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['price'], $result->price);
     }
 
+    public function testCreateLanPriceDefault()
+    {
+        $this->paramsContent['price'] = '';
+        $request = new Request($this->paramsContent);
+        $result = $this->lanService->createLan($request);
+
+        $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
+        $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
+        $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
+        $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
+        $this->assertEquals($this->paramsContent['event_key_id'], $result->event_key_id);
+        $this->assertEquals($this->paramsContent['public_key_id'], $result->public_key_id);
+        $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
+        $this->assertEquals(0, $result->price);
+    }
+
     /**
      * @throws Exception
      */
-    public function testCreateLanStartRequiredConstraint()
+    public function testCreateLanStartRequired()
     {
         $this->paramsContent['lan_start'] = '';
         $request = new Request($this->paramsContent);
@@ -73,7 +89,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanStartAfterReservationStartConstraint()
+    public function testCreateLanStartAfterReservationStart()
     {
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->paramsContent['seat_reservation_start']));
@@ -96,7 +112,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanStartAfterTournamentStartConstraint()
+    public function testCreateLanStartAfterTournamentStart()
     {
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->paramsContent['tournament_reservation_start']));
@@ -119,7 +135,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanEndRequiredConstraint()
+    public function testCreateLanEndRequired()
     {
         $this->paramsContent['lan_end'] = '';
         $request = new Request($this->paramsContent);
@@ -135,7 +151,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanEndAfterLanStartConstraint()
+    public function testCreateLanEndAfterLanStart()
     {
         // Set the lan_end date to one day before lan_start
         $newLanEnd = (new DateTime($this->paramsContent['lan_start']));
@@ -151,7 +167,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanReservationStartRequiredConstraint()
+    public function testCreateLanReservationStartRequired()
     {
         $this->paramsContent['seat_reservation_start'] = '';
         $request = new Request($this->paramsContent);
@@ -167,7 +183,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanReservationStartAfterOrEqualNowConstraint()
+    public function testCreateLanReservationStartAfterOrEqualNow()
     {
         // Set the reservation_start date to one day before today
         $newTournamentStart = (new DateTime());
@@ -186,7 +202,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartRequiredConstraint()
+    public function testCreateLanTournamentStartRequired()
     {
         $this->paramsContent['tournament_reservation_start'] = '';
         $request = new Request($this->paramsContent);
@@ -202,7 +218,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartAfterOrEqualNowConstraint()
+    public function testCreateLanTournamentStartAfterOrEqualNow()
     {
         // Set the tournament_reservation_start date to one day before today
         $newTournamentReservationStart = (new DateTime());
@@ -218,7 +234,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanEventKeyIdRequiredConstraint()
+    public function testCreateLanEventKeyIdRequired()
     {
         $this->paramsContent['event_key_id'] = '';
         $request = new Request($this->paramsContent);
@@ -231,7 +247,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanEventKeyIdMaxLengthConstraint()
+    public function testCreateLanEventKeyIdMaxLength()
     {
         $this->paramsContent['event_key_id'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -244,7 +260,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanPublicKeyIdRequiredConstraint()
+    public function testCreateLanPublicKeyIdRequired()
     {
         $this->paramsContent['public_key_id'] = '';
         $request = new Request($this->paramsContent);
@@ -257,7 +273,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanPublicKeyIdMaxLengthConstraint()
+    public function testCreateLanPublicKeyIdMaxLength()
     {
         $this->paramsContent['public_key_id'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -270,7 +286,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanSecretKeyIdRequiredConstraint()
+    public function testCreateLanSecretKeyIdRequired()
     {
         $this->paramsContent['secret_key_id'] = '';
         $request = new Request($this->paramsContent);
@@ -283,7 +299,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanSecretKeyIdMaxLengthConstraint()
+    public function testCreateLanSecretKeyIdMaxLength()
     {
         $this->paramsContent['secret_key_id'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -296,20 +312,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanPriceConstraint()
-    {
-        $this->paramsContent['price'] = '';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->lanService->createLan($request);
-            $this->fail('Expected: {"price":["The price field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"price":["The price field is required."]}', $e->getMessage());
-        }
-    }
-
-    public function testCreateLanMinimumConstraint()
+    public function testCreateLanMinimum()
     {
         $this->paramsContent['price'] = "-1";
         $request = new Request($this->paramsContent);
@@ -322,7 +325,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanIntegerConstraint()
+    public function testCreateLanInteger()
     {
         $this->paramsContent['price'] = "☭";
         $request = new Request($this->paramsContent);
@@ -358,6 +361,19 @@ class CreateLanTest extends TestCase
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"event_key_id":["Event key id: ' . $this->paramsContent['event_key_id'] . ' is not valid."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanRulesString()
+    {
+        $this->paramsContent['rules'] = 1;
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"rules":["The rules must be a string."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"rules":["The rules must be a string."]}', $e->getMessage());
         }
     }
 }

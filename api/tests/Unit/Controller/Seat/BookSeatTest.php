@@ -29,7 +29,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(201);
     }
 
-    public function testBookLanIdExistConstraint()
+    public function testBookLanIdExist()
     {
         $user = factory('App\Model\User')->create();
         $badLanId = -1;
@@ -48,7 +48,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatIdExistConstraint()
+    public function testBookSeatIdExist()
     {
         $user = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
@@ -68,7 +68,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatAvailableConstraint()
+    public function testBookSeatAvailable()
     {
         $user = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
@@ -90,7 +90,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatUniqueUserInLanConstraint()
+    public function testBookSeatUniqueUserInLan()
     {
         $user = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
@@ -113,7 +113,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatOnceInLanConstraint()
+    public function testBookSeatOnceInLan()
     {
         $user = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();

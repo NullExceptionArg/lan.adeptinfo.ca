@@ -6,7 +6,7 @@ use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class SignUpTest extends TestCase
+class CreateLanTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -20,7 +20,8 @@ class SignUpTest extends TestCase
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",
-        "price" => 0
+        "price" => 0,
+        "rules" => '☭'
     ];
 
     public function setUp()
@@ -34,7 +35,7 @@ class SignUpTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }
 
-    public function testSignUp()
+    public function testCreateLan()
     {
         $this->lanRepository->createLan(
             new DateTime($this->paramsContent['lan_start']),
@@ -44,7 +45,8 @@ class SignUpTest extends TestCase
             $this->paramsContent['event_key_id'],
             $this->paramsContent['public_key_id'],
             $this->paramsContent['secret_key_id'],
-            $this->paramsContent['price']
+            $this->paramsContent['price'],
+            $this->paramsContent['rules']
         );
         $this->seeInDatabase('lan', [
             'lan_start' => $this->paramsContent['lan_start'],
@@ -55,6 +57,7 @@ class SignUpTest extends TestCase
             'public_key_id' => $this->paramsContent['public_key_id'],
             'secret_key_id' => $this->paramsContent['secret_key_id'],
             'price' => $this->paramsContent['price'],
+            'rules' => $this->paramsContent['rules'],
         ]);
     }
 }
