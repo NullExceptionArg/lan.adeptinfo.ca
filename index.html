@@ -247,6 +247,12 @@
                   <li>
                     <a href="#creer" class="toc-h2 toc-link" data-title="creer">Créer</a>
                   </li>
+                  <li>
+                    <a href="#mettre-a-jour-les-regles" class="toc-h2 toc-link" data-title="mettre-a-jour-les-regles">Mettre à jour les règles</a>
+                  </li>
+                  <li>
+                    <a href="#mettre-a-jour-les-regles-2" class="toc-h2 toc-link" data-title="mettre-a-jour-les-regles">Mettre à jour les règles</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -605,12 +611,110 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Id du LAN créé.</td>
 </tr>
 </tbody></table>
+<h2 id='mettre-a-jour-les-regles'>Mettre à jour les règles</h2>
+<p>Mettre à jour les règles d&#39;un LAN</p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>POST /api/lan/&lt;lan_id&gt;/rules</code></p>
+<h3 id='parametres-post-2'>Paramètres POST</h3>
+<blockquote>
+<p>Exemple de requȩte</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>Texte des règles du LAN à mettre à jour.</td>
+<td>Requis, string.</td>
+</tr>
+</tbody></table>
+<h3 id='path-params'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut modifier les règles.</td>
+<td>Requis, string.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>Texte des nouvelles règles du LAN.</td>
+</tr>
+</tbody></table>
+<h2 id='mettre-a-jour-les-regles-2'>Mettre à jour les règles</h2>
+<p>Obtenir les règles d&#39;un LAN</p>
+<h3 id='requete-http-3'>Requête HTTP</h3>
+<p><code>GET /api/lan/&lt;lan_id&gt;/rules</code></p>
+<h3 id='parametres-post-3'>Paramètres POST</h3><h3 id='path-params-2'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN dont l&#39;utilisateur veut obtenir les règles.</td>
+<td>Requis, string.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>text</td>
+<td>Texte des règles du LAN.</td>
+</tr>
+</tbody></table>
 <h1 id='places'>Places</h1><h2 id='reserver'>Réserver</h2>
 <p>Réserver une place à un LAN.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
 <p><code>POST /api/lan/&lt;lan_id&gt;/book/&lt;seat_id&gt;</code></p>
-<h3 id='parametres-d-39-url'>Paramètres d&#39;URL</h3>
-<p>L&#39;ensembl des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
+<h3 id='path-params'>Path Params</h3>
+<p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
 
 <table><thead>
 <tr>
