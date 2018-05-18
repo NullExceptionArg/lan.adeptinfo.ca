@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableLan extends Migration
 {
@@ -23,6 +23,7 @@ class CreateTableLan extends Migration
             $table->string('public_key_id'); // seats.io
             $table->string('secret_key_id'); // seats.io
             $table->unsignedInteger('price');
+            $table->text('rules');
             $table->timestamps();
         });
     }

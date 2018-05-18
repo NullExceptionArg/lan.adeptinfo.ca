@@ -85,4 +85,38 @@ class LanServiceImpl implements LanService
             $input['price']
         );
     }
+
+    public function updateRules(Request $input, string $lanId): array
+    {
+        $rulesValidator = Validator::make([
+            'lan_id' => $lanId,
+            'text' => $input->input('text')
+        ], [
+            'lan_id' => 'required|integer',
+            'text' => 'required|string',
+        ]);
+
+        if ($rulesValidator->fails()) {
+            throw new BadRequestHttpException($rulesValidator->errors());
+        }
+
+        $lan = $this->lanRepository->findLanById($lanId);
+
+        if ($lan == null) {
+            throw new BadRequestHttpException(json_encode([
+                "lan_id" => [
+                    'Lan with id ' . $lanId . ' doesn\'t exist'
+                ]
+            ]));
+        }
+
+        $this->lanRepository->updateLanRules($lan, $input['text']);
+
+        return ["text" => $input['text']];
+    }
+
+    public function getRules(string $lanId): array
+    {
+        // TODO: Implement getRules() method.
+    }
 }

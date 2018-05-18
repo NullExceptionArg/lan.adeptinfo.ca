@@ -28,6 +28,7 @@ $api->version('v1', function ($api) {
         $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
             $api->post('lan', 'LanController@createLan');
+            $api->post('lan/{lan_id}/rules', 'LanController@updateLanRules');
 
             $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
 

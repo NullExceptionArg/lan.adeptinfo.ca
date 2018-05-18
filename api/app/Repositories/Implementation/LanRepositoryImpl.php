@@ -40,4 +40,15 @@ class LanRepositoryImpl implements LanRepository
     {
         return Lan::find($id);
     }
+
+    public function updateLanRules(Lan $lan, string $text): void
+    {
+        $lan->rules = $text;
+        $lan->save();
+    }
+
+    public function getRules(Lan $lan): string
+    {
+        // TODO: Implement getRules() method.
+    }
 }

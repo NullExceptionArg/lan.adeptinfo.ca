@@ -55,7 +55,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanStartRequiredConstraint()
+    public function testCreateLanStartRequired()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['lan_start'] = '';
@@ -76,7 +76,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanAfterReservationConstraint()
+    public function testCreateLanAfterReservation()
     {
         $user = factory('App\Model\User')->make();
         // Set the lan_start date to one day before reservation
@@ -105,7 +105,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanAfterTournamentStartConstraint()
+    public function testCreateLanAfterTournamentStart()
     {
         $user = factory('App\Model\User')->make();
         // Set the lan_start date to one day before tournament start
@@ -134,7 +134,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanEndRequiredConstraint()
+    public function testCreateLanEndRequired()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['lan_end'] = '';
@@ -155,7 +155,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanEndAfterLanStartConstraint()
+    public function testCreateLanEndAfterLanStart()
     {
         $user = factory('App\Model\User')->make();
         // Set the lan end date to one day before lan start
@@ -180,7 +180,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanReservationStartRequiredConstraint()
+    public function testCreateLanReservationStartRequired()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['seat_reservation_start'] = '';
@@ -201,7 +201,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanReservationStartAfterOrEqualNowConstraint()
+    public function testCreateLanReservationStartAfterOrEqualNow()
     {
         $user = factory('App\Model\User')->make();
         // Set the seat reservation date to yesterday
@@ -226,7 +226,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanTournamentStartRequiredConstraint()
+    public function testCreateLanTournamentStartRequired()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['tournament_reservation_start'] = '';
@@ -247,7 +247,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartAfterOrEqualNowConstraint()
+    public function testCreateLanTournamentStartAfterOrEqualNow()
     {
         $user = factory('App\Model\User')->make();
         // Set the reservation date to yesterday
@@ -269,7 +269,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdRequiredConstraint()
+    public function testCreateLanEventKeyIdRequired()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['event_key_id'] = '';
@@ -287,7 +287,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdMaxLengthConstraint()
+    public function testCreateLanEventKeyIdMaxLength()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['event_key_id'] = str_repeat('☭', 256);
@@ -305,7 +305,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdRequiredConstraint()
+    public function testCreateLanPublicKeyIdRequired()
     {
         // Required
         $user = factory('App\Model\User')->make();
@@ -324,7 +324,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdMaxLengthConstraint()
+    public function testCreateLanPublicKeyIdMaxLength()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['public_key_id'] = str_repeat('☭', 256);
@@ -342,7 +342,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdRequiredConstraint()
+    public function testCreateLanSecretKeyIdRequired()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['secret_key_id'] = '';
@@ -360,7 +360,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdMaxLengthConstraint()
+    public function testCreateLanSecretKeyIdMaxLength()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['secret_key_id'] = str_repeat('☭', 256);
@@ -378,7 +378,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceRequiredConstraint()
+    public function testCreateLanPriceRequired()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '';
@@ -396,7 +396,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceMinimumConstraint()
+    public function testCreateLanPriceMinimum()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '-1';
@@ -414,7 +414,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceIntegerConstraint()
+    public function testCreateLanPriceInteger()
     {
         $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '☭';

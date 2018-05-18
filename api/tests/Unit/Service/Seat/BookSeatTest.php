@@ -34,7 +34,7 @@ class BookSeatTest extends SeatsTestCase
         $this->assertEquals($lan->id, $result->lan_id);
     }
 
-    public function testBookLanIdExistConstraint()
+    public function testBookLanIdExist()
     {
         $this->be(factory('App\Model\User')->create());
         $badLanId = -1;
@@ -48,7 +48,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatIdExistConstraint()
+    public function testBookSeatIdExist()
     {
         $this->be(factory('App\Model\User')->create());
         $lan = factory('App\Model\Lan')->create();
@@ -63,7 +63,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatAvailableConstraint()
+    public function testBookSeatAvailable()
     {
         $this->be(factory('App\Model\User')->create());
         $lan = factory('App\Model\Lan')->create();
@@ -80,7 +80,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatUniqueUserInLanConstraint()
+    public function testBookSeatUniqueUserInLan()
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);
@@ -99,7 +99,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatOnceInLanConstraint()
+    public function testBookSeatOnceInLan()
     {
         $this->be(factory('App\Model\User')->create());
         $lan = factory('App\Model\Lan')->create();

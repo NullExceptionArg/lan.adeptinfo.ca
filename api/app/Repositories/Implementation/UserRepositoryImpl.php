@@ -30,12 +30,12 @@ class UserRepositoryImpl implements UserRepository
         $user->delete();
     }
 
-    public function revokeAccessToken(Token $token)
+    public function revokeAccessToken(Token $token): void
     {
         $token->revoke();
     }
 
-    public function revokeRefreshToken(Token $token)
+    public function revokeRefreshToken(Token $token): void
     {
         DB::table('oauth_refresh_tokens')
             ->where('access_token_id', $token->id)

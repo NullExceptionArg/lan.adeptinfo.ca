@@ -30,7 +30,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testSignUpEmailRequiredConstraint()
+    public function testSignUpEmailRequired()
     {
         $this->requestContent['email'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -46,7 +46,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpEmailFormattedEmailConstraint()
+    public function testSignUpEmailFormattedEmail()
     {
         $this->requestContent['email'] = 'john.doe.com';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -62,7 +62,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpEmailUniqueConstraint()
+    public function testSignUpEmailUnique()
     {
         $this->requestContent['email'] = 'john@doe.com';
         $user = new User();
@@ -84,7 +84,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpPasswordRequiredConstraint()
+    public function testSignUpPasswordRequired()
     {
         $this->requestContent['password'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -100,7 +100,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpPasswordMinLengthConstraint()
+    public function testSignUpPasswordMinLength()
     {
         $this->requestContent['password'] = str_repeat('☭', 2);
         $this->json('POST', '/api/user', $this->requestContent)
@@ -116,7 +116,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpPasswordMaxLengthConstraint()
+    public function testSignUpPasswordMaxLength()
     {
         $this->requestContent['password'] = str_repeat('☭', 22);
         $this->json('POST', '/api/user', $this->requestContent)
@@ -132,7 +132,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpFirstNameRequiredConstraint()
+    public function testSignUpFirstNameRequired()
     {
         $this->requestContent['first_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -148,7 +148,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpFirstNameMaxLengthConstraint()
+    public function testSignUpFirstNameMaxLength()
     {
         $this->requestContent['first_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)
@@ -164,7 +164,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpLastNameRequiredConstraint()
+    public function testSignUpLastNameRequired()
     {
         $this->requestContent['last_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -180,7 +180,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpLastNameMaxLengthConstraint()
+    public function testSignUpLastNameMaxLength()
     {
         $this->requestContent['last_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)
