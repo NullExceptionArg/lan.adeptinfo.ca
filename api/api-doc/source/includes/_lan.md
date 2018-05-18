@@ -21,21 +21,23 @@ Créer un nouveau LAN.
   "event_key_id":"12345678-1234-1234-1234-123456789123",
   "public_key_id":"12345678-1234-1234-1234-123456789123",
   "secret_key_id": "12345678-1234-1234-1234-123456789123",
-  "price":"0"
+  "price":"0",
+  "rules":"A spectre is haunting Europe – the spectre of communism."
 }
 
 ```
 
-Paramètre | Description | Règles de validation
---------- | ----------- | --------------------
-lan_start | Date et heure de début du LAN. | Requis, après le début des réservations et après le début des inscriptions aux tournois.
-lan_end | Date et heure de fin du LAN. | Requis, après le début du LAN.
-seat_reservation_start | Date et heure du début des réservations des places du LAN. | Requis, après maintenant.
-tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. | Requis, après maintenant.
-event_key_id | Clé de l'événement de seats.io pour le LAN. | Requis, 255 caractères max.
-public_key_id | Clé publique de seats.io . | Requis, 255 caractères max.
-secret_key_id | Clé secrète de seats.io . | Requis, 255 caractères max.
-price | Prix du LAN. | Requis, plus grand ou égale à 0.
+Paramètre | Description | Règles de validation | Defaut
+--------- | ----------- | -------------------- | ------
+lan_start | Date et heure de début du LAN. | Requis, après le début des réservations et après le début des inscriptions aux tournois. |
+lan_end | Date et heure de fin du LAN. | Requis, après le début du LAN. | 
+seat_reservation_start | Date et heure du début des réservations des places du LAN. | Requis, après maintenant. |
+tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. | Requis, après maintenant. |
+event_key_id | Clé de l'événement de seats.io pour le LAN. | Requis, 255 caractères max. |
+public_key_id | Clé publique de seats.io . | Requis, 255 caractères max. |
+secret_key_id | Clé secrète de seats.io . | Requis, 255 caractères max. |
+price | Prix du LAN. | Plus grand ou égale à 0. | 0
+rules | Texte des règles du LAN. | String. |
 
 ### Format de réponse
 
@@ -51,6 +53,7 @@ price | Prix du LAN. | Requis, plus grand ou égale à 0.
     "public_key_id": "12345678-1234-1234-1234-123456789123",
     "secret_key_id": "12345678-1234-1234-1234-123456789123",
     "price": 0,
+    "rules": "A spectre is haunting Europe – the spectre of communism.",
     "id": 1
 }
 
@@ -66,6 +69,7 @@ event_key_id | Clé de l'événement de seats.io pour le LAN pour le LAN créé.
 public_key_id | Clé publique de seats.io pour le LAN créé.
 secret_key_id | Clé secrète de seats.io pour le LAN créé.
 price| Prix du LAN créé.
+rules | Texte des règles du LAN créé.
 id | Id du LAN créé.
 
 ## Mettre à jour les règles
@@ -112,7 +116,7 @@ Champ | Description
 --------- | -----------
 text | Texte des nouvelles règles du LAN.
 
-## Mettre à jour les règles
+## Obtenir les règles
 
 Obtenir les règles d'un LAN
 
