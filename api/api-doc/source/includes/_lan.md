@@ -67,3 +67,78 @@ public_key_id | Clé publique de seats.io pour le LAN créé.
 secret_key_id | Clé secrète de seats.io pour le LAN créé.
 price| Prix du LAN créé.
 id | Id du LAN créé.
+
+## Mettre à jour les règles
+
+Mettre à jour les règles d'un LAN
+
+### Requête HTTP
+
+`POST /api/lan/<lan_id>/rules`
+
+### Paramètres POST
+
+> Exemple de requȩte
+
+```json
+{
+	"text": "A spectre is haunting Europe – the spectre of communism."
+}
+
+```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+text | Texte des règles du LAN à mettre à jour. | Requis, string.
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN où l'administrateur veut modifier les règles. | Requis, string.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "text": "A spectre is haunting Europe – the spectre of communism."
+}
+
+```
+
+Champ | Description
+--------- | -----------
+text | Texte des nouvelles règles du LAN.
+
+## Mettre à jour les règles
+
+Obtenir les règles d'un LAN
+
+### Requête HTTP
+
+`GET /api/lan/<lan_id>/rules`
+
+### Paramètres POST
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN dont l'utilisateur veut obtenir les règles. | Requis, string.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "text": "A spectre is haunting Europe – the spectre of communism."
+}
+
+```
+
+Champ | Description
+--------- | -----------
+text | Texte des règles du LAN.

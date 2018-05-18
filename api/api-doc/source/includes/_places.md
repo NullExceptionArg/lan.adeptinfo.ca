@@ -8,9 +8,9 @@ Réserver une place à un LAN.
 
 `POST /api/lan/<lan_id>/book/<seat_id>`
 
-### Paramètres d'URL
+### Path Params
 
-L'ensembl des paramètres sont dans l'URL. Le corps de la requête est donc vide.
+L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vide.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
