@@ -1,44 +1,44 @@
 <?php
 
-namespace Tests\Unit\Service\Lan;
+namespace Tests\Unit\Service\Contribution;
 
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class UpdateLanTest extends TestCase
+class CreateCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $lanService;
+    protected $contributorService;
 
     protected $paramsContent = [
-        'text' => "☭"
+        'name' => "Programmer",
     ];
 
     public function setUp()
     {
         parent::setUp();
-        $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
+        $this->contributorService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
     }
 
-    public function testUpdateLanRules()
+    public function testCreateCategory()
     {
         $lan = factory('App\Model\Lan')->create();
 
         $request = new Request($this->paramsContent);
-        $result = $this->lanService->updateRules($request, $lan->id);
+        $result = $this->contributorService->createCategory($request, $lan->id);
 
-        $this->assertEquals($this->paramsContent['text'], $result['text']);
+        $this->assertEquals($this->paramsContent['name'], $result['name']);
     }
 
-    public function testUpdateRulesLanIdExist()
+    public function testCreateCategoryLanIdExist()
     {
         $badLanId = -1;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->updateRules($request, $badLanId);
+            $this->contributorService->createCategory($request, $badLanId);
             $this->fail('Expected: {"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -46,12 +46,12 @@ class UpdateLanTest extends TestCase
         }
     }
 
-    public function testUpdateRulesLanIdInteger()
+    public function testCreateCategoryLanIdInteger()
     {
         $badLanId = '☭';
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->updateRules($request, $badLanId);
+            $this->contributorService->createCategory($request, $badLanId);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -59,31 +59,31 @@ class UpdateLanTest extends TestCase
         }
     }
 
-    public function testUpdateRulesTextRequired()
+    public function testCreateCategoryNameRequired()
     {
         $lan = factory('App\Model\Lan')->create();
-        $this->paramsContent['text'] = null;
+        $this->paramsContent['name'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->updateRules($request, $lan->id);
-            $this->fail('Expected: {"text":["The text field is required."]}');
+            $this->contributorService->createCategory($request, $lan->id);
+            $this->fail('Expected: {"name":["The name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"text":["The text field is required."]}', $e->getMessage());
+            $this->assertEquals('{"name":["The name field is required."]}', $e->getMessage());
         }
     }
 
-    public function testUpdateRulesTextString()
+    public function testCreateCategoryNameString()
     {
         $lan = factory('App\Model\Lan')->create();
-        $this->paramsContent['text'] = 1;
+        $this->paramsContent['name'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->updateRules($request, $lan->id);
-            $this->fail('Expected: {"text":["The text must be a string."]}');
+            $this->contributorService->createCategory($request, $lan->id);
+            $this->fail('Expected: {"name":["The name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"text":["The text must be a string."]}', $e->getMessage());
+            $this->assertEquals('{"name":["The name must be a string."]}', $e->getMessage());
         }
     }
 }
