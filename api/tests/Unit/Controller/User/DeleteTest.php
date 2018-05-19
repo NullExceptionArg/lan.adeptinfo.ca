@@ -9,7 +9,7 @@ class DeleteTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function testDelete()
+    public function testDeleteUser()
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);

@@ -37,10 +37,11 @@ $api->version('v1', function ($api) {
             $api->post('lan/{lan_id}/rules', 'LanController@updateLanRules');
 
             $api->post('lan/{lan_id}/contribution-category', 'ContributionController@createContributionCategory');
+            $api->delete('lan/{lan_id}/contribution-category/{contribution_category_id}', 'ContributionController@deleteContributionCategory');
 
             $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
 
-            $api->delete('user', 'UserController@delete');
+            $api->delete('user', 'UserController@deleteUser');
             $api->post('user/logout', 'UserController@logOut');
 
         });

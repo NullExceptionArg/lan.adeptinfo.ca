@@ -24,4 +24,17 @@ class ContributionRepositoryImpl implements ContributionRepository
     {
         return $lan->contributionCategory()->where('lan_id', $lan->id)->get()->toArray();
     }
+
+    public function findCategoryById(int $categoryId): ?ContributionCategory
+    {
+        return ContributionCategory::find($categoryId);
+    }
+
+    public function deleteCategory(ContributionCategory $contributionCategory): void
+    {
+        try {
+            $contributionCategory->delete();
+        } catch (\Exception $e) {
+        }
+    }
 }

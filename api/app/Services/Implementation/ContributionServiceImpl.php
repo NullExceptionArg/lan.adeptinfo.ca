@@ -44,13 +44,7 @@ class ContributionServiceImpl implements ContributionService
 
         $lan = $this->lanRepository->findLanById($lanId);
 
-        if ($lan == null) {
-            throw new BadRequestHttpException(json_encode([
-                "lan_id" => [
-                    'Lan with id ' . $lanId . ' doesn\'t exist'
-                ]
-            ]));
-        }
+        $this->lanExists($lanId, $lan);
 
         $category = $this->contributionRepository->createCategory($lan, $request->input('name'));
 
@@ -76,6 +70,37 @@ class ContributionServiceImpl implements ContributionService
         $categories = $this->contributionRepository->getCategoryForLan($lan);
 
         return $categories;
+    }
+
+    public function deleteCategory($lanId, $contributionCategoryId): array
+    {
+        $reservationValidator = Validator::make([
+            'lan_id' => $lanId,
+            'contribution_category_id' => $contributionCategoryId
+        ], [
+            'lan_id' => 'required|integer',
+            'contribution_category_id' => 'required|integer'
+        ]);
+
+        if ($reservationValidator->fails()) {
+            throw new BadRequestHttpException($reservationValidator->errors());
+        }
+
+        $lan = $this->lanRepository->findLanById($lanId);
+        $this->lanExists($lanId, $lan);
+
+        $contributionCategory = $this->contributionRepository->findCategoryById($contributionCategoryId);
+        if ($contributionCategory == null) {
+            throw new BadRequestHttpException(json_encode([
+                "contribution_category_id" => [
+                    'Contribution category with id ' . $contributionCategoryId . ' doesn\'t exist'
+                ]
+            ]));
+        }
+
+        $this->contributionRepository->deleteCategory($contributionCategory);
+
+        return ['contribution_category_id' => $contributionCategory->id];
     }
 
     private function lanExists(int $lanId, ?Lan $lan)

@@ -30,4 +30,9 @@ class ContributionController extends Controller
     {
         return response()->json($this->contributionService->getCategories($lanId), 200);
     }
+
+    public function deleteContributionCategory(string $lanId, string $contributionCategoryId)
+    {
+        return response()->json($this->contributionService->deleteCategory($lanId, $contributionCategoryId), 200);
+    }
 }

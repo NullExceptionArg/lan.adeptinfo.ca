@@ -32,7 +32,7 @@ class UserController extends Controller
         return response()->json([], 200);
     }
 
-    public function delete(Request $request)
+    public function deleteUser(Request $request)
     {
         $this->userService->delete($request);
         return response()->json([], 200);
