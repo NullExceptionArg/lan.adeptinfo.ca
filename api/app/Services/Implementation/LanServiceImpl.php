@@ -93,7 +93,7 @@ class LanServiceImpl implements LanService
             'lan_id' => $lanId,
             'text' => $input->input('text')
         ], [
-            'lan_id' => 'required|integer',
+            'lan_id' => 'required|integer|exists:lan,id',
             'text' => 'required|string',
         ]);
 
@@ -102,8 +102,6 @@ class LanServiceImpl implements LanService
         }
 
         $lan = $this->lanRepository->findLanById($lanId);
-
-        $this->lanExists($lanId, $lan);
 
         $this->lanRepository->updateLanRules($lan, $input['text']);
 
@@ -115,7 +113,7 @@ class LanServiceImpl implements LanService
         $rulesValidator = Validator::make([
             'lan_id' => $lanId,
         ], [
-            'lan_id' => 'required|integer'
+            'lan_id' => 'required|integer|exists:lan,id'
         ]);
 
         if ($rulesValidator->fails()) {
@@ -124,19 +122,6 @@ class LanServiceImpl implements LanService
 
         $lan = $this->lanRepository->findLanById($lanId);
 
-        $this->lanExists($lanId, $lan);
-
         return ["text" => $lan->rules];
-    }
-
-    private function lanExists(int $lanId, ?Lan $lan)
-    {
-        if ($lan == null) {
-            throw new BadRequestHttpException(json_encode([
-                "lan_id" => [
-                    'Lan with id ' . $lanId . ' doesn\'t exist'
-                ]
-            ]));
-        }
     }
 }

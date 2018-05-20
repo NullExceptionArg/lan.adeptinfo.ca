@@ -17,8 +17,12 @@ class CreateTableContributionCategoryContribution extends Migration
             $table->unsignedInteger('contribution_category_id');
             $table->unsignedInteger('contribution_id');
 
-            $table->foreign('contribution_category_id')->references('id')->on('contribution_category');
-            $table->foreign('contribution_id')->references('id')->on('contribution');
+            $table->foreign('contribution_category_id')
+                ->references('id')->on('contribution_category')
+                ->onDelete('cascade');
+            $table->foreign('contribution_id')
+                ->references('id')->on('contribution')
+                ->onDelete('cascade');
         });
     }
 

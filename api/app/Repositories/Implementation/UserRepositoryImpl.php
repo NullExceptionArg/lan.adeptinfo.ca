@@ -43,4 +43,9 @@ class UserRepositoryImpl implements UserRepository
                 'revoked' => true
             ]);
     }
+
+    public function findByEmail(string $userEmail): ?User
+    {
+        return User::where('email', $userEmail)->first();
+    }
 }

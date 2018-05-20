@@ -1,6 +1,6 @@
 # LAN
 
-## Créer
+## Créer un LAN
 
 Créer un nouveau LAN.
 
@@ -10,7 +10,7 @@ Créer un nouveau LAN.
 
 ### Paramètres POST
 
-> Exemple de requȩte
+> Exemple de requête
 
 ```json
 {
@@ -80,9 +80,9 @@ Mettre à jour les règles d'un LAN
 
 `POST /api/lan/<lan_id>/rules`
 
-### Paramètres POST
+### Path Params
 
-> Exemple de requȩte
+> Exemple de requête
 
 ```json
 {
@@ -93,13 +93,13 @@ Mettre à jour les règles d'un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-text | Texte des règles du LAN à mettre à jour. | Requis, string.
+lan_id | Id du LAN où l'administrateur veut modifier les règles. | Requis, string.
 
-### Path Params
+### Paramètres POST
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut modifier les règles. | Requis, string.
+text | Texte des règles du LAN à mettre à jour. | Requis, string.
 
 ### Format de réponse
 
@@ -116,15 +116,13 @@ Champ | Description
 --------- | -----------
 text | Texte des nouvelles règles du LAN.
 
-## Obtenir les règles
+## Lister les règles
 
 Obtenir les règles d'un LAN
 
 ### Requête HTTP
 
 `GET /api/lan/<lan_id>/rules`
-
-### Paramètres POST
 
 ### Path Params
 

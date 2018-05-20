@@ -15,12 +15,12 @@ class CreateTableContribution extends Migration
     {
         Schema::create('contribution', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('lan_id')->nullable(true);
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('user_id')->nullable(true);
             $table->string('user_full_name')->nullable(true);
 
-            $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('lan_id')->references('id')->on('lan');
+            $table->foreign('user_id')
+                ->references('id')->on('user')
+                ->onDelete('cascade');
         });
     }
 

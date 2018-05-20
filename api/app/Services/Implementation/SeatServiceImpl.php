@@ -36,7 +36,7 @@ class SeatServiceImpl implements SeatService
             'lan_id' => $lanId,
             'seat_id' => $seatId
         ], [
-            'lan_id' => 'required|integer',
+            'lan_id' => 'required|integer|exists:lan,id',
             'seat_id' => 'required|string',
         ]);
 

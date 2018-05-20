@@ -4,9 +4,19 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int lan_id
+ * @property string user_full_name
+ * @property int user_id
+ * @property int contribution_category_id
+ */
 class Contribution extends Model
 {
-    protected $table = 'category';
+    protected $table = 'contribution';
+
+    public $timestamps = false;
+
+    protected $hidden = ['user_id', 'lan_id', 'pivot'];
 
     public function User()
     {
@@ -18,8 +28,8 @@ class Contribution extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function contributionCategory()
+    public function ContributionCategory()
     {
-        return $this->hasMany(ContributionCategory::class);
+        return $this->belongsToMany(ContributionCategory::class, 'contribution_cat_contribution');
     }
 }

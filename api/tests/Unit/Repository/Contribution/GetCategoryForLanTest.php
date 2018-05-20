@@ -28,7 +28,7 @@ class GetCategoryForLanTest extends TestCase
             'lan_id' => $lan->id
         ]);
 
-        $result = $this->contributionRepository->getCategoryForLan($lan);
+        $result = $this->contributionRepository->getCategories($lan);
 
         $this->assertEquals($category->id, $result[0]['id']);
         $this->assertEquals($category->name, $result[0]['name']);

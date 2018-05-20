@@ -10,14 +10,14 @@ Se créer un compte utilisateur.
 
 ### Paramètres POST
 
-> Exemple de requȩte
+> Exemple de requête
 
 ```json
 {
   "first_name": "Karl",
   "last_name": "Marx",
   "email": "karl.marx@unite.org",
-  "password": "C4P1T4L3"
+  "password": "C4P1T4L1ST_P1G_01k_01k"
 }
 
 ```
@@ -58,7 +58,7 @@ S'authentifier dans l'application.
 
 ### Paramètres POST
 
-> Exemple de requȩte
+> Exemple de requête
 
 ```json
 {

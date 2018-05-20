@@ -20,8 +20,12 @@ class CreateReservationTable extends Migration
             $table->string('seat_id');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('lan_id')->references('id')->on('lan');
+            $table->foreign('user_id')
+                ->references('id')->on('user')
+                ->onDelete('cascade');
+            $table->foreign('lan_id')
+                ->references('id')->on('lan')
+                ->onDelete('cascade');
         });
     }
 

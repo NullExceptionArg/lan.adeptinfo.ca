@@ -12,6 +12,7 @@ includes:
   - authentication
   - user
   - lan
+  - contribution
   - places
   - errors
 

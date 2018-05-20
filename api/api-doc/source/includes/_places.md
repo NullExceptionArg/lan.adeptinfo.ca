@@ -1,12 +1,12 @@
 # Places
 
-## Réserver
+## Réserver une place
 
 Réserver une place à un LAN.
 
 ### Requête HTTP
 
-`POST /api/lan/<lan_id>/book/<seat_id>`
+`POST /api/lan/{lan_id}/book/{seat_id}`
 
 ### Path Params
 

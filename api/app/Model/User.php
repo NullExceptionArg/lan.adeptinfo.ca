@@ -15,6 +15,7 @@ use Seatsio\SeatsioClient;
  * @property string last_name
  * @property string email
  * @property string password
+ * @property int id
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
@@ -41,6 +42,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password', 'id', 'created_at', 'updated_at',
     ];
 
+    public function getFullName(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function reservation()
     {
         return $this->hasMany(Reservation::class);
@@ -62,8 +68,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
                 $seatsClient = new SeatsioClient($lan->secret_key_id);
                 $seatsClient->events()->release($lan->event_key_id, $reservation->seat_id);
-
-                $reservation->delete();
             }
         });
     }

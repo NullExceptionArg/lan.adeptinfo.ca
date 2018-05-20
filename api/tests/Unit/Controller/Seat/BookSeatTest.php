@@ -42,7 +42,7 @@ class BookSeatTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'Lan with id ' . $badLanId . ' doesn\'t exist',
+                        0 => 'The selected lan id is invalid.',
                     ],
                 ]
             ])

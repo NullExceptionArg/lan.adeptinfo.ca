@@ -42,7 +42,7 @@ class DeleteCategoryTest extends TestCase
             $this->fail('Expected: {"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}', $e->getMessage());
+            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ class DeleteCategoryTest extends TestCase
             $this->fail('Expected: {"contribution_category_id":["Contribution category with id ' . $badCategoryId . ' doesn\'t exist"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"contribution_category_id":["Contribution category with id ' . $badCategoryId . ' doesn\'t exist"]}', $e->getMessage());
+            $this->assertEquals('{"contribution_category_id":["The selected contribution category id is invalid."]}', $e->getMessage());
         }
     }
 
