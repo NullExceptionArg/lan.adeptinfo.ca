@@ -32,12 +32,12 @@ class CreateContributionTest extends TestCase
 
     public function testCreateContributionUserFullName()
     {
-        $this->requestContent['user_full_name'] = 'Karl Marx';
+        $this->requestContent['user_full_name'] = $this->user->getFullName();
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'user_full_name' => $this->requestContent['user_full_name'],
+                'user_full_name' => $this->user->getFullName(),
                 'contribution_category_id' => $this->category->id
             ])
             ->assertResponseStatus(201);

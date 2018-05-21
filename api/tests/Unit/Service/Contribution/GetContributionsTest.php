@@ -6,38 +6,49 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class GetCategoriesTest extends TestCase
+class GetContributionsTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $contributionService;
 
+    protected $user;
     protected $lan;
-    protected $category;
 
     public function setUp()
     {
         parent::setUp();
         $this->contributionService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
+
+        $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-        $this->category = factory('App\Model\ContributionCategory')->create([
+    }
+
+    public function testGetContributions()
+    {
+        $category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
         ]);
+        $contribution = factory('App\Model\Contribution')->create([
+            'user_full_name' => $this->user->getFullName()
+        ]);
+
+        $category->Contribution()->attach($contribution);
+
+        $result = $this->contributionService->getContributions($this->lan->id);
+        $this->assertEquals($category->id, $result[0]->id);
+        $this->assertEquals($category->name, $result[0]->name);
+        $this->assertEquals([
+            'id' => $contribution->id,
+            'user_full_name' => $this->user->getFullName()
+        ], $result[0]->contribution[0]->toArray());
     }
 
-    public function testGetCategories()
-    {
-        $result = $this->contributionService->getCategories($this->lan->id);
-
-        $this->assertEquals($this->category->id, $result[0]['id']);
-        $this->assertEquals($this->category->name, $result[0]['name']);
-    }
-
-    public function testGetCategoriesLanIdExist()
+    public function testGetContributionsLanIdExist()
     {
         $badLanId = -1;
         try {
-            $this->contributionService->getCategories($badLanId);
+            $this->contributionService->getContributions($badLanId);
             $this->fail('Expected: {"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -45,11 +56,11 @@ class GetCategoriesTest extends TestCase
         }
     }
 
-    public function testGetCategoriesLanIdInteger()
+    public function testGetContributionsLanIdInteger()
     {
         $badLanId = '☭';
         try {
-            $this->contributionService->getCategories($badLanId);
+            $this->contributionService->getContributions($badLanId);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

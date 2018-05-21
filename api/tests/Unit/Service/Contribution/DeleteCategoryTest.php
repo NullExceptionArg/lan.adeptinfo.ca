@@ -33,7 +33,7 @@ class DeleteCategoryTest extends TestCase
     {
         $result = $this->contributionService->deleteCategory($this->lan->id, $this->category->id);
 
-        $this->assertEquals($this->category->id, $result['contribution_category_id']);
+        $this->assertEquals($this->category->id, $result['id']);
     }
 
     // Should be updated every time Contribution Category has a new relation

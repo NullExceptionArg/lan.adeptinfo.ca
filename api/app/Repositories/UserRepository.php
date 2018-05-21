@@ -27,4 +27,6 @@ interface UserRepository
     public function revokeRefreshToken(Token $token): void;
 
     public function findByEmail(string $userEmail): ?User;
+
+    public function findById(int $userId): ?User;
 }

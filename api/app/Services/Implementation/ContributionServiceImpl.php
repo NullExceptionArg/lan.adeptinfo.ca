@@ -171,6 +171,10 @@ class ContributionServiceImpl implements ContributionService
 
         $contribution = $this->contributionRepository->findContributionById($contributionId);
 
+        if ($contribution->user_full_name == null) {
+            $contribution->user_full_name = $this->userRepository->findById($contribution->user_id)->getFullName();
+        }
+
         $this->contributionRepository->deleteContributionById($contributionId);
 
         return $contribution;
