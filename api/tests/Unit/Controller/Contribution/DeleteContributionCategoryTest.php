@@ -12,19 +12,27 @@ class DeleteContributionCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $user;
+    protected $lan;
+    protected $category;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
+    }
+
     public function testDeleteContributionCategorySimple()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
-
-        $this->actingAs($user)
-            ->json('DELETE', '/api/lan/' . $lan->id . '/contribution-category/' . $category->id)
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $this->category->id)
             ->seeJsonEquals([
-                'id' => $category->id,
-                'name' => $category->name
+                'id' => $this->category->id,
+                'name' => $this->category->name
             ])
             ->assertResponseStatus(200);
     }
@@ -32,34 +40,29 @@ class DeleteContributionCategoryTest extends TestCase
     // Should be updated every time Contribution Category has a new relation
     public function testDeleteContributionCategoryComplexOnCategoryForContribution()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $user->id
+            'user_id' => $this->user
         ]);
 
         ///Building relations
         // Contribution - Contribution category relation
-        $contribution->ContributionCategory()->attach($category);
+        $contribution->ContributionCategory()->attach($this->category);
 
         /// Make sure every relations exist
         // Lan - Contribution
-        $this->assertEquals(1, $user->Contribution()->count());
+        $this->assertEquals(1, $this->user->Contribution()->count());
 
         // Contribution - Contribution category
         $this->assertEquals(1, $contribution->ContributionCategory()->count());
 
         //Contribution category - Lan
-        $this->assertEquals(1, $category->Lan()->count());
+        $this->assertEquals(1, $this->category->Lan()->count());
 
-        $this->actingAs($user)
-            ->json('DELETE', '/api/lan/' . $lan->id . '/contribution-category/' . $category->id)
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $this->category->id)
             ->seeJsonEquals([
-                'id' => $category->id,
-                'name' => $category->name
+                'id' => $this->category->id,
+                'name' => $this->category->name
             ])
             ->assertResponseStatus(200);
 
@@ -74,38 +77,33 @@ class DeleteContributionCategoryTest extends TestCase
     // Should be updated every time Contribution Category has a new relation
     public function testDeleteContributionCategoryComplexManyCategoryForContribution()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
         $category2 = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $this->lan->id
         ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $user->id
+            'user_id' => $this->user->id
         ]);
 
         ///Building relations
         // Contribution - Contribution category relation
-        $contribution->ContributionCategory()->attach($category);
+        $contribution->ContributionCategory()->attach($this->category);
         $contribution->ContributionCategory()->attach($category2);
 
         /// Make sure every relations exist
         // Lan - Contribution
-        $this->assertEquals(1, $user->Contribution()->count());
+        $this->assertEquals(1, $this->user->Contribution()->count());
 
         // Contribution - Contribution category
         $this->assertEquals(2, $contribution->ContributionCategory()->count());
 
         //Contribution category - Lan
-        $this->assertEquals(1, $category->Lan()->count());
+        $this->assertEquals(1, $this->category->Lan()->count());
 
-        $this->actingAs($user)
-            ->json('DELETE', '/api/lan/' . $lan->id . '/contribution-category/' . $category->id)
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $this->category->id)
             ->seeJsonEquals([
-                'id' => $category->id,
-                'name' => $category->name
+                'id' => $this->category->id,
+                'name' => $this->category->name
             ])
             ->assertResponseStatus(200);
 
@@ -119,16 +117,9 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestLanIdExist()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
-
         $badLanId = -1;
-
-        $this->actingAs($user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution-category/' . $category->id)
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution-category/' . $this->category->id)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -143,16 +134,9 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestLanIdInteger()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
-
         $badLanId = '☭';
-
-        $this->actingAs($user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution-category/' . $category->id)
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution-category/' . $this->category->id)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -167,13 +151,9 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestCategoryIdExist()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-
         $badCategoryId = -1;
-
-        $this->actingAs($user)
-            ->json('DELETE', '/api/lan/' . $lan->id . '/contribution-category/' . $badCategoryId)
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $badCategoryId)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -188,13 +168,9 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestCategoryIdInteger()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-
         $badCategoryId = '☭';
-
-        $this->actingAs($user)
-            ->json('DELETE', '/api/lan/' . $lan->id . '/contribution-category/' . $badCategoryId)
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $badCategoryId)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

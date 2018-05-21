@@ -11,29 +11,31 @@ class DeleteCategoryTest extends TestCase
 
     protected $contributionRepository;
 
+    protected $lan;
+    protected $category;
+
     public function setUp()
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
     }
 
     public function testDeleteCategory()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
-
         $this->seeInDatabase('contribution_category', [
-            'id' => $category->id,
-            'name' => $category->name
+            'id' => $this->category->id,
+            'name' => $this->category->name
         ]);
 
-        $this->contributionRepository->deleteCategory($category);
+        $this->contributionRepository->deleteCategoryById($this->category->id);
 
         $this->notSeeInDatabase('contribution_category', [
-            'id' => $category->id,
-            'name' => $category->name
+            'id' => $this->category->id,
+            'name' => $this->category->name
         ]);
     }
 }

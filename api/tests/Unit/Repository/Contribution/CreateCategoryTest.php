@@ -11,6 +11,8 @@ class CreateCategoryTest extends TestCase
 
     protected $contributionRepository;
 
+    protected $lan;
+
     protected $paramsContent = [
         "name" => 'Programmer'
     ];
@@ -19,12 +21,12 @@ class CreateCategoryTest extends TestCase
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testCreateCategory()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $this->contributionRepository->createCategory($lan, $this->paramsContent['name']);
+        $this->contributionRepository->createCategory($this->lan, $this->paramsContent['name']);
 
         $this->seeInDatabase('contribution_category', ['name' => $this->paramsContent['name']]);
     }

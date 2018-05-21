@@ -11,6 +11,9 @@ class GetCategoryForLanTest extends TestCase
 
     protected $contributionRepository;
 
+    protected $lan;
+    protected $category;
+
     protected $paramsContent = [
         "name" => 'Programmer'
     ];
@@ -19,18 +22,17 @@ class GetCategoryForLanTest extends TestCase
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
     }
 
     public function testGetCategoryForLan()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
+        $result = $this->contributionRepository->getCategories($this->lan);
 
-        $result = $this->contributionRepository->getCategories($lan);
-
-        $this->assertEquals($category->id, $result[0]['id']);
-        $this->assertEquals($category->name, $result[0]['name']);
+        $this->assertEquals($this->category->id, $result[0]['id']);
+        $this->assertEquals($this->category->name, $result[0]['name']);
     }
 }

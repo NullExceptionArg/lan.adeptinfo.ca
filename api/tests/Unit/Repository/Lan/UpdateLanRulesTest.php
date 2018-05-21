@@ -11,6 +11,8 @@ class UpdateLanRulesTest extends TestCase
 
     protected $lanRepository;
 
+    protected $lan;
+
     protected $paramsContent = [
         'text' => "☭"
     ];
@@ -19,12 +21,12 @@ class UpdateLanRulesTest extends TestCase
     {
         parent::setUp();
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testUpdateLanRules()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $this->lanRepository->updateLanRules($lan, $this->paramsContent['text']);
+        $this->lanRepository->updateLanRules($this->lan, $this->paramsContent['text']);
 
         $this->seeInDatabase('lan', ['rules' => $this->paramsContent['text']]);
     }

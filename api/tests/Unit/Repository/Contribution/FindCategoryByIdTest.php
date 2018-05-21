@@ -11,22 +11,24 @@ class FindCategoryByIdTest extends TestCase
 
     protected $contributionRepository;
 
+    protected $lan;
+    protected $category;
+
     public function setUp()
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
     }
 
     public function testFindCategoryById()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
+        $result = $this->contributionRepository->findCategoryById($this->category->id);
 
-        $result = $this->contributionRepository->findCategoryById($category->id);
-
-        $this->assertEquals($category->id, $result->id);
-        $this->assertEquals($category->name, $result->name);
+        $this->assertEquals($this->category->id, $result->id);
+        $this->assertEquals($this->category->name, $result->name);
     }
 }

@@ -9,13 +9,19 @@ class GetLanRulesTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $lan;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->lan = factory('App\Model\Lan')->create();
+    }
+
     public function testGetLanRules()
     {
-        $lan = factory('App\Model\Lan')->create();
-
-        $this->json('GET', '/api/lan/' . $lan->id . '/rules')
+        $this->json('GET', '/api/lan/' . $this->lan->id . '/rules')
             ->seeJsonEquals([
-                'text' => $lan->rules,
+                'text' => $this->lan->rules,
             ])
             ->assertResponseStatus(200);
     }

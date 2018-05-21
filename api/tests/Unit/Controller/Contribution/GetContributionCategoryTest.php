@@ -9,17 +9,24 @@ class GetContributionCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $lan;
+    protected $category;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
+    }
+
     public function testGetContributionCategory()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
-
-        $this->json('GET', '/api/lan/' . $lan->id . '/contribution-category')
+        $this->json('GET', '/api/lan/' . $this->lan->id . '/contribution-category')
             ->seeJsonEquals([[
-                'id' => $category->id,
-                'name' => $category->name
+                'id' => $this->category->id,
+                'name' => $this->category->name
             ]])
             ->assertResponseStatus(200);
     }

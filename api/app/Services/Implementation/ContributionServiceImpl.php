@@ -108,8 +108,6 @@ class ContributionServiceImpl implements ContributionService
             throw new BadRequestHttpException($contributionValidator->errors());
         }
 
-        $lan = $this->lanRepository->findLanById($lanId);
-
         $contributionCategory = $this->contributionRepository->findCategoryById($request->input('contribution_category_id'));
 
         if ($request->input('user_full_name') != null && $request->input('user_email') != null) {

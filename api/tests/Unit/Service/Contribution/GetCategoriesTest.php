@@ -12,23 +12,25 @@ class GetCategoriesTest extends TestCase
 
     protected $contributionService;
 
+    protected $lan;
+    protected $category;
+
     public function setUp()
     {
         parent::setUp();
         $this->contributionService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
     }
 
     public function testGetCategories()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
-        ]);
+        $result = $this->contributionService->getCategories($this->lan->id);
 
-        $result = $this->contributionService->getCategories($lan->id);
-
-        $this->assertEquals($category->id, $result[0]['id']);
-        $this->assertEquals($category->name, $result[0]['name']);
+        $this->assertEquals($this->category->id, $result[0]['id']);
+        $this->assertEquals($this->category->name, $result[0]['name']);
     }
 
     public function testGetCategoriesLanIdExist()

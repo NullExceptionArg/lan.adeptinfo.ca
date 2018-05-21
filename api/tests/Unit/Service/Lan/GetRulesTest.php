@@ -12,19 +12,20 @@ class GetRulesTest extends TestCase
 
     protected $lanService;
 
+    protected $lan;
+
     public function setUp()
     {
         parent::setUp();
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testGetRules()
     {
-        $lan = factory('App\Model\Lan')->create();
+        $result = $this->lanService->getRules($this->lan->id);
 
-        $result = $this->lanService->getRules($lan->id);
-
-        $this->assertEquals($lan->rules, $result['text']);
+        $this->assertEquals($this->lan->rules, $result['text']);
     }
 
     public function testGetRulesLanIdExist()

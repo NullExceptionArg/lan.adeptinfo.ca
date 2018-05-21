@@ -11,6 +11,9 @@ class CreateReservationTest extends SeatsTestCase
 
     protected $seatRepository;
 
+    protected $user;
+    protected $lan;
+
     protected $paramsContent = [
         'seat_id' => "A-1"
     ];
@@ -19,17 +22,16 @@ class CreateReservationTest extends SeatsTestCase
     {
         parent::setUp();
         $this->seatRepository = $this->app->make('App\Repositories\Implementation\SeatRepositoryImpl');
+        $this->user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testAttachUser()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-
-        $this->seatRepository->createReservation($user, $lan, $this->paramsContent['seat_id']);
+        $this->seatRepository->createReservation($this->user, $this->lan, $this->paramsContent['seat_id']);
         $this->seeInDatabase('reservation', [
-            'lan_id' => $lan->id,
-            'user_id' => $user->id,
+            'lan_id' => $this->lan->id,
+            'user_id' => $this->user->id,
             'seat_id' => $this->paramsContent['seat_id']
         ]);
     }

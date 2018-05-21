@@ -13,6 +13,8 @@ class CreateCategoryTest extends TestCase
 
     protected $contributorService;
 
+    protected $lan;
+
     protected $paramsContent = [
         'name' => "Programmer",
     ];
@@ -21,14 +23,13 @@ class CreateCategoryTest extends TestCase
     {
         parent::setUp();
         $this->contributorService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testCreateCategory()
     {
-        $lan = factory('App\Model\Lan')->create();
-
         $request = new Request($this->paramsContent);
-        $result = $this->contributorService->createCategory($request, $lan->id);
+        $result = $this->contributorService->createCategory($request, $this->lan->id);
 
         $this->assertEquals($this->paramsContent['name'], $result['name']);
     }
@@ -61,11 +62,10 @@ class CreateCategoryTest extends TestCase
 
     public function testCreateCategoryNameRequired()
     {
-        $lan = factory('App\Model\Lan')->create();
         $this->paramsContent['name'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createCategory($request, $lan->id);
+            $this->contributorService->createCategory($request, $this->lan->id);
             $this->fail('Expected: {"name":["The name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -75,11 +75,10 @@ class CreateCategoryTest extends TestCase
 
     public function testCreateCategoryNameString()
     {
-        $lan = factory('App\Model\Lan')->create();
         $this->paramsContent['name'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createCategory($request, $lan->id);
+            $this->contributorService->createCategory($request, $this->lan->id);
             $this->fail('Expected: {"name":["The name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

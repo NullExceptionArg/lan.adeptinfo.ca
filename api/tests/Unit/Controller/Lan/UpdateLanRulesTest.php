@@ -10,17 +10,24 @@ class UpdateLanRulesTest extends TestCase
 
     use DatabaseMigrations;
 
+    protected $user;
+    protected $lan;
+
     protected $requestContent = [
         'text' => "☭",
     ];
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+    }
+
     public function testUpdateLanRules()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/rules', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/rules', $this->requestContent)
             ->seeJsonEquals([
                 'text' => $this->requestContent['text'],
             ])
@@ -29,10 +36,8 @@ class UpdateLanRulesTest extends TestCase
 
     public function testUpdateLanRulesLanIdExist()
     {
-        $user = factory('App\Model\User')->create();
         $badLanId = -1;
-
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $badLanId . '/rules', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -48,10 +53,8 @@ class UpdateLanRulesTest extends TestCase
 
     public function testUpdateLanRulesLanIdInteger()
     {
-        $user = factory('App\Model\User')->create();
         $badLanId = '☭';
-
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $badLanId . '/rules', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -67,12 +70,9 @@ class UpdateLanRulesTest extends TestCase
 
     public function testUpdateLanRulesTextRequired()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
         $this->requestContent['text'] = null;
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/rules', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/rules', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -87,12 +87,9 @@ class UpdateLanRulesTest extends TestCase
 
     public function testUpdateLanRulesTextString()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
         $this->requestContent['text'] = 1;
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/rules', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/rules', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

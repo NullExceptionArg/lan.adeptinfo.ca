@@ -9,17 +9,24 @@ class CreateContributionCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $user;
+    protected $lan;
+
     protected $requestContent = [
         'name' => "Programmer",
     ];
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+    }
+
     public function testCreateContributionCategory()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/contribution-category', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution-category', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'name' => $this->requestContent['name'],
@@ -29,10 +36,8 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryLanIdExist()
     {
-        $user = factory('App\Model\User')->create();
         $badLanId = -1;
-
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $badLanId . '/contribution-category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -48,10 +53,8 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryLanIdInteger()
     {
-        $user = factory('App\Model\User')->create();
         $badLanId = '☭';
-
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $badLanId . '/contribution-category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -67,12 +70,9 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryNameRequired()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
         $this->requestContent['name'] = null;
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/contribution-category', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution-category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -87,12 +87,9 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryNameString()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
         $this->requestContent['name'] = 1;
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/contribution-category', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution-category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
