@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Contribution;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteCategoryTest extends TestCase
+class DeleteCategoryByIdTest extends TestCase
 {
     use DatabaseMigrations;
 

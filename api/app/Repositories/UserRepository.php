@@ -5,7 +5,6 @@ namespace App\Repositories;
 
 
 use App\Model\User;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Passport\Token;
 
 interface UserRepository
@@ -20,7 +19,7 @@ interface UserRepository
      */
     public function createUser(string $firstName, string $lastName, string $email, string $password): User;
 
-    public function deleteUser(Authenticatable $user): void;
+    public function deleteUserById(int $userId): void;
 
     public function revokeAccessToken(Token $token): void;
 

@@ -71,6 +71,12 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
                 $reservation->delete();
             }
+
+            $contributions = $user->Contribution()->get();
+            foreach ($contributions as $contribution) {
+                $contribution->ContributionCategory()->detach();
+                $contribution->delete();
+            }
         });
     }
 }

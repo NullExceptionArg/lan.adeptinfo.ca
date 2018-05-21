@@ -127,7 +127,7 @@ class ContributionServiceImpl implements ContributionService
             $contribution = $this->contributionRepository->createContributionUserFullName($userFullName);
         } else {
             $user = $this->userRepository->findByEmail($request->input('user_email'));
-            $contribution = $this->contributionRepository->createContributionUserId($user);
+            $contribution = $this->contributionRepository->createContributionUserId($user->id);
             $contribution->user_full_name = $user->getFullName();
         }
 

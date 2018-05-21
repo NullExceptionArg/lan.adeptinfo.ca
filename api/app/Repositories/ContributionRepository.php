@@ -6,7 +6,6 @@ namespace App\Repositories;
 use App\Model\Contribution;
 use App\Model\ContributionCategory;
 use App\Model\Lan;
-use App\Model\User;
 use Illuminate\Database\Eloquent\Collection;
 
 interface ContributionRepository
@@ -21,7 +20,7 @@ interface ContributionRepository
 
     public function createContributionUserFullName(string $userFullName): Contribution;
 
-    public function createContributionUserId(User $user): Contribution;
+    public function createContributionUserId(int $userId): Contribution;
 
     public function attachContributionCategoryContribution(
         Contribution $contribution,

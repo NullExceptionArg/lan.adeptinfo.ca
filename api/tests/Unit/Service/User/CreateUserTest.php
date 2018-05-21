@@ -11,9 +11,9 @@ use Tests\TestCase;
 
 class CreateUserTest extends TestCase
 {
-    protected $userService;
-
     use DatabaseMigrations;
+
+    protected $userService;
 
     protected $paramsContent = [
         'first_name' => 'John',

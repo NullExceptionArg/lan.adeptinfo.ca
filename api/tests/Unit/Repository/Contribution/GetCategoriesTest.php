@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Contribution;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetCategoryForLanTest extends TestCase
+class GetCategoriesTest extends TestCase
 {
     use DatabaseMigrations;
 

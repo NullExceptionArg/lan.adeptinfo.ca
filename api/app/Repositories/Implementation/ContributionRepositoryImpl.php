@@ -6,7 +6,6 @@ namespace App\Repositories\Implementation;
 use App\Model\Contribution;
 use App\Model\ContributionCategory;
 use App\Model\Lan;
-use App\Model\User;
 use App\Repositories\ContributionRepository;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -48,10 +47,10 @@ class ContributionRepositoryImpl implements ContributionRepository
         return $contribution;
     }
 
-    public function createContributionUserId(User $user): Contribution
+    public function createContributionUserId(int $userId): Contribution
     {
         $contribution = new Contribution();
-        $contribution->user_id = $user->id;
+        $contribution->user_id = $userId;
 
         $contribution->save();
 
