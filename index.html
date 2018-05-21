@@ -245,13 +245,13 @@
             <a href="#lan" class="toc-h1 toc-link" data-title="lan">LAN</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#creer" class="toc-h2 toc-link" data-title="creer">Créer</a>
+                    <a href="#creer-un-lan" class="toc-h2 toc-link" data-title="creer-un-lan">Créer un LAN</a>
                   </li>
                   <li>
                     <a href="#mettre-a-jour-les-regles" class="toc-h2 toc-link" data-title="mettre-a-jour-les-regles">Mettre à jour les règles</a>
                   </li>
                   <li>
-                    <a href="#obtenir-les-regles" class="toc-h2 toc-link" data-title="obtenir-les-regles">Obtenir les règles</a>
+                    <a href="#lister-les-regles" class="toc-h2 toc-link" data-title="lister-les-regles">Lister les règles</a>
                   </li>
               </ul>
           </li>
@@ -259,7 +259,30 @@
             <a href="#places" class="toc-h1 toc-link" data-title="places">Places</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#reserver" class="toc-h2 toc-link" data-title="reserver">Réserver</a>
+                    <a href="#reserver-une-place" class="toc-h2 toc-link" data-title="reserver-une-place">Réserver une place</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#contribution" class="toc-h1 toc-link" data-title="contribution">Contribution</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#ajouter-une-contribution" class="toc-h2 toc-link" data-title="ajouter-une-contribution">Ajouter une contribution</a>
+                  </li>
+                  <li>
+                    <a href="#lister-les-contributions" class="toc-h2 toc-link" data-title="lister-les-contributions">Lister les contributions</a>
+                  </li>
+                  <li>
+                    <a href="#supprimer-une-contribution" class="toc-h2 toc-link" data-title="supprimer-une-contribution">Supprimer une contribution</a>
+                  </li>
+                  <li>
+                    <a href="#ajouter-une-categorie-de-contribution" class="toc-h2 toc-link" data-title="ajouter-une-categorie-de-contribution">Ajouter une catégorie de contribution</a>
+                  </li>
+                  <li>
+                    <a href="#lister-les-categories-de-contribution" class="toc-h2 toc-link" data-title="lister-les-categories-de-contribution">Lister les catégories de contribution</a>
+                  </li>
+                  <li>
+                    <a href="#supprimer-une-categorie-de-contribution" class="toc-h2 toc-link" data-title="supprimer-une-categorie-de-contribution">Supprimer une catégorie de contribution</a>
                   </li>
               </ul>
           </li>
@@ -304,13 +327,13 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <p><code>POST /api/user</code></p>
 <h3 id='parametres-post'>Paramètres POST</h3>
 <blockquote>
-<p>Exemple de requȩte</p>
+<p>Exemple de requête</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Karl"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Marx"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"karl.marx@unite.org"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"C4P1T4L3"</span><span class="w">
+  </span><span class="s2">"password"</span><span class="p">:</span><span class="w"> </span><span class="s2">"C4P1T4L1ST_P1G_01k_01k"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -378,7 +401,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <p><code>POST /oauth/token</code></p>
 <h3 id='parametres-post-2'>Paramètres POST</h3>
 <blockquote>
-<p>Exemple de requȩte</p>
+<p>Exemple de requête</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"grant_type"</span><span class="p">:</span><span class="s2">"password"</span><span class="p">,</span><span class="w">
@@ -483,13 +506,13 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <pre class="highlight json tab-json"><code><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>La réponse de la suppression de utilisateur est vide.</p>
-<h1 id='lan'>LAN</h1><h2 id='creer'>Créer</h2>
+<h1 id='lan'>LAN</h1><h2 id='creer-un-lan'>Créer un LAN</h2>
 <p>Créer un nouveau LAN.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
 <p><code>POST /api/lan</code></p>
 <h3 id='parametres-post'>Paramètres POST</h3>
 <blockquote>
-<p>Exemple de requȩte</p>
+<p>Exemple de requête</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11T12:00:00-05:00"</span><span class="p">,</span><span class="w">
@@ -636,9 +659,9 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <p>Mettre à jour les règles d&#39;un LAN</p>
 <h3 id='requete-http-2'>Requête HTTP</h3>
 <p><code>POST /api/lan/&lt;lan_id&gt;/rules</code></p>
-<h3 id='parametres-post-2'>Paramètres POST</h3>
+<h3 id='path-params'>Path Params</h3>
 <blockquote>
-<p>Exemple de requȩte</p>
+<p>Exemple de requête</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"text"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="w">
@@ -653,12 +676,12 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 </tr>
 </thead><tbody>
 <tr>
-<td>text</td>
-<td>Texte des règles du LAN à mettre à jour.</td>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut modifier les règles.</td>
 <td>Requis, string.</td>
 </tr>
 </tbody></table>
-<h3 id='path-params'>Path Params</h3>
+<h3 id='parametres-post-2'>Paramètres POST</h3>
 <table><thead>
 <tr>
 <th>Paramètre</th>
@@ -667,8 +690,8 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 </tr>
 </thead><tbody>
 <tr>
-<td>lan_id</td>
-<td>Id du LAN où l&#39;administrateur veut modifier les règles.</td>
+<td>text</td>
+<td>Texte des règles du LAN à mettre à jour.</td>
 <td>Requis, string.</td>
 </tr>
 </tbody></table>
@@ -692,11 +715,11 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Texte des nouvelles règles du LAN.</td>
 </tr>
 </tbody></table>
-<h2 id='obtenir-les-regles'>Obtenir les règles</h2>
+<h2 id='lister-les-regles'>Lister les règles</h2>
 <p>Obtenir les règles d&#39;un LAN</p>
 <h3 id='requete-http-3'>Requête HTTP</h3>
 <p><code>GET /api/lan/&lt;lan_id&gt;/rules</code></p>
-<h3 id='parametres-post-3'>Paramètres POST</h3><h3 id='path-params-2'>Path Params</h3>
+<h3 id='path-params-2'>Path Params</h3>
 <table><thead>
 <tr>
 <th>Paramètre</th>
@@ -730,10 +753,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Texte des règles du LAN.</td>
 </tr>
 </tbody></table>
-<h1 id='places'>Places</h1><h2 id='reserver'>Réserver</h2>
+<h1 id='places'>Places</h1><h2 id='reserver-une-place'>Réserver une place</h2>
 <p>Réserver une place à un LAN.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
-<p><code>POST /api/lan/&lt;lan_id&gt;/book/&lt;seat_id&gt;</code></p>
+<p><code>POST /api/lan/{lan_id}/book/{seat_id}</code></p>
 <h3 id='path-params'>Path Params</h3>
 <p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
 
@@ -777,6 +800,377 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;utilisateur a réservé.</td>
+</tr>
+</tbody></table>
+<h1 id='contribution'>Contribution</h1>
+<p>Les organisateurs peuvent remercier ceux qui ont donnés de leur temps à l&#39;aide de cette liste de contributeurs</p>
+<h2 id='ajouter-une-contribution'>Ajouter une contribution</h2>
+<p>Ajoute une contribution à un LAN</p>
+<h3 id='requete-http'>Requête HTTP</h3>
+<p><code>POST /api/lan/{lan_id}/contribution</code></p>
+<h3 id='path-params'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut ajouter une contribution.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Exemple de requête</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"contribution_category_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_full_name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"karl.marx@unite.org"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='parametres-post'>Paramètres POST</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>contribution_category_id</td>
+<td>Id de la catégorie de la contribution à créer.</td>
+<td>Requis, integer.</td>
+</tr>
+<tr>
+<td>user_full_name</td>
+<td>Nom complet du contributeur.</td>
+<td>string.</td>
+</tr>
+<tr>
+<td>user_email</td>
+<td>Adresse courriel du contributeur.</td>
+<td>string.</td>
+</tr>
+</tbody></table>
+
+<aside class="notice">
+Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuvent pas être utilisés en même temps. Il est cependant requis d'envoyer un de ces deux champs.
+</aside>
+<h3 id='format-de-reponse'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Karl Marx"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"contribution_category_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de la contribution créée.</td>
+</tr>
+<tr>
+<td>user_full_name</td>
+<td>Nom complet du contributeur créé.</td>
+</tr>
+<tr>
+<td>contribution_category_id</td>
+<td>Id de la catégorie de contribution du contributeur créé.</td>
+</tr>
+</tbody></table>
+<h2 id='lister-les-contributions'>Lister les contributions</h2>
+<p>Liste l&#39;ensemble des contributions, groupées par catégories, pour un LAN</p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>GET /api/lan/{lan_id}/contribution</code></p>
+<h3 id='path-params-2'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN d&#39;où l&#39;utilisateur veut lister les contributions.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"category_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"category_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Programmeur"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"contributions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"user_full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Karl Marx"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"category_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"category_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Réseau"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"contributions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"user_full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vladimir Lenin"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>category_id</td>
+<td>Id de la catégorie du groupe de contribution.</td>
+</tr>
+<tr>
+<td>category_name</td>
+<td>Nom de la catégorie du groupe de contribution.</td>
+</tr>
+<tr>
+<td>contribution</td>
+<td>Voir contribution</td>
+</tr>
+</tbody></table>
+<h4 id='contribution-2'>Contribution</h4>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de la contribution.</td>
+</tr>
+<tr>
+<td>user_full_name</td>
+<td>Nom complet du contributeur</td>
+</tr>
+</tbody></table>
+<h2 id='supprimer-une-contribution'>Supprimer une contribution</h2>
+<p>Supprime une contribution d&#39;un LAN</p>
+<h3 id='requete-http-3'>Requête HTTP</h3>
+<p><code>DELETE /api/lan/{lan_id}/contribution/{contribution_id}</code></p>
+<h3 id='path-params-3'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN d&#39;où l&#39;administrateur veut supprimer une contribution.</td>
+<td>Requis, integer.</td>
+</tr>
+<tr>
+<td>contribution_id</td>
+<td>Id de la contribution que l&#39;administrateur veut supprimer.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Leon Trotsky"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de la contribution supprimé.</td>
+</tr>
+<tr>
+<td>user_full_name</td>
+<td>Nom complet du contributeur supprimé.</td>
+</tr>
+</tbody></table>
+<h2 id='ajouter-une-categorie-de-contribution'>Ajouter une catégorie de contribution</h2>
+<p>Ajoute une catégorie de contribution à un LAN</p>
+<h3 id='requete-http-4'>Requête HTTP</h3>
+<p><code>POST /api/lan/{lan_id}/contribution-category</code></p>
+<h3 id='path-params-4'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut ajouter une catégorie de contribution.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Exemple de requête</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Programmeur"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='parametres-post-2'>Paramètres POST</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>Nom de la catégorie contribution à créer.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-4'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Programmeur"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de la catégorie de contribution créée.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom de la catégorie de contribution créé.</td>
+</tr>
+</tbody></table>
+<h2 id='lister-les-categories-de-contribution'>Lister les catégories de contribution</h2>
+<p>Liste les catégories de contribution d&#39;un LAN</p>
+<h3 id='requete-http-5'>Requête HTTP</h3>
+<p><code>GET /api/lan/{lan_id}/contribution-category</code></p>
+<h3 id='path-params-5'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut ajouter une catégorie de contribution.</td>
+<td>Requis, string.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-5'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Programmeur"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Réseau"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de la catégorie de contribution listée.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom de la catégorie de contribution listée.</td>
+</tr>
+</tbody></table>
+<h2 id='supprimer-une-categorie-de-contribution'>Supprimer une catégorie de contribution</h2>
+<p>Supprime une catégorie de contribution d&#39;un LAN</p>
+<h3 id='requete-http-6'>Requête HTTP</h3>
+<p><code>DELETE /api/lan/{lan_id}/contribution-category/{contribution_category_id}</code></p>
+<h3 id='path-params-6'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN d&#39;où l&#39;administrateur veut supprimer une catégorie de contribution.</td>
+<td>Requis, integer.</td>
+</tr>
+<tr>
+<td>contribution_category_id</td>
+<td>Id de la catégorie de contribution que l&#39;administrateur veut supprimer.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-6'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Réseau"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de la catégorie de contribution supprimée.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom de la catégorie de contribution supprimée.</td>
 </tr>
 </tbody></table>
 <h1 id='erreurs'>Erreurs</h1>
