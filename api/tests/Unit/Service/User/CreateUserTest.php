@@ -31,7 +31,7 @@ class CreateUserTest extends TestCase
     public function testSignUp()
     {
         $request = new Request($this->paramsContent);
-        $result = $this->userService->signUp($request);
+        $result = $this->userService->signUpUser($request);
 
         $this->assertEquals($this->paramsContent['first_name'], $result->first_name);
         $this->assertEquals($this->paramsContent['last_name'], $result->last_name);
@@ -43,7 +43,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['email'] = '';
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('Expected: {"email":["The email field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -56,7 +56,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['email'] = 'john.doe.com';
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"email":["The email must be a valid email address."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -75,7 +75,7 @@ class CreateUserTest extends TestCase
         $user->save();
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"email":["The email has already been taken."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -88,7 +88,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['password'] = '';
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"password":["The password field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -101,7 +101,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['password'] = str_repeat('☭', 2);
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"password":["The password must be at least 6 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -114,7 +114,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['password'] = str_repeat('☭', 22);
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"password":["The password may not be greater than 20 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -127,7 +127,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['first_name'] = '';
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"first_name":["The first name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -140,7 +140,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['first_name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"first_name":["The first name may not be greater than 255 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -153,7 +153,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['last_name'] = '';
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"last_name":["The last name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -166,7 +166,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['last_name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
-            $this->userService->signUp($request);
+            $this->userService->signUpUser($request);
             $this->fail('{"last_name":["The last name may not be greater than 255 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
