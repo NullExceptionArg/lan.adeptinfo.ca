@@ -3,7 +3,7 @@
 
 namespace App\Services\Implementation;
 
-
+use App\Http\Resources\Lan\LanResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Services\LanService;
@@ -87,6 +87,23 @@ class LanServiceImpl implements LanService
         );
     }
 
+    public function getLan(Request $request, string $lanId): LanResource
+    {
+        $rulesValidator = Validator::make([
+            'lan_id' => $lanId,
+        ], [
+            'lan_id' => 'required|integer|exists:lan,id'
+        ]);
+
+        if ($rulesValidator->fails()) {
+            throw new BadRequestHttpException($rulesValidator->errors());
+        }
+
+        $lan = $this->lanRepository->findLanById($lanId);
+
+        return new LanResource($lan);
+    }
+
     public function updateRules(Request $input, string $lanId): array
     {
         $rulesValidator = Validator::make([
@@ -106,22 +123,5 @@ class LanServiceImpl implements LanService
         $this->lanRepository->updateLanRules($lan, $input['text']);
 
         return ["text" => $input['text']];
-    }
-
-    public function getRules(string $lanId): array
-    {
-        $rulesValidator = Validator::make([
-            'lan_id' => $lanId,
-        ], [
-            'lan_id' => 'required|integer|exists:lan,id'
-        ]);
-
-        if ($rulesValidator->fails()) {
-            throw new BadRequestHttpException($rulesValidator->errors());
-        }
-
-        $lan = $this->lanRepository->findLanById($lanId);
-
-        return ["text" => $lan->rules];
     }
 }

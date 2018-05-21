@@ -3,7 +3,7 @@
 
 namespace App\Services;
 
-
+use App\Http\Resources\Lan\LanResource;
 use App\Model\Lan;
 use Illuminate\Http\Request;
 
@@ -11,7 +11,7 @@ interface LanService
 {
     public function createLan(Request $input): Lan;
 
-    public function updateRules(Request $input, string $lanId): array;
+    public function getLan(Request $request, string $lanId): LanResource;
 
-    public function getRules(string $lanId): array;
+    public function updateRules(Request $input, string $lanId): array;
 }

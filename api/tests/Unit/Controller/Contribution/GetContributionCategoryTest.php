@@ -31,7 +31,7 @@ class GetContributionCategoryTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanRulesLanIdExist()
+    public function testGetLanIdExist()
     {
         $badLanId = -1;
         $this->json('GET', '/api/lan/' . $badLanId . '/contribution-category')
@@ -47,7 +47,7 @@ class GetContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetLanRulesLanIdInteger()
+    public function testGetLanIdInteger()
     {
         $badLanId = '☭';
         $this->json('GET', '/api/lan/' . $badLanId . '/contribution-category')
