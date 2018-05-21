@@ -25,7 +25,7 @@ class UserServiceImpl implements UserService
         $this->userRepository = $userRepositoryImpl;
     }
 
-    public function signUp(Request $input): User
+    public function signUpUser(Request $input): User
     {
         $userValidator = Validator::make($input->all(), [
             'first_name' => 'required|max:255',
@@ -54,9 +54,9 @@ class UserServiceImpl implements UserService
         $this->userRepository->revokeAccessToken($accessToken);
     }
 
-    public function delete(Request $request): void
+    public function deleteUser(): void
     {
         $user = Auth::user();
-        $this->userRepository->deleteUser($user);
+        $this->userRepository->deleteUserById($user->id);
     }
 }

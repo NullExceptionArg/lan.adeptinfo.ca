@@ -9,13 +9,19 @@ class GetLanRulesTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $lan;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->lan = factory('App\Model\Lan')->create();
+    }
+
     public function testGetLanRules()
     {
-        $lan = factory('App\Model\Lan')->create();
-
-        $this->json('GET', '/api/lan/' . $lan->id . '/rules')
+        $this->json('GET', '/api/lan/' . $this->lan->id . '/rules')
             ->seeJsonEquals([
-                'text' => $lan->rules,
+                'text' => $this->lan->rules,
             ])
             ->assertResponseStatus(200);
     }
@@ -23,14 +29,13 @@ class GetLanRulesTest extends TestCase
     public function testGetLanRulesLanIdExist()
     {
         $badLanId = -1;
-
         $this->json('GET', '/api/lan/' . $badLanId . '/rules')
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'Lan with id ' . $badLanId . ' doesn\'t exist',
+                        0 => 'The selected lan id is invalid.',
                     ],
                 ]
             ])
@@ -40,7 +45,6 @@ class GetLanRulesTest extends TestCase
     public function testGetLanRulesLanIdInteger()
     {
         $badLanId = '☭';
-
         $this->json('GET', '/api/lan/' . $badLanId . '/rules')
             ->seeJsonEquals([
                 'success' => false,

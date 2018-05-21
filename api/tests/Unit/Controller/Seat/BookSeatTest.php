@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Seat;
 
+use App\Model\Reservation;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Tests\SeatsTestCase;
@@ -10,20 +11,26 @@ class BookSeatTest extends SeatsTestCase
 {
     use DatabaseMigrations;
 
+    protected $user;
+    protected $lan;
+
     protected $requestContent = [
         'seat_id' => "A-1"
     ];
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+    }
 
     public function testBookSeat()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . $this->requestContent['seat_id'])
             ->seeJsonEquals([
-                "lan_id" => $lan->id,
+                "lan_id" => $this->lan->id,
                 "seat_id" => $this->requestContent['seat_id']
             ])
             ->assertResponseStatus(201);
@@ -31,17 +38,15 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookLanIdExist()
     {
-        $user = factory('App\Model\User')->create();
         $badLanId = -1;
-
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $badLanId . '/book/' . $this->requestContent['seat_id'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'Lan with id ' . $badLanId . ' doesn\'t exist',
+                        0 => 'The selected lan id is invalid.',
                     ],
                 ]
             ])
@@ -50,12 +55,9 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatIdExist()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
         $badSeatId = '☭';
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/book/' . $badSeatId)
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . $badSeatId)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -70,14 +72,11 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatAvailable()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
+        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
+        $seatsClient->events()->book($this->lan->event_key_id, [$this->requestContent['seat_id']]);
 
-        $seatsClient = new SeatsioClient($lan->secret_key_id);
-        $seatsClient->events()->book($lan->event_key_id, [$this->requestContent['seat_id']]);
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . $this->requestContent['seat_id'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -92,15 +91,14 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatUniqueUserInLan()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
+        $reservation = new Reservation();
+        $reservation->lan_id = $this->lan->id;
+        $reservation->user_id = $this->user->id;
+        $reservation->seat_id = $this->requestContent['seat_id'];
+        $reservation->save();
 
-        $lan->user()->attach($user->id, [
-            "seat_id" => $this->requestContent['seat_id']
-        ]);
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . $this->requestContent['seat_id'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -115,17 +113,15 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatOnceInLan()
     {
-        $user = factory('App\Model\User')->create();
-        $lan = factory('App\Model\Lan')->create();
-
         $otherUser = factory('App\Model\User')->create();
+        $reservation = new Reservation();
+        $reservation->lan_id = $this->lan->id;
+        $reservation->user_id = $otherUser->id;
+        $reservation->seat_id = $this->requestContent['seat_id'];
+        $reservation->save();
 
-        $lan->user()->attach($otherUser->id, [
-            "seat_id" => $this->requestContent['seat_id']
-        ]);
-
-        $this->actingAs($user)
-            ->json('POST', '/api/lan/' . $lan->id . '/book/' . $this->requestContent['seat_id'])
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . $this->requestContent['seat_id'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -140,10 +136,8 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatLanIdInteger()
     {
-        $user = factory('App\Model\User')->create();
         $badLanId = '☭';
-
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $badLanId . '/book/' . $this->requestContent['seat_id'])
             ->seeJsonEquals([
                 'success' => false,

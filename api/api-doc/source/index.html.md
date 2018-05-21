@@ -13,6 +13,7 @@ includes:
   - user
   - lan
   - places
+  - contribution
   - errors
 
 search: true

@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class SignUpTest extends TestCase
+class CreateUserTest extends TestCase
 {
     use DatabaseMigrations;
 

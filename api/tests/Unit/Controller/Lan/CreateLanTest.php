@@ -12,6 +12,8 @@ class CreateLanTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $user;
+
     protected $requestContent = [
         'lan_start' => "2100-10-11T12:00:00",
         'lan_end' => "2100-10-12T12:00:00",
@@ -31,13 +33,14 @@ class CreateLanTest extends TestCase
         $this->requestContent['event_key_id'] = env('EVENT_KEY_ID');
         $this->requestContent['secret_key_id'] = env('SECRET_KEY_ID');
         $this->requestContent['public_key_id'] = env('PUBLIC_KEY_ID');
+
+        $this->user = factory('App\Model\User')->create();
     }
 
 
     public function testCreateLan()
     {
-        $user = factory('App\Model\User')->make();
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'lan_start' => $this->requestContent['lan_start'],
@@ -56,9 +59,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanPriceDefault()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'lan_start' => $this->requestContent['lan_start'],
@@ -80,9 +82,8 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanStartRequired()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['lan_start'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -101,7 +102,6 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanAfterReservation()
     {
-        $user = factory('App\Model\User')->make();
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->requestContent['seat_reservation_start']));
         $newLanStart->sub(new DateInterval('P1D'));
@@ -111,7 +111,7 @@ class CreateLanTest extends TestCase
         $newTournamentStart->sub(new DateInterval('P1D'));
         $this->requestContent['tournament_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -130,7 +130,6 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanAfterTournamentStart()
     {
-        $user = factory('App\Model\User')->make();
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->requestContent['tournament_reservation_start']));
         $newLanStart->sub(new DateInterval('P1D'));
@@ -140,7 +139,7 @@ class CreateLanTest extends TestCase
         $newTournamentStart->sub(new DateInterval('P1D'));
         $this->requestContent['seat_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -159,9 +158,8 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanEndRequired()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['lan_end'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -180,13 +178,12 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanEndAfterLanStart()
     {
-        $user = factory('App\Model\User')->make();
         // Set the lan end date to one day before lan start
         $newLanEnd = (new DateTime($this->requestContent['lan_start']));
         $newLanEnd->sub(new DateInterval('P1D'));
         $this->requestContent['lan_end'] = $newLanEnd->format('Y-m-d\TH:i:s');
         // Execute request
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -205,9 +202,8 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanReservationStartRequired()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['seat_reservation_start'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -226,13 +222,12 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanReservationStartAfterOrEqualNow()
     {
-        $user = factory('App\Model\User')->make();
         // Set the seat reservation date to yesterday
         $newSeatReservationDate = (new DateTime());
         $newSeatReservationDate->sub(new DateInterval('P1D'));
         $this->requestContent['seat_reservation_start'] = $newSeatReservationDate->format('Y-m-d\TH:i:s');
         // Execute request
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -251,9 +246,8 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanTournamentStartRequired()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['tournament_reservation_start'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -272,13 +266,12 @@ class CreateLanTest extends TestCase
      */
     public function testCreateLanTournamentStartAfterOrEqualNow()
     {
-        $user = factory('App\Model\User')->make();
         // Set the reservation date to yesterday
         $newReservationDate = (new DateTime());
         $newReservationDate->sub(new DateInterval('P1D'));
         $this->requestContent['tournament_reservation_start'] = $newReservationDate->format('Y-m-d\TH:i:s');
         // Execute request
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -294,9 +287,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanEventKeyIdRequired()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['event_key_id'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -312,9 +304,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanEventKeyIdMaxLength()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['event_key_id'] = str_repeat('☭', 256);
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -330,10 +321,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanPublicKeyIdRequired()
     {
-        // Required
-        $user = factory('App\Model\User')->make();
         $this->requestContent['public_key_id'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -349,9 +338,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanPublicKeyIdMaxLength()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['public_key_id'] = str_repeat('☭', 256);
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -367,9 +355,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanSecretKeyIdRequired()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['secret_key_id'] = '';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -385,9 +372,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanSecretKeyIdMaxLength()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['secret_key_id'] = str_repeat('☭', 256);
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -403,9 +389,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanPriceMinimum()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '-1';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -421,9 +406,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanPriceInteger()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['price'] = '☭';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -439,9 +423,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanSecretKeyId()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['secret_key_id'] = '☭';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -457,9 +440,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanEventKeyId()
     {
-        $user = factory('App\Model\User')->make();
         $this->requestContent['event_key_id'] = '☭';
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
@@ -475,10 +457,8 @@ class CreateLanTest extends TestCase
 
     public function testCreateLanRulesString()
     {
-        $user = factory('App\Model\User')->create();
         $this->requestContent['rules'] = 1;
-
-        $this->actingAs($user)
+        $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,

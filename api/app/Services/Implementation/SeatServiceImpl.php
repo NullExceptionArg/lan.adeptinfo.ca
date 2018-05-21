@@ -36,7 +36,7 @@ class SeatServiceImpl implements SeatService
             'lan_id' => $lanId,
             'seat_id' => $seatId
         ], [
-            'lan_id' => 'required|integer',
+            'lan_id' => 'required|integer|exists:lan,id',
             'seat_id' => 'required|string',
         ]);
 
@@ -46,14 +46,6 @@ class SeatServiceImpl implements SeatService
 
         $user = Auth::user();
         $lan = $this->lanRepository->findLanById($lanId);
-
-        if ($lan == null) {
-            throw new BadRequestHttpException(json_encode([
-                "lan_id" => [
-                    'Lan with id ' . $lanId . ' doesn\'t exist'
-                ]
-            ]));
-        }
 
         $seatsClient = new SeatsioClient($lan->secret_key_id);
 
@@ -101,8 +93,8 @@ class SeatServiceImpl implements SeatService
         // send the place to the api
         $seatsClient->events()->book($lan->event_key_id, [$seatId]);
 
-        // assign place to user in lan
-        $this->seatRepository->attachLanUser($user, $lan, $seatId);
+        // create reservation
+        $this->seatRepository->createReservation($user, $lan, $seatId);
 
         // return the reservation
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);

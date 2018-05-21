@@ -11,17 +11,19 @@ class FindLanByIdTest extends TestCase
 
     protected $lanRepository;
 
+    protected $lan;
+
     public function setUp()
     {
         parent::setUp();
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testFindLanById()
     {
-        $lan = factory('App\Model\Lan')->create();
-        $foundLan = $this->lanRepository->findLanById($lan->id);
+        $foundLan = $this->lanRepository->findLanById($this->lan->id);
 
-        $this->assertEquals($lan->id, $foundLan->id);
+        $this->assertEquals($this->lan->id, $foundLan->id);
     }
 }

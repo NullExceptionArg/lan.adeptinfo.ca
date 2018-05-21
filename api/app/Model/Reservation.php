@@ -2,10 +2,17 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Database\Eloquent\Model;
 
-class Reservation extends Pivot
+/**
+ * @property int user_id
+ * @property int lan_id
+ * @property string seat_id
+ */
+class Reservation extends Model
 {
+    protected $table = 'reservation';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,8 +28,18 @@ class Reservation extends Pivot
      * @var array
      */
     protected $hidden = [
-        'user_id', 'created_at', 'updated_at',
+        'id', 'user_id', 'created_at', 'updated_at',
     ];
 
     protected $casts = ['lan_id' => 'integer'];
+
+    public function Lan()
+    {
+        return $this->belongsTo(Lan::class);
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

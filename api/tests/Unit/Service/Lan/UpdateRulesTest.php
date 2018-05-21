@@ -7,11 +7,13 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class UpdateLanTest extends TestCase
+class UpdateRulesTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $lanService;
+
+    protected $lan;
 
     protected $paramsContent = [
         'text' => "☭"
@@ -21,14 +23,13 @@ class UpdateLanTest extends TestCase
     {
         parent::setUp();
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testUpdateLanRules()
     {
-        $lan = factory('App\Model\Lan')->create();
-
         $request = new Request($this->paramsContent);
-        $result = $this->lanService->updateRules($request, $lan->id);
+        $result = $this->lanService->updateRules($request, $this->lan->id);
 
         $this->assertEquals($this->paramsContent['text'], $result['text']);
     }
@@ -42,7 +43,7 @@ class UpdateLanTest extends TestCase
             $this->fail('Expected: {"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}', $e->getMessage());
+            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
         }
     }
 
@@ -61,11 +62,10 @@ class UpdateLanTest extends TestCase
 
     public function testUpdateRulesTextRequired()
     {
-        $lan = factory('App\Model\Lan')->create();
         $this->paramsContent['text'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->updateRules($request, $lan->id);
+            $this->lanService->updateRules($request, $this->lan->id);
             $this->fail('Expected: {"text":["The text field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -75,11 +75,10 @@ class UpdateLanTest extends TestCase
 
     public function testUpdateRulesTextString()
     {
-        $lan = factory('App\Model\Lan')->create();
         $this->paramsContent['text'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->updateRules($request, $lan->id);
+            $this->lanService->updateRules($request, $this->lan->id);
             $this->fail('Expected: {"text":["The text must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

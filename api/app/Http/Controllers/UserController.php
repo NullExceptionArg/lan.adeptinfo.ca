@@ -23,7 +23,7 @@ class UserController extends Controller
 
     public function signUp(Request $request)
     {
-        return response()->json($this->userService->signUp($request), 201);
+        return response()->json($this->userService->signUpUser($request), 201);
     }
 
     public function logOut()
@@ -32,9 +32,9 @@ class UserController extends Controller
         return response()->json([], 200);
     }
 
-    public function delete(Request $request)
+    public function deleteUser()
     {
-        $this->userService->delete($request);
+        $this->userService->deleteUser();
         return response()->json([], 200);
     }
 

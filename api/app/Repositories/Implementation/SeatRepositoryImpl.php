@@ -3,19 +3,11 @@
 namespace App\Repositories\Implementation;
 
 
-use App\Model\Lan;
 use App\Model\Reservation;
 use App\Repositories\SeatRepository;
-use Illuminate\Contracts\Auth\Authenticatable;
 
 class SeatRepositoryImpl implements SeatRepository
 {
-    public function attachLanUser(Authenticatable $user, Lan $lan, string $seatId): void
-    {
-        $lan->user()->attach($user->id, [
-            "seat_id" => $seatId
-        ]);
-    }
 
     public function findReservationByLanIdAndUserId(int $lanId, int $userId): ?Reservation
     {
@@ -27,5 +19,16 @@ class SeatRepositoryImpl implements SeatRepository
     {
         return Reservation::where('lan_id', $lanId)
             ->where('seat_id', $seatId)->first();
+    }
+
+    public function createReservation($user, $lan, $seatId): Reservation
+    {
+        $reservation = new Reservation();
+        $reservation->user_id = $user->id;
+        $reservation->lan_id = $lan->id;
+        $reservation->seat_id = $seatId;
+        $reservation->save();
+
+        return $reservation;
     }
 }
