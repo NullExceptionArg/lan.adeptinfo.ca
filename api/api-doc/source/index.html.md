@@ -12,8 +12,8 @@ includes:
   - authentication
   - user
   - lan
-  - contribution
   - places
+  - contribution
   - errors
 
 search: true

@@ -24,6 +24,4 @@ interface LanRepository
     public function findLanById(int $id): ?Lan;
 
     public function updateLanRules(Lan $lan, string $text): void;
-
-    public function getRules(Lan $lan): string;
 }

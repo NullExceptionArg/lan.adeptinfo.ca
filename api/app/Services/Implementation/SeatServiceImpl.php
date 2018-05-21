@@ -47,14 +47,6 @@ class SeatServiceImpl implements SeatService
         $user = Auth::user();
         $lan = $this->lanRepository->findLanById($lanId);
 
-        if ($lan == null) {
-            throw new BadRequestHttpException(json_encode([
-                "lan_id" => [
-                    'Lan with id ' . $lanId . ' doesn\'t exist'
-                ]
-            ]));
-        }
-
         $seatsClient = new SeatsioClient($lan->secret_key_id);
 
         // User can only have one seat in a lan

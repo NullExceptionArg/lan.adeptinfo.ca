@@ -48,9 +48,4 @@ class LanRepositoryImpl implements LanRepository
         $lan->rules = $text;
         $lan->save();
     }
-
-    public function getRules(Lan $lan): string
-    {
-        // TODO: Implement getRules() method.
-    }
 }

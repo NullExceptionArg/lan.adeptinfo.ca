@@ -68,6 +68,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 
                 $seatsClient = new SeatsioClient($lan->secret_key_id);
                 $seatsClient->events()->release($lan->event_key_id, $reservation->seat_id);
+
+                $reservation->delete();
             }
         });
     }
