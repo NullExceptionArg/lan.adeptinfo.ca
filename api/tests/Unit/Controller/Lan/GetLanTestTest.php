@@ -26,7 +26,7 @@ class GetLanTest extends TestCase
                 'lan_end' => $this->lan->lan_end,
                 'seat_reservation_start' => $this->lan->seat_reservation_start,
                 'tournament_reservation_start' => $this->lan->tournament_reservation_start,
-                'price' => intval($this->lan->price),
+                'price' => (int)$this->lan->price,
                 'rules' => $this->lan->rules,
             ])
             ->assertResponseStatus(200);
