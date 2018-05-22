@@ -7,7 +7,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class GetRulesTest extends TestCase
+class GetLanTest extends TestCase
 {
     use DatabaseMigrations;
 
