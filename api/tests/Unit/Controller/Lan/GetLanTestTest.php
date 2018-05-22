@@ -5,7 +5,7 @@ namespace Tests\Unit\Controller\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetLanRulTest extends TestCase
+class GetLanTest extends TestCase
 {
     use DatabaseMigrations;
 
