@@ -50,10 +50,10 @@ class CreateLanTest extends TestCase
             $this->paramsContent['rules']
         );
         $this->seeInDatabase('lan', [
-            'lan_start' => $this->paramsContent['lan_start'],
-            'lan_end' => $this->paramsContent['lan_end'],
-            'seat_reservation_start' => $this->paramsContent['seat_reservation_start'],
-            'tournament_reservation_start' => $this->paramsContent['tournament_reservation_start'],
+//            'lan_start' => $this->paramsContent['lan_start'],
+//            'lan_end' => $this->paramsContent['lan_end'],
+//            'seat_reservation_start' => $this->paramsContent['seat_reservation_start'],
+//            'tournament_reservation_start' => $this->paramsContent['tournament_reservation_start'],
             'event_key_id' => $this->paramsContent['event_key_id'],
             'public_key_id' => $this->paramsContent['public_key_id'],
             'secret_key_id' => $this->paramsContent['secret_key_id'],
