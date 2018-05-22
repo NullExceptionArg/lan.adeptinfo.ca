@@ -48,7 +48,7 @@ class GetLanRulTest extends TestCase
     public function testGetLanIdExist()
     {
         $badLanId = -1;
-        $this->json('GET', '/api/lan' . $badLanId)
+        $this->json('GET', '/api/lan/' . $badLanId)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

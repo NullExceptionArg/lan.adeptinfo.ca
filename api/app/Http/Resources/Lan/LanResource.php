@@ -15,7 +15,7 @@ class LanResource extends Resource
     public function toArray($request)
     {
         $fields = explode(',', $request->input('fields'));
-        if ($fields == "" || $fields == null) {
+        if (substr_count($request->input('fields'), ',') == 0) {
             return [
                 'id' => $this->id,
                 'lan_start' => $this->lan_start,
