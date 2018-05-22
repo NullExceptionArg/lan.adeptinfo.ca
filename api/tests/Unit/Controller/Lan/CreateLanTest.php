@@ -15,10 +15,10 @@ class CreateLanTest extends TestCase
     protected $user;
 
     protected $requestContent = [
-        'lan_start' => "2100-10-11T12:00:00",
-        'lan_end' => "2100-10-12T12:00:00",
-        'seat_reservation_start' => "2100-10-04T12:00:00",
-        'tournament_reservation_start' => "2100-10-07T00:00:00",
+        'lan_start' => "2100-10-11 12:00:00",
+        'lan_end' => "2100-10-12 12:00:00",
+        'seat_reservation_start' => "2100-10-04 12:00:00",
+        'tournament_reservation_start' => "2100-10-07 00:00:00",
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",

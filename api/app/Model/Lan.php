@@ -30,6 +30,8 @@ class Lan extends Model
         'created_at', 'updated_at',
     ];
 
+    protected $casts = ['price' => 'integer'];
+
 
     public function reservation()
     {
