@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateReservationTable extends Migration
 {
@@ -14,14 +14,18 @@ class CreateReservationTable extends Migration
     public function up()
     {
         Schema::create('reservation', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('lan_id');
             $table->unsignedInteger('user_id');
             $table->string('seat_id');
             $table->timestamps();
 
-            $table->primary(['lan_id', 'user_id']);
-            $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('lan_id')->references('id')->on('lan');
+            $table->foreign('user_id')
+                ->references('id')->on('user')
+                ->onDelete('cascade');
+            $table->foreign('lan_id')
+                ->references('id')->on('lan')
+                ->onDelete('cascade');
         });
     }
 

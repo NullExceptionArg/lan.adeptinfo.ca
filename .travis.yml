@@ -1,0 +1,23 @@
+language: php
+
+php:
+  - 7.2
+
+before_script:
+  - cd api
+  - cp .env.travis .env
+  - mysql -e 'create database homestead_test;'
+  - composer self-update
+  - composer install --no-interaction
+
+script:
+  - vendor/bin/phpunit
+  
+notifications:
+  webhooks:
+    urls:
+      - https://discordapp.com/api/webhooks/446691250746425354/g8VdqZAiG-XjlF3RVnUrv1uNlOsi2vLlCvUtgxyq01niW-50wDKW2ClLWSLqivAcwcfv
+
+addons:
+    apt:
+      update: true

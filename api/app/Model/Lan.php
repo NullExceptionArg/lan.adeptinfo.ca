@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int id
  * @property DateTime lan_start
  * @property DateTime lan_end
  * @property DateTime seat_reservation_start
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string public_key_id
  * @property string secret_key_id
  * @property int price
+ * @property string rules
  */
 class Lan extends Model
 {
@@ -28,12 +30,21 @@ class Lan extends Model
         'created_at', 'updated_at',
     ];
 
-    public function user()
+    protected $casts = ['price' => 'integer'];
+
+
+    public function reservation()
     {
-        return $this->belongsToMany(User::class, 'reservation')
-            ->using(Reservation::class)
-            ->as('reservation')
-            ->withPivot('seat_id')
-            ->withTimestamps();
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function contribution()
+    {
+        return $this->hasMany(Contribution::class);
+    }
+
+    public function contributionCategory()
+    {
+        return $this->hasMany(ContributionCategory::class);
     }
 }

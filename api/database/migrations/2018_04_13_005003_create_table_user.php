@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableUser extends Migration
 {
@@ -21,7 +21,6 @@ class CreateTableUser extends Migration
             $table->unique('email');
             $table->string('password')->nullable(false);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

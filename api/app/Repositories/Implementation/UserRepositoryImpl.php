@@ -6,7 +6,9 @@ namespace App\Repositories\Implementation;
 
 use App\Model\User;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\Token;
 
 class UserRepositoryImpl implements UserRepository
 {
@@ -20,5 +22,34 @@ class UserRepositoryImpl implements UserRepository
         $user->save();
 
         return $user;
+    }
+
+    public function deleteUserById(int $userId): void
+    {
+        User::destroy($userId);
+    }
+
+    public function revokeAccessToken(Token $token): void
+    {
+        $token->revoke();
+    }
+
+    public function revokeRefreshToken(Token $token): void
+    {
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $token->id)
+            ->update([
+                'revoked' => true
+            ]);
+    }
+
+    public function findByEmail(string $userEmail): ?User
+    {
+        return User::where('email', $userEmail)->first();
+    }
+
+    public function findById(int $userId): ?User
+    {
+        return User::find($userId);
     }
 }

@@ -7,6 +7,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Version de Lumen: 5.6
  - Documentation Lumen: https://lumen.laravel.com/docs/5.6 
  - Documentation Laravel: https://laravel.com/docs/5.6
+ - Documentation de l'API: https://adept-informatique.github.io/lan.adeptinfo.ca/
 
 
 ## Développer en local
