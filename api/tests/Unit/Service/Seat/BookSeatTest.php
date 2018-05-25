@@ -10,16 +10,12 @@ use Tests\SeatsTestCase;
 
 class BookSeatTest extends SeatsTestCase
 {
-    protected $seatService;
-
     use DatabaseMigrations;
+
+    protected $seatService;
 
     protected $user;
     protected $lan;
-
-    protected $paramsContent = [
-        'seat_id' => "A-1"
-    ];
 
     public function setUp()
     {
@@ -27,24 +23,23 @@ class BookSeatTest extends SeatsTestCase
         $this->seatService = $this->app->make('App\Services\Implementation\SeatServiceImpl');
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
+        $this->be($this->user);
     }
 
     public function testBookSeat()
     {
-        $this->be($this->user);
-        $result = $this->seatService->book($this->lan->id, $this->paramsContent['seat_id']);
+        $result = $this->seatService->book($this->lan->id, env('SEAT_ID'));
 
-        $this->assertEquals($this->paramsContent['seat_id'], $result->seat_id);
+        $this->assertEquals(env('SEAT_ID'), $result->seat_id);
         $this->assertEquals($this->lan->id, $result->lan_id);
     }
 
     public function testBookLanIdExist()
     {
-        $this->be($this->user);
         $badLanId = -1;
         try {
-            $this->seatService->book($badLanId, $this->paramsContent['seat_id']);
-            $this->fail('Expected: {"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}');
+            $this->seatService->book($badLanId, env('SEAT_ID'));
+            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
@@ -53,7 +48,6 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatIdExist()
     {
-        $this->be($this->user);
         $badSeatId = '-1';
         try {
             $this->seatService->book($this->lan->id, $badSeatId);
@@ -66,32 +60,28 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatAvailable()
     {
-        $this->be($this->user);
-
         $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->book($this->lan->event_key_id, [$this->paramsContent['seat_id']]);
+        $seatsClient->events()->book($this->lan->event_key_id, [env('SEAT_ID')]);
 
         try {
-            $this->seatService->book($this->lan->id, $this->paramsContent['seat_id']);
-            $this->fail('Expected: {"seat_id":["Seat with id ' . $this->paramsContent['seat_id'] . ' is already taken for this event"]}');
+            $this->seatService->book($this->lan->id, env('SEAT_ID'));
+            $this->fail('Expected: {"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . $this->paramsContent['seat_id'] . ' is already taken for this event"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}', $e->getMessage());
         }
     }
 
     public function testBookSeatUniqueUserInLan()
     {
-        $this->be($this->user);
-
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;
         $reservation->user_id = $this->user->id;
-        $reservation->seat_id = $this->paramsContent['seat_id'];
+        $reservation->seat_id = env('SEAT_ID');
         $reservation->save();
 
         try {
-            $this->seatService->book($this->lan->id, $this->paramsContent['seat_id']);
+            $this->seatService->book($this->lan->id, env('SEAT_ID'));
             $this->fail('Expected: {"lan_id":["The user already has a seat at this event"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -101,22 +91,20 @@ class BookSeatTest extends SeatsTestCase
 
     public function testBookSeatOnceInLan()
     {
-        $this->be($this->user);
-
         $otherUser = factory('App\Model\User')->create();
 
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;
         $reservation->user_id = $otherUser->id;
-        $reservation->seat_id = $this->paramsContent['seat_id'];
+        $reservation->seat_id = env('SEAT_ID');
         $reservation->save();
 
         try {
-            $this->seatService->book($this->lan->id, $this->paramsContent['seat_id']);
-            $this->fail('Expected: {"seat_id":["Seat with id ' . $this->paramsContent['seat_id'] . ' is already taken for this event"]}');
+            $this->seatService->book($this->lan->id, env('SEAT_ID'));
+            $this->fail('Expected: {"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . $this->paramsContent['seat_id'] . ' is already taken for this event"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}', $e->getMessage());
         }
     }
 
@@ -124,7 +112,7 @@ class BookSeatTest extends SeatsTestCase
     {
         $badLanId = '☭';
         try {
-            $this->seatService->book($badLanId, $this->paramsContent['seat_id']);
+            $this->seatService->book($badLanId, env('SEAT_ID'));
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
