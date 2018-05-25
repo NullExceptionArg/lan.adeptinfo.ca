@@ -28,7 +28,7 @@ class CreateReservationTest extends SeatsTestCase
 
     public function testAttachUser()
     {
-        $this->seatRepository->createReservation($this->user, $this->lan, $this->paramsContent['seat_id']);
+        $this->seatRepository->createReservation($this->user->id, $this->lan->id, $this->paramsContent['seat_id']);
         $this->seeInDatabase('reservation', [
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,

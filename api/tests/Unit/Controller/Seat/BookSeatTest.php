@@ -69,7 +69,6 @@ class BookSeatTest extends SeatsTestCase
     public function testBookSeatAvailable()
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $sad = $seatsClient->events()->retrieveObjectStatus($this->lan->event_key_id, env('SEAT_ID'));
         $seatsClient->events()->book($this->lan->event_key_id, [env('SEAT_ID')]);
 
         $this->actingAs($this->user)
