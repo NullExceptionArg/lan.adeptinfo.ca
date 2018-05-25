@@ -71,10 +71,10 @@ class SeatServiceImpl implements SeatService
 
         // Seats.io validation
 
-        // Check if place exist in event and if it is already taken
+        // Check if place exist in the event and if it is already taken
         try {
             $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $seatId);
-            if ($status->status === 'booked') {
+            if ($status->status === 'booked' || $status->status === 'arrived') {
                 throw new BadRequestHttpException(json_encode([
                     "seat_id" => [
                         'Seat with id ' . $seatId . ' is already taken for this event'
@@ -94,9 +94,117 @@ class SeatServiceImpl implements SeatService
         $seatsClient->events()->book($lan->event_key_id, [$seatId]);
 
         // create reservation
-        $this->seatRepository->createReservation($user, $lan, $seatId);
+        $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
         // return the reservation
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
+    }
+
+    public function confirmArrival(string $lanId, string $seatId): Reservation
+    {
+        // Internal validation
+
+        $reservationValidator = Validator::make([
+            'lan_id' => $lanId,
+            'seat_id' => $seatId
+        ], [
+            'lan_id' => 'required|integer|exists:lan,id',
+            'seat_id' => 'required|string|exists:reservation,seat_id',
+        ]);
+
+        if ($reservationValidator->fails()) {
+            throw new BadRequestHttpException($reservationValidator->errors());
+        }
+
+        $lan = $this->lanRepository->findLanById($lanId);
+
+        // Seats.io validation
+        $seatsClient = new SeatsioClient($lan->secret_key_id);
+
+        // Check if place exist in the event and if it is already taken
+        try {
+            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $seatId);
+            switch ($status->status) {
+                case 'free':
+                    throw new BadRequestHttpException(json_encode([
+                        "seat_id" => [
+                            'Seat with id ' . $seatId . ' is not associated with a reservation'
+                        ]
+                    ]));
+                    break;
+                case 'arrived':
+                    throw new BadRequestHttpException(json_encode([
+                        "seat_id" => [
+                            "Seat with id " . $seatId . " is already set to 'arrived'"
+                        ]
+                    ]));
+            }
+        } catch (SeatsioException $exception) {
+            throw new BadRequestHttpException(json_encode([
+                "seat_id" => [
+                    'Seat with id ' . $seatId . ' doesn\'t exist in this event'
+                ]
+            ]));
+        }
+
+        $seatsClient->events()->changeObjectStatus($lan->event_key_id, [$seatId], "arrived");
+
+        $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
+
+        return $reservation;
+    }
+
+    public function unConfirmArrival(string $lanId, string $seatId): Reservation
+    {
+        // Internal validation
+
+        $reservationValidator = Validator::make([
+            'lan_id' => $lanId,
+            'seat_id' => $seatId
+        ], [
+            'lan_id' => 'required|integer|exists:lan,id',
+            'seat_id' => 'required|string|exists:reservation,seat_id',
+        ]);
+
+        if ($reservationValidator->fails()) {
+            throw new BadRequestHttpException($reservationValidator->errors());
+        }
+
+        $lan = $this->lanRepository->findLanById($lanId);
+
+        // Seats.io validation
+        $seatsClient = new SeatsioClient($lan->secret_key_id);
+
+        // Check if place exist in the event and if it is already taken
+        try {
+            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $seatId);
+            switch ($status->status) {
+                case 'free':
+                    throw new BadRequestHttpException(json_encode([
+                        "seat_id" => [
+                            'Seat with id ' . $seatId . ' is not associated with a reservation'
+                        ]
+                    ]));
+                    break;
+                case 'booked':
+                    throw new BadRequestHttpException(json_encode([
+                        "seat_id" => [
+                            "Seat with id " . $seatId . " is already set to 'booked'"
+                        ]
+                    ]));
+            }
+        } catch (SeatsioException $exception) {
+            throw new BadRequestHttpException(json_encode([
+                "seat_id" => [
+                    'Seat with id ' . $seatId . ' doesn\'t exist in this event'
+                ]
+            ]));
+        }
+
+        $seatsClient->events()->changeObjectStatus($lan->event_key_id, [$seatId], "booked");
+
+        $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
+
+        return $reservation;
     }
 }

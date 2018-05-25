@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int user_id
  * @property int lan_id
  * @property string seat_id
+ * @property bool has_arrived
  */
 class Reservation extends Model
 {
