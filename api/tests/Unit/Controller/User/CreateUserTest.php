@@ -19,7 +19,7 @@ class CreateUserTest extends TestCase
         'password' => 'Passw0rd!'
     ];
 
-    public function testSignUp()
+    public function testSignUp(): void
     {
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
@@ -30,7 +30,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testSignUpEmailRequired()
+    public function testSignUpEmailRequired(): void
     {
         $this->requestContent['email'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -46,7 +46,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpEmailFormattedEmail()
+    public function testSignUpEmailFormattedEmail(): void
     {
         $this->requestContent['email'] = 'john.doe.com';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -62,7 +62,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpEmailUnique()
+    public function testSignUpEmailUnique(): void
     {
         $this->requestContent['email'] = 'john@doe.com';
         $user = new User();
@@ -84,7 +84,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpPasswordRequired()
+    public function testSignUpPasswordRequired(): void
     {
         $this->requestContent['password'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -100,7 +100,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpPasswordMinLength()
+    public function testSignUpPasswordMinLength(): void
     {
         $this->requestContent['password'] = str_repeat('☭', 2);
         $this->json('POST', '/api/user', $this->requestContent)
@@ -116,7 +116,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpPasswordMaxLength()
+    public function testSignUpPasswordMaxLength(): void
     {
         $this->requestContent['password'] = str_repeat('☭', 22);
         $this->json('POST', '/api/user', $this->requestContent)
@@ -132,7 +132,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpFirstNameRequired()
+    public function testSignUpFirstNameRequired(): void
     {
         $this->requestContent['first_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -148,7 +148,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpFirstNameMaxLength()
+    public function testSignUpFirstNameMaxLength(): void
     {
         $this->requestContent['first_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)
@@ -164,7 +164,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpLastNameRequired()
+    public function testSignUpLastNameRequired(): void
     {
         $this->requestContent['last_name'] = '';
         $this->json('POST', '/api/user', $this->requestContent)
@@ -180,7 +180,7 @@ class CreateUserTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSignUpLastNameMaxLength()
+    public function testSignUpLastNameMaxLength(): void
     {
         $this->requestContent['last_name'] = str_repeat('☭', 256);
         $this->json('POST', '/api/user', $this->requestContent)

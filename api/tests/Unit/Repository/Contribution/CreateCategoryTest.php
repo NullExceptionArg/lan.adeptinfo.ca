@@ -17,14 +17,14 @@ class CreateCategoryTest extends TestCase
         "name" => 'Programmer'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testCreateCategory()
+    public function testCreateCategory(): void
     {
         $this->contributionRepository->createCategory($this->lan, $this->paramsContent['name']);
 

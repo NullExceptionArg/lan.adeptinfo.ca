@@ -24,7 +24,7 @@ class CreateContributionTest extends TestCase
         'user_email' => null,
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributorService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
@@ -38,7 +38,7 @@ class CreateContributionTest extends TestCase
     }
 
 
-    public function testCreateContributionUserFullName()
+    public function testCreateContributionUserFullName(): void
     {
         $this->paramsContent['user_full_name'] = $this->user->getFullName();
         $request = new Request($this->paramsContent);
@@ -49,7 +49,7 @@ class CreateContributionTest extends TestCase
         $this->assertEquals($this->category->id, $this->paramsContent['contribution_category_id']);
     }
 
-    public function testCreateContributionUserEmail()
+    public function testCreateContributionUserEmail(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $request = new Request($this->paramsContent);
@@ -61,7 +61,7 @@ class CreateContributionTest extends TestCase
 
     }
 
-    public function testCreateContributionLanIdExist()
+    public function testCreateContributionLanIdExist(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $badLanId = -1;
@@ -75,7 +75,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionLanIdInteger()
+    public function testCreateContributionLanIdInteger(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $badLanId = '☭';
@@ -89,7 +89,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionCategoryIdRequired()
+    public function testCreateContributionCategoryIdRequired(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['contribution_category_id'] = null;
@@ -103,7 +103,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionCategoryIdInteger()
+    public function testCreateContributionCategoryIdInteger(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['contribution_category_id'] = '☭';
@@ -117,7 +117,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionCategoryIdExist()
+    public function testCreateContributionCategoryIdExist(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['contribution_category_id'] = -1;
@@ -131,7 +131,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionUserFullNameString()
+    public function testCreateContributionUserFullNameString(): void
     {
         $this->paramsContent['user_full_name'] = 1;
         $request = new Request($this->paramsContent);
@@ -144,7 +144,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionUserEmailString()
+    public function testCreateContributionUserEmailString(): void
     {
         $this->paramsContent['user_email'] = 1;
         $request = new Request($this->paramsContent);
@@ -157,7 +157,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionUserFullNameOrUserEmailNotNull()
+    public function testCreateContributionUserFullNameOrUserEmailNotNull(): void
     {
         $request = new Request($this->paramsContent);
         try {
@@ -169,7 +169,7 @@ class CreateContributionTest extends TestCase
         }
     }
 
-    public function testCreateContributionUserEmailAndUserFullNameNotFilled()
+    public function testCreateContributionUserEmailAndUserFullNameNotFilled(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['user_full_name'] = $this->user->getFullName();

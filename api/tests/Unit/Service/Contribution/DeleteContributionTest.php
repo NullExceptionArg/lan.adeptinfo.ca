@@ -15,7 +15,7 @@ class DeleteContributionTest extends TestCase
     protected $user;
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributorService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
@@ -24,7 +24,7 @@ class DeleteContributionTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testDeleteContributionUserEmail()
+    public function testDeleteContributionUserEmail(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
@@ -35,7 +35,7 @@ class DeleteContributionTest extends TestCase
         $this->assertEquals($this->user->getFullName(), $result['user_full_name']);
     }
 
-    public function testDeleteContributionUserFullName()
+    public function testDeleteContributionUserFullName(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_full_name' => $this->user->getFullName()
@@ -46,7 +46,7 @@ class DeleteContributionTest extends TestCase
         $this->assertEquals($this->user->getFullName(), $result['user_full_name']);
     }
 
-    public function testDeleteContributionLanIdExist()
+    public function testDeleteContributionLanIdExist(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
@@ -61,7 +61,7 @@ class DeleteContributionTest extends TestCase
         }
     }
 
-    public function testDeleteContributionLanIdInteger()
+    public function testDeleteContributionLanIdInteger(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
@@ -76,7 +76,7 @@ class DeleteContributionTest extends TestCase
         }
     }
 
-    public function testDeleteContributionCategoryIdInteger()
+    public function testDeleteContributionCategoryIdInteger(): void
     {
         $badContributionId = '☭';
         try {
@@ -88,7 +88,7 @@ class DeleteContributionTest extends TestCase
         }
     }
 
-    public function testDeleteContributionCategoryIdExist()
+    public function testDeleteContributionCategoryIdExist(): void
     {
 
         $badContributionId = -1;

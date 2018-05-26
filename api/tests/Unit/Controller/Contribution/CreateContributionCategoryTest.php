@@ -16,14 +16,14 @@ class CreateContributionCategoryTest extends TestCase
         'name' => "Programmer",
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testCreateContributionCategory()
+    public function testCreateContributionCategory(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/contribution-category', $this->requestContent)
@@ -34,7 +34,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testCreateContributionCategoryLanIdExist()
+    public function testCreateContributionCategoryLanIdExist(): void
     {
         $badLanId = -1;
         $this->actingAs($this->user)
@@ -51,7 +51,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryLanIdInteger()
+    public function testCreateContributionCategoryLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->actingAs($this->user)
@@ -68,7 +68,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryNameRequired()
+    public function testCreateContributionCategoryNameRequired(): void
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
@@ -85,7 +85,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryNameString()
+    public function testCreateContributionCategoryNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)

@@ -26,7 +26,7 @@ class CreateLanTest extends TestCase
         "rules" => '☭'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -38,7 +38,7 @@ class CreateLanTest extends TestCase
     }
 
 
-    public function testCreateLan()
+    public function testCreateLan(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
@@ -57,7 +57,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testCreateLanPriceDefault()
+    public function testCreateLanPriceDefault(): void
     {
         $this->requestContent['price'] = '';
         $this->actingAs($this->user)
@@ -77,10 +77,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function testCreateLanStartRequired()
+    public function testCreateLanStartRequired(): void
     {
         $this->requestContent['lan_start'] = '';
         $this->actingAs($this->user)
@@ -100,7 +97,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanAfterReservation()
+    public function testCreateLanAfterReservation(): void
     {
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->requestContent['seat_reservation_start']));
@@ -128,7 +125,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanAfterTournamentStart()
+    public function testCreateLanAfterTournamentStart(): void
     {
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->requestContent['tournament_reservation_start']));
@@ -156,7 +153,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanEndRequired()
+    public function testCreateLanEndRequired(): void
     {
         $this->requestContent['lan_end'] = '';
         $this->actingAs($this->user)
@@ -176,7 +173,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanEndAfterLanStart()
+    public function testCreateLanEndAfterLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanEnd = (new DateTime($this->requestContent['lan_start']));
@@ -200,7 +197,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanReservationStartRequired()
+    public function testCreateLanReservationStartRequired(): void
     {
         $this->requestContent['seat_reservation_start'] = '';
         $this->actingAs($this->user)
@@ -220,7 +217,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanReservationStartAfterOrEqualNow()
+    public function testCreateLanReservationStartAfterOrEqualNow(): void
     {
         // Set the seat reservation date to yesterday
         $newSeatReservationDate = (new DateTime());
@@ -244,7 +241,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanTournamentStartRequired()
+    public function testCreateLanTournamentStartRequired(): void
     {
         $this->requestContent['tournament_reservation_start'] = '';
         $this->actingAs($this->user)
@@ -264,7 +261,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartAfterOrEqualNow()
+    public function testCreateLanTournamentStartAfterOrEqualNow(): void
     {
         // Set the reservation date to yesterday
         $newReservationDate = (new DateTime());
@@ -285,7 +282,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdRequired()
+    public function testCreateLanEventKeyIdRequired(): void
     {
         $this->requestContent['event_key_id'] = '';
         $this->actingAs($this->user)
@@ -302,7 +299,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdMaxLength()
+    public function testCreateLanEventKeyIdMaxLength(): void
     {
         $this->requestContent['event_key_id'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -319,7 +316,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdRequired()
+    public function testCreateLanPublicKeyIdRequired(): void
     {
         $this->requestContent['public_key_id'] = '';
         $this->actingAs($this->user)
@@ -336,7 +333,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdMaxLength()
+    public function testCreateLanPublicKeyIdMaxLength(): void
     {
         $this->requestContent['public_key_id'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -353,7 +350,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdRequired()
+    public function testCreateLanSecretKeyIdRequired(): void
     {
         $this->requestContent['secret_key_id'] = '';
         $this->actingAs($this->user)
@@ -370,7 +367,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdMaxLength()
+    public function testCreateLanSecretKeyIdMaxLength(): void
     {
         $this->requestContent['secret_key_id'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -387,7 +384,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceMinimum()
+    public function testCreateLanPriceMinimum(): void
     {
         $this->requestContent['price'] = '-1';
         $this->actingAs($this->user)
@@ -404,7 +401,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceInteger()
+    public function testCreateLanPriceInteger(): void
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
@@ -421,7 +418,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyId()
+    public function testCreateLanSecretKeyId(): void
     {
         $this->requestContent['secret_key_id'] = '☭';
         $this->actingAs($this->user)
@@ -438,7 +435,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyId()
+    public function testCreateLanEventKeyId(): void
     {
         $this->requestContent['event_key_id'] = '☭';
         $this->actingAs($this->user)
@@ -455,7 +452,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRulesString()
+    public function testCreateLanRulesString(): void
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)

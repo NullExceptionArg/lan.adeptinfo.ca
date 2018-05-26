@@ -18,7 +18,7 @@ class GetCategoriesTest extends TestCase
         "name" => 'Programmer'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
@@ -28,7 +28,7 @@ class GetCategoriesTest extends TestCase
         ]);
     }
 
-    public function testGetCategoryForLan()
+    public function testGetCategoryForLan(): void
     {
         $result = $this->contributionRepository->getCategories($this->lan);
 

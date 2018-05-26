@@ -24,7 +24,7 @@ class CreateLanTest extends TestCase
         "rules" => '☭'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -35,7 +35,7 @@ class CreateLanTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }
 
-    public function testCreateLan()
+    public function testCreateLan(): void
     {
         // Dates cause problems with Travis CI
         $this->lanRepository->createLan(

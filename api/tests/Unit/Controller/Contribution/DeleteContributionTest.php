@@ -12,14 +12,14 @@ class DeleteContributionTest extends TestCase
     protected $user;
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testDeleteContributionUserEmail()
+    public function testDeleteContributionUserEmail(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
@@ -33,7 +33,7 @@ class DeleteContributionTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testDeleteContributionUserFullName()
+    public function testDeleteContributionUserFullName(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_full_name' => $this->user->getFullName()
@@ -47,7 +47,7 @@ class DeleteContributionTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testDeleteContributionLanIdExist()
+    public function testDeleteContributionLanIdExist(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
@@ -67,7 +67,7 @@ class DeleteContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionLanIdInteger()
+    public function testDeleteContributionLanIdInteger(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
@@ -87,7 +87,7 @@ class DeleteContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryIdInteger()
+    public function testDeleteContributionCategoryIdInteger(): void
     {
         $badContributionId = '☭';
         $this->actingAs($this->user)
@@ -104,7 +104,7 @@ class DeleteContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryIdExist()
+    public function testDeleteContributionCategoryIdExist(): void
     {
         $badContributionId = -1;
         $this->actingAs($this->user)

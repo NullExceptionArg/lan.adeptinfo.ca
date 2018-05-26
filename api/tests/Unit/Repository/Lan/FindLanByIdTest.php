@@ -13,14 +13,14 @@ class FindLanByIdTest extends TestCase
 
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testFindLanById()
+    public function testFindLanById(): void
     {
         $foundLan = $this->lanRepository->findLanById($this->lan->id);
 

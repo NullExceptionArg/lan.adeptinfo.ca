@@ -17,7 +17,7 @@ class BookSeatTest extends SeatsTestCase
     protected $user;
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->seatService = $this->app->make('App\Services\Implementation\SeatServiceImpl');
@@ -26,7 +26,7 @@ class BookSeatTest extends SeatsTestCase
         $this->be($this->user);
     }
 
-    public function testBookSeat()
+    public function testBookSeat(): void
     {
         $result = $this->seatService->book($this->lan->id, env('SEAT_ID'));
 
@@ -34,7 +34,7 @@ class BookSeatTest extends SeatsTestCase
         $this->assertEquals($this->lan->id, $result->lan_id);
     }
 
-    public function testBookLanIdExist()
+    public function testBookLanIdExist(): void
     {
         $badLanId = -1;
         try {
@@ -46,7 +46,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatIdExist()
+    public function testBookSeatIdExist(): void
     {
         $badSeatId = '-1';
         try {
@@ -58,7 +58,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatAvailable()
+    public function testBookSeatAvailable(): void
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key_id);
         $seatsClient->events()->book($this->lan->event_key_id, [env('SEAT_ID')]);
@@ -72,7 +72,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatUniqueUserInLan()
+    public function testBookSeatUniqueUserInLan(): void
     {
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;
@@ -89,7 +89,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatOnceInLan()
+    public function testBookSeatOnceInLan(): void
     {
         $otherUser = factory('App\Model\User')->create();
 
@@ -108,7 +108,7 @@ class BookSeatTest extends SeatsTestCase
         }
     }
 
-    public function testBookSeatLanIdInteger()
+    public function testBookSeatLanIdInteger(): void
     {
         $badLanId = '☭';
         try {

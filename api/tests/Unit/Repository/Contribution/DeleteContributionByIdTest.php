@@ -13,7 +13,7 @@ class DeleteContributionByIdTest extends TestCase
 
     protected $contribution;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
@@ -23,7 +23,7 @@ class DeleteContributionByIdTest extends TestCase
         ]);
     }
 
-    public function testDeleteContribution()
+    public function testDeleteContribution(): void
     {
         $this->seeInDatabase('contribution', [
             'id' => $this->contribution->id,

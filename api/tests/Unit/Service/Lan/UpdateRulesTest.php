@@ -19,14 +19,14 @@ class UpdateRulesTest extends TestCase
         'text' => "☭"
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testUpdateLanRules()
+    public function testUpdateLanRules(): void
     {
         $request = new Request($this->paramsContent);
         $result = $this->lanService->updateRules($request, $this->lan->id);
@@ -34,7 +34,7 @@ class UpdateRulesTest extends TestCase
         $this->assertEquals($this->paramsContent['text'], $result['text']);
     }
 
-    public function testUpdateRulesLanIdExist()
+    public function testUpdateRulesLanIdExist(): void
     {
         $badLanId = -1;
         $request = new Request($this->paramsContent);
@@ -47,7 +47,7 @@ class UpdateRulesTest extends TestCase
         }
     }
 
-    public function testUpdateRulesLanIdInteger()
+    public function testUpdateRulesLanIdInteger(): void
     {
         $badLanId = '☭';
         $request = new Request($this->paramsContent);
@@ -60,7 +60,7 @@ class UpdateRulesTest extends TestCase
         }
     }
 
-    public function testUpdateRulesTextRequired()
+    public function testUpdateRulesTextRequired(): void
     {
         $this->paramsContent['text'] = null;
         $request = new Request($this->paramsContent);
@@ -73,7 +73,7 @@ class UpdateRulesTest extends TestCase
         }
     }
 
-    public function testUpdateRulesTextString()
+    public function testUpdateRulesTextString(): void
     {
         $this->paramsContent['text'] = 1;
         $request = new Request($this->paramsContent);

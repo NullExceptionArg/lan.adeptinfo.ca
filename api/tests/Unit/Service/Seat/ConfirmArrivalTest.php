@@ -17,7 +17,7 @@ class ConfirmArrivalTest extends SeatsTestCase
     protected $lan;
     protected $reservation;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->seatService = $this->app->make('App\Services\Implementation\SeatServiceImpl');
@@ -30,7 +30,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         ]);
     }
 
-    public function testConfirmArrival()
+    public function testConfirmArrival(): void
     {
         $result = $this->seatService->confirmArrival($this->lan->id, env('SEAT_ID'));
 
@@ -38,7 +38,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         $this->assertEquals($this->lan->id, $result->lan_id);
     }
 
-    public function testConfirmArrivalLanIdExist()
+    public function testConfirmArrivalLanIdExist(): void
     {
         $badLanId = -1;
         try {
@@ -50,7 +50,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         }
     }
 
-    public function testConfirmArrivalLanIdInteger()
+    public function testConfirmArrivalLanIdInteger(): void
     {
         $badLanId = '☭';
         try {
@@ -62,7 +62,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         }
     }
 
-    public function testConfirmArrivalSeatIdExist()
+    public function testConfirmArrivalSeatIdExist(): void
     {
         $badSeatId = -1;
         try {
@@ -74,7 +74,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         }
     }
 
-    public function testConfirmArrivalSeatIdFree()
+    public function testConfirmArrivalSeatIdFree(): void
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key_id);
         $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'free');
@@ -88,7 +88,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         }
     }
 
-    public function testConfirmArrivalSeatIdArrived()
+    public function testConfirmArrivalSeatIdArrived(): void
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key_id);
         $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'arrived');
@@ -102,7 +102,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         }
     }
 
-    public function testConfirmArrivalSeatIdUnknown()
+    public function testConfirmArrivalSeatIdUnknown(): void
     {
         $badSeatId = "B4D-1D";
         try {

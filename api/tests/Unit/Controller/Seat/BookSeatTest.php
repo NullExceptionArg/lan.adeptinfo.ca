@@ -14,14 +14,14 @@ class BookSeatTest extends SeatsTestCase
     protected $user;
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testBookSeat()
+    public function testBookSeat(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . env('SEAT_ID'))

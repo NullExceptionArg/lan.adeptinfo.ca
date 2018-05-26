@@ -13,7 +13,7 @@ class FindContributionByIdTest extends TestCase
 
     protected $contribution;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
@@ -23,7 +23,7 @@ class FindContributionByIdTest extends TestCase
         ]);
     }
 
-    public function testFindContributionById()
+    public function testFindContributionById(): void
     {
         $result = $this->contributionRepository->findContributionById($this->contribution->id);
 

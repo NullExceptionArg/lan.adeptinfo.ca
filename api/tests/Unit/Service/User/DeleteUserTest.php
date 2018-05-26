@@ -15,13 +15,13 @@ class DeleteUserTest extends TestCase
 
     protected $userService;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userService = $this->app->make('App\Services\Implementation\UserServiceImpl');
     }
 
-    public function testDeleteUserSimple()
+    public function testDeleteUserSimple(): void
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);
@@ -32,7 +32,7 @@ class DeleteUserTest extends TestCase
     }
 
     // Should be updated every time the user has a new relation
-    public function testDeleteUserComplex()
+    public function testDeleteUserComplex(): void
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);

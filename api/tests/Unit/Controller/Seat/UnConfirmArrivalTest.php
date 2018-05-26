@@ -14,7 +14,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
     protected $lan;
     protected $reservation;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
@@ -27,7 +27,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
         $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'arrived');
     }
 
-    public function testUnConfirmArrival()
+    public function testUnConfirmArrival(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/lan/' . $this->lan->id . '/confirm/' . env('SEAT_ID'))
@@ -38,7 +38,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(200);
     }
 
-    public function testUnConfirmArrivalLanIdExist()
+    public function testUnConfirmArrivalLanIdExist(): void
     {
         $badLanId = -1;
         $this->actingAs($this->user)
@@ -55,7 +55,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnConfirmArrivalLanIdInteger()
+    public function testUnConfirmArrivalLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->actingAs($this->user)
@@ -72,7 +72,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnConfirmArrivalSeatIdExist()
+    public function testUnConfirmArrivalSeatIdExist(): void
     {
         $badSeatId = -1;
         $this->actingAs($this->user)
@@ -89,7 +89,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnBookSeatIdFree()
+    public function testUnBookSeatIdFree(): void
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key_id);
         $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'free');
@@ -108,7 +108,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatIdArrived()
+    public function testBookSeatIdArrived(): void
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key_id);
         $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'booked');
@@ -127,7 +127,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatIdUnknown()
+    public function testBookSeatIdUnknown(): void
     {
         $badSeatId = "B4D-1D";
         $this->actingAs($this->user)

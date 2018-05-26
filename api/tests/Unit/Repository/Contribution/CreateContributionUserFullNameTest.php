@@ -15,13 +15,13 @@ class CreateContributionUserFullNameTest extends TestCase
         "user_full_name" => 'Karl Marx'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
     }
 
-    public function testCreateContributionUserFullNameTest()
+    public function testCreateContributionUserFullNameTest(): void
     {
         $this->contributionRepository->createContributionUserFullName($this->paramsContent['user_full_name']);
 

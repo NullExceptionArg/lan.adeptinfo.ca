@@ -22,13 +22,13 @@ class CreateUserTest extends TestCase
         'password' => 'Passw0rd!'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userService = $this->app->make('App\Services\Implementation\UserServiceImpl');
     }
 
-    public function testSignUp()
+    public function testSignUp(): void
     {
         $request = new Request($this->paramsContent);
         $result = $this->userService->signUpUser($request);
@@ -38,7 +38,7 @@ class CreateUserTest extends TestCase
         $this->assertEquals($this->paramsContent['email'], $result->email);
     }
 
-    public function testSignUpEmailRequired()
+    public function testSignUpEmailRequired(): void
     {
         $this->paramsContent['email'] = '';
         $request = new Request($this->paramsContent);
@@ -51,7 +51,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpEmailFormattedEmail()
+    public function testSignUpEmailFormattedEmail(): void
     {
         $this->paramsContent['email'] = 'john.doe.com';
         $request = new Request($this->paramsContent);
@@ -64,7 +64,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpEmailUnique()
+    public function testSignUpEmailUnique(): void
     {
         $this->paramsContent['email'] = 'john@doe.com';
         $user = new User();
@@ -83,7 +83,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpPasswordRequired()
+    public function testSignUpPasswordRequired(): void
     {
         $this->paramsContent['password'] = '';
         $request = new Request($this->paramsContent);
@@ -96,7 +96,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpPasswordMinLength()
+    public function testSignUpPasswordMinLength(): void
     {
         $this->paramsContent['password'] = str_repeat('☭', 2);
         $request = new Request($this->paramsContent);
@@ -109,7 +109,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpPasswordMaxLength()
+    public function testSignUpPasswordMaxLength(): void
     {
         $this->paramsContent['password'] = str_repeat('☭', 22);
         $request = new Request($this->paramsContent);
@@ -122,7 +122,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpFirstNameRequired()
+    public function testSignUpFirstNameRequired(): void
     {
         $this->paramsContent['first_name'] = '';
         $request = new Request($this->paramsContent);
@@ -135,7 +135,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpFirstNameMaxLength()
+    public function testSignUpFirstNameMaxLength(): void
     {
         $this->paramsContent['first_name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -148,7 +148,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpLastNameRequired()
+    public function testSignUpLastNameRequired(): void
     {
         $this->paramsContent['last_name'] = '';
         $request = new Request($this->paramsContent);
@@ -161,7 +161,7 @@ class CreateUserTest extends TestCase
         }
     }
 
-    public function testSignUpLastNameMaxLength()
+    public function testSignUpLastNameMaxLength(): void
     {
         $this->paramsContent['last_name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
