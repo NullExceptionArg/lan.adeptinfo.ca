@@ -15,7 +15,7 @@ interface UserRepository
      * @param string $lastName Users last name
      * @param string $email Users email
      * @param string $password Users password
-     * @return User User that was created
+     * @return User GetUserResource that was created
      */
     public function createUser(string $firstName, string $lastName, string $email, string $password): User;
 

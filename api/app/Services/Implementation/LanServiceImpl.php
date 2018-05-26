@@ -3,7 +3,7 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Lan\LanResource;
+use App\Http\Resources\Lan\GetLanResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Services\LanService;
@@ -87,7 +87,7 @@ class LanServiceImpl implements LanService
         );
     }
 
-    public function getLan(Request $request, string $lanId): LanResource
+    public function getLan(Request $request, string $lanId): GetLanResource
     {
         $rulesValidator = Validator::make([
             'lan_id' => $lanId,
@@ -101,7 +101,7 @@ class LanServiceImpl implements LanService
 
         $lan = $this->lanRepository->findLanById($lanId);
 
-        return new LanResource($lan);
+        return new GetLanResource($lan);
     }
 
     public function updateRules(Request $input, string $lanId): array
