@@ -21,14 +21,15 @@ class SeatRepositoryImpl implements SeatRepository
             ->where('seat_id', $seatId)->first();
     }
 
-    public function createReservation($user, $lan, $seatId): Reservation
+    public function createReservation(int $userId, int $lanId, string $seatId): Reservation
     {
         $reservation = new Reservation();
-        $reservation->user_id = $user->id;
-        $reservation->lan_id = $lan->id;
+        $reservation->user_id = $userId;
+        $reservation->lan_id = $lanId;
         $reservation->seat_id = $seatId;
         $reservation->save();
 
         return $reservation;
     }
+
 }

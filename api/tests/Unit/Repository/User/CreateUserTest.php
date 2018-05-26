@@ -18,13 +18,13 @@ class CreateUserTest extends TestCase
         'password' => 'Passw0rd!'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
     }
 
-    public function testSignUp()
+    public function testSignUp(): void
     {
         $this->userRepository->createUser(
             $this->paramsContent['first_name'],

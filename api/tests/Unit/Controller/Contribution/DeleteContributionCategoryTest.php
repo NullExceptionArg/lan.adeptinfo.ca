@@ -16,7 +16,7 @@ class DeleteContributionCategoryTest extends TestCase
     protected $lan;
     protected $category;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
@@ -26,7 +26,7 @@ class DeleteContributionCategoryTest extends TestCase
         ]);
     }
 
-    public function testDeleteContributionCategorySimple()
+    public function testDeleteContributionCategorySimple(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $this->category->id)
@@ -38,7 +38,7 @@ class DeleteContributionCategoryTest extends TestCase
     }
 
     // Should be updated every time Contribution Category has a new relation
-    public function testDeleteContributionCategoryComplexOnCategoryForContribution()
+    public function testDeleteContributionCategoryComplexOnCategoryForContribution(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user
@@ -75,7 +75,7 @@ class DeleteContributionCategoryTest extends TestCase
     }
 
     // Should be updated every time Contribution Category has a new relation
-    public function testDeleteContributionCategoryComplexManyCategoryForContribution()
+    public function testDeleteContributionCategoryComplexManyCategoryForContribution(): void
     {
         $category2 = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
@@ -115,7 +115,7 @@ class DeleteContributionCategoryTest extends TestCase
         $this->assertEquals(1, Contribution::all()->count());
     }
 
-    public function testDeleteContributionCategoryTestLanIdExist()
+    public function testDeleteContributionCategoryTestLanIdExist(): void
     {
         $badLanId = -1;
         $this->actingAs($this->user)
@@ -132,7 +132,7 @@ class DeleteContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryTestLanIdInteger()
+    public function testDeleteContributionCategoryTestLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->actingAs($this->user)
@@ -149,7 +149,7 @@ class DeleteContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryTestCategoryIdExist()
+    public function testDeleteContributionCategoryTestCategoryIdExist(): void
     {
         $badCategoryId = -1;
         $this->actingAs($this->user)
@@ -166,7 +166,7 @@ class DeleteContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryTestCategoryIdInteger()
+    public function testDeleteContributionCategoryTestCategoryIdInteger(): void
     {
         $badCategoryId = '☭';
         $this->actingAs($this->user)

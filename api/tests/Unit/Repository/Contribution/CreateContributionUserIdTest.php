@@ -13,7 +13,7 @@ class CreateContributionUserIdTest extends TestCase
 
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
@@ -21,7 +21,7 @@ class CreateContributionUserIdTest extends TestCase
         $this->user = factory('App\Model\User')->create();
     }
 
-    public function testCreateContributionUserId()
+    public function testCreateContributionUserId(): void
     {
         $this->contributionRepository->createContributionUserId($this->user->id);
 

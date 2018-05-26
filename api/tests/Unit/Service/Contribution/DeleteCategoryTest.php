@@ -18,7 +18,7 @@ class DeleteCategoryTest extends TestCase
     protected $lan;
     protected $category;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
@@ -29,7 +29,7 @@ class DeleteCategoryTest extends TestCase
         ]);
     }
 
-    public function testDeleteCategorySimple()
+    public function testDeleteCategorySimple(): void
     {
         $result = $this->contributionService->deleteCategory($this->lan->id, $this->category->id);
 
@@ -37,7 +37,7 @@ class DeleteCategoryTest extends TestCase
     }
 
     // Should be updated every time Contribution Category has a new relation
-    public function testDeleteContributionCategoryComplexOnCategoryForContribution()
+    public function testDeleteContributionCategoryComplexOnCategoryForContribution(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
@@ -68,7 +68,7 @@ class DeleteCategoryTest extends TestCase
     }
 
     // Should be updated every time Contribution Category has a new relation
-    public function testDeleteContributionCategoryComplexManyCategoryForContribution()
+    public function testDeleteContributionCategoryComplexManyCategoryForContribution(): void
     {
         $category2 = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
@@ -102,7 +102,7 @@ class DeleteCategoryTest extends TestCase
         $this->assertEquals(1, Contribution::all()->count());
     }
 
-    public function testDeleteCategoryLanIdExist()
+    public function testDeleteCategoryLanIdExist(): void
     {
         $badLanId = -1;
         try {
@@ -114,7 +114,7 @@ class DeleteCategoryTest extends TestCase
         }
     }
 
-    public function testDeleteCategoryLanIdInteger()
+    public function testDeleteCategoryLanIdInteger(): void
     {
         $badLanId = '☭';
         try {
@@ -126,7 +126,7 @@ class DeleteCategoryTest extends TestCase
         }
     }
 
-    public function testDeleteCategoryContributionCategoryIdExist()
+    public function testDeleteCategoryContributionCategoryIdExist(): void
     {
         $badCategoryId = -1;
         try {
@@ -138,7 +138,7 @@ class DeleteCategoryTest extends TestCase
         }
     }
 
-    public function testDeleteCategoryContributionCategoryIdInteger()
+    public function testDeleteCategoryContributionCategoryIdInteger(): void
     {
         $badCategoryId = '☭';
         try {

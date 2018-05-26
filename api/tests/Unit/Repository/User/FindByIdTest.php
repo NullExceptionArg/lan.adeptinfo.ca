@@ -13,7 +13,7 @@ class FindByIdTest extends TestCase
 
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
@@ -21,7 +21,7 @@ class FindByIdTest extends TestCase
         $this->user = factory('App\Model\User')->create();
     }
 
-    public function testFindUserById()
+    public function testFindUserById(): void
     {
         $result = $this->userRepository->findById($this->user->id);
 

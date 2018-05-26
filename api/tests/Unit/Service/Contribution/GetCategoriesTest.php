@@ -15,7 +15,7 @@ class GetCategoriesTest extends TestCase
     protected $lan;
     protected $category;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
@@ -25,7 +25,7 @@ class GetCategoriesTest extends TestCase
         ]);
     }
 
-    public function testGetCategories()
+    public function testGetCategories(): void
     {
         $result = $this->contributionService->getCategories($this->lan->id);
 
@@ -33,7 +33,7 @@ class GetCategoriesTest extends TestCase
         $this->assertEquals($this->category->name, $result[0]['name']);
     }
 
-    public function testGetCategoriesLanIdExist()
+    public function testGetCategoriesLanIdExist(): void
     {
         $badLanId = -1;
         try {
@@ -45,7 +45,7 @@ class GetCategoriesTest extends TestCase
         }
     }
 
-    public function testGetCategoriesLanIdInteger()
+    public function testGetCategoriesLanIdInteger(): void
     {
         $badLanId = '☭';
         try {

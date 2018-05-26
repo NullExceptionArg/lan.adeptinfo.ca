@@ -19,14 +19,14 @@ class CreateCategoryTest extends TestCase
         'name' => "Programmer",
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributorService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testCreateCategory()
+    public function testCreateCategory(): void
     {
         $request = new Request($this->paramsContent);
         $result = $this->contributorService->createCategory($request, $this->lan->id);
@@ -34,7 +34,7 @@ class CreateCategoryTest extends TestCase
         $this->assertEquals($this->paramsContent['name'], $result['name']);
     }
 
-    public function testCreateCategoryLanIdExist()
+    public function testCreateCategoryLanIdExist(): void
     {
         $badLanId = -1;
         $request = new Request($this->paramsContent);
@@ -47,7 +47,7 @@ class CreateCategoryTest extends TestCase
         }
     }
 
-    public function testCreateCategoryLanIdInteger()
+    public function testCreateCategoryLanIdInteger(): void
     {
         $badLanId = '☭';
         $request = new Request($this->paramsContent);
@@ -60,7 +60,7 @@ class CreateCategoryTest extends TestCase
         }
     }
 
-    public function testCreateCategoryNameRequired()
+    public function testCreateCategoryNameRequired(): void
     {
         $this->paramsContent['name'] = null;
         $request = new Request($this->paramsContent);
@@ -73,7 +73,7 @@ class CreateCategoryTest extends TestCase
         }
     }
 
-    public function testCreateCategoryNameString()
+    public function testCreateCategoryNameString(): void
     {
         $this->paramsContent['name'] = 1;
         $request = new Request($this->paramsContent);

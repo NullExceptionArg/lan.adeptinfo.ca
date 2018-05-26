@@ -18,7 +18,7 @@ class CreateReservationTest extends SeatsTestCase
         'seat_id' => "A-1"
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->seatRepository = $this->app->make('App\Repositories\Implementation\SeatRepositoryImpl');
@@ -26,9 +26,9 @@ class CreateReservationTest extends SeatsTestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testAttachUser()
+    public function testAttachUser(): void
     {
-        $this->seatRepository->createReservation($this->user, $this->lan, $this->paramsContent['seat_id']);
+        $this->seatRepository->createReservation($this->user->id, $this->lan->id, $this->paramsContent['seat_id']);
         $this->seeInDatabase('reservation', [
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,

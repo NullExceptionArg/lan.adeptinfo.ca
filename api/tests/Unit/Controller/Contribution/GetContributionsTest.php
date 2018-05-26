@@ -12,14 +12,14 @@ class GetContributionsTest extends TestCase
     protected $user;
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetContributions()
+    public function testGetContributions(): void
     {
         $category1 = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
@@ -70,7 +70,7 @@ class GetContributionsTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetContributionsLanIdExist()
+    public function testGetContributionsLanIdExist(): void
     {
         $badLanId = -1;
         $this->actingAs($this->user)
@@ -87,7 +87,7 @@ class GetContributionsTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetContributionsLanIdInteger()
+    public function testGetContributionsLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->actingAs($this->user)
