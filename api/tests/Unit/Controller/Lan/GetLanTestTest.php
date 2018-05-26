@@ -27,7 +27,7 @@ class GetLanTest extends TestCase
                 'seat_reservation_start' => $this->lan->seat_reservation_start,
                 'tournament_reservation_start' => $this->lan->tournament_reservation_start,
                 'places' => [
-                    'reserved' => $this->lan->reserved_places,
+                    'reserved' => 0,
                     'total' => $this->lan->places
                 ],
                 'price' => $this->lan->price,
