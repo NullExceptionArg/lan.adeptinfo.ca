@@ -6,6 +6,7 @@ namespace App\Repositories\Implementation;
 
 use App\Model\User;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Token;
@@ -51,5 +52,10 @@ class UserRepositoryImpl implements UserRepository
     public function findById(int $userId): ?User
     {
         return User::find($userId);
+    }
+
+    public function getUsersCriteria(): Collection
+    {
+        return User::all();
     }
 }

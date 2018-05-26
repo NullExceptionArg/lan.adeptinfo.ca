@@ -8,6 +8,7 @@ use App\Model\User;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\UserService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -58,5 +59,10 @@ class UserServiceImpl implements UserService
     {
         $user = Auth::user();
         $this->userRepository->deleteUserById($user->id);
+    }
+
+    public function getUsers(Request $request): Collection
+    {
+        return $this->userRepository->getUsersCriteria();
     }
 }
