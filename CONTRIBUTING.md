@@ -11,11 +11,11 @@ Le projet lanadept.com suit une architecture REST, ce qui signifie que des clien
   - `/client-user` Un client qui s'occupe de toutes les actions du joueur, comme la réservation des places, l'enregistrement aux tournois, l'information générale, etc...
   - `/client-admin` Un client qui s'occupe de toutes les tâches administratives du LAN, comme les dates du LAN, les paramètres des sièges, les options des tournois, la définition des règles générales, etc...
 ## API
-L'API est construit sur un version allégée de [Laravel](https://github.com/laravel/laravel) appelée [Lumen](https://github.com/laravel/lumen), qui est faite spécialement pour des APIs.
+L'API est construit sur une version allégée de [Laravel](https://github.com/laravel/laravel) appelée [Lumen](https://github.com/laravel/lumen), qui est faite spécialement pour des APIs.
 
 Nous recommandons fortement de lire la documentation de Laravel avant de se lancer dans le développement. Vous allez vous rendre compte qu'elle est très accessible, et qu'elle est faite pour être lue.
 
-Quelques choix d'architecture ont été faits par le créateur du projet qui ne sont pas directement liés  Lumen, mais qui sont certainement facilités. Si vous désirez proposer un changement sur les décisions qui ont été prises, n'hésitez pas à contacter le propriétaire du repository!
+Quelques choix d'architecture ont été faits par le créateur du projet qui ne sont pas directement liés à Lumen, mais qui sont certainement facilités par la librarie. Si vous désirez proposer un changement sur les décisions qui ont été prises, n'hésitez pas à contacter le propriétaire du repository!
 
 ### Structure
  - **app**
@@ -25,12 +25,12 @@ Quelques choix d'architecture ont été faits par le créateur du projet qui ne 
       - **Implementation**: Implementations pour les interfaces des repositories.Ces classes vont être injectés et utilisées par un service. 
 
 ### Tests
-Ça serait super cool d'inclure des tests pour les fonctionalitées qui vous développez. Les tests ne sont pas requis, mais vous pouvez toujours vous donner une tape dans le dos quand vous en faites...  
+Ça serait super cool d'inclure des tests pour les fonctionalitées que vous développez. Les tests sont requis pour maintenir un code saint et fonctionnel. Il est possible de déléguer la charge de tests à un autre contributeur, il est tout de même important qu'ils soient présent et codé dans votre pull-request. 
 
 ### Autres librairies
-Nous utilisons aussi quelque librairies / ressources externes
+Nous utilisons aussi quelques librairies / ressources externes
 
  - **[Passport](https://packagist.org/packages/dusterio/lumen-passport)**: Package oauth2 qui rend les logins plus sécuritaire et les tokens plus faciles à gérer.
  - **[Dingo](https://github.com/dingo/api)**: Gestion de ressource d'API. En ce moment s'occupe des routes.
  - **[seats.io](https://github.com/seatsio/seatsio-php)**: Un API de gestion de place très utile qui offre des librairies frontend et backend pour montrer la disponibilité des places.
- - **[Laravel Cors](https://github.com/barryvdh/laravel-cors)** : Une librairie qui s'occupe de tous les maux de tête liés CORS.
+ - **[Laravel Cors](https://github.com/barryvdh/laravel-cors)** : Une librairie qui s'occupe de tous les maux de tête liés aux CORS.
