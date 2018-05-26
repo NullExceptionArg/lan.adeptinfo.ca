@@ -17,6 +17,7 @@ class CreateLanTest extends TestCase
     use DatabaseMigrations;
 
     protected $paramsContent = [
+        'name' => "Bolshevik Revolution",
         'lan_start' => "2100-10-11 12:00:00",
         'lan_end' => "2100-10-12 12:00:00",
         'seat_reservation_start' => "2100-10-04 12:00:00",
@@ -24,8 +25,11 @@ class CreateLanTest extends TestCase
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",
+        "latitude" => -67.5,
+        "longitude" => 64.033333,
         "price" => 0,
-        "rules" => '☭'
+        "rules" => '☭',
+        "description" => '☭'
     ];
 
     public function setUp()
@@ -44,6 +48,7 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         $result = $this->lanService->createLan($request);
 
+        $this->assertEquals($this->paramsContent['name'], $result->name);
         $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
         $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
         $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
@@ -51,7 +56,11 @@ class CreateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['event_key_id'], $result->event_key_id);
         $this->assertEquals($this->paramsContent['public_key_id'], $result->public_key_id);
         $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
+        $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
+        $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals($this->paramsContent['price'], $result->price);
+        $this->assertEquals($this->paramsContent['rules'], $result->rules);
+        $this->assertEquals($this->paramsContent['description'], $result->description);
     }
 
     public function testCreateLanPriceDefault()
@@ -60,6 +69,7 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         $result = $this->lanService->createLan($request);
 
+        $this->assertEquals($this->paramsContent['name'], $result->name);
         $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
         $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
         $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
@@ -67,7 +77,11 @@ class CreateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['event_key_id'], $result->event_key_id);
         $this->assertEquals($this->paramsContent['public_key_id'], $result->public_key_id);
         $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
+        $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
+        $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals(0, $result->price);
+        $this->assertEquals($this->paramsContent['rules'], $result->rules);
+        $this->assertEquals($this->paramsContent['description'], $result->description);
     }
 
     /**

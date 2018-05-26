@@ -18,8 +18,8 @@ interface LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
-        float $longitude,
         float $latitude,
+        float $longitude,
         ?int $price,
         ?string $rules,
         ?string $description

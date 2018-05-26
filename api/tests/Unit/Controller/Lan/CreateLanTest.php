@@ -15,6 +15,7 @@ class CreateLanTest extends TestCase
     protected $user;
 
     protected $requestContent = [
+        'name' => "Bolshevik Revolution",
         'lan_start' => "2100-10-11 12:00:00",
         'lan_end' => "2100-10-12 12:00:00",
         'seat_reservation_start' => "2100-10-04 12:00:00",
@@ -22,8 +23,11 @@ class CreateLanTest extends TestCase
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",
+        "latitude" => -67.5,
+        "longitude" => 64.033333,
         "price" => 0,
-        "rules" => '☭'
+        "rules" => '☭',
+        "description" => '☭'
     ];
 
     public function setUp()
@@ -43,6 +47,7 @@ class CreateLanTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
+                'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -50,8 +55,11 @@ class CreateLanTest extends TestCase
                 "event_key_id" => $this->requestContent['event_key_id'],
                 "public_key_id" => $this->requestContent['public_key_id'],
                 "secret_key_id" => $this->requestContent['secret_key_id'],
-                "price" => $this->requestContent['price'],
+                "latitude" => $this->requestContent['latitude'],
+                "longitude" => $this->requestContent['longitude'],
+                "price" => 0,
                 "rules" => $this->requestContent['rules'],
+                "description" => $this->requestContent['description'],
                 "id" => 1
             ])
             ->assertResponseStatus(201);
@@ -63,6 +71,7 @@ class CreateLanTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
+                'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -70,8 +79,11 @@ class CreateLanTest extends TestCase
                 "event_key_id" => $this->requestContent['event_key_id'],
                 "public_key_id" => $this->requestContent['public_key_id'],
                 "secret_key_id" => $this->requestContent['secret_key_id'],
+                "latitude" => $this->requestContent['latitude'],
+                "longitude" => $this->requestContent['longitude'],
                 "price" => 0,
                 "rules" => $this->requestContent['rules'],
+                "description" => $this->requestContent['description'],
                 "id" => 1
             ])
             ->assertResponseStatus(201);
