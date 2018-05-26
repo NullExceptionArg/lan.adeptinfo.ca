@@ -33,7 +33,7 @@ class LanServiceImpl implements LanService
         // Internal validation
 
         $lanValidator = Validator::make($input->all(), [
-            'name' => 'required|string:255',
+            'name' => 'required|string|max:255',
             'lan_start' => 'required|after:seat_reservation_start|after:tournament_reservation_start',
             'lan_end' => 'required|after:lan_start',
             'seat_reservation_start' => 'required|after_or_equal:now',
