@@ -21,6 +21,7 @@ Créer un nouveau LAN.
   "event_key_id":"12345678-1234-1234-1234-123456789123",
   "public_key_id":"12345678-1234-1234-1234-123456789123",
   "secret_key_id": "12345678-1234-1234-1234-123456789123",
+  "places": "258",
   "price":"0",
   "rules":"A spectre is haunting Europe – the spectre of communism."
 }
@@ -36,6 +37,7 @@ tournament_reservation_start| Date et heure du début des inscriptions aux tourn
 event_key_id | Clé de l'événement de seats.io pour le LAN. | Requis, 255 caractères max. |
 public_key_id | Clé publique de seats.io . | Requis, 255 caractères max. |
 secret_key_id | Clé secrète de seats.io . | Requis, 255 caractères max. |
+places | Places disponibles pour le LAN. | Requis, int, minimum 1. |
 price | Prix du LAN. | Plus grand ou égale à 0. | 0
 rules | Texte des règles du LAN. | String. |
 
@@ -52,6 +54,7 @@ rules | Texte des règles du LAN. | String. |
     "event_key_id": "12345678-1234-1234-1234-123456789123",
     "public_key_id": "12345678-1234-1234-1234-123456789123",
     "secret_key_id": "12345678-1234-1234-1234-123456789123",
+    "places": "258",
     "price": 0,
     "rules": "A spectre is haunting Europe – the spectre of communism.",
     "id": 1
@@ -68,6 +71,7 @@ tournament_reservation_start | Date et heure du début des inscriptions aux tour
 event_key_id | Clé de l'événement de seats.io pour le LAN pour le LAN créé.
 public_key_id | Clé publique de seats.io pour le LAN créé.
 secret_key_id | Clé secrète de seats.io pour le LAN créé.
+places | Places disponibles pour le LAN créé
 price| Prix du LAN créé.
 rules | Texte des règles du LAN créé.
 id | Id du LAN créé.
@@ -99,6 +103,7 @@ lan_start | Date et heure de début du LAN.
 lan_end | Date et heure de fin du LAN.
 seat_reservation_start | Date et heure de début des réservation de places.
 tournament_reservation_start | Date et heure de début des inscriptions aux tournois.
+places | Information liée à l'occupation des places
 price | Prix d'entré au LAN.
 rules | Règles.
 
@@ -113,6 +118,10 @@ rules | Règles.
     "lan_end": "2100-10-12 12:00:00",
     "seat_reservation_start": "2100-10-04 12:00:00",
     "tournament_reservation_start": "2100-10-04 00:00:00",
+    "places": {
+      "reserved": 178,
+      "total": 258
+    },
     "price": 0,
     "rules": "A spectre is haunting Europe – the spectre of communism."
 }
@@ -125,8 +134,15 @@ lan_start | Date et heure de début du LAN.
 lan_end | Date et heure de fin du LAN.
 seat_reservation_start | Date et heure de début des réservation de places.
 tournament_reservation_start | Date et heure de début des inscriptions aux tournois.
+places | Voir places
 price | Prix d'entré au LAN.
 rules | Règles.
+
+#### places
+Champ | Description
+--------- | -----------
+reserved | Places réservées
+total | Nombre de places total
 
 ## Mettre à jour les règles
 
