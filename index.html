@@ -261,12 +261,6 @@
                   <li>
                     <a href="#reserver-une-place" class="toc-h2 toc-link" data-title="reserver-une-place">Réserver une place</a>
                   </li>
-                  <li>
-                    <a href="#confirmer-une-place" class="toc-h2 toc-link" data-title="confirmer-une-place">Confirmer une place</a>
-                  </li>
-                  <li>
-                    <a href="#deconfirmer-une-place" class="toc-h2 toc-link" data-title="deconfirmer-une-place">Déconfirmer une place</a>
-                  </li>
               </ul>
           </li>
           <li>
@@ -521,15 +515,19 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <p>Exemple de requête</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11T12:00:00-05:00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12T12:00:00-05:00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T12:00:00-05:00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T00:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bolshevik Revolution"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11 12:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12 12:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 12:00:00-05:00"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00-05:00"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
   </span><span class="s2">"price"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"rules"</span><span class="p">:</span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="w">
+  </span><span class="s2">"rules"</span><span class="p">:</span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"description"</span><span class="p">:</span><span class="s2">"All the powers of old Europe have entered into a holy alliance to exorcise this spectre."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -541,6 +539,12 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <th>Defaut</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>name</td>
+<td>Nom du LAN.</td>
+<td>Requis, string, 255 caractères max.</td>
+<td></td>
+</tr>
 <tr>
 <td>lan_start</td>
 <td>Date et heure de début du LAN.</td>
@@ -584,6 +588,18 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td></td>
 </tr>
 <tr>
+<td>latitude</td>
+<td>Latitude de la position où se déroule le LAN.</td>
+<td>Requis, entre -85 et 85, nombre.</td>
+<td></td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Longitude de la position où se déroule le LAN.</td>
+<td>Requis, entre -180 et 180, nombre.</td>
+<td></td>
+</tr>
+<tr>
 <td>price</td>
 <td>Prix du LAN.</td>
 <td>Plus grand ou égale à 0.</td>
@@ -592,7 +608,13 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>rules</td>
 <td>Texte des règles du LAN.</td>
-<td>String.</td>
+<td>String, optionnel.</td>
+<td></td>
+</tr>
+<tr>
+<td>description</td>
+<td>Texte des descritpion du LAN.</td>
+<td>String, optionnel.</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -601,15 +623,19 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11T12:00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12T12:00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T12:00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04T00:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bolshevik Revolution"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11 12:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12 12:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 12:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
     </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"All the powers of old Europe have entered into a holy alliance to exorcise this spectre."</span><span class="p">,</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
@@ -620,6 +646,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>name</td>
+<td>Nom du LAN créé.</td>
+</tr>
 <tr>
 <td>lan_start</td>
 <td>Date et heure de début du LAN créé.</td>
@@ -649,12 +679,24 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Clé secrète de seats.io pour le LAN créé.</td>
 </tr>
 <tr>
+<td>latitude</td>
+<td>Latitude de la position du LAN créé.</td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Longitude de la position du LAN créé.</td>
+</tr>
+<tr>
 <td>price</td>
 <td>Prix du LAN créé.</td>
 </tr>
 <tr>
 <td>rules</td>
 <td>Texte des règles du LAN créé.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Texte de la description du LAN créé.</td>
 </tr>
 <tr>
 <td>id</td>
@@ -689,7 +731,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 </thead><tbody>
 <tr>
 <td>fields</td>
-<td>Liste des champs à obtenir pour le LAN. Si ce paramètre est laissé vide, le LAN au complet sera retourné.</td>
+<td>Liste des champs à obtenir pour le LAN, séparés par des virgules. Si ce paramètre est laissé vide, le LAN au complet sera retourné.</td>
 <td>Aucune.</td>
 </tr>
 </tbody></table>
@@ -700,6 +742,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>name</td>
+<td>Nom du LAN.</td>
+</tr>
 <tr>
 <td>lan_start</td>
 <td>Date et heure de début du LAN.</td>
@@ -715,6 +761,14 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>tournament_reservation_start</td>
 <td>Date et heure de début des inscriptions aux tournois.</td>
+</tr>
+<tr>
+<td>latitude</td>
+<td>Latitude de la position du LAN.</td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Longitude de la position du LAN</td>
 </tr>
 <tr>
 <td>price</td>
@@ -731,12 +785,16 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bolshevik Revolution"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11 12:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12 12:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 12:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
     </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="w">
+    </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"All the powers of old Europe have entered into a holy alliance to exorcise this spectre."</span><span class="w">
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
@@ -746,6 +804,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>name</td>
+<td>Nom du LAN.</td>
+</tr>
 <tr>
 <td>lan_start</td>
 <td>Date et heure de début du LAN.</td>
@@ -763,12 +825,24 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Date et heure de début des inscriptions aux tournois.</td>
 </tr>
 <tr>
+<td>latitude</td>
+<td>Latitude de la position du LAN.</td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>Longitude de la position du LAN</td>
+</tr>
+<tr>
 <td>price</td>
 <td>Prix d&#39;entré au LAN.</td>
 </tr>
 <tr>
 <td>rules</td>
-<td>Règles.</td>
+<td>Règles du LAN.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>Description du LAN.</td>
 </tr>
 </tbody></table>
 <h2 id='mettre-a-jour-les-regles'>Mettre à jour les règles</h2>
@@ -878,104 +952,6 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;utilisateur a réservé.</td>
-</tr>
-</tbody></table>
-<h2 id='confirmer-une-place'>Confirmer une place</h2>
-<p>Confirmer l&#39;arrivée d&#39;un joueur au LAN.</p>
-<h3 id='requete-http-2'>Requête HTTP</h3>
-<p><code>POST /api/lan/{lan_id}/confirm/{seat_id}</code></p>
-<h3 id='path-params-2'>Path Params</h3>
-<p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
-
-<table><thead>
-<tr>
-<th>Paramètre</th>
-<th>Description</th>
-<th>Règles de validation</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>lan_id</td>
-<td>Id du LAN où l&#39;administrateur veut confirmer une place.</td>
-<td>Requis, string.</td>
-</tr>
-<tr>
-<td>seat_id</td>
-<td>Id de la place que l&#39;administrateur confirmer.</td>
-<td>Requis, integer.</td>
-</tr>
-</tbody></table>
-<h3 id='format-de-reponse-2'>Format de réponse</h3>
-<blockquote>
-<p>Exemple de réponse</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<table><thead>
-<tr>
-<th>Champ</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>lan_id</td>
-<td>Id du LAN où l&#39;administrateur a confirmé une place.</td>
-</tr>
-<tr>
-<td>seat_id</td>
-<td>Id de la place que l&#39;administrateur a confirmé.</td>
-</tr>
-</tbody></table>
-<h2 id='deconfirmer-une-place'>Déconfirmer une place</h2>
-<p>Départ de l&#39;un des joueurs déjà marqué comme arrivé à un LAN.</p>
-<h3 id='requete-http-3'>Requête HTTP</h3>
-<p><code>DELETE /api/lan/{lan_id}/confirm/{seat_id}</code></p>
-<h3 id='path-params-3'>Path Params</h3>
-<p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
-
-<table><thead>
-<tr>
-<th>Paramètre</th>
-<th>Description</th>
-<th>Règles de validation</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>lan_id</td>
-<td>Id du LAN où l&#39;administrateur veut déconfirmer une place.</td>
-<td>Requis, string.</td>
-</tr>
-<tr>
-<td>seat_id</td>
-<td>Id de la place que l&#39;administrateur déconfirmer.</td>
-<td>Requis, integer.</td>
-</tr>
-</tbody></table>
-<h3 id='format-de-reponse-3'>Format de réponse</h3>
-<blockquote>
-<p>Exemple de réponse</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<table><thead>
-<tr>
-<th>Champ</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>lan_id</td>
-<td>Id du LAN où l&#39;administrateur a déconfirmé une place.</td>
-</tr>
-<tr>
-<td>seat_id</td>
-<td>Id de la place que l&#39;administrateur a déconfirmé.</td>
 </tr>
 </tbody></table>
 <h1 id='contribution'>Contribution</h1>
