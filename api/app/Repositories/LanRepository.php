@@ -17,6 +17,7 @@ interface LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
+        int $places,
         ?int $price,
         ?string $rules
     ): Lan;

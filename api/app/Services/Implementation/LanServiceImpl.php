@@ -40,6 +40,7 @@ class LanServiceImpl implements LanService
             'event_key_id' => 'required|string|max:255',
             'public_key_id' => 'required|string|max:255',
             'secret_key_id' => 'required|string|max:255',
+            'places' => 'required|integer|min:1',
             'price' => 'integer|min:0',
             'rules' => 'string'
         ]);
@@ -82,6 +83,7 @@ class LanServiceImpl implements LanService
             $input->input('event_key_id'),
             $input->input('public_key_id'),
             $input->input('secret_key_id'),
+            $input->input('places'),
             intval($input->input('price')),
             $input->input('rules')
         );

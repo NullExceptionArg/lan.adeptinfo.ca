@@ -22,6 +22,10 @@ class LanResource extends Resource
                 'lan_end' => $this->lan_end,
                 'seat_reservation_start' => $this->seat_reservation_start,
                 'tournament_reservation_start' => $this->tournament_reservation_start,
+                'places' => [
+                    'reserved' => $this->reserved_places,
+                    'total' => $this->places
+                ],
                 'price' => $this->price,
                 'rules' => $this->rules,
             ];

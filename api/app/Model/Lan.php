@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string event_key_id
  * @property string public_key_id
  * @property string secret_key_id
+ * @property int places
  * @property int price
  * @property string rules
  */

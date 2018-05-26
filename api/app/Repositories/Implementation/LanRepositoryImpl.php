@@ -19,6 +19,7 @@ class LanRepositoryImpl implements LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
+        int $places,
         ?int $price,
         ?string $rules
     ): Lan
@@ -31,6 +32,7 @@ class LanRepositoryImpl implements LanRepository
         $lan->event_key_id = $eventKeyId;
         $lan->public_key_id = $publicKeyId;
         $lan->secret_key_id = $secretKeyId;
+        $lan->places = $places;
         $lan->price = $price;
         $lan->rules = $rules;
         $lan->save();
