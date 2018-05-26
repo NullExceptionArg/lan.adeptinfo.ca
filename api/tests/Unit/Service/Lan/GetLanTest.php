@@ -28,12 +28,16 @@ class GetLanTest extends TestCase
         $result = $this->lanService->getLan($request, $this->lan->id);
 
         $this->assertEquals($this->lan->id, $result['id']);
+        $this->assertEquals($this->lan->name, $result['name']);
         $this->assertEquals($this->lan->lan_start, $result['lan_start']);
         $this->assertEquals($this->lan->lan_end, $result['lan_end']);
         $this->assertEquals($this->lan->seat_reservation_start, $result['seat_reservation_start']);
         $this->assertEquals($this->lan->tournament_reservation_start, $result['tournament_reservation_start']);
+        $this->assertEquals(number_format($this->lan->latitude, 7), $result['latitude']);
+        $this->assertEquals(number_format($this->lan->longitude, 7), $result['longitude']);
         $this->assertEquals($this->lan->price, $result['price']);
         $this->assertEquals($this->lan->rules, $result['rules']);
+        $this->assertEquals($this->lan->description, $result['description']);
     }
 
     public function testGetLanParameters()
