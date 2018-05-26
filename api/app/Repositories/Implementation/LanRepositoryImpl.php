@@ -5,6 +5,7 @@ namespace App\Repositories\Implementation;
 
 
 use App\Model\Lan;
+use App\Model\Reservation;
 use App\Repositories\LanRepository;
 use DateTime;
 
@@ -49,5 +50,10 @@ class LanRepositoryImpl implements LanRepository
     {
         $lan->rules = $text;
         $lan->save();
+    }
+
+    public function getReservedPlaces(int $lanId): int
+    {
+        return Reservation::where('lan_id', $lanId)->count();
     }
 }

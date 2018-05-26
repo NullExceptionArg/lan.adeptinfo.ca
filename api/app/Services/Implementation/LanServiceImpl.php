@@ -102,8 +102,9 @@ class LanServiceImpl implements LanService
         }
 
         $lan = $this->lanRepository->findLanById($lanId);
+        $placeCount = $this->lanRepository->getReservedPlaces($lanId);
 
-        return new LanResource($lan);
+        return new LanResource($lan, $placeCount);
     }
 
     public function updateRules(Request $input, string $lanId): array
