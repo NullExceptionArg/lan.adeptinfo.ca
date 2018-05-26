@@ -87,8 +87,8 @@ class LanServiceImpl implements LanService
             $input->input('event_key_id'),
             $input->input('public_key_id'),
             $input->input('secret_key_id'),
-            $input->input('longitude'),
             $input->input('latitude'),
+            $input->input('longitude'),
             intval($input->input('price')),
             $input->input('rules'),
             $input->input('description')
