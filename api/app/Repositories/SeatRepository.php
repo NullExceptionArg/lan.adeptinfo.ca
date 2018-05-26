@@ -11,5 +11,6 @@ interface SeatRepository
 
     public function findReservationByLanIdAndSeatId(int $lanId, string $seatId): ?Reservation;
 
-    public function createReservation($user, $lan, $seatId): Reservation;
+    public function createReservation(int $userId, int $lanId, string $seatId): Reservation;
+
 }

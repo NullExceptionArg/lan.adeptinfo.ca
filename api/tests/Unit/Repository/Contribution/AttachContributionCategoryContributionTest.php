@@ -16,7 +16,7 @@ class AttachContributionCategoryContributionTest extends TestCase
     protected $category;
     protected $contribution;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
@@ -31,7 +31,7 @@ class AttachContributionCategoryContributionTest extends TestCase
         ]);
     }
 
-    public function testAttachContributionCategoryContribution()
+    public function testAttachContributionCategoryContribution(): void
     {
         $this->contributionRepository->attachContributionCategoryContribution($this->contribution, $this->category);
 

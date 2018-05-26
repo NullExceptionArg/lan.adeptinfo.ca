@@ -15,14 +15,14 @@ class GetLanTest extends TestCase
 
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetLanSimple()
+    public function testGetLanSimple(): void
     {
         $request = new Request();
         $result = $this->lanService->getLan($request, $this->lan->id);
@@ -40,7 +40,7 @@ class GetLanTest extends TestCase
         $this->assertEquals($this->lan->description, $result['description']);
     }
 
-    public function testGetLanParameters()
+    public function testGetLanParameters(): void
     {
         $request = new Request(['fields' => "lan_start,lan_start,lan_end,seat_reservation_start"]);
         $result = $this->lanService->getLan($request, $this->lan->id);
@@ -51,7 +51,7 @@ class GetLanTest extends TestCase
         $this->assertEquals($this->lan->seat_reservation_start, $result['seat_reservation_start']);
     }
 
-    public function testGetRulesLanIdExist()
+    public function testGetRulesLanIdExist(): void
     {
         $badLanId = -1;
         $request = new Request();
@@ -64,7 +64,7 @@ class GetLanTest extends TestCase
         }
     }
 
-    public function testGetRulesLanIdInteger()
+    public function testGetRulesLanIdInteger(): void
     {
         $badLanId = '☭';
         $request = new Request();

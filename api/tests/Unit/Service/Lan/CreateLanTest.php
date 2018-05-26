@@ -32,7 +32,7 @@ class CreateLanTest extends TestCase
         "description" => '☭'
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -43,7 +43,7 @@ class CreateLanTest extends TestCase
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
     }
 
-    public function testCreateLan()
+    public function testCreateLan(): void
     {
         $request = new Request($this->paramsContent);
         $result = $this->lanService->createLan($request);
@@ -126,7 +126,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanStartAfterReservationStart()
+    public function testCreateLanStartAfterReservationStart(): void
     {
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->paramsContent['seat_reservation_start']));
@@ -149,7 +149,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanStartAfterTournamentStart()
+    public function testCreateLanStartAfterTournamentStart(): void
     {
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->paramsContent['tournament_reservation_start']));
@@ -172,7 +172,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanEndRequired()
+    public function testCreateLanEndRequired(): void
     {
         $this->paramsContent['lan_end'] = '';
         $request = new Request($this->paramsContent);
@@ -188,7 +188,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanEndAfterLanStart()
+    public function testCreateLanEndAfterLanStart(): void
     {
         // Set the lan_end date to one day before lan_start
         $newLanEnd = (new DateTime($this->paramsContent['lan_start']));
@@ -204,7 +204,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanReservationStartRequired()
+    public function testCreateLanReservationStartRequired(): void
     {
         $this->paramsContent['seat_reservation_start'] = '';
         $request = new Request($this->paramsContent);
@@ -220,7 +220,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanReservationStartAfterOrEqualNow()
+    public function testCreateLanReservationStartAfterOrEqualNow(): void
     {
         // Set the reservation_start date to one day before today
         $newTournamentStart = (new DateTime());
@@ -239,7 +239,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartRequired()
+    public function testCreateLanTournamentStartRequired(): void
     {
         $this->paramsContent['tournament_reservation_start'] = '';
         $request = new Request($this->paramsContent);
@@ -255,7 +255,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartAfterOrEqualNow()
+    public function testCreateLanTournamentStartAfterOrEqualNow(): void
     {
         // Set the tournament_reservation_start date to one day before today
         $newTournamentReservationStart = (new DateTime());
@@ -271,7 +271,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanEventKeyIdRequired()
+    public function testCreateLanEventKeyIdRequired(): void
     {
         $this->paramsContent['event_key_id'] = '';
         $request = new Request($this->paramsContent);
@@ -284,7 +284,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanEventKeyIdMaxLength()
+    public function testCreateLanEventKeyIdMaxLength(): void
     {
         $this->paramsContent['event_key_id'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -297,7 +297,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanPublicKeyIdRequired()
+    public function testCreateLanPublicKeyIdRequired(): void
     {
         $this->paramsContent['public_key_id'] = '';
         $request = new Request($this->paramsContent);
@@ -310,7 +310,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanPublicKeyIdMaxLength()
+    public function testCreateLanPublicKeyIdMaxLength(): void
     {
         $this->paramsContent['public_key_id'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -323,7 +323,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanSecretKeyIdRequired()
+    public function testCreateLanSecretKeyIdRequired(): void
     {
         $this->paramsContent['secret_key_id'] = '';
         $request = new Request($this->paramsContent);
@@ -336,7 +336,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanSecretKeyIdMaxLength()
+    public function testCreateLanSecretKeyIdMaxLength(): void
     {
         $this->paramsContent['secret_key_id'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -349,7 +349,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanSecretKeyId()
+    public function testCreateLanSecretKeyId(): void
     {
         $this->paramsContent['secret_key_id'] = '-1';
         $request = new Request($this->paramsContent);
@@ -362,7 +362,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanEventKeyId()
+    public function testCreateLanEventKeyId(): void
     {
         $this->paramsContent['event_key_id'] = '-1';
         $request = new Request($this->paramsContent);
@@ -505,7 +505,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanRulesString()
+    public function testCreateLanRulesString(): void
     {
         $this->paramsContent['rules'] = 1;
         $request = new Request($this->paramsContent);

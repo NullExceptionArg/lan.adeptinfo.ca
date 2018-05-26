@@ -19,7 +19,7 @@ class CreateContributionTest extends TestCase
         'user_email' => null,
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
@@ -30,7 +30,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['contribution_category_id'] = $this->category->id;
     }
 
-    public function testCreateContributionUserFullName()
+    public function testCreateContributionUserFullName(): void
     {
         $this->requestContent['user_full_name'] = $this->user->getFullName();
         $this->actingAs($this->user)
@@ -43,7 +43,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testCreateContributionUserEmail()
+    public function testCreateContributionUserEmail(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
         $this->actingAs($this->user)
@@ -56,7 +56,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testCreateContributionLanIdExist()
+    public function testCreateContributionLanIdExist(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
         $badLanId = -1;
@@ -74,7 +74,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionLanIdInteger()
+    public function testCreateContributionLanIdInteger(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
         $badLanId = '☭';
@@ -92,7 +92,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryIdRequired()
+    public function testCreateContributionCategoryIdRequired(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = null;
@@ -110,7 +110,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryIdInteger()
+    public function testCreateContributionCategoryIdInteger(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = '☭';
@@ -128,7 +128,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryIdExist()
+    public function testCreateContributionCategoryIdExist(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = -1;
@@ -146,7 +146,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionUserFullNameString()
+    public function testCreateContributionUserFullNameString(): void
     {
         $this->requestContent['user_full_name'] = 1;
         $this->actingAs($this->user)
@@ -163,7 +163,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionUserEmailString()
+    public function testCreateContributionUserEmailString(): void
     {
         $this->requestContent['user_email'] = 1;
         $this->actingAs($this->user)
@@ -180,7 +180,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionUserFullNameOrUserEmailNotNull()
+    public function testCreateContributionUserFullNameOrUserEmailNotNull(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
@@ -199,7 +199,7 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionUserEmailAndUserFullNameNotFilled()
+    public function testCreateContributionUserEmailAndUserFullNameNotFilled(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['user_full_name'] = $this->user->getFullName();

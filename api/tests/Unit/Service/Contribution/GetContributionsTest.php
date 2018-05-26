@@ -15,7 +15,7 @@ class GetContributionsTest extends TestCase
     protected $user;
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
@@ -24,7 +24,7 @@ class GetContributionsTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetContributions()
+    public function testGetContributions(): void
     {
         $category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
@@ -44,7 +44,7 @@ class GetContributionsTest extends TestCase
         ], $result[0]->contribution[0]->toArray());
     }
 
-    public function testGetContributionsLanIdExist()
+    public function testGetContributionsLanIdExist(): void
     {
         $badLanId = -1;
         try {
@@ -56,7 +56,7 @@ class GetContributionsTest extends TestCase
         }
     }
 
-    public function testGetContributionsLanIdInteger()
+    public function testGetContributionsLanIdInteger(): void
     {
         $badLanId = '☭';
         try {

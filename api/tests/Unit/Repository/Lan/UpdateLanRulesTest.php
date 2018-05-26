@@ -17,14 +17,14 @@ class UpdateLanRulesTest extends TestCase
         'text' => "☭"
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testUpdateLanRules()
+    public function testUpdateLanRules(): void
     {
         $this->lanRepository->updateLanRules($this->lan, $this->paramsContent['text']);
 

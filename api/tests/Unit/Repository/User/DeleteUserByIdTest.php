@@ -13,7 +13,7 @@ class DeleteUserByIdTest extends TestCase
 
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
@@ -21,7 +21,7 @@ class DeleteUserByIdTest extends TestCase
         $this->user = factory('App\Model\User')->create();
     }
 
-    public function testDeleteUserById()
+    public function testDeleteUserById(): void
     {
         $this->seeInDatabase('user', [
             'id' => $this->user->id,

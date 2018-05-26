@@ -21,13 +21,13 @@ abstract class SeatsTestCase extends TestCase
         parent::setUp();
 
         $seatsClient = new SeatsioClient(env('SECRET_KEY_ID'));
-        $seatsClient->events()->release(env('EVENT_KEY_ID'), ["A-1"]);
+        $seatsClient->events()->release(env('EVENT_KEY_ID'), env('SEAT_ID'));
     }
 
     public function tearDown()
     {
         $seatsClient = new SeatsioClient(env('SECRET_KEY_ID'));
-        $seatsClient->events()->release(env('EVENT_KEY_ID'), ["A-1"]);
+        $seatsClient->events()->release(env('EVENT_KEY_ID'), env('SEAT_ID'));
 
         parent::tearDown();
     }

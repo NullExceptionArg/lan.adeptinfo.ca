@@ -19,7 +19,7 @@ class FindReservationByLanIdAndUserIdTest extends SeatsTestCase
         'seat_id' => "A-1"
     ];
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->seatRepository = $this->app->make('App\Repositories\Implementation\SeatRepositoryImpl');
@@ -27,7 +27,7 @@ class FindReservationByLanIdAndUserIdTest extends SeatsTestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testFindReservationByLanIdAndSeatId()
+    public function testFindReservationByLanIdAndSeatId(): void
     {
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;

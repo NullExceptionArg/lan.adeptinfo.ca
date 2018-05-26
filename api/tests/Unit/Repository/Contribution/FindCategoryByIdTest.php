@@ -14,7 +14,7 @@ class FindCategoryByIdTest extends TestCase
     protected $lan;
     protected $category;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
@@ -24,7 +24,7 @@ class FindCategoryByIdTest extends TestCase
         ]);
     }
 
-    public function testFindCategoryById()
+    public function testFindCategoryById(): void
     {
         $result = $this->contributionRepository->findCategoryById($this->category->id);
 

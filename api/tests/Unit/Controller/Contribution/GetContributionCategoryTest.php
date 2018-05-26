@@ -12,7 +12,7 @@ class GetContributionCategoryTest extends TestCase
     protected $lan;
     protected $category;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();
@@ -21,7 +21,7 @@ class GetContributionCategoryTest extends TestCase
         ]);
     }
 
-    public function testGetContributionCategory()
+    public function testGetContributionCategory(): void
     {
         $this->json('GET', '/api/lan/' . $this->lan->id . '/contribution-category')
             ->seeJsonEquals([[
@@ -31,7 +31,7 @@ class GetContributionCategoryTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanIdExist()
+    public function testGetLanIdExist(): void
     {
         $badLanId = -1;
         $this->json('GET', '/api/lan/' . $badLanId . '/contribution-category')
@@ -47,7 +47,7 @@ class GetContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetLanIdInteger()
+    public function testGetLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->json('GET', '/api/lan/' . $badLanId . '/contribution-category')

@@ -24,4 +24,14 @@ class SeatController extends Controller
     {
         return response()->json($this->seatService->book($lan_id, $seat_id), 201);
     }
+
+    public function confirmArrival(string $lanId, string $seatId)
+    {
+        return response()->json($this->seatService->confirmArrival($lanId, $seatId), 200);
+    }
+
+    public function unConfirmArrival(string $lanId, string $seatId)
+    {
+        return response()->json($this->seatService->unConfirmArrival($lanId, $seatId), 200);
+    }
 }
