@@ -22,14 +22,14 @@ class GetReservedPlacesTest extends SeatsTestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetReservedPlacesSimple()
+    public function testGetReservedPlacesSimple(): void
     {
         $result = $this->lanRepository->getReservedPlaces($this->lan->id);
 
         $this->assertEquals(0, $result);
     }
 
-    public function testGetReservedPlacesReservation()
+    public function testGetReservedPlacesReservation(): void
     {
         $user = factory('App\Model\User')->create();
 
