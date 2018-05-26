@@ -33,6 +33,7 @@ class LanServiceImpl implements LanService
         // Internal validation
 
         $lanValidator = Validator::make($input->all(), [
+            'name' => 'required|string:255',
             'lan_start' => 'required|after:seat_reservation_start|after:tournament_reservation_start',
             'lan_end' => 'required|after:lan_start',
             'seat_reservation_start' => 'required|after_or_equal:now',
@@ -40,8 +41,11 @@ class LanServiceImpl implements LanService
             'event_key_id' => 'required|string|max:255',
             'public_key_id' => 'required|string|max:255',
             'secret_key_id' => 'required|string|max:255',
+            'latitude' => 'required|numeric|min:-85|max:85',
+            'longitude' => 'required|numeric|min:-180|max:180',
             'price' => 'integer|min:0',
-            'rules' => 'string'
+            'rules' => 'string',
+            'description' => 'string'
         ]);
 
         if ($lanValidator->fails()) {
@@ -75,6 +79,7 @@ class LanServiceImpl implements LanService
 
         return $this->lanRepository->createLan
         (
+            $input->input('name'),
             new DateTime($input->input('lan_start')),
             new DateTime($input->input('lan_end')),
             new DateTime($input->input('seat_reservation_start')),
@@ -82,8 +87,11 @@ class LanServiceImpl implements LanService
             $input->input('event_key_id'),
             $input->input('public_key_id'),
             $input->input('secret_key_id'),
+            $input->input('longitude'),
+            $input->input('latitude'),
             intval($input->input('price')),
-            $input->input('rules')
+            $input->input('rules'),
+            $input->input('description')
         );
     }
 

@@ -15,6 +15,7 @@ class CreateTableLan extends Migration
     {
         Schema::create('lan', function(Blueprint $table) {
             $table->increments('id');
+            $table->string('name');
             $table->dateTime('lan_start');
             $table->dateTime('lan_end');
             $table->dateTime('seat_reservation_start');
@@ -22,8 +23,11 @@ class CreateTableLan extends Migration
             $table->string('event_key_id'); // seats.io
             $table->string('public_key_id'); // seats.io
             $table->string('secret_key_id'); // seats.io
+            $table->decimal('longitude', 10, 7);
+            $table->decimal('latitude', 10, 7);
             $table->unsignedInteger('price')->default(0);
             $table->text('rules')->nullable(true);
+            $table->text('description')->nullable(true);
             $table->timestamps();
         });
     }
