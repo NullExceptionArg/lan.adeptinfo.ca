@@ -5,6 +5,7 @@ namespace App\Repositories\Implementation;
 
 
 use App\Model\Lan;
+use App\Model\Reservation;
 use App\Repositories\LanRepository;
 use DateTime;
 
@@ -19,6 +20,7 @@ class LanRepositoryImpl implements LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
+        int $places,
         ?int $price,
         ?string $rules
     ): Lan
@@ -31,6 +33,7 @@ class LanRepositoryImpl implements LanRepository
         $lan->event_key_id = $eventKeyId;
         $lan->public_key_id = $publicKeyId;
         $lan->secret_key_id = $secretKeyId;
+        $lan->places = $places;
         $lan->price = $price;
         $lan->rules = $rules;
         $lan->save();
@@ -47,5 +50,10 @@ class LanRepositoryImpl implements LanRepository
     {
         $lan->rules = $text;
         $lan->save();
+    }
+
+    public function getReservedPlaces(int $lanId): int
+    {
+        return Reservation::where('lan_id', $lanId)->count();
     }
 }

@@ -20,6 +20,7 @@ class CreateLanTest extends TestCase
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",
+        "places" => 10,
         "price" => 0,
         "rules" => '☭'
     ];
@@ -46,6 +47,7 @@ class CreateLanTest extends TestCase
             $this->paramsContent['event_key_id'],
             $this->paramsContent['public_key_id'],
             $this->paramsContent['secret_key_id'],
+            $this->paramsContent['places'],
             $this->paramsContent['price'],
             $this->paramsContent['rules']
         );
@@ -57,6 +59,7 @@ class CreateLanTest extends TestCase
             'event_key_id' => $this->paramsContent['event_key_id'],
             'public_key_id' => $this->paramsContent['public_key_id'],
             'secret_key_id' => $this->paramsContent['secret_key_id'],
+            'places' => $this->paramsContent['places'],
             'price' => $this->paramsContent['price'],
             'rules' => $this->paramsContent['rules'],
         ]);

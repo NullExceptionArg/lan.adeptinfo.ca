@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string event_key_id
  * @property string public_key_id
  * @property string secret_key_id
+ * @property int places
  * @property int price
  * @property string rules
  */
@@ -30,7 +31,7 @@ class Lan extends Model
         'created_at', 'updated_at',
     ];
 
-    protected $casts = ['price' => 'integer'];
+    protected $casts = ['price' => 'integer', 'places' => 'integer'];
 
 
     public function reservation()
