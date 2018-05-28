@@ -29,6 +29,10 @@ class GetLanTest extends TestCase
                 'tournament_reservation_start' => $this->lan->tournament_reservation_start,
                 'longitude' => number_format($this->lan->longitude, 7),
                 'latitude' => number_format($this->lan->latitude, 7),
+                'places' => [
+                    'reserved' => 0,
+                    'total' => $this->lan->places
+                ],
                 'price' => $this->lan->price,
                 'rules' => $this->lan->rules,
                 'description' => $this->lan->description,

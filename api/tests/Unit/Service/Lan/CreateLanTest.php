@@ -27,6 +27,7 @@ class CreateLanTest extends TestCase
         "secret_key_id" => "",
         "latitude" => -67.5,
         "longitude" => 64.033333,
+        "places" => 10,
         "price" => 0,
         "rules" => '☭',
         "description" => '☭'
@@ -58,6 +59,7 @@ class CreateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
         $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
         $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
+        $this->assertEquals($this->paramsContent['places'], $result->places);
         $this->assertEquals($this->paramsContent['price'], $result->price);
         $this->assertEquals($this->paramsContent['rules'], $result->rules);
         $this->assertEquals($this->paramsContent['description'], $result->description);
@@ -502,6 +504,45 @@ class CreateLanTest extends TestCase
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"price":["The price must be an integer."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanPlacesRequired(): void
+    {
+        $this->paramsContent['places'] = '';
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"places":["The places field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"places":["The places field is required."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanPlacesMin(): void
+    {
+        $this->paramsContent['places'] = 0;
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"places":["The places must be at least 1."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"places":["The places must be at least 1."]}', $e->getMessage());
+        }
+    }
+
+    public function testCreateLanPlacesInt(): void
+    {
+        $this->paramsContent['places'] = "☭";
+        $request = new Request($this->paramsContent);
+        try {
+            $this->lanService->createLan($request);
+            $this->fail('Expected: {"places":["The places must be an integer."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"places":["The places must be an integer."]}', $e->getMessage());
         }
     }
 

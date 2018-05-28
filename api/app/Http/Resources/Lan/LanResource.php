@@ -2,10 +2,20 @@
 
 namespace App\Http\Resources\Lan;
 
+use App\Model\Lan;
 use Illuminate\Http\Resources\Json\Resource;
 
 class LanResource extends Resource
 {
+
+    protected $reservedPlaces;
+
+    public function __construct(Lan $resource, int $reservedPlaces)
+    {
+        $this->reservedPlaces = $reservedPlaces;
+        parent::__construct($resource);
+    }
+
     /**
      * Transform the resource into an array.
      *
@@ -25,6 +35,10 @@ class LanResource extends Resource
                 'tournament_reservation_start' => $this->tournament_reservation_start,
                 'longitude' => number_format($this->longitude, 7),
                 'latitude' => number_format($this->latitude, 7),
+                'places' => [
+                    'reserved' => $this->reservedPlaces,
+                    'total' => $this->places
+                ],
                 'price' => $this->price,
                 'rules' => $this->rules,
                 'description' => $this->description,
@@ -39,6 +53,10 @@ class LanResource extends Resource
                 'tournament_reservation_start' => $this->when(in_array("tournament_reservation_start", $fields), $this->tournament_reservation_start),
                 'longitude' => $this->when(in_array("longitude", $fields), number_format($this->longitude, 7)),
                 'latitude' => $this->when(in_array("latitude", $fields), number_format($this->latitude, 7)),
+                "places" => $this->when(in_array("places", $fields), [
+                    "reserved" => $this->reservedPlaces,
+                    "total" => $this->places,
+                ]),
                 'price' => $this->when(in_array("price", $fields), $this->price),
                 'rules' => $this->when(in_array("rules", $fields), $this->rules),
                 'description' => $this->when(in_array("description", $fields), $this->description),

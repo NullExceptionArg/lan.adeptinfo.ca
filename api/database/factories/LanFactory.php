@@ -11,6 +11,7 @@ $factory->define(App\Model\Lan::class, function (Faker\Generator $faker) {
         "secret_key_id" => env('SECRET_KEY_ID'),
         "latitude" => $faker->latitude,
         "longitude" => $faker->longitude,
+        "places" => 1,
         "price" => 0,
         "rules" => $faker->text(),
         "description" => $faker->text()

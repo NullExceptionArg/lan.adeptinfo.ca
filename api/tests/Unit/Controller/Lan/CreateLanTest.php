@@ -25,6 +25,7 @@ class CreateLanTest extends TestCase
         "secret_key_id" => "",
         "latitude" => -67.5,
         "longitude" => 64.033333,
+        "places" => 10,
         "price" => 0,
         "rules" => '☭',
         "description" => '☭'
@@ -58,6 +59,8 @@ class CreateLanTest extends TestCase
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
                 "price" => 0,
+                "places" => $this->requestContent['places'],
+                "price" => $this->requestContent['price'],
                 "rules" => $this->requestContent['rules'],
                 "description" => $this->requestContent['description'],
                 "id" => 1
@@ -79,6 +82,7 @@ class CreateLanTest extends TestCase
                 "event_key_id" => $this->requestContent['event_key_id'],
                 "public_key_id" => $this->requestContent['public_key_id'],
                 "secret_key_id" => $this->requestContent['secret_key_id'],
+                "places" => $this->requestContent['places'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
                 "price" => 0,
@@ -645,6 +649,57 @@ class CreateLanTest extends TestCase
                 'message' => [
                     'event_key_id' => [
                         0 => 'Event key id: ' . $this->requestContent['event_key_id'] . ' is not valid.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanPlacesRequired(): void
+    {
+        $this->requestContent['places'] = '';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'places' => [
+                        0 => 'The places field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanPlacesMin(): void
+    {
+        $this->requestContent['places'] = 0;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'places' => [
+                        0 => 'The places must be at least 1.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanPlacesInt(): void
+    {
+        $this->requestContent['places'] = '☭';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'places' => [
+                        0 => 'The places must be an integer.',
                     ],
                 ]
             ])

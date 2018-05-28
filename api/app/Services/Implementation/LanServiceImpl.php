@@ -43,6 +43,7 @@ class LanServiceImpl implements LanService
             'secret_key_id' => 'required|string|max:255',
             'latitude' => 'required|numeric|min:-85|max:85',
             'longitude' => 'required|numeric|min:-180|max:180',
+            'places' => 'required|integer|min:1',
             'price' => 'integer|min:0',
             'rules' => 'string',
             'description' => 'string'
@@ -89,6 +90,7 @@ class LanServiceImpl implements LanService
             $input->input('secret_key_id'),
             $input->input('latitude'),
             $input->input('longitude'),
+            $input->input('places'),
             intval($input->input('price')),
             $input->input('rules'),
             $input->input('description')
@@ -108,8 +110,9 @@ class LanServiceImpl implements LanService
         }
 
         $lan = $this->lanRepository->findLanById($lanId);
+        $placeCount = $this->lanRepository->getReservedPlaces($lanId);
 
-        return new LanResource($lan);
+        return new LanResource($lan, $placeCount);
     }
 
     public function updateRules(Request $input, string $lanId): array

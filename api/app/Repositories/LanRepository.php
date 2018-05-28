@@ -20,6 +20,7 @@ interface LanRepository
         string $secretKeyId,
         float $latitude,
         float $longitude,
+        int $places,
         ?int $price,
         ?string $rules,
         ?string $description
@@ -28,4 +29,6 @@ interface LanRepository
     public function findLanById(int $id): ?Lan;
 
     public function updateLanRules(Lan $lan, string $text): void;
+
+    public function getReservedPlaces(int $lanId): int;
 }

@@ -23,6 +23,7 @@ class CreateLanTest extends TestCase
         "secret_key_id" => "",
         "latitude" => -67.5,
         "longitude" => 64.0333330,
+        "places" => 10,
         "price" => 0,
         "rules" => '☭',
         "description" => '☭'
@@ -53,6 +54,7 @@ class CreateLanTest extends TestCase
             $this->paramsContent['secret_key_id'],
             $this->paramsContent['latitude'],
             $this->paramsContent['longitude'],
+            $this->paramsContent['places'],
             $this->paramsContent['price'],
             $this->paramsContent['rules'],
             $this->paramsContent['description']
@@ -68,6 +70,7 @@ class CreateLanTest extends TestCase
             'secret_key_id' => $this->paramsContent['secret_key_id'],
             'latitude' => $this->paramsContent['latitude'],
             'longitude' => $this->paramsContent['longitude'],
+            'places' => $this->paramsContent['places'],
             'price' => $this->paramsContent['price'],
             'rules' => $this->paramsContent['rules'],
             'description' => $this->paramsContent['description'],

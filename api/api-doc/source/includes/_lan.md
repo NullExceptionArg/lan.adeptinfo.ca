@@ -22,6 +22,7 @@ Créer un nouveau LAN.
   "event_key_id":"12345678-1234-1234-1234-123456789123",
   "public_key_id":"12345678-1234-1234-1234-123456789123",
   "secret_key_id": "12345678-1234-1234-1234-123456789123",
+  "places": "258",
   "latitude": -67.5,
   "longitude": 64.033333,
   "price":"0",
@@ -43,6 +44,7 @@ public_key_id | Clé publique de seats.io . | Requis, 255 caractères max. |
 secret_key_id | Clé secrète de seats.io . | Requis, 255 caractères max. |
 latitude | Latitude de la position où se déroule le LAN. | Requis, entre -85 et 85, nombre. |
 longitude | Longitude de la position où se déroule le LAN. | Requis, entre -180 et 180, nombre. |
+places | Places disponibles pour le LAN. | Requis, int, minimum 1. |
 price | Prix du LAN. | Plus grand ou égale à 0. | 0
 rules | Texte des règles du LAN. | String, optionnel. |
 description | Texte des descritpion du LAN. | String, optionnel. |
@@ -61,6 +63,7 @@ description | Texte des descritpion du LAN. | String, optionnel. |
     "event_key_id": "12345678-1234-1234-1234-123456789123",
     "public_key_id": "12345678-1234-1234-1234-123456789123",
     "secret_key_id": "12345678-1234-1234-1234-123456789123",
+    "places": "258",
     "latitude": -67.5,
     "longitude": 64.033333,
     "price": 0,
@@ -83,6 +86,7 @@ public_key_id | Clé publique de seats.io pour le LAN créé.
 secret_key_id | Clé secrète de seats.io pour le LAN créé.
 latitude | Latitude de la position du LAN créé.
 longitude | Longitude de la position du LAN créé.
+places | Places disponibles pour le LAN créé
 price| Prix du LAN créé.
 rules | Texte des règles du LAN créé.
 description | Texte de la description du LAN créé.
@@ -116,6 +120,7 @@ lan_start | Date et heure de début du LAN.
 lan_end | Date et heure de fin du LAN.
 seat_reservation_start | Date et heure de début des réservation de places.
 tournament_reservation_start | Date et heure de début des inscriptions aux tournois.
+places | Information liée à l'occupation des places
 latitude | Latitude de la position du LAN.
 longitude | Longitude de la position du LAN
 price | Prix d'entré au LAN.
@@ -135,6 +140,10 @@ rules | Règles.
     "tournament_reservation_start": "2100-10-04 00:00:00",
     "latitude": -67.5,
     "longitude": 64.033333,
+    "places": {
+      "reserved": 178,
+      "total": 258
+    },
     "price": 0,
     "rules": "A spectre is haunting Europe – the spectre of communism.",
     "description": "All the powers of old Europe have entered into a holy alliance to exorcise this spectre."
@@ -151,9 +160,16 @@ seat_reservation_start | Date et heure de début des réservation de places.
 tournament_reservation_start | Date et heure de début des inscriptions aux tournois.
 latitude | Latitude de la position du LAN.
 longitude | Longitude de la position du LAN 
+places | Voir places
 price | Prix d'entré au LAN.
 rules | Règles du LAN.
 description | Description du LAN.
+
+#### places
+Champ | Description
+--------- | -----------
+reserved | Places réservées
+total | Nombre de places total
 
 ## Mettre à jour les règles
 
