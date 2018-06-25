@@ -34,7 +34,7 @@ class UserServiceImpl implements UserService
             'password' => 'required|min:6|max:20'
         ]);
 
-        if($userValidator->fails()){
+        if ($userValidator->fails()) {
             throw new BadRequestHttpException($userValidator->errors());
         }
 
@@ -62,6 +62,6 @@ class UserServiceImpl implements UserService
 
     public function getUsers(Request $request): GetUserCollection
     {
-        return new GetUserCollection($this->userRepository->getUsersCriteria());
+        return new GetUserCollection($this->userRepository->getUsersCriteria($request->input('query_string')));
     }
 }

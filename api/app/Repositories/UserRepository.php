@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Model\User;
+use Illuminate\Support\Collection;
 use Laravel\Passport\Token;
 
 interface UserRepository
@@ -28,4 +29,6 @@ interface UserRepository
     public function findByEmail(string $userEmail): ?User;
 
     public function findById(int $userId): ?User;
+
+    public function getUsersCriteria(string $queryString): Collection;
 }

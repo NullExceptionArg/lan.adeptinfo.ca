@@ -54,8 +54,11 @@ class UserRepositoryImpl implements UserRepository
         return User::find($userId);
     }
 
-    public function getUsersCriteria(): Collection
+    public function getUsersCriteria(string $queryString): Collection
     {
-        return User::all();
+        return User::where('last_name', 'like', '%' . $queryString . '%')
+            ->orWhere('first_name', 'like', '%' . $queryString . '%')
+            ->orWhere('email', 'like', '%' . $queryString . '%')
+            ->get();
     }
 }
