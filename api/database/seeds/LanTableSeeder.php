@@ -12,19 +12,19 @@ class LanTableSeeder extends Seeder
     public function run()
     {
         factory(App\Model\Lan::class)->create([
-            'event_key_id' => env('EVENT_KEY_ID-MANY-1'),
+            'event_key_id' => env('EVENT_KEY_ID_MANY_1'),
         ]);
         factory(App\Model\Lan::class)->create([
-            'event_key_id' => env('EVENT_KEY_ID-MANY-2'),
+            'event_key_id' => env('EVENT_KEY_ID_MANY_2'),
         ]);
         factory(App\Model\Lan::class)->create([
-            'event_key_id' => env('EVENT_KEY_ID-MANY-3'),
+            'event_key_id' => env('EVENT_KEY_ID_MANY_3'),
         ]);
         factory(App\Model\Lan::class)->create([
-            'event_key_id' => env('EVENT_KEY_ID-MANY-4'),
+            'event_key_id' => env('EVENT_KEY_ID_MANY_4'),
         ]);
         factory(App\Model\Lan::class)->create([
-            'event_key_id' => env('EVENT_KEY_ID-MANY-5'),
+            'event_key_id' => env('EVENT_KEY_ID_MANY_5'),
         ]);
     }
 }
