@@ -6,7 +6,7 @@ namespace App\Repositories\Implementation;
 
 use App\Model\User;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Token;
@@ -54,11 +54,18 @@ class UserRepositoryImpl implements UserRepository
         return User::find($userId);
     }
 
-    public function getUsersCriteria(string $queryString): Collection
+    public function getPaginatedUsersCriteria(
+        string $queryString,
+        string $orderColumn,
+        string $orderDirection,
+        int $itemsPerPage,
+        int $currentPage
+    ): AbstractPaginator
     {
         return User::where('last_name', 'like', '%' . $queryString . '%')
             ->orWhere('first_name', 'like', '%' . $queryString . '%')
             ->orWhere('email', 'like', '%' . $queryString . '%')
-            ->get();
+            ->orderBy($orderColumn, $orderDirection)
+            ->paginate($itemsPerPage, ['*'], '', $currentPage);
     }
 }

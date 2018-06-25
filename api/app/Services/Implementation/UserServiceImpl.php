@@ -62,6 +62,12 @@ class UserServiceImpl implements UserService
 
     public function getUsers(Request $request): GetUserCollection
     {
-        return new GetUserCollection($this->userRepository->getUsersCriteria($request->input('query_string')));
+        return new GetUserCollection($this->userRepository->getPaginatedUsersCriteria(
+            $request->input('query_string'),
+            $request->input('order_column'),
+            $request->input('order_direction'),
+            $request->input('items_per_page'),
+            $request->input('current_page')
+        ));
     }
 }

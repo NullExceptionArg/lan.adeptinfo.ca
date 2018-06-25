@@ -5,7 +5,7 @@ namespace App\Repositories;
 
 
 use App\Model\User;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\AbstractPaginator;
 use Laravel\Passport\Token;
 
 interface UserRepository
@@ -30,5 +30,11 @@ interface UserRepository
 
     public function findById(int $userId): ?User;
 
-    public function getUsersCriteria(string $queryString): Collection;
+    public function getPaginatedUsersCriteria(
+        string $queryString,
+        string $orderColumn,
+        string $orderDirection,
+        int $itemsPerPage,
+        int $currentPage
+    ): AbstractPaginator;
 }
