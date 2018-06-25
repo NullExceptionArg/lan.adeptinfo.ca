@@ -13,6 +13,7 @@ class LanRepositoryImpl implements LanRepository
 {
 
     public function createLan(
+        string $name,
         DateTime $lanStart,
         DateTime $lanEnd,
         DateTime $seatReservationStart,
@@ -20,12 +21,16 @@ class LanRepositoryImpl implements LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
+        float $latitude,
+        float $longitude,
         int $places,
         ?int $price,
-        ?string $rules
+        ?string $rules,
+        ?string $description
     ): Lan
     {
         $lan = new Lan();
+        $lan->name = $name;
         $lan->lan_start = $lanStart->format('Y-m-d H:i:s');
         $lan->lan_end = $lanEnd->format('Y-m-d H:i:s');
         $lan->seat_reservation_start = $seatReservationStart->format('Y-m-d H:i:s');
@@ -33,9 +38,12 @@ class LanRepositoryImpl implements LanRepository
         $lan->event_key_id = $eventKeyId;
         $lan->public_key_id = $publicKeyId;
         $lan->secret_key_id = $secretKeyId;
+        $lan->latitude = $latitude;
+        $lan->longitude = $longitude;
         $lan->places = $places;
         $lan->price = $price;
         $lan->rules = $rules;
+        $lan->description = $description;
         $lan->save();
 
         return $lan;

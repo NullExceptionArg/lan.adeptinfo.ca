@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property int id
+ * @property string name
  * @property DateTime lan_start
  * @property DateTime lan_end
  * @property DateTime seat_reservation_start
@@ -15,8 +16,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property string public_key_id
  * @property string secret_key_id
  * @property int places
- * @property int price
- * @property string rules
+ * @property float longitude
+ * @property float latitude
+ * @property null|int price
+ * @property null|string rules
+ * @property null|string description
  */
 class Lan extends Model
 {

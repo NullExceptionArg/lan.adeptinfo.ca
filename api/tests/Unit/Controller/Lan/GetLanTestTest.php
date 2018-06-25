@@ -22,16 +22,20 @@ class GetLanTest extends TestCase
         $this->json('GET', '/api/lan/' . $this->lan->id)
             ->seeJsonEquals([
                 'id' => $this->lan->id,
+                'name' => $this->lan->name,
                 'lan_start' => $this->lan->lan_start,
                 'lan_end' => $this->lan->lan_end,
                 'seat_reservation_start' => $this->lan->seat_reservation_start,
                 'tournament_reservation_start' => $this->lan->tournament_reservation_start,
+                'longitude' => number_format($this->lan->longitude, 7),
+                'latitude' => number_format($this->lan->latitude, 7),
                 'places' => [
                     'reserved' => 0,
                     'total' => $this->lan->places
                 ],
                 'price' => $this->lan->price,
                 'rules' => $this->lan->rules,
+                'description' => $this->lan->description,
             ])
             ->assertResponseStatus(200);
     }
