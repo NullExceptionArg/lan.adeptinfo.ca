@@ -13,11 +13,15 @@ before_script:
 script:
   - vendor/bin/phpunit
   
-notifications:
-  webhooks:
-    urls:
-      - https://discordapp.com/api/webhooks/446691250746425354/g8VdqZAiG-XjlF3RVnUrv1uNlOsi2vLlCvUtgxyq01niW-50wDKW2ClLWSLqivAcwcfv
-
 addons:
     apt:
       update: true
+
+after_success:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh success $WEBHOOK_URL
+after_failure:
+  - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
+  - chmod +x send.sh
+  - ./send.sh failure $WEBHOOK_URL
