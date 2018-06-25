@@ -65,8 +65,8 @@ class UserServiceImpl implements UserService
     {
         $userValidator = Validator::make($request->all(), [
             'query_string' => 'max:255|string',
-            'order_column' => ['max:255', Rule::in(['first_name', 'last_name', 'email']),],
-            'order_direction' => ['max:255', Rule::in(['asc', 'desc']),],
+            'order_column' => [Rule::in(['first_name', 'last_name', 'email']),],
+            'order_direction' => [Rule::in(['asc', 'desc']),],
             'items_per_page' => 'numeric|min:1|max:75',
             'current_page' => 'numeric|min:1'
         ]);

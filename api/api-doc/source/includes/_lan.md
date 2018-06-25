@@ -90,7 +90,7 @@ lan_id | Id du LAN dont l'utilisateur veut obtenir les informations. | Requis, s
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-fields | Liste des champs à obtenir pour le LAN. Si ce paramètre est laissé vide, le LAN au complet sera retourné. | Aucune.
+fields | Liste des champs à obtenir pour le LAN. Si ce paramètre est laissé vide, le LAN au complet sera retourné. Voir champs disponibles | Aucune.
 
 #### Champs disponibles
 Champ | Description
