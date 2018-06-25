@@ -14,4 +14,5 @@ interface LanService
     public function getLan(Request $request, string $lanId): GetLanResource;
 
     public function updateRules(Request $input, string $lanId): array;
+
 }

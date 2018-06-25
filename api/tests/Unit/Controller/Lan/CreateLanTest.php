@@ -15,6 +15,7 @@ class CreateLanTest extends TestCase
     protected $user;
 
     protected $requestContent = [
+        'name' => "Bolshevik Revolution",
         'lan_start' => "2100-10-11 12:00:00",
         'lan_end' => "2100-10-12 12:00:00",
         'seat_reservation_start' => "2100-10-04 12:00:00",
@@ -22,8 +23,12 @@ class CreateLanTest extends TestCase
         "event_key_id" => "",
         "public_key_id" => "",
         "secret_key_id" => "",
+        "latitude" => -67.5,
+        "longitude" => 64.033333,
+        "places" => 10,
         "price" => 0,
-        "rules" => '☭'
+        "rules" => '☭',
+        "description" => '☭'
     ];
 
     public function setUp(): void
@@ -43,6 +48,7 @@ class CreateLanTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
+                'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -50,8 +56,13 @@ class CreateLanTest extends TestCase
                 "event_key_id" => $this->requestContent['event_key_id'],
                 "public_key_id" => $this->requestContent['public_key_id'],
                 "secret_key_id" => $this->requestContent['secret_key_id'],
+                "latitude" => $this->requestContent['latitude'],
+                "longitude" => $this->requestContent['longitude'],
+                "price" => 0,
+                "places" => $this->requestContent['places'],
                 "price" => $this->requestContent['price'],
                 "rules" => $this->requestContent['rules'],
+                "description" => $this->requestContent['description'],
                 "id" => 1
             ])
             ->assertResponseStatus(201);
@@ -63,6 +74,7 @@ class CreateLanTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
+                'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -70,11 +82,66 @@ class CreateLanTest extends TestCase
                 "event_key_id" => $this->requestContent['event_key_id'],
                 "public_key_id" => $this->requestContent['public_key_id'],
                 "secret_key_id" => $this->requestContent['secret_key_id'],
+                "places" => $this->requestContent['places'],
+                "latitude" => $this->requestContent['latitude'],
+                "longitude" => $this->requestContent['longitude'],
                 "price" => 0,
                 "rules" => $this->requestContent['rules'],
+                "description" => $this->requestContent['description'],
                 "id" => 1
             ])
             ->assertResponseStatus(201);
+    }
+
+    public function testCreateLanNameRequired(): void
+    {
+        $this->requestContent['name'] = '';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'name' => [
+                        0 => 'The name field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanNameString(): void
+    {
+        $this->requestContent['name'] = 1;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'name' => [
+                        0 => 'The name must be a string.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanNameMaxLength(): void
+    {
+        $this->requestContent['name'] = str_repeat('☭', 256);
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'name' => [
+                        0 => 'The name may not be greater than 255 characters.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 
     public function testCreateLanStartRequired(): void
@@ -384,7 +451,143 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceMinimum(): void
+    public function testCreateLanLatitudeRequired(): void
+    {
+        $this->requestContent['latitude'] = '';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'latitude' => [
+                        0 => 'The latitude field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanLatitudeMin(): void
+    {
+        $this->requestContent['latitude'] = -86;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'latitude' => [
+                        0 => 'The latitude must be at least -85.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanLatitudeMax(): void
+    {
+        $this->requestContent['latitude'] = 86;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'latitude' => [
+                        0 => 'The latitude may not be greater than 85.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanLatitudeNumeric(): void
+    {
+        $this->requestContent['latitude'] = '☭';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'latitude' => [
+                        0 => 'The latitude must be a number.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanLongitudeRequired(): void
+    {
+        $this->requestContent['longitude'] = '';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'longitude' => [
+                        0 => 'The longitude field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanLongitudeMin(): void
+    {
+        $this->requestContent['longitude'] = -181;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'longitude' => [
+                        0 => 'The longitude must be at least -180.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanLongitudeMax(): void
+    {
+        $this->requestContent['longitude'] = 181;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'longitude' => [
+                        0 => 'The longitude may not be greater than 180.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanLongitudeNumeric(): void
+    {
+        $this->requestContent['longitude'] = '☭';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'longitude' => [
+                        0 => 'The longitude must be a number.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanPriceMinimum()
     {
         $this->requestContent['price'] = '-1';
         $this->actingAs($this->user)
@@ -452,6 +655,57 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testCreateLanPlacesRequired(): void
+    {
+        $this->requestContent['places'] = '';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'places' => [
+                        0 => 'The places field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanPlacesMin(): void
+    {
+        $this->requestContent['places'] = 0;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'places' => [
+                        0 => 'The places must be at least 1.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanPlacesInt(): void
+    {
+        $this->requestContent['places'] = '☭';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'places' => [
+                        0 => 'The places must be an integer.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
     public function testCreateLanRulesString(): void
     {
         $this->requestContent['rules'] = 1;
@@ -463,6 +717,23 @@ class CreateLanTest extends TestCase
                 'message' => [
                     'rules' => [
                         0 => 'The rules must be a string.'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanDescriptionString(): void
+    {
+        $this->requestContent['description'] = 1;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'description' => [
+                        0 => 'The description must be a string.'
                     ],
                 ]
             ])

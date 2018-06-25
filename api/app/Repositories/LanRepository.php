@@ -10,6 +10,7 @@ use DateTime;
 interface LanRepository
 {
     public function createLan(
+        string $name,
         DateTime $lanStart,
         DateTime $lanEnd,
         DateTime $seatReservationStart,
@@ -17,11 +18,17 @@ interface LanRepository
         string $eventKeyId,
         string $publicKeyId,
         string $secretKeyId,
+        float $latitude,
+        float $longitude,
+        int $places,
         ?int $price,
-        ?string $rules
+        ?string $rules,
+        ?string $description
     ): Lan;
 
     public function findLanById(int $id): ?Lan;
 
     public function updateLanRules(Lan $lan, string $text): void;
+
+    public function getReservedPlaces(int $lanId): int;
 }
