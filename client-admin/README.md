@@ -1,28 +1,27 @@
+# ClientAdmin
 
-# Client administrateur du LAN de l'ADEPT
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.
 
-Ce client représente l'ensemble du côté administrateur du site web du LAN de l'ADEPT
+## Development server
 
-## Information générale
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
- - Version de Angular: 5.2.9
- - Documentation Angular: https://angular.io/docs
+## Code scaffolding
 
-## Développer en local
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-### Outils recommandés
+## Build
 
- - Un IDE polyvalent pour développer en Angular (ex: atom, sublime, WebStorm, etc...)
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-### Exécuter pour la première fois
+## Running unit tests
 
- - Prérequis: Angular CLI: https://cli.angular.io/
- - Avec un terminal de commande, se placer à la racine du projet client-admin
- - Exécuter `npm install` (prend un certain temps)
- - Exécuter `ng serve`
- - Ouvrir un navigateur à l'URL suivante: http://localhost:4200
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-### Exécuter
- - Avec un terminal de commande, se placer à la racine du projet client-admin
- - Exécuter `ng serve`
- - Ouvrir un navigateur à l'URL suivante: http://localhost:4200
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
