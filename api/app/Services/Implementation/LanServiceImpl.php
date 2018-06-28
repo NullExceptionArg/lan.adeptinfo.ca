@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 
 use App\Http\Resources\Lan\LanResource;
 use App\Model\Lan;
+use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Services\LanService;
 use DateTime;
@@ -17,14 +18,17 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class LanServiceImpl implements LanService
 {
     protected $lanRepository;
+    protected $imageRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param LanRepositoryImpl $lanRepositoryImpl
+     * @param ImageRepositoryImpl $imageRepositoryImpl
      */
-    public function __construct(LanRepositoryImpl $lanRepositoryImpl)
+    public function __construct(LanRepositoryImpl $lanRepositoryImpl, ImageRepositoryImpl $imageRepositoryImpl)
     {
         $this->lanRepository = $lanRepositoryImpl;
+        $this->imageRepository = $imageRepositoryImpl;
     }
 
     public function createLan(Request $input): Lan
@@ -111,8 +115,9 @@ class LanServiceImpl implements LanService
 
         $lan = $this->lanRepository->findLanById($lanId);
         $placeCount = $this->lanRepository->getReservedPlaces($lanId);
+        $images = $this->imageRepository->getImagesForLan($lan);
 
-        return new LanResource($lan, $placeCount);
+        return new LanResource($lan, $placeCount, $images);
     }
 
     public function updateRules(Request $input, string $lanId): array

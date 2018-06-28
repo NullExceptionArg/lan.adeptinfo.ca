@@ -4,15 +4,18 @@ namespace App\Http\Resources\Lan;
 
 use App\Model\Lan;
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Collection;
 
 class LanResource extends Resource
 {
 
     protected $reservedPlaces;
+    protected $images;
 
-    public function __construct(Lan $resource, int $reservedPlaces)
+    public function __construct(Lan $resource, int $reservedPlaces, Collection $images)
     {
         $this->reservedPlaces = $reservedPlaces;
+        $this->images = $images;
         parent::__construct($resource);
     }
 
@@ -42,6 +45,7 @@ class LanResource extends Resource
                 'price' => $this->price,
                 'rules' => $this->rules,
                 'description' => $this->description,
+                'images' => $this->images
             ];
         } else {
             return [
@@ -60,6 +64,7 @@ class LanResource extends Resource
                 'price' => $this->when(in_array("price", $fields), $this->price),
                 'rules' => $this->when(in_array("rules", $fields), $this->rules),
                 'description' => $this->when(in_array("description", $fields), $this->description),
+                'images' => $this->when(in_array("images", $fields), $this->images)
             ];
         }
     }

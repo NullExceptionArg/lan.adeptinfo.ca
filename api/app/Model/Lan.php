@@ -52,4 +52,9 @@ class Lan extends Model
     {
         return $this->hasMany(ContributionCategory::class);
     }
+
+    public function Image()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

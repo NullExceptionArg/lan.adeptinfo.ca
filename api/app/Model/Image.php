@@ -22,4 +22,9 @@ class Image extends Model
     protected $hidden = [
         'created_at', 'updated_at',
     ];
+
+    public function Lan()
+    {
+        return $this->belongsTo(Lan::class);
+    }
 }

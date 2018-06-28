@@ -4,7 +4,9 @@ namespace App\Repositories\Implementation;
 
 
 use App\Model\Image;
+use App\Model\Lan;
 use App\Repositories\ImageRepository;
+use Illuminate\Support\Collection;
 
 class ImageRepositoryImpl implements ImageRepository
 {
@@ -32,5 +34,10 @@ class ImageRepositoryImpl implements ImageRepository
         } catch (\Exception $e) {
         }
         return $image->id;
+    }
+
+    public function getImagesForLan(Lan $lan): Collection
+    {
+        return $lan->Image()->get();
     }
 }
