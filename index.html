@@ -239,6 +239,9 @@
                   <li>
                     <a href="#supprimer" class="toc-h2 toc-link" data-title="supprimer">Supprimer</a>
                   </li>
+                  <li>
+                    <a href="#lister-les-utilisateurs" class="toc-h2 toc-link" data-title="lister-les-utilisateurs">Lister les utilisateurs</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -260,6 +263,12 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#reserver-une-place" class="toc-h2 toc-link" data-title="reserver-une-place">Réserver une place</a>
+                  </li>
+                  <li>
+                    <a href="#confirmer-une-place" class="toc-h2 toc-link" data-title="confirmer-une-place">Confirmer une place</a>
+                  </li>
+                  <li>
+                    <a href="#deconfirmer-une-place" class="toc-h2 toc-link" data-title="deconfirmer-une-place">Déconfirmer une place</a>
                   </li>
               </ul>
           </li>
@@ -506,6 +515,149 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <pre class="highlight json tab-json"><code><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>La réponse de la suppression de utilisateur est vide.</p>
+<h2 id='lister-les-utilisateurs'>Lister les utilisateurs</h2>
+<p>Lister l&#39;ensemble des utilisateurs selon des filtres, un ordre et de la pagination</p>
+<h3 id='requete-http-5'>Requête HTTP</h3>
+<p><code>GET /api/user</code></p>
+<h3 id='query-params'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>query_string</td>
+<td>Terme à rechercher parmis le nom, le prénom, et le courriel de l&#39;utilisateur</td>
+<td>string, 255 caractères max.</td>
+</tr>
+<tr>
+<td>order_column</td>
+<td>Colonne selon laquelle les résultats seront ordonnés. Par défaut: last_name</td>
+<td>Doit être l&#39;une des entrées suivantes: last_name, first_name, email.</td>
+</tr>
+<tr>
+<td>order_direction</td>
+<td>Ordre de classement selon lequel les résultats seront ordonnés, soit en ordre croissant (asc), soit en ordre décroissant (desc). Par défaut asc</td>
+<td>Doit être l&#39;une des entrées suivantes: asc, desc.</td>
+</tr>
+<tr>
+<td>items_per_page</td>
+<td>Nombre de résultats à inclure par page</td>
+<td>Nombre, minimum: 1, maximum: 75.</td>
+</tr>
+<tr>
+<td>current_page</td>
+<td>Page courante de recherche</td>
+<td>Nombre, minimum: 1.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-5'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wilfrid"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Oberbrunner"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"dayton47@hermiston.com"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wilfred"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Altenwerth"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"kariane.glover@wyman.com"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wilfred"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ferry"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"romaguera.ocie@hackett.com"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Wiley"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Morar"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lschultz@ernser.com"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Weston"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Hoppe"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ullrich.florencio@yahoo.com"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"pagination"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">1001</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"count"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"per_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"current_page"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"total_pages"</span><span class="p">:</span><span class="w"> </span><span class="mi">201</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>data</td>
+<td>Liste des utilisateurs retournées par la recherche. Voir Data.</td>
+</tr>
+<tr>
+<td>pagination</td>
+<td>Informations liées à la pagination. Voir Pagination.</td>
+</tr>
+</tbody></table>
+<h4 id='data'>Data</h4>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+<td>Prénom de l&#39;utilisateur.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>Nom de famille de l&#39;utilisateur.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>Courriel de l&#39;utilisateur.</td>
+</tr>
+</tbody></table>
+<h4 id='pagination'>Pagination</h4>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>total</td>
+<td>Nombre d&#39;utilisateurs trouvés.</td>
+</tr>
+<tr>
+<td>count</td>
+<td>Nombre d&#39;utilisateur sur la page courante.</td>
+</tr>
+<tr>
+<td>per_page</td>
+<td>Nombre d&#39;utilisateurs par page.</td>
+</tr>
+<tr>
+<td>current_page</td>
+<td>Page courante.</td>
+</tr>
+<tr>
+<td>total_pages</td>
+<td>Nombre total de pages.</td>
+</tr>
+</tbody></table>
 <h1 id='lan'>LAN</h1><h2 id='creer-un-lan'>Créer un LAN</h2>
 <p>Créer un nouveau LAN.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
@@ -523,6 +675,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
   </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="s2">"258"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
   </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
   </span><span class="s2">"price"</span><span class="p">:</span><span class="s2">"0"</span><span class="p">,</span><span class="w">
@@ -600,6 +753,12 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td></td>
 </tr>
 <tr>
+<td>places</td>
+<td>Places disponibles pour le LAN.</td>
+<td>Requis, int, minimum 1.</td>
+<td></td>
+</tr>
+<tr>
 <td>price</td>
 <td>Prix du LAN.</td>
 <td>Plus grand ou égale à 0.</td>
@@ -631,6 +790,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
     </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="s2">"258"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
     </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
     </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
@@ -687,6 +847,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Longitude de la position du LAN créé.</td>
 </tr>
 <tr>
+<td>places</td>
+<td>Places disponibles pour le LAN créé</td>
+</tr>
+<tr>
 <td>price</td>
 <td>Prix du LAN créé.</td>
 </tr>
@@ -731,7 +895,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 </thead><tbody>
 <tr>
 <td>fields</td>
-<td>Liste des champs à obtenir pour le LAN, séparés par des virgules. Si ce paramètre est laissé vide, le LAN au complet sera retourné.</td>
+<td>Liste des champs à obtenir pour le LAN, séparés par des virgules. Si ce paramètre est laissé vide, le LAN au complet sera retourné. Voir champs disponibles</td>
 <td>Aucune.</td>
 </tr>
 </tbody></table>
@@ -763,6 +927,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Date et heure de début des inscriptions aux tournois.</td>
 </tr>
 <tr>
+<td>places</td>
+<td>Information liée à l&#39;occupation des places</td>
+</tr>
+<tr>
 <td>latitude</td>
 <td>Latitude de la position du LAN.</td>
 </tr>
@@ -792,6 +960,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
     </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
     </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"reserved"</span><span class="p">:</span><span class="w"> </span><span class="mi">178</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">258</span><span class="w">
+    </span><span class="p">},</span><span class="w">
     </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A spectre is haunting Europe – the spectre of communism."</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"All the powers of old Europe have entered into a holy alliance to exorcise this spectre."</span><span class="w">
@@ -833,6 +1005,10 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Longitude de la position du LAN</td>
 </tr>
 <tr>
+<td>places</td>
+<td>Voir places</td>
+</tr>
+<tr>
 <td>price</td>
 <td>Prix d&#39;entré au LAN.</td>
 </tr>
@@ -843,6 +1019,22 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>description</td>
 <td>Description du LAN.</td>
+</tr>
+</tbody></table>
+<h4 id='places'>places</h4>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>reserved</td>
+<td>Places réservées</td>
+</tr>
+<tr>
+<td>total</td>
+<td>Nombre de places total</td>
 </tr>
 </tbody></table>
 <h2 id='mettre-a-jour-les-regles'>Mettre à jour les règles</h2>
@@ -952,6 +1144,104 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;utilisateur a réservé.</td>
+</tr>
+</tbody></table>
+<h2 id='confirmer-une-place'>Confirmer une place</h2>
+<p>Confirmer l&#39;arrivée d&#39;un joueur au LAN.</p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>POST /api/lan/{lan_id}/confirm/{seat_id}</code></p>
+<h3 id='path-params-2'>Path Params</h3>
+<p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
+
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut confirmer une place.</td>
+<td>Requis, string.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;administrateur confirmer.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur a confirmé une place.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;administrateur a confirmé.</td>
+</tr>
+</tbody></table>
+<h2 id='deconfirmer-une-place'>Déconfirmer une place</h2>
+<p>Départ de l&#39;un des joueurs déjà marqué comme arrivé à un LAN.</p>
+<h3 id='requete-http-3'>Requête HTTP</h3>
+<p><code>DELETE /api/lan/{lan_id}/confirm/{seat_id}</code></p>
+<h3 id='path-params-3'>Path Params</h3>
+<p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
+
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut déconfirmer une place.</td>
+<td>Requis, string.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;administrateur déconfirmer.</td>
+<td>Requis, integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur a déconfirmé une place.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;administrateur a déconfirmé.</td>
 </tr>
 </tbody></table>
 <h1 id='contribution'>Contribution</h1>
