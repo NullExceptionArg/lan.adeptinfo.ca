@@ -20,7 +20,8 @@
     "guzzlehttp/guzzle": "6.3.0",
     "seatsio/seatsio-php": "^9.0",
     "pusher/pusher-php-server": "^3.0",
-    "predis/predis": "^1.1"
+    "predis/predis": "^1.1",
+    "league/flysystem": " ~1.0"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

@@ -26,22 +26,25 @@ class ImageServiceImpl implements ImageService
     {
         $rulesValidator = Validator::make([
             'lan_id' => $lanId,
-            'image' => $request->file('image')
+            'image' => $request->input('image')
         ], [
             'lan_id' => 'required|integer|exists:lan,id',
-            'image' => 'required|image'
+            'image' => 'required|string'
         ]);
 
         if ($rulesValidator->fails()) {
             throw new BadRequestHttpException($rulesValidator->errors());
         }
 
-        $path = $request->file('image')->path();
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        if (!base64_decode($request->input('image'), false)){
+            throw new BadRequestHttpException(json_encode([
+                "image" => [
+                    'The image is not a valid base64 encoded string.'
+                ]
+            ]));
+        }
 
-        return $this->imageRepository->createImageForLan($lanId, $base64);
+        return $this->imageRepository->createImageForLan($lanId, $request->input('image'));
     }
 
     public function deleteImages(string $lanId, string $imagesId): void
