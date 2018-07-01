@@ -45,10 +45,10 @@ class DeleteUserTest extends TestCase
         $contribution->ContributionCategory()->attach($contributionCategory);
 
         /// Make sure every relations exist
-        // Reservation - User
+        // Reservation - GetUserResource
         $this->assertEquals(1, Reservation::where('user_id', $user->id)->get()->count());
 
-        // Contribution - User
+        // Contribution - GetUserResource
         $this->assertEquals(1, $user->Contribution()->count());
 
         // Seats.io
@@ -62,7 +62,7 @@ class DeleteUserTest extends TestCase
             ->assertResponseStatus(200);
 
         /// Verify relations have been removed
-        // User
+        // GetUserResource
         $this->assertEquals(0, User::where('id', $user->id)->get()->count());
 
         // Reservation

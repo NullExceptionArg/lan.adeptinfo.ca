@@ -5,6 +5,7 @@ namespace App\Repositories;
 
 
 use App\Model\User;
+use Illuminate\Pagination\AbstractPaginator;
 use Laravel\Passport\Token;
 
 interface UserRepository
@@ -15,7 +16,7 @@ interface UserRepository
      * @param string $lastName Users last name
      * @param string $email Users email
      * @param string $password Users password
-     * @return User User that was created
+     * @return User GetUserResource that was created
      */
     public function createUser(string $firstName, string $lastName, string $email, string $password): User;
 
@@ -28,4 +29,12 @@ interface UserRepository
     public function findByEmail(string $userEmail): ?User;
 
     public function findById(int $userId): ?User;
+
+    public function getPaginatedUsersCriteria(
+        string $queryString,
+        string $orderColumn,
+        string $orderDirection,
+        int $itemsPerPage,
+        int $currentPage
+    ): AbstractPaginator;
 }

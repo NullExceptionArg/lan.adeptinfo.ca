@@ -49,7 +49,7 @@ class SeatServiceImpl implements SeatService
 
         $seatsClient = new SeatsioClient($lan->secret_key_id);
 
-        // User can only have one seat in a lan
+        // GetUserResource can only have one seat in a lan
         $lanUserReservation = $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
         if ($lanUserReservation != null && $lanUserReservation->count() > 0) {
             throw new BadRequestHttpException(json_encode([
