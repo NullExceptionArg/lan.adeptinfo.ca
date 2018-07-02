@@ -6,7 +6,7 @@ use App\Model\Lan;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 
-class LanResource extends Resource
+class GetLanResource extends Resource
 {
 
     protected $reservedPlaces;

@@ -57,6 +57,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->hasMany(Contribution::class);
     }
 
+    public function lan()
+    {
+        return $this->hasManyThrough(
+            'App\Model\Lan',
+            'App\Model\Reservation'
+        );
+    }
+
     protected static function boot()
     {
         parent::boot();

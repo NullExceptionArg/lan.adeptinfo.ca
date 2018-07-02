@@ -3,7 +3,7 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Lan\LanResource;
+use App\Http\Resources\Lan\GetLanResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
@@ -101,7 +101,7 @@ class LanServiceImpl implements LanService
         );
     }
 
-    public function getLan(Request $request, string $lanId): LanResource
+    public function getLan(Request $request, string $lanId): GetLanResource
     {
         $rulesValidator = Validator::make([
             'lan_id' => $lanId,
@@ -117,7 +117,7 @@ class LanServiceImpl implements LanService
         $placeCount = $this->lanRepository->getReservedPlaces($lanId);
         $images = $this->imageRepository->getImagesForLan($lan);
 
-        return new LanResource($lan, $placeCount, $images);
+        return new GetLanResource($lan, $placeCount, $images);
     }
 
     public function updateRules(Request $input, string $lanId): array
