@@ -23,6 +23,8 @@ class Image extends Model
         'created_at', 'updated_at',
     ];
 
+    protected $casts = ['id' => 'integer'];
+
     public function Lan()
     {
         return $this->belongsTo(Lan::class);

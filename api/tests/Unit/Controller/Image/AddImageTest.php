@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\Controller\Image;
 
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -15,7 +13,7 @@ class addImageTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'memes' => 'memes'
+        'image' => null
     ];
 
     public function setUp(): void
@@ -24,22 +22,18 @@ class addImageTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-//        Storage::fake('tests');
-//        $this->requestContent['image'] = UploadedFile::fake()->image('test.jpg');
+        $this->requestContent['image'] = factory('App\Model\Image')->make([
+            'lan_id' => $this->lan->id
+        ])->image;
     }
 
     public function testAddImage(): void
     {
-        $path = base_path() . '/resources/misc/misc.png';
-        $type = pathinfo($path, PATHINFO_EXTENSION);
-        $data = file_get_contents($path);
-        $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
-
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/image', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'image' => $base64,
+                'image' => $this->requestContent['image'],
                 'lan_id' => $this->lan->id
             ])
             ->assertResponseStatus(201);
@@ -47,18 +41,66 @@ class addImageTest extends TestCase
 
     public function testAddImageLanIdExists(): void
     {
-
         $badLanId = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/image', [
-                'image' => UploadedFile::fake()->image('test.jpg')
-            ])
+            ->json('POST', '/api/lan/' . $badLanId . '/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testAddImageLanIdInteger(): void
+    {
+        $badLanId = '☭';
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $badLanId . '/image', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'lan_id' => [
+                        0 => 'The lan id must be an integer.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testAddImageRequired(): void
+    {
+        $this->requestContent['image'] = null;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/image', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'image' => [
+                        0 => 'The image field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testAddImageString(): void
+    {
+        $this->requestContent['image'] = 1;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan/' . $this->lan->id . '/image', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'image' => [
+                        0 => 'The image must be a string.',
                     ],
                 ]
             ])

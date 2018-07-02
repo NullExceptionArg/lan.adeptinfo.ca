@@ -36,7 +36,7 @@ class GetLanTest extends TestCase
                 'price' => $this->lan->price,
                 'rules' => $this->lan->rules,
                 'description' => $this->lan->description,
-                []
+                'images' => []
             ])
             ->assertResponseStatus(200);
     }

@@ -26,7 +26,6 @@ class ImageController extends Controller
 
     public function deleteImages(string $lan_id, string $images_id)
     {
-        $this->imageService->deleteImages($lan_id, $images_id);
-        return response()->json([], 200);
+        return response()->json($this->imageService->deleteImages($lan_id, $images_id), 200);
     }
 }

@@ -28,7 +28,7 @@ class ImageServiceImpl implements ImageService
             'lan_id' => $lanId,
             'image' => $request->input('image')
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id',
             'image' => 'required|string'
         ]);
 
@@ -36,32 +36,23 @@ class ImageServiceImpl implements ImageService
             throw new BadRequestHttpException($rulesValidator->errors());
         }
 
-        if (!base64_decode($request->input('image'), false)){
-            throw new BadRequestHttpException(json_encode([
-                "image" => [
-                    'The image is not a valid base64 encoded string.'
-                ]
-            ]));
-        }
-
         return $this->imageRepository->createImageForLan($lanId, $request->input('image'));
     }
 
-    public function deleteImages(string $lanId, string $imagesId): void
+    public function deleteImages(string $lanId, string $imagesId): array
     {
         $rulesValidator = Validator::make([
             'lan_id' => $lanId,
             'images_id' => $imagesId
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
-            'images_id' => 'required|string'
+            'lan_id' => 'integer|exists:lan,id',
         ]);
 
         if ($rulesValidator->fails()) {
             throw new BadRequestHttpException($rulesValidator->errors());
         }
 
-        $imageIdArray = explode(',', $imagesId);
+        $imageIdArray = array_map('intval', explode(',', $imagesId));
         $images = [];
         $badImageIds = [];
         for ($i = 0; $i < count($imageIdArray); $i++) {
@@ -84,5 +75,7 @@ class ImageServiceImpl implements ImageService
                 ]
             ]));
         }
+
+        return $imageIdArray;
     }
 }
