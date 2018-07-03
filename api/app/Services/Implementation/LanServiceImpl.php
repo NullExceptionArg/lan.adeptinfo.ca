@@ -4,12 +4,14 @@
 namespace App\Services\Implementation;
 
 use App\Http\Resources\Lan\GetLanResource;
+use App\Http\Resources\Lan\GetLansResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Services\LanService;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\Validator;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioException;
@@ -139,5 +141,10 @@ class LanServiceImpl implements LanService
         $this->lanRepository->updateLanRules($lan, $input['text']);
 
         return ["text" => $input['text']];
+    }
+
+    public function getLans(): ResourceCollection
+    {
+        return GetLansResource::collection($this->lanRepository->getLans());
     }
 }

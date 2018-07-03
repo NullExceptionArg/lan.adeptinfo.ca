@@ -187,6 +187,41 @@ id | Id de l'image.
 lan_id | Id du LAN auquel appartient l'image.
 image | Contenu en base64 de l'image.
 
+## Obtenir les LAN
+
+Obtenir l'ensemble des LANs
+
+### Requête HTTP
+
+`GET /api/lans`
+
+Cette requête ne nécessite aucuns paramètres
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+[
+    {
+        "id": 1,
+        "name": "Bolshevik Revolution",
+        "date": "October 1917"
+    },
+    {
+        "id": 2,
+        "name": "Communist Manifesto publication",
+        "date": "February 1848"
+    }
+]
+```
+
+Champ | Description
+--------- | -----------
+id | Id du LAN.
+name | Nom du LAN.
+date | Date du LAN (Mois et année).
+
 ## Mettre à jour les règles
 
 Mettre à jour les règles d'un LAN

@@ -35,4 +35,9 @@ class LanController extends Controller
     {
         return response()->json($this->lanService->getLan($request, $lan_id), 200);
     }
+
+    public function getLans()
+    {
+        return response()->json($this->lanService->getLans(), 200);
+    }
 }
