@@ -14,6 +14,6 @@ $factory->define(App\Model\Lan::class, function (Faker\Generator $faker) {
         "places" => 1,
         "price" => 0,
         "rules" => $faker->text(),
-        "description" => $faker->text()
+        "description" => $faker->text(),
     ];
 });

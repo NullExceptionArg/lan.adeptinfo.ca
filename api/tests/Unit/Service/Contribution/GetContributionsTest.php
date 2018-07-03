@@ -49,7 +49,7 @@ class GetContributionsTest extends TestCase
         $badLanId = -1;
         try {
             $this->contributionService->getContributions($badLanId);
-            $this->fail('Expected: {"lan_id":["Lan with id ' . $badLanId . ' doesn\'t exist"]}');
+            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
