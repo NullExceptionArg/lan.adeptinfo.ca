@@ -9,6 +9,7 @@ $factory->define(App\Model\Lan::class, function (Faker\Generator $faker) {
         "event_key_id" => env('EVENT_KEY_ID'),
         "public_key_id" => env('PUBLIC_KEY_ID'),
         "secret_key_id" => env('SECRET_KEY_ID'),
+        "is_current" => false,
         "latitude" => $faker->latitude,
         "longitude" => $faker->longitude,
         "places" => 1,

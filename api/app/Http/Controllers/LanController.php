@@ -40,4 +40,9 @@ class LanController extends Controller
     {
         return response()->json($this->lanService->getLans(), 200);
     }
+
+    public function selectCurrentLan(string $lan_id)
+    {
+        return response()->json($this->lanService->selectCurrentLan($lan_id), 200);
+    }
 }

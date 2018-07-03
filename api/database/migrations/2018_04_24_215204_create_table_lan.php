@@ -23,6 +23,7 @@ class CreateTableLan extends Migration
             $table->string('event_key_id'); // seats.io
             $table->string('public_key_id'); // seats.io
             $table->string('secret_key_id'); // seats.io
+            $table->boolean('is_current')->default(false);
             $table->unsignedInteger('places');
             $table->decimal('longitude', 10, 7);
             $table->decimal('latitude', 10, 7);

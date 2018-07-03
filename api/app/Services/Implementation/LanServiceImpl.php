@@ -147,4 +147,23 @@ class LanServiceImpl implements LanService
     {
         return GetLansResource::collection($this->lanRepository->getLans());
     }
+
+    public function selectCurrentLan(string $lanId): int
+    {
+        $rulesValidator = Validator::make([
+            'lan_id' => $lanId
+        ], [
+            'lan_id' => 'integer|exists:lan,id'
+        ]);
+
+        if ($rulesValidator->fails()) {
+            throw new BadRequestHttpException($rulesValidator->errors());
+        }
+
+        $this->lanRepository->removeCurrentLan();
+
+        $this->lanRepository->setCurrentLan($lanId);
+
+        return $lanId;
+    }
 }

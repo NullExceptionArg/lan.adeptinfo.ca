@@ -147,7 +147,7 @@ images | Images de présentation du LAN.
     },
     "price": 0,
     "rules": "A spectre is haunting Europe – the spectre of communism.",
-    "description": "All the powers of old Europe have entered into a holy alliance to exorcise this spectre."
+    "description": "All the powers of old Europe have entered into a holy alliance to exorcise this spectre.",
     "images": [
             {
                 "id": 1,

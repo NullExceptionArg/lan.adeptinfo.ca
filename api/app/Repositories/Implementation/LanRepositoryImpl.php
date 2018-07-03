@@ -70,4 +70,16 @@ class LanRepositoryImpl implements LanRepository
     {
         return Lan::all();
     }
+
+    public function removeCurrentLan(): void
+    {
+        Lan::where('is_current', true)
+            ->update(['is_current' => false]);
+    }
+
+    public function setCurrentLan(string $lanId): void
+    {
+        Lan::find($lanId)
+            ->update(['is_current' => true]);
+    }
 }
