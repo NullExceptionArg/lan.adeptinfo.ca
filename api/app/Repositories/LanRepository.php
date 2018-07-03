@@ -6,6 +6,7 @@ namespace App\Repositories;
 
 use App\Model\Lan;
 use DateTime;
+use Illuminate\Support\Collection;
 
 interface LanRepository
 {
@@ -31,4 +32,6 @@ interface LanRepository
     public function updateLanRules(Lan $lan, string $text): void;
 
     public function getReservedPlaces(int $lanId): int;
+
+    public function getLans(): ?Collection;
 }

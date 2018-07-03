@@ -3,6 +3,7 @@
 namespace App\Services\Implementation;
 
 
+use App\Model\Image;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class ImageServiceImpl implements ImageService
         $this->imageRepository = $imageRepositoryImpl;
     }
 
-    public function addImage(Request $request, string $lanId)
+    public function addImage(Request $request, string $lanId): Image
     {
         $rulesValidator = Validator::make([
             'lan_id' => $lanId,

@@ -11,6 +11,7 @@ use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\ContributionService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -138,7 +139,7 @@ class ContributionServiceImpl implements ContributionService
         return $contribution;
     }
 
-    public function getContributions(string $lanId)
+    public function getContributions(string $lanId): AnonymousResourceCollection
     {
         $contributionValidator = Validator::make([
             'lan_id' => $lanId

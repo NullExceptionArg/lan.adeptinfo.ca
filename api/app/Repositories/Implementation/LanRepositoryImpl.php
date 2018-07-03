@@ -8,6 +8,7 @@ use App\Model\Lan;
 use App\Model\Reservation;
 use App\Repositories\LanRepository;
 use DateTime;
+use Illuminate\Support\Collection;
 
 class LanRepositoryImpl implements LanRepository
 {
@@ -63,5 +64,10 @@ class LanRepositoryImpl implements LanRepository
     public function getReservedPlaces(int $lanId): int
     {
         return Reservation::where('lan_id', $lanId)->count();
+    }
+
+    public function getLans(): ?Collection
+    {
+        return Lan::all();
     }
 }
