@@ -35,8 +35,15 @@ class Lan extends Model
         'created_at', 'updated_at',
     ];
 
-    protected $casts = ['price' => 'integer', 'places' => 'integer', 'id' => 'integer'];
+    protected $casts = [
+        'price' => 'integer',
+        'places' => 'integer',
+        'id' => 'integer'
+    ];
 
+    protected $fillable = [
+        'is_current'
+    ];
 
     public function reservation()
     {

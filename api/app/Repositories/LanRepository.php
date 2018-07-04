@@ -34,4 +34,10 @@ interface LanRepository
     public function getReservedPlaces(int $lanId): int;
 
     public function getLans(): ?Collection;
+
+    public function removeCurrentLan(): void;
+
+    public function setCurrentLan(string $lanId): void;
+
+    public function getCurrentLan(): ?Lan;
 }
