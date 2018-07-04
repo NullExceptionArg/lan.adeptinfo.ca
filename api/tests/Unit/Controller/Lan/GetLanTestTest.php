@@ -43,7 +43,7 @@ class GetLanTest extends TestCase
 
     public function testGetLanParameters()
     {
-        $queryParams = ['fields' => "lan_start,lan_start,lan_end,seat_reservation_start"];
+        $queryParams = ['fields' => "lan_start,lan_end,seat_reservation_start"];
         $this->json('GET', '/api/lan/' . $this->lan->id, $queryParams)
             ->seeJsonEquals([
                 'id' => $this->lan->id,
