@@ -45,7 +45,7 @@ secret_key_id | Clé secrète de seats.io . | Requis, 255 caractères max. |
 latitude | Latitude de la position où se déroule le LAN. | Requis, entre -85 et 85, nombre. |
 longitude | Longitude de la position où se déroule le LAN. | Requis, entre -180 et 180, nombre. |
 places | Places disponibles pour le LAN. | Requis, int, minimum 1. |
-price | Prix du LAN. | Plus grand ou égale à 0. | 0
+price | Prix du LAN en cent. | Plus grand ou égale à 0. | 0
 rules | Texte des règles du LAN. | String, optionnel. |
 description | Texte des descritpion du LAN. | String, optionnel. |
 

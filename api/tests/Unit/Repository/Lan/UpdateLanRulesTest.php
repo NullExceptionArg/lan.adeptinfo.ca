@@ -14,7 +14,7 @@ class UpdateLanRulesTest extends TestCase
     protected $lan;
 
     protected $paramsContent = [
-        'text' => "☭"
+        'rules' => "☭"
     ];
 
     public function setUp(): void
@@ -26,8 +26,8 @@ class UpdateLanRulesTest extends TestCase
 
     public function testUpdateLanRules(): void
     {
-        $this->lanRepository->updateLanRules($this->lan, $this->paramsContent['text']);
+        $this->lanRepository->updateLanRules($this->lan, $this->paramsContent['rules']);
 
-        $this->seeInDatabase('lan', ['rules' => $this->paramsContent['text']]);
+        $this->seeInDatabase('lan', ['rules' => $this->paramsContent['rules']]);
     }
 }

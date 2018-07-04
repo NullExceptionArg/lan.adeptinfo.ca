@@ -14,7 +14,7 @@ class UpdateLanRulesTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'text' => "☭",
+        'rules' => "☭",
     ];
 
     public function setUp()
@@ -29,7 +29,7 @@ class UpdateLanRulesTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/rules', $this->requestContent)
             ->seeJsonEquals([
-                'text' => $this->requestContent['text'],
+                'rules' => $this->requestContent['rules'],
             ])
             ->assertResponseStatus(201);
     }
@@ -70,15 +70,15 @@ class UpdateLanRulesTest extends TestCase
 
     public function testUpdateLanRulesTextRequired()
     {
-        $this->requestContent['text'] = null;
+        $this->requestContent['rules'] = null;
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/rules', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'text' => [
-                        0 => 'The text field is required.'
+                    'rules' => [
+                        0 => 'The rules field is required.'
                     ],
                 ]
             ])
@@ -87,15 +87,15 @@ class UpdateLanRulesTest extends TestCase
 
     public function testUpdateLanRulesTextString()
     {
-        $this->requestContent['text'] = 1;
+        $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/rules', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'text' => [
-                        0 => 'The text must be a string.'
+                    'rules' => [
+                        0 => 'The rules must be a string.'
                     ],
                 ]
             ])

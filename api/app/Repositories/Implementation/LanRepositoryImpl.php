@@ -55,12 +55,6 @@ class LanRepositoryImpl implements LanRepository
         return Lan::find($id);
     }
 
-    public function updateLanRules(Lan $lan, string $text): void
-    {
-        $lan->rules = $text;
-        $lan->save();
-    }
-
     public function getReservedPlaces(int $lanId): int
     {
         return Reservation::where('lan_id', $lanId)->count();
@@ -86,5 +80,79 @@ class LanRepositoryImpl implements LanRepository
     public function getCurrentLan(): ?Lan
     {
         return Lan::where('is_current', true)->first();
+    }
+
+    public function updateLanRules(Lan $lan, string $rules): void
+    {
+        $lan->rules = $rules;
+        $lan->save();
+    }
+
+    public function updateLanName(Lan $lan, string $name): void
+    {
+        $lan->name = $name;
+        $lan->save();
+    }
+
+    public function updateLanPrice(Lan $lan, int $price): void
+    {
+        $lan->price = $price;
+        $lan->save();
+    }
+
+    public function updateLanLocation(Lan $lan, float $longitude, float $latitude): void
+    {
+        $lan->longitude = $longitude;
+        $lan->latitude = $latitude;
+        $lan->save();
+    }
+
+    public function updateLanSeatReservationStart(Lan $lan, DateTime $seatReservationStart): void
+    {
+        $lan->seat_reservation_start = $seatReservationStart;
+        $lan->save();
+    }
+
+    public function updateLanTournamentReservationStart(Lan $lan, DateTime $tournamentReservationStart): void
+    {
+        $lan->tournament_reservation_start = $tournamentReservationStart;
+        $lan->save();
+    }
+
+    public function updateLanStartDate(Lan $lan, DateTime $lanStart): void
+    {
+        $lan->lan_start = $lanStart;
+        $lan->save();
+    }
+
+    public function updateLanEndDate(Lan $lan, DateTime $lanEnd): void
+    {
+        $lan->lan_end = $lanEnd;
+        $lan->save();
+    }
+
+    public function updateLanSeatsKeys(
+        Lan $lan,
+        string $event,
+        string $public,
+        string $secret
+    ): void
+    {
+        $lan->event_key_id = $event;
+        $lan->public_key_id = $public;
+        $lan->secret_key_id = $secret;
+        $lan->save();
+    }
+
+    public function updateLanDescription(Lan $lan, string $description): void
+    {
+        $lan->description = $description;
+        $lan->save();
+    }
+
+    public function updateLanPlaces(Lan $lan, int $places): void
+    {
+        $lan->places = $places;
+        $lan->save();
     }
 }

@@ -16,7 +16,7 @@ class UpdateRulesTest extends TestCase
     protected $lan;
 
     protected $paramsContent = [
-        'text' => "☭"
+        'rules' => "☭"
     ];
 
     public function setUp(): void
@@ -31,7 +31,7 @@ class UpdateRulesTest extends TestCase
         $request = new Request($this->paramsContent);
         $result = $this->lanService->updateRules($request, $this->lan->id);
 
-        $this->assertEquals($this->paramsContent['text'], $result['text']);
+        $this->assertEquals($this->paramsContent['rules'], $result['rules']);
     }
 
     public function testUpdateRulesLanIdExist(): void
@@ -62,27 +62,27 @@ class UpdateRulesTest extends TestCase
 
     public function testUpdateRulesTextRequired(): void
     {
-        $this->paramsContent['text'] = null;
+        $this->paramsContent['rules'] = null;
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->updateRules($request, $this->lan->id);
-            $this->fail('Expected: {"text":["The text field is required."]}');
+            $this->fail('Expected: {"rules":["The rules field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"text":["The text field is required."]}', $e->getMessage());
+            $this->assertEquals('{"rules":["The rules field is required."]}', $e->getMessage());
         }
     }
 
     public function testUpdateRulesTextString(): void
     {
-        $this->paramsContent['text'] = 1;
+        $this->paramsContent['rules'] = 1;
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->updateRules($request, $this->lan->id);
-            $this->fail('Expected: {"text":["The text must be a string."]}');
+            $this->fail('Expected: {"rules":["The rules must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"text":["The text must be a string."]}', $e->getMessage());
+            $this->assertEquals('{"rules":["The rules must be a string."]}', $e->getMessage());
         }
     }
 }

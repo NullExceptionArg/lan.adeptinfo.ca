@@ -39,6 +39,16 @@ $api->version('v1', function ($api) {
             $api->post('lan', 'LanController@createLan');
             $api->post('lan/{lan_id}/current', 'LanController@setCurrentLan');
             $api->post('lan/{lan_id}/rules', 'LanController@updateLanRules');
+            $api->post('lan/{lan_id}/name', 'LanController@updateLanName');
+            $api->post('lan/{lan_id}/price', 'LanController@updateLanPrice');
+            $api->post('lan/{lan_id}/location', 'LanController@updateLanLocation');
+            $api->post('lan/{lan_id}/seat-reservation-start', 'LanController@updateLanSeatReservationStart');
+            $api->post('lan/{lan_id}/tournament-reservation-start', 'LanController@updateLanTournamentReservationStart');
+            $api->post('lan/{lan_id}/start-date', 'LanController@updateLanStartDate');
+            $api->post('lan/{lan_id}/end-date', 'LanController@updateLanEndDate');
+            $api->post('lan/{lan_id}/seats-keys', 'LanController@updateLanSeatsKeys');
+            $api->post('lan/{lan_id}/description', 'LanController@updateLanDescription');
+            $api->post('lan/{lan_id}/places', 'LanController@updateLanPlaces');
 
             $api->post('lan/{lan_id}/contribution-category', 'ContributionController@createContributionCategory');
             $api->delete('lan/{lan_id}/contribution-category/{contribution_category_id}', 'ContributionController@deleteContributionCategory');
