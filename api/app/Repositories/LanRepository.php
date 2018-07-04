@@ -39,30 +39,21 @@ interface LanRepository
 
     public function getCurrentLan(): ?Lan;
 
-    public function updateLanRules(Lan $lan, string $rules): void;
-
-    public function updateLanName(Lan $lan, string $name): void;
-
-    public function updateLanPrice(Lan $lan, int $price): void;
-
-    public function updateLanLocation(Lan $lan, float $longitude, float $latitude): void;
-
-    public function updateLanSeatReservationStart(Lan $lan, DateTime $seatReservationStart): void;
-
-    public function updateLanTournamentReservationStart(Lan $lan, DateTime $tournamentReservationStart): void;
-
-    public function updateLanStartDate(Lan $lan, DateTime $lanStart): void;
-
-    public function updateLanEndDate(Lan $lan, DateTime $lanEnd): void;
-
-    public function updateLanSeatsKeys(
+    public function updateLan(
         Lan $lan,
-        string $event,
-        string $public,
-        string $secret
-    ): void;
-
-    public function updateLanDescription(Lan $lan, string $description): void;
-
-    public function updateLanPlaces(Lan $lan, int $description): void;
+        string $name,
+        DateTime $lanStart,
+        DateTime $lanEnd,
+        DateTime $seatReservationStart,
+        DateTime $tournamentReservationStart,
+        string $eventKeyId,
+        string $publicKeyId,
+        string $secretKeyId,
+        float $latitude,
+        float $longitude,
+        int $places,
+        ?int $price,
+        ?string $rules,
+        ?string $description
+    ): Lan;
 }
