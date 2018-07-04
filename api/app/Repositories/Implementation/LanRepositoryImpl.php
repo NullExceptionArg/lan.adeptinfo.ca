@@ -82,4 +82,9 @@ class LanRepositoryImpl implements LanRepository
         Lan::find($lanId)
             ->update(['is_current' => true]);
     }
+
+    public function getCurrentLan(): ?Lan
+    {
+        return Lan::where('is_current', true)->first();
+    }
 }

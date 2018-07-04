@@ -38,4 +38,6 @@ interface LanRepository
     public function removeCurrentLan(): void;
 
     public function setCurrentLan(string $lanId): void;
+
+    public function getCurrentLan(): ?Lan;
 }

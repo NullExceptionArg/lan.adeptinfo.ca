@@ -18,5 +18,5 @@ interface LanService
 
     public function getLans(): ResourceCollection;
 
-    public function selectCurrentLan(string $lanId): int;
+    public function setCurrentLan(string $lanId): int;
 }

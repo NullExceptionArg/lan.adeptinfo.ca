@@ -148,7 +148,7 @@ class LanServiceImpl implements LanService
         return GetLansResource::collection($this->lanRepository->getLans());
     }
 
-    public function selectCurrentLan(string $lanId): int
+    public function setCurrentLan(string $lanId): int
     {
         $rulesValidator = Validator::make([
             'lan_id' => $lanId
@@ -165,5 +165,17 @@ class LanServiceImpl implements LanService
         $this->lanRepository->setCurrentLan($lanId);
 
         return $lanId;
+    }
+
+    public function getCurrentLan(): ?GetLanResource
+    {
+        $lan = $this->lanRepository->getCurrentLan();
+        if ($lan != null) {
+            $placeCount = $this->lanRepository->getReservedPlaces($lan->id);
+            $images = $this->imageRepository->getImagesForLan($lan);
+            return new GetLanResource($lan, $placeCount, $images);
+        } else {
+            return null;
+        }
     }
 }
