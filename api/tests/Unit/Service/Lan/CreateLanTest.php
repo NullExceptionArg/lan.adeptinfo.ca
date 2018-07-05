@@ -118,10 +118,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"lan_start":["The lan start field is required."]}');
+            $this->fail('Expected: {"lan_start":["The lan start field is required."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_start":["The lan start field is required."]}', $e->getMessage());
+            $this->assertEquals('{"lan_start":["The lan start field is required."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}', $e->getMessage());
         }
     }
 
@@ -141,10 +141,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"lan_start":["The lan start must be a date after seat reservation start."]}');
+            $this->fail('Expected: {"lan_start":["The lan start must be a date after seat reservation start."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_start":["The lan start must be a date after seat reservation start."]}', $e->getMessage());
+            $this->assertEquals('{"lan_start":["The lan start must be a date after seat reservation start."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."]}', $e->getMessage());
         }
     }
 
@@ -164,10 +164,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"lan_start":["The lan start must be a date after tournament start."]}');
+            $this->fail('Expected: {"lan_start":["The lan start must be a date after tournament reservation start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_start":["The lan start must be a date after tournament reservation start."]}', $e->getMessage());
+            $this->assertEquals('{"lan_start":["The lan start must be a date after tournament reservation start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}', $e->getMessage());
         }
     }
 
@@ -206,7 +206,7 @@ class CreateLanTest extends TestCase
         }
     }
 
-    public function testCreateLanReservationStartRequired(): void
+    public function testCreateLanSeatReservationStartRequired(): void
     {
         $this->paramsContent['seat_reservation_start'] = '';
         $request = new Request($this->paramsContent);
@@ -222,19 +222,19 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanReservationStartAfterOrEqualNow(): void
+    public function testCreateLanSeatReservationBeforeOrEqualLanStart(): void
     {
-        // Set the reservation_start date to one day before today
-        $newTournamentStart = (new DateTime());
-        $newTournamentStart->sub(new DateInterval('P1D'));
-        $this->paramsContent['seat_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
+        // Set the lan end date to one day before lan start
+        $newLanSeatReservation = (new DateTime($this->paramsContent['lan_start']));
+        $newLanSeatReservation->add(new DateInterval('P1D'));
+        $this->paramsContent['seat_reservation_start'] = $newLanSeatReservation->format('Y-m-d\TH:i:s');
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"seat_reservation_start":["The seat reservation start must be a date after or equal to now."]}');
+            $this->fail('Expected:{"lan_start":["The lan start must be a date after seat reservation start."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_reservation_start":["The seat reservation start must be a date after or equal to now."]}', $e->getMessage());
+            $this->assertEquals('{"lan_start":["The lan start must be a date after seat reservation start."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."]}', $e->getMessage());
         }
     }
 
@@ -257,19 +257,19 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartAfterOrEqualNow(): void
+    public function testCreateLanTournamentReservationBeforeOrEqualLanStart(): void
     {
-        // Set the tournament_reservation_start date to one day before today
-        $newTournamentReservationStart = (new DateTime());
-        $newTournamentReservationStart->sub(new DateInterval('P1D'));
-        $this->paramsContent['tournament_reservation_start'] = $newTournamentReservationStart->format('Y-m-d\TH:i:s');
+        // Set the lan end date to one day before lan start
+        $newLanTournamentReservation = (new DateTime($this->paramsContent['lan_start']));
+        $newLanTournamentReservation->add(new DateInterval('P1D'));
+        $this->paramsContent['tournament_reservation_start'] = $newLanTournamentReservation->format('Y-m-d\TH:i:s');
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"tournament_reservation_start":["The tournament reservation start must be a date after or equal to now."]}');
+            $this->fail('Expected:{"lan_start":["The lan start must be a date after tournament reservation start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tournament_reservation_start":["The tournament reservation start must be a date after or equal to now."]}', $e->getMessage());
+            $this->assertEquals('{"lan_start":["The lan start must be a date after tournament reservation start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}', $e->getMessage());
         }
     }
 
@@ -292,10 +292,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key_id":["The event key id may not be greater than 255 characters."]}');
+            $this->fail('Expected: {"event_key_id":["The event key id may not be greater than 255 characters.","The event key id is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key_id":["The event key id may not be greater than 255 characters."]}', $e->getMessage());
+            $this->assertEquals('{"event_key_id":["The event key id may not be greater than 255 characters.","The event key id is not valid."]}', $e->getMessage());
         }
     }
 
@@ -331,10 +331,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"secret_key_id":["The secret key id field is required."]}');
+            $this->fail('Expected: {"event_key_id":["The event key id is not valid."],"secret_key_id":["The secret key id field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"secret_key_id":["The secret key id field is required."]}', $e->getMessage());
+            $this->assertEquals('{"event_key_id":["The event key id is not valid."],"secret_key_id":["The secret key id field is required."]}', $e->getMessage());
         }
     }
 
@@ -344,10 +344,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"secret_key_id":["The secret key id may not be greater than 255 characters."]}');
+            $this->fail('Expected: {"event_key_id":["The event key id is not valid."],"secret_key_id":["The secret key id may not be greater than 255 characters.","The secret key secret key id is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"secret_key_id":["The secret key id may not be greater than 255 characters."]}', $e->getMessage());
+            $this->assertEquals('{"event_key_id":["The event key id is not valid."],"secret_key_id":["The secret key id may not be greater than 255 characters.","The secret key secret key id is not valid."]}', $e->getMessage());
         }
     }
 
@@ -357,10 +357,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"secret_key_id":["Secret key id: ' . $this->paramsContent['secret_key_id'] . ' is not valid."]}');
+            $this->fail('Expected: {"event_key_id":["The event key id is not valid."],"secret_key_id":["The secret key secret key id is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"secret_key_id":["Secret key id: ' . $this->paramsContent['secret_key_id'] . ' is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key_id":["The event key id is not valid."],"secret_key_id":["The secret key secret key id is not valid."]}', $e->getMessage());
         }
     }
 
@@ -370,10 +370,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key_id":["Event key id: ' . $this->paramsContent['event_key_id'] . ' is not valid."]}');
+            $this->fail('Expected: {"event_key_id":["The event key id is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key_id":["Event key id: ' . $this->paramsContent['event_key_id'] . ' is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key_id":["The event key id is not valid."]}', $e->getMessage());
         }
     }
 

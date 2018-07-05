@@ -156,6 +156,12 @@ class CreateLanTest extends TestCase
                     'lan_start' => [
                         0 => 'The lan start field is required.',
                     ],
+                    'seat_reservation_start' => [
+                        'The seat reservation start must be a date before or equal to lan start.'
+                    ],
+                    'tournament_reservation_start' => [
+                        'The tournament reservation start must be a date before or equal to lan start.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -184,6 +190,9 @@ class CreateLanTest extends TestCase
                     'lan_start' => [
                         0 => 'The lan start must be a date after seat reservation start.',
                     ],
+                    'seat_reservation_start' => [
+                        'The seat reservation start must be a date before or equal to lan start.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -212,6 +221,9 @@ class CreateLanTest extends TestCase
                     'lan_start' => [
                         0 => 'The lan start must be a date after tournament reservation start.',
                     ],
+                    'tournament_reservation_start' => [
+                        'The tournament reservation start must be a date before or equal to lan start.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -261,10 +273,7 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function testCreateLanReservationStartRequired(): void
+    public function testCreateLanSeatReservationStartRequired(): void
     {
         $this->requestContent['seat_reservation_start'] = '';
         $this->actingAs($this->user)
@@ -284,22 +293,24 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanReservationStartAfterOrEqualNow(): void
+    public function testCreateLanSeatReservationBeforeOrEqualLanStart(): void
     {
-        // Set the seat reservation date to yesterday
-        $newSeatReservationDate = (new DateTime());
-        $newSeatReservationDate->sub(new DateInterval('P1D'));
-        $this->requestContent['seat_reservation_start'] = $newSeatReservationDate->format('Y-m-d\TH:i:s');
-        // Execute request
+        // Set the lan end date to one day before lan start
+        $newLanSeatReservation = (new DateTime($this->requestContent['lan_start']));
+        $newLanSeatReservation->add(new DateInterval('P1D'));
+        $this->requestContent['seat_reservation_start'] = $newLanSeatReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'seat_reservation_start' => [
-                        0 => 'The seat reservation start must be a date after or equal to now.',
+                    'lan_start' => [
+                        'The lan start must be a date after seat reservation start.'
                     ],
+                    'seat_reservation_start' => [
+                        'The seat reservation start must be a date before or equal to lan start.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -328,22 +339,24 @@ class CreateLanTest extends TestCase
     /**
      * @throws Exception
      */
-    public function testCreateLanTournamentStartAfterOrEqualNow(): void
+    public function testCreateLanTournamentReservationBeforeOrEqualLanStart(): void
     {
-        // Set the reservation date to yesterday
-        $newReservationDate = (new DateTime());
-        $newReservationDate->sub(new DateInterval('P1D'));
-        $this->requestContent['tournament_reservation_start'] = $newReservationDate->format('Y-m-d\TH:i:s');
-        // Execute request
+        // Set the lan end date to one day before lan start
+        $newLanTournamentReservation = (new DateTime($this->requestContent['lan_start']));
+        $newLanTournamentReservation->add(new DateInterval('P1D'));
+        $this->requestContent['tournament_reservation_start'] = $newLanTournamentReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'tournament_reservation_start' => [
-                        0 => 'The tournament reservation start must be a date after or equal to now.',
+                    'lan_start' => [
+                        'The lan start must be a date after tournament reservation start.'
                     ],
+                    'tournament_reservation_start' => [
+                        'The tournament reservation start must be a date before or equal to lan start.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -377,6 +390,7 @@ class CreateLanTest extends TestCase
                 'message' => [
                     'event_key_id' => [
                         0 => 'The event key id may not be greater than 255 characters.',
+                        1 => 'The event key id is not valid.'
                     ],
                 ]
             ])
@@ -429,6 +443,9 @@ class CreateLanTest extends TestCase
                     'secret_key_id' => [
                         0 => 'The secret key id field is required.',
                     ],
+                    'event_key_id' => [
+                        'The event key id is not valid.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -445,7 +462,11 @@ class CreateLanTest extends TestCase
                 'message' => [
                     'secret_key_id' => [
                         0 => 'The secret key id may not be greater than 255 characters.',
+                        1 => 'The secret key secret key id is not valid.'
                     ],
+                    'event_key_id' => [
+                        0 => 'The event key id is not valid.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -631,8 +652,11 @@ class CreateLanTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'secret_key_id' => [
-                        0 => 'Secret key id: ' . $this->requestContent['secret_key_id'] . ' is not valid.',
+                        0 => 'The secret key secret key id is not valid.',
                     ],
+                    'event_key_id' => [
+                        0 => 'The event key id is not valid.'
+                    ]
                 ]
             ])
             ->assertResponseStatus(400);
@@ -648,7 +672,7 @@ class CreateLanTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'event_key_id' => [
-                        0 => 'Event key id: ' . $this->requestContent['event_key_id'] . ' is not valid.',
+                        0 => 'The event key id is not valid.',
                     ],
                 ]
             ])
