@@ -27,12 +27,15 @@ class GetLanTest extends TestCase
                 'lan_end' => $this->lan->lan_end,
                 'seat_reservation_start' => $this->lan->seat_reservation_start,
                 'tournament_reservation_start' => $this->lan->tournament_reservation_start,
-                'longitude' => number_format($this->lan->longitude, 7),
-                'latitude' => number_format($this->lan->latitude, 7),
+                'longitude' => $this->lan->longitude,
+                'latitude' => $this->lan->latitude,
                 'places' => [
                     'reserved' => 0,
                     'total' => $this->lan->places
                 ],
+                'secret_key_id' => $this->lan->secret_key_id,
+                'event_key_id' => $this->lan->event_key_id,
+                'public_key_id' => $this->lan->public_key_id,
                 'price' => $this->lan->price,
                 'rules' => $this->lan->rules,
                 'description' => $this->lan->description,

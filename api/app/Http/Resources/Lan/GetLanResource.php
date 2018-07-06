@@ -38,6 +38,9 @@ class GetLanResource extends Resource
                 'tournament_reservation_start' => $this->tournament_reservation_start,
                 'longitude' => floatval(number_format($this->longitude, 7)),
                 'latitude' => floatval(number_format($this->latitude, 7)),
+                'secret_key_id' => $this->secret_key_id,
+                'event_key_id' => $this->event_key_id,
+                'public_key_id' => $this->public_key_id,
                 'places' => [
                     'reserved' => $this->reservedPlaces,
                     'total' => $this->places
@@ -57,6 +60,9 @@ class GetLanResource extends Resource
                 'tournament_reservation_start' => $this->when(in_array("tournament_reservation_start", $fields), $this->tournament_reservation_start),
                 'longitude' => $this->when(in_array("longitude", $fields), floatval(number_format($this->longitude, 7))),
                 'latitude' => $this->when(in_array("latitude", $fields), floatval(number_format($this->latitude, 7))),
+                'secret_key_id' => $this->when(in_array("secret_key_id", $fields), $this->secret_key_id),
+                'event_key_id' => $this->when(in_array("event_key_id", $fields), $this->event_key_id),
+                'public_key_id' => $this->when(in_array("public_key_id", $fields), $this->public_key_id),
                 "places" => $this->when(in_array("places", $fields), [
                     "reserved" => $this->reservedPlaces,
                     "total" => $this->places,
