@@ -9,7 +9,7 @@ class GetCurrentLanTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function testSetCurrentLanHasCurrentLanSimple()
+    public function testGetCurrentLanHasCurrentLanSimple()
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -22,8 +22,8 @@ class GetCurrentLanTest extends TestCase
                 'lan_end' => $lan->lan_end,
                 'seat_reservation_start' => $lan->seat_reservation_start,
                 'tournament_reservation_start' => $lan->tournament_reservation_start,
-                'longitude' => number_format($lan->longitude, 7),
-                'latitude' => number_format($lan->latitude, 7),
+                'longitude' => $lan->longitude,
+                'latitude' => $lan->latitude,
                 'places' => [
                     'reserved' => 0,
                     'total' => $lan->places
@@ -36,7 +36,7 @@ class GetCurrentLanTest extends TestCase
             ->seeStatusCode(200);
     }
 
-    public function testSetCurrentLanHasCurrentLanParameters()
+    public function testGetCurrentLanHasCurrentLanParameters()
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -52,7 +52,7 @@ class GetCurrentLanTest extends TestCase
             ->seeStatusCode(200);
     }
 
-    public function testSetCurrentLanNoCurrentLan()
+    public function testGetCurrentLanNoCurrentLan()
     {
         factory('App\Model\Lan')->create();
         $this->json('GET', 'api/lans/current')

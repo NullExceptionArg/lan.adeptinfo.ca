@@ -17,7 +17,7 @@ class GetLanTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetLanSimple()
+    public function testGetLanSimple(): void
     {
         $this->json('GET', '/api/lan/' . $this->lan->id)
             ->seeJsonEquals([
@@ -41,7 +41,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanParameters()
+    public function testGetLanParameters(): void
     {
         $queryParams = ['fields' => "lan_start,lan_end,seat_reservation_start"];
         $this->json('GET', '/api/lan/' . $this->lan->id, $queryParams)
@@ -54,7 +54,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanIdExist()
+    public function testGetLanIdExist(): void
     {
         $badLanId = -1;
         $this->json('GET', '/api/lan/' . $badLanId)
@@ -70,7 +70,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetLanIdInteger()
+    public function testGetLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->json('GET', '/api/lan/' . $badLanId)

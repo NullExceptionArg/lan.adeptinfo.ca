@@ -6,11 +6,13 @@ use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateLanTest extends TestCase
+class UpdateLanTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $lanRepository;
+
+    protected $lan;
 
     protected $paramsContent = [
         'name' => "Bolshevik Revolution",
@@ -37,13 +39,16 @@ class CreateLanTest extends TestCase
         $this->paramsContent['secret_key_id'] = env('SECRET_KEY_ID');
         $this->paramsContent['public_key_id'] = env('PUBLIC_KEY_ID');
 
+        $this->lan = factory('App\Model\Lan')->create();
+
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }
 
-    public function testCreateLan(): void
+    public function testUpdateLan(): void
     {
         // Dates cause problems with Travis CI
-        $this->lanRepository->createLan(
+        $this->lanRepository->updateLan(
+            $this->lan,
             $this->paramsContent['name'],
             new DateTime($this->paramsContent['lan_start']),
             new DateTime($this->paramsContent['lan_end']),
