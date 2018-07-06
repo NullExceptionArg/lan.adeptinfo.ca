@@ -5,6 +5,10 @@ namespace App\Services\Implementation;
 use App\Model\Reservation;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
+use App\Rules\SeatExistInLanSeatIo;
+use App\Rules\SeatOncePerLan;
+use App\Rules\SeatOncePerLanSeatIo;
+use App\Rules\UserOncePerLan;
 use App\Services\SeatService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -30,14 +34,12 @@ class SeatServiceImpl implements SeatService
 
     public function book(string $lanId, string $seatId): Reservation
     {
-        // Internal validation
-
         $reservationValidator = Validator::make([
             'lan_id' => $lanId,
             'seat_id' => $seatId
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
-            'seat_id' => 'required|string',
+            'lan_id' => ['required', 'integer', 'exists:lan,id', new UserOncePerLan],
+            'seat_id' => ['required', 'string', new SeatOncePerLan($lanId), new SeatOncePerLanSeatIo($lanId), new SeatExistInLanSeatIo($lanId)],
         ]);
 
         if ($reservationValidator->fails()) {
@@ -48,55 +50,9 @@ class SeatServiceImpl implements SeatService
         $lan = $this->lanRepository->findLanById($lanId);
 
         $seatsClient = new SeatsioClient($lan->secret_key_id);
-
-        // GetUserResource can only have one seat in a lan
-        $lanUserReservation = $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
-        if ($lanUserReservation != null && $lanUserReservation->count() > 0) {
-            throw new BadRequestHttpException(json_encode([
-                "lan_id" => [
-                    'The user already has a seat at this event'
-                ]
-            ]));
-        }
-
-        // Seat can only be once in a lan
-        $lanSeatReservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
-        if ($lanSeatReservation != null && $lanSeatReservation->count() > 0) {
-            throw new BadRequestHttpException(json_encode([
-                "seat_id" => [
-                    'Seat with id ' . $seatId . ' is already taken for this event'
-                ]
-            ]));
-        }
-
-        // Seats.io validation
-
-        // Check if place exist in the event and if it is already taken
-        try {
-            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $seatId);
-            if ($status->status === 'booked' || $status->status === 'arrived') {
-                throw new BadRequestHttpException(json_encode([
-                    "seat_id" => [
-                        'Seat with id ' . $seatId . ' is already taken for this event'
-                    ]
-                ]));
-            }
-        } catch (SeatsioException $exception) {
-            throw new BadRequestHttpException(json_encode([
-                "seat_id" => [
-                    'Seat with id ' . $seatId . ' doesn\'t exist in this event'
-                ]
-            ]));
-        }
-
-
-        // send the place to the api
         $seatsClient->events()->book($lan->event_key_id, [$seatId]);
-
-        // create reservation
         $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
-        // return the reservation
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
     }
 

@@ -59,7 +59,7 @@ class BookSeatTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'Seat with id ' . $badSeatId . ' doesn\'t exist in this event'
+                        0 => 'This seat doesn\'t exist in this event.'
                     ],
                 ]
             ])
@@ -78,7 +78,7 @@ class BookSeatTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'Seat with id ' . env('SEAT_ID') . ' is already taken for this event'
+                        0 => 'This seat is already taken for this event.'
                     ],
                 ]
             ])
@@ -90,7 +90,7 @@ class BookSeatTest extends SeatsTestCase
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;
         $reservation->user_id = $this->user->id;
-        $reservation->seat_id = env('SEAT_ID');
+        $reservation->seat_id = env('SEAT_ID_2');
         $reservation->save();
 
         $this->actingAs($this->user)
@@ -100,7 +100,7 @@ class BookSeatTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The user already has a seat at this event'
+                        0 => 'The user already has a seat at this event.'
                     ],
                 ]
             ])
@@ -123,7 +123,7 @@ class BookSeatTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'Seat with id ' . env('SEAT_ID') . ' is already taken for this event'
+                        0 => 'This seat is already taken for this event.'
                     ],
                 ]
             ])

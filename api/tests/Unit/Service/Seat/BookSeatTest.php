@@ -51,10 +51,10 @@ class BookSeatTest extends SeatsTestCase
         $badSeatId = '-1';
         try {
             $this->seatService->book($this->lan->id, $badSeatId);
-            $this->fail('Expected: {"seat_id":["Seat with id ' . $badSeatId . ' doesn\'t exist in this event"]}');
+            $this->fail('Expected: {"seat_id":["This seat doesn\'t exist in this event."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . $badSeatId . ' doesn\'t exist in this event"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat doesn\'t exist in this event."]}', $e->getMessage());
         }
     }
 
@@ -65,10 +65,10 @@ class BookSeatTest extends SeatsTestCase
 
         try {
             $this->seatService->book($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}');
+            $this->fail('Expected: {"seat_id":["This seat is already taken for this event"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is already taken for this event"]}', $e->getMessage());
         }
     }
 
@@ -77,15 +77,15 @@ class BookSeatTest extends SeatsTestCase
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;
         $reservation->user_id = $this->user->id;
-        $reservation->seat_id = env('SEAT_ID');
+        $reservation->seat_id = env('SEAT_ID_2');
         $reservation->save();
 
         try {
             $this->seatService->book($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"lan_id":["The user already has a seat at this event"]}');
+            $this->fail('Expected: {"lan_id":["The user already has a seat at this even.t"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The user already has a seat at this event"]}', $e->getMessage());
+            $this->assertEquals('{"lan_id":["The user already has a seat at this event."]}', $e->getMessage());
         }
     }
 
@@ -101,10 +101,10 @@ class BookSeatTest extends SeatsTestCase
 
         try {
             $this->seatService->book($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}');
+            $this->fail('Expected: {"seat_id":["This seat is already taken for this event."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . env('SEAT_ID') . ' is already taken for this event"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is already taken for this event."]}', $e->getMessage());
         }
     }
 
