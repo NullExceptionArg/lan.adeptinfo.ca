@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 
 use App\Http\Resources\Lan\GetLanResource;
 use App\Http\Resources\Lan\GetLansResource;
+use App\Http\Resources\Lan\UpdateLanResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
@@ -131,7 +132,7 @@ class LanServiceImpl implements LanService
         }
     }
 
-    public function update(Request $input, string $lanId): GetLanResource
+    public function update(Request $input, string $lanId): UpdateLanResource
     {
         $lanValidator = Validator::make($input->all(), [
             'name' => 'string|max:255',
@@ -144,7 +145,7 @@ class LanServiceImpl implements LanService
             'secret_key_id' => ['string', 'max:255', new ValidSecretKey],
             'latitude' => 'numeric|min:-85|max:85',
             'longitude' => 'numeric|min:-180|max:180',
-            'places' => ['integer', 'min:1', new LowerReservedPlace($input->input($lanId))],
+            'places' => ['integer', 'min:1', new LowerReservedPlace($lanId)],
             'price' => 'integer|min:0',
             'rules' => 'string',
             'description' => 'string'
@@ -158,7 +159,7 @@ class LanServiceImpl implements LanService
         $placeCount = $this->lanRepository->getReservedPlaces($lan->id);
         $images = $this->imageRepository->getImagesForLan($lan);
 
-        return new GetLanResource($this->lanRepository->updateLan(
+        return new UpdateLanResource($this->lanRepository->updateLan(
             $lan,
             $input->input('name'),
             new DateTime($input->input('lan_start')),

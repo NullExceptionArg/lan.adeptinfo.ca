@@ -36,8 +36,8 @@ class GetLanResource extends Resource
                 'lan_end' => $this->lan_end,
                 'seat_reservation_start' => $this->seat_reservation_start,
                 'tournament_reservation_start' => $this->tournament_reservation_start,
-                'longitude' => number_format($this->longitude, 7),
-                'latitude' => number_format($this->latitude, 7),
+                'longitude' => floatval(number_format($this->longitude, 7)),
+                'latitude' => floatval(number_format($this->latitude, 7)),
                 'places' => [
                     'reserved' => $this->reservedPlaces,
                     'total' => $this->places
@@ -55,8 +55,8 @@ class GetLanResource extends Resource
                 'lan_end' => $this->when(in_array("lan_end", $fields), $this->lan_end),
                 'seat_reservation_start' => $this->when(in_array("seat_reservation_start", $fields), $this->seat_reservation_start),
                 'tournament_reservation_start' => $this->when(in_array("tournament_reservation_start", $fields), $this->tournament_reservation_start),
-                'longitude' => $this->when(in_array("longitude", $fields), number_format($this->longitude, 7)),
-                'latitude' => $this->when(in_array("latitude", $fields), number_format($this->latitude, 7)),
+                'longitude' => floatval($this->when(in_array("longitude", $fields), number_format($this->longitude, 7))),
+                'latitude' => floatval($this->when(in_array("latitude", $fields), number_format($this->latitude, 7))),
                 "places" => $this->when(in_array("places", $fields), [
                     "reserved" => $this->reservedPlaces,
                     "total" => $this->places,

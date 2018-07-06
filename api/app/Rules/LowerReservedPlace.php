@@ -25,7 +25,7 @@ class LowerReservedPlace implements Rule
     public function passes($attribute, $value)
     {
         $placeCount = Reservation::where('lan_id', $this->lanId)->count();
-        return $value < $placeCount;
+        return $placeCount <= $value;
     }
 
     /**
