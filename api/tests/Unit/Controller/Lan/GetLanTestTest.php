@@ -17,7 +17,7 @@ class GetLanTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetLanSimple()
+    public function testGetLanSimple(): void
     {
         $this->json('GET', '/api/lan/' . $this->lan->id)
             ->seeJsonEquals([
@@ -27,12 +27,15 @@ class GetLanTest extends TestCase
                 'lan_end' => $this->lan->lan_end,
                 'seat_reservation_start' => $this->lan->seat_reservation_start,
                 'tournament_reservation_start' => $this->lan->tournament_reservation_start,
-                'longitude' => number_format($this->lan->longitude, 7),
-                'latitude' => number_format($this->lan->latitude, 7),
+                'longitude' => $this->lan->longitude,
+                'latitude' => $this->lan->latitude,
                 'places' => [
                     'reserved' => 0,
                     'total' => $this->lan->places
                 ],
+                'secret_key_id' => $this->lan->secret_key_id,
+                'event_key_id' => $this->lan->event_key_id,
+                'public_key_id' => $this->lan->public_key_id,
                 'price' => $this->lan->price,
                 'rules' => $this->lan->rules,
                 'description' => $this->lan->description,
@@ -41,7 +44,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanParameters()
+    public function testGetLanParameters(): void
     {
         $queryParams = ['fields' => "lan_start,lan_end,seat_reservation_start"];
         $this->json('GET', '/api/lan/' . $this->lan->id, $queryParams)
@@ -54,7 +57,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanIdExist()
+    public function testGetLanIdExist(): void
     {
         $badLanId = -1;
         $this->json('GET', '/api/lan/' . $badLanId)
@@ -70,7 +73,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetLanIdInteger()
+    public function testGetLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->json('GET', '/api/lan/' . $badLanId)

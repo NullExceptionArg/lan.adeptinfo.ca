@@ -9,7 +9,7 @@ class GetLansTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function testGetLans()
+    public function testGetLans(): void
     {
         $lan1 = factory('App\Model\Lan')->create();
         $lan2 = factory('App\Model\Lan')->create();
@@ -31,7 +31,7 @@ class GetLansTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLansNoLan()
+    public function testGetLansNoLan(): void
     {
         $this->json('GET', '/api/lans')
             ->seeJsonEquals([])

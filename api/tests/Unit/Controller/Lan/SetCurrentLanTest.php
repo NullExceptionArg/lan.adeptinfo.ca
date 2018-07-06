@@ -17,7 +17,7 @@ class SetCurrentLanTest extends TestCase
         $this->user = factory('App\Model\User')->create();
     }
 
-    public function testSetCurrentLanHasCurrentLan()
+    public function testSetCurrentLanHasCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -29,7 +29,7 @@ class SetCurrentLanTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    public function testSetCurrentLanNoCurrentLan()
+    public function testSetCurrentLanNoCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create();
         $response = $this->actingAs($this->user)
@@ -39,7 +39,7 @@ class SetCurrentLanTest extends TestCase
         $this->assertEquals(200, $response->status());
     }
 
-    public function testSetCurrentLanIdExist()
+    public function testSetCurrentLanIdExist(): void
     {
         $badLanId = -1;
         $this->actingAs($this->user)
@@ -56,7 +56,7 @@ class SetCurrentLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testSetCurrentLanIdInteger()
+    public function testSetCurrentLanIdInteger(): void
     {
         $badLanId = '☭';
         $this->actingAs($this->user)

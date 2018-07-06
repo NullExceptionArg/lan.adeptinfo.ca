@@ -29,8 +29,6 @@ interface LanRepository
 
     public function findLanById(int $id): ?Lan;
 
-    public function updateLanRules(Lan $lan, string $text): void;
-
     public function getReservedPlaces(int $lanId): int;
 
     public function getLans(): ?Collection;
@@ -40,4 +38,22 @@ interface LanRepository
     public function setCurrentLan(string $lanId): void;
 
     public function getCurrentLan(): ?Lan;
+
+    public function updateLan(
+        Lan $lan,
+        string $name,
+        DateTime $lanStart,
+        DateTime $lanEnd,
+        DateTime $seatReservationStart,
+        DateTime $tournamentReservationStart,
+        string $eventKeyId,
+        string $publicKeyId,
+        string $secretKeyId,
+        float $latitude,
+        float $longitude,
+        int $places,
+        ?int $price,
+        ?string $rules,
+        ?string $description
+    ): Lan;
 }

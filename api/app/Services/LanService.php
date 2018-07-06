@@ -4,6 +4,7 @@
 namespace App\Services;
 
 use App\Http\Resources\Lan\GetLanResource;
+use App\Http\Resources\Lan\UpdateLanResource;
 use App\Model\Lan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -14,9 +15,9 @@ interface LanService
 
     public function getLan(Request $request, string $lanId): GetLanResource;
 
-    public function updateRules(Request $input, string $lanId): array;
-
     public function getLans(): ResourceCollection;
 
     public function setCurrentLan(string $lanId): int;
+
+    public function update(Request $input, string $lanId): UpdateLanResource;
 }

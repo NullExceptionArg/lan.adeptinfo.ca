@@ -38,7 +38,7 @@ $api->version('v1', function ($api) {
 
             $api->post('lan', 'LanController@createLan');
             $api->post('lan/{lan_id}/current', 'LanController@setCurrentLan');
-            $api->post('lan/{lan_id}/rules', 'LanController@updateLanRules');
+            $api->post('lan/{lan_id}', 'LanController@updateLan');
 
             $api->post('lan/{lan_id}/contribution-category', 'ContributionController@createContributionCategory');
             $api->delete('lan/{lan_id}/contribution-category/{contribution_category_id}', 'ContributionController@deleteContributionCategory');

@@ -4,15 +4,16 @@ namespace Tests\Unit\Controller\Lan;
 
 use DateInterval;
 use DateTime;
-use Exception;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateLanTest extends TestCase
+class UpdateLanTest extends TestCase
 {
+
     use DatabaseMigrations;
 
     protected $user;
+    protected $lan;
 
     protected $requestContent = [
         'name' => "Bolshevik Revolution",
@@ -40,13 +41,14 @@ class CreateLanTest extends TestCase
         $this->requestContent['public_key_id'] = env('PUBLIC_KEY_ID');
 
         $this->user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
     }
 
 
-    public function testCreateLan(): void
+    public function testUpdateLan(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
@@ -58,20 +60,24 @@ class CreateLanTest extends TestCase
                 "secret_key_id" => $this->requestContent['secret_key_id'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
-                "places" => $this->requestContent['places'],
+                "places" => [
+                    'reserved' => 0,
+                    'total' => $this->requestContent['places']
+                ],
                 "price" => $this->requestContent['price'],
                 "rules" => $this->requestContent['rules'],
                 "description" => $this->requestContent['description'],
-                "id" => 1
+                "id" => 1,
+                'images' => []
             ])
-            ->assertResponseStatus(201);
+            ->assertResponseStatus(200);
     }
 
-    public function testCreateLanPriceDefault(): void
+    public function testUpdateLanPriceDefault(): void
     {
         $this->requestContent['price'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
@@ -84,36 +90,24 @@ class CreateLanTest extends TestCase
                 "places" => $this->requestContent['places'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
+                "places" => [
+                    'reserved' => 0,
+                    'total' => $this->requestContent['places']
+                ],
                 "price" => 0,
                 "rules" => $this->requestContent['rules'],
                 "description" => $this->requestContent['description'],
-                "id" => 1
+                "id" => 1,
+                'images' => []
             ])
-            ->assertResponseStatus(201);
+            ->assertResponseStatus(200);
     }
 
-    public function testCreateLanNameRequired(): void
-    {
-        $this->requestContent['name'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'name' => [
-                        0 => 'The name field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateLanNameString(): void
+    public function testUpdateLanNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -126,11 +120,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanNameMaxLength(): void
+    public function testUpdateLanNameMaxLength(): void
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -143,33 +137,10 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanStartRequired(): void
-    {
-        $this->requestContent['lan_start'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_start' => [
-                        0 => 'The lan start field is required.',
-                    ],
-                    'seat_reservation_start' => [
-                        'The seat reservation start must be a date before or equal to lan start.'
-                    ],
-                    'tournament_reservation_start' => [
-                        'The tournament reservation start must be a date before or equal to lan start.'
-                    ]
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     /**
-     * @throws Exception
+     * @throws \Exception
      */
-    public function testCreateLanAfterReservation(): void
+    public function testUpdateLanAfterReservation(): void
     {
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->requestContent['seat_reservation_start']));
@@ -181,7 +152,7 @@ class CreateLanTest extends TestCase
         $this->requestContent['tournament_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -198,9 +169,9 @@ class CreateLanTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
-    public function testCreateLanAfterTournamentStart(): void
+    public function testUpdateLanAfterTournamentStart(): void
     {
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->requestContent['tournament_reservation_start']));
@@ -212,7 +183,7 @@ class CreateLanTest extends TestCase
         $this->requestContent['seat_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -231,27 +202,7 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanEndRequired(): void
-    {
-        $this->requestContent['lan_end'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_end' => [
-                        0 => 'The lan end field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testCreateLanEndAfterLanStart(): void
+    public function testUpdateLanEndAfterLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanEnd = (new DateTime($this->requestContent['lan_start']));
@@ -259,7 +210,7 @@ class CreateLanTest extends TestCase
         $this->requestContent['lan_end'] = $newLanEnd->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -272,34 +223,17 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSeatReservationStartRequired(): void
-    {
-        $this->requestContent['seat_reservation_start'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'seat_reservation_start' => [
-                        0 => 'The seat reservation start field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     /**
-     * @throws Exception
+     * @throws \Exception
      */
-    public function testCreateLanSeatReservationBeforeOrEqualLanStart(): void
+    public function testUpdateLanSeatReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanSeatReservation = (new DateTime($this->requestContent['lan_start']));
         $newLanSeatReservation->add(new DateInterval('P1D'));
         $this->requestContent['seat_reservation_start'] = $newLanSeatReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -318,34 +252,14 @@ class CreateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testCreateLanTournamentStartRequired(): void
-    {
-        $this->requestContent['tournament_reservation_start'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'tournament_reservation_start' => [
-                        0 => 'The tournament reservation start field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function testCreateLanTournamentReservationBeforeOrEqualLanStart(): void
+    public function testUpdateLanTournamentReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanTournamentReservation = (new DateTime($this->requestContent['lan_start']));
         $newLanTournamentReservation->add(new DateInterval('P1D'));
         $this->requestContent['tournament_reservation_start'] = $newLanTournamentReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -361,28 +275,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdRequired(): void
-    {
-        $this->requestContent['event_key_id'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'event_key_id' => [
-                        0 => 'The event key id field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateLanEventKeyIdMaxLength(): void
+    public function testUpdateLanEventKeyIdMaxLength(): void
     {
         $this->requestContent['event_key_id'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -396,28 +293,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdRequired(): void
-    {
-        $this->requestContent['public_key_id'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'public_key_id' => [
-                        0 => 'The public key id field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateLanPublicKeyIdMaxLength(): void
+    public function testUpdateLanPublicKeyIdMaxLength(): void
     {
         $this->requestContent['public_key_id'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -430,31 +310,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdRequired(): void
-    {
-        $this->requestContent['secret_key_id'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'secret_key_id' => [
-                        0 => 'The secret key id field is required.',
-                    ],
-                    'event_key_id' => [
-                        'The event key id is not valid.'
-                    ]
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateLanSecretKeyIdMaxLength(): void
+    public function testUpdateLanSecretKeyIdMaxLength(): void
     {
         $this->requestContent['secret_key_id'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -462,37 +322,17 @@ class CreateLanTest extends TestCase
                     'secret_key_id' => [
                         0 => 'The secret key id may not be greater than 255 characters.',
                         1 => 'The secret key secret key id is not valid.'
-                    ],
-                    'event_key_id' => [
-                        0 => 'The event key id is not valid.'
                     ]
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanLatitudeRequired(): void
-    {
-        $this->requestContent['latitude'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'latitude' => [
-                        0 => 'The latitude field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateLanLatitudeMin(): void
+    public function testUpdateLanLatitudeMin(): void
     {
         $this->requestContent['latitude'] = -86;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -505,11 +345,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanLatitudeMax(): void
+    public function testUpdateLanLatitudeMax(): void
     {
         $this->requestContent['latitude'] = 86;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -522,11 +362,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanLatitudeNumeric(): void
+    public function testUpdateLanLatitudeNumeric(): void
     {
         $this->requestContent['latitude'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -539,28 +379,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanLongitudeRequired(): void
-    {
-        $this->requestContent['longitude'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'longitude' => [
-                        0 => 'The longitude field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateLanLongitudeMin(): void
+    public function testUpdateLanLongitudeMin(): void
     {
         $this->requestContent['longitude'] = -181;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -573,11 +396,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanLongitudeMax(): void
+    public function testUpdateLanLongitudeMax(): void
     {
         $this->requestContent['longitude'] = 181;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -590,11 +413,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanLongitudeNumeric(): void
+    public function testUpdateLanLongitudeNumeric(): void
     {
         $this->requestContent['longitude'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -607,11 +430,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceMinimum()
+    public function testUpdateLanPriceMinimum()
     {
         $this->requestContent['price'] = '-1';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -624,11 +447,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPriceInteger(): void
+    public function testUpdateLanPriceInteger(): void
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -641,11 +464,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyId(): void
+    public function testUpdateLanSecretKeyId(): void
     {
         $this->requestContent['secret_key_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -653,19 +476,16 @@ class CreateLanTest extends TestCase
                     'secret_key_id' => [
                         0 => 'The secret key secret key id is not valid.',
                     ],
-                    'event_key_id' => [
-                        0 => 'The event key id is not valid.'
-                    ]
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyId(): void
+    public function testUpdateLanEventKeyId(): void
     {
         $this->requestContent['event_key_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -678,28 +498,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPlacesRequired(): void
-    {
-        $this->requestContent['places'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'places' => [
-                        0 => 'The places field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateLanPlacesMin(): void
+    public function testUpdateLanPlacesMin(): void
     {
         $this->requestContent['places'] = 0;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -712,11 +515,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPlacesInt(): void
+    public function testUpdateLanPlacesInt(): void
     {
         $this->requestContent['places'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -729,11 +532,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRulesString(): void
+    public function testUpdateLanRulesString(): void
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -746,11 +549,11 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanDescriptionString(): void
+    public function testUpdateLanDescriptionString(): void
     {
         $this->requestContent['description'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
