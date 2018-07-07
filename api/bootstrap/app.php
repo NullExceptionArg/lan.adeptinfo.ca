@@ -80,7 +80,8 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'cors' => \Barryvdh\Cors\HandleCors::class
+    'cors' => \Barryvdh\Cors\HandleCors::class,
+    'language' => App\Http\Middleware\Language::class
 ]);
 
 /*
