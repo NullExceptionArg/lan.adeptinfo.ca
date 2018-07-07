@@ -51,10 +51,10 @@ class BookSeatTest extends SeatsTestCase
         $badSeatId = '-1';
         try {
             $this->seatService->book($this->lan->id, $badSeatId);
-            $this->fail('Expected: {"seat_id":["This seat doesn\'t exist in this event."]}');
+            $this->fail('Expected: {"seat_id":["The selected seat id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["This seat doesn\'t exist in this event."]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["The selected seat id is invalid."]}', $e->getMessage());
         }
     }
 
@@ -65,10 +65,10 @@ class BookSeatTest extends SeatsTestCase
 
         try {
             $this->seatService->book($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["This seat is already taken for this event"]}');
+            $this->fail('Expected: {"seat_id":["This seat is already taken for this event."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["This seat is already taken for this event"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is already taken for this event."]}', $e->getMessage());
         }
     }
 

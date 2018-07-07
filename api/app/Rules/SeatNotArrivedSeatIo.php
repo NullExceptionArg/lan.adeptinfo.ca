@@ -2,20 +2,16 @@
 
 namespace App\Rules;
 
-
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioException;
 
-class SeatExistInLanSeatIo implements Rule
+class SeatNotArrivedSeatIo implements Rule
 {
+
     protected $lanId;
 
-    /**
-     * SeatOncePerLan constructor.
-     * @param string $lanId
-     */
     public function __construct(string $lanId)
     {
         $this->lanId = $lanId;
@@ -36,11 +32,11 @@ class SeatExistInLanSeatIo implements Rule
         }
         $seatsClient = new SeatsioClient($lan->secret_key_id);
         try {
-            $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $value);
+            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $value);
+            return $status->status != 'arrived';
         } catch (SeatsioException $exception) {
-            return false;
+            return true;
         }
-        return true;
     }
 
     /**
@@ -50,6 +46,6 @@ class SeatExistInLanSeatIo implements Rule
      */
     public function message()
     {
-        return 'The selected seat id is invalid.';
+        return 'This seat is already set to arrived.';
     }
 }

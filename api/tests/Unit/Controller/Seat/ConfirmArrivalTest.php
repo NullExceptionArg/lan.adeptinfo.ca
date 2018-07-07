@@ -99,7 +99,7 @@ class ConfirmArrivalTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation'
+                        0 => 'This seat is not associated with a reservation.'
                     ],
                 ]
             ])
@@ -118,7 +118,7 @@ class ConfirmArrivalTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => "Seat with id " . env('SEAT_ID') . " is already set to 'arrived'"
+                        0 => "This seat is already set to arrived."
                     ],
                 ]
             ])

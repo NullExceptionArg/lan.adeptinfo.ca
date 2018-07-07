@@ -59,7 +59,7 @@ class BookSeatTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'This seat doesn\'t exist in this event.'
+                        0 => 'The selected seat id is invalid.'
                     ],
                 ]
             ])

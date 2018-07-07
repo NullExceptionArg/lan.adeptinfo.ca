@@ -81,10 +81,10 @@ class ConfirmArrivalTest extends SeatsTestCase
 
         try {
             $this->seatService->confirmArrival($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation"]}');
+            $this->fail('Expected: {"seat_id":["This seat is not associated with a reservation."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is not associated with a reservation."]}', $e->getMessage());
         }
     }
 
@@ -95,10 +95,10 @@ class ConfirmArrivalTest extends SeatsTestCase
 
         try {
             $this->seatService->confirmArrival($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id A-1 is already set to \'arrived\'"]}');
+            $this->fail('Expected: {"seat_id":["This seat is already set to \'arrived\'"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals("{\"seat_id\":[\"Seat with id A-1 is already set to 'arrived'\"]}", $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is already set to arrived."]}', $e->getMessage());
         }
     }
 

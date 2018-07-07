@@ -30,10 +30,7 @@ class SeatOncePerLan implements Rule
     {
         $lanSeatReservation = Reservation::where('lan_id', $this->lanId)
             ->where('seat_id', $value)->first();
-        if ($lanSeatReservation != null && $lanSeatReservation->count() > 0) {
-            return false;
-        }
-        return true;
+        return $lanSeatReservation == null || $lanSeatReservation->count() <= 0;
     }
 
     /**
