@@ -112,6 +112,17 @@ return [
     'uploaded' => "Le fichier du champ :attribute n'a pu être téléversé.",
     'url' => "Le format de l'URL de :attribute n'est pas valide.",
 
+    'lower_reserved_place' => 'Le nouveau nombre de places disponibles ne peut être plus bas que le nombre de places prises.',
+    'seat_exist_in_lan_seat_io' => 'L\'id du lan sélectionné est invalide.',
+    'seat_not_arrived_seat_io' => 'Cette place est déjà arrivée.',
+    'seat_not_booked_seat_io' => 'Cette place est déjà réservée.',
+    'seat_not_free_seat_io' => 'Cette place n\'est pas associée à une réservation.',
+    'seat_once_per_lan' => 'Cette place est déjà réservée pour cet évenement.',
+    'seat_once_per_lan_seat_io' => 'Cette place est déjà réservée pour cet évenement.',
+    'user_once_per_lan' => 'Cette utilisateur a déjà une place réservé à cet évenement.',
+    'valid_event_key' => 'La clée d\'évenement n\'est pas valide.',
+    'valid_secret_key' => 'La clée secrète n\'est pas valide.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines
@@ -124,9 +135,7 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
+        'attribute' => 'memes'
     ],
 
     /*

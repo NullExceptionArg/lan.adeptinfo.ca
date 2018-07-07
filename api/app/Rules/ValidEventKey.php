@@ -52,6 +52,6 @@ class ValidEventKey implements Rule
      */
     public function message()
     {
-        return 'The :attribute is not valid.';
+        return trans('validation.valid_event_key');
     }
 }

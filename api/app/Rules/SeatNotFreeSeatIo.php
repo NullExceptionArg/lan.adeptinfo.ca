@@ -46,6 +46,6 @@ class SeatNotFreeSeatIo implements Rule
      */
     public function message()
     {
-        return 'This seat is not associated with a reservation.';
+        return trans('validation.seat_not_free_seat_io');
     }
 }

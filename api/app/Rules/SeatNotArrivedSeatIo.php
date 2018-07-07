@@ -46,6 +46,6 @@ class SeatNotArrivedSeatIo implements Rule
      */
     public function message()
     {
-        return 'This seat is already set to arrived.';
+        return trans('validation.seat_not_arrived_seat_io');
     }
 }

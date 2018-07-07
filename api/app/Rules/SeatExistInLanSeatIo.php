@@ -50,6 +50,6 @@ class SeatExistInLanSeatIo implements Rule
      */
     public function message()
     {
-        return 'The selected seat id is invalid.';
+        return trans('validation.seat_exist_in_lan_seat_io');
     }
 }

@@ -35,6 +35,6 @@ class LowerReservedPlace implements Rule
      */
     public function message()
     {
-        return 'The new number of available places can\'t be lower than the current number of available places.';
+        return trans('validation.lower_reserved_place');
     }
 }

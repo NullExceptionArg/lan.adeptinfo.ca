@@ -34,6 +34,6 @@ class UserOncePerLan implements Rule
      */
     public function message()
     {
-        return 'The user already has a seat at this event.';
+        return trans('validation.user_once_per_lan');
     }
 }

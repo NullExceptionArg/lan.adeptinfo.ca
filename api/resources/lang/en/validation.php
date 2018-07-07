@@ -112,6 +112,17 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
 
+    'lower_reserved_place' => 'The new number of available places can\'t be lower than the current number of available places.',
+    'seat_exist_in_lan_seat_io' => 'The selected seat id is invalid.',
+    'seat_not_arrived_seat_io' => 'This seat is already set to arrived.',
+    'seat_not_booked_seat_io' => 'This seat is already set to booked.',
+    'seat_not_free_seat_io' => 'This seat is not associated with a reservation.',
+    'seat_once_per_lan' => 'This seat is already taken for this event.',
+    'seat_once_per_lan_seat_io' => 'This seat is already taken for this event.',
+    'user_once_per_lan' => 'The user already has a seat at this event.',
+    'valid_event_key' => 'The event key is not valid.',
+    'valid_secret_key' => 'The secret key is not valid.',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

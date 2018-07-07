@@ -46,6 +46,6 @@ class SeatNotBookedSeatIo implements Rule
      */
     public function message()
     {
-        return 'This seat is already set to booked.';
+        return trans('validation.seat_not_booked_seat_io');
     }
 }

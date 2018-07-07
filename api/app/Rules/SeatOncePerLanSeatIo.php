@@ -53,6 +53,6 @@ class SeatOncePerLanSeatIo implements Rule
      */
     public function message()
     {
-        return 'This seat is already taken for this event.';
+        return trans('validation.seat_once_per_lan_seat_io');
     }
 }

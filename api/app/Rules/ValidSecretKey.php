@@ -33,6 +33,6 @@ class ValidSecretKey implements Rule
      */
     public function message()
     {
-        return 'The secret key :attribute is not valid.';
+        return trans('validation.valid_secret_key');
     }
 }
