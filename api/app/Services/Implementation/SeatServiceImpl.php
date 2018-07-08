@@ -57,8 +57,8 @@ class SeatServiceImpl implements SeatService
         $user = Auth::user();
         $lan = $this->lanRepository->findLanById($lanId);
 
-        $seatsClient = new SeatsioClient($lan->secret_key_id);
-        $seatsClient->events()->book($lan->event_key_id, [$seatId]);
+        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient->events()->book($lan->event_key, [$seatId]);
         $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
@@ -87,8 +87,8 @@ class SeatServiceImpl implements SeatService
 
         $lan = $this->lanRepository->findLanById($lanId);
 
-        $seatsClient = new SeatsioClient($lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($lan->event_key_id, [$seatId], "arrived");
+        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($lan->event_key, [$seatId], "arrived");
         $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
 
         return $reservation;
@@ -117,8 +117,8 @@ class SeatServiceImpl implements SeatService
 
         $lan = $this->lanRepository->findLanById($lanId);
 
-        $seatsClient = new SeatsioClient($lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($lan->event_key_id, [$seatId], "booked");
+        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($lan->event_key, [$seatId], "booked");
         $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
 
         return $reservation;

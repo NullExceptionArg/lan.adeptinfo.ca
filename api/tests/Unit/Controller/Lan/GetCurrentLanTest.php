@@ -24,9 +24,9 @@ class GetCurrentLanTest extends TestCase
                 'tournament_reservation_start' => $lan->tournament_reservation_start,
                 'longitude' => $lan->longitude,
                 'latitude' => $lan->latitude,
-                'secret_key_id' => $lan->secret_key_id,
-                'event_key_id' => $lan->event_key_id,
-                'public_key_id' => $lan->public_key_id,
+                'secret_key' => $lan->secret_key,
+                'event_key' => $lan->event_key,
+                'public_key' => $lan->public_key,
                 'places' => [
                     'reserved' => 0,
                     'total' => $lan->places

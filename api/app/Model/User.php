@@ -74,8 +74,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
             foreach ($reservations as $reservation) {
                 $lan = Lan::find($reservation->lan_id);
 
-                $seatsClient = new SeatsioClient($lan->secret_key_id);
-                $seatsClient->events()->release($lan->event_key_id, $reservation->seat_id);
+                $seatsClient = new SeatsioClient($lan->secret_key);
+                $seatsClient->events()->release($lan->event_key, $reservation->seat_id);
 
                 $reservation->delete();
             }

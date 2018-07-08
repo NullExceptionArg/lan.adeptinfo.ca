@@ -11,12 +11,12 @@ class ValidEventKey implements Rule
 {
 
     protected $lanId;
-    protected $secretKeyId;
+    protected $secretKey;
 
-    public function __construct(?string $lanId, ?string $secretKeyId)
+    public function __construct(?string $lanId, ?string $secretKey)
     {
         $this->lanId = $lanId;
-        $this->secretKeyId = $secretKeyId;
+        $this->secretKey = $secretKey;
     }
 
     /**
@@ -29,14 +29,14 @@ class ValidEventKey implements Rule
     public function passes($attribute, $value)
     {
         $seatsClient = null;
-        if ($this->secretKeyId == null) {
+        if ($this->secretKey == null) {
             if ($this->lanId == null) {
                 return false;
             }
-            $this->secretKeyId = Lan::find($this->lanId)->secret_key_id;
+            $this->secretKey = Lan::find($this->lanId)->secret_key;
         }
 
-        $seatsClient = new SeatsioClient($this->secretKeyId);
+        $seatsClient = new SeatsioClient($this->secretKey);
         try {
             $seatsClient->events()->retrieve($value);
         } catch (SeatsioException $exception) {

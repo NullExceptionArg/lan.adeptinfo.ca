@@ -33,9 +33,9 @@ class GetLanTest extends TestCase
                     'reserved' => 0,
                     'total' => $this->lan->places
                 ],
-                'secret_key_id' => $this->lan->secret_key_id,
-                'event_key_id' => $this->lan->event_key_id,
-                'public_key_id' => $this->lan->public_key_id,
+                'secret_key' => $this->lan->secret_key,
+                'event_key' => $this->lan->event_key,
+                'public_key' => $this->lan->public_key,
                 'price' => $this->lan->price,
                 'rules' => $this->lan->rules,
                 'description' => $this->lan->description,

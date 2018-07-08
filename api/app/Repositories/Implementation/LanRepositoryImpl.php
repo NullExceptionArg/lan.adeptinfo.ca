@@ -19,9 +19,9 @@ class LanRepositoryImpl implements LanRepository
         DateTime $lanEnd,
         DateTime $seatReservationStart,
         DateTime $tournamentReservationStart,
-        string $eventKeyId,
-        string $publicKeyId,
-        string $secretKeyId,
+        string $eventKey,
+        string $publicKey,
+        string $secretKey,
         float $latitude,
         float $longitude,
         int $places,
@@ -36,9 +36,9 @@ class LanRepositoryImpl implements LanRepository
         $lan->lan_end = $lanEnd->format('Y-m-d H:i:s');
         $lan->seat_reservation_start = $seatReservationStart->format('Y-m-d H:i:s');
         $lan->tournament_reservation_start = $tournamentReservationStart->format('Y-m-d H:i:s');
-        $lan->event_key_id = $eventKeyId;
-        $lan->public_key_id = $publicKeyId;
-        $lan->secret_key_id = $secretKeyId;
+        $lan->event_key = $eventKey;
+        $lan->public_key = $publicKey;
+        $lan->secret_key = $secretKey;
         $lan->latitude = $latitude;
         $lan->longitude = $longitude;
         $lan->places = $places;
@@ -89,9 +89,9 @@ class LanRepositoryImpl implements LanRepository
         DateTime $lanEnd,
         DateTime $seatReservationStart,
         DateTime $tournamentReservationStart,
-        string $eventKeyId,
-        string $publicKeyId,
-        string $secretKeyId,
+        string $eventKey,
+        string $publicKey,
+        string $secretKey,
         float $latitude,
         float $longitude,
         int $places,
@@ -105,9 +105,9 @@ class LanRepositoryImpl implements LanRepository
         $lan->lan_end = $lanEnd->format('Y-m-d H:i:s');
         $lan->seat_reservation_start = $seatReservationStart->format('Y-m-d H:i:s');
         $lan->tournament_reservation_start = $tournamentReservationStart->format('Y-m-d H:i:s');
-        $lan->event_key_id = $eventKeyId;
-        $lan->public_key_id = $publicKeyId;
-        $lan->secret_key_id = $secretKeyId;
+        $lan->event_key = $eventKey;
+        $lan->public_key = $publicKey;
+        $lan->secret_key = $secretKey;
         $lan->latitude = $latitude;
         $lan->longitude = $longitude;
         $lan->places = $places;

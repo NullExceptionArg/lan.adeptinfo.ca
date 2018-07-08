@@ -16,7 +16,7 @@ class ReservationTableSeeder extends Seeder
      */
     public function run()
     {
-        $seatsClient = new SeatsioClient(env('SECRET_KEY_ID'));
+        $seatsClient = new SeatsioClient(env('SECRET_KEY'));
 
         $mscdt = new MiscData();
         $places = $mscdt->getSeatData();
@@ -25,7 +25,7 @@ class ReservationTableSeeder extends Seeder
 
         // Reset seats.io
         foreach ($lans as $lan) {
-            $seatsClient->events()->release($lan->event_key_id, $places);
+            $seatsClient->events()->release($lan->event_key, $places);
         }
 
         // Fill database and seat.io
@@ -38,9 +38,9 @@ class ReservationTableSeeder extends Seeder
 
             // seats.io
             if (rand(0, 9) > 7) { // 20% of users hve arrived to the LAN
-                $seatsClient->events()->changeObjectStatus($lan->event_key_id, [$place], 'arrived');
+                $seatsClient->events()->changeObjectStatus($lan->event_key, [$place], 'arrived');
             } else {
-                $seatsClient->events()->book($lan->event_key_id, [$place]);
+                $seatsClient->events()->book($lan->event_key, [$place]);
             }
 
             // Database
