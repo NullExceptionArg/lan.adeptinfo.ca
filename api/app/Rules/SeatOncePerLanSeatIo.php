@@ -34,9 +34,9 @@ class SeatOncePerLanSeatIo implements Rule
         if ($lan == null) {
             return true;
         }
-        $seatsClient = new SeatsioClient($lan->secret_key_id);
+        $seatsClient = new SeatsioClient($lan->secret_key);
         try {
-            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $value);
+            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, $value);
             if ($status->status === 'booked' || $status->status === 'arrived') {
                 return false;
             }

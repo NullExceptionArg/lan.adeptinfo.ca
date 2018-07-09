@@ -37,7 +37,7 @@ class DeleteUserTest extends TestCase
         $user = factory('App\Model\User')->create();
         $this->be($user);
         $lan = factory('App\Model\Lan')->create();
-        $seatsClient = new SeatsioClient($lan->secret_key_id);
+        $seatsClient = new SeatsioClient($lan->secret_key);
         $contributionCategory = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $lan->id
         ]);
@@ -60,7 +60,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(1, $user->Contribution()->count());
 
         // Seats.io
-        $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, 'A-1');
+        $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, 'A-1');
         $this->assertEquals('booked', $status->status);
 
         /// Delete user
@@ -77,7 +77,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(0, Contribution::where('user_id', $user->id)->count());
 
         // Seats.io
-        $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, 'A-1');
+        $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, 'A-1');
         $this->assertEquals('free', $status->status);
     }
 }

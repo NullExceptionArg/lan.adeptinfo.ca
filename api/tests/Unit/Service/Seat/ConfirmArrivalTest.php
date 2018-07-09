@@ -76,8 +76,8 @@ class ConfirmArrivalTest extends SeatsTestCase
 
     public function testConfirmArrivalSeatIdFree(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'free');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'free');
 
         try {
             $this->seatService->confirmArrival($this->lan->id, env('SEAT_ID'));
@@ -90,8 +90,8 @@ class ConfirmArrivalTest extends SeatsTestCase
 
     public function testConfirmArrivalSeatIdArrived(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'arrived');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'arrived');
 
         try {
             $this->seatService->confirmArrival($this->lan->id, env('SEAT_ID'));

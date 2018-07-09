@@ -34,9 +34,9 @@ class SeatExistInLanSeatIo implements Rule
         if ($lan == null) {
             return true;
         }
-        $seatsClient = new SeatsioClient($lan->secret_key_id);
+        $seatsClient = new SeatsioClient($lan->secret_key);
         try {
-            $seatsClient->events()->retrieveObjectStatus($lan->event_key_id, $value);
+            $seatsClient->events()->retrieveObjectStatus($lan->event_key, $value);
         } catch (SeatsioException $exception) {
             return false;
         }
