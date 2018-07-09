@@ -316,6 +316,14 @@
               </ul>
           </li>
           <li>
+            <a href="#langue" class="toc-h1 toc-link" data-title="langue">Langue</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#changer-de-langue" class="toc-h2 toc-link" data-title="changer-de-langue">Changer de langue</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#erreurs" class="toc-h1 toc-link" data-title="erreurs">Erreurs</a>
               <ul class="toc-list-h2">
                   <li>
@@ -692,9 +700,9 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
   </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12 12:00:00-05:00"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 12:00:00-05:00"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00-05:00"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"event_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"public_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="s2">"258"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
   </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
@@ -743,19 +751,19 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td></td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
 <td>Requis, 255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io .</td>
 <td>Requis, 255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io .</td>
 <td>Requis, 255 caractères max.</td>
 <td></td>
@@ -807,9 +815,9 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
     </span><span class="s2">"lan_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-12 12:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"seat_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 12:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"event_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="s2">"258"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
     </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
@@ -847,15 +855,15 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Date et heure du début des inscriptions aux tournois du LAN créé.</td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN pour le LAN créé.</td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io pour le LAN créé.</td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io pour le LAN créé.</td>
 </tr>
 <tr>
@@ -959,15 +967,15 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Longitude de la position du LAN</td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io .</td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io .</td>
 </tr>
 <tr>
@@ -996,9 +1004,9 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
     </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
     </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"event_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"reserved"</span><span class="p">:</span><span class="w"> </span><span class="mi">178</span><span class="p">,</span><span class="w">
       </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">258</span><span class="w">
@@ -1063,15 +1071,15 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Règles du LAN.</td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io .</td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io .</td>
 </tr>
 <tr>
@@ -1177,15 +1185,15 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Longitude de la position du LAN</td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io .</td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io .</td>
 </tr>
 <tr>
@@ -1214,9 +1222,9 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
     </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
     </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"event_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"reserved"</span><span class="p">:</span><span class="w"> </span><span class="mi">178</span><span class="p">,</span><span class="w">
       </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">258</span><span class="w">
@@ -1281,15 +1289,15 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Règles du LAN.</td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io .</td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io .</td>
 </tr>
 <tr>
@@ -1445,19 +1453,19 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td></td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
 <td>255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io .</td>
 <td>255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io .</td>
 <td>255 caractères max.</td>
 <td></td>
@@ -1512,9 +1520,9 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
     </span><span class="s2">"tournament_reservation_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-04 00:00:00"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"latitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">-67.5</span><span class="p">,</span><span class="w">
     </span><span class="s2">"longitude"</span><span class="p">:</span><span class="w"> </span><span class="mf">64.033333</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"event_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"public_key_id"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"secret_key_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"event_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"public_key"</span><span class="p">:</span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"secret_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12345678-1234-1234-1234-123456789123"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"places"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"reserved"</span><span class="p">:</span><span class="w"> </span><span class="mi">178</span><span class="p">,</span><span class="w">
       </span><span class="s2">"total"</span><span class="p">:</span><span class="w"> </span><span class="mi">258</span><span class="w">
@@ -1559,15 +1567,15 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Date et heure du début des inscriptions aux tournois du LAN mise à jour.</td>
 </tr>
 <tr>
-<td>event_key_id</td>
+<td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN mise à jour.</td>
 </tr>
 <tr>
-<td>public_key_id</td>
+<td>public_key</td>
 <td>Clé publique de seats.io mise à jour.</td>
 </tr>
 <tr>
-<td>secret_key_id</td>
+<td>secret_key</td>
 <td>Clé secrète de seats.io mise à jour.</td>
 </tr>
 <tr>
@@ -2264,6 +2272,33 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <td>Nom de la catégorie de contribution supprimée.</td>
 </tr>
 </tbody></table>
+<h1 id='langue'>Langue</h1>
+<p>L&#39;API du LAN de l&#39;ADEPT peut renvoyer les réponses dans différentes langues.</p>
+
+<table><thead>
+<tr>
+<th>Langue</th>
+<th>Code de langue</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Anglais</td>
+<td>en</td>
+</tr>
+<tr>
+<td>Français</td>
+<td>fr</td>
+</tr>
+<tr>
+<td>Défaut (Si aucune langue n&#39;est spécifiée)</td>
+<td>La langue par défaut peut être changée dans les variables d&#39;environnement (.env).</td>
+</tr>
+</tbody></table>
+<h3 id='changer-de-langue'>Changer de langue</h3>
+<p>Il suffit d&#39;inclure le query param &#39;lang&#39; avec le code de la langue dans n&#39;importe laquelle de vos requêtes.</p>
+
+<p>Exemple: 
+<code>GET /api/lan/1?lang=fr</code></p>
 <h1 id='erreurs'>Erreurs</h1>
 <p>L&#39;API du LAN de l&#39;ADEPT peut renvoyer les code d&#39;erreur suivants:</p>
 
