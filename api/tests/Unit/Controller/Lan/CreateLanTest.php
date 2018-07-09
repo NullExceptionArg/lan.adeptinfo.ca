@@ -36,8 +36,8 @@ class CreateLanTest extends TestCase
         parent::setUp();
 
         $this->requestContent['event_key'] = env('EVENT_KEY');
-        $this->requestContent['secret_key'] = env('secret_key');
-        $this->requestContent['public_key'] = env('public_key');
+        $this->requestContent['secret_key'] = env('SECRET_KEY');
+        $this->requestContent['public_key'] = env('PUBLIC_KEY');
 
         $this->user = factory('App\Model\User')->create();
     }
