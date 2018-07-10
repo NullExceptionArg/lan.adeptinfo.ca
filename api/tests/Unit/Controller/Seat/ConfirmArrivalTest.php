@@ -89,8 +89,8 @@ class ConfirmArrivalTest extends SeatsTestCase
 
     public function testBookSeatIdFree(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'free');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'free');
 
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/confirm/' . env('SEAT_ID'))
@@ -99,7 +99,7 @@ class ConfirmArrivalTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation'
+                        0 => 'This seat is not associated with a reservation.'
                     ],
                 ]
             ])
@@ -108,8 +108,8 @@ class ConfirmArrivalTest extends SeatsTestCase
 
     public function testBookSeatIdArrived(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'arrived');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'arrived');
 
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/' . $this->lan->id . '/confirm/' . env('SEAT_ID'))
@@ -118,7 +118,7 @@ class ConfirmArrivalTest extends SeatsTestCase
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => "Seat with id " . env('SEAT_ID') . " is already set to 'arrived'"
+                        0 => "This seat is already set to arrived."
                     ],
                 ]
             ])

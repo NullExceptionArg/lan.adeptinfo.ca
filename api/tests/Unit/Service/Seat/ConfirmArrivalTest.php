@@ -76,29 +76,29 @@ class ConfirmArrivalTest extends SeatsTestCase
 
     public function testConfirmArrivalSeatIdFree(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'free');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'free');
 
         try {
             $this->seatService->confirmArrival($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation"]}');
+            $this->fail('Expected: {"seat_id":["This seat is not associated with a reservation."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is not associated with a reservation."]}', $e->getMessage());
         }
     }
 
     public function testConfirmArrivalSeatIdArrived(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'arrived');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'arrived');
 
         try {
             $this->seatService->confirmArrival($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id A-1 is already set to \'arrived\'"]}');
+            $this->fail('Expected: {"seat_id":["This seat is already set to \'arrived\'"]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals("{\"seat_id\":[\"Seat with id A-1 is already set to 'arrived'\"]}", $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is already set to arrived."]}', $e->getMessage());
         }
     }
 

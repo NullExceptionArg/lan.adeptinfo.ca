@@ -13,52 +13,54 @@
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
 
-    $api->group(['prefix' => 'oauth'], function ($api) {
-        $api->post('token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
-    });
+    $api->group(['middleware' => ['language', 'cors']], function ($api) {
 
-    $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
-
-        $api->post('user', 'UserController@signUp');
-
-        $api->get('lan/{lan_id}', 'LanController@getLan');
-        $api->get('lans', 'LanController@getLans');
-        $api->get('lans/current', 'LanController@getCurrentLan');
-
-        $api->get('lan/{lan_id}/contribution-category', 'ContributionController@getContributionCategories');
-        $api->get('lan/{lan_id}/contribution', 'ContributionController@getContributions');
-
-    });
-
-
-    // Authorized requests
-    $api->group(['middleware' => ['auth:api', 'cors']], function ($api) {
+        $api->group(['prefix' => 'oauth'], function ($api) {
+            $api->post('token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
+        });
 
         $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
-            $api->post('lan', 'LanController@createLan');
-            $api->post('lan/{lan_id}/current', 'LanController@setCurrentLan');
-            $api->post('lan/{lan_id}', 'LanController@updateLan');
+            $api->post('user', 'UserController@signUp');
 
-            $api->post('lan/{lan_id}/contribution-category', 'ContributionController@createContributionCategory');
-            $api->delete('lan/{lan_id}/contribution-category/{contribution_category_id}', 'ContributionController@deleteContributionCategory');
-            $api->post('lan/{lan_id}/contribution', 'ContributionController@createContribution');
-            $api->delete('lan/{lan_id}/contribution/{contribution_id}', 'ContributionController@deleteContribution');
+            $api->get('lan/{lan_id}', 'LanController@getLan');
+            $api->get('lans', 'LanController@getLans');
+            $api->get('lans/current', 'LanController@getCurrentLan');
 
-            $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
-            $api->post('lan/{lan_id}/confirm/{seat_id}', 'SeatController@confirmArrival');
-            $api->delete('lan/{lan_id}/confirm/{seat_id}', 'SeatController@unConfirmArrival');
+            $api->get('lan/{lan_id}/contribution-category', 'ContributionController@getContributionCategories');
+            $api->get('lan/{lan_id}/contribution', 'ContributionController@getContributions');
 
-            $api->post('lan/{lan_id}/image', 'ImageController@addImage');
-            $api->delete('lan/{lan_id}/image/{image_id}', 'ImageController@deleteImages');
+        });
 
-            $api->delete('user', 'UserController@deleteUser');
-            $api->post('user/logout', 'UserController@logOut');
-            $api->get('user', 'UserController@getUsers');
+
+        // Authorized requests
+        $api->group(['middleware' => ['auth:api']], function ($api) {
+
+            $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
+
+                $api->post('lan', 'LanController@createLan');
+                $api->post('lan/{lan_id}/current', 'LanController@setCurrentLan');
+                $api->post('lan/{lan_id}', 'LanController@updateLan');
+
+                $api->post('lan/{lan_id}/contribution-category', 'ContributionController@createContributionCategory');
+                $api->delete('lan/{lan_id}/contribution-category/{contribution_category_id}', 'ContributionController@deleteContributionCategory');
+                $api->post('lan/{lan_id}/contribution', 'ContributionController@createContribution');
+                $api->delete('lan/{lan_id}/contribution/{contribution_id}', 'ContributionController@deleteContribution');
+
+                $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
+                $api->post('lan/{lan_id}/confirm/{seat_id}', 'SeatController@confirmArrival');
+                $api->delete('lan/{lan_id}/confirm/{seat_id}', 'SeatController@unConfirmArrival');
+
+                $api->post('lan/{lan_id}/image', 'ImageController@addImage');
+                $api->delete('lan/{lan_id}/image/{image_id}', 'ImageController@deleteImages');
+
+                $api->delete('user', 'UserController@deleteUser');
+                $api->post('user/logout', 'UserController@logOut');
+                $api->get('user', 'UserController@getUsers');
+
+            });
 
         });
 
     });
-
-
 });

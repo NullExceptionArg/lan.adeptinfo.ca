@@ -2,14 +2,18 @@
 
 namespace App\Rules;
 
+
 use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
 
-class LowerReservedPlace implements Rule
+class SeatOncePerLan implements Rule
 {
-
     protected $lanId;
 
+    /**
+     * SeatOncePerLan constructor.
+     * @param string $lanId
+     */
     public function __construct(string $lanId)
     {
         $this->lanId = $lanId;
@@ -24,8 +28,9 @@ class LowerReservedPlace implements Rule
      */
     public function passes($attribute, $value)
     {
-        $placeCount = Reservation::where('lan_id', $this->lanId)->count();
-        return $placeCount <= $value;
+        $lanSeatReservation = Reservation::where('lan_id', $this->lanId)
+            ->where('seat_id', $value)->first();
+        return $lanSeatReservation == null || $lanSeatReservation->count() <= 0;
     }
 
     /**
@@ -35,6 +40,6 @@ class LowerReservedPlace implements Rule
      */
     public function message()
     {
-        return trans('validation.lower_reserved_place');
+        return trans('validation.seat_once_per_lan');
     }
 }

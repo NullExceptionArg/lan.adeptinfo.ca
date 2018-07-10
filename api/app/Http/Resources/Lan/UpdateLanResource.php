@@ -35,9 +35,9 @@ class UpdateLanResource extends Resource
             'tournament_reservation_start' => $this->tournament_reservation_start,
             'longitude' => floatval(number_format($this->longitude, 7)),
             'latitude' => floatval(number_format($this->latitude, 7)),
-            'secret_key_id' => $this->secret_key_id,
-            'event_key_id' => $this->event_key_id,
-            'public_key_id' => $this->public_key_id,
+            'secret_key' => $this->secret_key,
+            'event_key' => $this->event_key,
+            'public_key' => $this->public_key,
             'places' => [
                 'reserved' => $this->reservedPlaces,
                 'total' => $this->places

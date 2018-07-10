@@ -20,9 +20,9 @@ class CreateLanTest extends TestCase
         'lan_end' => "2100-10-12 12:00:00",
         'seat_reservation_start' => "2100-10-04 12:00:00",
         'tournament_reservation_start' => "2100-10-07 00:00:00",
-        "event_key_id" => "",
-        "public_key_id" => "",
-        "secret_key_id" => "",
+        "event_key" => "",
+        "public_key" => "",
+        "secret_key" => "",
         "latitude" => -67.5,
         "longitude" => 64.033333,
         "places" => 10,
@@ -35,9 +35,9 @@ class CreateLanTest extends TestCase
     {
         parent::setUp();
 
-        $this->requestContent['event_key_id'] = env('EVENT_KEY_ID');
-        $this->requestContent['secret_key_id'] = env('SECRET_KEY_ID');
-        $this->requestContent['public_key_id'] = env('PUBLIC_KEY_ID');
+        $this->requestContent['event_key'] = env('EVENT_KEY');
+        $this->requestContent['secret_key'] = env('SECRET_KEY');
+        $this->requestContent['public_key'] = env('PUBLIC_KEY');
 
         $this->user = factory('App\Model\User')->create();
     }
@@ -53,9 +53,9 @@ class CreateLanTest extends TestCase
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
                 'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
-                "event_key_id" => $this->requestContent['event_key_id'],
-                "public_key_id" => $this->requestContent['public_key_id'],
-                "secret_key_id" => $this->requestContent['secret_key_id'],
+                "event_key" => $this->requestContent['event_key'],
+                "public_key" => $this->requestContent['public_key'],
+                "secret_key" => $this->requestContent['secret_key'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
                 "places" => $this->requestContent['places'],
@@ -78,9 +78,9 @@ class CreateLanTest extends TestCase
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
                 'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
-                "event_key_id" => $this->requestContent['event_key_id'],
-                "public_key_id" => $this->requestContent['public_key_id'],
-                "secret_key_id" => $this->requestContent['secret_key_id'],
+                "event_key" => $this->requestContent['event_key'],
+                "public_key" => $this->requestContent['public_key'],
+                "secret_key" => $this->requestContent['secret_key'],
                 "places" => $this->requestContent['places'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
@@ -361,110 +361,110 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdRequired(): void
+    public function testCreateLanEventKeyRequired(): void
     {
-        $this->requestContent['event_key_id'] = '';
+        $this->requestContent['event_key'] = '';
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'event_key_id' => [
-                        0 => 'The event key id field is required.',
+                    'event_key' => [
+                        0 => 'The event key field is required.',
                     ],
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyIdMaxLength(): void
+    public function testCreateLanEventKeyMaxLength(): void
     {
-        $this->requestContent['event_key_id'] = str_repeat('☭', 256);
+        $this->requestContent['event_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'event_key_id' => [
-                        0 => 'The event key id may not be greater than 255 characters.',
-                        1 => 'The event key id is not valid.'
+                    'event_key' => [
+                        0 => 'The event key may not be greater than 255 characters.',
+                        1 => 'The event key is not valid.'
                     ],
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdRequired(): void
+    public function testCreateLanPublicKeyRequired(): void
     {
-        $this->requestContent['public_key_id'] = '';
+        $this->requestContent['public_key'] = '';
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'public_key_id' => [
-                        0 => 'The public key id field is required.',
+                    'public_key' => [
+                        0 => 'The public key field is required.',
                     ],
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanPublicKeyIdMaxLength(): void
+    public function testCreateLanPublicKeyMaxLength(): void
     {
-        $this->requestContent['public_key_id'] = str_repeat('☭', 256);
+        $this->requestContent['public_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'public_key_id' => [
-                        0 => 'The public key id may not be greater than 255 characters.',
+                    'public_key' => [
+                        0 => 'The public key may not be greater than 255 characters.',
                     ],
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdRequired(): void
+    public function testCreateLanSecretKeyRequired(): void
     {
-        $this->requestContent['secret_key_id'] = '';
+        $this->requestContent['secret_key'] = '';
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'secret_key_id' => [
-                        0 => 'The secret key id field is required.',
+                    'secret_key' => [
+                        0 => 'The secret key field is required.',
                     ],
-                    'event_key_id' => [
-                        'The event key id is not valid.'
+                    'event_key' => [
+                        'The event key is not valid.'
                     ]
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyIdMaxLength(): void
+    public function testCreateLanSecretKeyMaxLength(): void
     {
-        $this->requestContent['secret_key_id'] = str_repeat('☭', 256);
+        $this->requestContent['secret_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'secret_key_id' => [
-                        0 => 'The secret key id may not be greater than 255 characters.',
-                        1 => 'The secret key secret key id is not valid.'
+                    'secret_key' => [
+                        0 => 'The secret key may not be greater than 255 characters.',
+                        1 => 'The secret key is not valid.'
                     ],
-                    'event_key_id' => [
-                        0 => 'The event key id is not valid.'
+                    'event_key' => [
+                        0 => 'The event key is not valid.'
                     ]
                 ]
             ])
@@ -641,37 +641,37 @@ class CreateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanSecretKeyId(): void
+    public function testCreateLanSecretKey(): void
     {
-        $this->requestContent['secret_key_id'] = '☭';
+        $this->requestContent['secret_key'] = '☭';
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'secret_key_id' => [
-                        0 => 'The secret key secret key id is not valid.',
+                    'secret_key' => [
+                        0 => 'The secret key is not valid.',
                     ],
-                    'event_key_id' => [
-                        0 => 'The event key id is not valid.'
+                    'event_key' => [
+                        0 => 'The event key is not valid.'
                     ]
                 ]
             ])
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanEventKeyId(): void
+    public function testCreateLanEventKey(): void
     {
-        $this->requestContent['event_key_id'] = '☭';
+        $this->requestContent['event_key'] = '☭';
         $this->actingAs($this->user)
             ->json('POST', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'event_key_id' => [
-                        0 => 'The event key id is not valid.',
+                    'event_key' => [
+                        0 => 'The event key is not valid.',
                     ],
                 ]
             ])

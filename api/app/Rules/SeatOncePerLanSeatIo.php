@@ -2,21 +2,23 @@
 
 namespace App\Rules;
 
+
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioException;
 
-class ValidEventKey implements Rule
+class SeatOncePerLanSeatIo implements Rule
 {
-
     protected $lanId;
-    protected $secretKey;
 
-    public function __construct(?string $lanId, ?string $secretKey)
+    /**
+     * SeatOncePerLan constructor.
+     * @param string $lanId
+     */
+    public function __construct(string $lanId)
     {
         $this->lanId = $lanId;
-        $this->secretKey = $secretKey;
     }
 
     /**
@@ -28,19 +30,18 @@ class ValidEventKey implements Rule
      */
     public function passes($attribute, $value)
     {
-        $seatsClient = null;
-        if ($this->secretKey == null) {
-            if ($this->lanId == null) {
+        $lan = Lan::find($this->lanId);
+        if ($lan == null) {
+            return true;
+        }
+        $seatsClient = new SeatsioClient($lan->secret_key);
+        try {
+            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, $value);
+            if ($status->status === 'booked' || $status->status === 'arrived') {
                 return false;
             }
-            $this->secretKey = Lan::find($this->lanId)->secret_key;
-        }
-
-        $seatsClient = new SeatsioClient($this->secretKey);
-        try {
-            $seatsClient->events()->retrieve($value);
         } catch (SeatsioException $exception) {
-            return false;
+            return true;
         }
         return true;
     }
@@ -52,6 +53,6 @@ class ValidEventKey implements Rule
      */
     public function message()
     {
-        return trans('validation.valid_event_key');
+        return trans('validation.seat_once_per_lan_seat_io');
     }
 }

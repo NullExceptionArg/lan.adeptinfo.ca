@@ -28,8 +28,8 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'arrived');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'arrived');
 
     }
 
@@ -79,30 +79,30 @@ class UnConfirmArrivalTest extends SeatsTestCase
 
     public function testUnConfirmArrivalSeatIdFree(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'free');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'free');
 
         try {
             $this->seatService->unConfirmArrival($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation"]}');
+            $this->fail('Expected: {"seat_id":["This seat is not associated with a reservation."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"seat_id":["Seat with id ' . env('SEAT_ID') . ' is not associated with a reservation"]}', $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is not associated with a reservation."]}', $e->getMessage());
         }
 
     }
 
     public function testUnConfirmArrivalSeatIdBooked(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key_id);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key_id, [env('SEAT_ID')], 'booked');
+        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'booked');
 
         try {
             $this->seatService->unConfirmArrival($this->lan->id, env('SEAT_ID'));
-            $this->fail('Expected: {"seat_id":["Seat with id A-1 is already set to \'booked\'"]}');
+            $this->fail('Expected: {"seat_id":["This seat is already set to booked."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals("{\"seat_id\":[\"Seat with id A-1 is already set to 'booked'\"]}", $e->getMessage());
+            $this->assertEquals('{"seat_id":["This seat is already set to booked."]}', $e->getMessage());
         }
     }
 

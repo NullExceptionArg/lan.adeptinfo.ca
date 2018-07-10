@@ -19,9 +19,9 @@ Créer un nouveau LAN.
   "lan_end": "2100-10-12 12:00:00-05:00",
   "seat_reservation_start": "2100-10-04 12:00:00-05:00",
   "tournament_reservation_start": "2100-10-04 00:00:00-05:00",
-  "event_key_id":"12345678-1234-1234-1234-123456789123",
-  "public_key_id":"12345678-1234-1234-1234-123456789123",
-  "secret_key_id": "12345678-1234-1234-1234-123456789123",
+  "event_key":"12345678-1234-1234-1234-123456789123",
+  "public_key":"12345678-1234-1234-1234-123456789123",
+  "secret_key": "12345678-1234-1234-1234-123456789123",
   "places": "258",
   "latitude": -67.5,
   "longitude": 64.033333,
@@ -39,9 +39,9 @@ lan_start | Date et heure de début du LAN. | Requis, après le début des rése
 lan_end | Date et heure de fin du LAN. | Requis, après le début du LAN. | 
 seat_reservation_start | Date et heure du début des réservations des places du LAN. | Requis, avant le début du LAN. |
 tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. | Requis, avant le début du LAN. |
-event_key_id | Clé de l'événement de seats.io pour le LAN. | Requis, 255 caractères max. |
-public_key_id | Clé publique de seats.io . | Requis, 255 caractères max. |
-secret_key_id | Clé secrète de seats.io . | Requis, 255 caractères max. |
+event_key | Clé de l'événement de seats.io pour le LAN. | Requis, 255 caractères max. |
+public_key | Clé publique de seats.io . | Requis, 255 caractères max. |
+secret_key | Clé secrète de seats.io . | Requis, 255 caractères max. |
 latitude | Latitude de la position où se déroule le LAN. | Requis, entre -85 et 85, nombre. |
 longitude | Longitude de la position où se déroule le LAN. | Requis, entre -180 et 180, nombre. |
 places | Places disponibles pour le LAN. | Requis, int, minimum 1. |
@@ -60,9 +60,9 @@ description | Texte des descritpion du LAN. | String, optionnel. |
     "lan_end": "2100-10-12 12:00:00",
     "seat_reservation_start": "2100-10-04 12:00:00",
     "tournament_reservation_start": "2100-10-04 00:00:00",
-    "event_key_id": "12345678-1234-1234-1234-123456789123",
-    "public_key_id": "12345678-1234-1234-1234-123456789123",
-    "secret_key_id": "12345678-1234-1234-1234-123456789123",
+    "event_key": "12345678-1234-1234-1234-123456789123",
+    "public_key": "12345678-1234-1234-1234-123456789123",
+    "secret_key": "12345678-1234-1234-1234-123456789123",
     "places": "258",
     "latitude": -67.5,
     "longitude": 64.033333,
@@ -81,9 +81,9 @@ lan_start | Date et heure de début du LAN créé.
 lan_end | Date et heure de fin du LAN créé.
 seat_reservation_start | Date et heure du début des réservations des places du LAN créé.
 tournament_reservation_start | Date et heure du début des inscriptions aux tournois du LAN créé.
-event_key_id | Clé de l'événement de seats.io pour le LAN pour le LAN créé.
-public_key_id | Clé publique de seats.io pour le LAN créé.
-secret_key_id | Clé secrète de seats.io pour le LAN créé.
+event_key | Clé de l'événement de seats.io pour le LAN pour le LAN créé.
+public_key | Clé publique de seats.io pour le LAN créé.
+secret_key | Clé secrète de seats.io pour le LAN créé.
 latitude | Latitude de la position du LAN créé.
 longitude | Longitude de la position du LAN créé.
 places | Places disponibles pour le LAN créé
@@ -123,9 +123,9 @@ tournament_reservation_start | Date et heure de début des inscriptions aux tour
 places | Information liée à l'occupation des places
 latitude | Latitude de la position du LAN.
 longitude | Longitude de la position du LAN
-event_key_id | Clé de l'événement de seats.io pour le LAN.
-public_key_id | Clé publique de seats.io .
-secret_key_id | Clé secrète de seats.io .
+event_key | Clé de l'événement de seats.io pour le LAN.
+public_key | Clé publique de seats.io .
+secret_key | Clé secrète de seats.io .
 price | Prix d'entré au LAN.
 rules | Règles du LAN.
 images | Images de présentation du LAN.
@@ -144,9 +144,9 @@ images | Images de présentation du LAN.
     "tournament_reservation_start": "2100-10-04 00:00:00",
     "latitude": -67.5,
     "longitude": 64.033333,
-    "event_key_id":"12345678-1234-1234-1234-123456789123",
-    "public_key_id":"12345678-1234-1234-1234-123456789123",
-    "secret_key_id": "12345678-1234-1234-1234-123456789123",
+    "event_key":"12345678-1234-1234-1234-123456789123",
+    "public_key":"12345678-1234-1234-1234-123456789123",
+    "secret_key": "12345678-1234-1234-1234-123456789123",
     "places": {
       "reserved": 178,
       "total": 258
@@ -177,9 +177,9 @@ longitude | Longitude de la position du LAN
 places | Voir places
 price | Prix d'entré au LAN.
 rules | Règles du LAN.
-event_key_id | Clé de l'événement de seats.io pour le LAN.
-public_key_id | Clé publique de seats.io .
-secret_key_id | Clé secrète de seats.io .
+event_key | Clé de l'événement de seats.io pour le LAN.
+public_key | Clé publique de seats.io .
+secret_key | Clé secrète de seats.io .
 description | Description du LAN.
 images | Liste d'images. Voir image.
 
@@ -221,9 +221,9 @@ tournament_reservation_start | Date et heure de début des inscriptions aux tour
 places | Information liée à l'occupation des places
 latitude | Latitude de la position du LAN.
 longitude | Longitude de la position du LAN
-event_key_id | Clé de l'événement de seats.io pour le LAN.
-public_key_id | Clé publique de seats.io .
-secret_key_id | Clé secrète de seats.io .
+event_key | Clé de l'événement de seats.io pour le LAN.
+public_key | Clé publique de seats.io .
+secret_key | Clé secrète de seats.io .
 price | Prix d'entré au LAN.
 rules | Règles du LAN.
 images | Images de présentation du LAN.
@@ -242,9 +242,9 @@ images | Images de présentation du LAN.
     "tournament_reservation_start": "2100-10-04 00:00:00",
     "latitude": -67.5,
     "longitude": 64.033333,
-    "event_key_id":"12345678-1234-1234-1234-123456789123",
-    "public_key_id":"12345678-1234-1234-1234-123456789123",
-    "secret_key_id": "12345678-1234-1234-1234-123456789123",
+    "event_key":"12345678-1234-1234-1234-123456789123",
+    "public_key":"12345678-1234-1234-1234-123456789123",
+    "secret_key": "12345678-1234-1234-1234-123456789123",
     "places": {
       "reserved": 178,
       "total": 258
@@ -275,9 +275,9 @@ longitude | Longitude de la position du LAN
 places | Voir places
 price | Prix d'entré au LAN.
 rules | Règles du LAN.
-event_key_id | Clé de l'événement de seats.io pour le LAN.
-public_key_id | Clé publique de seats.io .
-secret_key_id | Clé secrète de seats.io .
+event_key | Clé de l'événement de seats.io pour le LAN.
+public_key | Clé publique de seats.io .
+secret_key | Clé secrète de seats.io .
 description | Description du LAN.
 images | Liste d'images. Voir image.
 
@@ -361,9 +361,9 @@ lan_start | Date et heure de début du LAN. | Après le début des réservations
 lan_end | Date et heure de fin du LAN. | Après le début du LAN. | 
 seat_reservation_start | Date et heure du début des réservations des places du LAN. | Avant le début du LAN. |
 tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. | Avant le début du LAN. |
-event_key_id | Clé de l'événement de seats.io pour le LAN. | 255 caractères max. |
-public_key_id | Clé publique de seats.io . | 255 caractères max. |
-secret_key_id | Clé secrète de seats.io . | 255 caractères max. |
+event_key | Clé de l'événement de seats.io pour le LAN. | 255 caractères max. |
+public_key | Clé publique de seats.io . | 255 caractères max. |
+secret_key | Clé secrète de seats.io . | 255 caractères max. |
 latitude | Latitude de la position où se déroule le LAN. | Entre -85 et 85, nombre. |
 longitude | Longitude de la position où se déroule le LAN. | Entre -180 et 180, nombre. |
 places | Places disponibles pour le LAN. | Int, minimum 1, plus grand que le nombre de places réservées. |
@@ -385,9 +385,9 @@ description | Texte des descritpion du LAN. | String, optionnel. |
     "tournament_reservation_start": "2100-10-04 00:00:00",
     "latitude": -67.5,
     "longitude": 64.033333,
-    "event_key_id":"12345678-1234-1234-1234-123456789123",
-    "public_key_id":"12345678-1234-1234-1234-123456789123",
-    "secret_key_id": "12345678-1234-1234-1234-123456789123",
+    "event_key":"12345678-1234-1234-1234-123456789123",
+    "public_key":"12345678-1234-1234-1234-123456789123",
+    "secret_key": "12345678-1234-1234-1234-123456789123",
     "places": {
       "reserved": 178,
       "total": 258
@@ -413,9 +413,9 @@ lan_start | Date et heure de début du LAN mis à jour.
 lan_end | Date et heure de fin du LAN mise à jour.
 seat_reservation_start | Date et heure du début des réservations des places du LAN mise à jour.
 tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN mise à jour.
-event_key_id | Clé de l'événement de seats.io pour le LAN mise à jour.
-public_key_id | Clé publique de seats.io mise à jour.
-secret_key_id | Clé secrète de seats.io mise à jour.
+event_key | Clé de l'événement de seats.io pour le LAN mise à jour.
+public_key | Clé publique de seats.io mise à jour.
+secret_key | Clé secrète de seats.io mise à jour.
 latitude | Latitude de la position où se déroule le LAN mis à jour.
 longitude | Longitude de la position où se déroule le LAN mis à jour.
 places | Places disponibles pour le LAN mis à jour.

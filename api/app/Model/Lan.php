@@ -12,9 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property DateTime lan_end
  * @property DateTime seat_reservation_start
  * @property DateTime tournament_reservation_start
- * @property string event_key_id
- * @property string public_key_id
- * @property string secret_key_id
+ * @property string event_key
+ * @property string public_key
+ * @property string secret_key
  * @property int places
  * @property float longitude
  * @property float latitude

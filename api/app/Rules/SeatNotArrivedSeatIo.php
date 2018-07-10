@@ -7,16 +7,14 @@ use Illuminate\Contracts\Validation\Rule;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioException;
 
-class ValidEventKey implements Rule
+class SeatNotArrivedSeatIo implements Rule
 {
 
     protected $lanId;
-    protected $secretKey;
 
-    public function __construct(?string $lanId, ?string $secretKey)
+    public function __construct(string $lanId)
     {
         $this->lanId = $lanId;
-        $this->secretKey = $secretKey;
     }
 
     /**
@@ -28,21 +26,17 @@ class ValidEventKey implements Rule
      */
     public function passes($attribute, $value)
     {
-        $seatsClient = null;
-        if ($this->secretKey == null) {
-            if ($this->lanId == null) {
-                return false;
-            }
-            $this->secretKey = Lan::find($this->lanId)->secret_key;
+        $lan = Lan::find($this->lanId);
+        if ($lan == null) {
+            return true;
         }
-
-        $seatsClient = new SeatsioClient($this->secretKey);
+        $seatsClient = new SeatsioClient($lan->secret_key);
         try {
-            $seatsClient->events()->retrieve($value);
+            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, $value);
+            return $status->status != 'arrived';
         } catch (SeatsioException $exception) {
-            return false;
+            return true;
         }
-        return true;
     }
 
     /**
@@ -52,6 +46,6 @@ class ValidEventKey implements Rule
      */
     public function message()
     {
-        return trans('validation.valid_event_key');
+        return trans('validation.seat_not_arrived_seat_io');
     }
 }

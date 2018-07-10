@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b1e77b326c6e0d848f7571d7ae499ae",
+  "content-hash": "25e2f7c2a1cc53b8c883cdd90cdd44c5",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -120,6 +120,48 @@
             "time": "2018-01-04T06:59:27+00:00"
         },
         {
+          "name": "caouecs/laravel-lang",
+          "version": "3.0.52",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/caouecs/Laravel-lang.git",
+            "reference": "360c9d2cc846f47f3722f6fea3b7c938b75cd5fc"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/caouecs/Laravel-lang/zipball/360c9d2cc846f47f3722f6fea3b7c938b75cd5fc",
+            "reference": "360c9d2cc846f47f3722f6fea3b7c938b75cd5fc",
+            "shasum": ""
+          },
+          "require-dev": {
+            "friendsofphp/php-cs-fixer": "^2.10"
+          },
+          "suggest": {
+            "ablunier/laravel-lang-installer": "Command for easily add languages to a Laravel project",
+            "arcanedev/laravel-lang": "Translations manager and checker for Laravel 5",
+            "overtrue/laravel-lang": "Command to add languages in your project"
+          },
+          "type": "library",
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "caouecs",
+              "email": "caouecs@caouecs.net"
+            }
+          ],
+          "description": "Languages for Laravel",
+          "keywords": [
+            "lang",
+            "languages",
+            "laravel",
+            "lpm"
+          ],
+          "time": "2018-07-01T11:12:05+00:00"
+        },
+      {
             "name": "classpreloader/classpreloader",
             "version": "3.2.0",
             "source": {

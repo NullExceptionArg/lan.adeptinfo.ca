@@ -23,9 +23,9 @@ class UpdateLanTest extends TestCase
         'lan_end' => "2100-10-12 12:00:00",
         'seat_reservation_start' => "2100-10-04 12:00:00",
         'tournament_reservation_start' => "2100-10-07 00:00:00",
-        "event_key_id" => "",
-        "public_key_id" => "",
-        "secret_key_id" => "",
+        "event_key" => "",
+        "public_key" => "",
+        "secret_key" => "",
         "latitude" => -67.5,
         "longitude" => 64.033333,
         "places" => 10,
@@ -38,9 +38,9 @@ class UpdateLanTest extends TestCase
     {
         parent::setUp();
 
-        $this->paramsContent['event_key_id'] = env('EVENT_KEY_ID');
-        $this->paramsContent['secret_key_id'] = env('SECRET_KEY_ID');
-        $this->paramsContent['public_key_id'] = env('PUBLIC_KEY_ID');
+        $this->paramsContent['event_key'] = env('EVENT_KEY');
+        $this->paramsContent['secret_key'] = env('SECRET_KEY');
+        $this->paramsContent['public_key'] = env('PUBLIC_KEY');
 
         $this->lan = factory('App\Model\Lan')->create();
 
@@ -57,9 +57,9 @@ class UpdateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
         $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
         $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
-        $this->assertEquals($this->paramsContent['event_key_id'], $result->event_key_id);
-        $this->assertEquals($this->paramsContent['public_key_id'], $result->public_key_id);
-        $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
+        $this->assertEquals($this->paramsContent['event_key'], $result->event_key);
+        $this->assertEquals($this->paramsContent['public_key'], $result->public_key);
+        $this->assertEquals($this->paramsContent['secret_key'], $result->secret_key);
         $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
         $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals($this->paramsContent['places'], $result->places);
@@ -79,9 +79,9 @@ class UpdateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
         $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
         $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
-        $this->assertEquals($this->paramsContent['event_key_id'], $result->event_key_id);
-        $this->assertEquals($this->paramsContent['public_key_id'], $result->public_key_id);
-        $this->assertEquals($this->paramsContent['secret_key_id'], $result->secret_key_id);
+        $this->assertEquals($this->paramsContent['event_key'], $result->event_key);
+        $this->assertEquals($this->paramsContent['public_key'], $result->public_key);
+        $this->assertEquals($this->paramsContent['secret_key'], $result->secret_key);
         $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
         $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals(0, $result->price);
@@ -205,68 +205,68 @@ class UpdateLanTest extends TestCase
         }
     }
 
-    public function testUpdateLanEventKeyIdMaxLength(): void
+    public function testUpdateLanEventKeyMaxLength(): void
     {
-        $this->paramsContent['event_key_id'] = str_repeat('☭', 256);
+        $this->paramsContent['event_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->update($request, $this->lan->id);
-            $this->fail('Expected: {"event_key_id":["The event key id may not be greater than 255 characters.","The event key id is not valid."]}');
+            $this->fail('Expected: {"event_key":["The event key may not be greater than 255 characters.","The event key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key_id":["The event key id may not be greater than 255 characters.","The event key id is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key may not be greater than 255 characters.","The event key is not valid."]}', $e->getMessage());
         }
     }
 
-    public function testUpdateLanPublicKeyIdMaxLength(): void
+    public function testUpdateLanPublicKeyMaxLength(): void
     {
-        $this->paramsContent['public_key_id'] = str_repeat('☭', 256);
+        $this->paramsContent['public_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->update($request, $this->lan->id);
-            $this->fail('Expected: {"public_key_id":["The public key id may not be greater than 255 characters."]}');
+            $this->fail('Expected: {"public_key":["The public key may not be greater than 255 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"public_key_id":["The public key id may not be greater than 255 characters."]}', $e->getMessage());
+            $this->assertEquals('{"public_key":["The public key may not be greater than 255 characters."]}', $e->getMessage());
         }
     }
 
-    public function testUpdateLanSecretKeyIdMaxLength(): void
+    public function testUpdateLanSecretKeyMaxLength(): void
     {
-        $this->paramsContent['secret_key_id'] = str_repeat('☭', 256);
+        $this->paramsContent['secret_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->update($request, $this->lan->id);
-            $this->fail('Expected: {"secret_key_id":["The secret key id may not be greater than 255 characters.","The secret key secret key id is not valid."]}');
+            $this->fail('Expected: {"secret_key":["The secret key may not be greater than 255 characters.","The secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"secret_key_id":["The secret key id may not be greater than 255 characters.","The secret key secret key id is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"secret_key":["The secret key may not be greater than 255 characters.","The secret key is not valid."]}', $e->getMessage());
         }
     }
 
-    public function testUpdateLanSecretKeyId(): void
+    public function testUpdateLanSecretKey(): void
     {
-        $this->paramsContent['secret_key_id'] = '-1';
+        $this->paramsContent['secret_key'] = '-1';
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->update($request, $this->lan->id);
-            $this->fail('Expected: {"secret_key_id":["The secret key secret key id is not valid."]}');
+            $this->fail('Expected: {"secret_key":["The secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"secret_key_id":["The secret key secret key id is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"secret_key":["The secret key is not valid."]}', $e->getMessage());
         }
     }
 
-    public function testUpdateLanEventKeyId(): void
+    public function testUpdateLanEventKey(): void
     {
-        $this->paramsContent['event_key_id'] = '-1';
+        $this->paramsContent['event_key'] = '-1';
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->update($request, $this->lan->id);
-            $this->fail('Expected: {"event_key_id":["The event key id is not valid."]}');
+            $this->fail('Expected: {"event_key":["The event key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key_id":["The event key id is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key is not valid."]}', $e->getMessage());
         }
     }
 

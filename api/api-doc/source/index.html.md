@@ -15,6 +15,7 @@ includes:
   - image
   - places
   - contribution
+  - language
   - errors
 
 search: true

@@ -80,7 +80,8 @@ $app->singleton(
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
-    'cors' => \Barryvdh\Cors\HandleCors::class
+    'cors' => \Barryvdh\Cors\HandleCors::class,
+    'language' => App\Http\Middleware\Language::class
 ]);
 
 /*
@@ -119,6 +120,8 @@ $app->register(Barryvdh\Cors\ServiceProvider::class);
 | can respond to, as well as the controllers that may handle them.
 |
 */
+$app['translator']->setLocale(env('APP_LOCALE', 'en'));
+
 
 $app->router->group([], function () {
     require __DIR__ . '/../routes/web.php';

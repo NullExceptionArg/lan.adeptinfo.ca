@@ -4,17 +4,10 @@ namespace App\Rules;
 
 use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class LowerReservedPlace implements Rule
+class UserOncePerLan implements Rule
 {
-
-    protected $lanId;
-
-    public function __construct(string $lanId)
-    {
-        $this->lanId = $lanId;
-    }
-
     /**
      * Determine if the validation rule passes.
      *
@@ -24,8 +17,14 @@ class LowerReservedPlace implements Rule
      */
     public function passes($attribute, $value)
     {
-        $placeCount = Reservation::where('lan_id', $this->lanId)->count();
-        return $placeCount <= $value;
+        $user = Auth::user();
+        $lanUserReservation = Reservation::where('user_id', $user->id)
+            ->where('lan_id', $value)->first();
+
+        if ($lanUserReservation != null && $lanUserReservation->count() > 0) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -35,6 +34,6 @@ class LowerReservedPlace implements Rule
      */
     public function message()
     {
-        return trans('validation.lower_reserved_place');
+        return trans('validation.user_once_per_lan');
     }
 }
