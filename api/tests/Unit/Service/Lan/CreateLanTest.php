@@ -279,10 +279,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key":["The event key id field is required."]}');
+            $this->fail('Expected: {"event_key":["The event key field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key":["The event key id field is required."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key field is required."]}', $e->getMessage());
         }
     }
 
@@ -292,10 +292,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key":["The event key id may not be greater than 255 characters.","The event key id is not valid."]}');
+            $this->fail('Expected: {"event_key":["The event key may not be greater than 255 characters.","The event key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key":["The event key id may not be greater than 255 characters.","The event key id is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key may not be greater than 255 characters.","The event key is not valid."]}', $e->getMessage());
         }
     }
 
@@ -305,10 +305,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"public_key":["The public key id field is required."]}');
+            $this->fail('Expected: {"public_key":["The public key field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"public_key":["The public key id field is required."]}', $e->getMessage());
+            $this->assertEquals('{"public_key":["The public key field is required."]}', $e->getMessage());
         }
     }
 
@@ -318,10 +318,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"public_key":["The public key id may not be greater than 255 characters."]}');
+            $this->fail('Expected: {"public_key":["The public key may not be greater than 255 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"public_key":["The public key id may not be greater than 255 characters."]}', $e->getMessage());
+            $this->assertEquals('{"public_key":["The public key may not be greater than 255 characters."]}', $e->getMessage());
         }
     }
 
@@ -331,10 +331,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key":["The event key id is not valid."],"secret_key":["The secret key field is required."]}');
+            $this->fail('Expected: {"event_key":["The event key is not valid."],"secret_key":["The secret key field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key":["The event key id is not valid."],"secret_key":["The secret key field is required."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key is not valid."],"secret_key":["The secret key field is required."]}', $e->getMessage());
         }
     }
 
@@ -344,10 +344,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key":["The event key id is not valid."],"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}');
+            $this->fail('Expected: {"event_key":["The event key is not valid."],"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key":["The event key id is not valid."],"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key is not valid."],"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}', $e->getMessage());
         }
     }
 
@@ -357,10 +357,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key":["The event key id is not valid."],"secret_key":["The secret key secret key is not valid."]}');
+            $this->fail('Expected: {"event_key":["The event key is not valid."],"secret_key":["The secret key secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key":["The event key id is not valid."],"secret_key":["The secret key secret key is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key is not valid."],"secret_key":["The secret key secret key is not valid."]}', $e->getMessage());
         }
     }
 
@@ -370,10 +370,10 @@ class CreateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->createLan($request);
-            $this->fail('Expected: {"event_key":["The event key id is not valid."]}');
+            $this->fail('Expected: {"event_key":["The event key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key":["The event key id is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key is not valid."]}', $e->getMessage());
         }
     }
 

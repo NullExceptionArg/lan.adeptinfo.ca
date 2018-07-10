@@ -371,7 +371,7 @@ class CreateLanTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'event_key' => [
-                        0 => 'The event key id field is required.',
+                        0 => 'The event key field is required.',
                     ],
                 ]
             ])
@@ -388,7 +388,7 @@ class CreateLanTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'event_key' => [
-                        0 => 'The event key id may not be greater than 255 characters.',
+                        0 => 'The event key may not be greater than 255 characters.',
                         1 => 'The event key is not valid.'
                     ],
                 ]
@@ -443,7 +443,7 @@ class CreateLanTest extends TestCase
                         0 => 'The secret key field is required.',
                     ],
                     'event_key' => [
-                        'The event key id not valid.'
+                        'The event key not valid.'
                     ]
                 ]
             ])
@@ -654,7 +654,7 @@ class CreateLanTest extends TestCase
                         0 => 'The secret key secret key is not valid.',
                     ],
                     'event_key' => [
-                        0 => 'The event key id is not valid.'
+                        0 => 'The event key is not valid.'
                     ]
                 ]
             ])
@@ -671,7 +671,7 @@ class CreateLanTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'event_key' => [
-                        0 => 'The event key id is not valid.',
+                        0 => 'The event key is not valid.',
                     ],
                 ]
             ])
