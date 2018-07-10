@@ -347,7 +347,7 @@ class CreateLanTest extends TestCase
             $this->fail('Expected: {"event_key":["The event key is not valid."],"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"event_key":["The event key is not valid."],"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"event_key":["The event key is not valid."],"secret_key":["The secret key may not be greater than 255 characters.","The secret key is not valid."]}', $e->getMessage());
         }
     }
 
