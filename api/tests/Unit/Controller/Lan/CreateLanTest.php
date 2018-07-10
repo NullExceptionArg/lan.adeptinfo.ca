@@ -443,7 +443,7 @@ class CreateLanTest extends TestCase
                         0 => 'The secret key field is required.',
                     ],
                     'event_key' => [
-                        'The event key not valid.'
+                        'The event key is not valid.'
                     ]
                 ]
             ])
@@ -651,7 +651,7 @@ class CreateLanTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'secret_key' => [
-                        0 => 'The secret key secret key is not valid.',
+                        0 => 'The secret key is not valid.',
                     ],
                     'event_key' => [
                         0 => 'The event key is not valid.'

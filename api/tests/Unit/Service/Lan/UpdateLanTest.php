@@ -237,10 +237,10 @@ class UpdateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->update($request, $this->lan->id);
-            $this->fail('Expected: {"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}');
+            $this->fail('Expected: {"secret_key":["The secret key may not be greater than 255 characters.","The secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"secret_key":["The secret key may not be greater than 255 characters.","The secret key secret key is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"secret_key":["The secret key may not be greater than 255 characters.","The secret key is not valid."]}', $e->getMessage());
         }
     }
 
@@ -250,10 +250,10 @@ class UpdateLanTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->lanService->update($request, $this->lan->id);
-            $this->fail('Expected: {"secret_key":["The secret key secret key is not valid."]}');
+            $this->fail('Expected: {"secret_key":["The secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"secret_key":["The secret key secret key is not valid."]}', $e->getMessage());
+            $this->assertEquals('{"secret_key":["The secret key is not valid."]}', $e->getMessage());
         }
     }
 
