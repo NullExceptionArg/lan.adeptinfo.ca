@@ -4,7 +4,9 @@ namespace App\Repositories\Implementation;
 
 
 use App\Model\Reservation;
+use App\Model\User;
 use App\Repositories\SeatRepository;
+use Illuminate\Support\Collection;
 
 class SeatRepositoryImpl implements SeatRepository
 {
@@ -32,4 +34,15 @@ class SeatRepositoryImpl implements SeatRepository
         return $reservation;
     }
 
+    public function getCurrentSeat(User $user): Reservation
+    {
+        return Reservation::where('user_id', $user->id)
+            ->where('soft_delete', null)
+            ->first();
+    }
+
+    public function getSeatHistoryForUser(User $user): Collection
+    {
+        // TODO: Implement getSeatHistoryForUser() method.
+    }
 }

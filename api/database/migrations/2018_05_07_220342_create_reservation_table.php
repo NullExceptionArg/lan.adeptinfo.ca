@@ -19,6 +19,7 @@ class CreateReservationTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('seat_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')->on('user')

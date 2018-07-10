@@ -4,7 +4,9 @@
 namespace App\Services\Implementation;
 
 use App\Http\Resources\User\GetUserCollection;
+use App\Http\Resources\User\GetUserDetailsResource;
 use App\Model\User;
+use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -16,14 +18,17 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class UserServiceImpl implements UserService
 {
     protected $userRepository;
+    protected $seatRepository;
 
     /**
      * UserServiceImpl constructor.
-     * @param $userRepositoryImpl
+     * @param UserRepositoryImpl $userRepositoryImpl
+     * @param SeatRepositoryImpl $seatRepositoryImpl
      */
-    public function __construct(UserRepositoryImpl $userRepositoryImpl)
+    public function __construct(UserRepositoryImpl $userRepositoryImpl, SeatRepositoryImpl $seatRepositoryImpl)
     {
         $this->userRepository = $userRepositoryImpl;
+        $this->seatRepository = $seatRepositoryImpl;
     }
 
     public function signUpUser(Request $request): User
@@ -103,5 +108,22 @@ class UserServiceImpl implements UserService
             $request->input('items_per_page'),
             $request->input('current_page')
         ));
+    }
+
+    public function getUserDetails($request)
+    {
+        $userValidator = Validator::make($request->all(), [
+            'email' => 'exists:user,email',
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        $user = $this->userRepository->findByEmail($request->input('email'));
+        $currentSeat = $this->seatRepository->getCurrentSeat($user);
+        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user);
+
+        return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
     }
 }

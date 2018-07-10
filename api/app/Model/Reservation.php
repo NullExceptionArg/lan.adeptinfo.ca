@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int user_id
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Reservation extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'reservation';
 
     /**

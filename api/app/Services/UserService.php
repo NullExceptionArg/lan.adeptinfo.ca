@@ -17,4 +17,7 @@ interface UserService
     public function logOut(): void;
 
     public function getUsers(Request $request): GetUserCollection;
+
+    public function getUserDetails(Request $request);
+
 }

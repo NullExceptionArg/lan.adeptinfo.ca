@@ -57,6 +57,7 @@ $api->version('v1', function ($api) {
                 $api->delete('user', 'UserController@deleteUser');
                 $api->post('user/logout', 'UserController@logOut');
                 $api->get('user', 'UserController@getUsers');
+                $api->post('user/details', 'UserController@getUserDetails');
 
             });
 
