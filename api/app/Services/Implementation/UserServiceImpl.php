@@ -6,6 +6,7 @@ namespace App\Services\Implementation;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
 use App\Model\User;
+use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\UserService;
@@ -19,16 +20,23 @@ class UserServiceImpl implements UserService
 {
     protected $userRepository;
     protected $seatRepository;
+    protected $lanRepository;
 
     /**
      * UserServiceImpl constructor.
      * @param UserRepositoryImpl $userRepositoryImpl
      * @param SeatRepositoryImpl $seatRepositoryImpl
+     * @param LanRepositoryImpl $lanRepositoryImpl
      */
-    public function __construct(UserRepositoryImpl $userRepositoryImpl, SeatRepositoryImpl $seatRepositoryImpl)
+    public function __construct(
+        UserRepositoryImpl $userRepositoryImpl,
+        SeatRepositoryImpl $seatRepositoryImpl,
+        LanRepositoryImpl $lanRepositoryImpl
+    )
     {
         $this->userRepository = $userRepositoryImpl;
         $this->seatRepository = $seatRepositoryImpl;
+        $this->lanRepository = $lanRepositoryImpl;
     }
 
     public function signUpUser(Request $request): User
@@ -110,9 +118,13 @@ class UserServiceImpl implements UserService
         ));
     }
 
-    public function getUserDetails($request)
+    public function getUserDetails(Request $input): GetUserDetailsResource
     {
-        $userValidator = Validator::make($request->all(), [
+        $userValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'email' => $input->input('email')
+        ], [
+            'lan_id' => 'integer|exists:lan,id',
             'email' => 'exists:user,email',
         ]);
 
@@ -120,9 +132,11 @@ class UserServiceImpl implements UserService
             throw new BadRequestHttpException($userValidator->errors());
         }
 
-        $user = $this->userRepository->findByEmail($request->input('email'));
-        $currentSeat = $this->seatRepository->getCurrentSeat($user);
-        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user);
+        $user = $this->userRepository->findByEmail($input->input('email'));
+        $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+
+        $currentSeat = $this->seatRepository->getCurrentSeat($user, $lan);
+        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user, $lan);
 
         return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
     }

@@ -3,6 +3,7 @@
 namespace App\Repositories\Implementation;
 
 
+use App\Model\Lan;
 use App\Model\Reservation;
 use App\Model\User;
 use App\Repositories\SeatRepository;
@@ -34,15 +35,19 @@ class SeatRepositoryImpl implements SeatRepository
         return $reservation;
     }
 
-    public function getCurrentSeat(User $user): Reservation
+    public function getCurrentSeat(User $user, Lan $lan): ?Reservation
     {
         return Reservation::where('user_id', $user->id)
-            ->where('soft_delete', null)
+            ->where('lan_id', $lan->id)
+            ->where('deleted_at', null)
             ->first();
     }
 
-    public function getSeatHistoryForUser(User $user): Collection
+    public function getSeatHistoryForUser(User $user, Lan $lan): ?Collection
     {
-        // TODO: Implement getSeatHistoryForUser() method.
+        return Reservation::withTrashed()
+            ->where('user_id', $user->id)
+            ->where('lan_id', $lan->id)
+            ->get();
     }
 }

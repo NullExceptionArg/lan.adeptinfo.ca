@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 
+use App\Model\Lan;
 use App\Model\Reservation;
 use App\Model\User;
 use Illuminate\Support\Collection;
@@ -15,8 +16,8 @@ interface SeatRepository
 
     public function createReservation(int $userId, int $lanId, string $seatId): Reservation;
 
-    public function getCurrentSeat(User $user): Reservation;
+    public function getCurrentSeat(User $user, Lan $lan): ?Reservation;
 
-    public function getSeatHistoryForUser(User $user): Collection;
+    public function getSeatHistoryForUser(User $user, Lan $lan): ?Collection;
 
 }

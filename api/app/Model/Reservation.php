@@ -32,7 +32,7 @@ class Reservation extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'user_id', 'created_at', 'updated_at',
+        'id', 'user_id', 'created_at', 'updated_at', 'deleted_at',
     ];
 
     protected $casts = ['lan_id' => 'integer'];
