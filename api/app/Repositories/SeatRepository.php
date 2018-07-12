@@ -20,4 +20,8 @@ interface SeatRepository
 
     public function getSeatHistoryForUser(User $user, Lan $lan): ?Collection;
 
+    public function setReservationArrived(Reservation $reservation): void;
+
+    public function setReservationLeft(Reservation $reservation): void;
+
 }

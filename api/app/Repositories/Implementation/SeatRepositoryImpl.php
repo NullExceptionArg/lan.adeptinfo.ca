@@ -7,6 +7,7 @@ use App\Model\Lan;
 use App\Model\Reservation;
 use App\Model\User;
 use App\Repositories\SeatRepository;
+use DateTime;
 use Illuminate\Support\Collection;
 
 class SeatRepositoryImpl implements SeatRepository
@@ -49,5 +50,17 @@ class SeatRepositoryImpl implements SeatRepository
             ->where('user_id', $user->id)
             ->where('lan_id', $lan->id)
             ->get();
+    }
+
+    public function setReservationArrived(Reservation $reservation): void
+    {
+        $reservation->arrived_at = new DateTime();
+        $reservation->save();
+    }
+
+    public function setReservationLeft(Reservation $reservation): void
+    {
+        $reservation->left_at = new DateTime();
+        $reservation->save();
     }
 }

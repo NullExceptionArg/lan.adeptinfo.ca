@@ -120,11 +120,17 @@ class UserServiceImpl implements UserService
 
     public function getUserDetails(Request $input): GetUserDetailsResource
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan->id;
+        }
+
         $userValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'email' => $input->input('email')
         ], [
-            'lan_id' => 'integer|exists:lan,id',
+            'lan_id' => 'required|integer|exists:lan,id',
             'email' => 'exists:user,email',
         ]);
 
@@ -133,7 +139,9 @@ class UserServiceImpl implements UserService
         }
 
         $user = $this->userRepository->findByEmail($input->input('email'));
-        $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
 
         $currentSeat = $this->seatRepository->getCurrentSeat($user, $lan);
         $seatHistory = $this->seatRepository->getSeatHistoryForUser($user, $lan);

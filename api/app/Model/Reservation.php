@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int lan_id
  * @property string seat_id
  * @property bool has_arrived
+ * @property DateTime left_at
+ * @property DateTime arrived_at
  */
 class Reservation extends Model
 {
@@ -32,7 +35,7 @@ class Reservation extends Model
      * @var array
      */
     protected $hidden = [
-        'id', 'user_id', 'created_at', 'updated_at', 'deleted_at',
+        'id', 'user_id', 'created_at', 'updated_at', 'deleted_at', 'arrived_at', 'left_at',
     ];
 
     protected $casts = ['lan_id' => 'integer'];
