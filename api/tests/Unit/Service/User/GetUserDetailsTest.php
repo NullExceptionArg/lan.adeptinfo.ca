@@ -143,20 +143,6 @@ class GetUserDetailsTest extends SeatsTestCase
         $this->assertEquals($reservation->left_at->format('Y-m-d H:i:s'), $placeHistory[0]['left_at']);
     }
 
-    public function testGetUserDetailsLanIdRequired(): void
-    {
-        $request = new Request([
-            'email' => $this->user->email
-        ]);
-        try {
-            $this->userService->getUserDetails($request);
-            $this->fail('Expected: {"lan_id":["The lan id field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id field is required."]}', $e->getMessage());
-        }
-    }
-
     public function testGetUserDetailsLanExist(): void
     {
         $request = new Request([

@@ -130,7 +130,7 @@ class UserServiceImpl implements UserService
             'lan_id' => $input->input('lan_id'),
             'email' => $input->input('email')
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id',
             'email' => 'required|exists:user,email',
         ]);
 

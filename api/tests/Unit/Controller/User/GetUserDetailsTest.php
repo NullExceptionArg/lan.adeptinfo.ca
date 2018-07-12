@@ -145,23 +145,6 @@ class GetUserDetailsTest extends SeatsTestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetUserDetailsLanIdRequired(): void
-    {
-        $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
-                'email' => $this->user->email
-            ])->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testGetUserDetailsLanExist(): void
     {
         $this->actingAs($this->user)
