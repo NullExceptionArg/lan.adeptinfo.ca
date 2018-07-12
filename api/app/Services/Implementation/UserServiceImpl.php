@@ -123,7 +123,7 @@ class UserServiceImpl implements UserService
         $lan = null;
         if ($input->input('lan_id') == null) {
             $lan = $this->lanRepository->getCurrentLan();
-            $input['lan_id'] = $lan->id;
+            $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
         $userValidator = Validator::make([
@@ -131,7 +131,7 @@ class UserServiceImpl implements UserService
             'email' => $input->input('email')
         ], [
             'lan_id' => 'required|integer|exists:lan,id',
-            'email' => 'exists:user,email',
+            'email' => 'required|exists:user,email',
         ]);
 
         if ($userValidator->fails()) {

@@ -123,8 +123,8 @@ class GetUserDetailsTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'arrived_at' => new DateTime(),
             'left_at' => new DateTime(),
-            'deleted_at' => new DateTime()
         ]);
+        $reservation->delete();
         $this->actingAs($this->user)
             ->json('POST', '/api/user/details', [
                 'email' => $this->user->email,
@@ -147,21 +147,89 @@ class GetUserDetailsTest extends SeatsTestCase
 
     public function testGetUserDetailsLanIdRequired(): void
     {
-
+        $this->actingAs($this->user)
+            ->json('POST', '/api/user/details', [
+                'email' => $this->user->email
+            ])->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'lan_id' => [
+                        0 => 'The lan id field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 
     public function testGetUserDetailsLanExist(): void
     {
-
+        $this->actingAs($this->user)
+            ->json('POST', '/api/user/details', [
+                'email' => $this->user->email,
+                'lan_id' => -1
+            ])->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'lan_id' => [
+                        0 => 'The selected lan id is invalid.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 
     public function testGetUserDetailsLanIdInteger(): void
     {
+        $this->actingAs($this->user)
+            ->json('POST', '/api/user/details', [
+                'email' => $this->user->email,
+                'lan_id' => '☭'
+            ])->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'lan_id' => [
+                        0 => 'The lan id must be an integer.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
 
+    public function testGetUserDetailsEmailRequired(): void
+    {
+        $this->actingAs($this->user)
+            ->json('POST', '/api/user/details', [
+                'lan_id' => $this->lan->id
+            ])->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'email' => [
+                        0 => 'The email field is required.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 
     public function testGetUserDetailsEmailExist(): void
     {
-
+        $this->actingAs($this->user)
+            ->json('POST', '/api/user/details', [
+                'email' => -1,
+                'lan_id' => $this->lan->id
+            ])->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'email' => [
+                        0 => 'The selected email is invalid.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 }
