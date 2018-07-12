@@ -5,6 +5,7 @@ namespace Tests\Unit\Service;
 use DateTime;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\SeatsTestCase;
 
 class GetUserDetailsTest extends SeatsTestCase
@@ -144,27 +145,75 @@ class GetUserDetailsTest extends SeatsTestCase
 
     public function testGetUserDetailsLanIdRequired(): void
     {
-
+        $request = new Request([
+            'email' => $this->user->email
+        ]);
+        try {
+            $this->userService->getUserDetails($request);
+            $this->fail('Expected: {"lan_id":["The lan id field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_id":["The lan id field is required."]}', $e->getMessage());
+        }
     }
 
     public function testGetUserDetailsLanExist(): void
     {
-
+        $request = new Request([
+            'lan_id' => -1,
+            'email' => $this->user->email
+        ]);
+        try {
+            $this->userService->getUserDetails($request);
+            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
+        }
     }
 
     public function testGetUserDetailsLanIdInteger(): void
     {
-
+        $request = new Request([
+            'lan_id' => '☭',
+            'email' => $this->user->email
+        ]);
+        try {
+            $this->userService->getUserDetails($request);
+            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+        }
     }
 
     public function testGetUserDetailsEmailRequired(): void
     {
-
+        $request = new Request([
+            'lan_id' => $this->lan->id
+        ]);
+        try {
+            $this->userService->getUserDetails($request);
+            $this->fail('Expected: {"email":["The email field is required."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"email":["The email field is required."]}', $e->getMessage());
+        }
     }
 
     public function testGetUserDetailsEmailExist(): void
     {
-
+        $request = new Request([
+            'lan_id' => $this->lan->id,
+            'email' => '☭'
+        ]);
+        try {
+            $this->userService->getUserDetails($request);
+            $this->fail('Expected: {"email":["The selected email is invalid."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"email":["The selected email is invalid."]}', $e->getMessage());
+        }
     }
 
 }
