@@ -25,6 +25,7 @@ class LanRepositoryImpl implements LanRepository
         float $latitude,
         float $longitude,
         int $places,
+        bool $hasCurrentPlace,
         ?int $price,
         ?string $rules,
         ?string $description
@@ -42,6 +43,7 @@ class LanRepositoryImpl implements LanRepository
         $lan->latitude = $latitude;
         $lan->longitude = $longitude;
         $lan->places = $places;
+        $lan->is_current = $hasCurrentPlace;
         $lan->price = $price;
         $lan->rules = $rules;
         $lan->description = $description;

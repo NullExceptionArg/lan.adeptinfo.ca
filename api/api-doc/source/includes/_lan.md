@@ -10,6 +10,8 @@ Créer un nouveau LAN.
 
 ### Paramètres POST
 
+Si le LAN est le premier à être créé, il sera le LAN courant (is_current dans le BD).
+
 > Exemple de requête
 
 ```json

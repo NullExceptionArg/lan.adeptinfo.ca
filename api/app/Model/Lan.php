@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property null|int price
  * @property null|string rules
  * @property null|string description
+ * @property bool is_current
  */
 class Lan extends Model
 {

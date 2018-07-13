@@ -13,20 +13,21 @@ class CreateLanTest extends TestCase
     protected $lanRepository;
 
     protected $paramsContent = [
-        'name' => "Bolshevik Revolution",
-        'lan_start' => "2100-10-11 12:00:00",
-        'lan_end' => "2100-10-12 12:00:00",
-        'seat_reservation_start' => "2100-10-04 12:00:00",
-        'tournament_reservation_start' => "2100-10-07 00:00:00",
-        "event_key" => "",
-        "public_key" => "",
-        "secret_key" => "",
-        "latitude" => -67.5,
-        "longitude" => 64.0333330,
-        "places" => 10,
-        "price" => 0,
-        "rules" => '☭',
-        "description" => '☭'
+        'name' => 'Bolshevik Revolution',
+        'lan_start' => '2100-10-11 12:00:00',
+        'lan_end' => '2100-10-12 12:00:00',
+        'seat_reservation_start' => '2100-10-04 12:00:00',
+        'tournament_reservation_start' => '2100-10-07 00:00:00',
+        'event_key' => '',
+        'public_key' => '',
+        'secret_key' => '',
+        'latitude' => -67.5,
+        'longitude' => 64.0333330,
+        'places' => 10,
+        'is_current' => true,
+        'price' => 0,
+        'rules' => '☭',
+        'description' => '☭'
     ];
 
     public function setUp(): void
@@ -55,6 +56,7 @@ class CreateLanTest extends TestCase
             $this->paramsContent['latitude'],
             $this->paramsContent['longitude'],
             $this->paramsContent['places'],
+            $this->paramsContent['is_current'],
             $this->paramsContent['price'],
             $this->paramsContent['rules'],
             $this->paramsContent['description']
@@ -71,6 +73,7 @@ class CreateLanTest extends TestCase
             'latitude' => $this->paramsContent['latitude'],
             'longitude' => $this->paramsContent['longitude'],
             'places' => $this->paramsContent['places'],
+            'is_current' => $this->paramsContent['is_current'],
             'price' => $this->paramsContent['price'],
             'rules' => $this->paramsContent['rules'],
             'description' => $this->paramsContent['description'],

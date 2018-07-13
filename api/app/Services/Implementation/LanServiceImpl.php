@@ -58,6 +58,8 @@ class LanServiceImpl implements LanService
             throw new BadRequestHttpException($lanValidator->errors());
         }
 
+        $hasNoCurrentLan = $this->lanRepository->getCurrentLan() == null;
+
         return $this->lanRepository->createLan
         (
             $input->input('name'),
@@ -71,6 +73,7 @@ class LanServiceImpl implements LanService
             $input->input('latitude'),
             $input->input('longitude'),
             $input->input('places'),
+            $hasNoCurrentLan,
             intval($input->input('price')),
             $input->input('rules'),
             $input->input('description')

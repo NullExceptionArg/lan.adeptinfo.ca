@@ -60,6 +60,30 @@ class CreateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
         $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals($this->paramsContent['places'], $result->places);
+        $this->assertEquals(true, $result->is_current);
+        $this->assertEquals($this->paramsContent['price'], $result->price);
+        $this->assertEquals($this->paramsContent['rules'], $result->rules);
+        $this->assertEquals($this->paramsContent['description'], $result->description);
+    }
+
+    public function testCreateLanHasCurrentLan(): void
+    {
+        $request = new Request($this->paramsContent);
+        $this->lanService->createLan($request);
+        $result = $this->lanService->createLan($request);
+
+        $this->assertEquals($this->paramsContent['name'], $result->name);
+        $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
+        $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
+        $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
+        $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
+        $this->assertEquals($this->paramsContent['event_key'], $result->event_key);
+        $this->assertEquals($this->paramsContent['public_key'], $result->public_key);
+        $this->assertEquals($this->paramsContent['secret_key'], $result->secret_key);
+        $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
+        $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
+        $this->assertEquals($this->paramsContent['places'], $result->places);
+        $this->assertEquals(false, $result->is_current);
         $this->assertEquals($this->paramsContent['price'], $result->price);
         $this->assertEquals($this->paramsContent['rules'], $result->rules);
         $this->assertEquals($this->paramsContent['description'], $result->description);
@@ -82,6 +106,7 @@ class CreateLanTest extends TestCase
         $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
         $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals(0, $result->price);
+        $this->assertEquals(true, $result->is_current);
         $this->assertEquals($this->paramsContent['rules'], $result->rules);
         $this->assertEquals($this->paramsContent['description'], $result->description);
     }
