@@ -67,4 +67,17 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Démarrer le serveur.
  
  ### Utiliser Postman
- Une liste de requête a déjà été montée par le créateur du reposiory. Pour obtenir cette liste simplement contacter Pierre-Olivier Brillant.
+ Une liste de requête a déjà été montée par le créateur du reposiory. Pour obtenir cette liste simplement contacter [Pierre-Olivier Brillant](https://github.com/PierreOlivierBrillant).
+ - Configuration de la fenêtre Get new access token
+    - Token name: `Lumen`
+    - Grant Type: `Password Credential`
+    - Access Token URL `{{server-address}}/oauth/token`
+    - Username: `karl.marx@unite.com`
+    - Password: `Passw0rd!`
+    - Client ID: `2`
+    - Client Secret: `{{client-secret}}`
+    - Scope: 
+    - Client Authentication: `Send as Basic Auth header`
+ - Créer un environnement pour le projet avec les paramètres suivants
+    - server-address: `http://localhost:8000`
+    - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`.
