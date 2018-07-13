@@ -234,11 +234,6 @@ Détails d'un utilisateur et son historique pour un LAN.
 
 ### Paramètres POST
 
-Paramètre | Description | Règles de validation
---------- | ----------- | --------------------
-email | Courriel de l'utilisateur à rechercher | integer.
-lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courrant | requis.
-
 > Exemple de requête
 
 ```json
@@ -247,6 +242,11 @@ lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par 
   "lan_id": 1 
 }
 ```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+email | Courriel de l'utilisateur à rechercher | integer.
+lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courant | requis.
 
 ### Format de réponse
 
