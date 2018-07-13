@@ -242,6 +242,9 @@
                   <li>
                     <a href="#lister-les-utilisateurs" class="toc-h2 toc-link" data-title="lister-les-utilisateurs">Lister les utilisateurs</a>
                   </li>
+                  <li>
+                    <a href="#details-d-39-un-utilisateur" class="toc-h2 toc-link" data-title="details-d-un-utilisateur">Détails d'un utilisateur</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -684,6 +687,121 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <tr>
 <td>total_pages</td>
 <td>Nombre total de pages.</td>
+</tr>
+</tbody></table>
+<h2 id='details-d-39-un-utilisateur'>Détails d&#39;un utilisateur</h2>
+<p>Détails d&#39;un utilisateur et son historique pour un LAN.</p>
+<h3 id='requete-http-6'>Requête HTTP</h3>
+<p><code>POST /api/user/details</code></p>
+<h3 id='parametres-post-3'>Paramètres POST</h3>
+<blockquote>
+<p>Exemple de requête</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"karl.marx@unite.org"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> 
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>Courriel de l&#39;utilisateur à rechercher</td>
+<td>integer.</td>
+</tr>
+<tr>
+<td>lan_id</td>
+<td>Lan dans lequel on souhaite trouver les détails de l&#39;utilisateur. Par défaut: lan courant</td>
+<td>requis.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-6'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"full_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Karl Marx"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"karl.marx@unite.org"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"current_place"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"place_history"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"lan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bolshevik Revolution"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"reserved_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-10 22:06:10"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"arrived_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"left_at"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"canceled_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-11 05:47:10"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"lan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Bolshevik Revolution"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"reserved_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-11 11:16:05"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"arrived_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-11 06:22:27"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"left_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-11 07:23:42"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"canceled_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-07-12 15:42:11"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>full_name</td>
+<td>Nom complet de l&#39;utilisateur.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>Courriel de l&#39;utilisateur.</td>
+</tr>
+<tr>
+<td>current_place</td>
+<td>Place courante de l&#39;utilisateur.</td>
+</tr>
+<tr>
+<td>place_history</td>
+<td>Historique des places de l&#39;utilisateur. Voir Historique des places.</td>
+</tr>
+</tbody></table>
+<h4 id='historique-des-places'>Historique des places</h4>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>seat_id</td>
+<td>Place de l&#39;historique.</td>
+</tr>
+<tr>
+<td>lan</td>
+<td>Nom du LAN de l&#39;historique.</td>
+</tr>
+<tr>
+<td>reserved_at</td>
+<td>Moment où l&#39;utilisateur a réservé sa place.</td>
+</tr>
+<tr>
+<td>arrived_at</td>
+<td>Moment où l&#39;utilisateur est arrivé sur place.</td>
+</tr>
+<tr>
+<td>left_at</td>
+<td>Moment où l&#39;utilisateur a quitté.</td>
+</tr>
+<tr>
+<td>canceled_at</td>
+<td>Moment où l&#39;utilisateur a annulé sa réservation.</td>
 </tr>
 </tbody></table>
 <h1 id='lan'>LAN</h1><h2 id='creer-un-lan'>Créer un LAN</h2>
