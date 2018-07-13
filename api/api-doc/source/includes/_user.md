@@ -291,8 +291,6 @@ Champ | Description
 --------- | -----------
 seat_id | Place de l'historique.
 lan | Nom du LAN de l'historique.
-current_place | Place courante de l'utilisateur.
-place_history | Historique des places de l'utilisateur. Voir Historique des places.
 reserved_at | Moment où l'utilisateur a réservé sa place.
 arrived_at | Moment où l'utilisateur est arrivé sur place.
 left_at | Moment où l'utilisateur a quitté.
