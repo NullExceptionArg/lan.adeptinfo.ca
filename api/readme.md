@@ -63,3 +63,8 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - Interpreter options: `-dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9000 -dxdebug.remote_host=127.0.0.1`
     - (Optionnel) "Cocher Single Instance Only"
     - Cliquer sur "Apply"
+ - Configurer PHP Storm pour écouter le débogeur (Bouton  côté de démarrer).
+ - Démarrer le serveur.
+ 
+ ### Utiliser Postman
+ Une liste de requête a déjà été montée par le créateur du reposiory. Pour obtenir cette liste simplement contacter Pierre-Olivier Brillant.
