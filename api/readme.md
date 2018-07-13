@@ -16,6 +16,10 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 
  - Un IDE polyvalent pour développer en PHP (ex: atom, sublime, PhpStorm, etc...)
  - Postman
+ - Xdebug
+ 
+ ### Outils requis
+  - PHP 7.2
 
 ### Exécuter pour la première fois
 
@@ -34,15 +38,28 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 
 ### Déboguer avec PhpStorm
 
- - Prérequis: Interpréteur PHP CLI
+ - Sous `Settings/Language & Framework/PHP`:
+    - À côté de CLI interpreter, cliquer sur les [...]
+    - Cliquer sur + et entrez le chemin vers votre interpreteur PHP. Sur linux ce sera `usr/bin/php` la plupart du temps.
+    - Cliquer sur OK.
+ - Sous `Settings/Language & Framework/PHP/Debug/DBGp Proxy`
+    - IDE key: `PHPSTORM`
+    - Host: `127.0.0.1`
+    - Port: `9000`
+ - Configuration Xdebug. Sur linux le chemin est `/etc/php/7.2/cli/conf.d/20-xdebug.ini`
+    - [Xdebug]
+    - zend_extension=xdebug.so
+    - xdebug.remote_autostart=1
+    - xdebug.default_enable=1
+    - xdebug.remote_port=9001
+    - xdebug.remote_host=127.0.0.1
+    - xdebug.remote_connect_back=1
+    - xdebug.remote_enable=1
+    - xdebug.idekey=PHPSTORM
  - Créer une nouvelle configuration "PHP Built-in Web Server"
- - Host: `localhost`
- - Document root: `[...]/lanadept.com/api`
- - Use router script (coché): `[...]/lanadept.com/api/public/index.php`
-- Interpreter options:
-  - -dxdebug.remote_enable=1
-  - dxdebug.remote_mode=req
-  - dxdebug.remote_port=9000
-  - dxdebug.remote_host=127.0.0.1
- - (Optionnel) "Cocher Single Instance Only"
- - Cliquer sur "Apply"
+    - Host: `localhost`
+    - Document root: `[...]/lanadept.com/api`
+    - Use router script (coché): `[...]/lanadept.com/api/public/index.php`
+    - Interpreter options: `-dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9000 -dxdebug.remote_host=127.0.0.1`
+    - (Optionnel) "Cocher Single Instance Only"
+    - Cliquer sur "Apply"
