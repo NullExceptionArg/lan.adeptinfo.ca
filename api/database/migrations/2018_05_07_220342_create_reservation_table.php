@@ -18,7 +18,10 @@ class CreateReservationTable extends Migration
             $table->unsignedInteger('lan_id');
             $table->unsignedInteger('user_id');
             $table->string('seat_id');
-            $table->timestamps();
+            $table->dateTime('arrived_at')->nullable(true);
+            $table->dateTime('left_at')->nullable(true);
+            $table->timestamps(); // create_at = reservation date
+            $table->softDeletes(); // deleted_at = cancellation date
 
             $table->foreign('user_id')
                 ->references('id')->on('user')

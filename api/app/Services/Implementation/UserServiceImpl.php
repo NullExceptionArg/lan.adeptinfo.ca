@@ -4,7 +4,10 @@
 namespace App\Services\Implementation;
 
 use App\Http\Resources\User\GetUserCollection;
+use App\Http\Resources\User\GetUserDetailsResource;
 use App\Model\User;
+use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\UserService;
 use Illuminate\Http\Request;
@@ -16,14 +19,24 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class UserServiceImpl implements UserService
 {
     protected $userRepository;
+    protected $seatRepository;
+    protected $lanRepository;
 
     /**
      * UserServiceImpl constructor.
-     * @param $userRepositoryImpl
+     * @param UserRepositoryImpl $userRepositoryImpl
+     * @param SeatRepositoryImpl $seatRepositoryImpl
+     * @param LanRepositoryImpl $lanRepositoryImpl
      */
-    public function __construct(UserRepositoryImpl $userRepositoryImpl)
+    public function __construct(
+        UserRepositoryImpl $userRepositoryImpl,
+        SeatRepositoryImpl $seatRepositoryImpl,
+        LanRepositoryImpl $lanRepositoryImpl
+    )
     {
         $this->userRepository = $userRepositoryImpl;
+        $this->seatRepository = $seatRepositoryImpl;
+        $this->lanRepository = $lanRepositoryImpl;
     }
 
     public function signUpUser(Request $request): User
@@ -103,5 +116,36 @@ class UserServiceImpl implements UserService
             $request->input('items_per_page'),
             $request->input('current_page')
         ));
+    }
+
+    public function getUserDetails(Request $input): GetUserDetailsResource
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $userValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'email' => $input->input('email')
+        ], [
+            'lan_id' => 'integer|exists:lan,id',
+            'email' => 'required|exists:user,email',
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        $user = $this->userRepository->findByEmail($input->input('email'));
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+
+        $currentSeat = $this->seatRepository->getCurrentSeat($user, $lan);
+        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user, $lan);
+
+        return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
     }
 }

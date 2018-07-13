@@ -90,6 +90,7 @@ class SeatServiceImpl implements SeatService
         $seatsClient = new SeatsioClient($lan->secret_key);
         $seatsClient->events()->changeObjectStatus($lan->event_key, [$seatId], "arrived");
         $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
+        $this->seatRepository->setReservationArrived($reservation);
 
         return $reservation;
     }
@@ -120,6 +121,7 @@ class SeatServiceImpl implements SeatService
         $seatsClient = new SeatsioClient($lan->secret_key);
         $seatsClient->events()->changeObjectStatus($lan->event_key, [$seatId], "booked");
         $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
+        $this->seatRepository->setReservationLeft($reservation);
 
         return $reservation;
     }

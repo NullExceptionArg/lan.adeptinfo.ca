@@ -223,3 +223,75 @@ count | Nombre d'utilisateur sur la page courante.
 per_page | Nombre d'utilisateurs par page.
 current_page | Page courante.
 total_pages | Nombre total de pages.
+
+## Détails d'un utilisateur
+
+Détails d'un utilisateur et son historique pour un LAN.
+
+### Requête HTTP
+
+`POST /api/user/details`
+
+### Paramètres POST
+
+> Exemple de requête
+
+```json
+{
+  "email": "karl.marx@unite.org",
+  "lan_id": 1 
+}
+```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+email | Courriel de l'utilisateur à rechercher | integer.
+lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courant | requis.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "full_name": "Karl Marx",
+    "email": "karl.marx@unite.org",
+    "current_place": null,
+    "place_history": [
+        {
+            "seat_id": "A-1",
+            "lan": "Bolshevik Revolution",
+            "reserved_at": "2018-07-10 22:06:10",
+            "arrived_at": null,
+            "left_at": null,
+            "canceled_at": "2018-07-11 05:47:10"
+        },
+        {
+            "seat_id": "A-1",
+            "lan": "Bolshevik Revolution",
+            "reserved_at": "2018-07-11 11:16:05",
+            "arrived_at": "2018-07-11 06:22:27",
+            "left_at": "2018-07-11 07:23:42",
+            "canceled_at": "2018-07-12 15:42:11"
+        }
+    ]
+}
+
+```
+
+Champ | Description
+--------- | -----------
+full_name | Nom complet de l'utilisateur.
+email | Courriel de l'utilisateur.
+current_place | Place courante de l'utilisateur.
+place_history | Historique des places de l'utilisateur. Voir Historique des places.
+
+#### Historique des places
+Champ | Description
+--------- | -----------
+seat_id | Place de l'historique.
+lan | Nom du LAN de l'historique.
+reserved_at | Moment où l'utilisateur a réservé sa place.
+arrived_at | Moment où l'utilisateur est arrivé sur place.
+left_at | Moment où l'utilisateur a quitté.
+canceled_at | Moment où l'utilisateur a annulé sa réservation.

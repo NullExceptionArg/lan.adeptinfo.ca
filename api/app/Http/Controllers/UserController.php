@@ -43,4 +43,9 @@ class UserController extends Controller
         return response()->json($this->userService->getUsers($request), 200);
     }
 
+    public function getUserDetails(Request $request)
+    {
+        return response()->json($this->userService->getUserDetails($request), 200);
+    }
+
 }
