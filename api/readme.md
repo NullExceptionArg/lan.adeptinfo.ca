@@ -20,11 +20,16 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  
  ### Outils requis
   - PHP 7.2
+  - [Composer](https://getcomposer.org/)
+  - Une instance de MySQL server ainsi qu'un utilisateur qui possède tous les droits.
 
 ### Exécuter pour la première fois
 
  - Avec un terminal de commande, se placer à la racine du projet API
  - Exécuter `composer install` (prend un certain temps)
+ - Copier le fichier .env.example pour .env et informer les champs.
+    - Les champs avec le préfix `DB_` sont les informations liées  MySQL
+    - Veuillez contacter un administrateur du projet pour avoir les clés secrètes de seats.io .
  - Exécuter `php artisan key:generate`
  - Exécuter `php artisan migrate`
  - Exécuter `php artisan passport:install`
