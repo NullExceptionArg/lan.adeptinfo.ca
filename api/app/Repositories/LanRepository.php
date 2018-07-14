@@ -22,6 +22,7 @@ interface LanRepository
         float $latitude,
         float $longitude,
         int $places,
+        bool $hasCurrentPlace,
         ?int $price,
         ?string $rules,
         ?string $description

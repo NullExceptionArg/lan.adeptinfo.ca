@@ -62,7 +62,35 @@ class CreateLanTest extends TestCase
                 "price" => $this->requestContent['price'],
                 "rules" => $this->requestContent['rules'],
                 "description" => $this->requestContent['description'],
+                'is_current' => true,
                 "id" => 1
+            ])
+            ->assertResponseStatus(201);
+    }
+
+    public function testCreateLanHasCurrentLan(): void
+    {
+        $this->actingAs($this->user)
+            ->call('POST', '/api/lan', $this->requestContent);
+        $this->actingAs($this->user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'name' => $this->requestContent['name'],
+                'lan_start' => $this->requestContent['lan_start'],
+                'lan_end' => $this->requestContent['lan_end'],
+                'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
+                'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
+                "event_key" => $this->requestContent['event_key'],
+                "public_key" => $this->requestContent['public_key'],
+                "secret_key" => $this->requestContent['secret_key'],
+                "latitude" => $this->requestContent['latitude'],
+                "longitude" => $this->requestContent['longitude'],
+                "places" => $this->requestContent['places'],
+                "price" => $this->requestContent['price'],
+                "rules" => $this->requestContent['rules'],
+                "description" => $this->requestContent['description'],
+                'is_current' => false,
+                "id" => 2
             ])
             ->assertResponseStatus(201);
     }
@@ -82,6 +110,7 @@ class CreateLanTest extends TestCase
                 "public_key" => $this->requestContent['public_key'],
                 "secret_key" => $this->requestContent['secret_key'],
                 "places" => $this->requestContent['places'],
+                'is_current' => true,
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
                 "price" => 0,
