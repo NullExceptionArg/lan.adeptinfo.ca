@@ -17,6 +17,8 @@ Nous recommandons fortement de lire la documentation de Laravel avant de se lanc
 
 Quelques choix d'architecture ont été faits par le créateur du projet qui ne sont pas directement liés  Lumen, mais qui sont certainement facilités. Si vous désirez proposer un changement sur les décisions qui ont été prises, n'hésitez pas à contacter le propriétaire du repository!
 
+Pour en savoir davantage sur l'API et comment configurer votre environnement de développement, allez au [dossier de l'API](https://github.com/ADEPT-Informatique/lan.adeptinfo.ca/tree/master/api)
+
 ### Structure
  - **app**
    - **Services**:Interfaces qui définissent toute la logique de l'application
@@ -34,3 +36,4 @@ Nous utilisons aussi quelque librairies / ressources externes
  - **[Dingo](https://github.com/dingo/api)**: Gestion de ressource d'API. En ce moment s'occupe des routes.
  - **[seats.io](https://github.com/seatsio/seatsio-php)**: Un API de gestion de place très utile qui offre des librairies frontend et backend pour montrer la disponibilité des places.
  - **[Laravel Cors](https://github.com/barryvdh/laravel-cors)** : Une librairie qui s'occupe de tous les maux de tête liés CORS.
+ - **[Laravel-lang](https://github.com/caouecs/Laravel-lang)** : Traductions des réponses de serveur qui sont déjà existantes dans laravel (Nous utilisons surtout les traduction des validations).
