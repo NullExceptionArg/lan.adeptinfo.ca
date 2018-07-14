@@ -3,11 +3,26 @@
 namespace App\Rules;
 
 use App\Model\Reservation;
+use App\Model\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
 
 class UserOncePerLan implements Rule
 {
+    protected $user;
+    protected $email;
+
+    /**
+     * SeatOncePerLan constructor.
+     * @param Authenticatable $user
+     * @param string $email
+     */
+    public function __construct(?Authenticatable $user, ?string $email)
+    {
+        $this->user = $user;
+        $this->email = $email;
+    }
+
     /**
      * Determine if the validation rule passes.
      *
@@ -17,8 +32,17 @@ class UserOncePerLan implements Rule
      */
     public function passes($attribute, $value)
     {
-        $user = Auth::user();
-        $lanUserReservation = Reservation::where('user_id', $user->id)
+        if ($this->user == null) {
+            if ($this->email == null) {
+                return true;
+            }
+            $this->user = User::where('email', $this->email)->first();
+            if ($this->user == null) {
+                return true;
+            }
+        }
+
+        $lanUserReservation = Reservation::where('user_id', $this->user->id)
             ->where('lan_id', $value)->first();
 
         if ($lanUserReservation != null && $lanUserReservation->count() > 0) {
