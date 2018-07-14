@@ -182,4 +182,23 @@ class AssignTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
+    public function testAssignSeatEmailExists()
+    {
+        $this->actingAs($this->admin)
+            ->json('POST', '/api/seat/assign', [
+                'lan_id' => $this->lan->id,
+                'seat_id' => env('SEAT_ID'),
+                'user_email' => '☭'
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'user_email' => [
+                        0 => 'The selected user email is invalid.'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
 }

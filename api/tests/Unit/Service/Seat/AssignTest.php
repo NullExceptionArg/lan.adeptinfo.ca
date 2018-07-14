@@ -163,4 +163,21 @@ class AssignTest extends SeatsTestCase
         }
     }
 
+    public function testAssignSeatEmailExists()
+    {
+        $request = new Request([
+            'lan_id' => $this->lan->id,
+            'seat_id' => env('SEAT_ID'),
+            'user_email' => '☭'
+        ]);
+
+        try {
+            $this->seatService->assign($request);
+            $this->fail('Expected: {"user_email":["The selected user email is invalid."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"user_email":["The selected user email is invalid."]}', $e->getMessage());
+        }
+    }
+
 }

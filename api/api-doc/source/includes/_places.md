@@ -15,7 +15,7 @@ L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vid
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 lan_id | Id du LAN où l'utilisateur veut réserver une place. | Requis, string, un seul utilisateur par LAN.
-seat_id | Id de la place que l'utilisateur veut réserver. | Requis, integer, un seul Id de place par LAN.
+seat_id | Id de la place que l'utilisateur veut réserver. | Requis, string, un seul Id de place par LAN.
 
 ### Format de réponse
 
@@ -32,6 +32,39 @@ Champ | Description
 --------- | -----------
 lan_id | Id du LAN où l'utilisateur a réservé une place.
 seat_id | Id de la place que l'utilisateur a réservé.
+
+## Assigner une place
+
+Assigner une place à un un utilisateur pour un LAN.
+
+### Requête HTTP
+
+`POST /api/seat/assign`
+
+### POST Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN où l'administrateur veut assigner une place. Si ce paramètre n'est pas spécifié, on prend le LAN courant. | int, un seul utilisateur par LAN.
+seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, un seul Id de place par LAN.
+user_email | Courriel de l'utilisateur auquel on veut assigner une place. | Requis, string.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "lan_id": 1,
+    "seat_id": "A-1"
+}
+```
+
+Champ | Description
+--------- | -----------
+lan_id | Id du LAN où l'administrateur a assigné une place.
+seat_id | Id de la place que l'administrateur a assigné.
+
 
 ## Confirmer une place
 
