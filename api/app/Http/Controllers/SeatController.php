@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Implementation\SeatServiceImpl;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
 
 class SeatController extends Controller
 {
@@ -33,5 +34,10 @@ class SeatController extends Controller
     public function unConfirmArrival(string $lanId, string $seatId)
     {
         return response()->json($this->seatService->unConfirmArrival($lanId, $seatId), 200);
+    }
+
+    public function assignSeat(Request $request)
+    {
+        return response()->json($this->seatService->assign($request), 201);
     }
 }
