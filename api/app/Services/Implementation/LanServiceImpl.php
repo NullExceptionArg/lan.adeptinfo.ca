@@ -80,20 +80,28 @@ class LanServiceImpl implements LanService
         );
     }
 
-    public function getLan(Request $request, string $lanId): GetLanResource
+    public function getLan(Request $input): GetLanResource
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $rulesValidator = Validator::make([
-            'lan_id' => $lanId,
+            'lan_id' => $input->input('lan_id'),
         ], [
-            'lan_id' => 'required|integer|exists:lan,id'
+            'lan_id' => 'integer|exists:lan,id'
         ]);
 
         if ($rulesValidator->fails()) {
             throw new BadRequestHttpException($rulesValidator->errors());
         }
 
-        $lan = $this->lanRepository->findLanById($lanId);
-        $placeCount = $this->lanRepository->getReservedPlaces($lanId);
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+        $placeCount = $this->lanRepository->getReservedPlaces($input->input('lan_id'));
         $images = $this->imageRepository->getImagesForLan($lan);
 
         return new GetLanResource($lan, $placeCount, $images);
@@ -121,18 +129,6 @@ class LanServiceImpl implements LanService
         $this->lanRepository->setCurrentLan($lanId);
 
         return $lanId;
-    }
-
-    public function getCurrentLan(): ?GetLanResource
-    {
-        $lan = $this->lanRepository->getCurrentLan();
-        if ($lan != null) {
-            $placeCount = $this->lanRepository->getReservedPlaces($lan->id);
-            $images = $this->imageRepository->getImagesForLan($lan);
-            return new GetLanResource($lan, $placeCount, $images);
-        } else {
-            return null;
-        }
     }
 
     public function update(Request $input, string $lanId): UpdateLanResource

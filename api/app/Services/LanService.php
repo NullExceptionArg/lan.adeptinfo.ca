@@ -13,7 +13,7 @@ interface LanService
 {
     public function createLan(Request $input): Lan;
 
-    public function getLan(Request $request, string $lanId): GetLanResource;
+    public function getLan(Request $request): GetLanResource;
 
     public function getLans(): ResourceCollection;
 

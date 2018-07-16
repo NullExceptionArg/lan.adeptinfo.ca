@@ -23,9 +23,8 @@ $api->version('v1', function ($api) {
 
             $api->post('user', 'UserController@signUp');
 
-            $api->get('lan/{lan_id}', 'LanController@getLan');
+            $api->get('lan', 'LanController@getLan');
             $api->get('lans', 'LanController@getLans');
-            $api->get('lans/current', 'LanController@getCurrentLan');
 
             $api->get('lan/{lan_id}/contribution-category', 'ContributionController@getContributionCategories');
             $api->get('lan/{lan_id}/contribution', 'ContributionController@getContributions');

@@ -31,9 +31,9 @@ class LanController extends Controller
         return response()->json($this->lanService->update($request, $lanId), 200);
     }
 
-    public function getLan(Request $request, string $lan_id)
+    public function getLan(Request $request)
     {
-        return response()->json($this->lanService->getLan($request, $lan_id), 200);
+        return response()->json($this->lanService->getLan($request), 200);
     }
 
     public function getLans()
@@ -44,10 +44,5 @@ class LanController extends Controller
     public function setCurrentLan(string $lan_id)
     {
         return response()->json($this->lanService->setCurrentLan($lan_id), 200);
-    }
-
-    public function getCurrentLan()
-    {
-        return response()->json($this->lanService->getCurrentLan(), 200);
     }
 }
