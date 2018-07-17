@@ -8,6 +8,7 @@ use App\Model\ContributionCategory;
 use App\Repositories\Implementation\ContributionRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Rules\OneOfTwoFields;
 use App\Services\ContributionService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
@@ -27,20 +28,30 @@ class ContributionServiceImpl implements ContributionService
      * @param ContributionRepositoryImpl $contributionRepository
      * @param UserRepositoryImpl $userRepository
      */
-    public function __construct(LanRepositoryImpl $lanRepositoryImpl, ContributionRepositoryImpl $contributionRepository, UserRepositoryImpl $userRepository)
+    public function __construct(
+        LanRepositoryImpl $lanRepositoryImpl,
+        ContributionRepositoryImpl $contributionRepository,
+        UserRepositoryImpl $userRepository
+    )
     {
         $this->lanRepository = $lanRepositoryImpl;
         $this->contributionRepository = $contributionRepository;
         $this->userRepository = $userRepository;
     }
 
-    public function createCategory(Request $request, string $lanId): ContributionCategory
+    public function createCategory(Request $input): ContributionCategory
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $categoryValidator = Validator::make([
-            'lan_id' => $lanId,
-            'name' => $request->input('name')
+            'lan_id' => $input->input('lan_id'),
+            'name' => $input->input('name')
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id',
             'name' => 'required|string',
         ]);
 
@@ -48,35 +59,44 @@ class ContributionServiceImpl implements ContributionService
             throw new BadRequestHttpException($categoryValidator->errors());
         }
 
-        $lan = $this->lanRepository->findLanById($lanId);
-
-        return $this->contributionRepository->createCategory($lan, $request->input('name'));
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+        return $this->contributionRepository->createCategory($lan, $input->input('name'));
     }
 
-    public function getCategories(string $lanId): Collection
+    public function getCategories(Request $input): Collection
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $reservationValidator = Validator::make([
-            'lan_id' => $lanId,
+            'lan_id' => $input->input('lan_id'),
         ], [
-            'lan_id' => 'required|integer|exists:lan,id'
+            'lan_id' => 'integer|exists:lan,id'
         ]);
 
         if ($reservationValidator->fails()) {
             throw new BadRequestHttpException($reservationValidator->errors());
         }
 
-        $lan = $this->lanRepository->findLanById($lanId);
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
 
         return $this->contributionRepository->getCategories($lan);
     }
 
-    public function deleteCategory(string $lanId, string $contributionCategoryId): ContributionCategory
+    public function deleteCategory(Request $input): ContributionCategory
     {
         $reservationValidator = Validator::make([
-            'lan_id' => $lanId,
-            'contribution_category_id' => $contributionCategoryId
+            'lan_id' => $input->input('lan_id'),
+            'contribution_category_id' => $input->input('contribution_category_id')
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id',
             'contribution_category_id' => 'required|integer|exists:contribution_category,id'
         ]);
 
@@ -84,50 +104,49 @@ class ContributionServiceImpl implements ContributionService
             throw new BadRequestHttpException($reservationValidator->errors());
         }
 
-        $contributionCategory = $this->contributionRepository->findCategoryById($contributionCategoryId);
+        $contributionCategory = $this->contributionRepository->findCategoryById($input->input('contribution_category_id'));
 
-        $this->contributionRepository->deleteCategoryById($contributionCategoryId);
+        $this->contributionRepository->deleteCategoryById($input->input('contribution_category_id'));
 
         return $contributionCategory;
     }
 
-    public function createContribution(Request $request, string $lanId): Contribution
+    public function createContribution(Request $input): Contribution
     {
         $contributionValidator = Validator::make([
-            'lan_id' => $lanId,
-            'contribution_category_id' => $request->input('contribution_category_id'),
-            'user_full_name' => $request->input('user_full_name'),
-            'user_email' => $request->input('user_email'),
+            'lan_id' => $input->input('lan_id'),
+            'contribution_category_id' => $input->input('contribution_category_id'),
+            'user_full_name' => $input->input('user_full_name'),
+            'user_email' => $input->input('user_email'),
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id',
             'contribution_category_id' => 'required|integer|exists:contribution_category,id',
-            'user_full_name' => 'required_without:user_email|string|nullable',
-            'user_email' => 'required_without:user_full_name|string|nullable|exists:user,email',
+            'user_full_name' => [
+                'required_without:user_email',
+                'string',
+                'nullable',
+                new OneOfTwoFields($input->input('user_email'), 'user_email')
+            ],
+            'user_email' => [
+                'required_without:user_full_name',
+                'string',
+                'nullable',
+                'exists:user,email',
+                new OneOfTwoFields($input->input('user_full_name'), 'user_full_name')
+            ],
         ]);
 
         if ($contributionValidator->fails()) {
             throw new BadRequestHttpException($contributionValidator->errors());
         }
 
-        $contributionCategory = $this->contributionRepository->findCategoryById($request->input('contribution_category_id'));
-
-        if ($request->input('user_full_name') != null && $request->input('user_email') != null) {
-            throw new BadRequestHttpException(json_encode([
-                "user_full_name" => [
-                    'Field can\'t be used if user_email is used too.'
-                ],
-                "user_email" => [
-                    'Field can\'t be used if user_full_name is used too.'
-                ],
-            ]));
-        }
-
+        $contributionCategory = $this->contributionRepository->findCategoryById($input->input('contribution_category_id'));
         $contribution = null;
-        if ($request->input('user_full_name') != null) {
-            $userFullName = $request->input('user_full_name');
+        if ($input->input('user_full_name') != null) {
+            $userFullName = $input->input('user_full_name');
             $contribution = $this->contributionRepository->createContributionUserFullName($userFullName);
         } else {
-            $user = $this->userRepository->findByEmail($request->input('user_email'));
+            $user = $this->userRepository->findByEmail($input->input('user_email'));
             $contribution = $this->contributionRepository->createContributionUserId($user->id);
             $contribution->user_full_name = $user->getFullName();
         }
@@ -139,30 +158,37 @@ class ContributionServiceImpl implements ContributionService
         return $contribution;
     }
 
-    public function getContributions(string $lanId): AnonymousResourceCollection
+    public function getContributions(Request $input): AnonymousResourceCollection
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $contributionValidator = Validator::make([
-            'lan_id' => $lanId
+            'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id',
         ]);
 
         if ($contributionValidator->fails()) {
             throw new BadRequestHttpException($contributionValidator->errors());
         }
 
-        $lan = $this->lanRepository->findLanById($lanId);
-
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
         return GetContributionsResource::collection($this->contributionRepository->getCategories($lan));
     }
 
-    public function deleteContribution(string $lanId, string $contributionId): Contribution
+    public function deleteContribution(Request $input): Contribution
     {
         $contributionValidator = Validator::make([
-            'lan_id' => $lanId,
-            'contribution_id' => $contributionId,
+            'lan_id' => $input->input('lan_id'),
+            'contribution_id' => $input->input('lan_id'),
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id',
             'contribution_id' => 'required|integer|exists:contribution,id'
         ]);
 
@@ -170,13 +196,13 @@ class ContributionServiceImpl implements ContributionService
             throw new BadRequestHttpException($contributionValidator->errors());
         }
 
-        $contribution = $this->contributionRepository->findContributionById($contributionId);
+        $contribution = $this->contributionRepository->findContributionById($input->input('contribution_id'));
 
         if ($contribution->user_full_name == null) {
             $contribution->user_full_name = $this->userRepository->findById($contribution->user_id)->getFullName();
         }
 
-        $this->contributionRepository->deleteContributionById($contributionId);
+        $this->contributionRepository->deleteContributionById($input->input('contribution_id'));
 
         return $contribution;
     }

@@ -11,15 +11,15 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface ContributionService
 {
-    public function createCategory(Request $request, string $lanId): ContributionCategory;
+    public function createCategory(Request $request): ContributionCategory;
 
-    public function createContribution(Request $request, string $lanId): Contribution;
+    public function createContribution(Request $input): Contribution;
 
-    public function getContributions(string $lanId): AnonymousResourceCollection;
+    public function getContributions(Request $input): AnonymousResourceCollection;
 
-    public function getCategories(string $lanId): Collection;
+    public function getCategories(Request $input): Collection;
 
-    public function deleteCategory(string $lanId, string $contributionCategoryId): ContributionCategory;
+    public function deleteCategory(Request $input): ContributionCategory;
 
-    public function deleteContribution(string $lanId, string $contributionId): Contribution;
+    public function deleteContribution(Request $input): Contribution;
 }

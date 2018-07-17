@@ -7,7 +7,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class CreateCategoryTest extends TestCase
+class CreateContributionCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -17,6 +17,7 @@ class CreateCategoryTest extends TestCase
 
     protected $paramsContent = [
         'name' => "Programmer",
+        'lan_id' => null
     ];
 
     public function setUp(): void
@@ -28,18 +29,19 @@ class CreateCategoryTest extends TestCase
 
     public function testCreateCategory(): void
     {
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
-        $result = $this->contributorService->createCategory($request, $this->lan->id);
+        $result = $this->contributorService->createCategory($request);
 
         $this->assertEquals($this->paramsContent['name'], $result['name']);
     }
 
     public function testCreateCategoryLanIdExist(): void
     {
-        $badLanId = -1;
+        $this->paramsContent['lan_id'] = -1;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createCategory($request, $badLanId);
+            $this->contributorService->createCategory($request);
             $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -49,10 +51,10 @@ class CreateCategoryTest extends TestCase
 
     public function testCreateCategoryLanIdInteger(): void
     {
-        $badLanId = '☭';
+        $this->paramsContent['lan_id'] = '☭';
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createCategory($request, $badLanId);
+            $this->contributorService->createCategory($request);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -62,10 +64,11 @@ class CreateCategoryTest extends TestCase
 
     public function testCreateCategoryNameRequired(): void
     {
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $this->paramsContent['name'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createCategory($request, $this->lan->id);
+            $this->contributorService->createCategory($request);
             $this->fail('Expected: {"name":["The name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -75,10 +78,11 @@ class CreateCategoryTest extends TestCase
 
     public function testCreateCategoryNameString(): void
     {
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $this->paramsContent['name'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createCategory($request, $this->lan->id);
+            $this->contributorService->createCategory($request);
             $this->fail('Expected: {"name":["The name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

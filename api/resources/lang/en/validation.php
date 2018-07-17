@@ -122,6 +122,7 @@ return [
     'user_once_per_lan' => 'The user already has a seat at this event.',
     'valid_event_key' => 'The event key is not valid.',
     'valid_secret_key' => 'The secret key is not valid.',
+    'one_of_two_fields' => 'Field :value can\'t be used if the field :second_field is used too.',
 
     /*
     |--------------------------------------------------------------------------

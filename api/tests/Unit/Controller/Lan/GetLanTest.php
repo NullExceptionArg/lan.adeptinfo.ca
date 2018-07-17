@@ -19,7 +19,6 @@ class GetLanTest extends TestCase
 
     public function testGetLanSimple(): void
     {
-        $lan = factory('App\Model\Lan')->create();
         $this->json('GET', '/api/lan', [
             'lan_id' => $this->lan->id
         ])

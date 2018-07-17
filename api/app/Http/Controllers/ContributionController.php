@@ -21,24 +21,24 @@ class ContributionController extends Controller
         $this->contributionService = $contributionService;
     }
 
-    public function createContributionCategory(Request $request, string $lanId)
+    public function createContributionCategory(Request $request)
     {
-        return response()->json($this->contributionService->createCategory($request, $lanId), 201);
+        return response()->json($this->contributionService->createCategory($request), 201);
     }
 
-    public function getContributionCategories(string $lanId)
+    public function getContributionCategories(Request $request)
     {
-        return response()->json($this->contributionService->getCategories($lanId), 200);
+        return response()->json($this->contributionService->getCategories($request), 200);
     }
 
-    public function deleteContributionCategory(string $lanId, string $contributionCategoryId)
+    public function deleteContributionCategory(Request $request)
     {
-        return response()->json($this->contributionService->deleteCategory($lanId, $contributionCategoryId), 200);
+        return response()->json($this->contributionService->deleteCategory($request), 200);
     }
 
-    public function createContribution(Request $request, string $lanId)
+    public function createContribution(Request $request)
     {
-        return response()->json($this->contributionService->createContribution($request, $lanId), 201);
+        return response()->json($this->contributionService->createContribution($request), 201);
     }
 
     public function getContributions(string $lanId)

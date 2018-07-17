@@ -122,6 +122,7 @@ return [
     'user_once_per_lan' => 'Cette utilisateur a déjà une place réservé à cet évenement.',
     'valid_event_key' => 'La clée d\'évenement n\'est pas valide.',
     'valid_secret_key' => 'La clée secrète n\'est pas valide.',
+    'one_of_two_fields' => 'Le champ :value ne peut pas être utilisé si le champ :second_field est aussi utilisé.',
 
     /*
     |--------------------------------------------------------------------------

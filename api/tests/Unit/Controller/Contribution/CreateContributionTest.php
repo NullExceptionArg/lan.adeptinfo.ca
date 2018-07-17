@@ -17,6 +17,7 @@ class CreateContributionTest extends TestCase
         'contribution_category_id' => null,
         'user_full_name' => null,
         'user_email' => null,
+        'lan_id' => null
     ];
 
     public function setUp(): void
@@ -28,13 +29,14 @@ class CreateContributionTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
         $this->requestContent['contribution_category_id'] = $this->category->id;
+        $this->requestContent['lan_id'] = $this->lan->id;
     }
 
     public function testCreateContributionUserFullName(): void
     {
         $this->requestContent['user_full_name'] = $this->user->getFullName();
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'user_full_name' => $this->user->getFullName(),
@@ -47,7 +49,7 @@ class CreateContributionTest extends TestCase
     {
         $this->requestContent['user_email'] = $this->user->email;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'user_full_name' => $this->user->getFullName(),
@@ -59,9 +61,9 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionLanIdExist(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
-        $badLanId = -1;
+        $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -77,9 +79,9 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionLanIdInteger(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
-        $badLanId = '☭';
+        $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -97,7 +99,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -115,7 +117,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -133,7 +135,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -150,7 +152,7 @@ class CreateContributionTest extends TestCase
     {
         $this->requestContent['user_full_name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -167,7 +169,7 @@ class CreateContributionTest extends TestCase
     {
         $this->requestContent['user_email'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -183,7 +185,7 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionUserFullNameOrUserEmailNotNull(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -204,16 +206,16 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['user_full_name'] = $this->user->getFullName();
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution', $this->requestContent)
+            ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'user_email' => [
-                        0 => 'Field can\'t be used if user_full_name is used too.',
+                        0 => 'Field user email can\'t be used if the field user_full_name is used too.',
                     ],
                     'user_full_name' => [
-                        0 => 'Field can\'t be used if user_email is used too.'
+                        0 => 'Field user full name can\'t be used if the field user_email is used too.'
                     ]
                 ]
             ])
