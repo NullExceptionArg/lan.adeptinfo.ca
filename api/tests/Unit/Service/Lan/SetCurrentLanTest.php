@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Service\Lan;
 
+use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
@@ -13,6 +14,7 @@ class SetCurrentLanTest extends TestCase
     protected $lanService;
 
     protected $user;
+    protected $lan;
 
     public function setUp()
     {
@@ -20,6 +22,17 @@ class SetCurrentLanTest extends TestCase
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
 
         $this->user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+    }
+
+    public function testSetCurrentLanNoCurrentLan()
+    {
+        $request = new Request([
+            'lan_id' => $this->lan->id
+        ]);
+        $result = $this->lanService->setCurrentLan($request);
+
+        $this->assertEquals($this->lan->id, $result);
     }
 
     public function testSetCurrentLanHasCurrentLan()
@@ -27,24 +40,21 @@ class SetCurrentLanTest extends TestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
-        $result = $this->lanService->setCurrentLan($lan->id);
-
-        $this->assertEquals($lan->id, $result);
-    }
-
-    public function testSetCurrentLanNoCurrentLan()
-    {
-        $lan = factory('App\Model\Lan')->create();
-        $result = $this->lanService->setCurrentLan($lan->id);
+        $request = new Request([
+            'lan_id' => $lan->id
+        ]);
+        $result = $this->lanService->setCurrentLan($request);
 
         $this->assertEquals($lan->id, $result);
     }
 
     public function testSetCurrentLanIdExist()
     {
-        $badLanId = -1;
+        $request = new Request([
+            'lan_id' => -1
+        ]);
         try {
-            $this->lanService->setCurrentLan($badLanId);
+            $this->lanService->setCurrentLan($request);
             $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -54,9 +64,11 @@ class SetCurrentLanTest extends TestCase
 
     public function testSetCurrentLanIdInteger()
     {
-        $badLanId = '☭';
+        $request = new Request([
+            'lan_id' => '☭'
+        ]);
         try {
-            $this->lanService->setCurrentLan($badLanId);
+            $this->lanService->setCurrentLan($request);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

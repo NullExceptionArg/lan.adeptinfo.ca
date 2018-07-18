@@ -24,7 +24,7 @@ $api->version('v1', function ($api) {
             $api->post('user', 'UserController@signUp');
 
             $api->get('lan', 'LanController@getLan');
-            $api->get('lans', 'LanController@getLans');
+            $api->get('lan/all', 'LanController@getAllLan');
 
             $api->get('contribution/category', 'ContributionController@getContributionCategories');
             $api->get('contribution', 'ContributionController@getContributions');
@@ -38,8 +38,8 @@ $api->version('v1', function ($api) {
             $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
                 $api->post('lan', 'LanController@createLan');
-                $api->post('lan/{lan_id}/current', 'LanController@setCurrentLan');
-                $api->post('lan/{lan_id}', 'LanController@updateLan');
+                $api->post('lan/current', 'LanController@setCurrentLan');
+                $api->put('lan', 'LanController@updateLan');
 
                 $api->post('contribution/category', 'ContributionController@createContributionCategory');
                 $api->delete('contribution/category', 'ContributionController@deleteContributionCategory');

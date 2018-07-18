@@ -15,9 +15,9 @@ interface LanService
 
     public function getLan(Request $request): GetLanResource;
 
-    public function getLans(): ResourceCollection;
+    public function getAllLan(): ResourceCollection;
 
-    public function setCurrentLan(string $lanId): int;
+    public function setCurrentLan(Request $input): int;
 
-    public function update(Request $input, string $lanId): UpdateLanResource;
+    public function update(Request $input): UpdateLanResource;
 }

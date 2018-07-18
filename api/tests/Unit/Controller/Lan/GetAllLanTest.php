@@ -5,15 +5,15 @@ namespace Tests\Unit\Controller\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetLansTest extends TestCase
+class GetAllLanTest extends TestCase
 {
     use DatabaseMigrations;
 
-    public function testGetLans(): void
+    public function testGetAllLan(): void
     {
         $lan1 = factory('App\Model\Lan')->create();
         $lan2 = factory('App\Model\Lan')->create();
-        $this->json('GET', '/api/lans')
+        $this->json('GET', '/api/lan/all')
             ->seeJsonEquals([
                 [
                     'id' => $lan1->id,
@@ -31,9 +31,9 @@ class GetLansTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLansNoLan(): void
+    public function testGetAllLanNoLan(): void
     {
-        $this->json('GET', '/api/lans')
+        $this->json('GET', '/api/lan/all')
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }

@@ -107,17 +107,17 @@ class LanServiceImpl implements LanService
         return new GetLanResource($lan, $placeCount, $images);
     }
 
-    public function getLans(): ResourceCollection
+    public function getAllLan(): ResourceCollection
     {
         return GetLansResource::collection($this->lanRepository->getLans());
     }
 
-    public function setCurrentLan(string $lanId): int
+    public function setCurrentLan(Request $input): int
     {
         $rulesValidator = Validator::make([
-            'lan_id' => $lanId
+            'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id'
+            'lan_id' => 'required|integer|exists:lan,id'
         ]);
 
         if ($rulesValidator->fails()) {
@@ -126,25 +126,31 @@ class LanServiceImpl implements LanService
 
         $this->lanRepository->removeCurrentLan();
 
-        $this->lanRepository->setCurrentLan($lanId);
+        $this->lanRepository->setCurrentLan($input->input('lan_id'));
 
-        return $lanId;
+        return $input->input('lan_id');
     }
 
-    public function update(Request $input, string $lanId): UpdateLanResource
+    public function update(Request $input): UpdateLanResource
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $lanValidator = Validator::make($input->all(), [
             'name' => 'string|max:255',
             'lan_start' => 'after:seat_reservation_start|after:tournament_reservation_start',
             'lan_end' => 'after:lan_start',
             'seat_reservation_start' => 'before_or_equal:lan_start',
             'tournament_reservation_start' => 'before_or_equal:lan_start',
-            'event_key' => ['string', 'max:255', new ValidEventKey($lanId, null)],
+            'event_key' => ['string', 'max:255', new ValidEventKey($input->input('lan_id'), null)],
             'public_key' => 'string|max:255',
             'secret_key' => ['string', 'max:255', new ValidSecretKey],
             'latitude' => 'numeric|min:-85|max:85',
             'longitude' => 'numeric|min:-180|max:180',
-            'places' => ['integer', 'min:1', new LowerReservedPlace($lanId)],
+            'places' => ['integer', 'min:1', new LowerReservedPlace($input->input('lan_id'))],
             'price' => 'integer|min:0',
             'rules' => 'string',
             'description' => 'string'
@@ -154,7 +160,10 @@ class LanServiceImpl implements LanService
             throw new BadRequestHttpException($lanValidator->errors());
         }
 
-        $lan = $this->lanRepository->findLanById($lanId);
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+
         $placeCount = $this->lanRepository->getReservedPlaces($lan->id);
         $images = $this->imageRepository->getImagesForLan($lan);
 

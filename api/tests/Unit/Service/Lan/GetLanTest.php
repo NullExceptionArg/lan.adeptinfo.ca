@@ -43,7 +43,7 @@ class GetLanTest extends TestCase
         $this->assertEquals($this->lan->description, $result['description']);
     }
 
-    public function testSetCurrentLanHasCurrentLan()
+    public function testSetCurrentLanCurrentLan()
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
