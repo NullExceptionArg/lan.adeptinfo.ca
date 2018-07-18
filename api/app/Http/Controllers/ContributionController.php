@@ -41,13 +41,13 @@ class ContributionController extends Controller
         return response()->json($this->contributionService->createContribution($request), 201);
     }
 
-    public function getContributions(string $lanId)
+    public function getContributions(Request $request)
     {
-        return response()->json($this->contributionService->getContributions($lanId), 200);
+        return response()->json($this->contributionService->getContributions($request), 200);
     }
 
-    public function deleteContribution(string $lanId, string $contributionCategoryId)
+    public function deleteContribution(Request $request)
     {
-        return response()->json($this->contributionService->deleteContribution($lanId, $contributionCategoryId), 200);
+        return response()->json($this->contributionService->deleteContribution($request), 200);
     }
 }

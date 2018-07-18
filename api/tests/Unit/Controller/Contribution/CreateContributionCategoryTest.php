@@ -29,7 +29,7 @@ class CreateContributionCategoryTest extends TestCase
     public function testCreateContributionCategory(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/contribution/category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'name' => $this->requestContent['name'],
@@ -39,9 +39,9 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryLanIdExist(): void
     {
-        $badLanId = -1;
+        $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/contribution/category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -56,9 +56,9 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryLanIdInteger(): void
     {
-        $badLanId = '☭';
+        $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/contribution/category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -75,7 +75,7 @@ class CreateContributionCategoryTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/contribution/category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -92,7 +92,7 @@ class CreateContributionCategoryTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/contribution/category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

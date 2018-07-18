@@ -7,7 +7,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class CreateContributionCategoryTest extends TestCase
+class CreateCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 

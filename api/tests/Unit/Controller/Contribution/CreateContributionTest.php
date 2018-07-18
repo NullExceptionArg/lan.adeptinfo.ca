@@ -45,6 +45,27 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(201);
     }
 
+    public function testCreateContributionNoLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $lan->id
+        ]);
+        $this->requestContent['user_full_name'] = $this->user->getFullName();
+        $this->requestContent['lan_id'] = $lan->id;
+        $this->requestContent['contribution_category_id'] = $category->id;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/contribution', $this->requestContent)
+            ->seeJsonEquals([
+                'id' => 1,
+                'user_full_name' => $this->user->getFullName(),
+                'contribution_category_id' => $category->id
+            ])
+            ->assertResponseStatus(201);
+    }
+
     public function testCreateContributionUserEmail(): void
     {
         $this->requestContent['user_email'] = $this->user->email;

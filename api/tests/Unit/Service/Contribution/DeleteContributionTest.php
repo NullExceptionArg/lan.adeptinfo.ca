@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Service\Contribution;
 
+use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
@@ -29,7 +30,11 @@ class DeleteContributionTest extends TestCase
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
         ]);
-        $result = $this->contributorService->deleteContribution($this->lan->id, $contribution->id);
+        $request = new Request([
+            'lan_id' => $this->lan->id,
+            'contribution_id' => $contribution->id
+        ]);
+        $result = $this->contributorService->deleteContribution($request);
 
         $this->assertEquals($contribution->id, $result['id']);
         $this->assertEquals($this->user->getFullName(), $result['user_full_name']);
@@ -40,7 +45,28 @@ class DeleteContributionTest extends TestCase
         $contribution = factory('App\Model\Contribution')->create([
             'user_full_name' => $this->user->getFullName()
         ]);
-        $result = $this->contributorService->deleteContribution($this->lan->id, $contribution->id);
+        $request = new Request([
+            'lan_id' => $this->lan->id,
+            'contribution_id' => $contribution->id
+        ]);
+        $result = $this->contributorService->deleteContribution($request);
+
+        $this->assertEquals($contribution->id, $result['id']);
+        $this->assertEquals($this->user->getFullName(), $result['user_full_name']);
+    }
+
+    public function testDeleteContributionCurrentLan(): void
+    {
+        $contribution = factory('App\Model\Contribution')->create([
+            'user_full_name' => $this->user->getFullName()
+        ]);
+        factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $request = new Request([
+            'contribution_id' => $contribution->id
+        ]);
+        $result = $this->contributorService->deleteContribution($request);
 
         $this->assertEquals($contribution->id, $result['id']);
         $this->assertEquals($this->user->getFullName(), $result['user_full_name']);
@@ -51,9 +77,12 @@ class DeleteContributionTest extends TestCase
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
         ]);
-        $badLanId = -1;
+        $request = new Request([
+            'lan_id' => -1,
+            'contribution_id' => $contribution->id
+        ]);
         try {
-            $this->contributorService->deleteContribution($badLanId, $contribution->id);
+            $this->contributorService->deleteContribution($request);
             $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -66,9 +95,12 @@ class DeleteContributionTest extends TestCase
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
         ]);
-        $badLanId = '☭';
+        $request = new Request([
+            'lan_id' => '☭',
+            'contribution_id' => $contribution->id
+        ]);
         try {
-            $this->contributorService->deleteContribution($badLanId, $contribution->id);
+            $this->contributorService->deleteContribution($request);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -78,9 +110,12 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionCategoryIdInteger(): void
     {
-        $badContributionId = '☭';
+        $request = new Request([
+            'lan_id' => $this->lan->id,
+            'contribution_id' => '☭'
+        ]);
         try {
-            $this->contributorService->deleteContribution($this->lan->id, $badContributionId);
+            $this->contributorService->deleteContribution($request);
             $this->fail('Expected: {"contribution_id":["The contribution id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -90,10 +125,12 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionCategoryIdExist(): void
     {
-
-        $badContributionId = -1;
+        $request = new Request([
+            'lan_id' => $this->lan->id,
+            'contribution_id' => -1
+        ]);
         try {
-            $this->contributorService->deleteContribution($this->lan->id, $badContributionId);
+            $this->contributorService->deleteContribution($request);
             $this->fail('Expected: {"contribution_id":["The selected contribution id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

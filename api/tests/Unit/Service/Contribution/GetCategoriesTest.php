@@ -33,6 +33,14 @@ class GetCategoriesTest extends TestCase
         $this->assertEquals($this->category->name, $result[0]['name']);
     }
 
+    public function testGetCategoriesCurrentLan(): void
+    {
+        $result = $this->contributionService->getCategories($this->lan->id);
+
+        $this->assertEquals($this->category->id, $result[0]['id']);
+        $this->assertEquals($this->category->name, $result[0]['name']);
+    }
+
     public function testGetCategoriesLanIdExist(): void
     {
         $badLanId = -1;

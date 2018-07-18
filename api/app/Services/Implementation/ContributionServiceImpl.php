@@ -92,6 +92,12 @@ class ContributionServiceImpl implements ContributionService
 
     public function deleteCategory(Request $input): ContributionCategory
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'contribution_category_id' => $input->input('contribution_category_id')
@@ -184,9 +190,15 @@ class ContributionServiceImpl implements ContributionService
 
     public function deleteContribution(Request $input): Contribution
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $contributionValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'contribution_id' => $input->input('lan_id'),
+            'contribution_id' => $input->input('contribution_id'),
         ], [
             'lan_id' => 'integer|exists:lan,id',
             'contribution_id' => 'required|integer|exists:contribution,id'
