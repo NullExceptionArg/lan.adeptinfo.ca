@@ -123,6 +123,7 @@ return [
     'valid_event_key' => 'La clée d\'évenement n\'est pas valide.',
     'valid_secret_key' => 'La clée secrète n\'est pas valide.',
     'one_of_two_fields' => 'Le champ :value ne peut pas être utilisé si le champ :second_field est aussi utilisé.',
+    'many_image_ids_exist' => 'Les id :ids sur le champ :attribute n\'existent pas.',
 
     /*
     |--------------------------------------------------------------------------

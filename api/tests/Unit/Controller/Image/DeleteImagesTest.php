@@ -12,6 +12,8 @@ class DeleteImagesTest extends TestCase
     protected $user;
     protected $lan;
     protected $image;
+    protected $image1;
+    protected $image2;
 
     public function setUp(): void
     {
@@ -21,10 +23,33 @@ class DeleteImagesTest extends TestCase
         $this->image = factory('App\Model\Image')->create([
             'lan_id' => $this->lan->id
         ]);
+        $this->image1 = factory('App\Model\Image')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $this->image2 = factory('App\Model\Image')->create([
+            'lan_id' => $this->lan->id
+        ]);
     }
 
     public function testDeleteImages(): void
     {
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/image', [
+                'lan_id' => $this->lan->id,
+                'images_id' => $this->image1->id . ',' . $this->image2->id
+            ])
+            ->seeJsonEquals([
+                $this->image1->id,
+                $this->image2->id
+            ])
+            ->assertResponseStatus(200);
+    }
+
+    public function testDeleteImagesCurrentLan(): void
+    {
+        factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
         $image1 = factory('App\Model\Image')->create([
             'lan_id' => $this->lan->id
         ]);
@@ -32,7 +57,9 @@ class DeleteImagesTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/image/' . $image1->id . ',' . $image2->id)
+            ->json('DELETE', '/api/image', [
+                'images_id' => $image1->id . ',' . $image2->id
+            ])
             ->seeJsonEquals([
                 $image1->id,
                 $image2->id
@@ -42,9 +69,11 @@ class DeleteImagesTest extends TestCase
 
     public function testDeleteImagesLanIdExists(): void
     {
-        $badLanId = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/image/' . $this->image->id)
+            ->json('DELETE', '/api/image', [
+                'lan_id' => -1,
+                'images_id' => $this->image1->id . ',' . $this->image2->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -59,9 +88,11 @@ class DeleteImagesTest extends TestCase
 
     public function testDeleteImagesLanIdInteger(): void
     {
-        $badLanId = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/image/' . $this->image->id)
+            ->json('DELETE', '/api/image', [
+                'lan_id' => '☭',
+                'images_id' => $this->image1->id . ',' . $this->image2->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -76,15 +107,17 @@ class DeleteImagesTest extends TestCase
 
     public function testDeleteImagesImagesIdString(): void
     {
-        $badImageId = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/image/' . $badImageId)
+            ->json('DELETE', '/api/image', [
+                'lan_id' => $this->lan->id,
+                'images_id' => -1
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'images_id' => [
-                        0 => 'Images with id ' . $badImageId . ' don\'t exist.',
+                        0 => 'The ids ' . -1 . ' on the field images id don\'t exist.',
                     ],
                 ]
             ])

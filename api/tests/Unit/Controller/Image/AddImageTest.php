@@ -13,7 +13,8 @@ class addImageTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'image' => null
+        'image' => null,
+        'lan_id' => null
     ];
 
     public function setUp(): void
@@ -25,12 +26,13 @@ class addImageTest extends TestCase
         $this->requestContent['image'] = factory('App\Model\Image')->make([
             'lan_id' => $this->lan->id
         ])->image;
+        $this->requestContent['lan_id'] = $this->lan->id;
     }
 
     public function testAddImage(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/image', $this->requestContent)
+            ->json('POST', '/api/image', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'image' => $this->requestContent['image'],
@@ -39,11 +41,27 @@ class addImageTest extends TestCase
             ->assertResponseStatus(201);
     }
 
+    public function testAddImageCurrentLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $this->requestContent['lan_id'] = null;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/image', $this->requestContent)
+            ->seeJsonEquals([
+                'id' => 1,
+                'image' => $this->requestContent['image'],
+                'lan_id' => $lan->id
+            ])
+            ->assertResponseStatus(201);
+    }
+
     public function testAddImageLanIdExists(): void
     {
-        $badLanId = -1;
+        $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/image', $this->requestContent)
+            ->json('POST', '/api/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -58,9 +76,9 @@ class addImageTest extends TestCase
 
     public function testAddImageLanIdInteger(): void
     {
-        $badLanId = '☭';
+        $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/image', $this->requestContent)
+            ->json('POST', '/api/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -77,7 +95,7 @@ class addImageTest extends TestCase
     {
         $this->requestContent['image'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/image', $this->requestContent)
+            ->json('POST', '/api/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +112,7 @@ class addImageTest extends TestCase
     {
         $this->requestContent['image'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/image', $this->requestContent)
+            ->json('POST', '/api/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

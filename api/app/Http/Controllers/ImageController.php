@@ -19,13 +19,13 @@ class ImageController extends Controller
         $this->imageService = $imageServiceImpl;
     }
 
-    public function addImage(Request $request, string $lan_id)
+    public function addImage(Request $request)
     {
-        return response()->json($this->imageService->addImage($request, $lan_id), 201);
+        return response()->json($this->imageService->addImage($request), 201);
     }
 
-    public function deleteImages(string $lan_id, string $images_id)
+    public function deleteImages(Request $request)
     {
-        return response()->json($this->imageService->deleteImages($lan_id, $images_id), 200);
+        return response()->json($this->imageService->deleteImages($request), 200);
     }
 }

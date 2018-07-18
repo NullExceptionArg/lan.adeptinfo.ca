@@ -123,6 +123,7 @@ return [
     'valid_event_key' => 'The event key is not valid.',
     'valid_secret_key' => 'The secret key is not valid.',
     'one_of_two_fields' => 'Field :value can\'t be used if the field :second_field is used too.',
+    'many_image_ids_exist' => 'The ids :ids on the field :attribute don\'t exist.',
 
     /*
     |--------------------------------------------------------------------------

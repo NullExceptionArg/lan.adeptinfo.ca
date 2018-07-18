@@ -51,8 +51,8 @@ $api->version('v1', function ($api) {
                 $api->delete('lan/{lan_id}/confirm/{seat_id}', 'SeatController@unConfirmArrival');
                 $api->post('seat/assign', 'SeatController@assignSeat');
 
-                $api->post('lan/{lan_id}/image', 'ImageController@addImage');
-                $api->delete('lan/{lan_id}/image/{image_id}', 'ImageController@deleteImages');
+                $api->post('image', 'ImageController@addImage');
+                $api->delete('image', 'ImageController@deleteImages');
 
                 $api->delete('user', 'UserController@deleteUser');
                 $api->post('user/logout', 'UserController@logOut');
