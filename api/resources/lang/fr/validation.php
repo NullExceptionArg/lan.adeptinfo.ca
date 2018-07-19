@@ -124,6 +124,7 @@ return [
     'valid_secret_key' => 'La clée secrète n\'est pas valide.',
     'one_of_two_fields' => 'Le champ :value ne peut pas être utilisé si le champ :second_field est aussi utilisé.',
     'many_image_ids_exist' => 'Les id :ids sur le champ :attribute n\'existent pas.',
+    'seat_lan_relation_exists' => 'La relation entre la place avec l\id :seat_id et le LAN avec l\'id :lan_id n\'existe pas.',
 
     /*
     |--------------------------------------------------------------------------

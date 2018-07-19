@@ -31,9 +31,8 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeat(): void
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
                 'lan_id' => $this->lan->id,
-                'seat_id' => env('SEAT_ID'),
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
@@ -43,13 +42,28 @@ class AssignTest extends SeatsTestCase
             ->assertResponseStatus(201);
     }
 
+    public function testAssignSeatCurrentLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $this->actingAs($this->admin)
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+                'user_email' => $this->user->email
+            ])
+            ->seeJsonEquals([
+                "lan_id" => $lan->id,
+                "seat_id" => env('SEAT_ID')
+            ])
+            ->assertResponseStatus(201);
+    }
+
     public function testBookLanIdExist()
     {
         $badLanId = -1;
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
                 'lan_id' => $badLanId,
-                'seat_id' => env('SEAT_ID'),
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
@@ -66,11 +80,9 @@ class AssignTest extends SeatsTestCase
 
     public function testAssignSeatIdExist()
     {
-        $badSeatId = '☭';
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
+            ->json('POST', '/api/seat/assign/'  . '☭', [
                 'lan_id' => $this->lan->id,
-                'seat_id' => $badSeatId,
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
@@ -91,9 +103,8 @@ class AssignTest extends SeatsTestCase
         $seatsClient->events()->book($this->lan->event_key, [env('SEAT_ID')]);
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
                 'lan_id' => $this->lan->id,
-                'seat_id' => env('SEAT_ID'),
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
@@ -117,9 +128,8 @@ class AssignTest extends SeatsTestCase
         $reservation->save();
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
                 'lan_id' => $this->lan->id,
-                'seat_id' => env('SEAT_ID'),
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
@@ -144,9 +154,8 @@ class AssignTest extends SeatsTestCase
         $reservation->save();
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
                 'lan_id' => $this->lan->id,
-                'seat_id' => env('SEAT_ID'),
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
@@ -163,11 +172,9 @@ class AssignTest extends SeatsTestCase
 
     public function testAssignSeatLanIdInteger()
     {
-        $badLanId = '☭';
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
-                'lan_id' => $badLanId,
-                'seat_id' => env('SEAT_ID'),
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+                'lan_id' => '☭',
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
@@ -185,9 +192,8 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatEmailExists()
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign', [
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
                 'lan_id' => $this->lan->id,
-                'seat_id' => env('SEAT_ID'),
                 'user_email' => '☭'
             ])
             ->seeJsonEquals([

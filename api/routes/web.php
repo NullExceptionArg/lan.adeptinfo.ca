@@ -46,10 +46,10 @@ $api->version('v1', function ($api) {
                 $api->post('contribution', 'ContributionController@createContribution');
                 $api->delete('contribution', 'ContributionController@deleteContribution');
 
-                $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
-                $api->post('lan/{lan_id}/confirm/{seat_id}', 'SeatController@confirmArrival');
-                $api->delete('lan/{lan_id}/confirm/{seat_id}', 'SeatController@unConfirmArrival');
-                $api->post('seat/assign', 'SeatController@assignSeat');
+                $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');
+                $api->post('seat/confirm/{seat_id}', 'SeatController@confirmArrival');
+                $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
+                $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
 
                 $api->post('image', 'ImageController@addImage');
                 $api->delete('image', 'ImageController@deleteImages');

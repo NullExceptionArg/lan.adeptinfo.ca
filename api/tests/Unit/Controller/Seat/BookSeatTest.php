@@ -24,7 +24,9 @@ class BookSeatTest extends SeatsTestCase
     public function testBookSeat(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . env('SEAT_ID'))
+            ->json('POST', '/api/seat/book/' . env('SEAT_ID'), [
+                'lan_id' => $this->lan->id
+            ])
             ->seeJsonEquals([
                 "lan_id" => $this->lan->id,
                 "seat_id" => env('SEAT_ID')
@@ -32,11 +34,26 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(201);
     }
 
+    public function testBookSeatCurrentLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $this->actingAs($this->user)
+            ->json('POST', '/api/seat/book/' . env('SEAT_ID'))
+            ->seeJsonEquals([
+                "lan_id" => $lan->id,
+                "seat_id" => env('SEAT_ID')
+            ])
+            ->assertResponseStatus(201);
+    }
+
     public function testBookLanIdExist()
     {
-        $badLanId = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/book/' . env('SEAT_ID'))
+            ->json('POST', '/api/seat/book/' . env('SEAT_ID'), [
+                'lan_id' => -1
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -53,7 +70,9 @@ class BookSeatTest extends SeatsTestCase
     {
         $badSeatId = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . $badSeatId)
+            ->json('POST', '/api/seat/book/' . $badSeatId, [
+                'lan_id' => $this->lan->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -72,7 +91,9 @@ class BookSeatTest extends SeatsTestCase
         $seatsClient->events()->book($this->lan->event_key, [env('SEAT_ID')]);
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . env('SEAT_ID'))
+            ->json('POST', '/api/seat/book/' . env('SEAT_ID'), [
+                'lan_id' => $this->lan->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +115,9 @@ class BookSeatTest extends SeatsTestCase
         $reservation->save();
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . env('SEAT_ID'))
+            ->json('POST', '/api/seat/book/' . env('SEAT_ID'), [
+                'lan_id' => $this->lan->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -117,7 +140,9 @@ class BookSeatTest extends SeatsTestCase
         $reservation->save();
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/book/' . env('SEAT_ID'))
+            ->json('POST', '/api/seat/book/' . env('SEAT_ID'), [
+                'lan_id' => $this->lan->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -134,7 +159,9 @@ class BookSeatTest extends SeatsTestCase
     {
         $badLanId = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/book/' . env('SEAT_ID'))
+            ->json('POST', '/api/seat/book/' . env('SEAT_ID'), [
+                'lan_id' => $badLanId
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
