@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Model\Lan;
 use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -11,7 +12,7 @@ class SeatLanRelationExists implements Rule
     protected $lanId;
     protected $seatId;
 
-    public function __construct(string $lanId)
+    public function __construct(?string $lanId)
     {
         $this->lanId = $lanId;
     }
@@ -25,6 +26,9 @@ class SeatLanRelationExists implements Rule
      */
     public function passes($attribute, $value)
     {
+        if(Lan::find($this->lanId) == null){
+            return true;
+        }
         $this->seatId = $value;
         return Reservation::where('lan_id', $this->lanId)
             ->where('seat_id', $value)->first() != null;

@@ -103,7 +103,6 @@ class SeatServiceImpl implements SeatService
             'seat_id' => [
                 'required',
                 'string',
-                'exists:reservation,seat_id',
                 new SeatExistInLanSeatIo($input->input('lan_id')),
                 new SeatNotFreeSeatIo($input->input('lan_id')),
                 new SeatNotArrivedSeatIo($input->input('lan_id')),
