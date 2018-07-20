@@ -6,7 +6,7 @@ Réserver une place à un LAN.
 
 ### Requête HTTP
 
-`POST /api/lan/{lan_id}/book/{seat_id}`
+`POST /api/seat/book/{seat_id}`
 
 ### Path Params
 
@@ -14,8 +14,13 @@ L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vid
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut réserver une place. | Requis, string, un seul utilisateur par LAN.
 seat_id | Id de la place que l'utilisateur veut réserver. | Requis, string, un seul Id de place par LAN.
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN où l'utilisateur veut réserver une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -39,15 +44,24 @@ Assigner une place à un un utilisateur pour un LAN.
 
 ### Requête HTTP
 
-`POST /api/seat/assign`
+`POST /api/seat/assign/{seat_id}`
 
 ### POST Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut assigner une place. Si ce paramètre n'est pas spécifié, on prend le LAN courant. | int, un seul utilisateur par LAN.
-seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, un seul Id de place par LAN.
 user_email | Courriel de l'utilisateur auquel on veut assigner une place. | Requis, string.
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, un seul Id de place par LAN.
+
+### Query Params
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN où l'administrateur veut assigner une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -72,7 +86,7 @@ Confirmer l'arrivée d'un joueur au LAN.
 
 ### Requête HTTP
 
-`POST /api/lan/{lan_id}/confirm/{seat_id}`
+`POST /api/seat/confirm/{seat_id}`
 
 ### Path Params
 
@@ -80,8 +94,13 @@ L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vid
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut confirmer une place. | Requis, string.
 seat_id | Id de la place que l'administrateur confirmer. | Requis, integer.
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN où l'administrateur veut confirmer une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | string.
 
 ### Format de réponse
 
@@ -105,7 +124,7 @@ Départ de l'un des joueurs déjà marqué comme arrivé à un LAN.
 
 ### Requête HTTP
 
-`DELETE /api/lan/{lan_id}/confirm/{seat_id}`
+`DELETE /api/seat/confirm/{seat_id}`
 
 ### Path Params
 
@@ -113,8 +132,13 @@ L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vid
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut déconfirmer une place. | Requis, string.
 seat_id | Id de la place que l'administrateur déconfirmer. | Requis, integer.
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 

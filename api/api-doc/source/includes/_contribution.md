@@ -8,13 +8,13 @@ Ajoute une contribution à un LAN
 
 ### Requête HTTP
 
-`POST /api/lan/{lan_id}/contribution`
+`POST /api/contribution`
 
-### Path Params
+### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une contribution. | Requis, integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 > Exemple de requête
 
@@ -61,13 +61,13 @@ Liste l'ensemble des contributions, groupées par catégories, pour un LAN
 
 ### Requête HTTP
 
-`GET /api/lan/{lan_id}/contribution`
+`GET /api/contribution`
 
-### Path Params
+### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'utilisateur veut lister les contributions. | Requis, integer.
+lan_id | Id du LAN d'où l'utilisateur veut lister les contributions. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 
@@ -117,14 +117,14 @@ Supprime une contribution d'un LAN
 
 ### Requête HTTP
 
-`DELETE /api/lan/{lan_id}/contribution/{contribution_id}`
+`DELETE /api/contribution`
 
-### Path Params
+### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'administrateur veut supprimer une contribution. | Requis, integer.
-contribution_id | Id de la contribution que l'administrateur veut supprimer. | Requis, integer.
+lan_id | Id du LAN d'où l'administrateur veut supprimer une contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+contribution_id | Id de la contribution que l'administrateur veut supprimer. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 
@@ -148,13 +148,13 @@ Ajoute une catégorie de contribution à un LAN
 
 ### Requête HTTP
 
-`POST /api/lan/{lan_id}/contribution-category`
+`POST /api/contribution/category`
 
-### Path Params
+### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. | Requis, integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 > Exemple de requête
 
@@ -192,13 +192,13 @@ Liste les catégories de contribution d'un LAN
 
 ### Requête HTTP
 
-`GET /api/lan/{lan_id}/contribution-category`
+`GET /api/contribution/category`
 
-### Path Params
+### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. | Requis, string.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 
@@ -229,13 +229,13 @@ Supprime une catégorie de contribution d'un LAN
 
 ### Requête HTTP
 
-`DELETE /api/lan/{lan_id}/contribution-category/{contribution_category_id}`
+`DELETE /api/contribution/category`
 
-### Path Params
+### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'administrateur veut supprimer une catégorie de contribution. | Requis, integer.
+lan_id | Id du LAN d'où l'administrateur veut supprimer une catégorie de contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 contribution_category_id | Id de la catégorie de contribution que l'administrateur veut supprimer. | Requis, integer.
 
 ### Format de réponse
