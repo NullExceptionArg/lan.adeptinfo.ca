@@ -50,6 +50,8 @@ $api->version('v1', function ($api) {
                 $api->post('seat/confirm/{seat_id}', 'SeatController@confirmArrival');
                 $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
                 $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
+                $api->delete('seat/book/{seat_id}', 'SeatController@unbookSeat');
+                $api->delete('seat/cancel/{seat_id}', 'SeatController@cancelSeat');
 
                 $api->post('image', 'ImageController@addImage');
                 $api->delete('image', 'ImageController@deleteImages');

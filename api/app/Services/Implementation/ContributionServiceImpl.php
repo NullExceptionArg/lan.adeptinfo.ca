@@ -119,6 +119,12 @@ class ContributionServiceImpl implements ContributionService
 
     public function createContribution(Request $input): Contribution
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
         $contributionValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'contribution_category_id' => $input->input('contribution_category_id'),

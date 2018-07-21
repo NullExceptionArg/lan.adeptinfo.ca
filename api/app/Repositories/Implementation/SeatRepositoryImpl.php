@@ -63,4 +63,12 @@ class SeatRepositoryImpl implements SeatRepository
         $reservation->left_at = new DateTime();
         $reservation->save();
     }
+
+    public function deleteReservation(Reservation $reservation): void
+    {
+        try {
+            $reservation->delete();
+        } catch (\Exception $e) {
+        }
+    }
 }
