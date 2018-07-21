@@ -41,13 +41,13 @@ class SeatController extends Controller
         return response()->json($this->seatService->assign($request, $seatId), 201);
     }
 
-    public function unbookSeat(Request $request, string $seatId)
+    public function unBookSeat(Request $request, string $seatId)
     {
-        return response()->json($this->seatService->unbook($request, $seatId), 200);
+        return response()->json($this->seatService->unBook($request, $seatId), 200);
     }
 
-    public function cancelSeat(Request $request, string $seatId)
+    public function unAssignSeat(Request $request, string $seatId)
     {
-        return response()->json($this->seatService->cancel($request, $seatId), 201);
+        return response()->json($this->seatService->unAssign($request, $seatId), 200);
     }
 }

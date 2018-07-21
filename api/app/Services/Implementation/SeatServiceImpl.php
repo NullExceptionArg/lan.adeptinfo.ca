@@ -210,7 +210,7 @@ class SeatServiceImpl implements SeatService
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
     }
 
-    public function unbook(Request $input, string $seatId): Reservation
+    public function unBook(Request $input, string $seatId): Reservation
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -252,7 +252,7 @@ class SeatServiceImpl implements SeatService
         return $reservation;
     }
 
-    public function cancel(Request $input, string $seatId): Reservation
+    public function unAssign(Request $input, string $seatId): Reservation
     {
         $lan = null;
         if ($input->input('lan_id') == null) {

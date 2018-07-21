@@ -9,7 +9,7 @@ class DeleteImageTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $lanRepository;
+    protected $imageRepository;
 
     protected $lan;
     protected $image;
@@ -17,7 +17,7 @@ class DeleteImageTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->lanRepository = $this->app->make('App\Repositories\Implementation\ImageRepositoryImpl');
+        $this->imageRepository = $this->app->make('App\Repositories\Implementation\ImageRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->image = factory('App\Model\Image')->create([
@@ -32,13 +32,13 @@ class DeleteImageTest extends TestCase
             'lan_id' => $this->image->lan_id
         ]);
 
-        $imageId = $this->lanRepository->deleteImage($this->image);
+        $imageId = $this->imageRepository->deleteImage($this->image);
 
         $this->assertEquals($this->image->id, $imageId);
 
         $this->notSeeInDatabase('image', [
             'image' => $this->image->image,
-            'lan_id' => $this->image->lanId
+            'lan_id' => $this->image->lan_id
         ]);
     }
 }
