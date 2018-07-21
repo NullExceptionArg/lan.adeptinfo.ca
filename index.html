@@ -285,7 +285,13 @@
                     <a href="#reserver-une-place" class="toc-h2 toc-link" data-title="reserver-une-place">Réserver une place</a>
                   </li>
                   <li>
+                    <a href="#annuler-une-reservation" class="toc-h2 toc-link" data-title="annuler-une-reservation">Annuler une réservation</a>
+                  </li>
+                  <li>
                     <a href="#assigner-une-place" class="toc-h2 toc-link" data-title="assigner-une-place">Assigner une place</a>
+                  </li>
+                  <li>
+                    <a href="#annuler-une-assignation" class="toc-h2 toc-link" data-title="annuler-une-assignation">Annuler une assignation</a>
                   </li>
                   <li>
                     <a href="#confirmer-une-place" class="toc-h2 toc-link" data-title="confirmer-une-place">Confirmer une place</a>
@@ -1695,9 +1701,67 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Id de la place que l&#39;utilisateur a réservé.</td>
 </tr>
 </tbody></table>
+<h2 id='annuler-une-reservation'>Annuler une réservation</h2>
+<p>Annule une réservation à un LAN.</p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>DELETE /api/seat/book/{seat_id}</code></p>
+<h3 id='path-params-2'>Path Params</h3>
+<p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
+
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;utilisateur veut annuler.</td>
+<td>Requis, string.</td>
+</tr>
+</tbody></table>
+<h3 id='query-params-2'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;utilisateur veut annuler une place. Si paramètre n&#39;est pas spécifié, on retourne le LAN courant</td>
+<td>integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;utilisateur a annulé une place.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;utilisateur a annulé.</td>
+</tr>
+</tbody></table>
 <h2 id='assigner-une-place'>Assigner une place</h2>
 <p>Assigner une place à un un utilisateur pour un LAN.</p>
-<h3 id='requete-http-2'>Requête HTTP</h3>
+<h3 id='requete-http-3'>Requête HTTP</h3>
 <p><code>POST /api/seat/assign/{seat_id}</code></p>
 <h3 id='post-params'>POST Params</h3>
 <table><thead>
@@ -1713,7 +1777,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Requis, string.</td>
 </tr>
 </tbody></table>
-<h3 id='path-params-2'>Path Params</h3>
+<h3 id='path-params-3'>Path Params</h3>
 <table><thead>
 <tr>
 <th>Paramètre</th>
@@ -1727,7 +1791,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Requis, string, un seul Id de place par LAN.</td>
 </tr>
 </tbody></table>
-<h3 id='query-params-2'>Query Params</h3>
+<h3 id='query-params-3'>Query Params</h3>
 <table><thead>
 <tr>
 <th>Paramètre</th>
@@ -1741,7 +1805,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>integer, un seul utilisateur par LAN.</td>
 </tr>
 </tbody></table>
-<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<h3 id='format-de-reponse-3'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
@@ -1765,11 +1829,72 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Id de la place que l&#39;administrateur a assigné.</td>
 </tr>
 </tbody></table>
+<h2 id='annuler-une-assignation'>Annuler une assignation</h2>
+<p>Annuler l&#39;assignation d&#39;une place à un un utilisateur pour un LAN.</p>
+<h3 id='requete-http-4'>Requête HTTP</h3>
+<p><code>DELETE /api/seat/assign/{seat_id}</code></p>
+<h3 id='path-params-4'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>seat_id</td>
+<td>Id de la place que l&#39;administrateur veut assigner.</td>
+<td>Requis, string, un seul Id de place par LAN.</td>
+</tr>
+</tbody></table>
+<h3 id='query-params-4'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur veut annuler l&#39;assignation à une place. Si paramètre n&#39;est pas spécifié, on retourne le LAN courant</td>
+<td>integer.</td>
+</tr>
+<tr>
+<td>user_email</td>
+<td>Courriel de l&#39;utilisateur auquel on veut annuler la réservation.</td>
+<td>Requis, string.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-4'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"seat_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"A-1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN où l&#39;administrateur a annuler l&#39;assignation.</td>
+</tr>
+<tr>
+<td>seat_id</td>
+<td>Id de la place dont l&#39;administrateur a annulé l&#39;assignation.</td>
+</tr>
+</tbody></table>
 <h2 id='confirmer-une-place'>Confirmer une place</h2>
 <p>Confirmer l&#39;arrivée d&#39;un joueur au LAN.</p>
-<h3 id='requete-http-3'>Requête HTTP</h3>
+<h3 id='requete-http-5'>Requête HTTP</h3>
 <p><code>POST /api/seat/confirm/{seat_id}</code></p>
-<h3 id='path-params-3'>Path Params</h3>
+<h3 id='path-params-5'>Path Params</h3>
 <p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
 
 <table><thead>
@@ -1785,7 +1910,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Requis, integer.</td>
 </tr>
 </tbody></table>
-<h3 id='query-params-3'>Query Params</h3>
+<h3 id='query-params-5'>Query Params</h3>
 <table><thead>
 <tr>
 <th>Paramètre</th>
@@ -1799,7 +1924,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>string.</td>
 </tr>
 </tbody></table>
-<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<h3 id='format-de-reponse-5'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
@@ -1825,9 +1950,9 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 </tbody></table>
 <h2 id='deconfirmer-une-place'>Déconfirmer une place</h2>
 <p>Départ de l&#39;un des joueurs déjà marqué comme arrivé à un LAN.</p>
-<h3 id='requete-http-4'>Requête HTTP</h3>
+<h3 id='requete-http-6'>Requête HTTP</h3>
 <p><code>DELETE /api/seat/confirm/{seat_id}</code></p>
-<h3 id='path-params-4'>Path Params</h3>
+<h3 id='path-params-6'>Path Params</h3>
 <p>L&#39;ensemble des paramètres sont dans l&#39;URL. Le corps de la requête est donc vide.</p>
 
 <table><thead>
@@ -1843,7 +1968,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Requis, integer.</td>
 </tr>
 </tbody></table>
-<h3 id='query-params-4'>Query Params</h3>
+<h3 id='query-params-6'>Query Params</h3>
 <table><thead>
 <tr>
 <th>Paramètre</th>
@@ -1857,7 +1982,7 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>integer.</td>
 </tr>
 </tbody></table>
-<h3 id='format-de-reponse-4'>Format de réponse</h3>
+<h3 id='format-de-reponse-6'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
