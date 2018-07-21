@@ -16,6 +16,7 @@ class UpdateLanTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
+        'lan_id' => null,
         'name' => "Bolshevik Revolution",
         'lan_start' => "2100-10-11 12:00:00",
         'lan_end' => "2100-10-12 12:00:00",
@@ -42,13 +43,13 @@ class UpdateLanTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
+        $this->requestContent['lan_id'] = $this->lan->id;
     }
-
 
     public function testUpdateLan(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
@@ -73,11 +74,43 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
+    public function testUpdateLanCurrentLan(): void
+    {
+        factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $this->requestContent['lan_id'] = null;
+        $this->actingAs($this->user)
+            ->json('PUT', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'name' => $this->requestContent['name'],
+                'lan_start' => $this->requestContent['lan_start'],
+                'lan_end' => $this->requestContent['lan_end'],
+                'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
+                'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
+                "event_key" => $this->requestContent['event_key'],
+                "public_key" => $this->requestContent['public_key'],
+                "secret_key" => $this->requestContent['secret_key'],
+                "latitude" => $this->requestContent['latitude'],
+                "longitude" => $this->requestContent['longitude'],
+                "places" => [
+                    'reserved' => 0,
+                    'total' => $this->requestContent['places']
+                ],
+                "price" => $this->requestContent['price'],
+                "rules" => $this->requestContent['rules'],
+                "description" => $this->requestContent['description'],
+                "id" => 2,
+                'images' => []
+            ])
+            ->assertResponseStatus(200);
+    }
+
     public function testUpdateLanPriceDefault(): void
     {
         $this->requestContent['price'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
@@ -107,7 +140,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -124,7 +157,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -152,7 +185,7 @@ class UpdateLanTest extends TestCase
         $this->requestContent['tournament_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -183,7 +216,7 @@ class UpdateLanTest extends TestCase
         $this->requestContent['seat_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -210,7 +243,7 @@ class UpdateLanTest extends TestCase
         $this->requestContent['lan_end'] = $newLanEnd->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -233,7 +266,7 @@ class UpdateLanTest extends TestCase
         $newLanSeatReservation->add(new DateInterval('P1D'));
         $this->requestContent['seat_reservation_start'] = $newLanSeatReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -259,7 +292,7 @@ class UpdateLanTest extends TestCase
         $newLanTournamentReservation->add(new DateInterval('P1D'));
         $this->requestContent['tournament_reservation_start'] = $newLanTournamentReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -279,7 +312,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['event_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -297,7 +330,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['public_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -314,7 +347,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['secret_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -332,7 +365,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['latitude'] = -86;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -349,7 +382,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['latitude'] = 86;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -366,7 +399,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['latitude'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -383,7 +416,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['longitude'] = -181;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -400,7 +433,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['longitude'] = 181;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -417,7 +450,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['longitude'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -434,7 +467,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['price'] = '-1';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -451,7 +484,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -468,7 +501,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['secret_key'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -485,7 +518,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['event_key'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -502,7 +535,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['places'] = 0;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -519,7 +552,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['places'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -536,7 +569,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -553,7 +586,7 @@ class UpdateLanTest extends TestCase
     {
         $this->requestContent['description'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id, $this->requestContent)
+            ->json('PUT', '/api/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

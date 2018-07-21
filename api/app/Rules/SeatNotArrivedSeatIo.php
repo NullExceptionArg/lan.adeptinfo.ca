@@ -12,7 +12,7 @@ class SeatNotArrivedSeatIo implements Rule
 
     protected $lanId;
 
-    public function __construct(string $lanId)
+    public function __construct(?string $lanId)
     {
         $this->lanId = $lanId;
     }

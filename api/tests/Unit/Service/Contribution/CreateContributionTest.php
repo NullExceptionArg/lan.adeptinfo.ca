@@ -22,6 +22,7 @@ class CreateContributionTest extends TestCase
         'contribution_category_id' => null,
         'user_full_name' => null,
         'user_email' => null,
+        'lan_id' => null,
     ];
 
     public function setUp(): void
@@ -41,8 +42,9 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionUserFullName(): void
     {
         $this->paramsContent['user_full_name'] = $this->user->getFullName();
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
-        $result = $this->contributorService->createContribution($request, $this->lan->id);
+        $result = $this->contributorService->createContribution($request);
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->paramsContent['user_full_name'], $result['user_full_name']);
@@ -52,8 +54,9 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionUserEmail(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
-        $result = $this->contributorService->createContribution($request, $this->lan->id);
+        $result = $this->contributorService->createContribution($request);
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->user->getFullName(), $result['user_full_name']);
@@ -64,10 +67,10 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionLanIdExist(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
-        $badLanId = -1;
+        $this->paramsContent['lan_id'] = -1;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $badLanId);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -78,10 +81,10 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionLanIdInteger(): void
     {
         $this->paramsContent['user_email'] = $this->user->email;
-        $badLanId = '☭';
+        $this->paramsContent['lan_id'] = '☭';
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $badLanId);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -93,9 +96,10 @@ class CreateContributionTest extends TestCase
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['contribution_category_id'] = null;
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $this->lan->id);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"contribution_category_id":["The contribution category id field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -107,9 +111,10 @@ class CreateContributionTest extends TestCase
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['contribution_category_id'] = '☭';
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $this->lan->id);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"contribution_category_id":["The contribution category id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -121,9 +126,10 @@ class CreateContributionTest extends TestCase
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['contribution_category_id'] = -1;
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $this->lan->id);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"contribution_category_id":["The selected contribution category id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -134,9 +140,10 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionUserFullNameString(): void
     {
         $this->paramsContent['user_full_name'] = 1;
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $this->lan->id);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"user_full_name":["The user full name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -147,9 +154,10 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionUserEmailString(): void
     {
         $this->paramsContent['user_email'] = 1;
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $this->lan->id);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"user_email":["The user email must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -159,9 +167,10 @@ class CreateContributionTest extends TestCase
 
     public function testCreateContributionUserFullNameOrUserEmailNotNull(): void
     {
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $this->lan->id);
+            $this->contributorService->createContribution($request);
             $this->fail('Expected: {"user_full_name":["The user full name field is required when user email is not present."],"user_email":["The user email field is required when user full name is not present."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -173,13 +182,14 @@ class CreateContributionTest extends TestCase
     {
         $this->paramsContent['user_email'] = $this->user->email;
         $this->paramsContent['user_full_name'] = $this->user->getFullName();
+        $this->paramsContent['lan_id'] = $this->lan->id;
         $request = new Request($this->paramsContent);
         try {
-            $this->contributorService->createContribution($request, $this->lan->id);
-            $this->fail('Expected: {"user_full_name":["Field can\'t be used if user_email is used too."],"user_email":["Field can\'t be used if user_full_name is used too."]}');
+            $this->contributorService->createContribution($request);
+            $this->fail('Expected: {"user_full_name":["Field user full name can\'t be used if the field user_email is used too."],"user_email":["Field user email can\'t be used if the field user_full_name is used too."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"user_full_name":["Field can\'t be used if user_email is used too."],"user_email":["Field can\'t be used if user_full_name is used too."]}', $e->getMessage());
+            $this->assertEquals('{"user_full_name":["Field user full name can\'t be used if the field user_email is used too."],"user_email":["Field user email can\'t be used if the field user_full_name is used too."]}', $e->getMessage());
         }
     }
 }

@@ -6,12 +6,12 @@ Ajouter une image pour un LAN.
 
 ### Requête HTTP
 
-`POST /api/lan/{lan_id}/image/`
+`POST /api/image`
 
-### Path Params
+### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une image. | Requis, int
+lan_id | Id du LAN où l'administrateur veut ajouter une image. Si paramètre n'est pas spécifié, on retourne le LAN courant| integer
 
 ### Paramètres POST
 Paramètre | Description | Règles de validation
@@ -43,15 +43,13 @@ Supprimer des images pour un LAN.
 
 ### Requête HTTP
 
-`DELETE /api/lan/{lan_id}/image/{images_id}`
+`DELETE /api/image`
 
-### Path Params
-
-L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vide.
+### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut supprimer des images. | Requis, int.
+lan_id | Id du LAN où l'administrateur veut supprimer des images. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 images_id | Id des images que l'administrateur veut supprimer. | Requis, string.
 
 ### Format de réponse

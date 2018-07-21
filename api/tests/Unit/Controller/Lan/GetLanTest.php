@@ -19,7 +19,9 @@ class GetLanTest extends TestCase
 
     public function testGetLanSimple(): void
     {
-        $this->json('GET', '/api/lan/' . $this->lan->id)
+        $this->json('GET', '/api/lan', [
+            'lan_id' => $this->lan->id
+        ])
             ->seeJsonEquals([
                 'id' => $this->lan->id,
                 'name' => $this->lan->name,
@@ -44,10 +46,42 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
+    public function testGetCurrentLanCurrentLan()
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $this->json('GET',  '/api/lan')
+            ->seeJsonEquals([
+                'id' => $lan->id,
+                'name' => $lan->name,
+                'lan_start' => $lan->lan_start,
+                'lan_end' => $lan->lan_end,
+                'seat_reservation_start' => $lan->seat_reservation_start,
+                'tournament_reservation_start' => $lan->tournament_reservation_start,
+                'longitude' => $lan->longitude,
+                'latitude' => $lan->latitude,
+                'secret_key' => $lan->secret_key,
+                'event_key' => $lan->event_key,
+                'public_key' => $lan->public_key,
+                'places' => [
+                    'reserved' => 0,
+                    'total' => $lan->places
+                ],
+                'price' => $lan->price,
+                'rules' => $lan->rules,
+                'description' => $lan->description,
+                'images' => []
+            ])
+            ->seeStatusCode(200);
+    }
+
     public function testGetLanParameters(): void
     {
-        $queryParams = ['fields' => "lan_start,lan_end,seat_reservation_start"];
-        $this->json('GET', '/api/lan/' . $this->lan->id, $queryParams)
+        $this->json('GET', '/api/lan', [
+            'fields' => 'lan_start,lan_end,seat_reservation_start',
+            'lan_id' => $this->lan->id
+        ])
             ->seeJsonEquals([
                 'id' => $this->lan->id,
                 'lan_start' => $this->lan->lan_start,
@@ -59,8 +93,10 @@ class GetLanTest extends TestCase
 
     public function testGetLanIdExist(): void
     {
-        $badLanId = -1;
-        $this->json('GET', '/api/lan/' . $badLanId)
+
+        $this->json('GET', '/api/lan', [
+            'lan_id' => -1
+        ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -75,8 +111,9 @@ class GetLanTest extends TestCase
 
     public function testGetLanIdInteger(): void
     {
-        $badLanId = '☭';
-        $this->json('GET', '/api/lan/' . $badLanId)
+        $this->json('GET', '/api/lan', [
+            'lan_id' => '☭'
+        ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

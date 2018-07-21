@@ -14,6 +14,7 @@ class CreateContributionCategoryTest extends TestCase
 
     protected $requestContent = [
         'name' => "Programmer",
+        'lan_id' => null
     ];
 
     public function setUp(): void
@@ -21,12 +22,14 @@ class CreateContributionCategoryTest extends TestCase
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
+
+        $this->requestContent['lan_id'] = $this->lan->id;
     }
 
     public function testCreateContributionCategory(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution-category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'name' => $this->requestContent['name'],
@@ -36,9 +39,9 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryLanIdExist(): void
     {
-        $badLanId = -1;
+        $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/contribution-category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -53,9 +56,9 @@ class CreateContributionCategoryTest extends TestCase
 
     public function testCreateContributionCategoryLanIdInteger(): void
     {
-        $badLanId = '☭';
+        $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/contribution-category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -72,7 +75,7 @@ class CreateContributionCategoryTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution-category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -89,7 +92,7 @@ class CreateContributionCategoryTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $this->lan->id . '/contribution-category', $this->requestContent)
+            ->json('POST', '/api/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

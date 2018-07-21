@@ -16,7 +16,7 @@ class SeatExistInLanSeatIo implements Rule
      * SeatOncePerLan constructor.
      * @param string $lanId
      */
-    public function __construct(string $lanId)
+    public function __construct(?string $lanId)
     {
         $this->lanId = $lanId;
     }

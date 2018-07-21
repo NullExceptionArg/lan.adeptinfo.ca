@@ -29,10 +29,32 @@ class DeleteContributionCategoryTest extends TestCase
     public function testDeleteContributionCategorySimple(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $this->category->id)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => $this->lan->id,
+                'contribution_category_id' => $this->category->id
+            ])
             ->seeJsonEquals([
                 'id' => $this->category->id,
                 'name' => $this->category->name
+            ])
+            ->assertResponseStatus(200);
+    }
+
+    public function testDeleteContributionCategoryCurrentLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $lan->id
+        ]);
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/contribution/category', [
+                'contribution_category_id' => $category->id
+            ])
+            ->seeJsonEquals([
+                'id' => $category->id,
+                'name' => $category->name
             ])
             ->assertResponseStatus(200);
     }
@@ -59,7 +81,10 @@ class DeleteContributionCategoryTest extends TestCase
         $this->assertEquals(1, $this->category->Lan()->count());
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $this->category->id)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => $this->lan->id,
+                'contribution_category_id' => $this->category->id
+            ])
             ->seeJsonEquals([
                 'id' => $this->category->id,
                 'name' => $this->category->name
@@ -100,7 +125,10 @@ class DeleteContributionCategoryTest extends TestCase
         $this->assertEquals(1, $this->category->Lan()->count());
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $this->category->id)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => $this->lan->id,
+                'contribution_category_id' => $this->category->id
+            ])
             ->seeJsonEquals([
                 'id' => $this->category->id,
                 'name' => $this->category->name
@@ -117,9 +145,11 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestLanIdExist(): void
     {
-        $badLanId = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution-category/' . $this->category->id)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => -1,
+                'contribution_category_id' => $this->category->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -134,9 +164,11 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestLanIdInteger(): void
     {
-        $badLanId = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution-category/' . $this->category->id)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => '☭',
+                'contribution_category_id' => $this->category->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -151,9 +183,11 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestCategoryIdExist(): void
     {
-        $badCategoryId = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $badCategoryId)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => $this->lan->id,
+                'contribution_category_id' => -1
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -168,9 +202,11 @@ class DeleteContributionCategoryTest extends TestCase
 
     public function testDeleteContributionCategoryTestCategoryIdInteger(): void
     {
-        $badCategoryId = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution-category/' . $badCategoryId)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => $this->lan->id,
+                'contribution_category_id' => '☭'
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

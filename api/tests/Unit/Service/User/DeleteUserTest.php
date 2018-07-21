@@ -47,7 +47,9 @@ class DeleteUserTest extends TestCase
 
         ///Building relations
         // Lan - Reservation
-        $this->call('POST', '/api/lan/' . $lan->id . '/book/' . 'A-1');
+        $this->call('POST', '/api/seat/book/' . 'A-1', [
+            'lan_id' => $lan->id
+        ]);
 
         // Contribution - Contribution Category
         $contribution->ContributionCategory()->attach($contributionCategory);

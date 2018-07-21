@@ -3,14 +3,14 @@
 namespace App\Rules;
 
 use App\Model\Lan;
+use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
-use Seatsio\SeatsioClient;
-use Seatsio\SeatsioException;
 
-class SeatNotFreeSeatIo implements Rule
+class SeatLanRelationExists implements Rule
 {
 
     protected $lanId;
+    protected $seatId;
 
     public function __construct(?string $lanId)
     {
@@ -26,17 +26,12 @@ class SeatNotFreeSeatIo implements Rule
      */
     public function passes($attribute, $value)
     {
-        $lan = Lan::find($this->lanId);
-        if ($lan == null) {
+        if(Lan::find($this->lanId) == null){
             return true;
         }
-        $seatsClient = new SeatsioClient($lan->secret_key);
-        try {
-            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, $value);
-            return $status->status != 'free';
-        } catch (SeatsioException $exception) {
-            return true;
-        }
+        $this->seatId = $value;
+        return Reservation::where('lan_id', $this->lanId)
+            ->where('seat_id', $value)->first() != null;
     }
 
     /**
@@ -46,6 +41,6 @@ class SeatNotFreeSeatIo implements Rule
      */
     public function message()
     {
-        return trans('validation.seat_not_free_seat_io');
+        return trans('validation.seat_lan_relation_exists', ['seat_id' => $this->seatId, 'lan_id' => $this->lanId]);
     }
 }

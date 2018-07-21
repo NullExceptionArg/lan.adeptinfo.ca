@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Service\Contribution;
 
+use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
@@ -27,17 +28,37 @@ class GetCategoriesTest extends TestCase
 
     public function testGetCategories(): void
     {
-        $result = $this->contributionService->getCategories($this->lan->id);
+        $request = new Request([
+            'lan_id' => $this->lan->id
+        ]);
+        $result = $this->contributionService->getCategories($request);
 
         $this->assertEquals($this->category->id, $result[0]['id']);
         $this->assertEquals($this->category->name, $result[0]['name']);
     }
 
+    public function testGetCategoriesCurrentLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $category = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $lan->id
+        ]);
+        $request = new Request();
+        $result = $this->contributionService->getCategories($request);
+
+        $this->assertEquals($category->id, $result[0]['id']);
+        $this->assertEquals($category->name, $result[0]['name']);
+    }
+
     public function testGetCategoriesLanIdExist(): void
     {
-        $badLanId = -1;
+        $request = new Request([
+            'lan_id' => -1
+        ]);
         try {
-            $this->contributionService->getCategories($badLanId);
+            $this->contributionService->getCategories($request);
             $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -47,9 +68,11 @@ class GetCategoriesTest extends TestCase
 
     public function testGetCategoriesLanIdInteger(): void
     {
-        $badLanId = '☭';
+        $request = new Request([
+            'lan_id' => '☭'
+        ]);
         try {
-            $this->contributionService->getCategories($badLanId);
+            $this->contributionService->getCategories($request);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

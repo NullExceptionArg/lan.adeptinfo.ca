@@ -25,7 +25,10 @@ class DeleteContributionTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution/' . $contribution->id)
+            ->json('DELETE', '/api/contribution', [
+                'lan_id' => $this->lan->id,
+                'contribution_id' => $contribution->id
+            ])
             ->seeJsonEquals([
                 'id' => $contribution->id,
                 'user_full_name' => $this->user->getFullName()
@@ -39,7 +42,29 @@ class DeleteContributionTest extends TestCase
             'user_full_name' => $this->user->getFullName()
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution/' . $contribution->id)
+            ->json('DELETE', '/api/contribution', [
+                'lan_id' => $this->lan->id,
+                'contribution_id' => $contribution->id
+            ])
+            ->seeJsonEquals([
+                'id' => $contribution->id,
+                'user_full_name' => $this->user->getFullName()
+            ])
+            ->assertResponseStatus(200);
+    }
+
+    public function testDeleteContributionCurrentLan(): void
+    {
+        $contribution = factory('App\Model\Contribution')->create([
+            'user_full_name' => $this->user->getFullName()
+        ]);
+        factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/contribution', [
+                'contribution_id' => $contribution->id
+            ])
             ->seeJsonEquals([
                 'id' => $contribution->id,
                 'user_full_name' => $this->user->getFullName()
@@ -52,9 +77,11 @@ class DeleteContributionTest extends TestCase
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
         ]);
-        $badLanId = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution/' . $contribution->id)
+            ->json('DELETE', '/api/contribution', [
+                'lan_id' => -1,
+                'contribution_id' => $contribution->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -72,9 +99,11 @@ class DeleteContributionTest extends TestCase
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user->id
         ]);
-        $badLanId = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $badLanId . '/contribution/' . $contribution->id)
+            ->json('DELETE', '/api/contribution', [
+                'lan_id' => '☭',
+                'contribution_id' => $contribution->id
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -89,9 +118,11 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionCategoryIdInteger(): void
     {
-        $badContributionId = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution/' . $badContributionId)
+            ->json('DELETE', '/api/contribution', [
+                'lan_id' => $this->lan->id,
+                'contribution_id' => '☭'
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -106,9 +137,11 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionCategoryIdExist(): void
     {
-        $badContributionId = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/' . $this->lan->id . '/contribution/' . $badContributionId)
+            ->json('DELETE', '/api/contribution', [
+                'lan_id' => $this->lan->id,
+                'contribution_id' => -1
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\Implementation\SeatServiceImpl;
 use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
 
 class SeatController extends Controller
 {
@@ -20,18 +21,23 @@ class SeatController extends Controller
         $this->seatService = $seatServiceImpl;
     }
 
-    public function bookSeat(string $lan_id, string $seat_id)
+    public function bookSeat(Request $request, string $seat_id)
     {
-        return response()->json($this->seatService->book($lan_id, $seat_id), 201);
+        return response()->json($this->seatService->book($request, $seat_id), 201);
     }
 
-    public function confirmArrival(string $lanId, string $seatId)
+    public function confirmArrival(Request $request, string $seatId)
     {
-        return response()->json($this->seatService->confirmArrival($lanId, $seatId), 200);
+        return response()->json($this->seatService->confirmArrival($request, $seatId), 200);
     }
 
-    public function unConfirmArrival(string $lanId, string $seatId)
+    public function unConfirmArrival(Request $request, string $seatId)
     {
-        return response()->json($this->seatService->unConfirmArrival($lanId, $seatId), 200);
+        return response()->json($this->seatService->unConfirmArrival($request, $seatId), 200);
+    }
+
+    public function assignSeat(Request $request, string $seatId)
+    {
+        return response()->json($this->seatService->assign($request, $seatId), 201);
     }
 }

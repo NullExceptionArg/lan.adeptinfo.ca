@@ -17,23 +17,27 @@ class SetCurrentLanTest extends TestCase
         $this->user = factory('App\Model\User')->create();
     }
 
+    public function testSetCurrentLanNoCurrentLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create();
+        $response = $this->actingAs($this->user)
+            ->call('POST', '/api/lan/current', [
+                'lan_id' => $lan->id
+            ]);
+
+        $this->assertEquals($lan->id, $response->content());
+        $this->assertEquals(200, $response->status());
+    }
+
     public function testSetCurrentLanHasCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
         $response = $this->actingAs($this->user)
-            ->call('POST', '/api/lan/' . $lan->id . '/current');
-
-        $this->assertEquals($lan->id, $response->content());
-        $this->assertEquals(200, $response->status());
-    }
-
-    public function testSetCurrentLanNoCurrentLan(): void
-    {
-        $lan = factory('App\Model\Lan')->create();
-        $response = $this->actingAs($this->user)
-            ->call('POST', '/api/lan/' . $lan->id . '/current');
+            ->call('POST', '/api/lan/current', [
+                'lan_id' => $lan->id
+            ]);
 
         $this->assertEquals($lan->id, $response->content());
         $this->assertEquals(200, $response->status());
@@ -41,9 +45,10 @@ class SetCurrentLanTest extends TestCase
 
     public function testSetCurrentLanIdExist(): void
     {
-        $badLanId = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/current')
+            ->json('POST', '/api/lan/current', [
+                'lan_id' => -1
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -58,9 +63,10 @@ class SetCurrentLanTest extends TestCase
 
     public function testSetCurrentLanIdInteger(): void
     {
-        $badLanId = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/' . $badLanId . '/current')
+            ->json('POST', '/api/lan/current', [
+                'lan_id' => '☭'
+            ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

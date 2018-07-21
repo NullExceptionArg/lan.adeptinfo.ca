@@ -16,7 +16,8 @@ class AddImageTest extends TestCase
     protected $lan;
 
     protected $paramsContent = [
-        'image' => null
+        'image' => null,
+        'lan_id' => null
     ];
 
     public function setUp(): void
@@ -29,24 +30,40 @@ class AddImageTest extends TestCase
         $this->paramsContent['image'] = factory('App\Model\Image')->make([
             'lan_id' => $this->lan->id
         ])->image;
+        $this->paramsContent['lan_id'] = $this->lan->id;
     }
 
     public function testAddImage(): void
     {
         $request = new Request($this->paramsContent);
-        $result = $this->imageService->addImage($request, $this->lan->id);
+        $result = $this->imageService->addImage($request);
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->paramsContent['image'], $result['image']);
         $this->assertEquals($this->lan->id, $result['lan_id']);
     }
 
+    public function testAddImageCurrentLan(): void
+    {
+        $lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+        $request = new Request([
+            'image' => $this->paramsContent['image']
+        ]);
+        $result = $this->imageService->addImage($request);
+
+        $this->assertEquals(1, $result['id']);
+        $this->assertEquals($this->paramsContent['image'], $result['image']);
+        $this->assertEquals($lan->id, $result['lan_id']);
+    }
+
     public function testAddImageLanIdExists(): void
     {
-        $badLanId = -1;
+        $this->paramsContent['lan_id'] = -1;
         $request = new Request($this->paramsContent);
         try {
-            $this->imageService->addImage($request, $badLanId);
+            $this->imageService->addImage($request);
             $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -56,10 +73,10 @@ class AddImageTest extends TestCase
 
     public function testAddImageLanIdInteger(): void
     {
-        $badLanId = '☭';
+        $this->paramsContent['lan_id'] = '☭';
         $request = new Request($this->paramsContent);
         try {
-            $this->imageService->addImage($request, $badLanId);
+            $this->imageService->addImage($request);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -72,7 +89,7 @@ class AddImageTest extends TestCase
         $this->paramsContent['image'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->imageService->addImage($request, $this->lan->id);
+            $this->imageService->addImage($request);
             $this->fail('Expected: {"image":["The image field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -85,7 +102,7 @@ class AddImageTest extends TestCase
         $this->paramsContent['image'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->imageService->addImage($request, $this->lan->id);
+            $this->imageService->addImage($request);
             $this->fail('Expected: {"image":["The image must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

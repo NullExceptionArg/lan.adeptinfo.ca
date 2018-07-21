@@ -26,28 +26,23 @@ class LanController extends Controller
         return response()->json($this->lanService->createLan($request), 201);
     }
 
-    public function updateLan(Request $request, string $lanId)
+    public function updateLan(Request $request)
     {
-        return response()->json($this->lanService->update($request, $lanId), 200);
+        return response()->json($this->lanService->update($request), 200);
     }
 
-    public function getLan(Request $request, string $lan_id)
+    public function getLan(Request $request)
     {
-        return response()->json($this->lanService->getLan($request, $lan_id), 200);
+        return response()->json($this->lanService->getLan($request), 200);
     }
 
-    public function getLans()
+    public function getAllLan()
     {
-        return response()->json($this->lanService->getLans(), 200);
+        return response()->json($this->lanService->getAllLan(), 200);
     }
 
-    public function setCurrentLan(string $lan_id)
+    public function setCurrentLan(Request $request)
     {
-        return response()->json($this->lanService->setCurrentLan($lan_id), 200);
-    }
-
-    public function getCurrentLan()
-    {
-        return response()->json($this->lanService->getCurrentLan(), 200);
+        return response()->json($this->lanService->setCurrentLan($request), 200);
     }
 }

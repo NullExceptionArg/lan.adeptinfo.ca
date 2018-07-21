@@ -23,12 +23,11 @@ $api->version('v1', function ($api) {
 
             $api->post('user', 'UserController@signUp');
 
-            $api->get('lan/{lan_id}', 'LanController@getLan');
-            $api->get('lans', 'LanController@getLans');
-            $api->get('lans/current', 'LanController@getCurrentLan');
+            $api->get('lan', 'LanController@getLan');
+            $api->get('lan/all', 'LanController@getAllLan');
 
-            $api->get('lan/{lan_id}/contribution-category', 'ContributionController@getContributionCategories');
-            $api->get('lan/{lan_id}/contribution', 'ContributionController@getContributions');
+            $api->get('contribution/category', 'ContributionController@getContributionCategories');
+            $api->get('contribution', 'ContributionController@getContributions');
 
         });
 
@@ -39,20 +38,21 @@ $api->version('v1', function ($api) {
             $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
                 $api->post('lan', 'LanController@createLan');
-                $api->post('lan/{lan_id}/current', 'LanController@setCurrentLan');
-                $api->post('lan/{lan_id}', 'LanController@updateLan');
+                $api->post('lan/current', 'LanController@setCurrentLan');
+                $api->put('lan', 'LanController@updateLan');
 
-                $api->post('lan/{lan_id}/contribution-category', 'ContributionController@createContributionCategory');
-                $api->delete('lan/{lan_id}/contribution-category/{contribution_category_id}', 'ContributionController@deleteContributionCategory');
-                $api->post('lan/{lan_id}/contribution', 'ContributionController@createContribution');
-                $api->delete('lan/{lan_id}/contribution/{contribution_id}', 'ContributionController@deleteContribution');
+                $api->post('contribution/category', 'ContributionController@createContributionCategory');
+                $api->delete('contribution/category', 'ContributionController@deleteContributionCategory');
+                $api->post('contribution', 'ContributionController@createContribution');
+                $api->delete('contribution', 'ContributionController@deleteContribution');
 
-                $api->post('lan/{lan_id}/book/{seat_id}', 'SeatController@bookSeat');
-                $api->post('lan/{lan_id}/confirm/{seat_id}', 'SeatController@confirmArrival');
-                $api->delete('lan/{lan_id}/confirm/{seat_id}', 'SeatController@unConfirmArrival');
+                $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');
+                $api->post('seat/confirm/{seat_id}', 'SeatController@confirmArrival');
+                $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
+                $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
 
-                $api->post('lan/{lan_id}/image', 'ImageController@addImage');
-                $api->delete('lan/{lan_id}/image/{image_id}', 'ImageController@deleteImages');
+                $api->post('image', 'ImageController@addImage');
+                $api->delete('image', 'ImageController@deleteImages');
 
                 $api->delete('user', 'UserController@deleteUser');
                 $api->post('user/logout', 'UserController@logOut');

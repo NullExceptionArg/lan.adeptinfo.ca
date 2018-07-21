@@ -18,6 +18,7 @@ class UpdateLanTest extends TestCase
     protected $lan;
 
     protected $paramsContent = [
+        'lan_id' => null,
         'name' => "Bolshevik Revolution",
         'lan_start' => "2100-10-11 12:00:00",
         'lan_end' => "2100-10-12 12:00:00",
@@ -44,13 +45,15 @@ class UpdateLanTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
+        $this->paramsContent['lan_id'] = $this->lan->id;
+
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
     }
 
     public function testUpdateLan(): void
     {
         $request = new Request($this->paramsContent);
-        $result = $this->lanService->update($request, $this->lan->id);
+        $result = $this->lanService->update($request);
 
         $this->assertEquals($this->paramsContent['name'], $result->name);
         $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
@@ -72,7 +75,7 @@ class UpdateLanTest extends TestCase
     {
         $this->paramsContent['price'] = '';
         $request = new Request($this->paramsContent);
-        $result = $this->lanService->update($request, $this->lan->id);
+        $result = $this->lanService->update($request);
 
         $this->assertEquals($this->paramsContent['name'], $result->name);
         $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
@@ -94,7 +97,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"name":["The name may not be greater than 255 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -117,7 +120,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['tournament_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"lan_start":["The lan start must be a date after seat reservation start."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -140,7 +143,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['seat_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"lan_start":["The lan start must be a date after tournament reservation start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -159,7 +162,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['lan_end'] = $newLanEnd->format('Y-m-d\TH:i:s');
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"lan_end":["The lan end must be a date after lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -178,7 +181,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['seat_reservation_start'] = $newLanSeatReservation->format('Y-m-d\TH:i:s');
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected:{"lan_start":["The lan start must be a date after seat reservation start."],"seat_reservation_start":["The seat reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -197,7 +200,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['tournament_reservation_start'] = $newLanTournamentReservation->format('Y-m-d\TH:i:s');
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected:{"lan_start":["The lan start must be a date after tournament reservation start."],"tournament_reservation_start":["The tournament reservation start must be a date before or equal to lan start."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -210,7 +213,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['event_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"event_key":["The event key may not be greater than 255 characters.","The event key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -223,7 +226,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['public_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"public_key":["The public key may not be greater than 255 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -236,7 +239,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['secret_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"secret_key":["The secret key may not be greater than 255 characters.","The secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -249,7 +252,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['secret_key'] = '-1';
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"secret_key":["The secret key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -262,7 +265,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['event_key'] = '-1';
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"event_key":["The event key is not valid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -275,7 +278,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['latitude'] = -86;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"latitude":["The latitude must be at least -85."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -288,7 +291,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['latitude'] = 86;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"latitude":["The latitude may not be greater than 85."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -301,7 +304,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['latitude'] = '☭';
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"latitude":["The latitude must be a number."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -314,7 +317,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['longitude'] = -186;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"longitude":["The longitude must be at least -180."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -327,7 +330,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['longitude'] = 186;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"longitude":["The longitude may not be greater than 180."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -340,7 +343,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['longitude'] = '☭';
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"longitude":["The longitude must be a number."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -353,7 +356,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['price'] = "-1";
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"price":["The price must be at least 0."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -366,7 +369,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['price'] = "☭";
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"price":["The price must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -379,7 +382,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['places'] = 0;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"places":["The places must be at least 1."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -392,7 +395,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['places'] = "☭";
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"places":["The places must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -405,7 +408,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['rules'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"rules":["The rules must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -418,7 +421,7 @@ class UpdateLanTest extends TestCase
         $this->paramsContent['description'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->lanService->update($request, $this->lan->id);
+            $this->lanService->update($request);
             $this->fail('Expected: {"description":["The description must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
