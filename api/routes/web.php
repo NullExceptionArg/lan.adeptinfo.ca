@@ -56,6 +56,8 @@ $api->version('v1', function ($api) {
                 $api->post('image', 'ImageController@addImage');
                 $api->delete('image', 'ImageController@deleteImages');
 
+                $api->post('tournament', 'TournamentController@createTournament');
+
                 $api->delete('user', 'UserController@deleteUser');
                 $api->post('user/logout', 'UserController@logOut');
                 $api->get('user', 'UserController@getUsers');
