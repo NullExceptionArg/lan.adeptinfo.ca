@@ -21,7 +21,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  ### Outils requis
   - PHP 7.2
   - [Composer](https://getcomposer.org/)
-  - Une instance de MySQL server ainsi qu'un utilisateur qui possède tous les droits.
+  - Une instance de MySQL server, un utilisateur qui possède tous les droits, ainsi que deux bases de données: `lanadept` et `lanadepttest`.
 
 ### Exécuter pour la première fois
 
