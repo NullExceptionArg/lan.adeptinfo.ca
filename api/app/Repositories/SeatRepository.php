@@ -24,4 +24,5 @@ interface SeatRepository
 
     public function setReservationLeft(Reservation $reservation): void;
 
+    public function deleteReservation(Reservation $reservation): void;
 }

@@ -15,4 +15,8 @@ interface SeatService
     public function unConfirmArrival(Request $request, string $seatId): Reservation;
 
     public function assign(Request $request, string $seatId): Reservation;
+
+    public function unBook(Request $input, string $seatId): Reservation;
+
+    public function unAssign(Request $input, string $seatId): Reservation;
 }

@@ -209,4 +209,90 @@ class SeatServiceImpl implements SeatService
 
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
     }
+
+    public function unBook(Request $input, string $seatId): Reservation
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $reservationValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'seat_id' => $seatId
+        ], [
+            'lan_id' => [
+                'required',
+                'integer',
+                'exists:lan,id'
+            ],
+            'seat_id' => [
+                'required',
+                'string',
+                new SeatExistInLanSeatIo($input->input('lan_id')),
+                new SeatLanRelationExists($input->input('lan_id'))
+            ],
+        ]);
+
+        if ($reservationValidator->fails()) {
+            throw new BadRequestHttpException($reservationValidator->errors());
+        }
+
+        $user = Auth::user();
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+
+        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient->events()->release($lan->event_key, [$seatId]);
+        $reservation = $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
+        $this->seatRepository->deleteReservation($reservation);
+
+        return $reservation;
+    }
+
+    public function unAssign(Request $input, string $seatId): Reservation
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $reservationValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'user_email' => $input->input('user_email'),
+            'seat_id' => $seatId
+        ], [
+            'user_email' => 'exists:user,email',
+            'lan_id' => [
+                'required',
+                'integer',
+                'exists:lan,id'
+            ],
+            'seat_id' => [
+                'required',
+                'string',
+                new SeatExistInLanSeatIo($input->input('lan_id')),
+                new SeatLanRelationExists($input->input('lan_id'))
+            ],
+        ]);
+
+        if ($reservationValidator->fails()) {
+            throw new BadRequestHttpException($reservationValidator->errors());
+        }
+
+        $user = $this->userRepository->findByEmail($input->input('user_email'));
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+
+        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient->events()->release($lan->event_key, [$seatId]);
+        $reservation = $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
+        $this->seatRepository->deleteReservation($reservation);
+
+        return $reservation;
+    }
 }
