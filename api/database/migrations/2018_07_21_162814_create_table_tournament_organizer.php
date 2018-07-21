@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableTournamentAdmin extends Migration
+class CreateTableTournamentOrganizer extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateTableTournamentAdmin extends Migration
      */
     public function up()
     {
-        Schema::create('tournament_admin', function (Blueprint $table) {
+        Schema::create('tournament_organizer', function (Blueprint $table) {
             $table->unsignedInteger('tournament_id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('organizer_id');
 
             $table->foreign('tournament_id')
                 ->references('id')->on('tournament');
-            $table->foreign('user_id')
+            $table->foreign('organizer_id')
                 ->references('id')->on('user');
         });
     }
@@ -31,6 +31,6 @@ class CreateTableTournamentAdmin extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tournament_admin');
+        Schema::dropIfExists('tournament_organizer');
     }
 }
