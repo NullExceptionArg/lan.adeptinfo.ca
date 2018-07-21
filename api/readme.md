@@ -51,6 +51,9 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - IDE key: `PHPSTORM`
     - Host: `127.0.0.1`
     - Port: `9000`
+ - Sous `Settings/Language & Framework/PHP/Test Frameworks`:
+    - Sous la section `Test Runner`, cocher `Default configuration file:`
+    - Sur la ligne `Default configuration file:`, sélectionner le chemin vers le fichier `phpunit.xml` du projet.
  - Configuration Xdebug. Sur linux le chemin est `/etc/php/7.2/cli/conf.d/20-xdebug.ini`
     - [Xdebug]
     - zend_extension=xdebug.so
