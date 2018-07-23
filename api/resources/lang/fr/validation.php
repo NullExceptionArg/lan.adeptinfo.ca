@@ -125,6 +125,8 @@ return [
     'one_of_two_fields' => 'Le champ :value ne peut pas être utilisé si le champ :second_field est aussi utilisé.',
     'many_image_ids_exist' => 'Les id :ids sur le champ :attribute n\'existent pas.',
     'seat_lan_relation_exists' => 'La relation entre la place avec l\id :seat_id et le LAN avec l\'id :lan_id n\'existe pas.',
+    'after_or_equal_lan_start_time' => 'Le début du tournoi doit être après ou en même temps que le moment de début du LAN.',
+    'before_or_equal_lan_end_time' => 'La fin du tournoi doit être avant ou en même temps que le moment de fin du LAN.',
 
     /*
     |--------------------------------------------------------------------------

@@ -125,6 +125,8 @@ return [
     'one_of_two_fields' => 'Field :value can\'t be used if the field :second_field is used too.',
     'many_image_ids_exist' => 'The ids :ids on the field :attribute don\'t exist.',
     'seat_lan_relation_exists' => 'The relation between seat with id :seat_id and LAN with id :lan_id doesn\'t exist.',
+    'after_or_equal_lan_start_time' => 'The tournament start time must be after or equal the lan start time.',
+    'before_or_equal_lan_end_time' => 'The tournament end time must be before or equal the lan end time.',
 
     /*
     |--------------------------------------------------------------------------

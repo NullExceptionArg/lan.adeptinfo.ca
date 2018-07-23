@@ -19,9 +19,9 @@ class CreateTableTournament extends Migration
             $table->unsignedInteger('price')->default(0);
             $table->dateTime('tournament_start');
             $table->dateTime('tournament_end');
-            $table->unsignedInteger('player_to_reach');
+            $table->unsignedInteger('players_to_reach');
             $table->unsignedInteger('teams_to_reach');
-            $table->enum('state', ['hidden', 'visible' ]);
+            $table->enum('state', ['hidden', 'visible' ])->default('hidden');
             $table->text('rules');
             $table->unsignedInteger('lan_id');
             $table->timestamps();
