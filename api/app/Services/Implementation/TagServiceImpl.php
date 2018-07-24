@@ -24,9 +24,6 @@ class TagServiceImpl implements TagService
         $this->tagRepository = $tagRepositoryImpl;
     }
 
-
-    // TODO Tests
-    // TODO Documentation
     public function create(Request $input): Tag
     {
         $tournamentValidator = Validator::make([

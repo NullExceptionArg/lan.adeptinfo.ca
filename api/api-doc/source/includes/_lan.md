@@ -34,7 +34,7 @@ Si le LAN est le premier à être créé, il sera le LAN courant (is_current dan
 
 ```
 
-Paramètre | Description | Règles de validation | Defaut
+Paramètre | Description | Règles de validation | Défaut
 --------- | ----------- | -------------------- | ------
 name | Nom du LAN. | Requis, string, 255 caractères max. |
 lan_start | Date et heure de début du LAN. | Requis, après le début des réservations et après le début des inscriptions aux tournois. |
@@ -49,7 +49,7 @@ longitude | Longitude de la position où se déroule le LAN. | Requis, entre -18
 places | Places disponibles pour le LAN. | Requis, int, minimum 1. |
 price | Prix du LAN en cent. | Plus grand ou égale à 0. | 0
 rules | Texte des règles du LAN. | String, optionnel. |
-description | Texte des descritpion du LAN. | String, optionnel. |
+description | Texte des description du LAN. | String, optionnel. |
 
 ### Format de réponse
 

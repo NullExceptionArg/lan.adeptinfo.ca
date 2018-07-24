@@ -33,7 +33,6 @@ class TournamentServiceImpl implements TournamentService
         $this->tournamentRepository = $tournamentRepositoryImpl;
     }
 
-    // TODO Documentation
     public function create(Request $input): Tournament
     {
         $lan = null;

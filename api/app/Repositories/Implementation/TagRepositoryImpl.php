@@ -8,7 +8,6 @@ use Illuminate\Contracts\Auth\Authenticatable;
 
 class TagRepositoryImpl implements TagRepository
 {
-    // TODO Tests
     public function create(
         Authenticatable $user,
         string $name
