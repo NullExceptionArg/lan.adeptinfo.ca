@@ -18,4 +18,6 @@ interface TournamentRepository
         string $rules,
         ?int $price
     ): Tournament;
+
+    public function findTournamentById(int $id): ?Tournament;
 }

@@ -5,7 +5,7 @@ namespace App\Http\Resources\Lan;
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class GetLansResource extends Resource
+class GetAllLanResource extends Resource
 {
     /**
      * Transform the resource into an array.

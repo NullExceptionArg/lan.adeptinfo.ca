@@ -6,6 +6,7 @@ use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * @property int id
  * @property int lan_id
  * @property string name
  * @property DateTime tournament_start

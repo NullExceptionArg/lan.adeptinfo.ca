@@ -5,14 +5,12 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int id
- * @property int tournament_id
  * @property string name
- * @property string tag
+ * @property int user_id
  */
-class Team extends Model
+class Tag extends Model
 {
-    protected $table = 'team';
+    protected $table = 'tag';
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -20,6 +18,6 @@ class Team extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at',
+        'created_at', 'updated_at', 'user_id',
     ];
 }

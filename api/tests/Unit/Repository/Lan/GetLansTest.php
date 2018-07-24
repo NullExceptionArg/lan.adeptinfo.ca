@@ -21,7 +21,7 @@ class GetLansTest extends TestCase
     {
         $lan1 = factory('App\Model\Lan')->create();
         $lan2 = factory('App\Model\Lan')->create();
-        $result = $this->lanRepository->getLans();
+        $result = $this->lanRepository->getAllLan();
 
         $this->assertEquals($lan1->id, $result[0]->id);
         $this->assertEquals($lan1->name, $result[0]->name);

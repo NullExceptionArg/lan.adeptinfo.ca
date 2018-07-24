@@ -104,10 +104,10 @@ class CreateTest extends TestCase
         $request = new Request($this->requestContent);
         try {
             $this->tournamentService->create($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
         }
     }
 
@@ -117,10 +117,10 @@ class CreateTest extends TestCase
         $request = new Request($this->requestContent);
         try {
             $this->tournamentService->create($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+            $this->fail('Expected: {"name":["The name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"name":["The name field is required."]}', $e->getMessage());
         }
     }
 
@@ -130,10 +130,10 @@ class CreateTest extends TestCase
         $request = new Request($this->requestContent);
         try {
             $this->tournamentService->create($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+            $this->fail('Expected: {"name":["The name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"name":["The name must be a string."]}', $e->getMessage());
         }
     }
 
@@ -143,10 +143,10 @@ class CreateTest extends TestCase
         $request = new Request($this->requestContent);
         try {
             $this->tournamentService->create($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+            $this->fail('Expected: {"name":["The name may not be greater than 255 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"name":["The name may not be greater than 255 characters."]}', $e->getMessage());
         }
     }
 
@@ -156,10 +156,10 @@ class CreateTest extends TestCase
         $request = new Request($this->requestContent);
         try {
             $this->tournamentService->create($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+            $this->fail('Expected: {"price":["The price must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"price":["The price must be an integer."]}', $e->getMessage());
         }
     }
 
@@ -169,10 +169,10 @@ class CreateTest extends TestCase
         $request = new Request($this->requestContent);
         try {
             $this->tournamentService->create($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+            $this->fail('Expected: {"price":["The price must be at least 0."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"price":["The price must be at least 0."]}', $e->getMessage());
         }
     }
 

@@ -62,7 +62,7 @@ class LanRepositoryImpl implements LanRepository
         return Reservation::where('lan_id', $lanId)->count();
     }
 
-    public function getLans(): ?Collection
+    public function getAllLan(): ?Collection
     {
         return Lan::all();
     }

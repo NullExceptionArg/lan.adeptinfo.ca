@@ -33,4 +33,9 @@ class TournamentRepositoryImpl implements TournamentRepository
 
         return $tournament;
     }
+
+    public function findTournamentById(int $id): ?Tournament
+    {
+        return Tournament::find($id);
+    }
 }

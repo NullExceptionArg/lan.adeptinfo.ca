@@ -58,6 +58,10 @@ $api->version('v1', function ($api) {
 
                 $api->post('tournament', 'TournamentController@createTournament');
 
+                $api->post('team', 'TeamController@createTeam');
+
+                $api->post('tag', 'TagController@createTag');
+
                 $api->delete('user', 'UserController@deleteUser');
                 $api->post('user/logout', 'UserController@logOut');
                 $api->get('user', 'UserController@getUsers');

@@ -35,6 +35,6 @@ class LowerReservedPlace implements Rule
      */
     public function message()
     {
-        return trans('validation.one_of_two_fields');
+        return trans('validation.lower_reserved_place');
     }
 }
