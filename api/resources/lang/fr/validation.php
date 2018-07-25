@@ -127,6 +127,9 @@ return [
     'seat_lan_relation_exists' => 'La relation entre la place avec l\id :seat_id et le LAN avec l\'id :lan_id n\'existe pas.',
     'after_or_equal_lan_start_time' => 'Le début du tournoi doit être après ou en même temps que le moment de début du LAN.',
     'before_or_equal_lan_end_time' => 'La fin du tournoi doit être avant ou en même temps que le moment de fin du LAN.',
+    'unique_user_per_tournament' => 'Un utilisateur ne peut être qu\'une seule fois dans un tournoi.',
+    'unique_team_tag_per_lan' => 'Un tag d\'équipe doit être unique par lan.',
+    'unique_team_name_per_lan' => 'Un nom d\'équipe doit être unique par lan.',
 
     /*
     |--------------------------------------------------------------------------

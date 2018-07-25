@@ -6,6 +6,8 @@ namespace App\Services\Implementation;
 use App\Model\Team;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Rules\UniqueTeamNamePerLan;
+use App\Rules\UniqueTeamTagPerLan;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -42,8 +44,8 @@ class TeamServiceImpl implements TeamService
         ], [
             'tournament_id' => 'required|exists:tournament,id',
             'user_tag_id' => 'required|exists:tag,id',
-            'name' => 'required|string|max:255|unique:team,name',
-            'team_tag' => 'string|max:5'
+            'name' => ['required', 'string', 'max:255', new UniqueTeamNamePerLan($input->input('tournament_id'))],
+            'team_tag' => ['string', 'max:5', new UniqueTeamTagPerLan($input->input('tournament_id'))]
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -56,7 +58,6 @@ class TeamServiceImpl implements TeamService
             $input->input('name'),
             $input->input('team_tag')
         );
-        // TODO team_tag unique par LAN
         // TODO Lier l'équipe et le tag
 
 
