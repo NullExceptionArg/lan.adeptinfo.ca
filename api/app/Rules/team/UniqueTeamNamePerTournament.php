@@ -1,17 +1,16 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Team;
 
-use App\Model\Tournament;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
-class UniqueTeamNamePerLan implements Rule
+class UniqueTeamNamePerTournament implements Rule
 {
 
     protected $tournamentId;
 
-    public function __construct(?string $tournamentId)
+    public function __construct(?int $tournamentId)
     {
         $this->tournamentId = $tournamentId;
     }
@@ -25,14 +24,8 @@ class UniqueTeamNamePerLan implements Rule
      */
     public function passes($attribute, $value)
     {
-        $tournament = Tournament::find($this->tournamentId);
-        $tournamentIds = DB::table('tournament')
-            ->select('id')
-            ->where('lan_id',  $tournament->lan_id)
-            ->get();
-
         return DB::table('team')
-                ->whereIn('tournament_id', $tournamentIds)
+                ->where('tournament_id', $this->tournamentId)
                 ->where('name', $value)
                 ->count() == 0;
     }
@@ -44,6 +37,6 @@ class UniqueTeamNamePerLan implements Rule
      */
     public function message()
     {
-        return trans('validation.unique_team_name_per_lan');
+        return trans('validation.unique_team_name_per_tournament');
     }
 }

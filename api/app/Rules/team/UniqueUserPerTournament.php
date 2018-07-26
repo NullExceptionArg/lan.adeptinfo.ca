@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Team;
 
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -11,7 +11,7 @@ class UniqueUserPerTournament implements Rule
 
     protected $tournamentId;
 
-    public function __construct(?string $tournamentId)
+    public function __construct(?int $tournamentId)
     {
         $this->tournamentId = $tournamentId;
     }
@@ -27,19 +27,21 @@ class UniqueUserPerTournament implements Rule
     {
         $teamIds = DB::table('team')
             ->select('id')
-            ->where('tournament_id',  $this->tournamentId)
-            ->get();
+            ->where('tournament_id', $this->tournamentId)
+            ->pluck('id')
+            ->toArray();
 
         $tagIds = DB::table('tag_team')
-            ->select('id')
+            ->select('tag_id')
             ->whereIn('team_id', $teamIds)
-            ->get();
+            ->pluck('tag_id')
+            ->toArray();
 
         return DB::table('tag')
-            ->select('id')
-            ->whereIn('team_id', $tagIds)
-            ->where('user_id', Auth::id())
-            ->count() == 0;
+                ->select('id')
+                ->whereIn('id', $tagIds)
+                ->where('user_id', Auth::id())
+                ->count() == 0;
     }
 
     /**

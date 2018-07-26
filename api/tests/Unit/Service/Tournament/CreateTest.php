@@ -31,7 +31,7 @@ class CreateTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->tournamentService =  $this->app->make('App\Services\Implementation\TournamentServiceImpl');
+        $this->tournamentService = $this->app->make('App\Services\Implementation\TournamentServiceImpl');
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();

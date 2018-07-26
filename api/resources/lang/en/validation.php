@@ -128,8 +128,8 @@ return [
     'after_or_equal_lan_start_time' => 'The tournament start time must be after or equal the lan start time.',
     'before_or_equal_lan_end_time' => 'The tournament end time must be before or equal the lan end time.',
     'unique_user_per_tournament' => 'A user can only be once in a tournament.',
-    'unique_team_tag_per_lan' => 'A team tag must be unique per lan.',
-    'unique_team_name_per_lan' => 'A team name must be unique per lan.',
+    'unique_team_tag_per_tournament' => 'A team tag must be unique per lan.',
+    'unique_team_name_per_tournament' => 'A team name must be unique per lan.',
 
     /*
     |--------------------------------------------------------------------------

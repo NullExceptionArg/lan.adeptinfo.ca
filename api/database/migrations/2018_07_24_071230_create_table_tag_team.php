@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableTagTeam extends Migration
 {
@@ -17,6 +17,7 @@ class CreateTableTagTeam extends Migration
             $table->unsignedInteger('tag_id');
             $table->unsignedInteger('team_id');
             $table->boolean('is_leader');
+            $table->timestamps();
 
             $table->foreign('tag_id')
                 ->references('id')->on('tag');

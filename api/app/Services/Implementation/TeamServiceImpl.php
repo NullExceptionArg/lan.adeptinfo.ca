@@ -4,10 +4,12 @@ namespace App\Services\Implementation;
 
 
 use App\Model\Team;
+use App\Repositories\Implementation\TagRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
-use App\Rules\UniqueTeamNamePerLan;
-use App\Rules\UniqueTeamTagPerLan;
+use App\Rules\Team\UniqueTeamNamePerTournament;
+use App\Rules\Team\UniqueTeamTagPerTournament;
+use App\Rules\Team\UniqueUserPerTournament;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,35 +19,38 @@ class TeamServiceImpl implements TeamService
 {
     protected $teamRepository;
     protected $tournamentRepository;
+    protected $tagRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param TeamRepositoryImpl $teamRepositoryImpl
      * @param TournamentRepositoryImpl $tournamentRepositoryImpl
+     * @param TagRepositoryImpl $tagRepositoryImpl
      */
     public function __construct(
         TeamRepositoryImpl $teamRepositoryImpl,
-        TournamentRepositoryImpl $tournamentRepositoryImpl
+        TournamentRepositoryImpl $tournamentRepositoryImpl,
+        TagRepositoryImpl $tagRepositoryImpl
     )
     {
         $this->teamRepository = $teamRepositoryImpl;
         $this->tournamentRepository = $tournamentRepositoryImpl;
+        $this->tagRepository = $tagRepositoryImpl;
     }
 
     // TODO Documentation
-    // TODO Tests
     public function create(Request $input): Team
     {
         $tournamentValidator = Validator::make([
             'tournament_id' => $input->input('tournament_id'),
             'user_tag_id' => $input->input('user_tag_id'),
             'name' => $input->input('name'),
-            'team_tag' => $input->input('team_tag')
+            'tag' => $input->input('tag')
         ], [
             'tournament_id' => 'required|exists:tournament,id',
-            'user_tag_id' => 'required|exists:tag,id',
-            'name' => ['required', 'string', 'max:255', new UniqueTeamNamePerLan($input->input('tournament_id'))],
-            'team_tag' => ['string', 'max:5', new UniqueTeamTagPerLan($input->input('tournament_id'))]
+            'user_tag_id' => ['required', 'exists:tag,id', new UniqueUserPerTournament($input->input('tournament_id'))],
+            'name' => ['required', 'string', 'max:255', new UniqueTeamNamePerTournament($input->input('tournament_id'))],
+            'tag' => ['string', 'max:5', new UniqueTeamTagPerTournament($input->input('tournament_id'))]
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -56,10 +61,11 @@ class TeamServiceImpl implements TeamService
         $team = $this->teamRepository->create(
             $tournament,
             $input->input('name'),
-            $input->input('team_tag')
+            $input->input('tag')
         );
-        // TODO Lier l'équipe et le tag
 
+        $tag = $this->tagRepository->findTagById($input->input('user_tag_id'));
+        $this->teamRepository->linkTagTeam($tag, $team);
 
         return $team;
     }
