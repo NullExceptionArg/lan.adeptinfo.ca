@@ -47,7 +47,7 @@ class TeamServiceImpl implements TeamService
             'tag' => $input->input('tag')
         ], [
             'tournament_id' => 'required|exists:tournament,id',
-            'user_tag_id' => ['required', 'exists:tag,id', new UniqueUserPerTournament($input->input('tournament_id'))],
+            'user_tag_id' => ['required', 'exists:tag,id', new UniqueUserPerTournament($input->input('tournament_id'), null)],
             'name' => ['required', 'string', 'max:255', new UniqueTeamNamePerTournament($input->input('tournament_id'))],
             'tag' => ['string', 'max:5', new UniqueTeamTagPerTournament($input->input('tournament_id'))]
         ]);
@@ -67,5 +67,22 @@ class TeamServiceImpl implements TeamService
         $this->teamRepository->linkTagTeam($tag, $team, true);
 
         return $team;
+    }
+
+    public function createRequest(Request $input): \App\Model\Request
+    {
+        $tournamentValidator = Validator::make([
+            'team_id' => $input->input('team_id'),
+            'tag_id' => $input->input('tag_id'),
+        ], [
+            'team_id' => 'required|exists:team,id',
+            'tag_id' => ['required', 'exists:tag,id', new UniqueUserPerTournament(null, $input->input('team_id'))],
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        return $this->teamRepository->createRequest($input->input('team_id'), $input->input('tag_id'));
     }
 }

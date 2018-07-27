@@ -2,6 +2,7 @@
 
 namespace App\Rules\Team;
 
+use App\Model\Team;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -10,10 +11,12 @@ class UniqueUserPerTournament implements Rule
 {
 
     protected $tournamentId;
+    protected $teamId;
 
-    public function __construct(?int $tournamentId)
+    public function __construct(?int $tournamentId, ?int $teamId)
     {
         $this->tournamentId = $tournamentId;
+        $this->teamId = $teamId;
     }
 
     /**
@@ -25,6 +28,14 @@ class UniqueUserPerTournament implements Rule
      */
     public function passes($attribute, $value)
     {
+        if ($this->tournamentId == null) {
+            $team = Team::find($this->teamId);
+            if ($team == null) {
+                return true;
+            }
+            $this->tournamentId = $team->tournament_id;
+        }
+
         $teamIds = DB::table('team')
             ->select('id')
             ->where('tournament_id', $this->tournamentId)

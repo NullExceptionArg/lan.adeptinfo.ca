@@ -24,4 +24,9 @@ class TeamController extends Controller
         return response()->json($this->teamServiceImpl->create($request), 201);
     }
 
+    public function createRequest(Request $request)
+    {
+        return response()->json($this->teamServiceImpl->createRequest($request), 201);
+    }
+
 }

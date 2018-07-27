@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Implementation;
 
+use App\Model\Request;
 use App\Model\Tag;
 use App\Model\TagTeam;
 use App\Model\Team;
@@ -32,5 +33,15 @@ class TeamRepositoryImpl implements TeamRepository
         $tagTeam->team_id = $team->id;
         $tagTeam->is_leader = $isLeader;
         $tagTeam->save();
+    }
+
+    public function createRequest(int $teamId, $userTagId): Request
+    {
+        $request = new Request();
+        $request->team_id = $teamId;
+        $request->tag_id = $userTagId;
+        $request->save();
+
+        return $request;
     }
 }

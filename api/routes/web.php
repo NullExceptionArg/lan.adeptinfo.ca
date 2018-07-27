@@ -59,6 +59,7 @@ $api->version('v1', function ($api) {
                 $api->post('tournament', 'TournamentController@createTournament');
 
                 $api->post('team', 'TeamController@createTeam');
+                $api->post('team/request', 'TeamController@createRequest');
 
                 $api->post('tag', 'TagController@createTag');
 
