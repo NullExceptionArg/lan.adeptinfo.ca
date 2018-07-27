@@ -57,8 +57,8 @@ class GetLanTest extends TestCase
         $this->assertEquals($lan->lan_end, $result['lan_end']);
         $this->assertEquals($lan->seat_reservation_start, $result['seat_reservation_start']);
         $this->assertEquals($lan->tournament_reservation_start, $result['tournament_reservation_start']);
-        $this->assertEquals(number_format($lan->latitude, 7), $result['latitude']);
-        $this->assertEquals(number_format($lan->longitude, 7), $result['longitude']);
+        $this->assertEquals(number_format($lan->latitude, 7), number_format($result['latitude'], 7));
+        $this->assertEquals(number_format($lan->longitude, 7), number_format($result['longitude'], 7));
         $this->assertEquals($lan->price, $result['price']);
         $this->assertEquals($lan->rules, $result['rules']);
         $this->assertEquals($lan->description, $result['description']);
