@@ -38,7 +38,6 @@ class TeamServiceImpl implements TeamService
         $this->tagRepository = $tagRepositoryImpl;
     }
 
-    // TODO Documentation
     public function create(Request $input): Team
     {
         $tournamentValidator = Validator::make([
@@ -65,7 +64,7 @@ class TeamServiceImpl implements TeamService
         );
 
         $tag = $this->tagRepository->findTagById($input->input('user_tag_id'));
-        $this->teamRepository->linkTagTeam($tag, $team);
+        $this->teamRepository->linkTagTeam($tag, $team, true);
 
         return $team;
     }

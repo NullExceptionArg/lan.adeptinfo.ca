@@ -10,7 +10,6 @@ use App\Repositories\TeamRepository;
 
 class TeamRepositoryImpl implements TeamRepository
 {
-    // TODO Tests
     public function create(
         Tournament $tournament,
         string $name,
@@ -26,12 +25,12 @@ class TeamRepositoryImpl implements TeamRepository
         return $team;
     }
 
-    // TODO Tests
-    public function linkTagTeam(Tag $tag, Team $team): void
+    public function linkTagTeam(Tag $tag, Team $team, bool $isLeader): void
     {
         $tagTeam = new TagTeam();
         $tagTeam->tag_id = $tag->id;
         $tagTeam->team_id = $team->id;
+        $tagTeam->is_leader = $isLeader;
         $tagTeam->save();
     }
 }

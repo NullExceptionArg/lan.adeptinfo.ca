@@ -16,7 +16,6 @@ Créer un nouveau tag pour un utilisateur.
 {
 	"name": "PRO"
 }
-
 ```
 
 ### Paramètres POST

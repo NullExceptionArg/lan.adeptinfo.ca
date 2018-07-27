@@ -14,5 +14,5 @@ interface TeamRepository
         string $tag
     ): Team;
 
-    public function linkTagTeam(Tag $tag, Team $team): void;
+    public function linkTagTeam(Tag $tag, Team $team, bool $isLeader): void;
 }

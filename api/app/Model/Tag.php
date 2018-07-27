@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property string name
  * @property int user_id
+ * @property mixed id
  */
 class Tag extends Model
 {
