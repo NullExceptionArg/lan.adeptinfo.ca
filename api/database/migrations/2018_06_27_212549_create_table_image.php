@@ -18,6 +18,9 @@ class CreateTableImage extends Migration
             $table->unsignedInteger('lan_id')->nullable(false);
             $table->longText('image')->nullable(false);
             $table->timestamps();
+
+            $table->foreign('lan_id')
+                ->references('id')->on('lan');
         });
     }
 

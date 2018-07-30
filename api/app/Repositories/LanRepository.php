@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Repositories;
 
 
@@ -32,7 +31,7 @@ interface LanRepository
 
     public function getReservedPlaces(int $lanId): int;
 
-    public function getLans(): ?Collection;
+    public function getAllLan(): ?Collection;
 
     public function removeCurrentLan(): void;
 

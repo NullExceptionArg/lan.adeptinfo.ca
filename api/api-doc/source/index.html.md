@@ -15,6 +15,9 @@ includes:
   - image
   - places
   - contribution
+  - tournament
+  - team
+  - tag
   - language
   - errors
 

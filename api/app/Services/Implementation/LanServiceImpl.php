@@ -4,7 +4,7 @@
 namespace App\Services\Implementation;
 
 use App\Http\Resources\Lan\GetLanResource;
-use App\Http\Resources\Lan\GetLansResource;
+use App\Http\Resources\Lan\GetAllLanResource;
 use App\Http\Resources\Lan\UpdateLanResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
@@ -109,7 +109,7 @@ class LanServiceImpl implements LanService
 
     public function getAllLan(): ResourceCollection
     {
-        return GetLansResource::collection($this->lanRepository->getLans());
+        return GetAllLanResource::collection($this->lanRepository->getAllLan());
     }
 
     public function setCurrentLan(Request $input): int
