@@ -91,6 +91,27 @@ class CreateRequestTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testCreateUserUniqueUserPerRequest(): void
+    {
+        $this->actingAs($this->user)
+            ->json('POST', '/api/team/request', $this->requestContent);
+        $this->requestContent['tag_id'] = factory('App\Model\Tag')->create([
+            'user_id' => $this->user->id
+        ])->id;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/team/request', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'team_id' => [
+                        0 => 'A user can only have one request per team.'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
     public function testCreateUserTagIdRequired(): void
     {
         $this->requestContent['tag_id'] = null;

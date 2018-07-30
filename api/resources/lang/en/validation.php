@@ -130,6 +130,7 @@ return [
     'unique_user_per_tournament' => 'A user can only be once in a tournament.',
     'unique_team_tag_per_tournament' => 'A team tag must be unique per lan.',
     'unique_team_name_per_tournament' => 'A team name must be unique per lan.',
+    'unique_user_per_request' => 'A user can only have one request per team.',
 
     /*
     |--------------------------------------------------------------------------

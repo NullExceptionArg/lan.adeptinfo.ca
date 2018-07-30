@@ -113,6 +113,23 @@ class CreateRequestTest extends TestCase
         }
     }
 
+    public function testCreateUserUniqueUserPerRequest(): void
+    {
+        $this->actingAs($this->user)
+            ->json('POST', '/api/team/request', $this->requestContent);
+        $this->requestContent['tag_id'] = factory('App\Model\Tag')->create([
+            'user_id' => $this->user->id
+        ])->id;
+        $request = new Request($this->requestContent);
+        try {
+            $this->teamService->createRequest($request);
+            $this->fail('Expected: {"team_id":["A user can only have one request per team."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"team_id":["A user can only have one request per team."]}', $e->getMessage());
+        }
+    }
+
     public function testCreateRequestUserTagIdUniqueUserPerTournamentSameUser(): void
     {
         $tag = factory('App\Model\Tag')->create([

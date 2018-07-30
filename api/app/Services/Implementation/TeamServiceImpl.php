@@ -9,6 +9,7 @@ use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\Team\UniqueTeamNamePerTournament;
 use App\Rules\Team\UniqueTeamTagPerTournament;
+use App\Rules\Team\UniqueUserPerRequest;
 use App\Rules\Team\UniqueUserPerTournament;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
@@ -75,7 +76,7 @@ class TeamServiceImpl implements TeamService
             'team_id' => $input->input('team_id'),
             'tag_id' => $input->input('tag_id'),
         ], [
-            'team_id' => 'required|exists:team,id',
+            'team_id' => ['required', 'exists:team,id', new UniqueUserPerRequest()],
             'tag_id' => ['required', 'exists:tag,id', new UniqueUserPerTournament(null, $input->input('team_id'))],
         ]);
 
