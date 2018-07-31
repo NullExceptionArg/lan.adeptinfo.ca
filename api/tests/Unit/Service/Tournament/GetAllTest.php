@@ -6,6 +6,7 @@ use App\Model\TagTeam;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class getAllTest extends TestCase
@@ -356,10 +357,26 @@ class getAllTest extends TestCase
     public function testGetAllLanInteger(): void
     {
         $this->requestContent['lan_id'] = '☭';
+        $request = new Request($this->requestContent);
+        try {
+            $this->tournamentService->getAll($request);
+            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
+        }
     }
 
     public function testGetAllLanExist(): void
     {
         $this->requestContent['lan_id'] = -1;
+        $request = new Request($this->requestContent);
+        try {
+            $this->tournamentService->getAll($request);
+            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
+        }
     }
 }
