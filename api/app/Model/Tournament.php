@@ -2,6 +2,7 @@
 
 namespace App\Model;
 
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,9 +33,8 @@ class Tournament extends Model
 
     public function getCurrentState()
     {
-        //_-hidden, -visible, forthcoming, late, -started, behindhand, -finished
         $state = $this->state;
-        $now = new DateTime();
+        $now = Carbon::now();
         if ($state == 'hidden') {
             return 'hidden'; // caché
         } else if ($state == 'finished') {
@@ -48,7 +48,7 @@ class Tournament extends Model
         } else if ($state == 'started' && $now >= $this->tournament_start && $now <= $this->tournament_end) {
             return 'running'; // en cours
         } else if ($state == 'started' && $now > $this->tournament_end) {
-            return 'behindhand'; // en retard sur l'horaire
+            return 'behindhand'; // en retard sur l'horaire (s'éternise)
         } else {
             return 'unknown'; // inconnue
         }
