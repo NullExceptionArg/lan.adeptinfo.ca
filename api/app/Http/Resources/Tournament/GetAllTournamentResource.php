@@ -33,8 +33,8 @@ class GetAllTournamentResource extends Resource
             'tournament_start' => date('F Y', strtotime($this->tournament_start)),
             'tournament_end' => date('F Y', strtotime($this->tournament_end)),
             'current_state' => $this->getCurrentState(),
-            'teams_reached' => $teamsReached,
-            'teams_to_reach' => $this->teams_to_reach
+            'teams_reached' => intval($teamsReached),
+            'teams_to_reach' => intval($this->teams_to_reach)
         ];
     }
 }

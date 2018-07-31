@@ -23,7 +23,6 @@ Créer un nouveau tournoi.
 	"rules": "The Bolsheviks seize control of Petrograd.",
 	"price": 0
 }
-
 ```
 
 Paramètre | Description | Règles de validation
@@ -69,3 +68,57 @@ tournament_end | Date et heure de fin du tournoi.
 players_to_reach| Nombre de joueur à atteindre par équipe.
 teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.
 rules | Règlements du tournoi.
+
+## Tournois d'un organisateur
+
+Obtenir les tournois d'un organisateur.
+
+### Requête HTTP
+
+`GET /api/tournament/all`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN dans lequel l'organisateur souhaite trouver ses LANs. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+[
+    {
+        "id": 1,
+        "name": "October Revolution",
+        "tournament_start": "October 2100",
+        "tournament_end": "October 2100",
+        "current_state": "hidden",
+        "teams_reached": 0,
+        "teams_to_reach": 6
+    }
+]
+```
+
+Champ | Description
+--------- | -----------
+id | Id du tournoi. 
+name | Nom du tournoi.
+tournament_start | Date et heure de début du tournoi. 
+tournament_end | Date et heure de fin du tournoi.
+current_state| État courant du tournoi. Voir État courant.
+teams_reached |Nombre d'équipes complètes atteintes.
+teams_to_reach | Nombre d'équipes à atteindre pour que le tournoi ait lieux.
+
+#### État courant
+Champ | Description
+--------- | -----------
+hidden | Caché, est seulement visible pour les organisateurs.
+finished | Le tournoi est terminé.
+fourthcoming | Le tournoi est à venir.
+late | Le tournoi est en retard.
+outguessed | Le tournoi est devancé.
+running | Le tournoi est en cours.
+behindhand | Le tournoi s'éternise (Après l'heure de fin prévue).
+unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse, il serait bien de le communiquer à un développeur de l'API.
