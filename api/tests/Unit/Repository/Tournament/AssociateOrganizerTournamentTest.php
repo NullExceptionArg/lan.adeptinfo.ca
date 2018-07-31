@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Repository;
+namespace Tests\Unit\Repository\Tournament;
 
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class FindTournamentByIdTest extends TestCase
+class AssociateOrganizerTournamentTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -35,12 +35,20 @@ class FindTournamentByIdTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testFindTournamentById(): void
+    public function testAssociateOrganizerTournament(): void
     {
-        $result = $this->tournamentRepository->findTournamentById($this->tournament->id);
+        $this->notSeeInDatabase('organizer_tournament', [
+            'id' => 1,
+            'organizer_id' => $this->user->id,
+            'tournament_id' => $this->tournament->id
+        ]);
 
-        $this->assertEquals($this->tournament->id, $result->id);
-        $this->assertEquals($this->tournament->lan_id, $result->lan_id);
-        $this->assertEquals($this->tournament->name, $result->name);
+        $this->tournamentRepository->associateOrganizerTournament($this->user, $this->tournament);
+
+        $this->seeInDatabase('organizer_tournament', [
+            'id' => 1,
+            'organizer_id' => $this->user->id,
+            'tournament_id' => $this->tournament->id
+        ]);
     }
 }

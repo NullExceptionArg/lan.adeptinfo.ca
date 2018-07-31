@@ -24,4 +24,9 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->create($request), 201);
     }
 
+    public function getAllTournament(Request $request)
+    {
+        return response()->json($this->tournamentService->getAll($request), 200);
+    }
+
 }

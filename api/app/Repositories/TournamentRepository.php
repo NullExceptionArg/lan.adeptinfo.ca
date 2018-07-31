@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Model\Lan;
 use App\Model\Tournament;
 use DateTime;
+use Illuminate\Contracts\Auth\Authenticatable;
 
 interface TournamentRepository
 {
@@ -20,4 +21,6 @@ interface TournamentRepository
     ): Tournament;
 
     public function findTournamentById(int $id): ?Tournament;
+
+    public function associateOrganizerTournament(Authenticatable $organizer, Tournament $tournament): void;
 }

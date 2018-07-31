@@ -3,9 +3,13 @@
 namespace App\Repositories\Implementation;
 
 use App\Model\Lan;
+use App\Model\OrganizerTournament;
 use App\Model\Tournament;
 use App\Repositories\TournamentRepository;
 use DateTime;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TournamentRepositoryImpl implements TournamentRepository
 {
@@ -37,5 +41,26 @@ class TournamentRepositoryImpl implements TournamentRepository
     public function findTournamentById(int $id): ?Tournament
     {
         return Tournament::find($id);
+    }
+
+    public function associateOrganizerTournament(Authenticatable $organizer, Tournament $tournament): void
+    {
+        $organizerTournament = new OrganizerTournament();
+        $organizerTournament->organizer_id = $organizer->id;
+        $organizerTournament->tournament_id = $tournament->id;
+        $organizerTournament->save();
+    }
+
+    public function getTournamentForOrganizer(Authenticatable $user, Lan $lan): Collection
+    {
+        $tournamentIds = DB::table('organizer_tournament')
+            ->select('tournament_id')
+            ->where('organizer_id', $user->id)
+            ->pluck('tournament_id')
+            ->toArray();
+
+        return Tournament::where('lan_id', $lan->id)
+            ->whereIn('id', $tournamentIds)
+            ->get();
     }
 }
