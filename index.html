@@ -330,6 +330,9 @@
                   <li>
                     <a href="#creer-un-tournoi" class="toc-h2 toc-link" data-title="creer-un-tournoi">Créer un tournoi</a>
                   </li>
+                  <li>
+                    <a href="#tournois-d-39-un-organisateur" class="toc-h2 toc-link" data-title="tournois-d-un-organisateur">Tournois d'un organisateur</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -337,6 +340,9 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#creer-une-equipe" class="toc-h2 toc-link" data-title="creer-une-equipe">Créer une équipe</a>
+                  </li>
+                  <li>
+                    <a href="#creer-une-demande-pour-joindre-une-equipe" class="toc-h2 toc-link" data-title="creer-une-demande-pour-joindre-une-equipe">Créer une demande pour joindre une équipe</a>
                   </li>
               </ul>
           </li>
@@ -2419,7 +2425,6 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
     </span><span class="s2">"rules"</span><span class="p">:</span><span class="w"> </span><span class="s2">"The Bolsheviks seize control of Petrograd."</span><span class="p">,</span><span class="w">
     </span><span class="s2">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
 </span><span class="p">}</span><span class="w">
-
 </span></code></pre>
 <table><thead>
 <tr>
@@ -2537,6 +2542,115 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <td>Règlements du tournoi.</td>
 </tr>
 </tbody></table>
+<h2 id='tournois-d-39-un-organisateur'>Tournois d&#39;un organisateur</h2>
+<p>Obtenir les tournois d&#39;un organisateur.</p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>GET /api/tournament/all</code></p>
+<h3 id='query-params-2'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN dans lequel l&#39;organisateur souhaite trouver ses LANs.</td>
+<td>integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"October Revolution"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tournament_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"October 2100"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tournament_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"October 2100"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"current_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hidden"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"teams_reached"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"teams_to_reach"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id du tournoi.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom du tournoi.</td>
+</tr>
+<tr>
+<td>tournament_start</td>
+<td>Date et heure de début du tournoi.</td>
+</tr>
+<tr>
+<td>tournament_end</td>
+<td>Date et heure de fin du tournoi.</td>
+</tr>
+<tr>
+<td>current_state</td>
+<td>État courant du tournoi. Voir État courant.</td>
+</tr>
+<tr>
+<td>teams_reached</td>
+<td>Nombre d&#39;équipes complètes atteintes.</td>
+</tr>
+<tr>
+<td>teams_to_reach</td>
+<td>Nombre d&#39;équipes à atteindre pour que le tournoi ait lieux.</td>
+</tr>
+</tbody></table>
+<h4 id='etat-courant'>État courant</h4>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>hidden</td>
+<td>Caché, est seulement visible pour les organisateurs.</td>
+</tr>
+<tr>
+<td>finished</td>
+<td>Le tournoi est terminé.</td>
+</tr>
+<tr>
+<td>fourthcoming</td>
+<td>Le tournoi est à venir.</td>
+</tr>
+<tr>
+<td>late</td>
+<td>Le tournoi est en retard.</td>
+</tr>
+<tr>
+<td>outguessed</td>
+<td>Le tournoi est devancé.</td>
+</tr>
+<tr>
+<td>running</td>
+<td>Le tournoi est en cours.</td>
+</tr>
+<tr>
+<td>behindhand</td>
+<td>Le tournoi s&#39;éternise (Après l&#39;heure de fin prévue).</td>
+</tr>
+<tr>
+<td>unknown</td>
+<td>État inconnu. Si jamais vous ou un utilisateur obtient cette réponse, il serait bien de le communiquer à un développeur de l&#39;API.</td>
+</tr>
+</tbody></table>
 <h1 id='equipe'>Équipe</h1><h2 id='creer-une-equipe'>Créer une équipe</h2>
 <p>Créer une nouvelle équipe pour participer à un tournoi.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
@@ -2563,7 +2677,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 </thead><tbody>
 <tr>
 <td>tournament_id</td>
-<td>Id du tournoi dans lequel l&#39;utilisateur veut créer son équipe</td>
+<td>Id du tournoi dans lequel l&#39;utilisateur veut créer son équipe.</td>
 <td>Requis</td>
 </tr>
 <tr>
@@ -2614,6 +2728,63 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>tag</td>
 <td>Nom du tag créée.</td>
+</tr>
+</tbody></table>
+<h2 id='creer-une-demande-pour-joindre-une-equipe'>Créer une demande pour joindre une équipe</h2>
+<p>Créer une demande pour joindre une équipe</p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>POST /api/team/request</code></p>
+<h3 id='post-params-2'>POST Params</h3>
+<blockquote>
+<p>Exemple de requête</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"team_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tag_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='parametres-post-2'>Paramètres POST</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe que l&#39;utilisateur souhaite rejoindre</td>
+<td>Requis</td>
+</tr>
+<tr>
+<td>tag_id</td>
+<td>Id du tag sous lequel l&#39;utilisateur souhaite rejoindre l&#39;équipe.</td>
+<td>Requis, l&#39;utilisateur peut seulement être dans un tournoi une fois.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-2'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tournament_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WorkersUnite"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe dans laquelle l&#39;utilisateur a créé sa demande.</td>
+</tr>
+<tr>
+<td>tag_id</td>
+<td>Id du tag sous lequel l&#39;utilisateur a créer sa demande.</td>
 </tr>
 </tbody></table>
 <h1 id='tag'>Tag</h1><h2 id='creer-un-tag'>Créer un tag</h2>
