@@ -3,6 +3,7 @@
 namespace App\Services\Implementation;
 
 
+use App\Http\Resources\Lan\GetAllTournamentResource;
 use App\Model\Tournament;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
@@ -11,6 +12,8 @@ use App\Rules\BeforeOrEqualLanEndTime;
 use App\Services\TournamentService;
 use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -69,7 +72,7 @@ class TournamentServiceImpl implements TournamentService
             $lan = $this->lanRepository->findLanById($input->input('lan_id'));
         }
 
-        return $this->tournamentRepository->create(
+        $tournament = $this->tournamentRepository->create(
             $lan,
             $input->input('name'),
             new DateTime($input->input('tournament_start')),
@@ -79,5 +82,36 @@ class TournamentServiceImpl implements TournamentService
             $input->input('rules'),
             intval($input->input('price'))
         );
+
+        $this->tournamentRepository->associateOrganizerTournament(Auth::user(), $tournament);
+
+        return $tournament;
+    }
+
+    public function getAll(Request $input): AnonymousResourceCollection
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $tournamentValidator = Validator::make([
+            'lan_id' => $input->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id'
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+
+        $tournaments = $this->tournamentRepository->getTournamentForOrganizer(Auth::user(), $lan);
+
+        return GetAllTournamentResource::collection($tournaments);
     }
 }

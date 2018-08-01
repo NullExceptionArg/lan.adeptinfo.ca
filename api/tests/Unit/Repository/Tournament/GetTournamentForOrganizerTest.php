@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Unit\Repository;
+namespace Tests\Unit\Repository\Tournament;
 
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class FindTournamentByIdTest extends TestCase
+class GetTournamentForOrganizerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -31,16 +31,18 @@ class FindTournamentByIdTest extends TestCase
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-
+        factory('App\Model\OrganizerTournament')->create([
+            'organizer_id' => $this->user->id,
+            'tournament_id' => $this->tournament->id
+        ]);
         $this->be($this->user);
     }
 
-    public function testFindTournamentById(): void
+    public function testGetTournamentForOrganizer(): void
     {
-        $result = $this->tournamentRepository->findTournamentById($this->tournament->id);
+        $result = $this->tournamentRepository->getTournamentForOrganizer($this->user, $this->lan);
 
-        $this->assertEquals($this->tournament->id, $result->id);
-        $this->assertEquals($this->tournament->lan_id, $result->lan_id);
-        $this->assertEquals($this->tournament->name, $result->name);
+        $this->assertEquals($this->tournament->id, $result[0]->jsonSerialize()['id']);
+        $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['name']);
     }
 }

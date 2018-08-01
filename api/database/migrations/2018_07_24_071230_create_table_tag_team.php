@@ -16,7 +16,7 @@ class CreateTableTagTeam extends Migration
         Schema::create('tag_team', function (Blueprint $table) {
             $table->unsignedInteger('tag_id');
             $table->unsignedInteger('team_id');
-            $table->boolean('is_leader');
+            $table->boolean('is_leader')->default(false);
             $table->timestamps();
 
             $table->foreign('tag_id')

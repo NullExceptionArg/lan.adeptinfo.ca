@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableTournament extends Migration
 {
@@ -21,7 +21,7 @@ class CreateTableTournament extends Migration
             $table->dateTime('tournament_end');
             $table->unsignedInteger('players_to_reach');
             $table->unsignedInteger('teams_to_reach');
-            $table->enum('state', ['hidden', 'visible' ])->default('hidden');
+            $table->enum('state', ['hidden', 'visible', 'started', 'finished'])->default('hidden');
             $table->text('rules');
             $table->unsignedInteger('lan_id');
             $table->timestamps();
