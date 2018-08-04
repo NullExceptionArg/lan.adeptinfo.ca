@@ -57,7 +57,7 @@ class EditTest extends TestCase
                 'players_to_reach' => $this->requestContent['players_to_reach'],
                 'teams_to_reach' => $this->requestContent['teams_to_reach'],
                 'rules' => $this->requestContent['rules'],
-                'price' => $this->requestContent['price'],
+                'price' => $this->requestContent['price']
             ])
             ->assertResponseStatus(200);
     }
