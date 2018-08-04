@@ -62,17 +62,34 @@ class EditTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testEditNameRequired(): void
+    public function testEditTournamentIdInteger(): void
     {
-        $this->requestContent['name'] = null;
+        $badTournamentId = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', '/api/tournament/' . $badTournamentId, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'name' => [
-                        0 => 'The name field is required.'
+                    'tournament_id' => [
+                        0 => 'The tournament id must be an integer.'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testEditTournamentIdExist(): void
+    {
+        $badTournamentId = -1;
+        $this->actingAs($this->user)
+            ->json('PUT', '/api/tournament/' . $badTournamentId, $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'tournament_id' => [
+                        0 => 'The selected tournament id is invalid.'
                     ],
                 ]
             ])
@@ -113,6 +130,23 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testEditStateInEnum(): void
+    {
+        $this->requestContent['state'] = '☭';
+        $this->actingAs($this->user)
+            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'state' => [
+                        0 => 'The selected state is invalid.'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
     public function testEditPriceInteger(): void
     {
         $this->requestContent['price'] = '☭';
@@ -147,42 +181,6 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditPriceDefault(): void
-    {
-        $this->requestContent['price'] = '';
-        $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
-            ->seeJsonEquals([
-                'id' => 1,
-                'lan_id' => $this->requestContent['lan_id'],
-                'name' => $this->requestContent['name'],
-                'tournament_start' => $this->requestContent['tournament_start'],
-                'tournament_end' => $this->requestContent['tournament_end'],
-                'players_to_reach' => $this->requestContent['players_to_reach'],
-                'teams_to_reach' => $this->requestContent['teams_to_reach'],
-                'rules' => $this->requestContent['rules'],
-                'price' => 0,
-            ])
-            ->assertResponseStatus(201);
-    }
-
-    public function testEditTournamentStartRequired(): void
-    {
-        $this->requestContent['tournament_start'] = null;
-        $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'tournament_start' => [
-                        0 => 'The tournament start field is required.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testEditTournamentStartAfterOrEqualLanStartTime(): void
     {
 
@@ -202,23 +200,6 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditTournamentEndRequired(): void
-    {
-        $this->requestContent['tournament_end'] = null;
-        $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'tournament_end' => [
-                        0 => 'The tournament end field is required.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testEditTournamentEndBeforeOrEqualLanEndTime(): void
     {
         $endTime = new Carbon($this->lan->lan_end);
@@ -231,23 +212,6 @@ class EditTest extends TestCase
                 'message' => [
                     'tournament_end' => [
                         0 => 'The tournament end time must be before or equal the lan end time.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testEditPlayersToReachRequired(): void
-    {
-        $this->requestContent['players_to_reach'] = null;
-        $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'players_to_reach' => [
-                        0 => 'The players to reach field is required.'
                     ],
                 ]
             ])
@@ -288,17 +252,26 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditTeamsToReachRequired(): void
+    public function testEditPlayersToReachLock(): void
     {
-        $this->requestContent['teams_to_reach'] = null;
+        $tag = factory('App\Model\Tag')->create([
+            'user_id' => $this->user->id
+        ]);
+        $team = factory('App\Model\Team')->create([
+            'tournament_id' => $this->tournament->id
+        ]);
+        factory('App\Model\TagTeam')->create([
+            'tag_id' => $tag->id,
+            'team_id' => $team->id
+        ]);
         $this->actingAs($this->user)
             ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'teams_to_reach' => [
-                        0 => 'The teams to reach field is required.'
+                    'players_to_reach' => [
+                        0 => 'The players to reach can\'t be changed once users have started registering for the tournament.'
                     ],
                 ]
             ])
@@ -333,23 +306,6 @@ class EditTest extends TestCase
                 'message' => [
                     'teams_to_reach' => [
                         0 => 'The teams to reach must be an integer.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testEditRulesRequired(): void
-    {
-        $this->requestContent['rules'] = null;
-        $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'rules' => [
-                        0 => 'The rules field is required.'
                     ],
                 ]
             ])

@@ -131,14 +131,14 @@ class TournamentServiceImpl implements TournamentService
             'rules' => $input->input('rules'),
         ], [
             'tournament_id' => 'integer|exists:tournament,id',
-            'name' => 'nullable,string|max:255',
-            'state' => ['nullable', 'string', Rule::in(['hidden', 'visible', 'started', 'finished'])],
-            'price' => 'nullable,integer|min:0',
-            'tournament_start' => ['nullable', new AfterOrEqualLanStartTime($input->input('lan_id'))],
-            'tournament_end' => ['nullable', 'after:tournament_start', new BeforeOrEqualLanEndTime($input->input('lan_id'))],
-            'players_to_reach' => ['nullable', 'min:1', 'integer', new PlayersToReachLock($tournamentId)],
-            'teams_to_reach' => 'nullable,min:1|integer',
-            'rules' => 'nullable,string'
+            'name' => 'string|max:255',
+            'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
+            'price' => 'integer|min:0',
+            'tournament_start' => [new AfterOrEqualLanStartTime($input->input('lan_id'))],
+            'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($input->input('lan_id'))],
+            'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
+            'teams_to_reach' => 'min:1|integer',
+            'rules' => 'string'
         ]);
 
         if ($tournamentValidator->fails()) {

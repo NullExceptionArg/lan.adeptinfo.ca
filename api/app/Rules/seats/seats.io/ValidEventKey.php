@@ -34,6 +34,9 @@ class ValidEventKey implements Rule
                 return true;
             }
             $this->secretKey = Lan::find($this->lanId)->secret_key;
+            if ($this->secretKey == null) {
+                return true;
+            }
         }
 
         $seatsClient = new SeatsioClient($this->secretKey);
