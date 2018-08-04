@@ -27,7 +27,7 @@ Créer un nouveau tournoi.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où le tournoi aura lieu. | integer.
+lan_id | Id du LAN où le tournoi aura lieu. . Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
 
 ### Paramètres POST
 
@@ -122,3 +122,91 @@ outguessed | Le tournoi est devancé.
 running | Le tournoi est en cours.
 behindhand | Le tournoi s'éternise (Après l'heure de fin prévue).
 unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse, il serait bien de le communiquer à un développeur de l'API.
+
+## Modifier un tournoi
+
+Modifie un tournoi.
+
+### Requête HTTP
+
+`PUT /api/tournament/{tournament_id}`
+
+### Path Params
+
+> Exemple de requête
+
+```json
+{
+	"name": "Octobers",
+	"tournament_start": "2100-10-11T14:00:00-05:00",
+	"tournament_end": "2100-10-11T18:00:00-05:00",
+	"players_to_reach": 5,
+	"teams_to_reach": 6,
+	"rules": "The Bolsheviks seize control of Petrograd.",
+	"price": 0
+}
+```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+tournament_id | Id du tournoi que l'administrateur veut modifier. | integer.
+
+### Paramètres POST
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+name | Nom du tournoi. | Requis, string, 255 caractères max.
+price | Prix d'entrée du tournoi. | int, min: 0.
+state | État courant du LAN. Voir État Courant. | hidden, visible, started, ou finished
+tournament_start | Date et heure de début du tournoi. | Requis, après le début du LAN. 
+tournament_end | Date et heure de fin du tournoi. | Requis, date, avant la fin du LAN, après le début du tournoi.
+players_to_reach| Nombre de joueur à atteindre par équipe. | Requis, min: 1, int.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.| Requis, min: 1, int.
+rules | Règlements du tournoi. | String, requis.
+
+#### État courant
+Champ | Description
+--------- | -----------
+hidden | Caché, est seulement visible pour les organisateurs.
+visible | Est visible pour les utilisateurs.
+started | Le tournoi est commencé.
+finished | Le tournoi est terminé.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 1,
+    "name": "Octobers",
+    "price": 0,
+    "tournament_start": "2100-10-11 14:00:00",
+    "tournament_end": "2100-10-11 18:00:00",
+    "players_to_reach": 5,
+    "teams_to_reach": 6,
+    "state": "hidden",
+    "rules": "The Bolsheviks seize control of Petrograd.",
+    "lan_id": 1
+}
+```
+
+Paramètre | Description
+--------- | -----------
+name | Nom du tournoi.
+price | Prix d'entrée du tournoi. 
+state | État courant du LAN. Voir État Courant. 
+tournament_start | Date et heure de début du tournoi.
+tournament_end | Date et heure de fin du tournoi.
+players_to_reach| Nombre de joueur à atteindre par équipe.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.
+rules | Règlements du tournoi.
+lan_id | LAN auquel le tournoi est associé.
+
+#### État courant
+Champ | Description
+--------- | -----------
+hidden | Caché, est seulement visible pour les organisateurs.
+visible | Est visible pour les utilisateurs.
+started | Le tournoi est commencé.
+finished | Le tournoi est terminé.

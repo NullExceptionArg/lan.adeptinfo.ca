@@ -117,7 +117,7 @@ class DeleteImagesTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'images_id' => [
-                        0 => 'The ids ' . -1 . ' on the field images id don\'t exist.',
+                        0 => 'The images id must be a string.',
                     ],
                 ]
             ])

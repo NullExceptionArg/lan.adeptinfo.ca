@@ -64,7 +64,7 @@ class ImageServiceImpl implements ImageService
             'images_id' => $input->input('images_id')
         ], [
             'lan_id' => 'integer|exists:lan,id',
-            'images_id' => ['required', new ManyImageIdsExist($input->input('images_id'))]
+            'images_id' => ['required', 'string', new ManyImageIdsExist]
         ]);
 
         if ($rulesValidator->fails()) {

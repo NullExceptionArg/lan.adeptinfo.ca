@@ -110,10 +110,10 @@ class DeleteImagesTest extends TestCase
         ]);
         try {
             $this->imageService->deleteImages($request);
-            $this->fail('Expected: {"images_id":["The ids ' . -1 . ' on the field images id don\'t exist."]}');
+            $this->fail('Expected: {"images_id":["The images id must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"images_id":["The ids ' . -1 . ' on the field images id don\'t exist."]}', $e->getMessage());
+            $this->assertEquals('{"images_id":["The images id must be a string."]}', $e->getMessage());
         }
     }
 }

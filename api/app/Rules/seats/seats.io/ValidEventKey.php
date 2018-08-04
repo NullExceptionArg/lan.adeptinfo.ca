@@ -30,10 +30,13 @@ class ValidEventKey implements Rule
     {
         $seatsClient = null;
         if ($this->secretKey == null) {
-            if ($this->lanId == null) {
-                return false;
+            if ($this->lanId == null || $value == null) {
+                return true;
             }
             $this->secretKey = Lan::find($this->lanId)->secret_key;
+            if ($this->secretKey == null) {
+                return true;
+            }
         }
 
         $seatsClient = new SeatsioClient($this->secretKey);

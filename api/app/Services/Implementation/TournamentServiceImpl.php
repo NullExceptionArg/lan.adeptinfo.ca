@@ -9,12 +9,14 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
+use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class TournamentServiceImpl implements TournamentService
@@ -113,5 +115,48 @@ class TournamentServiceImpl implements TournamentService
         $tournaments = $this->tournamentRepository->getTournamentForOrganizer(Auth::user(), $lan);
 
         return GetAllTournamentResource::collection($tournaments);
+    }
+
+    public function edit(Request $input, string $tournamentId): Tournament
+    {
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId,
+            'name' => $input->input('name'),
+            'state' => $input->input('state'),
+            'price' => $input->input('price'),
+            'tournament_start' => $input->input('tournament_start'),
+            'tournament_end' => $input->input('tournament_end'),
+            'players_to_reach' => $input->input('players_to_reach'),
+            'teams_to_reach' => $input->input('teams_to_reach'),
+            'rules' => $input->input('rules'),
+        ], [
+            'tournament_id' => 'integer|exists:tournament,id',
+            'name' => 'string|max:255',
+            'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
+            'price' => 'integer|min:0',
+            'tournament_start' => [new AfterOrEqualLanStartTime($input->input('lan_id'))],
+            'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($input->input('lan_id'))],
+            'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
+            'teams_to_reach' => 'min:1|integer',
+            'rules' => 'string'
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findTournamentById($tournamentId);
+
+        return $this->tournamentRepository->update(
+            $tournament,
+            $input->input('name'),
+            $input->input('state'),
+            new DateTime($input->input('tournament_start')),
+            new DateTime($input->input('tournament_end')),
+            $input->input('players_to_reach'),
+            $input->input('teams_to_reach'),
+            $input->input('rules'),
+            intval($input->input('price'))
+        );
     }
 }

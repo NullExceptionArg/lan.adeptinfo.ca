@@ -39,7 +39,7 @@ interface LanRepository
 
     public function getCurrentLan(): ?Lan;
 
-    public function updateLan(
+    public function update(
         Lan $lan,
         string $name,
         DateTime $lanStart,

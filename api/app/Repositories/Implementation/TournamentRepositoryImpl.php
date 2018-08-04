@@ -63,4 +63,29 @@ class TournamentRepositoryImpl implements TournamentRepository
             ->whereIn('id', $tournamentIds)
             ->get();
     }
+
+    public function update(
+        Tournament $tournament,
+        ?string $name,
+        ?string $state,
+        ?DateTime $tournamentStart,
+        ?DateTime $tournamentEnd,
+        ?int $playersToReach,
+        ?int $teamsToReach,
+        ?string $rules,
+        ?int $price
+    ): Tournament
+    {
+        $tournament->name = $name != null ? $name : $tournament->name;
+        $tournament->state = $state != null ? $state : $tournament->state;;
+        $tournament->tournament_start = $tournamentStart != null ? $tournamentStart->format('Y-m-d H:i:s') : $tournament->tournament_start->format('Y-m-d H:i:s');
+        $tournament->tournament_end = $tournamentEnd != null ? $tournamentEnd->format('Y-m-d H:i:s') : $tournament->tournament_end->format('Y-m-d H:i:s');
+        $tournament->players_to_reach = $playersToReach != null ? $playersToReach : $tournament->players_to_reach;
+        $tournament->teams_to_reach = $teamsToReach != null ? $teamsToReach : $tournament->teams_to_reach;
+        $tournament->rules = $rules != null ? $rules : $tournament->rules;
+        $tournament->price = is_null($price) ? $tournament->price : $price;
+        $tournament->save();
+
+        return $tournament;
+    }
 }

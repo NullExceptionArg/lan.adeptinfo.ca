@@ -19,5 +19,5 @@ interface LanService
 
     public function setCurrentLan(Request $input): int;
 
-    public function update(Request $input): UpdateLanResource;
+    public function edit(Request $input): UpdateLanResource;
 }

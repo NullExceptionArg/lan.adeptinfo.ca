@@ -20,7 +20,7 @@ seat_id | Id de la place que l'utilisateur veut réserver. | Requis, string, un 
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut réserver une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer, un seul utilisateur par LAN.
+lan_id | Id du LAN où l'utilisateur veut réserver une place. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer, un seul utilisateur par LAN.
 
 ### Format de réponse
 

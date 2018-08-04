@@ -57,6 +57,7 @@ $api->version('v1', function ($api) {
                 $api->delete('image', 'ImageController@deleteImages');
 
                 $api->post('tournament', 'TournamentController@createTournament');
+                $api->put('tournament/{tournament_id}', 'TournamentController@editTournament');
                 $api->get('tournament/all', 'TournamentController@getAllTournament');
 
                 $api->post('team', 'TeamController@createTeam');

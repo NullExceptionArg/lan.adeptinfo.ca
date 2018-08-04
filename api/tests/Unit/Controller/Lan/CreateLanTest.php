@@ -470,9 +470,6 @@ class CreateLanTest extends TestCase
                 'message' => [
                     'secret_key' => [
                         0 => 'The secret key field is required.',
-                    ],
-                    'event_key' => [
-                        'The event key is not valid.'
                     ]
                 ]
             ])
