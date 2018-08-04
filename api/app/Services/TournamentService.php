@@ -10,5 +10,7 @@ interface TournamentService
 {
     public function create(Request $input): Tournament;
 
+    public function edit(Request $input, string $tournamentId): Tournament;
+
     public function getAll(Request $input): AnonymousResourceCollection;
 }

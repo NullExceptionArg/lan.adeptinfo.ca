@@ -28,7 +28,7 @@ class LanController extends Controller
 
     public function updateLan(Request $request)
     {
-        return response()->json($this->lanService->update($request), 200);
+        return response()->json($this->lanService->edit($request), 200);
     }
 
     public function getLan(Request $request)

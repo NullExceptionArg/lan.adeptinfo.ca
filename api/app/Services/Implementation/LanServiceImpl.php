@@ -3,8 +3,8 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Lan\GetLanResource;
 use App\Http\Resources\Lan\GetAllLanResource;
+use App\Http\Resources\Lan\GetLanResource;
 use App\Http\Resources\Lan\UpdateLanResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
@@ -131,7 +131,7 @@ class LanServiceImpl implements LanService
         return $input->input('lan_id');
     }
 
-    public function update(Request $input): UpdateLanResource
+    public function edit(Request $input): UpdateLanResource
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -167,7 +167,7 @@ class LanServiceImpl implements LanService
         $placeCount = $this->lanRepository->getReservedPlaces($lan->id);
         $images = $this->imageRepository->getImagesForLan($lan);
 
-        return new UpdateLanResource($this->lanRepository->updateLan(
+        return new UpdateLanResource($this->lanRepository->update(
             $lan,
             $input->input('name'),
             new DateTime($input->input('lan_start')),

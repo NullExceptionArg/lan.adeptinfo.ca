@@ -6,7 +6,7 @@ use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class UpdateLanTest extends TestCase
+class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -44,10 +44,9 @@ class UpdateLanTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }
 
-    public function testUpdateLan(): void
+    public function testUpdate(): void
     {
-        // Dates cause problems with Travis CI
-        $this->lanRepository->updateLan(
+        $this->lanRepository->update(
             $this->lan,
             $this->paramsContent['name'],
             new DateTime($this->paramsContent['lan_start']),

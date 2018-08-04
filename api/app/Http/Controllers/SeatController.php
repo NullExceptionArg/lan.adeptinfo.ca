@@ -21,9 +21,9 @@ class SeatController extends Controller
         $this->seatService = $seatServiceImpl;
     }
 
-    public function bookSeat(Request $request, string $seat_id)
+    public function bookSeat(Request $request, string $seatId)
     {
-        return response()->json($this->seatService->book($request, $seat_id), 201);
+        return response()->json($this->seatService->book($request, $seatId), 201);
     }
 
     public function confirmArrival(Request $request, string $seatId)
