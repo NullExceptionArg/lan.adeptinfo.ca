@@ -83,7 +83,7 @@ class TournamentRepositoryImpl implements TournamentRepository
         $tournament->players_to_reach = $playersToReach != null ? $playersToReach : $tournament->players_to_reach;
         $tournament->teams_to_reach = $teamsToReach != null ? $teamsToReach : $tournament->teams_to_reach;
         $tournament->rules = $rules != null ? $rules : $tournament->rules;
-        $tournament->price = $price != null ? $price : $tournament->price;
+        $tournament->price = is_null($price) ? $tournament->price : $price;
         $tournament->save();
 
         return $tournament;

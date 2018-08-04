@@ -31,6 +31,10 @@ class Tournament extends Model
         'created_at', 'updated_at',
     ];
 
+    protected $casts = [
+        'lan_id' => 'integer'
+    ];
+
     public function getCurrentState()
     {
         $state = $this->state;
