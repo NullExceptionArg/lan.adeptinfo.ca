@@ -68,4 +68,24 @@ class UserRepositoryImpl implements UserRepository
             ->orderBy($orderColumn, $orderDirection)
             ->paginate($itemsPerPage, ['*'], '', $currentPage);
     }
+
+    public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): User
+    {
+        $user = new User();
+        $user->facebook_id = $facebookId;
+        $user->first_name = $firstName;
+        $user->last_name = $lastName;
+        $user->email = $email;
+        $user->save();
+
+        return $user;
+    }
+
+    public function addFacebookToUser(User $user, string $facebookId): User
+    {
+        $user->facebook_id = $facebookId;
+        $user->save();
+
+        return $user;
+    }
 }

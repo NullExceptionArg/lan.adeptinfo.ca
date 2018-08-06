@@ -6,10 +6,13 @@ namespace App\Services\Implementation;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
 use App\Model\User;
+use App\Repositories\Implementation\AppRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Rules\ValidFacebookToken;
 use App\Services\UserService;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -39,9 +42,9 @@ class UserServiceImpl implements UserService
         $this->lanRepository = $lanRepositoryImpl;
     }
 
-    public function signUpUser(Request $request): User
+    public function signUpUser(Request $input): User
     {
-        $userValidator = Validator::make($request->all(), [
+        $userValidator = Validator::make($input->all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => 'required|email|unique:user',
@@ -53,10 +56,10 @@ class UserServiceImpl implements UserService
         }
 
         return $this->userRepository->createUser(
-            $request['first_name'],
-            $request['last_name'],
-            $request['email'],
-            $request['password']
+            $input->input('first_name'),
+            $input->input('last_name'),
+            $input->input('email'),
+            $input->input('password')
         );
     }
 
@@ -89,7 +92,6 @@ class UserServiceImpl implements UserService
         }
 
         // Default order column: last_name
-
         if ($request->input('order_column') == null) {
             $request['order_column'] = 'last_name';
         }
@@ -147,5 +149,49 @@ class UserServiceImpl implements UserService
         $seatHistory = $this->seatRepository->getSeatHistoryForUser($user, $lan);
 
         return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
+    }
+
+    public function signInFacebook(Request $input)
+    {
+        $userValidator = Validator::make([
+            'access_token' => $input->input('access_token'),
+        ], [
+            'access_token' => [new ValidFacebookToken]
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        $facebookUser = null;
+        $client = new Client([
+            'base_uri' => 'https://graph.facebook.com',
+            'timeout' => 2.0]);
+        $facebookUser = \GuzzleHttp\json_decode($client->get('/me', ['query' => [
+            'fields' => 'id,first_name,last_name,email',
+            'access_token' => $input->input('access_token')
+        ]])->getBody());
+
+
+        $user = $this->userRepository->findByEmail($facebookUser->email);
+        $isNew = $user == null;
+        if ($isNew) {
+            $user = $this->userRepository->createFacebookUser(
+                $facebookUser->id,
+                $facebookUser->first_name,
+                $facebookUser->last_name,
+                $facebookUser->email
+            );
+        }
+
+        if ($user->facebook_id == null) {
+            $user = $this->userRepository->addFacebookToUser($user, $facebookUser->id);
+        }
+
+        $token = $user->createToken('facebook')->accessToken;
+        return [
+            'token' => $token,
+            'is_new' => $isNew
+        ];
     }
 }

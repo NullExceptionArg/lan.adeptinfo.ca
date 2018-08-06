@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 interface UserService
 {
-    public function signUpUser(Request $request): User;
+    public function signUpUser(Request $input): User;
 
     public function deleteUser(): void;
 

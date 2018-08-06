@@ -37,4 +37,8 @@ interface UserRepository
         int $itemsPerPage,
         int $currentPage
     ): AbstractPaginator;
+
+    public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): User;
+
+    public function addFacebookToUser(User $user, string $facebookId): User;
 }

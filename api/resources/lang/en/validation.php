@@ -132,6 +132,7 @@ return [
     'unique_team_name_per_tournament' => 'A team name must be unique per lan.',
     'unique_user_per_request' => 'A user can only have one request per team.',
     'players_to_reach_lock' => 'The players to reach can\'t be changed once users have started registering for the tournament.',
+    'valid_facebook_token' => 'Invalid Facebook token.',
 
     /*
     |--------------------------------------------------------------------------

@@ -19,7 +19,9 @@ class CreateTableUser extends Migration
             $table->string('last_name')->nullable(false);
             $table->string('email')->nullable(false);
             $table->unique('email');
-            $table->string('password')->nullable(false);
+            $table->string('password')->nullable(true);
+            $table->string('facebook_id')->nullable(true);
+            $table->unique('facebook_id');
             $table->timestamps();
         });
     }
