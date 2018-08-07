@@ -188,7 +188,7 @@ class UserServiceImpl implements UserService
         if ($user->facebook_id == null) {
             $user = $this->userRepository->addFacebookToUser($user, $facebookUser->id);
         }
-        // TODO Retourner l'utilisateur au complet
+
         $token = $user->createToken('facebook')->accessToken;
         return [
             'token' => $token,
