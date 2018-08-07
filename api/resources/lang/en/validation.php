@@ -134,7 +134,7 @@ return [
     'players_to_reach_lock' => 'The players to reach can\'t be changed once users have started registering for the tournament.',
     'valid_facebook_token' => 'Invalid Facebook token.',
     'facebook_email_permission' => 'The email permission must be provided.',
-    'unique_email_social_login' => 'This email is already taken.',
+    'unique_email_social_login' => 'The email has already been taken.',
 
     /*
     |--------------------------------------------------------------------------
