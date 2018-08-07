@@ -6,10 +6,11 @@ namespace App\Services\Implementation;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
 use App\Model\User;
-use App\Repositories\Implementation\AppRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Rules\FacebookEmailPermission;
+use App\Rules\UniqueEmailSocialLogin;
 use App\Rules\ValidFacebookToken;
 use App\Services\UserService;
 use GuzzleHttp\Client;
@@ -47,7 +48,7 @@ class UserServiceImpl implements UserService
         $userValidator = Validator::make($input->all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
-            'email' => 'required|email|unique:user',
+            'email' => ['required', 'email', new UniqueEmailSocialLogin],
             'password' => 'required|min:6|max:20'
         ]);
 
@@ -151,12 +152,12 @@ class UserServiceImpl implements UserService
         return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
     }
 
-    public function signInFacebook(Request $input)
+    public function signInFacebook(Request $input): array
     {
         $userValidator = Validator::make([
             'access_token' => $input->input('access_token'),
         ], [
-            'access_token' => [new ValidFacebookToken]
+            'access_token' => [new ValidFacebookToken, new FacebookEmailPermission]
         ]);
 
         if ($userValidator->fails()) {
@@ -187,7 +188,7 @@ class UserServiceImpl implements UserService
         if ($user->facebook_id == null) {
             $user = $this->userRepository->addFacebookToUser($user, $facebookUser->id);
         }
-
+        // TODO Retourner l'utilisateur au complet
         $token = $user->createToken('facebook')->accessToken;
         return [
             'token' => $token,

@@ -21,4 +21,6 @@ interface UserService
 
     public function getUserDetails(Request $request): GetUserDetailsResource;
 
+    public function signInFacebook(Request $input): array;
+
 }

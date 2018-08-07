@@ -98,7 +98,6 @@ $app->routeMiddleware([
 // Main provider
 $app->register(App\Providers\AppServiceProvider::class);
 // Passport & Auth - https://github.com/dusterio/lumen-passport
-$app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
 Dusterio\LumenPassport\LumenPassport::routes($app);
