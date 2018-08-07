@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 interface UserService
 {
-    public function signUpUser(Request $request): User;
+    public function signUpUser(Request $input): User;
 
     public function deleteUser(): void;
 
@@ -20,5 +20,7 @@ interface UserService
     public function getUsers(Request $request): GetUserCollection;
 
     public function getUserDetails(Request $request): GetUserDetailsResource;
+
+    public function signInFacebook(Request $input): array;
 
 }

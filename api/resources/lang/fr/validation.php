@@ -132,6 +132,9 @@ return [
     'unique_team_name_per_tournament' => 'Un nom d\'équipe doit être unique par lan.',
     'unique_user_per_request' => 'Un utilisateur ne peut avoir qu\'une demande d\'admission par équipe.',
     'players_to_reach_lock' => 'Le nombre de joueurs à atteindre ne peut être modifiée une fois que des équipes sont inscrites au tournoi.',
+    'valid_facebook_token' => 'Token Facebook invalide.',
+    'facebook_email_permission' => 'La permission d\'utiliser l\'adresse courriel doit être fournie.',
+    'unique_email_social_login' => 'Ce courriel est déjà prit.',
 
     /*
     |--------------------------------------------------------------------------

@@ -22,6 +22,7 @@ $api->version('v1', function ($api) {
         $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
             $api->post('user', 'UserController@signUp');
+            $api->post('user/facebook', 'UserController@signInFacebook');
 
             $api->get('lan', 'LanController@getLan');
             $api->get('lan/all', 'LanController@getAllLan');

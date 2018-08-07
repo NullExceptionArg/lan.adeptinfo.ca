@@ -16,6 +16,7 @@ use Seatsio\SeatsioClient;
  * @property string email
  * @property string password
  * @property int id
+ * @property string facebook_id
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
@@ -39,7 +40,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'id', 'created_at', 'updated_at',
+        'password', 'id', 'created_at', 'updated_at', 'facebook_id', 'google_id',
     ];
 
     public function getFullName(): string
