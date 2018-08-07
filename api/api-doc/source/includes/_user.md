@@ -48,6 +48,46 @@ first_name | Prénom de l'utilisateur créé.
 last_name | Nom de l'utilisateur créé.
 email | Identifiant (courriel) de l'utilisateur créé.
 
+## Créer un compte avec Facebook
+
+Se créer un compte utilisateur en se connectant avec Facebook.
+Il est à noter qu'un compte facebook peut s'ajouter à un compte qui a été créé avec Laravel ou Google. 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Tout est géré par l'API.
+
+### Requête HTTP
+
+`POST /api/user/facebook`
+
+### Paramètres POST
+
+> Exemple de requête
+
+```json
+{
+  "access_token": "EAAe1dhSpTRoBAJx1pm9uYg52QxZBkPZC7ACtLg2XWkFLBttr2MnTqxXr5tLeZACcZB7MjZCTKfgXZDGhUgQDpxM1iieJGarqOQiZCOB3kKgOHpEa5Ucp2UzOJRGwNww3srmR4rpYwJg7CrrbECmAXnD6DwczeJhhLFhdg4rTZB8agswdQEGTdabxfDzABuMo4ZAPMxhkKxakdvNwZDZD"
+}
+
+```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+access_token | Token retourné par une authentification côté client, avec Facebook. | Requis.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMxNWFlMmE0NWJiNmRjYTQ3MGI2OGY0YThmYzU3ZWI5IThhN2NiY2YzNzNjYTNiZmRkNWMyMmRjMmM5MzA3M2Q4MjU5MWRhNTg0YjJhZThkIn0.eyJhdWQiOiIxIiwianRpOjoiMzE1YWUyYTQ0MmI2ZGNhNDcwYjY4ZjRhOGZjNTdlYjkxOGE3Y2JjZjM3M2NhM2JmZGQ1YzIyZGMyYzkzMDczZDgyNTkxZGE1ODRiMmFlOGQiLCJpYXQiOjE1MzM2MDU5OTYsIm5iZiI6MTUzMzYwNTk5NiwiZXhwIjoxNTY1MTQxOTk2LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.PL0YprwvBISWFHDw8fATGU5utLfShxeEqEmfbI6gzdESw59EitzlgwU6aQkrY-2v7SI0V8tg7EpeQga42HJlQbw2LylpLX-jdVyvbFp6fXNFkUI_vRhrKV9n0S-mc-iluN4Px7PfZnVofa4vDyinhW2SP9MnrnISrPVEmqOpePvOIf2q5WfqmKve7LexGioqVAHk1EefgV4ySTQVUHRbwA9NQA1-sVJ1TQz3ZfBuTQDR7Zq5y9m9XOrPIipIKawGad_wJ6eS5oCpWIf4UlWlzwg72YwiNf_EjnHNwSNnceuj7xvDcQ1khyNo7XVrkT_xTdRbv774tEUxi_z2Ktw8h-aHYnSEuw6AtPwNRJjq_7ubTk_3yyXYq2Fk30lGp_o7zlJN6vGPDVsKNV-oixJVj58f3F4gSeHxbUVj8ukvMg7n786swRw22iaVFLTMV3RemrWhqEtLGeue15apYAq_dqApuhIzCK24DhCobRiLbyEotpyTNaXJtdBRTqv77W-vf7ySemajsgIiNasiDpHm_P-eC8DYIoMSqrofWBitquKl5tmAfT_UCaZvj-z2AzQteBmql3rySJNAh_Ot8aapJOF1XLamFpybffB1faL7NP30isNG0rZe6jpBPwU5D-S0lUeUPjwod2OO7SeoMMWZoi0HcsLYN_uAyJOCTNgvOy4"
+}
+```
+
+Champ | Description
+--------- | -----------
+token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
+
 ## Connection
 
 S'authentifier dans l'application.
