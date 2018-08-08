@@ -15,14 +15,15 @@ $api->version('v1', function ($api) {
 
     $api->group(['middleware' => ['language', 'cors']], function ($api) {
 
-        $api->group(['prefix' => 'oauth'], function ($api) {
-            $api->post('token', '\Laravel\Passport\Http\Controllers\AccessTokenController@issueToken');
+        $api->group(['namespace' => '\Laravel\Passport\Http\Controllers'], function ($api) {
+            $api->post('oauth/token', 'AccessTokenController@issueToken');
         });
 
         $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
             $api->post('user', 'UserController@signUp');
             $api->post('user/facebook', 'UserController@signInFacebook');
+            $api->get('user/confirm/{confirmation_code}', 'UserController@confirm');
 
             $api->get('lan', 'LanController@getLan');
             $api->get('lan/all', 'LanController@getAllLan');

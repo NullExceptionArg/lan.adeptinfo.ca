@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Seeder;
+namespace Tests\Unit\Misc;
 
 use App\Model\Lan;
 use App\Model\Reservation;

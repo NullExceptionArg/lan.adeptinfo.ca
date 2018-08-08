@@ -16,9 +16,14 @@ interface UserRepository
      * @param string $lastName Users last name
      * @param string $email Users email
      * @param string $password Users password
+     * @param string $confirmationCode Confirmation code to be sent by email
      * @return User GetUserResource that was created
      */
-    public function createUser(string $firstName, string $lastName, string $email, string $password): User;
+    public function createUser(
+        string $firstName,
+        string $lastName,
+        string $email, string $password,
+        string $confirmationCode): User;
 
     public function deleteUserById(int $userId): void;
 
@@ -41,4 +46,8 @@ interface UserRepository
     public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): User;
 
     public function addFacebookToUser(User $user, string $facebookId): User;
+
+    public function findByConfirmationCode(string $confirmationCode): User;
+
+    public function confirmAccount(User $user): void;
 }

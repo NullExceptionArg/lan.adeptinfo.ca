@@ -17,6 +17,8 @@ use Seatsio\SeatsioClient;
  * @property string password
  * @property int id
  * @property string facebook_id
+ * @property mixed confirmation_code
+ * @property bool confirmed
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {

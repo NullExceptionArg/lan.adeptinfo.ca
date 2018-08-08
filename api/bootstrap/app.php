@@ -100,7 +100,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 // Passport & Auth - https://github.com/dusterio/lumen-passport
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
-Dusterio\LumenPassport\LumenPassport::routes($app);
+//Dusterio\LumenPassport\LumenPassport::routes($app);
 // Lumen generator - https://github.com/flipboxstudio/lumen-generator
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // Dingo

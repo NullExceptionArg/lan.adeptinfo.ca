@@ -49,19 +49,28 @@ class UserServiceImpl implements UserService
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => ['required', 'email', new UniqueEmailSocialLogin],
-            'password' => 'required|min:6|max:20'
+            'password' => 'required|min:6|max:20',
         ]);
 
         if ($userValidator->fails()) {
             throw new BadRequestHttpException($userValidator->errors());
         }
 
-        return $this->userRepository->createUser(
+        $confirmationCode = str_random(30);
+        $user = $this->userRepository->createUser(
             $input->input('first_name'),
             $input->input('last_name'),
             $input->input('email'),
-            $input->input('password')
+            $input->input('password'),
+            $confirmationCode
         );
+
+//        Mail::send(new ConfirmAccount(
+//            $input->input('email'),
+//            $confirmationCode
+//        ));
+
+        return $user;
     }
 
     public function logOut(): void
@@ -194,5 +203,21 @@ class UserServiceImpl implements UserService
             'token' => $token,
             'is_new' => $isNew
         ];
+    }
+
+    public function confirm(string $confirmationCode)
+    {
+        $confirmationValidator = Validator::make([
+            'confirmation_code' => $confirmationCode,
+        ], [
+            'confirmation_code' => 'exists:user,confirmation_code'
+        ]);
+
+        if ($confirmationValidator->fails()) {
+            throw new BadRequestHttpException($confirmationValidator->errors());
+        }
+
+        $user = $this->userRepository->findByConfirmationCode($confirmationCode);
+        $this->userRepository->confirmAccount($user);
     }
 }
