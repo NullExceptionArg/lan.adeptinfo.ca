@@ -100,7 +100,7 @@ class UserRepositoryImpl implements UserRepository
 
     public function confirmAccount(User $user): void
     {
-        $user->confirmed = true;
+        $user->is_confirmed = true;
         $user->confirmation_code = null;
         $user->save();
     }

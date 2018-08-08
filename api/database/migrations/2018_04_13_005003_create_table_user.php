@@ -22,7 +22,7 @@ class CreateTableUser extends Migration
             $table->string('password')->nullable(true);
             $table->string('facebook_id')->nullable(true);
             $table->string('google_id')->nullable(true);
-            $table->boolean('confirmed')->default(false);
+            $table->boolean('is_confirmed')->default(false);
             $table->string('confirmation_code')->nullable();
             $table->timestamps();
 

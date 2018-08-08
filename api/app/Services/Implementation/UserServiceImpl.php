@@ -45,6 +45,7 @@ class UserServiceImpl implements UserService
 
     public function signUpUser(Request $input): User
     {
+        // TODO Middleware login validate account confirmed
         $userValidator = Validator::make($input->all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -207,6 +208,7 @@ class UserServiceImpl implements UserService
 
     public function confirm(string $confirmationCode)
     {
+        // TODO Tests
         $confirmationValidator = Validator::make([
             'confirmation_code' => $confirmationCode,
         ], [

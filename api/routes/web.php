@@ -15,7 +15,7 @@ $api->version('v1', function ($api) {
 
     $api->group(['middleware' => ['language', 'cors']], function ($api) {
 
-        $api->group(['namespace' => '\Laravel\Passport\Http\Controllers'], function ($api) {
+        $api->group(['namespace' => '\Laravel\Passport\Http\Controllers', 'middleware' => ['login']], function ($api) {
             $api->post('oauth/token', 'AccessTokenController@issueToken');
         });
 
