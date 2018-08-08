@@ -50,4 +50,6 @@ interface UserRepository
     public function findByConfirmationCode(string $confirmationCode): User;
 
     public function confirmAccount(User $user): void;
+
+    public function addConfirmationCode(User $user, string $confirmationCode): void;
 }

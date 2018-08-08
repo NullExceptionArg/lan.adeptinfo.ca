@@ -45,7 +45,6 @@ class UserServiceImpl implements UserService
 
     public function signUpUser(Request $input): User
     {
-        // TODO Middleware login validate account confirmed
         $userValidator = Validator::make($input->all(), [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
@@ -55,16 +54,22 @@ class UserServiceImpl implements UserService
 
         if ($userValidator->fails()) {
             throw new BadRequestHttpException($userValidator->errors());
-        }
+        };
 
+        $user = $this->userRepository->findByEmail($input->input('email'));
         $confirmationCode = str_random(30);
-        $user = $this->userRepository->createUser(
-            $input->input('first_name'),
-            $input->input('last_name'),
-            $input->input('email'),
-            $input->input('password'),
-            $confirmationCode
-        );
+
+        if ($user != null) {
+            $this->userRepository->addConfirmationCode($user, $confirmationCode);
+        } else {
+            $user = $this->userRepository->createUser(
+                $input->input('first_name'),
+                $input->input('last_name'),
+                $input->input('email'),
+                $input->input('password'),
+                $confirmationCode
+            );
+        }
 
 //        Mail::send(new ConfirmAccount(
 //            $input->input('email'),

@@ -104,4 +104,10 @@ class UserRepositoryImpl implements UserRepository
         $user->confirmation_code = null;
         $user->save();
     }
+
+    public function addConfirmationCode(User $user, string $confirmationCode): void
+    {
+        $user->confirmation_code = $confirmationCode;
+        $user->save();
+    }
 }
