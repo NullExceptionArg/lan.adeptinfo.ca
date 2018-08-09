@@ -174,8 +174,6 @@ class SignUpUserTest extends FacebookTestCase
 
     public function testSignUpUniqueEmailSocialLoginReturningFacebook(): void
     {
-        // Utilisateur déjà existant, créé par facebook.
-        // succès
         factory('App\Model\User')->create([
             'facebook_id' => '12345678',
             'first_name' => $this->requestContent['first_name'],
