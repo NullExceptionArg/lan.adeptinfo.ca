@@ -213,7 +213,6 @@ class UserServiceImpl implements UserService
 
     public function confirm(string $confirmationCode)
     {
-        // TODO Tests
         $confirmationValidator = Validator::make([
             'confirmation_code' => $confirmationCode,
         ], [
