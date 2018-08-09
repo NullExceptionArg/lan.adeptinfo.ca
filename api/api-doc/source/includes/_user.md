@@ -48,6 +48,22 @@ first_name | Prénom de l'utilisateur créé.
 last_name | Nom de l'utilisateur créé.
 email | Identifiant (courriel) de l'utilisateur créé.
 
+## Confirmer un compte
+
+Confirmer un compte utilisateur. Devrait être utilisé en envoyant un courriel à l'utilisateur. 
+
+### Requête HTTP
+
+`GET /api/user/confirm/{confirmation_code}`
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+confirmation_code | Code de confirmation secret qui est communiqué directement à l'utilisateur. 
+
+La réponse est vide, mais retourne un statut 200.
+
 ## Créer un compte avec Facebook
 
 Se créer un compte utilisateur en se connectant avec Facebook.

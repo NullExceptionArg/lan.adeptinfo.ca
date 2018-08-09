@@ -24,6 +24,7 @@ class UserRepositoryImpl implements UserRepository
         $user->last_name = $lastName;
         $user->email = $email;
         $user->password = Hash::make($password);
+        $user->confirmation_code = $confirmationCode;
         $user->save();
 
         return $user;
