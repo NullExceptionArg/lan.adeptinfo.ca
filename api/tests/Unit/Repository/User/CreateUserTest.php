@@ -15,13 +15,16 @@ class CreateUserTest extends TestCase
         'first_name' => 'John',
         'last_name' => 'Doe',
         'email' => 'john@doe.com',
-        'password' => 'Passw0rd!'
+        'password' => 'Passw0rd!',
+        'confirmation_code' => null
     ];
 
     public function setUp(): void
     {
         parent::setUp();
         $this->userRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
+
+        $this->paramsContent['confirmation_code'] = $confirmationCode = str_random(30);;
     }
 
     public function testSignUp(): void
@@ -30,7 +33,8 @@ class CreateUserTest extends TestCase
             $this->paramsContent['first_name'],
             $this->paramsContent['last_name'],
             $this->paramsContent['email'],
-            $this->paramsContent['password']
+            $this->paramsContent['password'],
+            $this->paramsContent['confirmation_code']
         );
         $this->seeInDatabase('user', [
             'first_name' => $this->paramsContent['first_name'],

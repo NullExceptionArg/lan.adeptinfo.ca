@@ -17,7 +17,7 @@ class UniqueEmailSocialLogin implements Rule
     public function passes($attribute, $value)
     {
         $user = User::where('email', $value)->first();
-        $hasConfirmationCode = $user != null ? $user->confirmation_code == null : false;
+        $hasConfirmationCode = $user != null ? $user->confirmation_code != null : false;
         return ($user == null || ($user->facebook_id != null || $user->google_id != null)) && !$hasConfirmationCode;
     }
 
