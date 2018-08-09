@@ -3,9 +3,9 @@
 namespace Tests\Unit\Controller\User;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Tests\FacebookTestCase;
+use Tests\TestCase;
 
-class SignUpUserTest extends FacebookTestCase
+class SignUpUserTest extends TestCase
 {
 
     use DatabaseMigrations;
