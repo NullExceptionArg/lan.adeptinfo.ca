@@ -231,6 +231,9 @@
                     <a href="#creer-un-compte" class="toc-h2 toc-link" data-title="creer-un-compte">Créer un compte</a>
                   </li>
                   <li>
+                    <a href="#confirmer-un-compte" class="toc-h2 toc-link" data-title="confirmer-un-compte">Confirmer un compte</a>
+                  </li>
+                  <li>
                     <a href="#creer-un-compte-avec-facebook" class="toc-h2 toc-link" data-title="creer-un-compte-avec-facebook">Créer un compte avec Facebook</a>
                   </li>
                   <li>
@@ -477,12 +480,32 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Identifiant (courriel) de l&#39;utilisateur créé.</td>
 </tr>
 </tbody></table>
+<h2 id='confirmer-un-compte'>Confirmer un compte</h2>
+<p>Confirmer un compte utilisateur. Devrait être utilisé en envoyant un courriel à l&#39;utilisateur. </p>
+<h3 id='requete-http-2'>Requête HTTP</h3>
+<p><code>GET /api/user/confirm/{confirmation_code}</code></p>
+<h3 id='path-params'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>confirmation_code</td>
+<td>Code de confirmation secret qui est communiqué directement à l&#39;utilisateur.</td>
+<td></td>
+</tr>
+</tbody></table>
+
+<p>La réponse est vide, mais retourne un statut 200.</p>
 <h2 id='creer-un-compte-avec-facebook'>Créer un compte avec Facebook</h2>
 <p>Se créer un compte utilisateur en se connectant avec Facebook.
 Il est à noter qu&#39;un compte facebook peut s&#39;ajouter à un compte qui a été créé avec Laravel ou Google. 
 Aucune manipulation supplémentaire n&#39;est nécessaire pour agencer des méthodes de connection. 
 Tout est géré par l&#39;API.</p>
-<h3 id='requete-http-2'>Requête HTTP</h3>
+<h3 id='requete-http-3'>Requête HTTP</h3>
 <p><code>POST /api/user/facebook</code></p>
 <h3 id='parametres-post-2'>Paramètres POST</h3>
 <blockquote>
@@ -527,7 +550,7 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='connection'>Connection</h2>
 <p>S&#39;authentifier dans l&#39;application.</p>
-<h3 id='requete-http-3'>Requête HTTP</h3>
+<h3 id='requete-http-4'>Requête HTTP</h3>
 <p><code>POST /oauth/token</code></p>
 <h3 id='parametres-post-3'>Paramètres POST</h3>
 <blockquote>
@@ -612,7 +635,7 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='deconnexion'>Déconnexion</h2>
 <p>Se déconnecter dans l&#39;application</p>
-<h3 id='requete-http-4'>Requête HTTP</h3>
+<h3 id='requete-http-5'>Requête HTTP</h3>
 <p><code>POST /api/user/logout</code></p>
 
 <p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
@@ -625,7 +648,7 @@ Tout est géré par l&#39;API.</p>
 <p>La réponse de la suppression de utilisateur est vide.</p>
 <h2 id='supprimer'>Supprimer</h2>
 <p>Supprimer un utilisateur authentifié</p>
-<h3 id='requete-http-5'>Requête HTTP</h3>
+<h3 id='requete-http-6'>Requête HTTP</h3>
 <p><code>DELETE /api/user</code></p>
 
 <p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
@@ -638,7 +661,7 @@ Tout est géré par l&#39;API.</p>
 <p>La réponse de la suppression de utilisateur est vide.</p>
 <h2 id='lister-les-utilisateurs'>Lister les utilisateurs</h2>
 <p>Lister l&#39;ensemble des utilisateurs selon des filtres, un ordre et de la pagination</p>
-<h3 id='requete-http-6'>Requête HTTP</h3>
+<h3 id='requete-http-7'>Requête HTTP</h3>
 <p><code>GET /api/user</code></p>
 <h3 id='query-params'>Query Params</h3>
 <table><thead>
@@ -781,7 +804,7 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='details-d-39-un-utilisateur'>Détails d&#39;un utilisateur</h2>
 <p>Détails d&#39;un utilisateur et son historique pour un LAN.</p>
-<h3 id='requete-http-7'>Requête HTTP</h3>
+<h3 id='requete-http-8'>Requête HTTP</h3>
 <p><code>POST /api/user/details</code></p>
 <h3 id='parametres-post-4'>Paramètres POST</h3>
 <blockquote>
