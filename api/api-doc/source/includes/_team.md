@@ -95,3 +95,54 @@ Paramètre | Description
 --------- | -----------
 team_id | Id de l'équipe dans laquelle l'utilisateur a créé sa demande.
 tag_id | Id du tag sous lequel l'utilisateur a créer sa demande.
+
+## Obtenir les équipes d'un utilisateur
+
+Créer une demande pour joindre une équipe
+
+### Requête HTTP
+
+`GET /api/team/user`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN d'où l'utilisateur veut obtenir ses tournois. Si paramètre n'est pas spécifié, on retourne le LAN courant. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+[
+    {
+        "id": 1,
+        "name": "WorkersUnite",
+        "tag": "PRO",
+        "players_reached": 1,
+        "players_to_reach": 5,
+        "tournament_name": "October",
+        "requests": 13,
+        "player_state": "not-confirmed"
+    }
+]
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id de l'équipe.
+name | Nom de l'équipe.
+tag | Tag de l'équipe.
+players_reached | Nombre de joueurs dans l'équipe.
+players_to_reach | Nombre de joueurs à atteindre (Propriété du tournoi).
+tournament_name | Nom du tournoi.
+requests | Nombre de demandes pour faire parti de l'équipe.
+player_state | État du joueur dans l'équipe. Voir Player State
+
+#### Player State
+Paramètre | Description
+--------- | -----------
+leader | Le joueur est le chef de l'équipe.
+confirmed | Le joueur est dans l'équipe.
+not-confirmed | La requête du joueur est en attente de confirmation.
