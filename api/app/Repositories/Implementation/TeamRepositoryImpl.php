@@ -48,7 +48,7 @@ class TeamRepositoryImpl implements TeamRepository
         return $request;
     }
 
-    public function getUserTeam(Authenticatable $user, Lan $lan)
+    public function getUserTeams(Authenticatable $user, Lan $lan)
     {
         $tagIds = DB::table('tag')
             ->select('id')

@@ -123,7 +123,7 @@ class TeamServiceImpl implements TeamService
         }
         $user = Auth::user();
 
-        $teams = $this->teamRepository->getUserTeam($user, $lan);
+        $teams = $this->teamRepository->getUserTeams($user, $lan);
 
         return GetUserTeamsResource::collection($teams);
     }
