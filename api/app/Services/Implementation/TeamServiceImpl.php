@@ -3,7 +3,9 @@
 namespace App\Services\Implementation;
 
 
+use App\Http\Resources\Lan\GetUserTeamsResource;
 use App\Model\Team;
+use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TagRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
@@ -13,6 +15,7 @@ use App\Rules\Team\UniqueUserPerRequest;
 use App\Rules\Team\UniqueUserPerTournament;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -21,22 +24,26 @@ class TeamServiceImpl implements TeamService
     protected $teamRepository;
     protected $tournamentRepository;
     protected $tagRepository;
+    protected $lanRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param TeamRepositoryImpl $teamRepositoryImpl
      * @param TournamentRepositoryImpl $tournamentRepositoryImpl
      * @param TagRepositoryImpl $tagRepositoryImpl
+     * @param LanRepositoryImpl $lanRepositoryImpl
      */
     public function __construct(
         TeamRepositoryImpl $teamRepositoryImpl,
         TournamentRepositoryImpl $tournamentRepositoryImpl,
-        TagRepositoryImpl $tagRepositoryImpl
+        TagRepositoryImpl $tagRepositoryImpl,
+        LanRepositoryImpl $lanRepositoryImpl
     )
     {
         $this->teamRepository = $teamRepositoryImpl;
         $this->tournamentRepository = $tournamentRepositoryImpl;
         $this->tagRepository = $tagRepositoryImpl;
+        $this->lanRepository = $lanRepositoryImpl;
     }
 
     public function create(Request $input): Team
@@ -85,5 +92,33 @@ class TeamServiceImpl implements TeamService
         }
 
         return $this->teamRepository->createRequest($input->input('team_id'), $input->input('tag_id'));
+    }
+
+    public function getUserTeams(Request $input)
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrentLan();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $tournamentValidator = Validator::make([
+            'lan_id' => $input->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id',
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        if ($lan == null) {
+            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+        }
+        $user = Auth::user();
+
+        $teams = $this->teamRepository->getUserTeam($user, $lan);
+
+        return GetUserTeamsResource::collection($teams);
     }
 }
