@@ -8,6 +8,9 @@ use Tests\TestCase;
 
 class CreateRequestTest extends TestCase
 {
+    // TODO Impossible de demander à entrer dans une équipe un fois que le joueur a déjà une demande en attente dans l'éqiope
+    // TODO Un joueur ne peut pas utiliser le tag d'un autre joueur pour créer une requête
+
     use DatabaseMigrations;
 
     protected $user;
@@ -188,6 +191,20 @@ class CreateRequestTest extends TestCase
                 'name' => 'name',
                 'tag' => 'tag'
             ]);
+        $this->actingAs($this->user)
+            ->json('POST', '/api/team/request', $this->requestContent)
+            ->seeJsonEquals([
+                'id' => 1,
+                'team_id' => $this->requestContent['team_id'],
+                'tag_id' => $this->requestContent['tag_id']
+            ])
+            ->assertResponseStatus(201);
+    }
+
+    public function testCreateRequestTagBelongsToUser(): void
+    {
+        $this->actingAs($this->user)
+            ->call('POST', '/api/team/request', $this->requestContent);
         $this->actingAs($this->user)
             ->json('POST', '/api/team/request', $this->requestContent)
             ->seeJsonEquals([

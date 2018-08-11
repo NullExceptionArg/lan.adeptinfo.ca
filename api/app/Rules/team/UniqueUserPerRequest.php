@@ -2,6 +2,7 @@
 
 namespace App\Rules\Team;
 
+use App\Model\Tag;
 use App\Model\Team;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
@@ -9,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class UniqueUserPerRequest implements Rule
 {
+    protected $tagId;
+
+    public function __construct(?int $tagId)
+    {
+        $this->tagId = $tagId;
+    }
 
     /**
      * Determine if the validation rule passes.
@@ -19,6 +26,11 @@ class UniqueUserPerRequest implements Rule
      */
     public function passes($attribute, $value)
     {
+        $tag = Tag::find($this->tagId);
+        if ($tag->user_id != Auth::id()) {
+            return true;
+        }
+
         $team = Team::find($value);
 
         if ($team == null) {

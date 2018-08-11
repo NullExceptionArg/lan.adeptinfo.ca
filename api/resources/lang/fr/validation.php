@@ -135,6 +135,7 @@ return [
     'valid_facebook_token' => 'Token Facebook invalide.',
     'facebook_email_permission' => 'La permission d\'utiliser l\'adresse courriel doit être fournie.',
     'unique_email_social_login' => 'Ce courriel est déjà prit.',
+    'tag_belongs_to_user' => 'Le tag doit appartenir à l\'utilisateur.',
 
     /*
     |--------------------------------------------------------------------------

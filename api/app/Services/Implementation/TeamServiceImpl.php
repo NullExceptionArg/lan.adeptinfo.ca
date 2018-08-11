@@ -2,19 +2,20 @@
 
 namespace App\Services\Implementation;
 
-
 use App\Http\Resources\Lan\GetUserTeamsResource;
 use App\Model\Team;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TagRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Rules\Team\TagBelongsToUser;
 use App\Rules\Team\UniqueTeamNamePerTournament;
 use App\Rules\Team\UniqueTeamTagPerTournament;
 use App\Rules\Team\UniqueUserPerRequest;
 use App\Rules\Team\UniqueUserPerTournament;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -83,8 +84,13 @@ class TeamServiceImpl implements TeamService
             'team_id' => $input->input('team_id'),
             'tag_id' => $input->input('tag_id'),
         ], [
-            'team_id' => ['required', 'exists:team,id', new UniqueUserPerRequest()],
-            'tag_id' => ['required', 'exists:tag,id', new UniqueUserPerTournament(null, $input->input('team_id'))],
+            'team_id' => ['required', 'exists:team,id', new UniqueUserPerRequest($input->input('tag_id'))],
+            'tag_id' => [
+                'required',
+                'exists:tag,id',
+                new UniqueUserPerTournament(null, $input->input('team_id')),
+                new TagBelongsToUser
+            ],
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -94,7 +100,7 @@ class TeamServiceImpl implements TeamService
         return $this->teamRepository->createRequest($input->input('team_id'), $input->input('tag_id'));
     }
 
-    public function getUserTeams(Request $input)
+    public function getUserTeams(Request $input): AnonymousResourceCollection
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
