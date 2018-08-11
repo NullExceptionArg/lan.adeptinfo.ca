@@ -227,10 +227,12 @@ class GetUserTeamsTest extends TestCase
     public function testCreateRequestNoTeam(): void
     {
         $this->team->delete();
-        $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
-            ->seeJsonEquals([])
-            ->assertResponseStatus(200);
+        $request = new Request([
+            'lan_id' => $this->lan->id
+        ]);
+        $result = $this->teamService->getUserTeams($request);
+
+        $this->assertEquals([], $result->jsonSerialize());
     }
 
     public function testCreateRequestNoTournament(): void
