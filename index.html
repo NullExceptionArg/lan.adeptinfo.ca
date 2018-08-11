@@ -231,9 +231,6 @@
                     <a href="#creer-un-compte" class="toc-h2 toc-link" data-title="creer-un-compte">Créer un compte</a>
                   </li>
                   <li>
-                    <a href="#confirmer-un-compte" class="toc-h2 toc-link" data-title="confirmer-un-compte">Confirmer un compte</a>
-                  </li>
-                  <li>
                     <a href="#creer-un-compte-avec-facebook" class="toc-h2 toc-link" data-title="creer-un-compte-avec-facebook">Créer un compte avec Facebook</a>
                   </li>
                   <li>
@@ -352,6 +349,9 @@
                   </li>
                   <li>
                     <a href="#creer-une-demande-pour-joindre-une-equipe" class="toc-h2 toc-link" data-title="creer-une-demande-pour-joindre-une-equipe">Créer une demande pour joindre une équipe</a>
+                  </li>
+                  <li>
+                    <a href="#obtenir-les-equipes-d-39-un-utilisateur" class="toc-h2 toc-link" data-title="obtenir-les-equipes-d-un-utilisateur">Obtenir les équipes d'un utilisateur</a>
                   </li>
               </ul>
           </li>
@@ -480,32 +480,12 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Identifiant (courriel) de l&#39;utilisateur créé.</td>
 </tr>
 </tbody></table>
-<h2 id='confirmer-un-compte'>Confirmer un compte</h2>
-<p>Confirmer un compte utilisateur. Devrait être utilisé en envoyant un courriel à l&#39;utilisateur. </p>
-<h3 id='requete-http-2'>Requête HTTP</h3>
-<p><code>GET /api/user/confirm/{confirmation_code}</code></p>
-<h3 id='path-params'>Path Params</h3>
-<table><thead>
-<tr>
-<th>Paramètre</th>
-<th>Description</th>
-<th>Règles de validation</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>confirmation_code</td>
-<td>Code de confirmation secret qui est communiqué directement à l&#39;utilisateur.</td>
-<td></td>
-</tr>
-</tbody></table>
-
-<p>La réponse est vide, mais retourne un statut 200.</p>
 <h2 id='creer-un-compte-avec-facebook'>Créer un compte avec Facebook</h2>
 <p>Se créer un compte utilisateur en se connectant avec Facebook.
 Il est à noter qu&#39;un compte facebook peut s&#39;ajouter à un compte qui a été créé avec Laravel ou Google. 
 Aucune manipulation supplémentaire n&#39;est nécessaire pour agencer des méthodes de connection. 
 Tout est géré par l&#39;API.</p>
-<h3 id='requete-http-3'>Requête HTTP</h3>
+<h3 id='requete-http-2'>Requête HTTP</h3>
 <p><code>POST /api/user/facebook</code></p>
 <h3 id='parametres-post-2'>Paramètres POST</h3>
 <blockquote>
@@ -550,7 +530,7 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='connection'>Connection</h2>
 <p>S&#39;authentifier dans l&#39;application.</p>
-<h3 id='requete-http-4'>Requête HTTP</h3>
+<h3 id='requete-http-3'>Requête HTTP</h3>
 <p><code>POST /oauth/token</code></p>
 <h3 id='parametres-post-3'>Paramètres POST</h3>
 <blockquote>
@@ -635,7 +615,7 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='deconnexion'>Déconnexion</h2>
 <p>Se déconnecter dans l&#39;application</p>
-<h3 id='requete-http-5'>Requête HTTP</h3>
+<h3 id='requete-http-4'>Requête HTTP</h3>
 <p><code>POST /api/user/logout</code></p>
 
 <p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
@@ -648,7 +628,7 @@ Tout est géré par l&#39;API.</p>
 <p>La réponse de la suppression de utilisateur est vide.</p>
 <h2 id='supprimer'>Supprimer</h2>
 <p>Supprimer un utilisateur authentifié</p>
-<h3 id='requete-http-6'>Requête HTTP</h3>
+<h3 id='requete-http-5'>Requête HTTP</h3>
 <p><code>DELETE /api/user</code></p>
 
 <p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
@@ -661,7 +641,7 @@ Tout est géré par l&#39;API.</p>
 <p>La réponse de la suppression de utilisateur est vide.</p>
 <h2 id='lister-les-utilisateurs'>Lister les utilisateurs</h2>
 <p>Lister l&#39;ensemble des utilisateurs selon des filtres, un ordre et de la pagination</p>
-<h3 id='requete-http-7'>Requête HTTP</h3>
+<h3 id='requete-http-6'>Requête HTTP</h3>
 <p><code>GET /api/user</code></p>
 <h3 id='query-params'>Query Params</h3>
 <table><thead>
@@ -804,7 +784,7 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='details-d-39-un-utilisateur'>Détails d&#39;un utilisateur</h2>
 <p>Détails d&#39;un utilisateur et son historique pour un LAN.</p>
-<h3 id='requete-http-8'>Requête HTTP</h3>
+<h3 id='requete-http-7'>Requête HTTP</h3>
 <p><code>POST /api/user/details</code></p>
 <h3 id='parametres-post-4'>Paramètres POST</h3>
 <blockquote>
@@ -3050,6 +3030,100 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>tag_id</td>
 <td>Id du tag sous lequel l&#39;utilisateur a créer sa demande.</td>
+</tr>
+</tbody></table>
+<h2 id='obtenir-les-equipes-d-39-un-utilisateur'>Obtenir les équipes d&#39;un utilisateur</h2>
+<p>Créer une demande pour joindre une équipe</p>
+<h3 id='requete-http-3'>Requête HTTP</h3>
+<p><code>GET /api/team/user</code></p>
+<h3 id='query-params'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>lan_id</td>
+<td>Id du LAN d&#39;où l&#39;utilisateur veut obtenir ses tournois. Si paramètre n&#39;est pas spécifié, on retourne le LAN courant.</td>
+<td>Integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WorkersUnite"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"players_reached"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"players_to_reach"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tournament_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"October"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"requests"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"player_state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"not-confirmed"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>Tag de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>players_reached</td>
+<td>Nombre de joueurs dans l&#39;équipe.</td>
+</tr>
+<tr>
+<td>players_to_reach</td>
+<td>Nombre de joueurs à atteindre (Propriété du tournoi).</td>
+</tr>
+<tr>
+<td>tournament_name</td>
+<td>Nom du tournoi.</td>
+</tr>
+<tr>
+<td>requests</td>
+<td>Nombre de demandes pour faire parti de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>player_state</td>
+<td>État du joueur dans l&#39;équipe. Voir Player State</td>
+</tr>
+</tbody></table>
+<h4 id='player-state'>Player State</h4>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>leader</td>
+<td>Le joueur est le chef de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>confirmed</td>
+<td>Le joueur est dans l&#39;équipe.</td>
+</tr>
+<tr>
+<td>not-confirmed</td>
+<td>La requête du joueur est en attente de confirmation.</td>
 </tr>
 </tbody></table>
 <h1 id='tag'>Tag</h1><h2 id='creer-un-tag'>Créer un tag</h2>
