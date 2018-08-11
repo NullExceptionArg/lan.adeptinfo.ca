@@ -49,6 +49,8 @@ class CreateRequestTest extends TestCase
 
         $this->requestContent['team_id'] = $this->team->id;
         $this->requestContent['tag_id'] = $this->tag->id;
+
+        $this->be($this->user);
     }
 
     public function testCreate(): void

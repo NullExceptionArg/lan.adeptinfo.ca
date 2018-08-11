@@ -8,6 +8,7 @@ use Tests\TestCase;
 
 class CreateRequestTest extends TestCase
 {
+
     use DatabaseMigrations;
 
     protected $user;
@@ -45,7 +46,7 @@ class CreateRequestTest extends TestCase
         $this->requestContent['tag_id'] = $this->tag->id;
     }
 
-    public function testCreate(): void
+    public function testCreateRequest(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/team/request', $this->requestContent)
@@ -57,7 +58,7 @@ class CreateRequestTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testCreateTeamIdRequired(): void
+    public function testCreateRequestTeamIdRequired(): void
     {
         $this->requestContent['team_id'] = null;
         $this->actingAs($this->user)
@@ -74,7 +75,7 @@ class CreateRequestTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateTeamIdExist(): void
+    public function testCreateRequestTeamIdExist(): void
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->user)
@@ -91,7 +92,7 @@ class CreateRequestTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateUserUniqueUserPerRequest(): void
+    public function testCreateRequestUserUniqueUserPerRequest(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/team/request', $this->requestContent);
@@ -112,7 +113,7 @@ class CreateRequestTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateUserTagIdRequired(): void
+    public function testCreateRequestUserTagIdRequired(): void
     {
         $this->requestContent['tag_id'] = null;
         $this->actingAs($this->user)
@@ -129,7 +130,7 @@ class CreateRequestTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateUserTagIdExist(): void
+    public function testCreateRequestUserTagIdExist(): void
     {
         $this->requestContent['tag_id'] = -1;
         $this->actingAs($this->user)
@@ -196,5 +197,26 @@ class CreateRequestTest extends TestCase
                 'tag_id' => $this->requestContent['tag_id']
             ])
             ->assertResponseStatus(201);
+    }
+
+    public function testCreateRequestTagBelongsToUser(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $tag = factory('App\Model\Tag')->create([
+            'user_id' => $user->id
+        ]);
+        $this->requestContent['tag_id'] = $tag->id;
+        $this->actingAs($this->user)
+            ->json('POST', '/api/team/request', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'tag_id' => [
+                        0 => 'The tag must belong to the user.'
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
     }
 }
