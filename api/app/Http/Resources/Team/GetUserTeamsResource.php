@@ -44,7 +44,7 @@ class GetUserTeamsResource extends Resource
             'name' => $this->name,
             'tag' => $this->tag,
             'players_reached' => $playersReached,
-            'players_to_reach' => $tournament->players_to_reach,
+            'players_to_reach' => intval($tournament->players_to_reach),
             'tournament_name' => $tournament->name,
             'requests' => $requests,
             'player_state' => $playersState

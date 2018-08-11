@@ -27,7 +27,7 @@ class UniqueUserPerRequest implements Rule
     public function passes($attribute, $value)
     {
         $tag = Tag::find($this->tagId);
-        if ($tag->user_id != Auth::id()) {
+        if ($tag == null || $tag->user_id != Auth::id()) {
             return true;
         }
 

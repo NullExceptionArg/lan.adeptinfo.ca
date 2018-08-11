@@ -18,6 +18,9 @@ class TagBelongsToUser implements Rule
     public function passes($attribute, $value)
     {
         $tag = Tag::find($value);
+        if ($tag == null) {
+            return true;
+        }
         return $tag->user_id == Auth::id();
     }
 
