@@ -98,7 +98,7 @@ tag_id | Id du tag sous lequel l'utilisateur a créer sa demande.
 
 ## Obtenir les équipes d'un utilisateur
 
-Créer une demande pour joindre une équipe
+Obtenir les équipes d'un utilisateur.
 
 ### Requête HTTP
 

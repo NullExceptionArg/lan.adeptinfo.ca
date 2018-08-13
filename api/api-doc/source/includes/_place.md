@@ -1,4 +1,4 @@
-# Places
+# Place
 
 ## Réserver une place
 

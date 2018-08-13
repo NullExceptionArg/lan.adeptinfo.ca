@@ -127,4 +127,9 @@ class TeamServiceImpl implements TeamService
 
         return GetUserTeamsResource::collection($teams);
     }
+
+    public function getTeamMembers(Request $input)
+    {
+
+    }
 }
