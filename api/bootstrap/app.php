@@ -38,6 +38,8 @@ $app->withEloquent();
 
 $app->configure('auth');
 $app->configure('cors');
+$app->configure('services');
+$app->configure('mail');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -109,6 +111,8 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(App\Providers\DingoServiceProvider::class);
 // CORS - https://github.com/barryvdh/laravel-cors
 $app->register(Barryvdh\Cors\ServiceProvider::class);
+// Mail
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

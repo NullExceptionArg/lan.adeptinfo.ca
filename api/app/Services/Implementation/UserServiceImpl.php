@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
+use App\Mail\ConfirmAccount;
 use App\Model\User;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
@@ -16,8 +17,10 @@ use App\Services\UserService;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Mailgun\Mailgun;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UserServiceImpl implements UserService
@@ -71,10 +74,10 @@ class UserServiceImpl implements UserService
             );
         }
 
-//        Mail::send(new ConfirmAccount(
-//            $input->input('email'),
-//            $confirmationCode
-//        ));
+        Mail::send(new ConfirmAccount(
+            $input->input('email'),
+            $confirmationCode
+        ));
 
         return $user;
     }
