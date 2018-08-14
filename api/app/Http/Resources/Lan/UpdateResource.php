@@ -6,7 +6,7 @@ use App\Model\Lan;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 
-class UpdateLanResource extends Resource
+class UpdateResource extends Resource
 {
     protected $reservedPlaces;
     protected $images;

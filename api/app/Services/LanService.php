@@ -3,21 +3,21 @@
 
 namespace App\Services;
 
-use App\Http\Resources\Lan\GetLanResource;
-use App\Http\Resources\Lan\UpdateLanResource;
+use App\Http\Resources\Lan\GetResource;
+use App\Http\Resources\Lan\UpdateResource;
 use App\Model\Lan;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 interface LanService
 {
-    public function createLan(Request $input): Lan;
+    public function create(Request $input): Lan;
 
-    public function getLan(Request $request): GetLanResource;
+    public function get(Request $request): GetResource;
 
-    public function getAllLan(): ResourceCollection;
+    public function getAll(): ResourceCollection;
 
-    public function setCurrentLan(Request $input): int;
+    public function setCurrent(Request $input): int;
 
-    public function edit(Request $input): UpdateLanResource;
+    public function edit(Request $input): UpdateResource;
 }

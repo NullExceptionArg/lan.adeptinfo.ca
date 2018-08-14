@@ -9,7 +9,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class EditLanTest extends TestCase
+class EditTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -50,7 +50,7 @@ class EditLanTest extends TestCase
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
     }
 
-    public function testEditLan(): void
+    public function testEdit(): void
     {
         $request = new Request($this->paramsContent);
         $result = $this->lanService->edit($request);
@@ -71,7 +71,7 @@ class EditLanTest extends TestCase
         $this->assertEquals($this->paramsContent['description'], $result->description);
     }
 
-    public function testEditLanPriceDefault(): void
+    public function testEditPriceDefault(): void
     {
         $this->paramsContent['price'] = '';
         $request = new Request($this->paramsContent);
@@ -92,7 +92,7 @@ class EditLanTest extends TestCase
         $this->assertEquals($this->paramsContent['description'], $result->description);
     }
 
-    public function testEditLanNameMaxLength(): void
+    public function testEditNameMaxLength(): void
     {
         $this->paramsContent['name'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -108,7 +108,7 @@ class EditLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testEditLanStartAfterReservationStart(): void
+    public function testEditStartAfterReservationStart(): void
     {
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->paramsContent['seat_reservation_start']));
@@ -131,7 +131,7 @@ class EditLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testEditLanStartAfterTournamentStart(): void
+    public function testEditStartAfterTournamentStart(): void
     {
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->paramsContent['tournament_reservation_start']));
@@ -154,7 +154,7 @@ class EditLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testEditLanEndAfterLanStart(): void
+    public function testEditEndAfterLanStart(): void
     {
         // Set the lan_end date to one day before lan_start
         $newLanEnd = (new DateTime($this->paramsContent['lan_start']));
@@ -173,7 +173,7 @@ class EditLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testEditLanSeatReservationBeforeOrEqualLanStart(): void
+    public function testEditSeatReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanSeatReservation = (new DateTime($this->paramsContent['lan_start']));
@@ -192,7 +192,7 @@ class EditLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testEditLanTournamentReservationBeforeOrEqualLanStart(): void
+    public function testEditTournamentReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanTournamentReservation = (new DateTime($this->paramsContent['lan_start']));
@@ -208,7 +208,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanEventKeyMaxLength(): void
+    public function testEditEventKeyMaxLength(): void
     {
         $this->paramsContent['event_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -221,7 +221,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanPublicKeyMaxLength(): void
+    public function testEditPublicKeyMaxLength(): void
     {
         $this->paramsContent['public_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -234,7 +234,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanSecretKeyMaxLength(): void
+    public function testEditSecretKeyMaxLength(): void
     {
         $this->paramsContent['secret_key'] = str_repeat('☭', 256);
         $request = new Request($this->paramsContent);
@@ -247,7 +247,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanSecretKey(): void
+    public function testEditSecretKey(): void
     {
         $this->paramsContent['secret_key'] = '-1';
         $request = new Request($this->paramsContent);
@@ -260,7 +260,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanEventKey(): void
+    public function testEditEventKey(): void
     {
         $this->paramsContent['event_key'] = '-1';
         $request = new Request($this->paramsContent);
@@ -273,7 +273,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanLatitudeMin(): void
+    public function testEditLatitudeMin(): void
     {
         $this->paramsContent['latitude'] = -86;
         $request = new Request($this->paramsContent);
@@ -286,7 +286,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanLatitudeMax(): void
+    public function testEditLatitudeMax(): void
     {
         $this->paramsContent['latitude'] = 86;
         $request = new Request($this->paramsContent);
@@ -299,7 +299,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanLatitudeNumeric(): void
+    public function testEditLatitudeNumeric(): void
     {
         $this->paramsContent['latitude'] = '☭';
         $request = new Request($this->paramsContent);
@@ -312,7 +312,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanLongitudeMin(): void
+    public function testEditLongitudeMin(): void
     {
         $this->paramsContent['longitude'] = -186;
         $request = new Request($this->paramsContent);
@@ -325,7 +325,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanLongitudeMax(): void
+    public function testEditLongitudeMax(): void
     {
         $this->paramsContent['longitude'] = 186;
         $request = new Request($this->paramsContent);
@@ -338,7 +338,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanLongitudeNumeric(): void
+    public function testEditLongitudeNumeric(): void
     {
         $this->paramsContent['longitude'] = '☭';
         $request = new Request($this->paramsContent);
@@ -351,7 +351,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanPriceMinimum(): void
+    public function testEditPriceMinimum(): void
     {
         $this->paramsContent['price'] = "-1";
         $request = new Request($this->paramsContent);
@@ -364,7 +364,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanPriceInteger(): void
+    public function testEditPriceInteger(): void
     {
         $this->paramsContent['price'] = "☭";
         $request = new Request($this->paramsContent);
@@ -377,7 +377,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanPlacesMin(): void
+    public function testEditPlacesMin(): void
     {
         $this->paramsContent['places'] = 0;
         $request = new Request($this->paramsContent);
@@ -390,7 +390,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanPlacesInt(): void
+    public function testEditPlacesInt(): void
     {
         $this->paramsContent['places'] = "☭";
         $request = new Request($this->paramsContent);
@@ -403,7 +403,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanRulesString(): void
+    public function testEditRulesString(): void
     {
         $this->paramsContent['rules'] = 1;
         $request = new Request($this->paramsContent);
@@ -416,7 +416,7 @@ class EditLanTest extends TestCase
         }
     }
 
-    public function testEditLanDescriptionString()
+    public function testEditDescriptionString()
     {
         $this->paramsContent['description'] = 1;
         $request = new Request($this->paramsContent);

@@ -2,7 +2,8 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Lan\GetUserTeamsResource;
+use App\Http\Resources\Team\GetUsersTeamDetailsResource;
+use App\Http\Resources\Team\GetUserTeamsResource;
 use App\Model\Team;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TagRepositoryImpl;
@@ -13,6 +14,7 @@ use App\Rules\Team\UniqueTeamNamePerTournament;
 use App\Rules\Team\UniqueTeamTagPerTournament;
 use App\Rules\Team\UniqueUserPerRequest;
 use App\Rules\Team\UniqueUserPerTournament;
+use App\Rules\Team\UserBelongsInTeam;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -104,7 +106,7 @@ class TeamServiceImpl implements TeamService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -119,7 +121,7 @@ class TeamServiceImpl implements TeamService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
         $user = Auth::user();
 
@@ -128,8 +130,27 @@ class TeamServiceImpl implements TeamService
         return GetUserTeamsResource::collection($teams);
     }
 
-    public function getTeamMembers(Request $input)
+    public function getUsersTeamDetails(Request $input)
     {
+        $tournamentValidator = Validator::make([
+            'team_id' => $input->input('team_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id', new UserBelongsInTeam],
+        ]);
 
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+        $isLeader = $this->teamRepository->userIsLeader($team, Auth::user());
+        $tags = $this->teamRepository->getUsersTeamTags($team);
+        $requests = null;
+
+        if ($isLeader) {
+            $requests = $this->teamRepository->getRequests($team);
+        }
+
+        return new GetUsersTeamDetailsResource($team, $tags, $requests);
     }
 }

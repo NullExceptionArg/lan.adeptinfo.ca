@@ -10,6 +10,7 @@ use App\Model\Team;
 use App\Model\Tournament;
 use App\Repositories\TeamRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class TeamRepositoryImpl implements TeamRepository
@@ -48,7 +49,7 @@ class TeamRepositoryImpl implements TeamRepository
         return $request;
     }
 
-    public function getUserTeams(Authenticatable $user, Lan $lan)
+    public function getUserTeams(Authenticatable $user, Lan $lan): Collection
     {
         $tagIds = DB::table('tag')
             ->select('id')
@@ -77,6 +78,52 @@ class TeamRepositoryImpl implements TeamRepository
         return Team::whereIn('id', $teamsIds)
             ->orWhereIn('id', $teamsIdsRequest)
             ->whereIn('tournament_id', $tournamentIds)
+            ->get();
+    }
+
+    public function findById(int $id): ?Team
+    {
+        return Team::find($id);
+    }
+
+    public function getUsersTeamTags(Team $team): Collection
+    {
+        return DB::table('tag')
+            ->join('tag_team', 'tag.id', '=', 'tag_team.tag_id')
+            ->join('user', 'tag.user_id', '=', 'user.id')
+            ->where('tag_team.team_id', $team->id)
+            ->select(
+                'tag.id',
+                'tag.name',
+                'user.first_name',
+                'user.last_name',
+                'tag_team.is_leader'
+            )
+            ->get();
+    }
+
+    public function userIsLeader(Team $team, Authenticatable $user): bool
+    {
+        return DB::table('tag_team')
+                ->join('tag', 'tag_team.tag_id', '=', 'tag.id')
+                ->where('tag_team.team_id', $team->id)
+                ->where('tag_team.is_leader', true)
+                ->where('tag.user_id', $user->id)
+                ->count() > 0;
+    }
+
+    public function getRequests(Team $team): Collection
+    {
+        return DB::table('request')
+            ->join('tag', 'request.id', '=', 'request.tag_id')
+            ->join('user', 'tag.user_id', '=', 'user.id')
+            ->where('request.team_id', $team->id)
+            ->select(
+                'tag.id',
+                'tag.name',
+                'user.first_name',
+                'user.last_name'
+            )
             ->get();
     }
 }

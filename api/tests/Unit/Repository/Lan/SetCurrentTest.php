@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class SetCurrentLanTest extends TestCase
+class SetCurrentTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -17,7 +17,7 @@ class SetCurrentLanTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }
 
-    public function testRemoveCurrentLan(): void
+    public function testRemoveCurrent(): void
     {
         $lan = factory('App\Model\Lan')->create();
         factory('App\Model\Lan')->create();
@@ -27,7 +27,7 @@ class SetCurrentLanTest extends TestCase
             'is_current' => false
         ]);
 
-        $this->lanRepository->setCurrentLan($lan->id);
+        $this->lanRepository->setCurrent($lan->id);
 
         $this->seeInDatabase('lan', [
             'id' => $lan->id,
