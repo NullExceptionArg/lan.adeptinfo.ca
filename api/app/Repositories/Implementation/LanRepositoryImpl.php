@@ -73,7 +73,7 @@ class LanRepositoryImpl implements LanRepository
             ->update(['is_current' => false]);
     }
 
-    public function setCurrentLan(string $lanId): void
+    public function setCurrent(string $lanId): void
     {
         Lan::find($lanId)
             ->update(['is_current' => true]);

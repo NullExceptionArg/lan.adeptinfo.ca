@@ -2,8 +2,7 @@
 
 namespace App\Services\Implementation;
 
-
-use App\Http\Resources\Lan\GetAllTournamentResource;
+use App\Http\Resources\Tournament\GetAllTournamentResource;
 use App\Model\Tournament;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;

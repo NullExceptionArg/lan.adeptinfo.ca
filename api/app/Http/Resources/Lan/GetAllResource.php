@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Lan;
 
-
 use Illuminate\Http\Resources\Json\Resource;
 
 class GetAllResource extends Resource

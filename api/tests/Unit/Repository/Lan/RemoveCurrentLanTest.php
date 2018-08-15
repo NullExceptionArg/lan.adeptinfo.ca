@@ -17,7 +17,7 @@ class RemoveCurrentLanTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }
 
-    public function testRemoveCurrentLan(): void
+    public function testRemoveCurrent(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -29,7 +29,7 @@ class RemoveCurrentLanTest extends TestCase
             'is_current' => true
         ]);
 
-        $this->lanRepository->removeCurrentLan();
+        $this->lanRepository->removeCurrent();
 
         $this->seeInDatabase('lan', [
             'id' => $lan->id,

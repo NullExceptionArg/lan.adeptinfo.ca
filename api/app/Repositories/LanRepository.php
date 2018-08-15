@@ -35,7 +35,7 @@ interface LanRepository
 
     public function removeCurrent(): void;
 
-    public function setCurrentLan(string $lanId): void;
+    public function setCurrent(string $lanId): void;
 
     public function getCurrent(): ?Lan;
 
