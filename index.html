@@ -353,6 +353,9 @@
                   <li>
                     <a href="#obtenir-les-equipes-d-39-un-utilisateur" class="toc-h2 toc-link" data-title="obtenir-les-equipes-d-un-utilisateur">Obtenir les équipes d'un utilisateur</a>
                   </li>
+                  <li>
+                    <a href="#obtenir-les-details-d-39-une-equipe" class="toc-h2 toc-link" data-title="obtenir-les-details-d-une-equipe">Obtenir les détails d'une équipe</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -3124,6 +3127,137 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>not-confirmed</td>
 <td>La requête du joueur est en attente de confirmation.</td>
+</tr>
+</tbody></table>
+<h2 id='obtenir-les-details-d-39-une-equipe'>Obtenir les détails d&#39;une équipe</h2>
+<p>Obtenir les détails d&#39;une équipe</p>
+<h3 id='requete-http-4'>Requête HTTP</h3>
+<p><code>GET /api/team/members</code></p>
+<h3 id='query-params-2'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe dont on cherche les détails.</td>
+<td>Integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-4'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WorkersUnite"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"team_tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"user_tags"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PROL"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Karl"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Marx"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"is_leader"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KEK"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Vladimir"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Lenin"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"is_leader"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"requests"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EXDE"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"first_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Leon"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"last_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Trotsky"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>tag_team</td>
+<td>Tag de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>user_tags</td>
+<td>Joueurs qui sont dans l&#39;équipe. Voir User Tags</td>
+</tr>
+<tr>
+<td>requests</td>
+<td>Requêtes pour entrer dans l&#39;équipe. (Seulement visible pour le chef de l&#39;équipe). Voir Requests.</td>
+</tr>
+</tbody></table>
+<h4 id='user-tags'>User Tags</h4>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id du joueur.</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>Tag du joueur.</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>Prénom du joueur.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>Nom de famille du joueur.</td>
+</tr>
+<tr>
+<td>is_leader</td>
+<td>Si le joueur est le chef de l&#39;équipe.</td>
+</tr>
+</tbody></table>
+<h4 id='requests'>Requests</h4>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id du joueur qui demande à entrer dans l&#39;équipe.</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>Tag du joueur qui demande à entrer dans l&#39;équipe.</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>Prénom du joueur qui demande à entrer dans l&#39;équipe.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>Nom de famille du joueur qui demande à entrer dans l&#39;équipe.</td>
 </tr>
 </tbody></table>
 <h1 id='tag'>Tag</h1><h2 id='creer-un-tag'>Créer un tag</h2>
