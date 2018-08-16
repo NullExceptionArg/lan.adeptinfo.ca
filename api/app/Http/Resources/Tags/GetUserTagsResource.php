@@ -17,7 +17,7 @@ class GetUserTagsResource extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => intval($this->id),
             'tag' => $this->name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,

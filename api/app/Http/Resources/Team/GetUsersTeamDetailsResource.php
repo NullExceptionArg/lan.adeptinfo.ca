@@ -30,7 +30,7 @@ class GetUsersTeamDetailsResource extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => intval($this->id),
             'name' => $this->name,
             'team_tag' => $this->tag,
             'user_tags' => GetUserTagsResource::collection($this->tags),

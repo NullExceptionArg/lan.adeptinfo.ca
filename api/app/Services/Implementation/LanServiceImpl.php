@@ -126,7 +126,7 @@ class LanServiceImpl implements LanService
 
         $this->lanRepository->removeCurrent();
 
-        $this->lanRepository->setCurrentLan($input->input('lan_id'));
+        $this->lanRepository->setCurrent($input->input('lan_id'));
 
         return $input->input('lan_id');
     }
