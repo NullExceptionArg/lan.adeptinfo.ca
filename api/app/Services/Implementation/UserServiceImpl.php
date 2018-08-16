@@ -125,7 +125,7 @@ class UserServiceImpl implements UserService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -143,7 +143,7 @@ class UserServiceImpl implements UserService
 
         $user = $this->userRepository->findByEmail($input->input('email'));
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $currentSeat = $this->seatRepository->getCurrentSeat($user, $lan);

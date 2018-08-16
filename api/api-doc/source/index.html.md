@@ -13,7 +13,7 @@ includes:
   - user
   - lan
   - image
-  - places
+  - place
   - contribution
   - tournament
   - team

@@ -34,4 +34,9 @@ class TeamController extends Controller
         return response()->json($this->teamServiceImpl->getUserTeams($request), 200);
     }
 
+    public function getUsersTeamDetails(Request $request)
+    {
+        return response()->json($this->teamServiceImpl->getUsersTeamDetails($request), 200);
+    }
+
 }

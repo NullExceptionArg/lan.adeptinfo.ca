@@ -3,6 +3,7 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -176,5 +177,22 @@ class CreateRequestTest extends TestCase
         $this->assertEquals(1, $result->id);
         $this->assertEquals($this->requestContent['team_id'], $result->team_id);
         $this->assertEquals($this->requestContent['tag_id'], $result->tag_id);
+    }
+
+
+    public function testCreateRequestTagBelongsToUser(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $tag = factory('App\Model\Tag')->create([
+            'user_id' => $user->id
+        ]);
+        $this->requestContent['tag_id'] = $tag->id;
+        $request = new Request($this->requestContent);
+        try {
+            $this->teamService->createRequest($request);
+            $this->fail('Expected: ""');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('', $e->getMessage());
+        }
     }
 }

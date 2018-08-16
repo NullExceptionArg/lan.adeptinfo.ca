@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Lan;
+namespace App\Http\Resources\Request;
 
 
 use Illuminate\Http\Resources\Json\Resource;
 
-class GetAllLanResource extends Resource
+class GetAllForTeamResource extends Resource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,10 @@ class GetAllLanResource extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'date' => date('F Y', strtotime($this->lan_start))
+            'id' => intval($this->id),
+            'tag' => $this->name,
+            'first_name' => $this->first_name,
+            'last_name' => $this->last_name
         ];
     }
 }

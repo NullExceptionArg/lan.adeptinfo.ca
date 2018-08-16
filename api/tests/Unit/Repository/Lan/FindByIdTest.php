@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class FindLanByIdTest extends TestCase
+class FindByIdTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -20,9 +20,9 @@ class FindLanByIdTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testFindLanById(): void
+    public function testFindById(): void
     {
-        $foundLan = $this->lanRepository->findLanById($this->lan->id);
+        $foundLan = $this->lanRepository->findById($this->lan->id);
 
         $this->assertEquals($this->lan->id, $foundLan->id);
     }

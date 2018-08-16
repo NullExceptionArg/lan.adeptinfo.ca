@@ -5,7 +5,7 @@ namespace Tests\Unit\Service\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetAllLanTest extends TestCase
+class GetAllTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -17,11 +17,11 @@ class GetAllLanTest extends TestCase
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
     }
 
-    public function testGetAllLan()
+    public function testGetAll()
     {
         $lan1 = factory('App\Model\Lan')->create();
         $lan2 = factory('App\Model\Lan')->create();
-        $result = $this->lanService->getAllLan();
+        $result = $this->lanService->getAll();
 
         $this->assertEquals($lan1->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($lan1->name, $result[0]->jsonSerialize()['name']);

@@ -2,8 +2,7 @@
 
 namespace App\Services\Implementation;
 
-
-use App\Http\Resources\Lan\GetAllTournamentResource;
+use App\Http\Resources\Tournament\GetAllTournamentResource;
 use App\Model\Tournament;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
@@ -42,7 +41,7 @@ class TournamentServiceImpl implements TournamentService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -71,7 +70,7 @@ class TournamentServiceImpl implements TournamentService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $tournament = $this->tournamentRepository->create(
@@ -94,7 +93,7 @@ class TournamentServiceImpl implements TournamentService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -109,7 +108,7 @@ class TournamentServiceImpl implements TournamentService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $tournaments = $this->tournamentRepository->getTournamentForOrganizer(Auth::user(), $lan);

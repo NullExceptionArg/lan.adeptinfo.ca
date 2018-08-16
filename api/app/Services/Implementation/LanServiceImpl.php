@@ -3,9 +3,9 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Lan\GetAllLanResource;
-use App\Http\Resources\Lan\GetLanResource;
-use App\Http\Resources\Lan\UpdateLanResource;
+use App\Http\Resources\Lan\GetAllResource;
+use App\Http\Resources\Lan\GetResource;
+use App\Http\Resources\Lan\UpdateResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
@@ -35,7 +35,7 @@ class LanServiceImpl implements LanService
         $this->imageRepository = $imageRepositoryImpl;
     }
 
-    public function createLan(Request $input): Lan
+    public function create(Request $input): Lan
     {
         $lanValidator = Validator::make($input->all(), [
             'name' => 'required|string|max:255',
@@ -58,9 +58,9 @@ class LanServiceImpl implements LanService
             throw new BadRequestHttpException($lanValidator->errors());
         }
 
-        $hasNoCurrentLan = $this->lanRepository->getCurrentLan() == null;
+        $hasNoCurrentLan = $this->lanRepository->getCurrent() == null;
 
-        return $this->lanRepository->createLan
+        return $this->lanRepository->create
         (
             $input->input('name'),
             new DateTime($input->input('lan_start')),
@@ -80,11 +80,11 @@ class LanServiceImpl implements LanService
         );
     }
 
-    public function getLan(Request $input): GetLanResource
+    public function get(Request $input): GetResource
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -99,20 +99,20 @@ class LanServiceImpl implements LanService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
         $placeCount = $this->lanRepository->getReservedPlaces($input->input('lan_id'));
         $images = $this->imageRepository->getImagesForLan($lan);
 
-        return new GetLanResource($lan, $placeCount, $images);
+        return new GetResource($lan, $placeCount, $images);
     }
 
-    public function getAllLan(): ResourceCollection
+    public function getAll(): ResourceCollection
     {
-        return GetAllLanResource::collection($this->lanRepository->getAllLan());
+        return GetAllResource::collection($this->lanRepository->getAll());
     }
 
-    public function setCurrentLan(Request $input): int
+    public function setCurrent(Request $input): int
     {
         $rulesValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
@@ -124,18 +124,18 @@ class LanServiceImpl implements LanService
             throw new BadRequestHttpException($rulesValidator->errors());
         }
 
-        $this->lanRepository->removeCurrentLan();
+        $this->lanRepository->removeCurrent();
 
-        $this->lanRepository->setCurrentLan($input->input('lan_id'));
+        $this->lanRepository->setCurrent($input->input('lan_id'));
 
         return $input->input('lan_id');
     }
 
-    public function edit(Request $input): UpdateLanResource
+    public function edit(Request $input): UpdateResource
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -161,13 +161,13 @@ class LanServiceImpl implements LanService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $placeCount = $this->lanRepository->getReservedPlaces($lan->id);
         $images = $this->imageRepository->getImagesForLan($lan);
 
-        return new UpdateLanResource($this->lanRepository->update(
+        return new UpdateResource($this->lanRepository->update(
             $lan,
             $input->input('name'),
             new DateTime($input->input('lan_start')),
