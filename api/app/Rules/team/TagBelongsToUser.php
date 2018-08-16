@@ -3,6 +3,7 @@
 namespace App\Rules\Team;
 
 use App\Model\Tag;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,6 +15,7 @@ class TagBelongsToUser implements Rule
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
+     * @throws AuthorizationException
      */
     public function passes($attribute, $value)
     {
@@ -21,7 +23,10 @@ class TagBelongsToUser implements Rule
         if ($tag == null) {
             return true;
         }
-        return $tag->user_id == Auth::id();
+        if ($tag->user_id != Auth::id()) {
+            throw new AuthorizationException();
+        }
+        return true;
     }
 
     /**

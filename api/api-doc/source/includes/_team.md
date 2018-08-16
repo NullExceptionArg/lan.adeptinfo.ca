@@ -146,3 +146,78 @@ Paramètre | Description
 leader | Le joueur est le chef de l'équipe.
 confirmed | Le joueur est dans l'équipe.
 not-confirmed | La requête du joueur est en attente de confirmation.
+
+## Obtenir les détails d'une équipe
+
+Obtenir les détails d'une équipe
+
+### Requête HTTP
+
+`GET /api/team/members`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+team_id | Id de l'équipe dont on cherche les détails. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 1,
+    "name": "WorkersUnite",
+    "team_tag": "PRO",
+    "user_tags": [
+        {
+            "id": 1,
+            "tag": "PROL",
+            "first_name": "Karl",
+            "last_name": "Marx",
+            "is_leader": true
+        },
+        {
+            "id": 2,
+            "tag": "KEK",
+            "first_name": "Vladimir",
+            "last_name": "Lenin",
+            "is_leader": false
+        }
+    ],
+    "requests": [
+        {
+            "id": 3,
+            "tag": "EXDE",
+            "first_name": "Leon",
+            "last_name": "Trotsky"
+        }
+    ]
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id de l'équipe.
+name | Nom de l'équipe.
+tag_team | Tag de l'équipe.
+user_tags | Joueurs qui sont dans l'équipe. Voir User Tags
+requests | Requêtes pour entrer dans l'équipe. (Seulement visible pour le chef de l'équipe). Voir Requests.
+
+#### User Tags
+Paramètre | Description
+--------- | -----------
+id | Id du joueur.
+tag | Tag du joueur.
+first_name | Prénom du joueur.
+last_name | Nom de famille du joueur.
+is_leader | Si le joueur est le chef de l'équipe.
+
+#### Requests
+Paramètre | Description
+--------- | -----------
+id | Id du joueur qui demande à entrer dans l'équipe.
+tag | Tag du joueur qui demande à entrer dans l'équipe.
+first_name | Prénom du joueur qui demande à entrer dans l'équipe.
+last_name | Nom de famille du joueur qui demande à entrer dans l'équipe.

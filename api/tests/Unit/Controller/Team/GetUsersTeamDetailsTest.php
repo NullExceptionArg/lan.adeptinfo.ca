@@ -71,7 +71,7 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('GET', '/api/team/members', $this->requestContent)
+            ->json('GET', '/api/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -117,7 +117,7 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('GET', '/api/team/members', $this->requestContent)
+            ->json('GET', '/api/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -146,7 +146,7 @@ class GetUsersTeamDetailsTest extends TestCase
     public function testGetUsersTeamDetailsNotAdmin(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/members', $this->requestContent)
+            ->json('GET', '/api/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -168,7 +168,7 @@ class GetUsersTeamDetailsTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/members', $this->requestContent)
+            ->json('GET', '/api/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -185,7 +185,7 @@ class GetUsersTeamDetailsTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/members', $this->requestContent)
+            ->json('GET', '/api/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -204,7 +204,7 @@ class GetUsersTeamDetailsTest extends TestCase
             ->where('tag_id', $this->tag->id)
             ->delete();
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/members', $this->requestContent)
+            ->json('GET', '/api/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
