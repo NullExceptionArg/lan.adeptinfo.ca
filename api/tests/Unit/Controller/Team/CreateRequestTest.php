@@ -210,13 +210,9 @@ class CreateRequestTest extends TestCase
             ->json('POST', '/api/team/request', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
-                'message' => [
-                    'tag_id' => [
-                        0 => 'The tag must belong to the user.'
-                    ],
-                ]
+                'status' => 403,
+                'message' => null
             ])
-            ->assertResponseStatus(400);
+            ->assertResponseStatus(403);
     }
 }
