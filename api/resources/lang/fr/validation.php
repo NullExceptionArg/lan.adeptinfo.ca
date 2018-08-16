@@ -137,7 +137,7 @@ return [
     'unique_email_social_login' => 'Ce courriel est déjà prit.',
     'tag_belongs_to_user' => 'Le tag doit appartenir à l\'utilisateur.',
     'user_belongs_in_team' => 'L\'utilisateur doit faire parti de l\'équipe',
-
+    'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

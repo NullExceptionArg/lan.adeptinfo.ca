@@ -21,7 +21,7 @@ class GetUserTagsResource extends Resource
             'tag' => $this->name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'is_leader' => $this->is_leader
+            'is_leader' => $this->is_leader ? true : false
         ];
     }
 }

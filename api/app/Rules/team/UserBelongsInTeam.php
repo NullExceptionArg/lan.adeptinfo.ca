@@ -4,10 +4,10 @@ namespace App\Rules\Team;
 
 use App\Model\TagTeam;
 use App\Model\Team;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\UnauthorizedException;
 
 class UserBelongsInTeam implements Rule
 {
@@ -17,6 +17,7 @@ class UserBelongsInTeam implements Rule
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
+     * @throws AuthorizationException
      */
     public function passes($attribute, $value)
     {
@@ -32,11 +33,11 @@ class UserBelongsInTeam implements Rule
             ->toArray();
 
         $isInTeam = TagTeam::whereIn('tag_id', $tagIds)
-                ->where('team_id', Auth::id())
+                ->where('team_id', $team->id)
                 ->count() > 0;
 
-        if ($isInTeam) {
-            throw new UnauthorizedException();
+        if (!$isInTeam) {
+            throw new AuthorizationException(trans('validation.forbidden'));
         } else {
             return true;
         }

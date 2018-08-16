@@ -115,7 +115,7 @@ class TeamRepositoryImpl implements TeamRepository
     public function getRequests(Team $team): Collection
     {
         return DB::table('request')
-            ->join('tag', 'request.id', '=', 'request.tag_id')
+            ->join('tag', 'request.tag_id', '=', 'tag.id')
             ->join('user', 'tag.user_id', '=', 'user.id')
             ->where('request.team_id', $team->id)
             ->select(

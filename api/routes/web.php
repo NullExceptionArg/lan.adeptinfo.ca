@@ -64,7 +64,7 @@ $api->version('v1', function ($api) {
                 $api->post('team', 'TeamController@createTeam');
                 $api->post('team/request', 'TeamController@createRequest');
                 $api->get('team/user', 'TeamController@getUserTeams');
-                $api->get('team/members', 'TeamController@getUsersTeamMembers');
+                $api->get('team/members', 'TeamController@getUsersTeamDetails');
 
                 $api->post('tag', 'TagController@createTag');
 
