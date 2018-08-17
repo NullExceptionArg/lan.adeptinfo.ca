@@ -40,5 +40,9 @@ interface UserRepository
 
     public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): User;
 
+    public function createGoogleUser(string $googleId, string $firstName, string $lastName, string $email): User;
+
     public function addFacebookToUser(User $user, string $facebookId): User;
+
+    public function addGoogleToUser(User $user, string $googleId): User;
 }
