@@ -12,7 +12,9 @@ use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\FacebookEmailPermission;
 use App\Rules\UniqueEmailSocialLogin;
 use App\Rules\ValidFacebookToken;
+use App\Rules\ValidGoogleToken;
 use App\Services\UserService;
+use Google_Client;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -190,6 +192,45 @@ class UserServiceImpl implements UserService
         }
 
         $token = $user->createToken('facebook')->accessToken;
+        return [
+            'token' => $token,
+            'is_new' => $isNew
+        ];
+    }
+
+    public function signInGoogle(Request $input): array
+    {
+        $userValidator = Validator::make([
+            'access_token' => $input->input('access_token'),
+        ], [
+            'access_token' => [new ValidGoogleToken()]
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        $client = new Google_Client();
+        $client->setApplicationName('LAN de l\'ADEPT');
+        $client->setClientId(env('GOOGLE_CLIENT_ID'));
+        $googleResult = $client->verifyIdToken($input->input('access_token'));
+
+        $user = $this->userRepository->findByEmail($googleResult['email']);
+        $isNew = $user == null;
+        if ($isNew) {
+            $user = $this->userRepository->createGoogleUser(
+                $googleResult['sub'],
+                $googleResult['given_name'],
+                $googleResult['family_name'],
+                $googleResult['email']
+            );
+        }
+
+        if ($user->facebook_id == null) {
+            $user = $this->userRepository->addGoogleToUser($user, $googleResult['sub']);
+        }
+
+        $token = $user->createToken('google')->accessToken;
         return [
             'token' => $token,
             'is_new' => $isNew

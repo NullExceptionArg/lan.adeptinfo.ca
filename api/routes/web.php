@@ -23,6 +23,7 @@ $api->version('v1', function ($api) {
 
             $api->post('user', 'UserController@signUp');
             $api->post('user/facebook', 'UserController@signInFacebook');
+            $api->post('user/google', 'UserController@signInGoogle');
 
             $api->get('lan', 'LanController@getLan');
             $api->get('lan/all', 'LanController@getAllLan');
