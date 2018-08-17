@@ -137,6 +137,9 @@ return [
     'unique_email_social_login' => 'The email has already been taken.',
     'tag_belongs_to_user' => 'The tag must belong to the user.',
     'user_belongs_in_team' => 'The user must be in the team.',
+    'tag_belongs_in_team' => 'The tag must be in the team.',
+    'tag_not_belongs_leader' => 'The tag must not belong to the leader of the team.',
+    'user_is_team_leader' => 'The user user be the team leader.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*

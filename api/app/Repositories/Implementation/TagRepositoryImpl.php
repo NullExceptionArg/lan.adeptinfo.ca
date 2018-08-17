@@ -21,7 +21,7 @@ class TagRepositoryImpl implements TagRepository
         return $tag;
     }
 
-    public function findTagById(int $id): ?Tag
+    public function findById(int $id): ?Tag
     {
         return Tag::find($id);
     }

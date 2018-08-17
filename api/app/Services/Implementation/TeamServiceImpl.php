@@ -4,17 +4,21 @@ namespace App\Services\Implementation;
 
 use App\Http\Resources\Team\GetUsersTeamDetailsResource;
 use App\Http\Resources\Team\GetUserTeamsResource;
+use App\Model\Tag;
 use App\Model\Team;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TagRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Rules\Team\TagBelongsInTeam;
 use App\Rules\Team\TagBelongsToUser;
+use App\Rules\Team\TagNotBelongsLeader;
 use App\Rules\Team\UniqueTeamNamePerTournament;
 use App\Rules\Team\UniqueTeamTagPerTournament;
 use App\Rules\Team\UniqueUserPerRequest;
 use App\Rules\Team\UniqueUserPerTournament;
 use App\Rules\Team\UserBelongsInTeam;
+use App\Rules\Team\UserIsTeamLeader;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -51,7 +55,7 @@ class TeamServiceImpl implements TeamService
 
     public function create(Request $input): Team
     {
-        $tournamentValidator = Validator::make([
+        $teamValidator = Validator::make([
             'tournament_id' => $input->input('tournament_id'),
             'user_tag_id' => $input->input('user_tag_id'),
             'name' => $input->input('name'),
@@ -63,8 +67,8 @@ class TeamServiceImpl implements TeamService
             'tag' => ['string', 'max:5', new UniqueTeamTagPerTournament($input->input('tournament_id'))]
         ]);
 
-        if ($tournamentValidator->fails()) {
-            throw new BadRequestHttpException($tournamentValidator->errors());
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
         }
 
         $tournament = $this->tournamentRepository->findTournamentById($input->input('tournament_id'));
@@ -74,7 +78,7 @@ class TeamServiceImpl implements TeamService
             $input->input('tag')
         );
 
-        $tag = $this->tagRepository->findTagById($input->input('user_tag_id'));
+        $tag = $this->tagRepository->findById($input->input('user_tag_id'));
         $this->teamRepository->linkTagTeam($tag, $team, true);
 
         return $team;
@@ -82,7 +86,7 @@ class TeamServiceImpl implements TeamService
 
     public function createRequest(Request $input): \App\Model\Request
     {
-        $tournamentValidator = Validator::make([
+        $teamValidator = Validator::make([
             'team_id' => $input->input('team_id'),
             'tag_id' => $input->input('tag_id'),
         ], [
@@ -95,8 +99,8 @@ class TeamServiceImpl implements TeamService
             ],
         ]);
 
-        if ($tournamentValidator->fails()) {
-            throw new BadRequestHttpException($tournamentValidator->errors());
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
         }
 
         return $this->teamRepository->createRequest($input->input('team_id'), $input->input('tag_id'));
@@ -110,14 +114,14 @@ class TeamServiceImpl implements TeamService
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
-        $tournamentValidator = Validator::make([
+        $teamValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
         ], [
             'lan_id' => 'integer|exists:lan,id',
         ]);
 
-        if ($tournamentValidator->fails()) {
-            throw new BadRequestHttpException($tournamentValidator->errors());
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
         }
 
         if ($lan == null) {
@@ -132,14 +136,14 @@ class TeamServiceImpl implements TeamService
 
     public function getUsersTeamDetails(Request $input)
     {
-        $tournamentValidator = Validator::make([
+        $teamValidator = Validator::make([
             'team_id' => $input->input('team_id')
         ], [
             'team_id' => ['integer', 'exists:team,id', new UserBelongsInTeam],
         ]);
 
-        if ($tournamentValidator->fails()) {
-            throw new BadRequestHttpException($tournamentValidator->errors());
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
         }
 
         $team = $this->teamRepository->findById($input->input('team_id'));
@@ -152,5 +156,32 @@ class TeamServiceImpl implements TeamService
         }
 
         return new GetUsersTeamDetailsResource($team, $tags, $requests);
+    }
+
+    public function changeLeader(Request $input): Tag
+    {
+        $teamValidator = Validator::make([
+            'tag_id' => $input->input('tag_id'),
+            'team_id' => $input->input('team_id')
+        ], [
+            'tag_id' => [
+                'integer',
+                'exists:tag,id',
+                new TagBelongsInTeam($input->input('team_id')),
+                new TagNotBelongsLeader($input->input('team_id'))
+            ],
+            'team_id' => ['integer', 'exists:team,id', new UserIsTeamLeader],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $tag = $this->tagRepository->findById($input->input('tag_id'));
+        $team = $this->teamRepository->findById($input->input('team_id'));
+
+        $this->teamRepository->switchLeader($tag, $team);
+
+        return $tag;
     }
 }
