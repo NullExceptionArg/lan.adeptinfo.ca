@@ -93,8 +93,9 @@ class TeamRepositoryImpl implements TeamRepository
             ->join('user', 'tag.user_id', '=', 'user.id')
             ->where('tag_team.team_id', $team->id)
             ->select(
-                'tag.id',
-                'tag.name',
+                'tag_team.id',
+                'tag.id as tag_id',
+                'tag.name as tag_name',
                 'user.first_name',
                 'user.last_name',
                 'tag_team.is_leader'
@@ -119,8 +120,9 @@ class TeamRepositoryImpl implements TeamRepository
             ->join('user', 'tag.user_id', '=', 'user.id')
             ->where('request.team_id', $team->id)
             ->select(
-                'tag.id',
-                'tag.name',
+                'request.id',
+                'tag.id as tag_id',
+                'tag.name as tag_name',
                 'user.first_name',
                 'user.last_name'
             )
@@ -140,5 +142,15 @@ class TeamRepositoryImpl implements TeamRepository
             ->first();
         $newLeader->is_leader = true;
         $newLeader->save();
+    }
+
+    public function findRequestById(int $id): ?Request
+    {
+        return Request::find($id);
+    }
+
+    public function deleteRequest(Request $request): void
+    {
+        $request->delete();
     }
 }

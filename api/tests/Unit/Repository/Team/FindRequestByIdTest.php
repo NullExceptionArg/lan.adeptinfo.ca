@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetRequestsTest extends TestCase
+class FindRequestByIdTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -47,14 +47,12 @@ class GetRequestsTest extends TestCase
         ]);
     }
 
-    public function testGetRequests(): void
+    public function testFindRequestById(): void
     {
-        $result = $this->teamRepository->getRequests($this->team);
+        $result = $this->teamRepository->findRequestById($this->request->id);
 
-        $this->assertEquals($this->request->id, $result[0]->id);
-        $this->assertEquals($this->tag->id, $result[0]->tag_id);
-        $this->assertEquals($this->tag->name, $result[0]->tag_name);
-        $this->assertEquals($this->user->first_name, $result[0]->first_name);
-        $this->assertEquals($this->user->last_name, $result[0]->last_name);
+        $this->assertEquals($this->request->id, $result->id);
+        $this->assertEquals($this->request->team_id, $result->team_id);
+        $this->assertEquals($this->request->tag_id, $result->tag_id);
     }
 }

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetRequestsTest extends TestCase
+class DeleteRequestTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -47,14 +47,20 @@ class GetRequestsTest extends TestCase
         ]);
     }
 
-    public function testGetRequests(): void
+    public function testDeleteRequest(): void
     {
-        $result = $this->teamRepository->getRequests($this->team);
+        $this->seeInDatabase('request', [
+            'id' => $this->request->id,
+            'tag_id' => $this->tag->id,
+            'team_id' => $this->team->id
+        ]);
 
-        $this->assertEquals($this->request->id, $result[0]->id);
-        $this->assertEquals($this->tag->id, $result[0]->tag_id);
-        $this->assertEquals($this->tag->name, $result[0]->tag_name);
-        $this->assertEquals($this->user->first_name, $result[0]->first_name);
-        $this->assertEquals($this->user->last_name, $result[0]->last_name);
+        $this->teamRepository->deleteRequest($this->request);
+
+        $this->notSeeInDatabase('request', [
+            'id' => $this->request->id,
+            'tag_id' => $this->tag->id,
+            'team_id' => $this->team->id
+        ]);
     }
 }

@@ -141,6 +141,7 @@ return [
     'tag_belongs_in_team' => 'The tag must be in the team.',
     'tag_not_belongs_leader' => 'The tag must not belong to the leader of the team.',
     'user_is_team_leader' => 'The user user be the team leader.',
+    'request_belongs_in_team' => 'The request must be for the leaders team.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*

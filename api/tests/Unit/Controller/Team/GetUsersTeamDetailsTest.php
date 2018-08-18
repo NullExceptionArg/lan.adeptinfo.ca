@@ -55,7 +55,7 @@ class GetUsersTeamDetailsTest extends TestCase
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $user->id
         ]);
-        factory('App\Model\TagTeam')->create([
+        $tagTeam = factory('App\Model\TagTeam')->create([
             'tag_id' => $tag->id,
             'team_id' => $this->team->id,
             'is_leader' => true
@@ -65,7 +65,7 @@ class GetUsersTeamDetailsTest extends TestCase
         $tag2 = factory('App\Model\Tag')->create([
             'user_id' => $user2->id
         ]);
-        factory('App\Model\Request')->create([
+        $tagTeam2 = factory('App\Model\Request')->create([
             'tag_id' => $tag2->id,
             'team_id' => $this->team->id,
         ]);
@@ -78,15 +78,17 @@ class GetUsersTeamDetailsTest extends TestCase
                 'team_tag' => $this->team->tag,
                 'user_tags' => [
                     [
-                        'id' => $tag->id,
-                        'tag' => $tag->name,
+                        'id' => $tagTeam->id,
+                        'tag_id' => $tag->id,
+                        'tag_name' => $tag->name,
                         'first_name' => $user->first_name,
                         'last_name' => $user->last_name,
                         'is_leader' => true
                     ],
                     [
-                        'id' => $this->tag->id,
-                        'tag' => $this->tag->name,
+                        'id' => $this->tagTeam->id,
+                        'tag_id' => $this->tag->id,
+                        'tag_name' => $this->tag->name,
                         'first_name' => $this->user->first_name,
                         'last_name' => $this->user->last_name,
                         'is_leader' => false
@@ -94,8 +96,9 @@ class GetUsersTeamDetailsTest extends TestCase
                 ],
                 'requests' => [
                     [
-                        'id' => $tag2->id,
-                        'tag' => $tag2->name,
+                        'id' => $tagTeam2->id,
+                        'tag_id' => $tag2->id,
+                        'tag_name' => $tag2->name,
                         'first_name' => $user2->first_name,
                         'last_name' => $user2->last_name,
                     ]
@@ -110,7 +113,7 @@ class GetUsersTeamDetailsTest extends TestCase
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $user->id
         ]);
-        factory('App\Model\TagTeam')->create([
+        $tagTeam = factory('App\Model\TagTeam')->create([
             'tag_id' => $tag->id,
             'team_id' => $this->team->id,
             'is_leader' => true
@@ -124,15 +127,17 @@ class GetUsersTeamDetailsTest extends TestCase
                 'team_tag' => $this->team->tag,
                 'user_tags' => [
                     [
-                        'id' => $tag->id,
-                        'tag' => $tag->name,
+                        'id' => $tagTeam->id,
+                        'tag_id' => $tag->id,
+                        'tag_name' => $tag->name,
                         'first_name' => $user->first_name,
                         'last_name' => $user->last_name,
                         'is_leader' => true
                     ],
                     [
-                        'id' => $this->tag->id,
-                        'tag' => $this->tag->name,
+                        'id' => $this->tagTeam->id,
+                        'tag_id' => $this->tag->id,
+                        'tag_name' => $this->tag->name,
                         'first_name' => $this->user->first_name,
                         'last_name' => $this->user->last_name,
                         'is_leader' => false
@@ -153,8 +158,9 @@ class GetUsersTeamDetailsTest extends TestCase
                 'team_tag' => $this->team->tag,
                 'user_tags' => [
                     [
-                        'id' => $this->tag->id,
-                        'tag' => $this->tag->name,
+                        'id' => $this->tagTeam->id,
+                        'tag_id' => $this->tag->id,
+                        'tag_name' => $this->tag->name,
                         'first_name' => $this->user->first_name,
                         'last_name' => $this->user->last_name,
                         'is_leader' => false

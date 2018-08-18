@@ -208,8 +208,9 @@ requests | Requêtes pour entrer dans l'équipe. (Seulement visible pour le chef
 #### User Tags
 Paramètre | Description
 --------- | -----------
-id | Id du joueur.
-tag | Tag du joueur.
+id | Id de la relation entre le tag et l'équipe.
+tag_id | Id du tag du joueur.
+tag_name | Nom du tag du joueur.
 first_name | Prénom du joueur.
 last_name | Nom de famille du joueur.
 is_leader | Si le joueur est le chef de l'équipe.
@@ -217,8 +218,9 @@ is_leader | Si le joueur est le chef de l'équipe.
 #### Requests
 Paramètre | Description
 --------- | -----------
-id | Id du joueur qui demande à entrer dans l'équipe.
-tag | Tag du joueur qui demande à entrer dans l'équipe.
+id | Id de la requête.
+tag_id | Id du tag du joueur qui demande à entrer dans l'équipe.
+tag_name | Nom du tag du joueur qui demande à entrer dans l'équipe.
 first_name | Prénom du joueur qui demande à entrer dans l'équipe.
 last_name | Nom de famille du joueur qui demande à entrer dans l'équipe.
 
@@ -252,3 +254,43 @@ Paramètre | Description
 --------- | -----------
 id | Id du tag du nouveau chef.
 name | Nom du tag du nouveau chef.
+
+## Accepter une requête
+
+Le chef accepte une requête pour entrer dans l'équipe.
+
+### Requête HTTP
+
+`POST /api/team/accept`
+
+### POST Params
+
+> Exemple de requête
+
+```json
+{
+	"request_id": 1,
+	"team_id": 1
+}
+```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+request_id | Id de la requête pour joindre l'équipe. | Integer.
+team_id | Id de l'équipe dans laquelle le chef veut accepter la requête. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 2,
+    "name": "PRO"
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id du tag du nouveau membre de l'équipe.
+name | Nom du tag du nouveau membre de l'équipe.

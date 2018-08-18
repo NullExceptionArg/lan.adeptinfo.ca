@@ -33,4 +33,8 @@ interface TeamRepository
     public function getRequests(Team $team): Collection;
 
     public function switchLeader(Tag $tag, Team $team): void;
+
+    public function findRequestById(int $id): ?Request;
+
+    public function deleteRequest(Request $request): void;
 }
