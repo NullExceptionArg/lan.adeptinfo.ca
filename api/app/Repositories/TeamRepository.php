@@ -37,4 +37,6 @@ interface TeamRepository
     public function findRequestById(int $id): ?Request;
 
     public function deleteRequest(Request $request): void;
+
+    public function getRequestsForUser(Authenticatable $user, Lan $lan): Collection;
 }

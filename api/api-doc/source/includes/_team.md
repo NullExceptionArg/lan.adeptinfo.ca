@@ -294,3 +294,67 @@ Paramètre | Description
 --------- | -----------
 id | Id du tag du nouveau membre de l'équipe.
 name | Nom du tag du nouveau membre de l'équipe.
+
+## Lister les requêtes d'un utilisateur
+
+Un utilisateur consulte la liste des équipes pour lesquelles il a des requêtes.
+
+### Requête HTTP
+
+`GET /api/team/request`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN dans lequel l'utilisateur veut obtenir ses requêtes. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+[
+    {
+        "id": 5,
+        "tag_id": 4,
+        "tag_name": "Non.",
+        "team_id": 6,
+        "team_name": "Ratione.",
+        "team_tag": "Ipsa.",
+        "tournament_id": 4,
+        "tournament_name": "Prince Reichert"
+    },
+    {
+        "id": 6,
+        "tag_id": 4,
+        "tag_name": "Non.",
+        "team_id": 7,
+        "team_name": "Assumenda.",
+        "team_tag": "Et.",
+        "tournament_id": 4,
+        "tournament_name": "Prince Reichert"
+    },
+    {
+        "id": 7,
+        "tag_id": 4,
+        "tag_name": "Non.",
+        "team_id": 9,
+        "team_name": "Earum voluptatem.",
+        "team_tag": "Ut.",
+        "tournament_id": 5,
+        "tournament_name": "Vernon Fritsch DDS"
+    }
+]
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id de la requête.
+tag_id | Id du tag sous lequel l'utilisateur a fait sa requête.
+tag_name | Nom du tag sous lequel l'utilisateur a fait sa requête.
+team_id | Id de l'équipe pour laquelle l'utilisateur a fait sa requête.
+tag | Tag de l'équipe pour laquelle l'utilisateur a fait sa requête.
+team_name | Nom de l'équipe pour laquelle l'utilisateur a fait sa requête.
+tournament_id | Id du tournoi de l'équipe pour laquelle l'utilisateur a fait sa requête.
+tournament_name | Nom du tournoi de l'équipe pour laquelle l'utilisateur a fait sa requête.

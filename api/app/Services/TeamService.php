@@ -7,6 +7,7 @@ use App\Model\Tag;
 use App\Model\Team;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
 
 interface TeamService
 {
@@ -17,4 +18,7 @@ interface TeamService
     public function getUserTeams(Request $input): AnonymousResourceCollection;
 
     public function changeLeader(Request $input): Tag;
+
+    public function getRequests(Request $input): Collection;
+
 }

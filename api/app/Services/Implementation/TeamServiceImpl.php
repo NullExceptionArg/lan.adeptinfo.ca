@@ -24,6 +24,7 @@ use App\Rules\Team\UserIsTeamLeader;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -213,6 +214,30 @@ class TeamServiceImpl implements TeamService
         $this->teamRepository->deleteRequest($request);
 
         return $tag;
+    }
 
+    public function getRequests(Request $input): Collection
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $requestValidator = Validator::make([
+            'lan_id' => $input->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id',
+        ]);
+
+        if ($requestValidator->fails()) {
+            throw new BadRequestHttpException($requestValidator->errors());
+        }
+
+        if ($lan == null) {
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
+        }
+
+        return $this->teamRepository->getRequestsForUser(Auth::user(), $lan);
     }
 }

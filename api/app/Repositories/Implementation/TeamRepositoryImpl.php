@@ -153,4 +153,25 @@ class TeamRepositoryImpl implements TeamRepository
     {
         $request->delete();
     }
+
+    public function getRequestsForUser(Authenticatable $user, Lan $lan): Collection
+    {
+        return DB::table('tag')
+            ->join('request', 'tag.id', '=', 'request.tag_id')
+            ->join('team', 'request.team_id', '=', 'team.id')
+            ->join('tournament', 'team.tournament_id', '=', 'tournament.id')
+            ->where('tag.user_id', $user->id)
+            ->where('tournament.lan_id', $lan->id)
+            ->select(
+                'request.id',
+                'tag.id as tag_id',
+                'tag.name as tag_name',
+                'team.id as team_id',
+                'team.name as team_name',
+                'team.tag as team_tag',
+                'tournament.id as tournament_id',
+                'tournament.name as tournament_name'
+            )
+            ->get();
+    }
 }
