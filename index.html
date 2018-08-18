@@ -231,7 +231,10 @@
                     <a href="#creer-un-compte" class="toc-h2 toc-link" data-title="creer-un-compte">Créer un compte</a>
                   </li>
                   <li>
-                    <a href="#creer-un-compte-avec-facebook" class="toc-h2 toc-link" data-title="creer-un-compte-avec-facebook">Créer un compte avec Facebook</a>
+                    <a href="#se-connecter-avec-facebook" class="toc-h2 toc-link" data-title="se-connecter-avec-facebook">Se connecter avec Facebook</a>
+                  </li>
+                  <li>
+                    <a href="#se-connecter-avec-google" class="toc-h2 toc-link" data-title="se-connecter-avec-google">Se connecter avec Google</a>
                   </li>
                   <li>
                     <a href="#connection" class="toc-h2 toc-link" data-title="connection">Connection</a>
@@ -358,6 +361,9 @@
                   </li>
                   <li>
                     <a href="#changer-de-chef" class="toc-h2 toc-link" data-title="changer-de-chef">Changer de chef</a>
+                  </li>
+                  <li>
+                    <a href="#accepter-une-requete" class="toc-h2 toc-link" data-title="accepter-une-requete">Accepter une requête</a>
                   </li>
               </ul>
           </li>
@@ -486,8 +492,8 @@ Vous devez remplacer <code>prolétaire</code> par votre token d'authentification
 <td>Identifiant (courriel) de l&#39;utilisateur créé.</td>
 </tr>
 </tbody></table>
-<h2 id='creer-un-compte-avec-facebook'>Créer un compte avec Facebook</h2>
-<p>Se créer un compte utilisateur en se connectant avec Facebook.
+<h2 id='se-connecter-avec-facebook'>Se connecter avec Facebook</h2>
+<p>Se connecter ou créer un compte utilisateur en se connectant avec Facebook.
 Il est à noter qu&#39;un compte facebook peut s&#39;ajouter à un compte qui a été créé avec Laravel ou Google. 
 Aucune manipulation supplémentaire n&#39;est nécessaire pour agencer des méthodes de connection. 
 Tout est géré par l&#39;API.</p>
@@ -534,11 +540,59 @@ Tout est géré par l&#39;API.</p>
 <td>Token unique à inclure avec toutes les requêtes nécessitant un authentification.</td>
 </tr>
 </tbody></table>
+<h2 id='se-connecter-avec-google'>Se connecter avec Google</h2>
+<p>Se connecter ou créer un compte utilisateur en se connectant avec Google.
+Il est à noter qu&#39;un compte google peut s&#39;ajouter à un compte qui a été créé avec Laravel ou Facebook. 
+Aucune manipulation supplémentaire n&#39;est nécessaire pour agencer des méthodes de connection. 
+Tout est géré par l&#39;API.</p>
+<h3 id='requete-http-3'>Requête HTTP</h3>
+<p><code>POST /api/user/google</code></p>
+<h3 id='parametres-post-3'>Paramètres POST</h3>
+<blockquote>
+<p>Exemple de requête</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"access_token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"EAAe1dhSpTRoBAJx1pm9uYg52QxZBkPZC7ACtLg2XWkFLBttr2MnTqxXr5tLeZACcZB7MjZCTKfgXZDGhUgQDpxM1iieJGarqOQiZCOB3kKgOHpEa5Ucp2UzOJRGwNww3srmR4rpYwJg7CrrbECmAXnD6DwczeJhhLFhdg4rTZB8agswdQEGTdabxfDzABuMo4ZAPMxhkKxakdvNwZDZD"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>access_token</td>
+<td>Token retourné par une authentification côté client, avec Google.</td>
+<td>Requis.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMxNWFlMmE0NWJiNmRjYTQ3MGI2OGY0YThmYzU3ZWI5IThhN2NiY2YzNzNjYTNiZmRkNWMyMmRjMmM5MzA3M2Q4MjU5MWRhNTg0YjJhZThkIn0.eyJhdWQiOiIxIiwianRpOjoiMzE1YWUyYTQ0MmI2ZGNhNDcwYjY4ZjRhOGZjNTdlYjkxOGE3Y2JjZjM3M2NhM2JmZGQ1YzIyZGMyYzkzMDczZDgyNTkxZGE1ODRiMmFlOGQiLCJpYXQiOjE1MzM2MDU5OTYsIm5iZiI6MTUzMzYwNTk5NiwiZXhwIjoxNTY1MTQxOTk2LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.PL0YprwvBISWFHDw8fATGU5utLfShxeEqEmfbI6gzdESw59EitzlgwU6aQkrY-2v7SI0V8tg7EpeQga42HJlQbw2LylpLX-jdVyvbFp6fXNFkUI_vRhrKV9n0S-mc-iluN4Px7PfZnVofa4vDyinhW2SP9MnrnISrPVEmqOpePvOIf2q5WfqmKve7LexGioqVAHk1EefgV4ySTQVUHRbwA9NQA1-sVJ1TQz3ZfBuTQDR7Zq5y9m9XOrPIipIKawGad_wJ6eS5oCpWIf4UlWlzwg72YwiNf_EjnHNwSNnceuj7xvDcQ1khyNo7XVrkT_xTdRbv774tEUxi_z2Ktw8h-aHYnSEuw6AtPwNRJjq_7ubTk_3yyXYq2Fk30lGp_o7zlJN6vGPDVsKNV-oixJVj58f3F4gSeHxbUVj8ukvMg7n786swRw22iaVFLTMV3RemrWhqEtLGeue15apYAq_dqApuhIzCK24DhCobRiLbyEotpyTNaXJtdBRTqv77W-vf7ySemajsgIiNasiDpHm_P-eC8DYIoMSqrofWBitquKl5tmAfT_UCaZvj-z2AzQteBmql3rySJNAh_Ot8aapJOF1XLamFpybffB1faL7NP30isNG0rZe6jpBPwU5D-S0lUeUPjwod2OO7SeoMMWZoi0HcsLYN_uAyJOCTNgvOy4"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>Token unique à inclure avec toutes les requêtes nécessitant un authentification.</td>
+</tr>
+</tbody></table>
 <h2 id='connection'>Connection</h2>
 <p>S&#39;authentifier dans l&#39;application.</p>
-<h3 id='requete-http-3'>Requête HTTP</h3>
+<h3 id='requete-http-4'>Requête HTTP</h3>
 <p><code>POST /oauth/token</code></p>
-<h3 id='parametres-post-3'>Paramètres POST</h3>
+<h3 id='parametres-post-4'>Paramètres POST</h3>
 <blockquote>
 <p>Exemple de requête</p>
 </blockquote>
@@ -584,7 +638,7 @@ Tout est géré par l&#39;API.</p>
 <td>Requis</td>
 </tr>
 </tbody></table>
-<h3 id='format-de-reponse-3'>Format de réponse</h3>
+<h3 id='format-de-reponse-4'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
@@ -621,21 +675,8 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='deconnexion'>Déconnexion</h2>
 <p>Se déconnecter dans l&#39;application</p>
-<h3 id='requete-http-4'>Requête HTTP</h3>
-<p><code>POST /api/user/logout</code></p>
-
-<p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
-<h3 id='format-de-reponse-4'>Format de réponse</h3>
-<blockquote>
-<p>Exemple de réponse</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[]</span><span class="w">
-</span></code></pre>
-<p>La réponse de la suppression de utilisateur est vide.</p>
-<h2 id='supprimer'>Supprimer</h2>
-<p>Supprimer un utilisateur authentifié</p>
 <h3 id='requete-http-5'>Requête HTTP</h3>
-<p><code>DELETE /api/user</code></p>
+<p><code>POST /api/user/logout</code></p>
 
 <p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
 <h3 id='format-de-reponse-5'>Format de réponse</h3>
@@ -645,9 +686,22 @@ Tout est géré par l&#39;API.</p>
 <pre class="highlight json tab-json"><code><span class="p">[]</span><span class="w">
 </span></code></pre>
 <p>La réponse de la suppression de utilisateur est vide.</p>
+<h2 id='supprimer'>Supprimer</h2>
+<p>Supprimer un utilisateur authentifié</p>
+<h3 id='requete-http-6'>Requête HTTP</h3>
+<p><code>DELETE /api/user</code></p>
+
+<p>Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l&#39;utilisateur à partir du token d&#39;authentication.</p>
+<h3 id='format-de-reponse-6'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[]</span><span class="w">
+</span></code></pre>
+<p>La réponse de la suppression de utilisateur est vide.</p>
 <h2 id='lister-les-utilisateurs'>Lister les utilisateurs</h2>
 <p>Lister l&#39;ensemble des utilisateurs selon des filtres, un ordre et de la pagination</p>
-<h3 id='requete-http-6'>Requête HTTP</h3>
+<h3 id='requete-http-7'>Requête HTTP</h3>
 <p><code>GET /api/user</code></p>
 <h3 id='query-params'>Query Params</h3>
 <table><thead>
@@ -683,7 +737,7 @@ Tout est géré par l&#39;API.</p>
 <td>Nombre, minimum: 1.</td>
 </tr>
 </tbody></table>
-<h3 id='format-de-reponse-6'>Format de réponse</h3>
+<h3 id='format-de-reponse-7'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
@@ -790,9 +844,9 @@ Tout est géré par l&#39;API.</p>
 </tbody></table>
 <h2 id='details-d-39-un-utilisateur'>Détails d&#39;un utilisateur</h2>
 <p>Détails d&#39;un utilisateur et son historique pour un LAN.</p>
-<h3 id='requete-http-7'>Requête HTTP</h3>
+<h3 id='requete-http-8'>Requête HTTP</h3>
 <p><code>POST /api/user/details</code></p>
-<h3 id='parametres-post-4'>Paramètres POST</h3>
+<h3 id='parametres-post-5'>Paramètres POST</h3>
 <blockquote>
 <p>Exemple de requête</p>
 </blockquote>
@@ -819,7 +873,7 @@ Tout est géré par l&#39;API.</p>
 <td>requis.</td>
 </tr>
 </tbody></table>
-<h3 id='format-de-reponse-7'>Format de réponse</h3>
+<h3 id='format-de-reponse-8'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
@@ -3220,11 +3274,15 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>Id du joueur.</td>
+<td>Id de la relation entre le tag et l&#39;équipe.</td>
 </tr>
 <tr>
-<td>tag</td>
-<td>Tag du joueur.</td>
+<td>tag_id</td>
+<td>Id du tag du joueur.</td>
+</tr>
+<tr>
+<td>tag_name</td>
+<td>Nom du tag du joueur.</td>
 </tr>
 <tr>
 <td>first_name</td>
@@ -3248,11 +3306,15 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>Id du joueur qui demande à entrer dans l&#39;équipe.</td>
+<td>Id de la requête.</td>
 </tr>
 <tr>
-<td>tag</td>
-<td>Tag du joueur qui demande à entrer dans l&#39;équipe.</td>
+<td>tag_id</td>
+<td>Id du tag du joueur qui demande à entrer dans l&#39;équipe.</td>
+</tr>
+<tr>
+<td>tag_name</td>
+<td>Nom du tag du joueur qui demande à entrer dans l&#39;équipe.</td>
 </tr>
 <tr>
 <td>first_name</td>
@@ -3308,6 +3370,61 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>name</td>
 <td>Nom du tag du nouveau chef.</td>
+</tr>
+</tbody></table>
+<h2 id='accepter-une-requete'>Accepter une requête</h2>
+<p>Le chef accepte une requête pour entrer dans l&#39;équipe.</p>
+<h3 id='requete-http-6'>Requête HTTP</h3>
+<p><code>POST /api/team/accept</code></p>
+<h3 id='post-params-3'>POST Params</h3>
+<blockquote>
+<p>Exemple de requête</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"request_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"team_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>request_id</td>
+<td>Id de la requête pour joindre l&#39;équipe.</td>
+<td>Integer.</td>
+</tr>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe dans laquelle le chef veut accepter la requête.</td>
+<td>Integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-6'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id du tag du nouveau membre de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom du tag du nouveau membre de l&#39;équipe.</td>
 </tr>
 </tbody></table>
 <h1 id='tag'>Tag</h1><h2 id='creer-un-tag'>Créer un tag</h2>
