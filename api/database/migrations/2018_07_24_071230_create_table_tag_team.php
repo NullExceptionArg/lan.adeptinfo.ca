@@ -14,6 +14,7 @@ class CreateTableTagTeam extends Migration
     public function up()
     {
         Schema::create('tag_team', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('tag_id');
             $table->unsignedInteger('team_id');
             $table->boolean('is_leader')->default(false);

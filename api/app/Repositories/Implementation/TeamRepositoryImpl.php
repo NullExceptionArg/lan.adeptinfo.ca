@@ -126,4 +126,19 @@ class TeamRepositoryImpl implements TeamRepository
             )
             ->get();
     }
+
+    public function switchLeader(Tag $tag, Team $team): void
+    {
+        $currentLeader = TagTeam::where('team_id', $team->id)
+            ->where('is_leader', true)
+            ->first();
+        $currentLeader->is_leader = false;
+        $currentLeader->save();
+
+        $newLeader = TagTeam::where('team_id', $team->id)
+            ->where('tag_id', $tag->id)
+            ->first();
+        $newLeader->is_leader = true;
+        $newLeader->save();
+    }
 }

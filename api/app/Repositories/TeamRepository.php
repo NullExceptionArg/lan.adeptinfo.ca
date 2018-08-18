@@ -31,4 +31,6 @@ interface TeamRepository
     public function userIsLeader(Team $team, Authenticatable $user): bool;
 
     public function getRequests(Team $team): Collection;
+
+    public function switchLeader(Tag $tag, Team $team): void;
 }

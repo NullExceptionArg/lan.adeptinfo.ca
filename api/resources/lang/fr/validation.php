@@ -137,7 +137,10 @@ return [
     'facebook_email_permission' => 'La permission d\'utiliser l\'adresse courriel doit être fournie.',
     'unique_email_social_login' => 'Ce courriel est déjà prit.',
     'tag_belongs_to_user' => 'Le tag doit appartenir à l\'utilisateur.',
-    'user_belongs_in_team' => 'L\'utilisateur doit faire parti de l\'équipe',
+    'user_belongs_in_team' => 'L\'utilisateur doit faire parti de l\'équipe.',
+    'tag_belongs_in_team' => 'Le tag doit faire parti de l\'équipe.',
+    'tag_not_belongs_leader' => 'Le tag ne peut appartenir au chef de l\'équipe.',
+    'user_is_team_leader' => 'L\'utilisateur doit être le chef de l\'équipe.',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

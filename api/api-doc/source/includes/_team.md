@@ -149,7 +149,7 @@ not-confirmed | La requête du joueur est en attente de confirmation.
 
 ## Obtenir les détails d'une équipe
 
-Obtenir les détails d'une équipe
+Obtenir les détails d'une équipe.
 
 ### Requête HTTP
 
@@ -221,3 +221,34 @@ id | Id du joueur qui demande à entrer dans l'équipe.
 tag | Tag du joueur qui demande à entrer dans l'équipe.
 first_name | Prénom du joueur qui demande à entrer dans l'équipe.
 last_name | Nom de famille du joueur qui demande à entrer dans l'équipe.
+
+## Changer de chef
+
+Le chef donne son titre à un autre joueur de l'équipe.
+
+### Requête HTTP
+
+`PUT /api/team/leader`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+team_id | Id de l'équipe dans laquelle le chef veut donner son titre. | Integer.
+tag_id | Id du tag du joueur à qui le chef veut donner son titre. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 2,
+    "name": "PRO"
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id du tag du nouveau chef.
+name | Nom du tag du nouveau chef.
