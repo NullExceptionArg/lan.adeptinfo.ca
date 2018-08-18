@@ -143,4 +143,14 @@ class TeamRepositoryImpl implements TeamRepository
         $newLeader->is_leader = true;
         $newLeader->save();
     }
+
+    public function findRequestById(int $id): ?Request
+    {
+        return Request::find($id);
+    }
+
+    public function deleteRequest(Request $request): void
+    {
+        $request->delete();
+    }
 }

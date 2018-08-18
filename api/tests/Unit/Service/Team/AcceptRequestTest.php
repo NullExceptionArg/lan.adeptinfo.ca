@@ -9,23 +9,24 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class ChangeLeaderTest extends TestCase
+class AcceptRequestTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $teamService;
 
     protected $leader;
-    protected $toBeLeader;
+    protected $requestingUser;
     protected $leadersTag;
-    protected $toBeLeadersTag;
+    protected $requestingUsersTag;
     protected $lan;
     protected $tournament;
     protected $team;
+    protected $request;
 
     protected $requestContent = [
-        'team_id' => null,
-        'tag_id' => null
+        'request_id' => null,
+        'team_id' => null
     ];
 
     public function setUp(): void
@@ -37,9 +38,9 @@ class ChangeLeaderTest extends TestCase
         $this->leadersTag = factory('App\Model\Tag')->create([
             'user_id' => $this->leader->id
         ]);
-        $this->toBeLeader = factory('App\Model\User')->create();
-        $this->toBeLeadersTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->toBeLeader->id
+        $this->requestingUser = factory('App\Model\User')->create();
+        $this->requestingUsersTag = factory('App\Model\Tag')->create([
+            'user_id' => $this->requestingUser->id
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
@@ -59,90 +60,82 @@ class ChangeLeaderTest extends TestCase
             'team_id' => $this->team->id,
             'is_leader' => true
         ]);
-        factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->toBeLeadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => false
+        $this->request = factory('App\Model\Request')->create([
+            'tag_id' => $this->requestingUsersTag->id,
+            'team_id' => $this->team->id
         ]);
 
+        $this->requestContent['request_id'] = $this->request->id;
         $this->requestContent['team_id'] = $this->team->id;
-        $this->requestContent['tag_id'] = $this->toBeLeadersTag->id;
 
         $this->be($this->leader);
     }
 
-    public function testChangeLeader(): void
+    public function testAcceptRequest(): void
     {
         $request = new Request($this->requestContent);
-        $result = $this->teamService->changeLeader($request);
+        $result = $this->teamService->acceptRequest($request);
 
-        $this->assertEquals($this->toBeLeadersTag->id, $result->id);
-        $this->assertEquals($this->toBeLeadersTag->name, $result->name);
+        $this->assertEquals($this->requestingUsersTag->id, $result->id);
+        $this->assertEquals($this->requestingUsersTag->name, $result->name);
     }
 
-    public function testChangeLeaderTagIdInteger(): void
+    public function testAcceptRequestRequestIdInteger(): void
     {
-        $this->requestContent['tag_id'] = '☭';
+        $this->requestContent['request_id'] = '☭';
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->changeLeader($request);
-            $this->fail('Expected: {"tag_id":["The tag id must be an integer."]}');
+            $this->teamService->acceptRequest($request);
+            $this->fail('Expected: {"request_id":["The request id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tag_id":["The tag id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"request_id":["The request id must be an integer."]}', $e->getMessage());
         }
     }
 
-    public function testChangeLeaderTagIdExist(): void
+    public function testAcceptRequestRequestIdExist(): void
     {
-        $this->requestContent['tag_id'] = -1;
+        $this->requestContent['request_id'] = -1;
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->changeLeader($request);
-            $this->fail('Expected: {"tag_id":["The selected tag id is invalid."]}');
+            $this->teamService->acceptRequest($request);
+            $this->fail('Expected: {"request_id":["The selected request id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tag_id":["The selected tag id is invalid."]}', $e->getMessage());
+            $this->assertEquals('{"request_id":["The selected request id is invalid."]}', $e->getMessage());
         }
     }
 
-    public function testChangeLeaderTagIdTagBelongsInTeam(): void
+    public function testAcceptRequestRequestIdRequestBelongsInTeam(): void
     {
         $user = factory('App\Model\User')->create();
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $user->id
         ]);
-        $this->requestContent['tag_id'] = $tag->id;
+        $team = factory('App\Model\Team')->create([
+            'tournament_id' => $this->tournament->id
+        ]);
+        $request = factory('App\Model\Request')->create([
+            'tag_id' => $tag,
+            'team_id' => $team->id
+        ]);
+        $this->requestContent['request_id'] = $request->id;
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->changeLeader($request);
-            $this->fail('Expected: {"tag_id":["The tag must be in the team."]}');
+            $this->teamService->acceptRequest($request);
+            $this->fail('Expected: {"request_id":["The request must be for the leaders team."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tag_id":["The tag must be in the team."]}', $e->getMessage());
+            $this->assertEquals('{"request_id":["The request must be for the leaders team."]}', $e->getMessage());
         }
     }
 
-    public function testChangeLeaderTagIdTagNotBelongsLeader(): void
-    {
-        $this->requestContent['tag_id'] = $this->leadersTag->id;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->changeLeader($request);
-            $this->fail('Expected: {"tag_id":["The tag must not belong to the leader of the team."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tag_id":["The tag must not belong to the leader of the team."]}', $e->getMessage());
-        }
-    }
-
-
-    public function testChangeLeaderTeamIdInteger(): void
+    public function testAcceptRequestTeamIdInteger(): void
     {
         $this->requestContent['team_id'] = '☭';
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->changeLeader($request);
+            $this->teamService->acceptRequest($request);
             $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -150,12 +143,12 @@ class ChangeLeaderTest extends TestCase
         }
     }
 
-    public function testChangeLeaderTeamIdExist(): void
+    public function testAcceptRequestTeamIdExist(): void
     {
         $this->requestContent['team_id'] = -1;
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->changeLeader($request);
+            $this->teamService->acceptRequest($request);
             $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -163,12 +156,12 @@ class ChangeLeaderTest extends TestCase
         }
     }
 
-    public function testChangeLeaderTeamIdUserIsTeamLeader(): void
+    public function testAcceptRequestTeamIdUserIsTeamLeader(): void
     {
-        $this->be($this->toBeLeader);
+        $this->be($this->requestingUser);
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->changeLeader($request);
+            $this->teamService->acceptRequest($request);
             $this->fail('Expected: REEEEEEEEEE');
         } catch (AuthorizationException $e) {
             $this->assertEquals('REEEEEEEEEE', $e->getMessage());

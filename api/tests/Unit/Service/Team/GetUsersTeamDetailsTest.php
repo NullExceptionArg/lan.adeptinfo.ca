@@ -63,7 +63,7 @@ class GetUsersTeamDetailsTest extends TestCase
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $user->id
         ]);
-        factory('App\Model\TagTeam')->create([
+        $tagTeam = factory('App\Model\TagTeam')->create([
             'tag_id' => $tag->id,
             'team_id' => $this->team->id,
             'is_leader' => true
@@ -73,7 +73,7 @@ class GetUsersTeamDetailsTest extends TestCase
         $tag2 = factory('App\Model\Tag')->create([
             'user_id' => $user2->id
         ]);
-        factory('App\Model\Request')->create([
+        $tagTeam2 = factory('App\Model\Request')->create([
             'tag_id' => $tag2->id,
             'team_id' => $this->team->id,
         ]);
@@ -86,20 +86,23 @@ class GetUsersTeamDetailsTest extends TestCase
         $this->assertEquals($this->team->name, $result['name']);
         $this->assertEquals($this->team->tag, $result['team_tag']);
 
-        $this->assertEquals($tag->id, $result['user_tags'][1]->jsonSerialize()['id']);
-        $this->assertEquals($tag->name, $result['user_tags'][1]->jsonSerialize()['tag']);
+        $this->assertEquals($tagTeam->id, $result['user_tags'][1]->jsonSerialize()['id']);
+        $this->assertEquals($tag->id, $result['user_tags'][1]->jsonSerialize()['tag_id']);
+        $this->assertEquals($tag->name, $result['user_tags'][1]->jsonSerialize()['tag_name']);
         $this->assertEquals($user->first_name, $result['user_tags'][1]->jsonSerialize()['first_name']);
         $this->assertEquals($user->last_name, $result['user_tags'][1]->jsonSerialize()['last_name']);
         $this->assertEquals(true, $result['user_tags'][1]->jsonSerialize()['is_leader']);
 
-        $this->assertEquals($this->tag->id, $result['user_tags'][0]->jsonSerialize()['id']);
-        $this->assertEquals($this->tag->name, $result['user_tags'][0]->jsonSerialize()['tag']);
+        $this->assertEquals($this->tagTeam->id, $result['user_tags'][0]->jsonSerialize()['id']);
+        $this->assertEquals($this->tag->id, $result['user_tags'][0]->jsonSerialize()['tag_id']);
+        $this->assertEquals($this->tag->name, $result['user_tags'][0]->jsonSerialize()['tag_name']);
         $this->assertEquals($this->user->first_name, $result['user_tags'][0]->jsonSerialize()['first_name']);
         $this->assertEquals($this->user->last_name, $result['user_tags'][0]->jsonSerialize()['last_name']);
         $this->assertEquals(false, $result['user_tags'][0]->jsonSerialize()['is_leader']);
 
-        $this->assertEquals($tag2->id, $result['requests'][0]->jsonSerialize()['id']);
-        $this->assertEquals($tag2->name, $result['requests'][0]->jsonSerialize()['tag']);
+        $this->assertEquals($tagTeam2->id, $result['requests'][0]->jsonSerialize()['id']);
+        $this->assertEquals($tag2->id, $result['requests'][0]->jsonSerialize()['tag_id']);
+        $this->assertEquals($tag2->name, $result['requests'][0]->jsonSerialize()['tag_name']);
         $this->assertEquals($user2->first_name, $result['requests'][0]->jsonSerialize()['first_name']);
         $this->assertEquals($user2->last_name, $result['requests'][0]->jsonSerialize()['last_name']);
     }
@@ -110,7 +113,7 @@ class GetUsersTeamDetailsTest extends TestCase
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $user->id
         ]);
-        factory('App\Model\TagTeam')->create([
+        $tagTeam = factory('App\Model\TagTeam')->create([
             'tag_id' => $tag->id,
             'team_id' => $this->team->id,
             'is_leader' => true
@@ -125,14 +128,16 @@ class GetUsersTeamDetailsTest extends TestCase
         $this->assertEquals($this->team->name, $result['name']);
         $this->assertEquals($this->team->tag, $result['team_tag']);
 
-        $this->assertEquals($tag->id, $result['user_tags'][1]->jsonSerialize()['id']);
-        $this->assertEquals($tag->name, $result['user_tags'][1]->jsonSerialize()['tag']);
+        $this->assertEquals($tagTeam->id, $result['user_tags'][1]->jsonSerialize()['id']);
+        $this->assertEquals($tag->id, $result['user_tags'][1]->jsonSerialize()['tag_id']);
+        $this->assertEquals($tag->name, $result['user_tags'][1]->jsonSerialize()['tag_name']);
         $this->assertEquals($user->first_name, $result['user_tags'][1]->jsonSerialize()['first_name']);
         $this->assertEquals($user->last_name, $result['user_tags'][1]->jsonSerialize()['last_name']);
         $this->assertEquals(true, $result['user_tags'][1]->jsonSerialize()['is_leader']);
 
-        $this->assertEquals($this->tag->id, $result['user_tags'][0]->jsonSerialize()['id']);
-        $this->assertEquals($this->tag->name, $result['user_tags'][0]->jsonSerialize()['tag']);
+        $this->assertEquals($this->tagTeam->id, $result['user_tags'][0]->jsonSerialize()['id']);
+        $this->assertEquals($this->tag->id, $result['user_tags'][0]->jsonSerialize()['tag_id']);
+        $this->assertEquals($this->tag->name, $result['user_tags'][0]->jsonSerialize()['tag_name']);
         $this->assertEquals($this->user->first_name, $result['user_tags'][0]->jsonSerialize()['first_name']);
         $this->assertEquals($this->user->last_name, $result['user_tags'][0]->jsonSerialize()['last_name']);
         $this->assertEquals(false, $result['user_tags'][0]->jsonSerialize()['is_leader']);
@@ -147,8 +152,9 @@ class GetUsersTeamDetailsTest extends TestCase
         $this->assertEquals($this->team->name, $result['name']);
         $this->assertEquals($this->team->tag, $result['team_tag']);
 
-        $this->assertEquals($this->tag->id, $result['user_tags'][0]->jsonSerialize()['id']);
-        $this->assertEquals($this->tag->name, $result['user_tags'][0]->jsonSerialize()['tag']);
+        $this->assertEquals($this->tagTeam->id, $result['user_tags'][0]->jsonSerialize()['id']);
+        $this->assertEquals($this->tag->id, $result['user_tags'][0]->jsonSerialize()['tag_id']);
+        $this->assertEquals($this->tag->name, $result['user_tags'][0]->jsonSerialize()['tag_name']);
         $this->assertEquals($this->user->first_name, $result['user_tags'][0]->jsonSerialize()['first_name']);
         $this->assertEquals($this->user->last_name, $result['user_tags'][0]->jsonSerialize()['last_name']);
         $this->assertEquals(false, $result['user_tags'][0]->jsonSerialize()['is_leader']);

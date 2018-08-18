@@ -254,3 +254,43 @@ Paramètre | Description
 --------- | -----------
 id | Id du tag du nouveau chef.
 name | Nom du tag du nouveau chef.
+
+## Accepter une requête
+
+Le chef accepte une requête pour entrer dans l'équipe.
+
+### Requête HTTP
+
+`POST /api/team/accept`
+
+### POST Params
+
+> Exemple de requête
+
+```json
+{
+	"request_id": 1,
+	"team_id": 1
+}
+```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+request_id | Id de la requête pour joindre l'équipe. | Integer.
+team_id | Id de l'équipe dans laquelle le chef veut accepter la requête. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 2,
+    "name": "PRO"
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id du tag du nouveau membre de l'équipe.
+name | Nom du tag du nouveau membre de l'équipe.

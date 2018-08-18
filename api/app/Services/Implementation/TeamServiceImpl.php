@@ -4,12 +4,14 @@ namespace App\Services\Implementation;
 
 use App\Http\Resources\Team\GetUsersTeamDetailsResource;
 use App\Http\Resources\Team\GetUserTeamsResource;
+use App\Model\Request as TeamRequest;
 use App\Model\Tag;
 use App\Model\Team;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TagRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Rules\Team\RequestBelongsInTeam;
 use App\Rules\Team\TagBelongsInTeam;
 use App\Rules\Team\TagBelongsToUser;
 use App\Rules\Team\TagNotBelongsLeader;
@@ -84,7 +86,7 @@ class TeamServiceImpl implements TeamService
         return $team;
     }
 
-    public function createRequest(Request $input): \App\Model\Request
+    public function createRequest(Request $input): TeamRequest
     {
         $teamValidator = Validator::make([
             'team_id' => $input->input('team_id'),
@@ -187,9 +189,6 @@ class TeamServiceImpl implements TeamService
 
     public function acceptRequest(Request $input): Tag
     {
-        // TODO Ajouter request id quand on liste les requêtes
-        // TODO La requête est pour l'équipe
-        // TODO L'utilisateur est le chef de l'équipe
         $requestValidator = Validator::make([
             'request_id' => $input->input('request_id'),
             'team_id' => $input->input('team_id')
@@ -197,8 +196,7 @@ class TeamServiceImpl implements TeamService
             'request_id' => [
                 'integer',
                 'exists:request,id',
-                new TagBelongsInTeam($input->input('team_id')),
-                new TagNotBelongsLeader($input->input('team_id'))
+                new RequestBelongsInTeam($input->input('team_id')),
             ],
             'team_id' => ['integer', 'exists:team,id', new UserIsTeamLeader],
         ]);
@@ -206,5 +204,15 @@ class TeamServiceImpl implements TeamService
         if ($requestValidator->fails()) {
             throw new BadRequestHttpException($requestValidator->errors());
         }
+
+        $request = $this->teamRepository->findRequestById($input->input('request_id'));
+        $tag = $this->tagRepository->findById($request->tag_id);
+        $team = $this->teamRepository->findById($request->team_id);
+
+        $this->teamRepository->linkTagTeam($tag, $team, false);
+        $this->teamRepository->deleteRequest($request);
+
+        return $tag;
+
     }
 }

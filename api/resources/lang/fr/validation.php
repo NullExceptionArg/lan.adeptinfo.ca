@@ -141,6 +141,7 @@ return [
     'tag_belongs_in_team' => 'Le tag doit faire parti de l\'équipe.',
     'tag_not_belongs_leader' => 'Le tag ne peut appartenir au chef de l\'équipe.',
     'user_is_team_leader' => 'L\'utilisateur doit être le chef de l\'équipe.',
+    'request_belongs_in_team' => 'La requête doit être pour l\'équipe du chef.',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

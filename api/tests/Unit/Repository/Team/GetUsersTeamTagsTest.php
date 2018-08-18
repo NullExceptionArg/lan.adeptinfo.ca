@@ -51,8 +51,9 @@ class GetUsersTeamTagsTest extends TestCase
     {
         $result = $this->teamRepository->getUsersTeamTags($this->team);
 
-        $this->assertEquals($this->tag->id, $result[0]->id);
-        $this->assertEquals($this->tag->name, $result[0]->name);
+        $this->assertEquals($this->tagTeam->id, $result[0]->id);
+        $this->assertEquals($this->tag->name, $result[0]->tag_name);
+        $this->assertEquals($this->tag->name, $result[0]->tag_name);
         $this->assertEquals($this->user->first_name, $result[0]->first_name);
         $this->assertEquals($this->user->first_name, $result[0]->first_name);
         $this->assertEquals(false, (bool)$result[0]->is_leader);
