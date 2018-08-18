@@ -184,4 +184,27 @@ class TeamServiceImpl implements TeamService
 
         return $tag;
     }
+
+    public function acceptRequest(Request $input): Tag
+    {
+        // TODO Ajouter request id quand on liste les requêtes
+        // TODO La requête est pour l'équipe
+        // TODO L'utilisateur est le chef de l'équipe
+        $requestValidator = Validator::make([
+            'request_id' => $input->input('request_id'),
+            'team_id' => $input->input('team_id')
+        ], [
+            'request_id' => [
+                'integer',
+                'exists:request,id',
+                new TagBelongsInTeam($input->input('team_id')),
+                new TagNotBelongsLeader($input->input('team_id'))
+            ],
+            'team_id' => ['integer', 'exists:team,id', new UserIsTeamLeader],
+        ]);
+
+        if ($requestValidator->fails()) {
+            throw new BadRequestHttpException($requestValidator->errors());
+        }
+    }
 }

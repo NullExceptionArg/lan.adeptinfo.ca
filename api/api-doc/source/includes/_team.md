@@ -208,8 +208,9 @@ requests | Requêtes pour entrer dans l'équipe. (Seulement visible pour le chef
 #### User Tags
 Paramètre | Description
 --------- | -----------
-id | Id du joueur.
-tag | Tag du joueur.
+id | Id de la relation entre le tag et l'équipe.
+tag_id | Id du tag du joueur.
+tag_name | Nom du tag du joueur.
 first_name | Prénom du joueur.
 last_name | Nom de famille du joueur.
 is_leader | Si le joueur est le chef de l'équipe.
@@ -217,8 +218,9 @@ is_leader | Si le joueur est le chef de l'équipe.
 #### Requests
 Paramètre | Description
 --------- | -----------
-id | Id du joueur qui demande à entrer dans l'équipe.
-tag | Tag du joueur qui demande à entrer dans l'équipe.
+id | Id de la requête.
+tag_id | Id du tag du joueur qui demande à entrer dans l'équipe.
+tag_name | Nom du tag du joueur qui demande à entrer dans l'équipe.
 first_name | Prénom du joueur qui demande à entrer dans l'équipe.
 last_name | Nom de famille du joueur qui demande à entrer dans l'équipe.
 

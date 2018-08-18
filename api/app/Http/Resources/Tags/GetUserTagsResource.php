@@ -18,7 +18,8 @@ class GetUserTagsResource extends Resource
     {
         return [
             'id' => intval($this->id),
-            'tag' => $this->name,
+            'tag_id' => intval($this->tag_id),
+            'tag_name' => $this->tag_name,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'is_leader' => $this->is_leader ? true : false
