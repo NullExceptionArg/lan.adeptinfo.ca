@@ -2,6 +2,7 @@
 
 namespace App\Services\Implementation;
 
+use App\Http\Resources\Team\GetRequestsResource;
 use App\Http\Resources\Team\GetUsersTeamDetailsResource;
 use App\Http\Resources\Team\GetUserTeamsResource;
 use App\Model\Request as TeamRequest;
@@ -24,7 +25,6 @@ use App\Rules\Team\UserIsTeamLeader;
 use App\Services\TeamService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -216,7 +216,7 @@ class TeamServiceImpl implements TeamService
         return $tag;
     }
 
-    public function getRequests(Request $input): Collection
+    public function getRequests(Request $input): AnonymousResourceCollection
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -238,6 +238,6 @@ class TeamServiceImpl implements TeamService
             $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
-        return $this->teamRepository->getRequestsForUser(Auth::user(), $lan);
+        return GetRequestsResource::collection($this->teamRepository->getRequestsForUser(Auth::user(), $lan));
     }
 }
