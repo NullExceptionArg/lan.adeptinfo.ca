@@ -2,6 +2,7 @@
 
 namespace App\Services\Implementation;
 
+use App\Http\Resources\Team\GetRequestsResource;
 use App\Http\Resources\Team\GetUsersTeamDetailsResource;
 use App\Http\Resources\Team\GetUserTeamsResource;
 use App\Model\Request as TeamRequest;
@@ -213,6 +214,30 @@ class TeamServiceImpl implements TeamService
         $this->teamRepository->deleteRequest($request);
 
         return $tag;
+    }
 
+    public function getRequests(Request $input): AnonymousResourceCollection
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $requestValidator = Validator::make([
+            'lan_id' => $input->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id',
+        ]);
+
+        if ($requestValidator->fails()) {
+            throw new BadRequestHttpException($requestValidator->errors());
+        }
+
+        if ($lan == null) {
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
+        }
+
+        return GetRequestsResource::collection($this->teamRepository->getRequestsForUser(Auth::user(), $lan));
     }
 }

@@ -64,6 +64,7 @@ $api->version('v1', function ($api) {
 
                 $api->post('team', 'TeamController@createTeam');
                 $api->post('team/request', 'TeamController@createRequest');
+                $api->get('team/request', 'TeamController@getRequests');
                 $api->get('team/user', 'TeamController@getUserTeams');
                 $api->get('team/details', 'TeamController@getUsersTeamDetails');
                 $api->put('team/leader', 'TeamController@changeLeader');

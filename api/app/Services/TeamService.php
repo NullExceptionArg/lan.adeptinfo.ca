@@ -17,4 +17,7 @@ interface TeamService
     public function getUserTeams(Request $input): AnonymousResourceCollection;
 
     public function changeLeader(Request $input): Tag;
+
+    public function getRequests(Request $input): AnonymousResourceCollection;
+
 }
