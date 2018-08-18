@@ -11,7 +11,7 @@ class TagNotBelongsLeader implements Rule
 {
     protected $teamId;
 
-    public function __construct(?int $teamId)
+    public function __construct(?string $teamId)
     {
         $this->teamId = $teamId;
     }
