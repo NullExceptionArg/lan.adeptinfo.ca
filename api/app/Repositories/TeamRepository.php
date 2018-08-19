@@ -39,4 +39,6 @@ interface TeamRepository
     public function deleteRequest(Request $request): void;
 
     public function getRequestsForUser(Authenticatable $user, Lan $lan): Collection;
+
+    public function getLeadersRequestTotalCount(Authenticatable $user, Lan $lan): int;
 }

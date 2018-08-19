@@ -377,3 +377,36 @@ reserved_at | Moment où l'utilisateur a réservé sa place.
 arrived_at | Moment où l'utilisateur est arrivé sur place.
 left_at | Moment où l'utilisateur a quitté.
 canceled_at | Moment où l'utilisateur a annulé sa réservation.
+
+
+## Sommaire d'un utilisateur
+
+Informations sommaires d'un utilisateur.
+
+### Requête HTTP
+
+`GET /api/user/summary`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "first_name": "Karl",
+    "last_name": "Marx",
+    "request_count": 5
+}
+```
+
+Champ | Description
+--------- | -----------
+first_name | Prénom de l'utilisateur.
+last_name | Nom de l'utilisateur.
+request_count | Demandes cummulées pour entrer dans les équipes d'un utilisateur (qui est chef).
