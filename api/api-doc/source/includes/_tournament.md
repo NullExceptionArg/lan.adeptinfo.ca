@@ -210,3 +210,97 @@ hidden | Caché, est seulement visible pour les organisateurs.
 visible | Est visible pour les utilisateurs.
 started | Le tournoi est commencé.
 finished | Le tournoi est terminé.
+
+## Détails d'un tournoi
+
+Détails d'un tournoi
+
+### Requête HTTP
+
+`GET /api/tournament/details/{tournament_id}`
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+tournament_id | Id du tournoi que l'on veut consulter. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 1,
+    "name": "October",
+    "rules": "The Bolsheviks seize control of Petrograd.",
+    "price": 0,
+    "tournament_start": "2100-10-11 14:00:00",
+    "tournament_end": "2100-10-11 18:00:00",
+    "teams_to_reach": 6,
+    "teams_reached": 0,
+    "players_to_reach": 5,
+    "state": "hidden",
+    "teams": [
+        {
+            "id": 1,
+            "name": "WorkersUnite",
+            "tag": "PRO",
+            "players_reached": 1,
+            "players": [
+                {
+                    "tag_id": 2,
+                    "tag_name": "PRO",
+                    "first_name": "Karl",
+                    "last_name": "Marx",
+                    "is_leader": false,
+                    "reservation_id": 1,
+                    "seat_id": "A-1"
+                }
+            ]
+        }
+    ]
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id du tournoi.
+name | Nom du tournoi.
+rules | Règles du tournoi. 
+price | Prix du tournoi en cents. 
+tournament_start | Date et heure du début du tournoi. 
+tournament_end | Date et heure de fin du tournoi. 
+team_to_reach | Nombre d'équipes complètes à atteindre pour que le tournoi puisse commencer.
+team_reached | Nombre d'équipes complètes atteintes.
+players_to_reach| Nombre de joueurs à atteindre pour qu'une équipe soit complète.
+state | État courant du tournoi. Voir État Courant pour les possibilités et leurs significations.
+teams | Voir Team.
+
+#### État courant
+Champ | Description
+--------- | -----------
+hidden | Caché, est seulement visible pour les organisateurs.
+visible | Est visible pour les utilisateurs.
+started | Le tournoi est commencé.
+finished | Le tournoi est terminé.
+
+#### Team
+Champ | Description
+--------- | -----------
+id | Id de l'équipe.
+name | Nom de l'équipe.
+tag | Tag de l'équipe.
+players_reached | Nombre de joueurs atteint.
+players | Voir Player.
+
+#### Player
+Champ | Description
+--------- | -----------
+tag_id | Id du tag du joueur.
+tag_name | Nom du tag du joueur.
+first_name | Prénom du joueur.
+last_name | Nom de famille du joueur.
+is_leader | Si le joueur est chef de l'équipe.
+reservation_id | Id de la réservation, si le joueur en a une pour le LAN.
+seat_id | Id de la place du joueur, si le joueur a un réservation pour le LAN.
