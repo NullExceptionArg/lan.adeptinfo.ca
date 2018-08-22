@@ -83,7 +83,7 @@ Les équipes, les requêtes pour entrer dans les équipes du tournois et les lia
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du LAN où le tournoi aura lieu. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+tournament_id | Id du tournoi que l'administrateur veut supprimer. | integer.
 
 ### Format de réponse
 
