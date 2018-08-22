@@ -74,7 +74,7 @@ class TeamServiceImpl implements TeamService
             throw new BadRequestHttpException($teamValidator->errors());
         }
 
-        $tournament = $this->tournamentRepository->findTournamentById($input->input('tournament_id'));
+        $tournament = $this->tournamentRepository->findById($input->input('tournament_id'));
         $team = $this->teamRepository->create(
             $tournament,
             $input->input('name'),

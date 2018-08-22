@@ -31,6 +31,9 @@ $api->version('v1', function ($api) {
             $api->get('contribution/category', 'ContributionController@getContributionCategories');
             $api->get('contribution', 'ContributionController@getContributions');
 
+            $api->get('tournament/details/{tournament_id}', 'TournamentController@get');
+            $api->get('tournament/all', 'TournamentController@getAllTournament');
+
         });
 
 
@@ -60,7 +63,6 @@ $api->version('v1', function ($api) {
 
                 $api->post('tournament', 'TournamentController@createTournament');
                 $api->put('tournament/{tournament_id}', 'TournamentController@editTournament');
-                $api->get('tournament/all', 'TournamentController@getAllTournament');
 
                 $api->post('team', 'TeamController@createTeam');
                 $api->post('team/request', 'TeamController@createRequest');

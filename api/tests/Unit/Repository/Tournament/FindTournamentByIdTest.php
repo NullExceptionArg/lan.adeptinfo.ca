@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repository;
+namespace Tests\Unit\Repository\Tournament;
 
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
@@ -35,9 +35,9 @@ class FindTournamentByIdTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testFindTournamentById(): void
+    public function testFindById(): void
     {
-        $result = $this->tournamentRepository->findTournamentById($this->tournament->id);
+        $result = $this->tournamentRepository->findById($this->tournament->id);
 
         $this->assertEquals($this->tournament->id, $result->id);
         $this->assertEquals($this->tournament->lan_id, $result->lan_id);

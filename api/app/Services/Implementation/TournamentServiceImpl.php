@@ -3,6 +3,7 @@
 namespace App\Services\Implementation;
 
 use App\Http\Resources\Tournament\GetAllTournamentResource;
+use App\Http\Resources\Tournament\GetDetailsResource;
 use App\Model\Tournament;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
@@ -144,7 +145,7 @@ class TournamentServiceImpl implements TournamentService
             throw new BadRequestHttpException($tournamentValidator->errors());
         }
 
-        $tournament = $this->tournamentRepository->findTournamentById($tournamentId);
+        $tournament = $this->tournamentRepository->findById($tournamentId);
 
         return $this->tournamentRepository->update(
             $tournament,
@@ -157,5 +158,23 @@ class TournamentServiceImpl implements TournamentService
             $input->input('rules'),
             intval($input->input('price'))
         );
+    }
+
+    public function get(string $tournamentId)
+    {
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => 'integer|exists:tournament,id'
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+        $teamsReached = $this->tournamentRepository->getReachedTeams($tournament);
+
+        return new GetDetailsResource($tournament, $teamsReached);
     }
 }
