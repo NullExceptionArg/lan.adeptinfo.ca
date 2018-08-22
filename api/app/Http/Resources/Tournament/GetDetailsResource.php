@@ -36,12 +36,12 @@ class GetDetailsResource extends Resource
             'id' => intval($this->id),
             'name' => $this->name,
             'rules' => $this->rules,
-            'price' => $this->price,
+            'price' => intval($this->price),
             'tournament_start' => $this->tournament_start,
             'tournament_end' => $this->tournament_end,
             'teams_to_reach' => intval($this->teams_to_reach),
             'teams_reached' => intval($this->teamsReached),
-            'players_to_reach' => $this->players_to_reach,
+            'players_to_reach' => intval($this->players_to_reach),
             'state' => $this->getCurrentState(),
             'teams' => GetTournamentDetailsTeamResource::collection($teams)
         ];
