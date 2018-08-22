@@ -25,6 +25,7 @@ class CreateTableTournament extends Migration
             $table->text('rules');
             $table->unsignedInteger('lan_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('lan_id')
                 ->references('id')->on('lan');

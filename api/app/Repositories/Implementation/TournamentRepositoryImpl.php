@@ -105,4 +105,9 @@ class TournamentRepositoryImpl implements TournamentRepository
         }
         return $teamsReached;
     }
+
+    public function delete(Tournament $tournament): void
+    {
+        $tournament->delete();
+    }
 }

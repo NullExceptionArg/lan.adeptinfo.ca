@@ -19,6 +19,7 @@ class CreateTableTagTeam extends Migration
             $table->unsignedInteger('team_id');
             $table->boolean('is_leader')->default(false);
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('tag_id')
                 ->references('id')->on('tag');

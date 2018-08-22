@@ -5,6 +5,7 @@ namespace App\Model;
 use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int id
@@ -20,7 +21,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tournament extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'tournament';
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -28,7 +38,7 @@ class Tournament extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at',
+        'created_at', 'updated_at', 'deleted_at',
     ];
 
     protected $casts = [
@@ -56,5 +66,22 @@ class Tournament extends Model
         } else {
             return 'unknown'; // inconnue
         }
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($tournament) {
+            $teams = Team::where('tournament_id', $tournament->id)
+                ->get();
+            foreach ($teams as $team) {
+                TagTeam::where('team_id', $team->id)
+                    ->delete();
+                Request::where('team_id', $team->id)
+                    ->delete();
+                $team->delete();
+            }
+        });
     }
 }

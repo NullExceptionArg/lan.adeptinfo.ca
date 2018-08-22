@@ -177,4 +177,22 @@ class TournamentServiceImpl implements TournamentService
 
         return new GetDetailsResource($tournament, $teamsReached);
     }
+
+    public function delete(string $tournamentId): Tournament
+    {
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => 'integer|exists:tournament,id'
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+        $this->tournamentRepository->delete($tournament);
+
+        return $tournament;
+    }
 }

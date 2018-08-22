@@ -39,4 +39,9 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->get($tournamentId), 200);
     }
 
+    public function delete(Request $request, string $tournamentId)
+    {
+        return response()->json($this->tournamentService->delete($tournamentId), 200);
+    }
+
 }

@@ -25,4 +25,6 @@ interface TournamentRepository
     public function associateOrganizerTournament(Authenticatable $organizer, Tournament $tournament): void;
 
     public function getReachedTeams(Tournament $tournament): int;
+
+    public function delete(Tournament $tournament): void;
 }
