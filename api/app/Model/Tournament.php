@@ -42,7 +42,7 @@ class Tournament extends Model
     ];
 
     protected $casts = [
-        'lan_id' => 'integer'
+        'lan_id' => 'integer', 'players_to_reach' => 'integer', 'teams_to_reach' => 'integer', 'price' => 'integer'
     ];
 
     public function getCurrentState()
