@@ -21,7 +21,7 @@ class GetTournamentDetailsTagResource extends Resource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'is_leader' => $this->is_leader == 1 ? true : false,
-            'reservation_id' => intval($this->reservation_id),
+            'reservation_id' => $this->reservation_id != null ? intval($this->reservation_id) : null,
             'seat_id' => $this->seat_id
         ];
     }
