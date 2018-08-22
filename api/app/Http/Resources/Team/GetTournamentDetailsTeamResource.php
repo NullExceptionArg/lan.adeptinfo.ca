@@ -43,7 +43,7 @@ class GetTournamentDetailsTeamResource extends Resource
             'id' => intval($this->id),
             'name' => $this->name,
             'tag' => $this->tag,
-            'players_reached' => $playersReached,
+            'players_reached' => intval($playersReached),
             'players' => GetTournamentDetailsTagResource::collection($players)
         ];
     }
