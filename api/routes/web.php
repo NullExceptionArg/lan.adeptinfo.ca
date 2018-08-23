@@ -64,6 +64,7 @@ $api->version('v1', function ($api) {
                 $api->post('tournament', 'TournamentController@createTournament');
                 $api->put('tournament/{tournament_id}', 'TournamentController@editTournament');
                 $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
+                $api->post('tournament/quit/{tournament_id}', 'TournamentController@quit');
 
                 $api->post('team', 'TeamController@createTeam');
                 $api->post('team/request', 'TeamController@createRequest');

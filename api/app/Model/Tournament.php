@@ -82,6 +82,8 @@ class Tournament extends Model
                     ->delete();
                 $team->delete();
             }
+            OrganizerTournament::where('tournament_id', $tournament->id)
+                ->delete();
         });
     }
 }

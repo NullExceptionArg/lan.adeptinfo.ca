@@ -348,3 +348,51 @@ last_name | Nom de famille du joueur.
 is_leader | Si le joueur est chef de l'équipe.
 reservation_id | Id de la réservation, si le joueur en a une pour le LAN.
 seat_id | Id de la place du joueur, si le joueur a un réservation pour le LAN.
+
+
+## Quitter l'organisation d'un tournoi
+
+Un administrateur quitte l'organisation du tournoi.
+
+S'il est le dernier à quitter, le tournoi est supprimé.
+
+### Requête HTTP
+
+`POST /api/tournament/quit/{tournament_id}`
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+tournament_id | Id du tournoi l'administrateur veut quitter. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 1,
+    "name": "Octobers",
+    "price": 0,
+    "tournament_start": "2100-10-11 14:00:00",
+    "tournament_end": "2100-10-11 18:00:00",
+    "players_to_reach": 5,
+    "teams_to_reach": 6,
+    "state": "hidden",
+    "rules": "The Bolsheviks seize control of Petrograd.",
+    "lan_id": 1
+}
+```
+
+Paramètre | Description
+--------- | -----------
+name | Nom du tournoi.
+price | Prix d'entrée du tournoi. 
+state | État courant du LAN. Voir État Courant. 
+tournament_start | Date et heure de début du tournoi.
+tournament_end | Date et heure de fin du tournoi.
+players_to_reach| Nombre de joueur à atteindre par équipe.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.
+rules | Règlements du tournoi.
+lan_id | LAN auquel le tournoi est associé.

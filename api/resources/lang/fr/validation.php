@@ -142,6 +142,7 @@ return [
     'tag_not_belongs_leader' => 'Le tag ne peut appartenir au chef de l\'équipe.',
     'user_is_team_leader' => 'L\'utilisateur doit être le chef de l\'équipe.',
     'request_belongs_in_team' => 'La requête doit être pour l\'équipe du chef.',
+    'organizer_has_tournament' => 'L\'utilisateur n\'a aucuns tournois',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

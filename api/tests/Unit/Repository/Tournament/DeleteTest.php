@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Repository\Tournament;
 
+use App\Model\OrganizerTournament;
 use App\Model\Request;
 use App\Model\TagTeam;
 use App\Model\Team;
@@ -23,6 +24,8 @@ class DeleteTest extends TestCase
     protected $team;
     protected $tagTeam;
     protected $request;
+    protected $organizer;
+    protected $organizerTournament;
 
     public function setUp(): void
     {
@@ -64,6 +67,11 @@ class DeleteTest extends TestCase
             'team_id' => $this->team->id
         ]);
 
+        $this->organizer = factory('App\Model\User')->create();
+        $this->organizerTournament = factory('App\Model\OrganizerTournament')->create([
+            'organizer_id' => $this->organizer->id,
+            'tournament_id' => $this->tournament->id
+        ]);
     }
 
     public function testDelete(): void
@@ -74,10 +82,12 @@ class DeleteTest extends TestCase
         $team = Team::withTrashed()->first();
         $tagTeam = TagTeam::withTrashed()->first();
         $request = Request::withTrashed()->first();
+        $organizerTournament = OrganizerTournament::withTrashed()->first();
 
         $this->assertEquals($this->tournament->id, $tournament->id);
         $this->assertEquals($this->team->id, $team->id);
         $this->assertEquals($this->tagTeam->id, $tagTeam->id);
         $this->assertEquals($this->request->id, $request->id);
+        $this->assertEquals($this->organizerTournament->id, $organizerTournament->id);
     }
 }

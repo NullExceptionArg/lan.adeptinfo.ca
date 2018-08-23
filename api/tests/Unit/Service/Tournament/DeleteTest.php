@@ -17,6 +17,8 @@ class DeleteTest extends TestCase
     protected $tag;
     protected $lan;
     protected $tournament;
+    protected $organizer;
+    protected $organizerTournament;
 
     public function setUp(): void
     {
@@ -61,6 +63,12 @@ class DeleteTest extends TestCase
         factory('App\Model\Request')->create([
             'tag_id' => $tag2->id,
             'team_id' => $team->id
+        ]);
+
+        $this->organizer = factory('App\Model\User')->create();
+        $this->organizerTournament = factory('App\Model\OrganizerTournament')->create([
+            'organizer_id' => $this->organizer->id,
+            'tournament_id' => $this->tournament->id
         ]);
 
         $result = $this->tournamentService->delete($this->tournament->id);
