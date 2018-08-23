@@ -3,6 +3,7 @@
 namespace App\Repositories\Implementation;
 
 use App\Model\Lan;
+use App\Model\OrganizerTournament;
 use App\Model\Request;
 use App\Model\Tag;
 use App\Model\TagTeam;
@@ -190,6 +191,19 @@ class TeamRepositoryImpl implements TeamRepository
 
         return DB::table('request')
             ->whereIn('team_id', $teamIds)
+            ->count();
+    }
+
+    public function quit(Tournament $tournament, Authenticatable $user): void
+    {
+        OrganizerTournament::where('organizer_id', $user->id)
+            ->where('tournament_id')
+            ->delete();
+    }
+
+    public function getOrganizerCount(Tournament $tournament): void
+    {
+        OrganizerTournament::where('tournament_id', $tournament->id)
             ->count();
     }
 }

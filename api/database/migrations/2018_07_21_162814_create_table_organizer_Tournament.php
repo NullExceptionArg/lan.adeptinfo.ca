@@ -18,6 +18,7 @@ class CreateTableOrganizerTournament extends Migration
             $table->unsignedInteger('organizer_id');
             $table->unsignedInteger('tournament_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('organizer_id')
                 ->references('id')->on('user');

@@ -110,4 +110,17 @@ class TournamentRepositoryImpl implements TournamentRepository
     {
         $tournament->delete();
     }
+
+    public function quit(Tournament $tournament, Authenticatable $user): void
+    {
+        OrganizerTournament::where('organizer_id', $user->id)
+            ->where('tournament_id', $tournament->id)
+            ->delete();
+    }
+
+    public function getOrganizerCount(Tournament $tournament): int
+    {
+        return OrganizerTournament::where('tournament_id', $tournament->id)
+            ->count();
+    }
 }

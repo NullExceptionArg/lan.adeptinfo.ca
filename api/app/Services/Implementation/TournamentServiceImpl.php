@@ -9,6 +9,7 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
+use App\Rules\OrganizerHasTournament;
 use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
 use DateTime;
@@ -192,6 +193,30 @@ class TournamentServiceImpl implements TournamentService
 
         $tournament = $this->tournamentRepository->findById($tournamentId);
         $this->tournamentRepository->delete($tournament);
+
+        return $tournament;
+    }
+
+    public function quit(string $tournamentId): Tournament
+    {
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => ['integer', 'exists:tournament,id', new OrganizerHasTournament(Auth::id())]
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+
+        $organizerCount = $this->tournamentRepository->getOrganizerCount($tournament);
+        $this->tournamentRepository->quit($tournament, Auth::user());
+
+        if ($organizerCount <= 1) {
+            $this->tournamentRepository->delete($tournament);
+        }
 
         return $tournament;
     }

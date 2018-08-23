@@ -27,4 +27,8 @@ interface TournamentRepository
     public function getReachedTeams(Tournament $tournament): int;
 
     public function delete(Tournament $tournament): void;
+
+    public function quit(Tournament $tournament, Authenticatable $user): void;
+
+    public function getOrganizerCount(Tournament $tournament): int;
 }
