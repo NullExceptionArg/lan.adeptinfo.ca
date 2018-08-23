@@ -52,7 +52,8 @@ class DeleteRequestTest extends TestCase
         $this->seeInDatabase('request', [
             'id' => $this->request->id,
             'tag_id' => $this->tag->id,
-            'team_id' => $this->team->id
+            'team_id' => $this->team->id,
+            'deleted_at' => null
         ]);
 
         $this->teamRepository->deleteRequest($this->request);
@@ -60,7 +61,8 @@ class DeleteRequestTest extends TestCase
         $this->notSeeInDatabase('request', [
             'id' => $this->request->id,
             'tag_id' => $this->tag->id,
-            'team_id' => $this->team->id
+            'team_id' => $this->team->id,
+            'deleted_at' => null
         ]);
     }
 }

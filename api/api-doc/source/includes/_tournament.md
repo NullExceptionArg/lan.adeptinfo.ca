@@ -69,6 +69,50 @@ players_to_reach| Nombre de joueur à atteindre par équipe.
 teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.
 rules | Règlements du tournoi.
 
+## Supprimer un tournoi
+
+Supprimer un tournoi.
+
+Les équipes, les requêtes pour entrer dans les équipes du tournois et les liaisons entre les tag et les équipes du tournoi seront aussi supprimés.
+
+### Requête HTTP
+
+`DELETE /api/tournament/{tournament_id}`
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+tournament_id | Id du tournoi que l'administrateur veut supprimer. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "lan_id": 1,
+    "name": "October",
+    "tournament_start": "2100-10-11 14:00:00",
+    "tournament_end": "2100-10-11 18:00:00",
+    "players_to_reach": 5,
+    "teams_to_reach": 6,
+    "rules": "The Bolsheviks seize control of Petrograd.",
+    "price": 0,
+    "id": 1
+}
+```
+
+Champ | Description
+--------- | -----------
+name | Nom du tournoi. 
+price | Prix d'entrée du tournoi.
+tournament_start | Date et heure de début du tournoi. 
+tournament_end | Date et heure de fin du tournoi.
+players_to_reach| Nombre de joueur à atteindre par équipe.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.
+rules | Règlements du tournoi.
+
 ## Tournois d'un organisateur
 
 Obtenir les tournois d'un organisateur.
