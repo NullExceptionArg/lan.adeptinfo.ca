@@ -80,7 +80,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - Token name: `Lumen`
     - Grant Type: `Password Credential`
     - Access Token URL `{{server-address}}/oauth/token`
-    - Username: `karl.marx@unite.com`
+    - Username: `karl.marx@unite.org`
     - Password: `Passw0rd!`
     - Client ID: `2`
     - Client Secret: `{{client-secret}}`
