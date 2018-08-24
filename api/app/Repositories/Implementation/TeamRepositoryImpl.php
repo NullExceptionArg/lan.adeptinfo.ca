@@ -194,16 +194,41 @@ class TeamRepositoryImpl implements TeamRepository
             ->count();
     }
 
-    public function quit(Tournament $tournament, Authenticatable $user): void
-    {
-        OrganizerTournament::where('organizer_id', $user->id)
-            ->where('tournament_id')
-            ->delete();
-    }
-
     public function getOrganizerCount(Tournament $tournament): void
     {
         OrganizerTournament::where('tournament_id', $tournament->id)
             ->count();
+    }
+
+    public function removeUserFromTeam(Authenticatable $user, Team $team): void
+    {
+        $tagTeamId = DB::table('tag')
+            ->join('tag_team', 'tag.id', '=', 'tag_team.tag_id')
+            ->where('tag.user_id', $user->id)
+            ->where('tag_team.team_id', $team->id)
+            ->select('tag_team.id')
+            ->pluck('id')
+            ->first();
+
+        TagTeam::destroy($tagTeamId);
+    }
+
+    public function getLatestTagNotLeader($team): ?Tag
+    {
+        $tagTeam = TagTeam::where('team_id', $team->id)
+            ->where('is_leader', false)
+            ->oldest()
+            ->first();
+
+        if ($tagTeam == null) {
+            return null;
+        }
+
+        return Tag::find($tagTeam->tag_id);
+    }
+
+    public function delete($team): void
+    {
+        $team->save();
     }
 }

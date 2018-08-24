@@ -240,4 +240,31 @@ class TeamServiceImpl implements TeamService
 
         return GetRequestsResource::collection($this->teamRepository->getRequestsForUser(Auth::user(), $lan));
     }
+
+    public function leave(Request $input): Team
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id', new UserBelongsInTeam],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+
+        if ($this->teamRepository->userIsLeader($team, Auth::user())) {
+            $tag = $this->teamRepository->getLatestTagNotLeader($team);
+            if ($tag == null) {
+                $this->teamRepository->delete($team);
+            } else {
+                $this->teamRepository->switchLeader($tag, $team);
+            }
+        }
+        $this->teamRepository->removeUserFromTeam(Auth::user(), $team);
+
+        return $team;
+    }
 }

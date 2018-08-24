@@ -20,4 +20,5 @@ interface TeamService
 
     public function getRequests(Request $input): AnonymousResourceCollection;
 
+    public function leave(Request $input): Team;
 }
