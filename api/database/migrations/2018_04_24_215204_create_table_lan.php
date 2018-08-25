@@ -31,6 +31,7 @@ class CreateTableLan extends Migration
             $table->text('rules')->nullable(true);
             $table->text('description')->nullable(true);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

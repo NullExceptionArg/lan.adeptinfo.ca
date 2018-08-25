@@ -40,7 +40,7 @@ class ImageServiceImpl implements ImageService
             'lan_id' => $input->input('lan_id'),
             'image' => $input->input('image')
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'image' => 'required|string'
         ]);
 
@@ -63,7 +63,7 @@ class ImageServiceImpl implements ImageService
             'lan_id' => $input->input('lan_id'),
             'images_id' => $input->input('images_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'images_id' => ['required', 'string', new ManyImageIdsExist]
         ]);
 

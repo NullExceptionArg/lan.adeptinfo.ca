@@ -51,7 +51,7 @@ class ContributionServiceImpl implements ContributionService
             'lan_id' => $input->input('lan_id'),
             'name' => $input->input('name')
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'name' => 'required|string',
         ]);
 
@@ -76,7 +76,7 @@ class ContributionServiceImpl implements ContributionService
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
         ]);
 
         if ($reservationValidator->fails()) {
@@ -102,8 +102,8 @@ class ContributionServiceImpl implements ContributionService
             'lan_id' => $input->input('lan_id'),
             'contribution_category_id' => $input->input('contribution_category_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
-            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,null'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL'
         ]);
 
         if ($reservationValidator->fails()) {
@@ -131,8 +131,8 @@ class ContributionServiceImpl implements ContributionService
             'user_full_name' => $input->input('user_full_name'),
             'user_email' => $input->input('user_email'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
-            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,null',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
             'user_full_name' => [
                 'required_without:user_email',
                 'string',
@@ -181,7 +181,7 @@ class ContributionServiceImpl implements ContributionService
         $contributionValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         if ($contributionValidator->fails()) {
@@ -206,8 +206,8 @@ class ContributionServiceImpl implements ContributionService
             'lan_id' => $input->input('lan_id'),
             'contribution_id' => $input->input('contribution_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
-            'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,null'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL'
         ]);
 
         if ($contributionValidator->fails()) {

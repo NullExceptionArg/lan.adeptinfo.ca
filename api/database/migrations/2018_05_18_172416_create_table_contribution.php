@@ -17,6 +17,7 @@ class CreateTableContribution extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->nullable(true);
             $table->string('user_full_name')->nullable(true);
+            $table->softDeletes();
 
             $table->foreign('user_id')
                 ->references('id')->on('user')
