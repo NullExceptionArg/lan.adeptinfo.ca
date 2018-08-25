@@ -229,6 +229,6 @@ class TeamRepositoryImpl implements TeamRepository
 
     public function delete($team): void
     {
-        $team->save();
+        $team->delete();
     }
 }
