@@ -1,4 +1,6 @@
 # lanadept.com
+[![Build Status](https://travis-ci.com/ADEPT-Informatique/lan.adeptinfo.ca.svg?branch=master)](https://travis-ci.com/ADEPT-Informatique/lan.adeptinfo.ca)
+
 Refonte du site du LAN de l'ADEPT.
 
 ## Objectifs du projet
