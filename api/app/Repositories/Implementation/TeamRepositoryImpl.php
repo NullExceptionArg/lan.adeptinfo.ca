@@ -213,7 +213,7 @@ class TeamRepositoryImpl implements TeamRepository
         TagTeam::destroy($tagTeamId);
     }
 
-    public function getLatestTagNotLeader($team): ?Tag
+    public function getTagWithMostSeniorityNotLeader($team): ?Tag
     {
         $tagTeam = TagTeam::where('team_id', $team->id)
             ->where('is_leader', false)

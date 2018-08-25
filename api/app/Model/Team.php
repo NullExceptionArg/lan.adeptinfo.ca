@@ -32,6 +32,8 @@ class Team extends Model
         'created_at', 'updated_at', 'deleted_at',
     ];
 
+    protected $casts = ['tournament_id' => 'integer'];
+
     protected static function boot()
     {
         parent::boot();

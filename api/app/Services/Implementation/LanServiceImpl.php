@@ -91,7 +91,7 @@ class LanServiceImpl implements LanService
         $rulesValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,null'
         ]);
 
         if ($rulesValidator->fails()) {
@@ -117,7 +117,7 @@ class LanServiceImpl implements LanService
         $rulesValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'required|integer|exists:lan,id'
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,null'
         ]);
 
         if ($rulesValidator->fails()) {
@@ -140,6 +140,7 @@ class LanServiceImpl implements LanService
         }
 
         $lanValidator = Validator::make($input->all(), [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,null',
             'name' => 'string|max:255',
             'lan_start' => 'after:seat_reservation_start|after:tournament_reservation_start',
             'lan_end' => 'after:lan_start',

@@ -358,3 +358,40 @@ tag | Tag de l'équipe pour laquelle l'utilisateur a fait sa requête.
 team_name | Nom de l'équipe pour laquelle l'utilisateur a fait sa requête.
 tournament_id | Id du tournoi de l'équipe pour laquelle l'utilisateur a fait sa requête.
 tournament_name | Nom du tournoi de l'équipe pour laquelle l'utilisateur a fait sa requête.
+
+## Quitter une équipe
+
+Un utilisateur qui ne souhaite plus faire parti d'une équipe peut la quitter.
+
+Si c'est le chef qui quitte l'équipe, le rôle revient au joueur avec le plus d'ancienneté.
+Si le chef est le dernier à quitter l'équipe, l'équipe (et les requêtes) sont supprimées.
+
+### Requête HTTP
+
+`POST /api/team/leave`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+team_id | Id de l'équipe que l'utilisateur souhaite quitter | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+	"id": 1,
+	"tournament_id": 1,
+	"name": "WorkersUnite",
+	"tag": "PRO"
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id de l'équipe.
+tournament_id | Id du tournoi de l'équipe.
+name | Nom de l'équipe.
+tag | Nom du tag de l'équipe.

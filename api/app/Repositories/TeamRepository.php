@@ -44,7 +44,7 @@ interface TeamRepository
 
     public function removeUserFromTeam(Authenticatable $user, Team $team): void;
 
-    public function getLatestTagNotLeader($team): ?Tag;
+    public function getTagWithMostSeniorityNotLeader($team): ?Tag;
 
     public function delete($team): void;
 }
