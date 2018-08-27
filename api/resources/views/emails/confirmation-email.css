@@ -1,0 +1,48 @@
+/* Styles du courriel de confirmation d'adresses */
+
+html, body{
+    padding: 0;
+    margin: 0;
+    background: #000000;
+}
+
+.banner{
+    width: 100%;
+    max-width: 100%;
+}
+
+p.small{
+    color: darkgrey;
+    font-size: 11px;
+}
+
+p.small a{
+    color: darkgrey;
+}
+
+#content{
+    padding: 30px 43px;
+    color: white;
+    font-family: Montserrat;
+    text-align: center;
+}
+
+.green{
+    color: #27cf5f
+}
+
+.btn-adept{
+    background-color: #27cf5f; /* Green */
+    border: 1px solid #21b151;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.btn-adept:hover{
+    background-color: #21b151; /* Green */
+}
