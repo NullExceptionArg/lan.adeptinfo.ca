@@ -4,6 +4,7 @@ namespace App\Model;
 
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int user_id
@@ -15,8 +16,16 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Reservation extends Model
 {
+    use SoftDeletes;
 
     protected $table = 'reservation';
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
