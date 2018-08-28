@@ -133,8 +133,17 @@ return [
     'unique_user_per_request' => 'A user can only have one request per team.',
     'players_to_reach_lock' => 'The players to reach can\'t be changed once users have started registering for the tournament.',
     'valid_facebook_token' => 'Invalid Facebook token.',
+    'valid_google_token' => 'Invalid Google token.',
     'facebook_email_permission' => 'The email permission must be provided.',
     'unique_email_social_login' => 'The email has already been taken.',
+    'tag_belongs_to_user' => 'The tag must belong to the user.',
+    'user_belongs_in_team' => 'The user must be in the team.',
+    'tag_belongs_in_team' => 'The tag must be in the team.',
+    'tag_not_belongs_leader' => 'The tag must not belong to the leader of the team.',
+    'user_is_team_leader' => 'The user user be the team leader.',
+    'request_belongs_in_team' => 'The request must be for the leaders team.',
+    'organizer_has_tournament' => 'The user doesn\'t have any tournaments',
+    'forbidden' => 'REEEEEEEEEE',
 
     /*
     |--------------------------------------------------------------------------

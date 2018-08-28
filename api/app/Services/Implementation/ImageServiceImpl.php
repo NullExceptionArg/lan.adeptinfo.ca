@@ -32,7 +32,7 @@ class ImageServiceImpl implements ImageService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -55,7 +55,7 @@ class ImageServiceImpl implements ImageService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 

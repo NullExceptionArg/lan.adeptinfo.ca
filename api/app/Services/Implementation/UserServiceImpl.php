@@ -6,14 +6,18 @@ namespace App\Services\Implementation;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
 use App\Mail\ConfirmAccount;
+use App\Http\Resources\User\GetUserSummaryResource;
 use App\Model\User;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
+use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\FacebookEmailPermission;
 use App\Rules\UniqueEmailSocialLogin;
 use App\Rules\ValidFacebookToken;
+use App\Rules\ValidGoogleToken;
 use App\Services\UserService;
+use Google_Client;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,22 +31,26 @@ class UserServiceImpl implements UserService
     protected $userRepository;
     protected $seatRepository;
     protected $lanRepository;
+    protected $teamRepository;
 
     /**
      * UserServiceImpl constructor.
      * @param UserRepositoryImpl $userRepositoryImpl
      * @param SeatRepositoryImpl $seatRepositoryImpl
      * @param LanRepositoryImpl $lanRepositoryImpl
+     * @param TeamRepositoryImpl $teamRepositoryImpl
      */
     public function __construct(
         UserRepositoryImpl $userRepositoryImpl,
         SeatRepositoryImpl $seatRepositoryImpl,
-        LanRepositoryImpl $lanRepositoryImpl
+        LanRepositoryImpl $lanRepositoryImpl,
+        TeamRepositoryImpl $teamRepositoryImpl
     )
     {
         $this->userRepository = $userRepositoryImpl;
         $this->seatRepository = $seatRepositoryImpl;
         $this->lanRepository = $lanRepositoryImpl;
+        $this->teamRepository = $teamRepositoryImpl;
     }
 
     public function signUpUser(Request $input): User
@@ -143,7 +151,7 @@ class UserServiceImpl implements UserService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -161,7 +169,7 @@ class UserServiceImpl implements UserService
 
         $user = $this->userRepository->findByEmail($input->input('email'));
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $currentSeat = $this->seatRepository->getCurrentSeat($user, $lan);
@@ -228,5 +236,70 @@ class UserServiceImpl implements UserService
 
         $user = $this->userRepository->findByConfirmationCode($confirmationCode);
         $this->userRepository->confirmAccount($user);
+    }
+
+    public function signInGoogle(Request $input): array
+    {
+        $userValidator = Validator::make([
+            'access_token' => $input->input('access_token'),
+        ], [
+            'access_token' => [new ValidGoogleToken()]
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        $client = new Google_Client();
+        $client->setApplicationName('LAN de l\'ADEPT');
+        $client->setClientId(env('GOOGLE_CLIENT_ID'));
+        $googleResult = $client->verifyIdToken($input->input('access_token'));
+
+        $user = $this->userRepository->findByEmail($googleResult['email']);
+        $isNew = $user == null;
+        if ($isNew) {
+            $user = $this->userRepository->createGoogleUser(
+                $googleResult['sub'],
+                $googleResult['given_name'],
+                $googleResult['family_name'],
+                $googleResult['email']
+            );
+        }
+
+        if ($user->facebook_id == null) {
+            $user = $this->userRepository->addGoogleToUser($user, $googleResult['sub']);
+        }
+
+        $token = $user->createToken('google')->accessToken;
+        return [
+            'token' => $token,
+            'is_new' => $isNew
+        ];
+    }
+
+    public function getUserSummary(Request $input): GetUserSummaryResource
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $userValidator = Validator::make([
+            'lan_id' => $input->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id'
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        if ($lan == null) {
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
+        }
+
+        $user = Auth::user();
+        return new GetUserSummaryResource($user, $this->teamRepository->getLeadersRequestTotalCount($user, $lan));
     }
 }

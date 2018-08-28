@@ -86,9 +86,29 @@ class UserRepositoryImpl implements UserRepository
         return $user;
     }
 
+    public function createGoogleUser(string $googleId, string $firstName, string $lastName, string $email): User
+    {
+        $user = new User();
+        $user->google_id = $googleId;
+        $user->first_name = $firstName;
+        $user->last_name = $lastName;
+        $user->email = $email;
+        $user->save();
+
+        return $user;
+    }
+
     public function addFacebookToUser(User $user, string $facebookId): User
     {
         $user->facebook_id = $facebookId;
+        $user->save();
+
+        return $user;
+    }
+
+    public function addGoogleToUser(User $user, string $googleId): User
+    {
+        $user->google_id = $googleId;
         $user->save();
 
         return $user;

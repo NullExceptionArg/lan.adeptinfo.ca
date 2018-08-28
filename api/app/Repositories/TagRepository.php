@@ -13,5 +13,5 @@ interface TagRepository
         string $name
     ): Tag;
 
-    public function findTagById(int $id): ?Tag;
+    public function findById(int $id): ?Tag;
 }

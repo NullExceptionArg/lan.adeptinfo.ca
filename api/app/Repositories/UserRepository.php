@@ -45,6 +45,8 @@ interface UserRepository
 
     public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): User;
 
+    public function createGoogleUser(string $googleId, string $firstName, string $lastName, string $email): User;
+
     public function addFacebookToUser(User $user, string $facebookId): User;
 
     public function findByConfirmationCode(string $confirmationCode): User;
@@ -52,4 +54,6 @@ interface UserRepository
     public function confirmAccount(User $user): void;
 
     public function addConfirmationCode(User $user, string $confirmationCode): void;
+
+    public function addGoogleToUser(User $user, string $googleId): User;
 }

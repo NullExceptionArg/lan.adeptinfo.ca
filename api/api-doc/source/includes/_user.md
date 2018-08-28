@@ -65,8 +65,9 @@ confirmation_code | Code de confirmation secret qui est communiqué directement 
 La réponse est vide, mais retourne un statut 200.
 
 ## Créer un compte avec Facebook
+## Se connecter avec Facebook
 
-Se créer un compte utilisateur en se connectant avec Facebook.
+Se connecter ou créer un compte utilisateur en se connectant avec Facebook.
 Il est à noter qu'un compte facebook peut s'ajouter à un compte qui a été créé avec Laravel ou Google. 
 Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
 Tout est géré par l'API.
@@ -103,6 +104,48 @@ access_token | Token retourné par une authentification côté client, avec Face
 Champ | Description
 --------- | -----------
 token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
+
+## Se connecter avec Google
+
+Se connecter ou créer un compte utilisateur en se connectant avec Google.
+Il est à noter qu'un compte google peut s'ajouter à un compte qui a été créé avec Laravel ou Facebook. 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Tout est géré par l'API.
+
+### Requête HTTP
+
+`POST /api/user/google`
+
+### Paramètres POST
+
+> Exemple de requête
+
+```json
+{
+  "access_token": "EAAe1dhSpTRoBAJx1pm9uYg52QxZBkPZC7ACtLg2XWkFLBttr2MnTqxXr5tLeZACcZB7MjZCTKfgXZDGhUgQDpxM1iieJGarqOQiZCOB3kKgOHpEa5Ucp2UzOJRGwNww3srmR4rpYwJg7CrrbECmAXnD6DwczeJhhLFhdg4rTZB8agswdQEGTdabxfDzABuMo4ZAPMxhkKxakdvNwZDZD"
+}
+
+```
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+access_token | Token retourné par une authentification côté client, avec Google. | Requis.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjMxNWFlMmE0NWJiNmRjYTQ3MGI2OGY0YThmYzU3ZWI5IThhN2NiY2YzNzNjYTNiZmRkNWMyMmRjMmM5MzA3M2Q4MjU5MWRhNTg0YjJhZThkIn0.eyJhdWQiOiIxIiwianRpOjoiMzE1YWUyYTQ0MmI2ZGNhNDcwYjY4ZjRhOGZjNTdlYjkxOGE3Y2JjZjM3M2NhM2JmZGQ1YzIyZGMyYzkzMDczZDgyNTkxZGE1ODRiMmFlOGQiLCJpYXQiOjE1MzM2MDU5OTYsIm5iZiI6MTUzMzYwNTk5NiwiZXhwIjoxNTY1MTQxOTk2LCJzdWIiOiI1Iiwic2NvcGVzIjpbXX0.PL0YprwvBISWFHDw8fATGU5utLfShxeEqEmfbI6gzdESw59EitzlgwU6aQkrY-2v7SI0V8tg7EpeQga42HJlQbw2LylpLX-jdVyvbFp6fXNFkUI_vRhrKV9n0S-mc-iluN4Px7PfZnVofa4vDyinhW2SP9MnrnISrPVEmqOpePvOIf2q5WfqmKve7LexGioqVAHk1EefgV4ySTQVUHRbwA9NQA1-sVJ1TQz3ZfBuTQDR7Zq5y9m9XOrPIipIKawGad_wJ6eS5oCpWIf4UlWlzwg72YwiNf_EjnHNwSNnceuj7xvDcQ1khyNo7XVrkT_xTdRbv774tEUxi_z2Ktw8h-aHYnSEuw6AtPwNRJjq_7ubTk_3yyXYq2Fk30lGp_o7zlJN6vGPDVsKNV-oixJVj58f3F4gSeHxbUVj8ukvMg7n786swRw22iaVFLTMV3RemrWhqEtLGeue15apYAq_dqApuhIzCK24DhCobRiLbyEotpyTNaXJtdBRTqv77W-vf7ySemajsgIiNasiDpHm_P-eC8DYIoMSqrofWBitquKl5tmAfT_UCaZvj-z2AzQteBmql3rySJNAh_Ot8aapJOF1XLamFpybffB1faL7NP30isNG0rZe6jpBPwU5D-S0lUeUPjwod2OO7SeoMMWZoi0HcsLYN_uAyJOCTNgvOy4"
+}
+```
+
+Champ | Description
+--------- | -----------
+token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
+
+
 
 ## Connection
 
@@ -351,3 +394,36 @@ reserved_at | Moment où l'utilisateur a réservé sa place.
 arrived_at | Moment où l'utilisateur est arrivé sur place.
 left_at | Moment où l'utilisateur a quitté.
 canceled_at | Moment où l'utilisateur a annulé sa réservation.
+
+
+## Sommaire d'un utilisateur
+
+Informations sommaires d'un utilisateur.
+
+### Requête HTTP
+
+`GET /api/user/summary`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "first_name": "Karl",
+    "last_name": "Marx",
+    "request_count": 5
+}
+```
+
+Champ | Description
+--------- | -----------
+first_name | Prénom de l'utilisateur.
+last_name | Nom de l'utilisateur.
+request_count | Demandes cummulées pour entrer dans les équipes d'un utilisateur (qui est chef).

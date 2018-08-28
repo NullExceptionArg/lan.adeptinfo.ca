@@ -9,7 +9,7 @@ use Illuminate\Support\Collection;
 
 interface LanRepository
 {
-    public function createLan(
+    public function create(
         string $name,
         DateTime $lanStart,
         DateTime $lanEnd,
@@ -27,17 +27,17 @@ interface LanRepository
         ?string $description
     ): Lan;
 
-    public function findLanById(int $id): ?Lan;
+    public function findById(int $id): ?Lan;
 
     public function getReservedPlaces(int $lanId): int;
 
-    public function getAllLan(): ?Collection;
+    public function getAll(): ?Collection;
 
-    public function removeCurrentLan(): void;
+    public function removeCurrent(): void;
 
-    public function setCurrentLan(string $lanId): void;
+    public function setCurrent(string $lanId): void;
 
-    public function getCurrentLan(): ?Lan;
+    public function getCurrent(): ?Lan;
 
     public function update(
         Lan $lan,

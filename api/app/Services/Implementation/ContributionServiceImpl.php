@@ -43,7 +43,7 @@ class ContributionServiceImpl implements ContributionService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -60,7 +60,7 @@ class ContributionServiceImpl implements ContributionService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
         return $this->contributionRepository->createCategory($lan, $input->input('name'));
     }
@@ -69,7 +69,7 @@ class ContributionServiceImpl implements ContributionService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -84,7 +84,7 @@ class ContributionServiceImpl implements ContributionService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         return $this->contributionRepository->getCategories($lan);
@@ -94,7 +94,7 @@ class ContributionServiceImpl implements ContributionService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -121,7 +121,7 @@ class ContributionServiceImpl implements ContributionService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -174,7 +174,7 @@ class ContributionServiceImpl implements ContributionService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -189,7 +189,7 @@ class ContributionServiceImpl implements ContributionService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
         return GetContributionsResource::collection($this->contributionRepository->getCategories($lan));
     }
@@ -198,7 +198,7 @@ class ContributionServiceImpl implements ContributionService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 

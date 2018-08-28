@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableTeam extends Migration
 {
@@ -19,6 +19,7 @@ class CreateTableTeam extends Migration
             $table->string('tag');
             $table->unsignedInteger('tournament_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('tournament_id')
                 ->references('id')->on('tournament');

@@ -133,9 +133,17 @@ return [
     'unique_user_per_request' => 'Un utilisateur ne peut avoir qu\'une demande d\'admission par équipe.',
     'players_to_reach_lock' => 'Le nombre de joueurs à atteindre ne peut être modifiée une fois que des équipes sont inscrites au tournoi.',
     'valid_facebook_token' => 'Token Facebook invalide.',
+    'valid_google_token' => 'Token Google invalide.',
     'facebook_email_permission' => 'La permission d\'utiliser l\'adresse courriel doit être fournie.',
     'unique_email_social_login' => 'Ce courriel est déjà prit.',
-
+    'tag_belongs_to_user' => 'Le tag doit appartenir à l\'utilisateur.',
+    'user_belongs_in_team' => 'L\'utilisateur doit faire parti de l\'équipe.',
+    'tag_belongs_in_team' => 'Le tag doit faire parti de l\'équipe.',
+    'tag_not_belongs_leader' => 'Le tag ne peut appartenir au chef de l\'équipe.',
+    'user_is_team_leader' => 'L\'utilisateur doit être le chef de l\'équipe.',
+    'request_belongs_in_team' => 'La requête doit être pour l\'équipe du chef.',
+    'organizer_has_tournament' => 'L\'utilisateur n\'a aucuns tournois',
+    'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

@@ -48,7 +48,7 @@ class SeatServiceImpl implements SeatService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -77,7 +77,7 @@ class SeatServiceImpl implements SeatService
 
         $user = Auth::user();
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);
@@ -91,7 +91,7 @@ class SeatServiceImpl implements SeatService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -115,7 +115,7 @@ class SeatServiceImpl implements SeatService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);
@@ -130,7 +130,7 @@ class SeatServiceImpl implements SeatService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -155,7 +155,7 @@ class SeatServiceImpl implements SeatService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);
@@ -170,7 +170,7 @@ class SeatServiceImpl implements SeatService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -200,7 +200,7 @@ class SeatServiceImpl implements SeatService
 
         $user = $this->userRepository->findByEmail($input->input('user_email'));
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);
@@ -214,7 +214,7 @@ class SeatServiceImpl implements SeatService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -241,7 +241,7 @@ class SeatServiceImpl implements SeatService
 
         $user = Auth::user();
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);
@@ -256,7 +256,7 @@ class SeatServiceImpl implements SeatService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -285,7 +285,7 @@ class SeatServiceImpl implements SeatService
 
         $user = $this->userRepository->findByEmail($input->input('user_email'));
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);

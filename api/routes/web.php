@@ -24,12 +24,16 @@ $api->version('v1', function ($api) {
             $api->post('user', 'UserController@signUp');
             $api->post('user/facebook', 'UserController@signInFacebook');
             $api->get('user/confirm/{confirmation_code}', 'UserController@confirm');
+            $api->post('user/google', 'UserController@signInGoogle');
 
             $api->get('lan', 'LanController@getLan');
             $api->get('lan/all', 'LanController@getAllLan');
 
             $api->get('contribution/category', 'ContributionController@getContributionCategories');
             $api->get('contribution', 'ContributionController@getContributions');
+
+            $api->get('tournament/details/{tournament_id}', 'TournamentController@get');
+            $api->get('tournament/all', 'TournamentController@getAllTournament');
 
         });
 
@@ -60,16 +64,23 @@ $api->version('v1', function ($api) {
 
                 $api->post('tournament', 'TournamentController@createTournament');
                 $api->put('tournament/{tournament_id}', 'TournamentController@editTournament');
-                $api->get('tournament/all', 'TournamentController@getAllTournament');
+                $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
+                $api->post('tournament/quit/{tournament_id}', 'TournamentController@quit');
 
                 $api->post('team', 'TeamController@createTeam');
                 $api->post('team/request', 'TeamController@createRequest');
+                $api->get('team/request', 'TeamController@getRequests');
+                $api->get('team/user', 'TeamController@getUserTeams');
+                $api->get('team/details', 'TeamController@getUsersTeamDetails');
+                $api->put('team/leader', 'TeamController@changeLeader');
+                $api->post('team/accept', 'TeamController@acceptRequest');
 
                 $api->post('tag', 'TagController@createTag');
 
                 $api->delete('user', 'UserController@deleteUser');
                 $api->post('user/logout', 'UserController@logOut');
                 $api->get('user', 'UserController@getUsers');
+                $api->get('user/summary', 'UserController@getUserSummary');
                 $api->post('user/details', 'UserController@getUserDetails');
 
             });

@@ -20,7 +20,15 @@ interface TournamentRepository
         ?int $price
     ): Tournament;
 
-    public function findTournamentById(int $id): ?Tournament;
+    public function findById(int $id): ?Tournament;
 
     public function associateOrganizerTournament(Authenticatable $organizer, Tournament $tournament): void;
+
+    public function getReachedTeams(Tournament $tournament): int;
+
+    public function delete(Tournament $tournament): void;
+
+    public function quit(Tournament $tournament, Authenticatable $user): void;
+
+    public function getOrganizerCount(Tournament $tournament): int;
 }

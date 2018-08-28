@@ -2,13 +2,14 @@
 
 namespace App\Services\Implementation;
 
-
-use App\Http\Resources\Lan\GetAllTournamentResource;
+use App\Http\Resources\Tournament\GetAllTournamentResource;
+use App\Http\Resources\Tournament\GetDetailsResource;
 use App\Model\Tournament;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
+use App\Rules\OrganizerHasTournament;
 use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
 use DateTime;
@@ -42,7 +43,7 @@ class TournamentServiceImpl implements TournamentService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -71,7 +72,7 @@ class TournamentServiceImpl implements TournamentService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $tournament = $this->tournamentRepository->create(
@@ -94,7 +95,7 @@ class TournamentServiceImpl implements TournamentService
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrentLan();
+            $lan = $this->lanRepository->getCurrent();
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
@@ -109,7 +110,7 @@ class TournamentServiceImpl implements TournamentService
         }
 
         if ($lan == null) {
-            $lan = $this->lanRepository->findLanById($input->input('lan_id'));
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
         $tournaments = $this->tournamentRepository->getTournamentForOrganizer(Auth::user(), $lan);
@@ -145,7 +146,7 @@ class TournamentServiceImpl implements TournamentService
             throw new BadRequestHttpException($tournamentValidator->errors());
         }
 
-        $tournament = $this->tournamentRepository->findTournamentById($tournamentId);
+        $tournament = $this->tournamentRepository->findById($tournamentId);
 
         return $this->tournamentRepository->update(
             $tournament,
@@ -158,5 +159,65 @@ class TournamentServiceImpl implements TournamentService
             $input->input('rules'),
             intval($input->input('price'))
         );
+    }
+
+    public function get(string $tournamentId)
+    {
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => 'integer|exists:tournament,id'
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+        $teamsReached = $this->tournamentRepository->getReachedTeams($tournament);
+
+        return new GetDetailsResource($tournament, $teamsReached);
+    }
+
+    public function delete(string $tournamentId): Tournament
+    {
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => 'integer|exists:tournament,id'
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+        $this->tournamentRepository->delete($tournament);
+
+        return $tournament;
+    }
+
+    public function quit(string $tournamentId): Tournament
+    {
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => ['integer', 'exists:tournament,id', new OrganizerHasTournament(Auth::id())]
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+
+        $organizerCount = $this->tournamentRepository->getOrganizerCount($tournament);
+        $this->tournamentRepository->quit($tournament, Auth::user());
+
+        if ($organizerCount <= 1) {
+            $this->tournamentRepository->delete($tournament);
+        }
+
+        return $tournament;
     }
 }

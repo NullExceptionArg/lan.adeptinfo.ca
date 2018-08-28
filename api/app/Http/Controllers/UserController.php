@@ -37,6 +37,12 @@ class UserController extends Controller
         return response()->json(['token' => $response['token']], $response['is_new'] ? 201 : 200);
     }
 
+    public function signInGoogle(Request $request)
+    {
+        $response = $this->userService->signInGoogle($request);
+        return response()->json(['token' => $response['token']], $response['is_new'] ? 201 : 200);
+    }
+
     public function logOut()
     {
         $this->userService->logOut();
@@ -57,6 +63,11 @@ class UserController extends Controller
     public function getUserDetails(Request $request)
     {
         return response()->json($this->userService->getUserDetails($request), 200);
+    }
+
+    public function getUserSummary(Request $request)
+    {
+        return response()->json($this->userService->getUserSummary($request), 200);
     }
 
 }

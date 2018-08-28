@@ -13,7 +13,7 @@ use Illuminate\Support\Collection;
 class LanRepositoryImpl implements LanRepository
 {
 
-    public function createLan(
+    public function create(
         string $name,
         DateTime $lanStart,
         DateTime $lanEnd,
@@ -52,7 +52,7 @@ class LanRepositoryImpl implements LanRepository
         return $lan;
     }
 
-    public function findLanById(int $id): ?Lan
+    public function findById(int $id): ?Lan
     {
         return Lan::find($id);
     }
@@ -62,24 +62,24 @@ class LanRepositoryImpl implements LanRepository
         return Reservation::where('lan_id', $lanId)->count();
     }
 
-    public function getAllLan(): ?Collection
+    public function getAll(): ?Collection
     {
         return Lan::all();
     }
 
-    public function removeCurrentLan(): void
+    public function removeCurrent(): void
     {
         Lan::where('is_current', true)
             ->update(['is_current' => false]);
     }
 
-    public function setCurrentLan(string $lanId): void
+    public function setCurrent(string $lanId): void
     {
         Lan::find($lanId)
             ->update(['is_current' => true]);
     }
 
-    public function getCurrentLan(): ?Lan
+    public function getCurrent(): ?Lan
     {
         return Lan::where('is_current', true)->first();
     }

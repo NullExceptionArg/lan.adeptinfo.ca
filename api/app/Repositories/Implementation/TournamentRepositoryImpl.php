@@ -4,6 +4,8 @@ namespace App\Repositories\Implementation;
 
 use App\Model\Lan;
 use App\Model\OrganizerTournament;
+use App\Model\TagTeam;
+use App\Model\Team;
 use App\Model\Tournament;
 use App\Repositories\TournamentRepository;
 use DateTime;
@@ -38,7 +40,7 @@ class TournamentRepositoryImpl implements TournamentRepository
         return $tournament;
     }
 
-    public function findTournamentById(int $id): ?Tournament
+    public function findById(int $id): ?Tournament
     {
         return Tournament::find($id);
     }
@@ -87,5 +89,38 @@ class TournamentRepositoryImpl implements TournamentRepository
         $tournament->save();
 
         return $tournament;
+    }
+
+    public function getReachedTeams(Tournament $tournament): int
+    {
+        $teams = Team::where('tournament_id', $tournament->id)
+            ->get();
+        $teamsReached = 0;
+        foreach ($teams as $team) {
+            $playersReached = TagTeam::where('team_id', $team->id)->count();
+            if ($playersReached >= $tournament->players_to_reach) {
+                $teamsReached++;
+                break;
+            }
+        }
+        return $teamsReached;
+    }
+
+    public function delete(Tournament $tournament): void
+    {
+        $tournament->delete();
+    }
+
+    public function quit(Tournament $tournament, Authenticatable $user): void
+    {
+        OrganizerTournament::where('organizer_id', $user->id)
+            ->where('tournament_id', $tournament->id)
+            ->delete();
+    }
+
+    public function getOrganizerCount(Tournament $tournament): int
+    {
+        return OrganizerTournament::where('tournament_id', $tournament->id)
+            ->count();
     }
 }

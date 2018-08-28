@@ -34,4 +34,19 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->getAll($request), 200);
     }
 
+    public function get(Request $request, string $tournamentId)
+    {
+        return response()->json($this->tournamentService->get($tournamentId), 200);
+    }
+
+    public function delete(Request $request, string $tournamentId)
+    {
+        return response()->json($this->tournamentService->delete($tournamentId), 200);
+    }
+
+    public function quit(Request $request, string $tournamentId)
+    {
+        return response()->json($this->tournamentService->quit($tournamentId), 200);
+    }
+
 }

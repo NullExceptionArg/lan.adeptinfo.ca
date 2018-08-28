@@ -13,4 +13,8 @@ interface TournamentService
     public function edit(Request $input, string $tournamentId): Tournament;
 
     public function getAll(Request $input): AnonymousResourceCollection;
+
+    public function delete(string $tournamentId): Tournament;
+
+    public function quit(string $tournamentId): Tournament;
 }

@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Unit\Repository\Lan;
+namespace Tests\Unit\Repository\Tag;
 
-use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

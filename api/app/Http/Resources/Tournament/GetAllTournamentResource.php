@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Lan;
+namespace App\Http\Resources\Tournament;
 
 
 use App\Model\TagTeam;
