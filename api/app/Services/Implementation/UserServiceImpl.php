@@ -76,7 +76,8 @@ class UserServiceImpl implements UserService
 
         Mail::send(new ConfirmAccount(
             $input->input('email'),
-            $confirmationCode
+            $confirmationCode,
+            $user->first_name
         ));
 
         return $user;

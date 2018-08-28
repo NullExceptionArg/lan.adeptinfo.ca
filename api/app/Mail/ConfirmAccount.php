@@ -8,23 +8,22 @@ class ConfirmAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /** @var string the address to send the email */
-    protected $to_address;
-
-    /** @var float the winnings they won */
+    protected $email;
     protected $code;
+    public $name;
 
     /**
      * Create a new message instance.
      *
-     * @param string $to_address the address to send the email
-     * @param string $code the winnings they won
-     *
+     * @param string $email
+     * @param string $code
+     * @param string $name
      */
-    public function __construct(string $to_address, string $code)
+    public function __construct(string $email, string $code, string $name)
     {
-        $this->to_address = $to_address;
+        $this->email = $email;
         $this->code = $code;
+        $this->name = $name;
     }
 
     /**
@@ -35,13 +34,12 @@ class ConfirmAccount extends Mailable
     public function build()
     {
         return $this
-            ->to($this->to_address)
+            ->to($this->email)
             ->subject('LAN de l\'ADEPT - Confirmation du compte')
             ->view('emails.confirm-account')
-            ->with(
-                [
-                    'code' => $this->code
-                ]
-            );
+            ->with([
+                'code' => $this->code,
+                'name' => $this->name
+            ]);
     }
 }
