@@ -25,13 +25,14 @@ class ConfirmAccountMailTest extends TestCase
 
         $confirmationCode = str_random(30);
         Mail::send(
-            (new ConfirmAccount($this->user->email, $confirmationCode))->build()
+            (new ConfirmAccount($this->user->email, $confirmationCode, $this->user->first_name))->build()
         );
 
         Mail::assertSent(ConfirmAccount::class, function ($mail) use ($confirmationCode) {
             return $mail->hasTo($this->user->email) &&
                 $mail->subject === 'LAN de l\'ADEPT - Confirmation du compte' &&
-                $mail->viewData['code'] === $confirmationCode;
+                $mail->viewData['code'] === $confirmationCode &&
+                $mail->viewData['name'] === $this->user->first_name;
         });
     }
 }

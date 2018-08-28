@@ -20,7 +20,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
-use Mailgun\Mailgun;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class UserServiceImpl implements UserService
