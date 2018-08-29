@@ -72,7 +72,7 @@ class GetTagWithMostSeniorityNotLeaderTest extends TestCase
         $this->user->delete();
 
         $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team);
-        $this->assertEquals(null, $result->id);
+        $this->assertEquals(null, $result);
     }
 
     public function testRemoveUserFromTeamNotLeader(): void

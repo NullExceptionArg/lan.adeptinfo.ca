@@ -31,7 +31,7 @@ class ContributionCategory extends Model
      * @var array
      */
     protected $hidden = [
-        'lan_id',
+        'lan_id', 'deleted_at'
     ];
 
     public function Lan()

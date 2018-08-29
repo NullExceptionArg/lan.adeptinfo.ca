@@ -26,7 +26,7 @@ class Contribution extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected $hidden = ['user_id', 'lan_id', 'pivot'];
+    protected $hidden = ['user_id', 'lan_id', 'pivot', 'deleted_at'];
 
     public function User()
     {
