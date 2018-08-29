@@ -11,7 +11,7 @@ class ImagesExistTest extends TestCase
     {
         $url = parse_url(env('BANNER_URL'));
         $client = new Client(['base_uri' => $url['scheme'] . '://' . $url['host']]);
-        $image = $client->request('GET', $url['path'])->getBody();
+        $image = $client->request('GET', ltrim($url['path'], '/'))->getBody();
         $this->assertEquals(file_get_contents(base_path() . '/resources/views/emails/assets/banner.jpg'), $image->getContents());
     }
 
@@ -19,7 +19,7 @@ class ImagesExistTest extends TestCase
     {
         $url = parse_url(env('FOOTER_URL'));
         $client = new Client(['base_uri' => $url['scheme'] . '://' . $url['host']]);
-        $image = $client->request('GET', $url['path'])->getBody();
+        $image = $client->request('GET', ltrim($url['path'], '/'))->getBody();
         $this->assertEquals(file_get_contents(base_path() . '/resources/views/emails/assets/footer.jpg'), $image->getContents());
     }
 }
