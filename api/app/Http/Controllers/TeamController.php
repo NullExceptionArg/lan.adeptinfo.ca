@@ -59,4 +59,9 @@ class TeamController extends Controller
         return response()->json($this->teamServiceImpl->leave($request), 200);
     }
 
+    public function kick(Request $request)
+    {
+        return response()->json($this->teamServiceImpl->kick($request), 200);
+    }
+
 }
