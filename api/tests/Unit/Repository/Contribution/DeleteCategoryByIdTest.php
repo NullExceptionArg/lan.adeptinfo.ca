@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Repository\Contribution;
 
+use App\Model\ContributionCategory;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -33,9 +34,7 @@ class DeleteCategoryByIdTest extends TestCase
 
         $this->contributionRepository->deleteCategoryById($this->category->id);
 
-        $this->notSeeInDatabase('contribution_category', [
-            'id' => $this->category->id,
-            'name' => $this->category->name
-        ]);
+        $category = ContributionCategory::withTrashed()->first();
+        $this->assertEquals($this->category->id, $category->id);
     }
 }

@@ -21,7 +21,6 @@ use Seatsio\SeatsioClient;
  */
 class User extends Model implements AuthenticatableContract, AuthorizableContract
 {
-
     use HasApiTokens, Authenticatable, Authorizable;
 
     protected $table = 'user';

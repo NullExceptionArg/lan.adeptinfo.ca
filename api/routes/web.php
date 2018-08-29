@@ -73,6 +73,7 @@ $api->version('v1', function ($api) {
                 $api->get('team/details', 'TeamController@getUsersTeamDetails');
                 $api->put('team/leader', 'TeamController@changeLeader');
                 $api->post('team/accept', 'TeamController@acceptRequest');
+                $api->post('team/leave', 'TeamController@leave');
 
                 $api->post('tag', 'TagController@createTag');
 

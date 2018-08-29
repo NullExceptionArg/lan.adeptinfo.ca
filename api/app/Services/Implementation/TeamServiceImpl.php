@@ -64,7 +64,7 @@ class TeamServiceImpl implements TeamService
             'name' => $input->input('name'),
             'tag' => $input->input('tag')
         ], [
-            'tournament_id' => 'required|exists:tournament,id',
+            'tournament_id' => 'required|exists:tournament,id,deleted_at,NULL',
             'user_tag_id' => ['required', 'exists:tag,id', new UniqueUserPerTournament($input->input('tournament_id'), null)],
             'name' => ['required', 'string', 'max:255', new UniqueTeamNamePerTournament($input->input('tournament_id'))],
             'tag' => ['string', 'max:5', new UniqueTeamTagPerTournament($input->input('tournament_id'))]
@@ -93,7 +93,7 @@ class TeamServiceImpl implements TeamService
             'team_id' => $input->input('team_id'),
             'tag_id' => $input->input('tag_id'),
         ], [
-            'team_id' => ['required', 'exists:team,id', new UniqueUserPerRequest($input->input('tag_id'))],
+            'team_id' => ['required', 'exists:team,id,deleted_at,NULL', new UniqueUserPerRequest($input->input('tag_id'))],
             'tag_id' => [
                 'required',
                 'exists:tag,id',
@@ -120,7 +120,7 @@ class TeamServiceImpl implements TeamService
         $teamValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         if ($teamValidator->fails()) {
@@ -142,7 +142,7 @@ class TeamServiceImpl implements TeamService
         $teamValidator = Validator::make([
             'team_id' => $input->input('team_id')
         ], [
-            'team_id' => ['integer', 'exists:team,id', new UserBelongsInTeam],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserBelongsInTeam],
         ]);
 
         if ($teamValidator->fails()) {
@@ -173,7 +173,7 @@ class TeamServiceImpl implements TeamService
                 new TagBelongsInTeam($input->input('team_id')),
                 new TagNotBelongsLeader($input->input('team_id'))
             ],
-            'team_id' => ['integer', 'exists:team,id', new UserIsTeamLeader],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader],
         ]);
 
         if ($teamValidator->fails()) {
@@ -199,7 +199,7 @@ class TeamServiceImpl implements TeamService
                 'exists:request,id',
                 new RequestBelongsInTeam($input->input('team_id')),
             ],
-            'team_id' => ['integer', 'exists:team,id', new UserIsTeamLeader],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader],
         ]);
 
         if ($requestValidator->fails()) {
@@ -227,7 +227,7 @@ class TeamServiceImpl implements TeamService
         $requestValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         if ($requestValidator->fails()) {
@@ -239,5 +239,32 @@ class TeamServiceImpl implements TeamService
         }
 
         return GetRequestsResource::collection($this->teamRepository->getRequestsForUser(Auth::user(), $lan));
+    }
+
+    public function leave(Request $input): Team
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserBelongsInTeam],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+
+        if ($this->teamRepository->userIsLeader($team, Auth::user())) {
+            $tag = $this->teamRepository->getTagWithMostSeniorityNotLeader($team);
+            if ($tag == null) {
+                $this->teamRepository->delete($team);
+            } else {
+                $this->teamRepository->switchLeader($tag, $team);
+            }
+        }
+        $this->teamRepository->removeUserFromTeam(Auth::user(), $team);
+
+        return $team;
     }
 }
