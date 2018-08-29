@@ -4,6 +4,9 @@
 
 Réserver une place à un LAN.
 
+Le nom complet de l'utilisateur ainsi que son courriel sont stockés dans le Extra Data.  
+Pour plus de détails sur le Extra Data, consulter la page suivante: [https://docs.seats.io/docs/api-extra-data](https://docs.seats.io/docs/api-extra-data) .
+
 ### Requête HTTP
 
 `POST /api/seat/book/{seat_id}`
@@ -79,6 +82,9 @@ seat_id | Id de la place que l'utilisateur a annulé.
 ## Assigner une place
 
 Assigner une place à un un utilisateur pour un LAN.
+
+Le nom complet de l'utilisateur ainsi que son courriel sont stockés dans le Extra Data.  
+Pour plus de détails sur le Extra Data, consulter la page suivante: [https://docs.seats.io/docs/api-extra-data](https://docs.seats.io/docs/api-extra-data) .
 
 ### Requête HTTP
 
