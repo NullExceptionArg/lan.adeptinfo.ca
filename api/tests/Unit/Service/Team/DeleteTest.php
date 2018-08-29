@@ -75,10 +75,10 @@ class DeleteTest extends TestCase
         $request = new Request($this->requestContent);
         try {
             $this->teamService->delete($request);
-            $this->fail('Expected: {"delete_id":["The selected team id is invalid."]}');
+            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tournament_id":["The selected team id is invalid."]}', $e->getMessage());
+            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
         }
     }
 }
