@@ -59,4 +59,9 @@ class TeamController extends Controller
         return response()->json($this->teamServiceImpl->leave($request), 200);
     }
 
+    public function deleteRequestPlayer(Request $request)
+    {
+        return response()->json($this->teamServiceImpl->deleteRequestPlayer($request), 200);
+    }
+
 }
