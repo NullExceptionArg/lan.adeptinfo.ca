@@ -23,6 +23,7 @@ use App\Rules\Team\UniqueUserPerTournament;
 use App\Rules\Team\UserBelongsInTeam;
 use App\Rules\Team\UserIsTeamLeader;
 use App\Services\TeamService;
+use App\Team\Rules\UserIsTournamentAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
@@ -268,12 +269,30 @@ class TeamServiceImpl implements TeamService
         return $team;
     }
 
-    public function delete(Request $input): Team
+    public function deleteAdmin(Request $input): Team
     {
         $teamValidator = Validator::make([
             'team_id' => $input->input('team_id')
         ], [
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL'],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTournamentAdmin],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+        $this->teamRepository->delete($team);
+
+        return $team;
+    }
+
+    public function deleteLeader(Request $input): Team
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader],
         ]);
 
         if ($teamValidator->fails()) {

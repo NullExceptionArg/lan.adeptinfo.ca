@@ -59,9 +59,14 @@ class TeamController extends Controller
         return response()->json($this->teamServiceImpl->leave($request), 200);
     }
 
-    public function delete(Request $request)
+    public function deleteAdmin(Request $request)
     {
-        return response()->json($this->teamServiceImpl->delete($request), 200);
+        return response()->json($this->teamServiceImpl->deleteAdmin($request), 200);
+    }
+
+    public function deleteLeader(Request $request)
+    {
+        return response()->json($this->teamServiceImpl->deleteLeader($request), 200);
     }
 
     public function kick(Request $request)

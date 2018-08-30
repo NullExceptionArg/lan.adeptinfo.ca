@@ -22,5 +22,7 @@ interface TeamService
 
     public function leave(Request $input): Team;
 
-    public function delete(Request $input): Team;
+    public function deleteAdmin(Request $input): Team;
+
+    public function deleteLeader(Request $input): Team;
 }

@@ -396,19 +396,53 @@ tournament_id | Id du tournoi de l'équipe.
 name | Nom de l'équipe.
 tag | Nom du tag de l'équipe.
 
-## Supprimer une équipe
+## Supprimer une équipe (Administrateur)
 
 Un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)
 
 ### Requête HTTP
 
-`DELETE /api/team`
+`DELETE /api/team/admin`
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 team_id | Id de l'équipe que l'administrateur souhaite supprimer | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+	"id": 1,
+	"tournament_id": 1,
+	"name": "WorkersUnite",
+	"tag": "PRO"
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id de l'équipe supprimée.
+tournament_id | Id du tournoi de l'équipe supprimée.
+name | Nom de l'équipe supprimée.
+tag | Nom du tag de l'équipe supprimée.
+
+## Supprimer une équipe (Chef)
+
+Un administrateur supprime une de ses équipes équipe et tout ses liens (requêtes, tag-team)
+
+### Requête HTTP
+
+`DELETE /api/team/leader`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+team_id | Id de l'équipe que le chef souhaite supprimer | Integer.
 
 ### Format de réponse
 

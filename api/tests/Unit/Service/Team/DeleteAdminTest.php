@@ -8,13 +8,13 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class DeleteTest extends TestCase
+class DeleteAdminTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $teamService;
 
-    protected $user;
+    protected $organizer;
     protected $lan;
     protected $tournament;
     protected $team;
@@ -39,16 +39,20 @@ class DeleteTest extends TestCase
         $this->team = factory('App\Model\Team')->create([
             'tournament_id' => $this->tournament->id
         ]);
-        $this->user = factory('App\Model\User')->create();
+        $this->organizer = factory('App\Model\User')->create();
+        factory('App\Model\OrganizerTournament')->create([
+            'organizer_id' => $this->organizer->id,
+            'tournament_id' => $this->tournament->id
+        ]);
 
         $this->requestContent['team_id'] = $this->team->id;
-        $this->be($this->user);
+        $this->be($this->organizer);
     }
 
-    public function testDelete(): void
+    public function testDeleteAdmin(): void
     {
         $request = new Request($this->requestContent);
-        $result = $this->teamService->delete($request);
+        $result = $this->teamService->deleteAdmin($request);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->name, $result->name);
@@ -56,12 +60,12 @@ class DeleteTest extends TestCase
         $this->assertEquals($this->team->tournament_id, $result->tournament_id);
     }
 
-    public function testDeleteTeamIdInteger(): void
+    public function testDeleteAdminTeamIdInteger(): void
     {
         $this->requestContent['team_id'] = '☭';
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->delete($request);
+            $this->teamService->deleteAdmin($request);
             $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -69,16 +73,30 @@ class DeleteTest extends TestCase
         }
     }
 
-    public function testDeleteTeamIdExist(): void
+    public function testDeleteAdminTeamIdExist(): void
     {
         $this->requestContent['team_id'] = -1;
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->delete($request);
+            $this->teamService->deleteAdmin($request);
             $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
+        }
+    }
+
+    public function testDeleteAdminTeamIdUserIsTournamentAdmin(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request($this->requestContent);
+        try {
+            $this->teamService->deleteAdmin($request);
+            $this->fail('Expected: {"team_id":["The user doesn\'t have any tournaments"]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"team_id":["The user doesn\'t have any tournaments"]}', $e->getMessage());
         }
     }
 }
