@@ -236,4 +236,16 @@ class TeamRepositoryImpl implements TeamRepository
     {
         return Tag::find($id);
     }
+
+    public function deleteTagTeam(Tag $tag, Team $team): void
+    {
+        TagTeam::where('tag_id', $tag->id)
+            ->where('team_id', $team->id)
+            ->delete();
+    }
+
+    public function findTagById(int $id): ?Tag
+    {
+        return Tag::find($id);
+    }
 }
