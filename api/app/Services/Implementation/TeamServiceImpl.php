@@ -285,4 +285,30 @@ class TeamServiceImpl implements TeamService
 
         return $team;
     }
+
+    public function kick(Request $input): Tag
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id'),
+            'tag_id' => $input->input('tag_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader()],
+            'tag_id' => [
+                'integer',
+                'exists:tag,id',
+                new TagBelongsInTeam($input->input('team_id')),
+                new TagNotBelongsLeader($input->input('team_id'))
+            ],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+        $tag = $this->teamRepository->findTagById($input->input('team_id'));
+        $this->teamRepository->deleteTagTeam($tag, $team);
+
+        return $tag;
+    }
 }
