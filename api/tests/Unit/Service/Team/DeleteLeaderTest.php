@@ -52,6 +52,7 @@ class DeleteLeaderTest extends TestCase
         ]);
 
         $this->requestContent['team_id'] = $this->team->id;
+        $this->be($this->leader);
     }
 
     public function testDeleteLeader(): void
