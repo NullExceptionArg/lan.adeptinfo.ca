@@ -268,6 +268,24 @@ class TeamServiceImpl implements TeamService
         return $team;
     }
 
+    public function delete(Request $input): Team
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL'],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+        $this->teamRepository->delete($team);
+
+        return $team;
+    }
+
     public function kick(Request $input): Tag
     {
         $teamValidator = Validator::make([
