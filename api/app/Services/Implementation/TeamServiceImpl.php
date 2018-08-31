@@ -23,6 +23,7 @@ use App\Rules\Team\UniqueUserPerTournament;
 use App\Rules\Team\UserBelongsInTeam;
 use App\Rules\Team\UserIsTeamLeader;
 use App\Services\TeamService;
+use App\Team\Rules\UserIsTournamentAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
@@ -291,5 +292,93 @@ class TeamServiceImpl implements TeamService
         $this->teamRepository->deleteRequest($request);
 
         return $team;
+    }
+
+    public function deleteAdmin(Request $input): Team
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTournamentAdmin],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+        $this->teamRepository->delete($team);
+
+        return $team;
+    }
+
+    public function deleteLeader(Request $input): Team
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+        $this->teamRepository->delete($team);
+
+        return $team;
+    }
+
+    public function kick(Request $input): Tag
+    {
+        $teamValidator = Validator::make([
+            'team_id' => $input->input('team_id'),
+            'tag_id' => $input->input('tag_id')
+        ], [
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader()],
+            'tag_id' => [
+                'integer',
+                'exists:tag,id',
+                new TagBelongsInTeam($input->input('team_id')),
+                new TagNotBelongsLeader($input->input('team_id'))
+            ],
+        ]);
+
+        if ($teamValidator->fails()) {
+            throw new BadRequestHttpException($teamValidator->errors());
+        }
+
+        $team = $this->teamRepository->findById($input->input('team_id'));
+        $tag = $this->teamRepository->findTagById($input->input('team_id'));
+        $this->teamRepository->deleteTagTeam($tag, $team);
+
+        return $tag;
+    }
+
+    public function deleteRequestLeader(Request $input): Tag
+    {
+        $requestValidator = Validator::make([
+            'request_id' => $input->input('request_id'),
+            'team_id' => $input->input('team_id')
+        ], [
+            'request_id' => [
+                'integer',
+                'exists:request,id',
+                new RequestBelongsInTeam($input->input('team_id')),
+            ],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader],
+        ]);
+
+        if ($requestValidator->fails()) {
+            throw new BadRequestHttpException($requestValidator->errors());
+        }
+
+        $request = $this->teamRepository->findRequestById($input->input('request_id'));
+        $tag = $this->teamRepository->findTagById($request->tag_id);
+
+        $this->teamRepository->deleteRequest($request);
+
+        return $tag;
     }
 }

@@ -9,9 +9,9 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
-use App\Rules\OrganizerHasTournament;
 use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
+use App\Tournament\Rules\UserIsTournamentAdmin;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -202,7 +202,7 @@ class TournamentServiceImpl implements TournamentService
         $tournamentValidator = Validator::make([
             'tournament_id' => $tournamentId
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new OrganizerHasTournament(Auth::id())]
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin]
         ]);
 
         if ($tournamentValidator->fails()) {
