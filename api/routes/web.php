@@ -77,6 +77,7 @@ $api->version('v1', function ($api) {
                 $api->post('team/kick', 'TeamController@kick');
                 $api->delete('team/admin', 'TeamController@deleteAdmin');
                 $api->delete('team/leader', 'TeamController@deleteLeader');
+                $api->delete('team/request/leader', 'TeamController@deleteRequestLeader');
 
                 $api->post('tag', 'TagController@createTag');
 
