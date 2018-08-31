@@ -79,9 +79,9 @@ under the License.
 
       return ret;
     }, {});
-  };
+  }
 
-  function stringifyURL(obj) {
+    function stringifyURL(obj) {
     return obj ? Object.keys(obj).sort().map(function (key) {
       var val = obj[key];
 
@@ -93,9 +93,9 @@ under the License.
 
       return encodeURIComponent(key) + '=' + encodeURIComponent(val);
     }).join('&') : '';
-  };
+    }
 
-  // gets the language set in the query string
+    // gets the language set in the query string
   function getLanguageFromQueryString() {
     if (location.search.length >= 1) {
       var language = parseURL(location.search).language;

@@ -6,11 +6,12 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteTest extends TestCase
+class DeleteLeaderTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $user;
+    protected $leader;
+    protected $tag;
     protected $lan;
     protected $tournament;
     protected $team;
@@ -33,15 +34,23 @@ class DeleteTest extends TestCase
         $this->team = factory('App\Model\Team')->create([
             'tournament_id' => $this->tournament->id
         ]);
-        $this->user = factory('App\Model\User')->create();
+        $this->leader = factory('App\Model\User')->create();
+        $this->tag = factory('App\Model\Tag')->create([
+            'user_id' => $this->leader->id
+        ]);
+        factory('App\Model\TagTeam')->create([
+            'tag_id' => $this->tag->id,
+            'team_id' => $this->team->id,
+            'is_leader' => true
+        ]);
 
         $this->requestContent['team_id'] = $this->team->id;
     }
 
-    public function testDelete(): void
+    public function testDeleteLeader(): void
     {
-        $this->actingAs($this->user)
-            ->json('DELETE', '/api/team', $this->requestContent)
+        $this->actingAs($this->leader)
+            ->json('DELETE', '/api/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -51,11 +60,11 @@ class DeleteTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testDeleteTeamIdInteger(): void
+    public function testDeleteLeaderTeamIdInteger(): void
     {
         $this->requestContent['team_id'] = '☭';
-        $this->actingAs($this->user)
-            ->json('DELETE', '/api/team', $this->requestContent)
+        $this->actingAs($this->leader)
+            ->json('DELETE', '/api/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -68,11 +77,11 @@ class DeleteTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteTeamIdExist(): void
+    public function testDeleteLeaderTeamIdExist(): void
     {
         $this->requestContent['team_id'] = -1;
-        $this->actingAs($this->user)
-            ->json('DELETE', '/api/team', $this->requestContent)
+        $this->actingAs($this->leader)
+            ->json('DELETE', '/api/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -83,5 +92,18 @@ class DeleteTest extends TestCase
                 ]
             ])
             ->assertResponseStatus(400);
+    }
+
+    public function testDeleteLeaderTeamIdUserIsTeamLeader(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => null
+            ])
+            ->assertResponseStatus(403);
     }
 }

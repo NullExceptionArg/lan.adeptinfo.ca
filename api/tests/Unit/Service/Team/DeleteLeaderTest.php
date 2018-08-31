@@ -3,18 +3,20 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class DeleteTest extends TestCase
+class DeleteLeaderTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $teamService;
 
-    protected $user;
+    protected $leader;
+    protected $tag;
     protected $lan;
     protected $tournament;
     protected $team;
@@ -39,16 +41,24 @@ class DeleteTest extends TestCase
         $this->team = factory('App\Model\Team')->create([
             'tournament_id' => $this->tournament->id
         ]);
-        $this->user = factory('App\Model\User')->create();
+        $this->leader = factory('App\Model\User')->create();
+        $this->tag = factory('App\Model\Tag')->create([
+            'user_id' => $this->leader->id
+        ]);
+        factory('App\Model\TagTeam')->create([
+            'tag_id' => $this->tag->id,
+            'team_id' => $this->team->id,
+            'is_leader' => true
+        ]);
 
         $this->requestContent['team_id'] = $this->team->id;
-        $this->be($this->user);
+        $this->be($this->leader);
     }
 
-    public function testDelete(): void
+    public function testDeleteLeader(): void
     {
         $request = new Request($this->requestContent);
-        $result = $this->teamService->delete($request);
+        $result = $this->teamService->deleteLeader($request);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->name, $result->name);
@@ -56,12 +66,12 @@ class DeleteTest extends TestCase
         $this->assertEquals($this->team->tournament_id, $result->tournament_id);
     }
 
-    public function testDeleteTeamIdInteger(): void
+    public function testDeleteLeaderTeamIdInteger(): void
     {
         $this->requestContent['team_id'] = '☭';
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->delete($request);
+            $this->teamService->deleteLeader($request);
             $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -69,16 +79,29 @@ class DeleteTest extends TestCase
         }
     }
 
-    public function testDeleteTeamIdExist(): void
+    public function testDeleteLeaderTeamIdExist(): void
     {
         $this->requestContent['team_id'] = -1;
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->delete($request);
+            $this->teamService->deleteLeader($request);
             $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
+        }
+    }
+
+    public function testDeleteLeaderTeamIdUserIsTeamLeader(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request($this->requestContent);
+        try {
+            $this->teamService->deleteLeader($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
         }
     }
 }
