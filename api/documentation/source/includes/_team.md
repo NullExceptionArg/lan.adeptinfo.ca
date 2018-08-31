@@ -396,6 +396,41 @@ tournament_id | Id du tournoi de l'équipe.
 name | Nom de l'équipe.
 tag | Nom du tag de l'équipe.
 
+## Annuler une requête
+
+Un joueur peut supprimer une de ses requêtes pour entrer dans une équipe.
+
+### Requête HTTP
+
+`DELETE /api/team/request/player`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+request_id | Id de la requête pour joindre l'équipe. | Integer.
+team_id | Id de l'équipe dans laquelle le joueur veut supprimer la requête. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+	"id": 1,
+	"tournament_id": 1,
+	"name": "WorkersUnite",
+	"tag": "PRO"
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id de l'équipe pour laquelle la requête a été supprimé.
+name | Nom de l'équipe pour laquelle la requête a été supprimée.
+tag | Nom du du tag de l'équipe pour laquelle la requête a été supprimée.
+tournament_id | Id du tournoi de l'équipe pour laquelle la requête a été supprimée.
+
 
 ## Quitter une équipe
 

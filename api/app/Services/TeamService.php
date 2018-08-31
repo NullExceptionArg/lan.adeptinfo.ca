@@ -29,4 +29,6 @@ interface TeamService
     public function deleteLeader(Request $input): Team;
 
     public function deleteRequestLeader(Request $input): Tag;
+
+    public function deleteRequestPlayer(Request $input): Team;
 }

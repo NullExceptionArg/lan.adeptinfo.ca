@@ -269,6 +269,31 @@ class TeamServiceImpl implements TeamService
         return $team;
     }
 
+    public function deleteRequestPlayer(Request $input): Team
+    {
+        $requestValidator = Validator::make([
+            'request_id' => $input->input('request_id'),
+            'team_id' => $input->input('team_id')
+        ], [
+            'request_id' => [
+                'integer',
+                'exists:request,id',
+                new RequestBelongsInTeam($input->input('team_id')),
+            ],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserBelongsInTeam],
+        ]);
+
+        if ($requestValidator->fails()) {
+            throw new BadRequestHttpException($requestValidator->errors());
+        }
+
+        $request = $this->teamRepository->findRequestById($input->input('request_id'));
+        $team = $this->teamRepository->findById($request->team_id);
+        $this->teamRepository->deleteRequest($request);
+
+        return $team;
+    }
+
     public function deleteAdmin(Request $input): Team
     {
         $teamValidator = Validator::make([
