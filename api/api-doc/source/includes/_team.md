@@ -396,6 +396,38 @@ tournament_id | Id du tournoi de l'équipe.
 name | Nom de l'équipe.
 tag | Nom du tag de l'équipe.
 
+
+## Quitter une équipe
+
+Un chef peut supprimer une requête pour entrer dans l'une de ses équipes.
+
+### Requête HTTP
+
+`DELETE /api/team/request/leader`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+request_id | Id de la requête pour joindre l'équipe. | Integer.
+team_id | Id de l'équipe dans laquelle le chef veut supprimer la requête. | Integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+	"id": 1,
+	"name": "PRO"
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id du tag de la requête supprimée.
+tag | Nom du tag de la requête supprimée.
+
 ## Supprimer une équipe
 
 Un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)

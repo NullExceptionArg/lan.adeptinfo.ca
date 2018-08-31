@@ -311,4 +311,30 @@ class TeamServiceImpl implements TeamService
 
         return $tag;
     }
+
+    public function deleteRequestLeader(Request $input): Tag
+    {
+        $requestValidator = Validator::make([
+            'request_id' => $input->input('request_id'),
+            'team_id' => $input->input('team_id')
+        ], [
+            'request_id' => [
+                'integer',
+                'exists:request,id',
+                new RequestBelongsInTeam($input->input('team_id')),
+            ],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeader],
+        ]);
+
+        if ($requestValidator->fails()) {
+            throw new BadRequestHttpException($requestValidator->errors());
+        }
+
+        $request = $this->teamRepository->findRequestById($input->input('request_id'));
+        $tag = $this->teamRepository->findTagById($request->tag_id);
+
+        $this->teamRepository->deleteRequest($request);
+
+        return $tag;
+    }
 }
