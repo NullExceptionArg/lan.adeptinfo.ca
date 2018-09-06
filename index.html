@@ -384,7 +384,19 @@
                     <a href="#quitter-une-equipe" class="toc-h2 toc-link" data-title="quitter-une-equipe">Quitter une équipe</a>
                   </li>
                   <li>
-                    <a href="#supprimer-une-equipe" class="toc-h2 toc-link" data-title="supprimer-une-equipe">Supprimer une équipe</a>
+                    <a href="#annuler-une-requete" class="toc-h2 toc-link" data-title="annuler-une-requete">Annuler une requête</a>
+                  </li>
+                  <li>
+                    <a href="#quitter-une-equipe-2" class="toc-h2 toc-link" data-title="quitter-une-equipe">Quitter une équipe</a>
+                  </li>
+                  <li>
+                    <a href="#supprimer-une-equipe-administrateur" class="toc-h2 toc-link" data-title="supprimer-une-equipe-administrateur">Supprimer une équipe (Administrateur)</a>
+                  </li>
+                  <li>
+                    <a href="#supprimer-une-equipe-chef" class="toc-h2 toc-link" data-title="supprimer-une-equipe-chef">Supprimer une équipe (Chef)</a>
+                  </li>
+                  <li>
+                    <a href="#supprimer-un-joueur-de-son-equipe" class="toc-h2 toc-link" data-title="supprimer-un-joueur-de-son-equipe">Supprimer un joueur de son équipe</a>
                   </li>
               </ul>
           </li>
@@ -3956,7 +3968,7 @@ Si le chef est le dernier à quitter l&#39;équipe, l&#39;équipe (et les requê
 </thead><tbody>
 <tr>
 <td>team_id</td>
-<td>Id de l&#39;équipe que l&#39;utilisateur souhaite quitter</td>
+<td>Id de l&#39;équipe que l&#39;utilisateur souhaite quitter.</td>
 <td>Integer.</td>
 </tr>
 </tbody></table>
@@ -3994,11 +4006,115 @@ Si le chef est le dernier à quitter l&#39;équipe, l&#39;équipe (et les requê
 <td>Nom du tag de l&#39;équipe.</td>
 </tr>
 </tbody></table>
-<h2 id='supprimer-une-equipe'>Supprimer une équipe</h2>
-<p>Un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)</p>
+<h2 id='annuler-une-requete'>Annuler une requête</h2>
+<p>Un joueur peut supprimer une de ses requêtes pour entrer dans une équipe.</p>
 <h3 id='requete-http-9'>Requête HTTP</h3>
-<p><code>DELETE /api/team</code></p>
+<p><code>DELETE /api/team/request/player</code></p>
 <h3 id='query-params-6'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>request_id</td>
+<td>Id de la requête pour joindre l&#39;équipe.</td>
+<td>Integer.</td>
+</tr>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe dans laquelle le joueur veut supprimer la requête.</td>
+<td>Integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-9'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tournament_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WorkersUnite"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de l&#39;équipe pour laquelle la requête a été supprimé.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom de l&#39;équipe pour laquelle la requête a été supprimée.</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>Nom du du tag de l&#39;équipe pour laquelle la requête a été supprimée.</td>
+</tr>
+<tr>
+<td>tournament_id</td>
+<td>Id du tournoi de l&#39;équipe pour laquelle la requête a été supprimée.</td>
+</tr>
+</tbody></table>
+<h2 id='quitter-une-equipe-2'>Quitter une équipe</h2>
+<p>Un chef peut supprimer une requête pour entrer dans l&#39;une de ses équipes.</p>
+<h3 id='requete-http-10'>Requête HTTP</h3>
+<p><code>DELETE /api/team/request/leader</code></p>
+<h3 id='query-params-7'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>request_id</td>
+<td>Id de la requête pour joindre l&#39;équipe.</td>
+<td>Integer.</td>
+</tr>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe dans laquelle le chef veut supprimer la requête.</td>
+<td>Integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-10'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id du tag de la requête supprimée.</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>Nom du tag de la requête supprimée.</td>
+</tr>
+</tbody></table>
+<h2 id='supprimer-une-equipe-administrateur'>Supprimer une équipe (Administrateur)</h2>
+<p>Un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)</p>
+<h3 id='requete-http-11'>Requête HTTP</h3>
+<p><code>DELETE /api/team/admin</code></p>
+<h3 id='query-params-8'>Query Params</h3>
 <table><thead>
 <tr>
 <th>Paramètre</th>
@@ -4012,7 +4128,7 @@ Si le chef est le dernier à quitter l&#39;équipe, l&#39;équipe (et les requê
 <td>Integer.</td>
 </tr>
 </tbody></table>
-<h3 id='format-de-reponse-9'>Format de réponse</h3>
+<h3 id='format-de-reponse-11'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
 </blockquote>
@@ -4044,6 +4160,105 @@ Si le chef est le dernier à quitter l&#39;équipe, l&#39;équipe (et les requê
 <tr>
 <td>tag</td>
 <td>Nom du tag de l&#39;équipe supprimée.</td>
+</tr>
+</tbody></table>
+<h2 id='supprimer-une-equipe-chef'>Supprimer une équipe (Chef)</h2>
+<p>Un administrateur supprime une de ses équipes équipe et tout ses liens (requêtes, tag-team)</p>
+<h3 id='requete-http-12'>Requête HTTP</h3>
+<p><code>DELETE /api/team/leader</code></p>
+<h3 id='query-params-9'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe que le chef souhaite supprimer</td>
+<td>Integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-12'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tournament_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"WorkersUnite"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id de l&#39;équipe supprimée.</td>
+</tr>
+<tr>
+<td>tournament_id</td>
+<td>Id du tournoi de l&#39;équipe supprimée.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom de l&#39;équipe supprimée.</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>Nom du tag de l&#39;équipe supprimée.</td>
+</tr>
+</tbody></table>
+<h2 id='supprimer-un-joueur-de-son-equipe'>Supprimer un joueur de son équipe</h2>
+<p>Un chef d&#39;équipe supprime un joueur de son équipe.</p>
+<h3 id='requete-http-13'>Requête HTTP</h3>
+<p><code>POST /api/team/kick</code></p>
+<h3 id='query-params-10'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>team_id</td>
+<td>Id de l&#39;équipe dans laquelle le chef de l&#39;équipe souhaite supprimer le tag.</td>
+<td>Integer.</td>
+</tr>
+<tr>
+<td>tag_id</td>
+<td>Id de du tag que le chef de l&#39;équipe souhaite supprimer de son équipe.</td>
+<td>Integer.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-13'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tag"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id du tag supprimé de l&#39;équipe.</td>
+</tr>
+<tr>
+<td>tag</td>
+<td>Nom du tag supprimé de l&#39;équipe.</td>
 </tr>
 </tbody></table>
 <h1 id='tag'>Tag</h1><h2 id='creer-un-tag'>Créer un tag</h2>
