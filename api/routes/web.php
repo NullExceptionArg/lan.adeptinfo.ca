@@ -42,6 +42,7 @@ $api->version('v1', function ($api) {
 
             $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
+                // Admin
                 $api->post('lan', 'LanController@createLan');
                 $api->post('lan/current', 'LanController@setCurrentLan');
                 $api->put('lan', 'LanController@updateLan');
@@ -51,8 +52,6 @@ $api->version('v1', function ($api) {
                 $api->post('contribution', 'ContributionController@createContribution');
                 $api->delete('contribution', 'ContributionController@deleteContribution');
 
-                $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');
-                $api->delete('seat/book/{seat_id}', 'SeatController@unBookSeat');
                 $api->post('seat/confirm/{seat_id}', 'SeatController@confirmArrival');
                 $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
                 $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
@@ -66,6 +65,10 @@ $api->version('v1', function ($api) {
                 $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
                 $api->post('tournament/quit/{tournament_id}', 'TournamentController@quit');
 
+                // User
+                $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');
+                $api->delete('seat/book/{seat_id}', 'SeatController@unBookSeat');
+
                 $api->post('team', 'TeamController@createTeam');
                 $api->post('team/request', 'TeamController@createRequest');
                 $api->get('team/request', 'TeamController@getRequests');
@@ -75,6 +78,8 @@ $api->version('v1', function ($api) {
                 $api->post('team/accept', 'TeamController@acceptRequest');
                 $api->post('team/leave', 'TeamController@leave');
                 $api->post('team/kick', 'TeamController@kick');
+
+
                 $api->delete('team/admin', 'TeamController@deleteAdmin');
                 $api->delete('team/leader', 'TeamController@deleteLeader');
                 $api->delete('team/request/leader', 'TeamController@deleteRequestLeader');
