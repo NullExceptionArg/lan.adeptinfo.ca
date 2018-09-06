@@ -21,6 +21,7 @@ class CreateTableRole extends Migration
             $table->string('fr_display_name');
             $table->string('fr_description');
             $table->unsignedInteger('lan_id');
+            $table->timestamps();
 
             $table->foreign('lan_id')
                 ->references('id')->on('lan');
