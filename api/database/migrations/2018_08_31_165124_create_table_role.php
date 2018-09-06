@@ -16,8 +16,10 @@ class CreateTableRole extends Migration
         Schema::create('role', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->string('display_name');
-            $table->string('description');
+            $table->string('en_display_name');
+            $table->string('en_description');
+            $table->string('fr_display_name');
+            $table->string('fr_description');
             $table->unsignedInteger('lan_id');
 
             $table->foreign('lan_id')
