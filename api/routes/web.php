@@ -65,6 +65,8 @@ $api->version('v1', function ($api) {
                 $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
                 $api->post('tournament/quit/{tournament_id}', 'TournamentController@quit');
 
+                $api->delete('team/admin', 'TeamController@deleteAdmin');
+
                 // User
                 $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');
                 $api->delete('seat/book/{seat_id}', 'SeatController@unBookSeat');
@@ -78,9 +80,6 @@ $api->version('v1', function ($api) {
                 $api->post('team/accept', 'TeamController@acceptRequest');
                 $api->post('team/leave', 'TeamController@leave');
                 $api->post('team/kick', 'TeamController@kick');
-
-
-                $api->delete('team/admin', 'TeamController@deleteAdmin');
                 $api->delete('team/leader', 'TeamController@deleteLeader');
                 $api->delete('team/request/leader', 'TeamController@deleteRequestLeader');
                 $api->delete('team/request/player', 'TeamController@deleteRequestPlayer');
