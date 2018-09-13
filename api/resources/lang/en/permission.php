@@ -36,5 +36,7 @@ return [
     'display-name-quit-tournament' => 'Quit tournament',
     'description-quit-tournament' => 'Quit the organization of a tournament.',
     'display-name-delete-team' => 'Delete team',
-    'description-delete-team' => 'Delete a team.'
+    'description-delete-team' => 'Delete a team.',
+    'display-name-create-role' => 'Create role',
+    'description-create-role' => 'Create a new team'
 ];

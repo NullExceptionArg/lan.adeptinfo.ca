@@ -19,11 +19,16 @@ class GeneratePermissions extends Command
      *
      * @var string
      */
-    protected $description = 'Génère les permissions pour l\'administration des LANs.';
+    protected $description = 'Generates the permissions for the administration of lans.';
 
     public function handle()
     {
-        DB::table('permission')->insert([
+        DB::table('permission')->insert($this->getPermissions());
+    }
+
+    public function getPermissions()
+    {
+        return [
 
             /// Route based
 
@@ -56,6 +61,9 @@ class GeneratePermissions extends Command
 
             // Team
             ['name' => 'delete-team'],
-        ]);
+
+            // Roles
+            ['name' => 'create-role'],
+        ];
     }
 }

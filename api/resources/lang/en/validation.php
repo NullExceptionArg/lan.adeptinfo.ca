@@ -143,6 +143,8 @@ return [
     'user_is_team_leader' => 'The user user be the team leader.',
     'request_belongs_in_team' => 'The request must be for the leaders team.',
     'organizer_has_tournament' => 'The user doesn\'t have any tournaments',
+    'array_of_integer' => 'The array must contain only integers.',
+    'elements_in_array_exist_in_permission' => 'An element of the array is not contained an existing permission id.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*

@@ -5,6 +5,7 @@ namespace App\Repositories\Implementation;
 
 use App\Model\Role;
 use App\Repositories\RoleRepository;
+use Illuminate\Support\Facades\DB;
 
 class RoleRepositoryImpl implements RoleRepository
 {
@@ -24,5 +25,14 @@ class RoleRepositoryImpl implements RoleRepository
         $role->save();
 
         return $role;
+    }
+
+    public function linkPermissionIdRole(string $permissionId, Role $role): void
+    {
+        DB::table('permission_role')
+            ->insert([
+                'permission_id' => $permissionId,
+                'role_id' => $role->id
+            ]);
     }
 }

@@ -14,4 +14,6 @@ interface RoleRepository
         string $frDisplayName,
         string $frDescription
     ): Role;
+
+    public function linkPermissionIdRole(string $permissionId, Role $role): void;
 }

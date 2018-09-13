@@ -19,7 +19,7 @@ class RoleController extends Controller
         $this->roleService = $roleService;
     }
 
-    public function createContributionCategory(Request $request)
+    public function create(Request $request)
     {
         return response()->json($this->roleService->create($request), 201);
     }
