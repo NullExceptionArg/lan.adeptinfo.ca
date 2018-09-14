@@ -3,7 +3,7 @@
 use App\Model\Lan;
 use App\Model\Reservation;
 use App\Model\User;
-use database\MiscData;
+use Database\MiscData;
 use Illuminate\Database\Seeder;
 use Seatsio\SeatsioClient;
 

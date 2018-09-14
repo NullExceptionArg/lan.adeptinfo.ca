@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Controller\Role;
 
-use Illuminate\Support\Facades\DB;
+use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -31,8 +31,7 @@ class CreateTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
 
         $this->requestContent['lan_id'] = $this->lan->id;
-        $this->requestContent['permissions'] = DB::table('permission')
-            ->inRandomOrder()
+        $this->requestContent['permissions'] = Permission::inRandomOrder()
             ->take(5)
             ->pluck('id')
             ->toArray();

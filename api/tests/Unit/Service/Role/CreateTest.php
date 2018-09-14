@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Service\Role;
 
+use App\Model\Permission;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
@@ -36,8 +36,7 @@ class CreateTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
 
         $this->paramsContent['lan_id'] = $this->lan->id;
-        $this->paramsContent['permissions'] = DB::table('permission')
-            ->inRandomOrder()
+        $this->paramsContent['permissions'] = Permission::inRandomOrder()
             ->take(5)
             ->pluck('id')
             ->toArray();
