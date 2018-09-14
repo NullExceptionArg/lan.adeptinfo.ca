@@ -3,11 +3,13 @@
 
 namespace App\Services\Implementation;
 
+use App\Http\Resources\User\GetAdminSummaryResource;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
 use App\Http\Resources\User\GetUserSummaryResource;
 use App\Model\User;
 use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
@@ -30,6 +32,7 @@ class UserServiceImpl implements UserService
     protected $seatRepository;
     protected $lanRepository;
     protected $teamRepository;
+    protected $roleRepository;
 
     /**
      * UserServiceImpl constructor.
@@ -37,18 +40,21 @@ class UserServiceImpl implements UserService
      * @param SeatRepositoryImpl $seatRepositoryImpl
      * @param LanRepositoryImpl $lanRepositoryImpl
      * @param TeamRepositoryImpl $teamRepositoryImpl
+     * @param RoleRepositoryImpl $roleRepositoryImpl
      */
     public function __construct(
         UserRepositoryImpl $userRepositoryImpl,
         SeatRepositoryImpl $seatRepositoryImpl,
         LanRepositoryImpl $lanRepositoryImpl,
-        TeamRepositoryImpl $teamRepositoryImpl
+        TeamRepositoryImpl $teamRepositoryImpl,
+        RoleRepositoryImpl $roleRepositoryImpl
     )
     {
         $this->userRepository = $userRepositoryImpl;
         $this->seatRepository = $seatRepositoryImpl;
         $this->lanRepository = $lanRepositoryImpl;
         $this->teamRepository = $teamRepositoryImpl;
+        $this->roleRepository = $roleRepositoryImpl;
     }
 
     public function signUpUser(Request $input): User
@@ -267,5 +273,31 @@ class UserServiceImpl implements UserService
 
         $user = Auth::user();
         return new GetUserSummaryResource($user, $this->teamRepository->getLeadersRequestTotalCount($user, $lan));
+    }
+
+    public function getAdminSummary(Request $input): GetAdminSummaryResource
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $userValidator = Validator::make([
+            'lan_id' => $input->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        if ($lan == null) {
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
+        }
+
+        $user = Auth::user();
+        return new GetAdminSummaryResource($user, $this->roleRepository->getAdminPermissions($lan, $user));
     }
 }

@@ -68,6 +68,7 @@ $api->version('v1', function ($api) {
                 $api->delete('team/admin', 'TeamController@deleteAdmin');
 
                 $api->post('role', 'RoleController@create');
+                $api->get('admin/summary', 'UserController@getAdminSummary');
 
                 // User
                 $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');

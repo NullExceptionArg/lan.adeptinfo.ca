@@ -3,8 +3,11 @@
 namespace App\Repositories\Implementation;
 
 
+use App\Model\Lan;
 use App\Model\Role;
 use App\Repositories\RoleRepository;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class RoleRepositoryImpl implements RoleRepository
@@ -37,5 +40,18 @@ class RoleRepositoryImpl implements RoleRepository
                 'permission_id' => $permissionId,
                 'role_id' => $role->id
             ]);
+    }
+
+    public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection
+    {
+        return DB::table('role')
+            ->join('permission_role', 'role.id', '=', 'permission_role.role_id')
+            ->join('permission', 'permission_role.permission_id', '=', 'permission.id')
+            ->join('role_user', 'role.id', '=', 'role_user.role_id')
+            ->where('role.lan_id', $lan->id)
+            ->where('role_user.user_id', $user->id)
+            ->select('permission.id', 'permission.name')
+            ->get();
+
     }
 }

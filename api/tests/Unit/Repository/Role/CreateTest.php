@@ -10,7 +10,7 @@ class CreateTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $roleService;
+    protected $roleRepository;
 
     protected $user;
     protected $lan;
@@ -27,7 +27,7 @@ class CreateTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->roleService = $this->app->make('App\Repositories\Implementation\RoleRepositoryImpl');
+        $this->roleRepository = $this->app->make('App\Repositories\Implementation\RoleRepositoryImpl');
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
@@ -51,7 +51,7 @@ class CreateTest extends TestCase
             'fr_description' => $this->paramsContent['fr_description']
         ]);
 
-        $this->roleService->create(
+        $this->roleRepository->create(
             $this->paramsContent['lan_id'],
             $this->paramsContent['name'],
             $this->paramsContent['en_display_name'],

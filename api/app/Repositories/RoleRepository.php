@@ -3,7 +3,10 @@
 namespace App\Repositories;
 
 
+use App\Model\Lan;
 use App\Model\Role;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Support\Collection;
 
 interface RoleRepository
 {
@@ -17,4 +20,6 @@ interface RoleRepository
     ): Role;
 
     public function linkPermissionIdRole(string $permissionId, Role $role): void;
+
+    public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection;
 }

@@ -10,7 +10,7 @@ class LinkPermissionIdRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $roleService;
+    protected $roleRepository;
 
     protected $user;
     protected $lan;
@@ -19,7 +19,7 @@ class LinkPermissionIdRoleTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->roleService = $this->app->make('App\Repositories\Implementation\RoleRepositoryImpl');
+        $this->roleRepository = $this->app->make('App\Repositories\Implementation\RoleRepositoryImpl');
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
@@ -38,7 +38,7 @@ class LinkPermissionIdRoleTest extends TestCase
             'role_id' => $this->role->id
         ]);
 
-        $this->roleService->linkPermissionIdRole(
+        $this->roleRepository->linkPermissionIdRole(
             $permission->id,
             $this->role
         );

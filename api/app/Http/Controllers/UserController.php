@@ -65,4 +65,9 @@ class UserController extends Controller
         return response()->json($this->userService->getUserSummary($request), 200);
     }
 
+    public function getAdminSummary(Request $request)
+    {
+        return response()->json($this->userService->getAdminSummary($request), 200);
+    }
+
 }

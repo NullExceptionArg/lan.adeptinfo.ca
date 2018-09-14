@@ -2,16 +2,18 @@
 
 namespace App\Http\Resources\User;
 
+use App\Http\Resources\Role\GetPermissionsResource;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Collection;
 
-class GetUserSummaryResource extends Resource
+class GetAdminSummaryResource extends Resource
 {
-    protected $requestCount;
+    protected $permissions;
 
-    public function __construct(Authenticatable $resource, int $permissions)
+    public function __construct(Authenticatable $resource, Collection $permissions)
     {
-        $this->requestCount = $permissions;
+        $this->permissions = $permissions;
         parent::__construct($resource);
     }
 
@@ -26,7 +28,7 @@ class GetUserSummaryResource extends Resource
         return [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
-            'request_count' => intval($this->requestCount)
+            'permissions' => GetPermissionsResource::collection($this->permissions)
         ];
     }
 }

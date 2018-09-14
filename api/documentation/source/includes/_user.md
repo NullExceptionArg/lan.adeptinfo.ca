@@ -410,3 +410,50 @@ Champ | Description
 first_name | Prénom de l'utilisateur.
 last_name | Nom de l'utilisateur.
 request_count | Demandes cummulées pour entrer dans les équipes d'un utilisateur (qui est chef).
+
+## Sommaire d'un administrateur
+
+Informations sommaires d'un administrateur.
+
+### Requête HTTP
+
+`GET /api/admin/summary`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "first_name": "Karl",
+    "last_name": "Marx",
+    "permissions": [
+        {
+            "id": 39,
+            "name": "create-lan",
+            "display_name": "Create a new LAN",
+            "description": "Create a new LAN. Careful, this permission should not be given to anyone..."
+        }
+    ]
+}
+```
+
+Champ | Description
+--------- | -----------
+first_name | Prénom de l'utilisateur.
+last_name | Nom de l'utilisateur.
+permissions | Permissions administratives que possède l'administrateur pour le LAN. Voir Permissions.
+
+#### Permissions
+Champ | Description
+--------- | -----------
+id | Id de la permission.
+name | Nom interne de la permission.
+display_name | Nom à afficher de la permission.
+description | Description de la permission.
