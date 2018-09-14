@@ -9,19 +9,22 @@ use Illuminate\Support\Facades\DB;
 
 class RoleRepositoryImpl implements RoleRepository
 {
-    public function create(string $name,
-                           string $enDisplayName,
-                           string $enDescription,
-                           string $frDisplayName,
-                           string $frDescription
+    public function create(
+        int $lanId,
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription
     ): Role
     {
         $role = new Role();
+        $role->lan_id = $lanId;
         $role->name = $name;
-        $role->enDisplayName = $enDisplayName;
-        $role->enDescription = $enDescription;
-        $role->frDisplayName = $frDisplayName;
-        $role->frDescription = $frDescription;
+        $role->en_display_name = $enDisplayName;
+        $role->en_description = $enDescription;
+        $role->fr_display_name = $frDisplayName;
+        $role->fr_description = $frDescription;
         $role->save();
 
         return $role;

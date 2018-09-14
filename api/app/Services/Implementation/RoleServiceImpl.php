@@ -46,7 +46,7 @@ class RoleServiceImpl implements RoleService
             'permissions' => $input->input('permissions')
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'name' => 'required|string|max:50',
+            'name' => 'required|string|max:50|unique:role,name',
             'en_display_name' => 'required|string|max:70',
             'en_description' => 'required|string|max:1000',
             'fr_display_name' => 'required|string|max:70',
@@ -59,6 +59,7 @@ class RoleServiceImpl implements RoleService
         }
 
         $role = $this->roleRepository->create(
+            $input->input('lan_id'),
             $input->input('name'),
             $input->input('en_display_name'),
             $input->input('en_description'),

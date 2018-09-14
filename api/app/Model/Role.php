@@ -6,11 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property int lan_id
  * @property string name
- * @property string enDisplayName
- * @property string enDescription
- * @property string frDisplayName
- * @property string frDescription
+ * @property string en_display_name
+ * @property string en_description
+ * @property string fr_display_name
+ * @property string fr_description
  */
 class Role extends Model
 {
@@ -25,5 +26,5 @@ class Role extends Model
      */
     protected $dates = ['deleted_at'];
 
-    protected $hidden = ['id', 'deleted_at'];
+    protected $hidden = ['id', 'deleted_at', 'created_at', 'updated_at'];
 }

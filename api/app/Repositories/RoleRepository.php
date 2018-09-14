@@ -8,6 +8,7 @@ use App\Model\Role;
 interface RoleRepository
 {
     public function create(
+        int $lanId,
         string $name,
         string $enDisplayName,
         string $enDescription,

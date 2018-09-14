@@ -61,7 +61,7 @@ seat_id | Id de la place que l'utilisateur veut annuler. | Requis, string.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut annuler une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'utilisateur veut annuler une place. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
 
 ### Format de réponse
 

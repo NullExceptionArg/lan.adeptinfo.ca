@@ -18,7 +18,7 @@ class ElementsInArrayExistInPermission implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($value == null) {
+        if ($value == null || !is_array($value)) {
             return true;
         }
 
