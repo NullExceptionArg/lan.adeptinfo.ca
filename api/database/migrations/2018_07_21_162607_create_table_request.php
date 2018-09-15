@@ -18,7 +18,6 @@ class CreateTableRequest extends Migration
             $table->unsignedInteger('team_id');
             $table->unsignedInteger('tag_id');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('team_id')
                 ->references('id')->on('team');

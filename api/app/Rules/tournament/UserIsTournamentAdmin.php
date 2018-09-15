@@ -1,20 +1,14 @@
 <?php
 
-namespace App\Rules;
+namespace App\Tournament\Rules;
 
 use App\Model\OrganizerTournament;
 use App\Model\Tournament;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class OrganizerHasTournament implements Rule
+class UserIsTournamentAdmin implements Rule
 {
-
-    protected $userId;
-
-    public function __construct(?int $userId)
-    {
-        $this->userId = $userId;
-    }
 
     /**
      * Determine if the validation rule passes.
@@ -30,7 +24,7 @@ class OrganizerHasTournament implements Rule
             return true;
         }
 
-        return OrganizerTournament::where('organizer_id', $this->userId)
+        return OrganizerTournament::where('organizer_id', Auth::id())
                 ->where('tournament_id', $value)
                 ->count() > 0;
     }

@@ -29,6 +29,18 @@ class Team extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at',
+        'created_at', 'updated_at', 'deleted_at',
     ];
+
+    protected $casts = ['tournament_id' => 'integer'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($team) {
+            TagTeam::where('team_id', $team->id)->delete();
+            Request::where('team_id', $team->id)->delete();
+        });
+    }
 }

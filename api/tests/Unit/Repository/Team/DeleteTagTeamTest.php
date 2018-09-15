@@ -6,20 +6,18 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteRequestTest extends TestCase
+class DeleteTagTeamTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $teamRepository;
-
-    protected $teamService;
 
     protected $user;
     protected $tag;
     protected $lan;
     protected $tournament;
     protected $team;
-    protected $request;
+    protected $tagTeam;
 
     public function setUp(): void
     {
@@ -30,7 +28,9 @@ class DeleteRequestTest extends TestCase
         $this->tag = factory('App\Model\Tag')->create([
             'user_id' => $this->user->id
         ]);
+
         $this->lan = factory('App\Model\Lan')->create();
+
         $startTime = new Carbon($this->lan->lan_start);
         $endTime = new Carbon($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
@@ -38,29 +38,32 @@ class DeleteRequestTest extends TestCase
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
+
         $this->team = factory('App\Model\Team')->create([
             'tournament_id' => $this->tournament->id
         ]);
-        $this->request = factory('App\Model\Request')->create([
+
+        $this->tagTeam = factory('App\Model\TagTeam')->create([
             'tag_id' => $this->tag->id,
-            'team_id' => $this->team->id,
+            'team_id' => $this->team->id
         ]);
     }
 
-    public function testDeleteRequest(): void
+    public function testDeleteTagTeam(): void
     {
-        $this->seeInDatabase('request', [
-            'id' => $this->request->id,
-            'tag_id' => $this->tag->id,
-            'team_id' => $this->team->id
+        $this->seeInDatabase('tag_team', [
+            'id' => $this->tagTeam->id,
+            'tag_id' => $this->tagTeam->tag_id,
+            'team_id' => $this->tagTeam->team_id
         ]);
 
-        $this->teamRepository->deleteRequest($this->request);
+        $this->teamRepository->deleteTagTeam($this->tag, $this->team);
 
-        $this->notSeeInDatabase('request', [
-            'id' => $this->request->id,
-            'tag_id' => $this->tag->id,
-            'team_id' => $this->team->id
+        $this->notSeeInDatabase('tag_team', [
+            'id' => $this->tagTeam->id,
+            'tag_id' => $this->tagTeam->tag_id,
+            'team_id' => $this->tagTeam->team_id
         ]);
     }
+
 }

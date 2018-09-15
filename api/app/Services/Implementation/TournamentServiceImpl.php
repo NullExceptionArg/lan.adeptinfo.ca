@@ -9,9 +9,9 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
-use App\Rules\OrganizerHasTournament;
 use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
+use App\Tournament\Rules\UserIsTournamentAdmin;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -57,7 +57,7 @@ class TournamentServiceImpl implements TournamentService
             'teams_to_reach' => $input->input('teams_to_reach'),
             'rules' => $input->input('rules'),
         ], [
-            'lan_id' => 'integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'name' => 'required|string|max:255',
             'price' => 'integer|min:0',
             'tournament_start' => ['required', new AfterOrEqualLanStartTime($input->input('lan_id'))],
@@ -102,7 +102,7 @@ class TournamentServiceImpl implements TournamentService
         $tournamentValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -131,7 +131,7 @@ class TournamentServiceImpl implements TournamentService
             'teams_to_reach' => $input->input('teams_to_reach'),
             'rules' => $input->input('rules'),
         ], [
-            'tournament_id' => 'integer|exists:tournament,id',
+            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
             'name' => 'string|max:255',
             'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
             'price' => 'integer|min:0',
@@ -166,7 +166,7 @@ class TournamentServiceImpl implements TournamentService
         $tournamentValidator = Validator::make([
             'tournament_id' => $tournamentId
         ], [
-            'tournament_id' => 'integer|exists:tournament,id'
+            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL'
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -184,7 +184,7 @@ class TournamentServiceImpl implements TournamentService
         $tournamentValidator = Validator::make([
             'tournament_id' => $tournamentId
         ], [
-            'tournament_id' => 'integer|exists:tournament,id'
+            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL'
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -202,7 +202,7 @@ class TournamentServiceImpl implements TournamentService
         $tournamentValidator = Validator::make([
             'tournament_id' => $tournamentId
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id', new OrganizerHasTournament(Auth::id())]
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin]
         ]);
 
         if ($tournamentValidator->fails()) {

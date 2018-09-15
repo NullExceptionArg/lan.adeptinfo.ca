@@ -159,7 +159,7 @@ class UserServiceImpl implements UserService
             'lan_id' => $input->input('lan_id'),
             'email' => $input->input('email')
         ], [
-            'lan_id' => 'integer|exists:lan,id',
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'email' => 'required|exists:user,email',
         ]);
 
@@ -288,7 +288,7 @@ class UserServiceImpl implements UserService
         $userValidator = Validator::make([
             'lan_id' => $input->input('lan_id')
         ], [
-            'lan_id' => 'integer|exists:lan,id'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
         ]);
 
         if ($userValidator->fails()) {

@@ -59,7 +59,7 @@ class SeatServiceImpl implements SeatService
             'lan_id' => [
                 'required',
                 'integer',
-                'exists:lan,id',
+                'exists:lan,id,deleted_at,NULL',
                 new UserOncePerLan(Auth::user(), null)
             ],
             'seat_id' => [
@@ -81,7 +81,10 @@ class SeatServiceImpl implements SeatService
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);
-        $seatsClient->events()->book($lan->event_key, [$seatId]);
+        $seatObject = [
+            ['objectId' => $seatId, 'extraData' => ['name' => $user->getFullName(), 'email' => $user->email]]
+        ];
+        $seatsClient->events()->book($lan->event_key, $seatObject);
         $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
@@ -99,7 +102,7 @@ class SeatServiceImpl implements SeatService
             'lan_id' => $input->input('lan_id'),
             'seat_id' => $seatId
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
             'seat_id' => [
                 'required',
                 'string',
@@ -138,11 +141,11 @@ class SeatServiceImpl implements SeatService
             'lan_id' => $input->input('lan_id'),
             'seat_id' => $seatId
         ], [
-            'lan_id' => 'required|integer|exists:lan,id',
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
             'seat_id' => [
                 'required',
                 'string',
-                'exists:reservation,seat_id',
+                'exists:reservation,seat_id,deleted_at,NULL',
                 new SeatNotFreeSeatIo($input->input('lan_id')),
                 new SeatNotBookedSeatIo($input->input('lan_id')),
                 new SeatExistInLanSeatIo($input->input('lan_id')),
@@ -182,7 +185,7 @@ class SeatServiceImpl implements SeatService
             'user_email' => 'exists:user,email',
             'lan_id' => [
                 'integer',
-                'exists:lan,id',
+                'exists:lan,id,deleted_at,NULL',
                 new UserOncePerLan(null, $input->input('user_email'))
             ],
             'seat_id' => [
@@ -204,7 +207,10 @@ class SeatServiceImpl implements SeatService
         }
 
         $seatsClient = new SeatsioClient($lan->secret_key);
-        $seatsClient->events()->book($lan->event_key, [$seatId]);
+        $seatObject = [
+            ['objectId' => $seatId, 'extraData' => ['name' => $user->getFullName(), 'email' => $user->email]]
+        ];
+        $seatsClient->events()->book($lan->event_key, $seatObject);
         $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
@@ -225,7 +231,7 @@ class SeatServiceImpl implements SeatService
             'lan_id' => [
                 'required',
                 'integer',
-                'exists:lan,id'
+                'exists:lan,id,deleted_at,NULL'
             ],
             'seat_id' => [
                 'required',
@@ -269,7 +275,7 @@ class SeatServiceImpl implements SeatService
             'lan_id' => [
                 'required',
                 'integer',
-                'exists:lan,id'
+                'exists:lan,id,deleted_at,NULL'
             ],
             'seat_id' => [
                 'required',

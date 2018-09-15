@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int id
@@ -11,9 +12,18 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ContributionCategory extends Model
 {
+    use SoftDeletes;
+
     protected $table = 'contribution_category';
 
     public $timestamps = false;
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -21,7 +31,7 @@ class ContributionCategory extends Model
      * @var array
      */
     protected $hidden = [
-        'lan_id',
+        'lan_id', 'deleted_at'
     ];
 
     public function Lan()

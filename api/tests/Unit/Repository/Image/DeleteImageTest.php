@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Repository\Image;
 
+use App\Model\Image;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -36,9 +37,7 @@ class DeleteImageTest extends TestCase
 
         $this->assertEquals($this->image->id, $imageId);
 
-        $this->notSeeInDatabase('image', [
-            'image' => $this->image->image,
-            'lan_id' => $this->image->lan_id
-        ]);
+        $image = Image::withTrashed()->first();
+        $this->assertEquals($this->image->id, $image->id);
     }
 }

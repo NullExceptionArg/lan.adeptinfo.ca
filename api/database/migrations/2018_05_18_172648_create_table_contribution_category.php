@@ -17,6 +17,7 @@ class CreateTableContributionCategory extends Migration
             $table->increments('id');
             $table->string('name')->nullable(false);
             $table->unsignedInteger('lan_id');
+            $table->softDeletes();
 
             $table->foreign('lan_id')
                 ->references('id')->on('lan')

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Repository\Contribution;
 
+use App\Model\Contribution;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -33,10 +34,7 @@ class DeleteContributionByIdTest extends TestCase
 
         $this->contributionRepository->deleteContributionById($this->contribution->id);
 
-        $this->notSeeInDatabase('contribution', [
-            'id' => $this->contribution->id,
-            'user_full_name' => $this->contribution->user_full_name,
-            'user_id' => null
-        ]);
+        $contribution = Contribution::withTrashed()->first();
+        $this->assertEquals($this->contribution->id, $contribution->id);
     }
 }

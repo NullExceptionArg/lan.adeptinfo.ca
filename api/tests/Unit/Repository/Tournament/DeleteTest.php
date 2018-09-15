@@ -2,9 +2,6 @@
 
 namespace Tests\Unit\Repository\Tournament;
 
-use App\Model\OrganizerTournament;
-use App\Model\Request;
-use App\Model\TagTeam;
 use App\Model\Team;
 use App\Model\Tournament;
 use Carbon\Carbon;
@@ -76,18 +73,45 @@ class DeleteTest extends TestCase
 
     public function testDelete(): void
     {
+        $this->seeInDatabase('tag_team', [
+            'id' => $this->tagTeam->id,
+            'tag_id' => $this->tagTeam->tag_id,
+            'team_id' => $this->tagTeam->team_id,
+            'is_leader' => $this->tagTeam->is_leader,
+        ]);
+        $this->seeInDatabase('request', [
+            'id' => $this->request->id,
+            'tag_id' => $this->request->tag_id,
+            'team_id' => $this->request->team_id
+        ]);
+        $this->seeInDatabase('organizer_tournament', [
+            'id' => $this->organizerTournament->id,
+            'organizer_id' => $this->organizerTournament->organizer_id,
+            'tournament_id' => $this->organizerTournament->tournament_id
+        ]);
+
         $this->tournamentRepository->delete($this->tournament);
 
         $tournament = Tournament::withTrashed()->first();
         $team = Team::withTrashed()->first();
-        $tagTeam = TagTeam::withTrashed()->first();
-        $request = Request::withTrashed()->first();
-        $organizerTournament = OrganizerTournament::withTrashed()->first();
 
         $this->assertEquals($this->tournament->id, $tournament->id);
         $this->assertEquals($this->team->id, $team->id);
-        $this->assertEquals($this->tagTeam->id, $tagTeam->id);
-        $this->assertEquals($this->request->id, $request->id);
-        $this->assertEquals($this->organizerTournament->id, $organizerTournament->id);
+        $this->notSeeInDatabase('tag_team', [
+            'id' => $this->tagTeam->id,
+            'tag_id' => $this->tagTeam->tag_id,
+            'team_id' => $this->tagTeam->team_id,
+            'is_leader' => $this->tagTeam->is_leader,
+        ]);
+        $this->notSeeInDatabase('request', [
+            'id' => $this->request->id,
+            'tag_id' => $this->request->tag_id,
+            'team_id' => $this->request->team_id
+        ]);
+        $this->notSeeInDatabase('organizer_tournament', [
+            'id' => $this->organizerTournament->id,
+            'organizer_id' => $this->organizerTournament->organizer_id,
+            'tournament_id' => $this->organizerTournament->tournament_id
+        ]);
     }
 }

@@ -18,6 +18,17 @@ interface TeamService
 
     public function changeLeader(Request $input): Tag;
 
+    public function acceptRequest(Request $input): Tag;
+
     public function getRequests(Request $input): AnonymousResourceCollection;
 
+    public function leave(Request $input): Team;
+
+    public function deleteAdmin(Request $input): Team;
+
+    public function deleteLeader(Request $input): Team;
+
+    public function deleteRequestLeader(Request $input): Tag;
+
+    public function deleteRequestPlayer(Request $input): Team;
 }
