@@ -2,12 +2,10 @@
 
 namespace Tests\Unit\Controller\User;
 
-use App\Model\User;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateUserTest extends TestCase
+class SignUpUserTest extends TestCase
 {
 
     use DatabaseMigrations;
@@ -23,9 +21,9 @@ class CreateUserTest extends TestCase
     {
         $this->json('POST', '/api/user', $this->requestContent)
             ->seeJsonEquals([
-                "first_name" => $this->requestContent['first_name'],
-                "last_name" => $this->requestContent['last_name'],
-                "email" => $this->requestContent['email']
+                'first_name' => $this->requestContent['first_name'],
+                'last_name' => $this->requestContent['last_name'],
+                'email' => $this->requestContent['email']
             ])
             ->assertResponseStatus(201);
     }
@@ -56,28 +54,6 @@ class CreateUserTest extends TestCase
                 'message' => [
                     'email' => [
                         0 => 'The email must be a valid email address.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testSignUpEmailUnique(): void
-    {
-        $this->requestContent['email'] = 'john@doe.com';
-        $user = new User();
-        $user->first_name = $this->requestContent['first_name'];
-        $user->last_name = $this->requestContent['last_name'];
-        $user->email = $this->requestContent['email'];
-        $user->password = Hash::make($this->requestContent['password']);
-        $user->save();
-        $this->json('POST', '/api/user', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'email' => [
-                        0 => 'The email has already been taken.',
                     ],
                 ]
             ])
@@ -195,4 +171,39 @@ class CreateUserTest extends TestCase
             ])
             ->assertResponseStatus(400);
     }
+
+    public function testSignUpUniqueEmailSocialLoginReturningFacebook(): void
+    {
+        factory('App\Model\User')->create([
+            'facebook_id' => '12345678',
+            'first_name' => $this->requestContent['first_name'],
+            'last_name' => $this->requestContent['last_name'],
+            'email' => $this->requestContent['email'],
+            'password' => null
+        ]);
+        $this->json('POST', '/api/user', $this->requestContent)
+            ->seeJsonEquals([
+                'first_name' => $this->requestContent['first_name'],
+                'last_name' => $this->requestContent['last_name'],
+                'email' => $this->requestContent['email']
+            ])
+            ->assertResponseStatus(201);
+    }
+
+    public function testSignUpUniqueEmailSocialLoginAlreadyAwaitingConfirmation(): void
+    {
+        $this->call('POST', '/api/user', $this->requestContent);
+        $this->json('POST', '/api/user', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'email' => [
+                        0 => 'The email has already been taken.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
 }

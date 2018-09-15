@@ -13,13 +13,18 @@ use Laravel\Passport\Token;
 
 class UserRepositoryImpl implements UserRepository
 {
-    public function createUser(string $firstName, string $lastName, string $email, string $password): User
+    public function createUser(
+        string $firstName,
+        string $lastName,
+        string $email, string $password,
+        string $confirmationCode): User
     {
         $user = new User();
         $user->first_name = $firstName;
         $user->last_name = $lastName;
         $user->email = $email;
         $user->password = Hash::make($password);
+        $user->confirmation_code = $confirmationCode;
         $user->save();
 
         return $user;
@@ -107,5 +112,23 @@ class UserRepositoryImpl implements UserRepository
         $user->save();
 
         return $user;
+    }
+
+    public function findByConfirmationCode(string $confirmationCode): User
+    {
+        return User::where('confirmation_code', $confirmationCode)->first();
+    }
+
+    public function confirmAccount(User $user): void
+    {
+        $user->is_confirmed = true;
+        $user->confirmation_code = null;
+        $user->save();
+    }
+
+    public function addConfirmationCode(User $user, string $confirmationCode): void
+    {
+        $user->confirmation_code = $confirmationCode;
+        $user->save();
     }
 }

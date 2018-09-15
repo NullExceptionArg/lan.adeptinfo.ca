@@ -26,6 +26,11 @@ class UserController extends Controller
         return response()->json($this->userService->signUpUser($request), 201);
     }
 
+    public function confirm(Request $request, string $confirmationCode)
+    {
+        return response()->json($this->userService->confirm($confirmationCode), 200);
+    }
+
     public function signInFacebook(Request $request)
     {
         $response = $this->userService->signInFacebook($request);

@@ -21,10 +21,13 @@ class CreateTableUser extends Migration
             $table->unique('email');
             $table->string('password')->nullable(true);
             $table->string('facebook_id')->nullable(true);
-            $table->unique('facebook_id');
             $table->string('google_id')->nullable(true);
-            $table->unique('google_id');
+            $table->boolean('is_confirmed')->default(false);
+            $table->string('confirmation_code')->nullable();
             $table->timestamps();
+
+            $table->unique('facebook_id');
+            $table->unique('google_id');
         });
     }
 
