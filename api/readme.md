@@ -97,11 +97,15 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`.
     
  ## Lignes directrices pour le développement de l'API.
- - Chaques accès HTTP doit être au minimum testé selon l'ensemble de ses limites, et ses différents cas fonctionnels (Ex: paramètre absent et présent). Voir le dossier `Unit/Controller`.
- - Chaques services doit être au minimum testé selon ses limites, et ses différents cas fonctionnels (Ex: paramètre absent et présent). Voir le dossier `Unit/Services`. (Devrait être relativement similaire aux tests de l'accès HTTP).
- - Chaques repository doit être au minimum testé selon sa fonctionnalité principale.
- - Pour chaques accès administrateur:
-     - Le nom et la description doivent être définis dans les fichiers de ressource `resource/lang/en/permission` et `resource/lang/fr/permission`, selon la convention de nommage suivante pour le nom à afficher pour la permission: `display-name-"nom-de-la-permission"` et pour la description: `description-"nom-de-la-permission"`.
+ - Validation : 
+     - Le développeur qui créer des accès HTTP s'engage à produire des accès robustes, soit qui prennent en charge l'ensemble des valeurs possibles pour les paramètres qu'il rends disponible au client. (Ex: que se passe-t-il quand un paramètre est nulle, qu'il ne comporte pas le type qui est attendu, qu'il est en dehors des limites attendues, etc...).
+     - Chaques erreur doit retourner une erreur significative, qui aide le client à comprendre ce qui a pu causer l'erreur, et comment la corriger. Les messages d'erreurs sont situés dans : `resource/lang/fr/validation` (français) et `resource/lang/en/validation` (anglais).
+ - Tests :
+     - Chaques accès HTTP doit être au minimum testé selon l'ensemble de ses limites, et ses différents cas fonctionnels (Ex: paramètre absent et présent). Voir le dossier `Unit/Controller`.
+     - Chaques services doit être au minimum testé selon ses limites, et ses différents cas fonctionnels (Ex: paramètre absent et présent). Voir le dossier `Unit/Services`. (Devrait être relativement similaire aux tests de l'accès HTTP).
+     - Chaques repository doit être au minimum testé selon sa fonctionnalité principale.
+ - Pour chaques accès administrateur :
+     - Le nom et la description doivent être définis dans les fichiers de ressource `resource/lang/en/permission` (anglais) et `resource/lang/fr/permission` (français), selon la convention de nommage suivante pour le nom à afficher pour la permission: `display-name-"nom-de-la-permission"` et pour la description: `description-"nom-de-la-permission"`.
      - Le nom interne (unique) doit être ajouté dans `app/Console/Commands/GeneratePermissions.php`, sous la fonction `getPermissions()`, en [kebab case](http://wiki.c2.com/?KebabCase).
      - Pour créer les permissions de l'API dans la base de donnée, exécuter la commande `php artisan lan:permissions`. Il est à noter que l'application des deux étapes précédentes est cruciale à ce que le système de permission puisse être fonctionnel. La permière étape permet permet l'affichage pour le client des permissions, alors que la deuxième étape permet la dispinibilité  l'interne, soit dans l'API de la permission.
      - La vérification de la permission doit être faite dans le controlleur.
