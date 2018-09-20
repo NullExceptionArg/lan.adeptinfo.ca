@@ -2,12 +2,6 @@
 
 Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemble donc le côté utilisateur, ainsi que le côté administrateur du site.
 
-## Sommaire
-0. [Sommaire](#sommaire)
-1. [Information général](#information-générale)
-2. [Développer en local](#développer-en-local)
-3. [Lignes directrices du pour le développement de l'API](#lignes-directrices-pour-le-développement-de-lapi)
-
 ## Information générale
 
  - Version de Lumen: 5.6
