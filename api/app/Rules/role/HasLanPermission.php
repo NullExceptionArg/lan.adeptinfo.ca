@@ -3,6 +3,7 @@
 namespace App\Rules;
 
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
@@ -24,6 +25,7 @@ class HasLanPermission implements Rule
      * @param  string $attribute
      * @param  mixed $value permissions name
      * @return bool
+     * @throws AuthorizationException
      */
     public function passes($attribute, $value)
     {
@@ -31,7 +33,7 @@ class HasLanPermission implements Rule
             return true;
         }
 
-        return DB::table('permission')
+        $hasPermission = DB::table('permission')
                 ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
                 ->join('lan_role', 'permission_lan_role.role_id', '=', 'role.id')
                 ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
@@ -39,6 +41,12 @@ class HasLanPermission implements Rule
                 ->where('role.lan_id', $this->lanId)
                 ->where('lan_role_user.user_id', $this->userId)
                 ->count() > 0;
+
+        if (!$hasPermission) {
+            throw new AuthorizationException(trans('validation.forbidden'));
+        }
+
+        return $hasPermission;
     }
 
     /**

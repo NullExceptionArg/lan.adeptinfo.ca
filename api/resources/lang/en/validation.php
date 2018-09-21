@@ -146,6 +146,7 @@ return [
     'array_of_integer' => 'The array must contain only integers.',
     'elements_in_array_exist_in_permission' => 'An element of the array is not contained an existing permission id.',
     'has_permission' => 'The user does not have the permission to access the requested resource.',
+    'permissions_can_be_per_lan' => 'One of the provided permissions cannot be attributed to a LAN role.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*

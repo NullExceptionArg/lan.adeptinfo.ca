@@ -37,7 +37,7 @@ class CreateLanRoleTest extends TestCase
             ->toArray();
     }
 
-    public function testCreateLanRoleRoleTest(): void
+    public function testCreateLanRoleTest(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan', $this->requestContent)
@@ -69,7 +69,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleLanIdInteger(): void
+    public function testCreateLanRoleLanIdInteger(): void
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
@@ -86,7 +86,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleNameRequired(): void
+    public function testCreateLanRoleNameRequired(): void
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
@@ -103,7 +103,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleNameString(): void
+    public function testCreateLanRoleNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
@@ -120,7 +120,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleNameMaxLength(): void
+    public function testCreateLanRoleNameMaxLength(): void
     {
         $this->requestContent['name'] = str_repeat('☭', 51);
         $this->actingAs($this->user)
@@ -137,7 +137,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleNameUnique(): void
+    public function testCreateLanRoleNameUnique(): void
     {
         factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id,
@@ -157,7 +157,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleEnDisplayNameRequired(): void
+    public function testCreateLanRoleEnDisplayNameRequired(): void
     {
         $this->requestContent['en_display_name'] = null;
         $this->actingAs($this->user)
@@ -174,7 +174,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleEnDisplayNameString(): void
+    public function testCreateLanRoleEnDisplayNameString(): void
     {
         $this->requestContent['en_display_name'] = 1;
         $this->actingAs($this->user)
@@ -191,7 +191,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleEnDisplayNameMaxLength(): void
+    public function testCreateLanRoleEnDisplayNameMaxLength(): void
     {
         $this->requestContent['en_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
@@ -208,7 +208,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleEnDescriptionRequired(): void
+    public function testCreateLanRoleEnDescriptionRequired(): void
     {
         $this->requestContent['en_description'] = null;
         $this->actingAs($this->user)
@@ -225,7 +225,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleEnDescriptionString(): void
+    public function testCreateLanRoleEnDescriptionString(): void
     {
         $this->requestContent['en_description'] = 1;
         $this->actingAs($this->user)
@@ -242,7 +242,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleEnDescriptionMaxLength(): void
+    public function testCreateLanRoleEnDescriptionMaxLength(): void
     {
         $this->requestContent['en_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
@@ -259,7 +259,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleFrDisplayNameRequired(): void
+    public function testCreateLanRoleFrDisplayNameRequired(): void
     {
         $this->requestContent['fr_display_name'] = null;
         $this->actingAs($this->user)
@@ -276,7 +276,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleFrDisplayNameString(): void
+    public function testCreateLanRoleFrDisplayNameString(): void
     {
         $this->requestContent['fr_display_name'] = 1;
         $this->actingAs($this->user)
@@ -293,7 +293,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleFrDisplayNameMaxLength(): void
+    public function testCreateLanRoleFrDisplayNameMaxLength(): void
     {
         $this->requestContent['fr_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
@@ -310,7 +310,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleFrDescriptionRequired(): void
+    public function testCreateLanRoleFrDescriptionRequired(): void
     {
         $this->requestContent['fr_description'] = null;
         $this->actingAs($this->user)
@@ -327,7 +327,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleFrDescriptionString(): void
+    public function testCreateLanRoleFrDescriptionString(): void
     {
         $this->requestContent['fr_description'] = 1;
         $this->actingAs($this->user)
@@ -344,7 +344,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRoleFrDescriptionMaxLength(): void
+    public function testCreateLanRoleFrDescriptionMaxLength(): void
     {
         $this->requestContent['fr_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
@@ -361,7 +361,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRolePermissionsRequired(): void
+    public function testCreateLanRolePermissionsRequired(): void
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
@@ -378,7 +378,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRolePermissionsArray(): void
+    public function testCreateLanRolePermissionsArray(): void
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
@@ -395,7 +395,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRolePermissionsArrayOfInteger(): void
+    public function testCreateLanRolePermissionsArrayOfInteger(): void
     {
         $this->requestContent['permissions'] = ['1', 2];
         $this->actingAs($this->user)
@@ -412,7 +412,25 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleRolePermissionsElementsInArrayExistInPermission(): void
+    public function testCreateLanRolePermissionCanBePerLan(): void
+    {
+        $permission = Permission::where('can_be_per_lan', false)->first();
+        $this->requestContent['permissions'] = [intval($permission->id)];
+        $this->actingAs($this->user)
+            ->json('POST', '/api/role/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'permissions' => [
+                        0 => 'One of the provided permissions cannot be attributed to a LAN role.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testCreateLanRolePermissionsElementsInArrayExistInPermission(): void
     {
         $this->requestContent['permissions'] = [2, -1];
         $this->actingAs($this->user)

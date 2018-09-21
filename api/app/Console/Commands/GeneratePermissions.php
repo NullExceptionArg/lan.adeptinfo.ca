@@ -33,40 +33,40 @@ class GeneratePermissions extends Command
             /// Route based
 
             // LAN
-            ['name' => 'create-lan'],
-            ['name' => 'set-current-lan'],
-            ['name' => 'edit-lan'],
+            ['name' => 'create-lan', 'can_be_per_lan' => false],
+            ['name' => 'set-current-lan', 'can_be_per_lan' => false],
+            ['name' => 'edit-lan', 'can_be_per_lan' => true],
 
             // Contribution
-            ['name' => 'create-contribution-category'],
-            ['name' => 'delete-contribution-category'],
-            ['name' => 'create-contribution'],
-            ['name' => 'delete-contribution'],
+            ['name' => 'create-contribution-category', 'can_be_per_lan' => true],
+            ['name' => 'delete-contribution-category', 'can_be_per_lan' => true],
+            ['name' => 'create-contribution', 'can_be_per_lan' => true],
+            ['name' => 'delete-contribution', 'can_be_per_lan' => true],
 
             // Seat
-            ['name' => 'confirm-arrival'],
-            ['name' => 'unconfirm-arrival'],
-            ['name' => 'assign-seat'],
-            ['name' => 'unassign-seat'],
+            ['name' => 'confirm-arrival', 'can_be_per_lan' => true],
+            ['name' => 'unconfirm-arrival', 'can_be_per_lan' => true],
+            ['name' => 'assign-seat', 'can_be_per_lan' => true],
+            ['name' => 'unassign-seat', 'can_be_per_lan' => true],
 
             // Image
-            ['name' => 'add-image'],
-            ['name' => 'delete-image'],
+            ['name' => 'add-image', 'can_be_per_lan' => true],
+            ['name' => 'delete-image', 'can_be_per_lan' => true],
 
             // Tournament
-            ['name' => 'create-tournament'],
-            ['name' => 'edit-tournament'],
-            ['name' => 'delete-tournament'],
-            ['name' => 'quit-tournament'],
+            ['name' => 'create-tournament', 'can_be_per_lan' => true],
+            ['name' => 'edit-tournament', 'can_be_per_lan' => true],
+            ['name' => 'delete-tournament', 'can_be_per_lan' => true],
+            ['name' => 'quit-tournament', 'can_be_per_lan' => true],
 
             // Team
-            ['name' => 'delete-team'],
+            ['name' => 'delete-team', 'can_be_per_lan' => true],
 
             // Roles
-            ['name' => 'create-lan-role'],
+            ['name' => 'create-lan-role', 'can_be_per_lan' => true],
 
             // User
-            ['name' => 'admin-summary']
+            ['name' => 'admin-summary', 'can_be_per_lan' => true]
         ];
     }
 }

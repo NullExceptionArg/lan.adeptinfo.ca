@@ -331,6 +331,20 @@ class CreateLanRoleTest extends TestCase
         }
     }
 
+    public function testCreateLanRolePermissionCanBePerLan(): void
+    {
+        $permission = Permission::where('can_be_per_lan', false)->first();
+        $this->paramsContent['permissions'] = [intval($permission->id)];
+        $request = new Request($this->paramsContent);
+        try {
+            $this->roleService->createLanRole($request);
+            $this->fail('Expected: {"permissions":["One of the provided permissions cannot be attributed to a LAN role."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"permissions":["One of the provided permissions cannot be attributed to a LAN role."]}', $e->getMessage());
+        }
+    }
+
     public function testCreateLanRolePermissionsElementsInArrayExistInPermission(): void
     {
         $this->paramsContent['permissions'] = [2, -1];

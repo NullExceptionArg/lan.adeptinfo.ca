@@ -16,6 +16,7 @@ class CreateTablePermission extends Migration
         Schema::create('permission', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
+            $table->boolean('can_be_per_lan')->default(true);
         });
     }
 
