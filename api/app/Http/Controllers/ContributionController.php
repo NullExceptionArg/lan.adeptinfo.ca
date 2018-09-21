@@ -23,7 +23,6 @@ class ContributionController extends Controller
 
     public function createContributionCategory(Request $request)
     {
-        // TODO Permission create-contribution-category
         return response()->json($this->contributionService->createCategory($request), 201);
     }
 
@@ -34,7 +33,6 @@ class ContributionController extends Controller
 
     public function deleteContributionCategory(Request $request)
     {
-        // TODO Permission delete-contribution-category
         return response()->json($this->contributionService->deleteCategory($request), 200);
     }
 

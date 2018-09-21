@@ -35,7 +35,7 @@ class ApiExceptionsHandler extends DingoHandler
             $e = new NotFoundHttpException('HTTP_NOT_FOUND', $e);
         } elseif ($e instanceof AuthorizationException) {
             $status = Response::HTTP_FORBIDDEN;
-            $e = new AuthorizationException('HTTP_FORBIDDEN', $status);
+            $e = new AuthorizationException(trans('validation.forbidden'), $status);
         } elseif ($e instanceof \Dotenv\Exception\ValidationException && $e->getResponse()) {
             $status = Response::HTTP_BAD_REQUEST;
             $e = new \Dotenv\Exception\ValidationException('HTTP_BAD_REQUEST', $status, $e);
@@ -46,7 +46,7 @@ class ApiExceptionsHandler extends DingoHandler
         return response()->json([
             'success' => $success,
             'status' => $status,
-            'message' => json_decode($e->getMessage())
+            'message' => is_null(json_decode($e->getMessage())) ? $e->getMessage() : json_decode($e->getMessage())
         ], $status);
     }
 }

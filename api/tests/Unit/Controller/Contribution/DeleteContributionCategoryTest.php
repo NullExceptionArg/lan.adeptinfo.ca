@@ -5,6 +5,7 @@ namespace Tests\Unit\Controller\Contribution;
 
 use App\Model\Contribution;
 use App\Model\ContributionCategory;
+use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -23,6 +24,19 @@ class DeleteContributionCategoryTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
         $this->category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
+        ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-contribution-category')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
         ]);
     }
 
@@ -48,6 +62,20 @@ class DeleteContributionCategoryTest extends TestCase
         $category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $lan->id
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-contribution-category')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
         $this->actingAs($this->user)
             ->json('DELETE', '/api/contribution/category', [
                 'contribution_category_id' => $category->id
@@ -97,6 +125,20 @@ class DeleteContributionCategoryTest extends TestCase
 
         // Contribution
         $this->assertEquals(0, Contribution::all()->count());
+    }
+
+    public function testDeleteContributionCategoryPermission(): void
+    {
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/contribution/category', [
+                'lan_id' => $this->lan->id,
+                'contribution_category_id' => $this->category->id
+            ])
+            ->seeJsonEquals([
+                'id' => $this->category->id,
+                'name' => $this->category->name
+            ])
+            ->assertResponseStatus(200);
     }
 
     // Should be updated every time Contribution Category has a new relation
