@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateTest extends TestCase
+class CreateLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -40,9 +40,9 @@ class CreateTest extends TestCase
             ->toArray();
     }
 
-    public function testCreateTest(): void
+    public function testCreateLanRoleTest(): void
     {
-        $this->notSeeInDatabase('role', [
+        $this->notSeeInDatabase('lan_role', [
             'lan_id' => $this->paramsContent['lan_id'],
             'name' => $this->paramsContent['name'],
             'en_display_name' => $this->paramsContent['en_display_name'],
@@ -51,7 +51,7 @@ class CreateTest extends TestCase
             'fr_description' => $this->paramsContent['fr_description']
         ]);
 
-        $this->roleRepository->create(
+        $this->roleRepository->createLanRole(
             $this->paramsContent['lan_id'],
             $this->paramsContent['name'],
             $this->paramsContent['en_display_name'],
@@ -60,7 +60,7 @@ class CreateTest extends TestCase
             $this->paramsContent['fr_description']
         );
 
-        $this->seeInDatabase('role', [
+        $this->seeInDatabase('lan_role', [
             'lan_id' => $this->paramsContent['lan_id'],
             'name' => $this->paramsContent['name'],
             'en_display_name' => $this->paramsContent['en_display_name'],

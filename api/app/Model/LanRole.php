@@ -13,11 +13,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string fr_display_name
  * @property string fr_description
  */
-class Role extends Model
+class LanRole extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'role';
+    protected $table = 'lan_role';
 
     /**
      * The attributes that should be mutated to dates.

@@ -63,7 +63,10 @@ class GeneratePermissions extends Command
             ['name' => 'delete-team'],
 
             // Roles
-            ['name' => 'create-role'],
+            ['name' => 'create-lan-role'],
+
+            // User
+            ['name' => 'admin-summary']
         ];
     }
 }

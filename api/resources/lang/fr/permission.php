@@ -38,5 +38,9 @@ return [
     'display-name-quit-tournament' => 'Abandonner un tournoi',
     'description-quit-tournament' => 'Abandonner l\'organisation d\'un tournoi.',
     'display-name-delete-team' => 'Supprimer une équipe',
-    'description-delete-team' => 'Supprimer une équipe existante.'
+    'description-delete-team' => 'Supprimer une équipe existante.',
+    'display-name-create-lan-role' => 'Créer un nouveau rôle pour un LAN',
+    'description-create-lan-role' => 'Créer un nouveau rôle pour un LAN.',
+    'display-name-admin-summary' => 'Obtenir le sommaire d\'un administrateur',
+    'description-admin-summary' => 'Obtenir le nom et les permissions d\'un administrateur.'
 ];

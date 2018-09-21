@@ -2,11 +2,11 @@
 
 ## Créer un rôle
 
-Réserver un rôle à partir des permissions d'administration de l'API.
+Créer un rôle pour un lan à partir des permissions d'administration de l'API.
 
 ### Requête HTTP
 
-`POST /api/role`
+`POST /api/role/lan`
 
 ### POST Params
 

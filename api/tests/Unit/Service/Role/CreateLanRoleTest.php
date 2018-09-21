@@ -8,7 +8,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class CreateTest extends TestCase
+class CreateLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -42,10 +42,10 @@ class CreateTest extends TestCase
             ->toArray();
     }
 
-    public function testCreateRoleTest(): void
+    public function testCreateLanRoleTest(): void
     {
         $request = new Request($this->paramsContent);
-        $result = $this->roleService->create($request);
+        $result = $this->roleService->createLanRole($request);
 
         $this->assertEquals($this->paramsContent['lan_id'], $result->lan_id);
         $this->assertEquals($this->paramsContent['name'], $result->name);
@@ -55,12 +55,12 @@ class CreateTest extends TestCase
         $this->assertEquals($this->paramsContent['fr_description'], $result->fr_description);
     }
 
-    public function testCreateRoleLanIdExists(): void
+    public function testCreateLanRoleLanIdExists(): void
     {
         $this->paramsContent['lan_id'] = -1;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -68,12 +68,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleLanIdInteger(): void
+    public function testCreateLanRoleLanIdInteger(): void
     {
         $this->paramsContent['lan_id'] = '☭';
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -81,12 +81,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleNameRequired(): void
+    public function testCreateLanRoleNameRequired(): void
     {
         $this->paramsContent['name'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"name":["The name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -94,12 +94,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleNameString(): void
+    public function testCreateLanRoleNameString(): void
     {
         $this->paramsContent['name'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"name":["The name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -107,12 +107,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleNameMaxLength(): void
+    public function testCreateLanRoleNameMaxLength(): void
     {
         $this->paramsContent['name'] = str_repeat('☭', 51);
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"name":["The name may not be greater than 50 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -120,15 +120,15 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleNameUnique(): void
+    public function testCreateLanRoleNameUnique(): void
     {
-        factory('App\Model\Role')->create([
+        factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id,
             'name' => $this->paramsContent['name']
         ]);
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"name":["The name has already been taken."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -136,12 +136,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleEnDisplayNameRequired(): void
+    public function testCreateLanRoleEnDisplayNameRequired(): void
     {
         $this->paramsContent['en_display_name'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"en_display_name":["The en display name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -149,12 +149,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleEnDisplayNameString(): void
+    public function testCreateLanRoleEnDisplayNameString(): void
     {
         $this->paramsContent['en_display_name'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"en_display_name":["The en display name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -162,12 +162,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleEnDisplayNameMaxLength(): void
+    public function testCreateLanRoleEnDisplayNameMaxLength(): void
     {
         $this->paramsContent['en_display_name'] = str_repeat('☭', 71);
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"en_display_name":["The en display name may not be greater than 70 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -175,12 +175,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleEnDescriptionRequired(): void
+    public function testCreateLanRoleEnDescriptionRequired(): void
     {
         $this->paramsContent['en_description'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"en_description":["The en description field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -188,12 +188,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleEnDescriptionString(): void
+    public function testCreateLanRoleEnDescriptionString(): void
     {
         $this->paramsContent['en_description'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"en_description":["The en description must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -201,12 +201,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleEnDescriptionMaxLength(): void
+    public function testCreateLanRoleEnDescriptionMaxLength(): void
     {
         $this->paramsContent['en_description'] = str_repeat('☭', 1001);
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"en_description":["The en description may not be greater than 1000 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -214,12 +214,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleFrDisplayNameRequired(): void
+    public function testCreateLanRoleFrDisplayNameRequired(): void
     {
         $this->paramsContent['fr_display_name'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"fr_display_name":["The fr display name field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -227,12 +227,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleFrDisplayNameString(): void
+    public function testCreateLanRoleFrDisplayNameString(): void
     {
         $this->paramsContent['fr_display_name'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"fr_display_name":["The fr display name must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -240,12 +240,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleFrDisplayNameMaxLength(): void
+    public function testCreateLanRoleFrDisplayNameMaxLength(): void
     {
         $this->paramsContent['fr_display_name'] = str_repeat('☭', 71);
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"fr_display_name":["The fr display name may not be greater than 70 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -253,12 +253,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleFrDescriptionRequired(): void
+    public function testCreateLanRoleFrDescriptionRequired(): void
     {
         $this->paramsContent['fr_description'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"fr_description":["The fr description field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -266,12 +266,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleFrDescriptionString(): void
+    public function testCreateLanRoleFrDescriptionString(): void
     {
         $this->paramsContent['fr_description'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"fr_description":["The fr description must be a string."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -279,12 +279,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRoleFrDescriptionMaxLength(): void
+    public function testCreateLanRoleFrDescriptionMaxLength(): void
     {
         $this->paramsContent['fr_description'] = str_repeat('☭', 1001);
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"fr_description":["The fr description may not be greater than 1000 characters."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -292,12 +292,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRolePermissionsRequired(): void
+    public function testCreateLanRolePermissionsRequired(): void
     {
         $this->paramsContent['permissions'] = null;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"permissions":["The permissions field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -305,12 +305,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRolePermissionsArray(): void
+    public function testCreateLanRolePermissionsArray(): void
     {
         $this->paramsContent['permissions'] = 1;
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"permissions":["The permissions must be an array."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -318,12 +318,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRolePermissionsArrayOfInteger(): void
+    public function testCreateLanRolePermissionsArrayOfInteger(): void
     {
         $this->paramsContent['permissions'] = ['1', 2];
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"permissions":["The array must contain only integers."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -331,12 +331,12 @@ class CreateTest extends TestCase
         }
     }
 
-    public function testCreateRolePermissionsElementsInArrayExistInPermission(): void
+    public function testCreateLanRolePermissionsElementsInArrayExistInPermission(): void
     {
         $this->paramsContent['permissions'] = [2, -1];
         $request = new Request($this->paramsContent);
         try {
-            $this->roleService->create($request);
+            $this->roleService->createLanRole($request);
             $this->fail('Expected: {"permissions":["An element of the array is not contained an existing permission id."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

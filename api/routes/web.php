@@ -42,34 +42,6 @@ $api->version('v1', function ($api) {
 
             $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
-                // Admin
-                $api->post('lan', 'LanController@createLan');
-                $api->post('lan/current', 'LanController@setCurrentLan');
-                $api->put('lan', 'LanController@updateLan');
-
-                $api->post('contribution/category', 'ContributionController@createContributionCategory');
-                $api->delete('contribution/category', 'ContributionController@deleteContributionCategory');
-                $api->post('contribution', 'ContributionController@createContribution');
-                $api->delete('contribution', 'ContributionController@deleteContribution');
-
-                $api->post('seat/confirm/{seat_id}', 'SeatController@confirmArrival');
-                $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
-                $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
-                $api->delete('seat/assign/{seat_id}', 'SeatController@unAssignSeat');
-
-                $api->post('image', 'ImageController@addImage');
-                $api->delete('image', 'ImageController@deleteImages');
-
-                $api->post('tournament', 'TournamentController@createTournament');
-                $api->put('tournament/{tournament_id}', 'TournamentController@editTournament');
-                $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
-                $api->post('tournament/quit/{tournament_id}', 'TournamentController@quit');
-
-                $api->delete('team/admin', 'TeamController@deleteAdmin');
-
-                $api->post('role', 'RoleController@create');
-                $api->get('admin/summary', 'UserController@getAdminSummary');
-
                 // User
                 $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');
                 $api->delete('seat/book/{seat_id}', 'SeatController@unBookSeat');
@@ -95,6 +67,33 @@ $api->version('v1', function ($api) {
                 $api->get('user/summary', 'UserController@getUserSummary');
                 $api->post('user/details', 'UserController@getUserDetails');
 
+                // Admin
+                $api->post('lan', 'LanController@createLan');
+                $api->post('lan/current', 'LanController@setCurrentLan');
+                $api->put('lan', 'LanController@edit');
+
+                $api->post('contribution/category', 'ContributionController@createContributionCategory');
+                $api->delete('contribution/category', 'ContributionController@deleteContributionCategory');
+                $api->post('contribution', 'ContributionController@createContribution');
+                $api->delete('contribution', 'ContributionController@deleteContribution');
+
+                $api->post('seat/confirm/{seat_id}', 'SeatController@confirmArrival');
+                $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
+                $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
+                $api->delete('seat/assign/{seat_id}', 'SeatController@unAssignSeat');
+
+                $api->post('image', 'ImageController@addImage');
+                $api->delete('image', 'ImageController@deleteImages');
+
+                $api->post('tournament', 'TournamentController@createTournament');
+                $api->put('tournament/{tournament_id}', 'TournamentController@edit');
+                $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
+                $api->post('tournament/quit/{tournament_id}', 'TournamentController@quit');
+
+                $api->delete('team/admin', 'TeamController@deleteAdmin');
+
+                $api->post('role/lan', 'RoleController@createLanRole');
+                $api->get('admin/summary', 'UserController@getAdminSummary');
             });
 
         });

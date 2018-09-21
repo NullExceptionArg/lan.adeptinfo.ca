@@ -1,4 +1,4 @@
 <?php
-$factory->define(App\Model\PermissionRole::class, function (Faker\Generator $faker) {
+$factory->define(App\Model\PermissionLanRole::class, function (Faker\Generator $faker) {
     return [];
 });

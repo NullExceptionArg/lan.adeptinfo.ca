@@ -66,6 +66,7 @@ class TeamController extends Controller
 
     public function deleteAdmin(Request $request)
     {
+        // TODO Permissions delete-team
         return response()->json($this->teamServiceImpl->deleteAdmin($request), 200);
     }
 

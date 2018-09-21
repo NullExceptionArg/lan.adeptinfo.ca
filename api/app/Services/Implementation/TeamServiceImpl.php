@@ -131,6 +131,7 @@ class TeamServiceImpl implements TeamService
         if ($lan == null) {
             $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
+
         $user = Auth::user();
 
         $teams = $this->teamRepository->getUserTeams($user, $lan);

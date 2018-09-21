@@ -19,8 +19,9 @@ class RoleController extends Controller
         $this->roleService = $roleService;
     }
 
-    public function create(Request $request)
+    public function createLanRole(Request $request)
     {
-        return response()->json($this->roleService->create($request), 201);
+        // TODO Permissions create-lan-role
+        return response()->json($this->roleService->createLanRole($request), 201);
     }
 }

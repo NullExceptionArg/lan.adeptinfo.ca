@@ -67,6 +67,7 @@ class UserController extends Controller
 
     public function getAdminSummary(Request $request)
     {
+        // TODO Permissions admin-summary
         return response()->json($this->userService->getAdminSummary($request), 200);
     }
 

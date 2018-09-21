@@ -21,11 +21,13 @@ class TournamentController extends Controller
 
     public function createTournament(Request $request)
     {
+        // TODO Permissions create-tournament
         return response()->json($this->tournamentService->create($request), 201);
     }
 
-    public function editTournament(Request $request, string $tournamentId)
+    public function edit(Request $request, string $tournamentId)
     {
+        // TODO Permissions edit-tournament
         return response()->json($this->tournamentService->edit($request, $tournamentId), 200);
     }
 
@@ -41,11 +43,13 @@ class TournamentController extends Controller
 
     public function delete(Request $request, string $tournamentId)
     {
+        // TODO Permissions delete-tournament
         return response()->json($this->tournamentService->delete($tournamentId), 200);
     }
 
     public function quit(Request $request, string $tournamentId)
     {
+        // TODO Permissions quit-tournament
         return response()->json($this->tournamentService->quit($tournamentId), 200);
     }
 

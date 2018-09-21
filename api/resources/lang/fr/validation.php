@@ -145,6 +145,7 @@ return [
     'organizer_has_tournament' => 'L\'utilisateur n\'a aucuns tournois',
     'array_of_integer' => 'Le tableau doit contenir que des nombres entiers,',
     'elements_in_array_exist_in_permission' => 'Un élément dans le tableau n\'est pas l\'id d\'une permission.',
+    'has_permission' => 'L\'utilisateur n\'a pas la permission d\'accéder à la ressource demandé.',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

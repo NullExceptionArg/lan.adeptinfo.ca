@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableRole extends Migration
+class CreateTableLanRole extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateTableRole extends Migration
      */
     public function up()
     {
-        Schema::create('role', function (Blueprint $table) {
+        Schema::create('lan_role', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('en_display_name');
@@ -35,6 +35,6 @@ class CreateTableRole extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('role');
+        Schema::dropIfExists('lan_role');
     }
 }

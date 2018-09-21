@@ -21,11 +21,13 @@ class ImageController extends Controller
 
     public function addImage(Request $request)
     {
+        // TODO Permissions add-image
         return response()->json($this->imageService->addImage($request), 201);
     }
 
     public function deleteImages(Request $request)
     {
+        // TODO Permissions delete-image
         return response()->json($this->imageService->deleteImages($request), 200);
     }
 }

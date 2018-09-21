@@ -1,5 +1,5 @@
 <?php
-$factory->define(App\Model\Role::class, function (Faker\Generator $faker) {
+$factory->define(App\Model\LanRole::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->text(30),
         'en_display_name' => $faker->text(50),

@@ -39,6 +39,8 @@ return [
     'description-quit-tournament' => 'Quit the organization of a tournament.',
     'display-name-delete-team' => 'Delete team',
     'description-delete-team' => 'Delete a team.',
-    'display-name-create-role' => 'Create role',
-    'description-create-role' => 'Create a new team'
+    'display-name-create-lan-role' => 'Create a new role for a LAN',
+    'description-create-lan-role' => 'Create a new role for a LAN.',
+    'display-name-admin-summary' => 'Obtain admins summary',
+    'description-admin-summary' => 'Obtain admins name and permissions.'
 ];

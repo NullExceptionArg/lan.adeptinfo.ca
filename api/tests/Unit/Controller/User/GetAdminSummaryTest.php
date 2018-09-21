@@ -25,16 +25,16 @@ class GetAdminSummaryTest extends TestCase
         $permissions = Permission::inRandomOrder()
             ->take(5)
             ->get();
-        $role = factory('App\Model\Role')->create([
+        $role = factory('App\Model\LanRole')->create([
             'lan_id' => $lan->id
         ]);
         foreach ($permissions as $permission) {
-            factory('App\Model\PermissionRole')->create([
+            factory('App\Model\PermissionLanRole')->create([
                 'permission_id' => $permission->id,
                 'role_id' => $role->id
             ]);
         }
-        factory('App\Model\RoleUser')->create([
+        factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
             'role_id' => $role->id
         ]);
@@ -89,16 +89,16 @@ class GetAdminSummaryTest extends TestCase
         $permissions = Permission::inRandomOrder()
             ->take(5)
             ->get();
-        $role = factory('App\Model\Role')->create([
+        $role = factory('App\Model\LanRole')->create([
             'lan_id' => $lan->id
         ]);
         foreach ($permissions as $permission) {
-            factory('App\Model\PermissionRole')->create([
+            factory('App\Model\PermissionLanRole')->create([
                 'permission_id' => $permission->id,
                 'role_id' => $role->id
             ]);
         }
-        factory('App\Model\RoleUser')->create([
+        factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
             'role_id' => $role->id
         ]);

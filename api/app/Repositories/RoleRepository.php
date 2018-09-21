@@ -4,22 +4,22 @@ namespace App\Repositories;
 
 
 use App\Model\Lan;
-use App\Model\Role;
+use App\Model\LanRole;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 
 interface RoleRepository
 {
-    public function create(
+    public function createLanRole(
         int $lanId,
         string $name,
         string $enDisplayName,
         string $enDescription,
         string $frDisplayName,
         string $frDescription
-    ): Role;
+    ): LanRole;
 
-    public function linkPermissionIdRole(string $permissionId, Role $role): void;
+    public function linkPermissionIdLanRole(string $permissionId, LanRole $role): void;
 
     public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection;
 }

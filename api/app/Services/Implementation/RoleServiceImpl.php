@@ -2,7 +2,7 @@
 
 namespace App\Services\Implementation;
 
-use App\Model\Role;
+use App\Model\LanRole;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Rules\ArrayOfInteger;
@@ -28,7 +28,7 @@ class RoleServiceImpl implements RoleService
         $this->lanRepository = $lanRepository;
     }
 
-    public function create(Request $input): Role
+    public function createLanRole(Request $input): LanRole
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -58,7 +58,7 @@ class RoleServiceImpl implements RoleService
             throw new BadRequestHttpException($roleValidator->errors());
         }
 
-        $role = $this->roleRepository->create(
+        $role = $this->roleRepository->createLanRole(
             $input->input('lan_id'),
             $input->input('name'),
             $input->input('en_display_name'),
@@ -68,7 +68,7 @@ class RoleServiceImpl implements RoleService
         );
 
         foreach ($input->input('permissions') as $permissionId) {
-            $this->roleRepository->linkPermissionIdRole($permissionId, $role);
+            $this->roleRepository->linkPermissionIdLanRole($permissionId, $role);
         }
 
         return $role;

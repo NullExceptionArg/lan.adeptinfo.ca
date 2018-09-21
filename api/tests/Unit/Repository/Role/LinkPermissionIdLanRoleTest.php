@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class LinkPermissionIdRoleTest extends TestCase
+class LinkPermissionIdLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -23,27 +23,27 @@ class LinkPermissionIdRoleTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-        $this->role = factory('App\Model\Role')->create([
+        $this->role = factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id
         ]);
     }
 
-    public function testCreateTest(): void
+    public function testCreateLanRoleTest(): void
     {
         $permission = DB::table('permission')
             ->first();
 
-        $this->notSeeInDatabase('permission_role', [
+        $this->notSeeInDatabase('permission_lan_role', [
             'permission_id' => $permission->id,
             'role_id' => $this->role->id
         ]);
 
-        $this->roleRepository->linkPermissionIdRole(
+        $this->roleRepository->linkPermissionIdLanRole(
             $permission->id,
             $this->role
         );
 
-        $this->seeInDatabase('permission_role', [
+        $this->seeInDatabase('permission_lan_role', [
             'permission_id' => $permission->id,
             'role_id' => $this->role->id
         ]);

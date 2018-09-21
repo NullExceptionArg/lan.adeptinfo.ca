@@ -28,16 +28,19 @@ class SeatController extends Controller
 
     public function confirmArrival(Request $request, string $seatId)
     {
+        // TODO Permissions confirm-arrival
         return response()->json($this->seatService->confirmArrival($request, $seatId), 200);
     }
 
     public function unConfirmArrival(Request $request, string $seatId)
     {
+        // TODO Permissions unconfirm-arrival
         return response()->json($this->seatService->unConfirmArrival($request, $seatId), 200);
     }
 
     public function assignSeat(Request $request, string $seatId)
     {
+        // TODO Permissions assign-seat
         return response()->json($this->seatService->assign($request, $seatId), 201);
     }
 
@@ -48,6 +51,7 @@ class SeatController extends Controller
 
     public function unAssignSeat(Request $request, string $seatId)
     {
+        // TODO Permissions unassign-seat
         return response()->json($this->seatService->unAssign($request, $seatId), 200);
     }
 }
