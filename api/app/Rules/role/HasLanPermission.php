@@ -6,7 +6,7 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
-class HasPermission implements Rule
+class HasLanPermission implements Rule
 {
 
     protected $lanId;

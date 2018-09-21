@@ -23,20 +23,31 @@ class GetAdminSummaryTest extends TestCase
     {
         $lan = factory('App\Model\Lan')->create();
         $permissions = Permission::inRandomOrder()
-            ->take(5)
+            ->take(8)
             ->get();
-        $role = factory('App\Model\LanRole')->create([
+        $lanRole = factory('App\Model\LanRole')->create([
             'lan_id' => $lan->id
         ]);
-        foreach ($permissions as $permission) {
+        $globalRole = factory('App\Model\GlobalRole')->create();
+        for ($i = 0; $i < 5; $i++) {
             factory('App\Model\PermissionLanRole')->create([
-                'permission_id' => $permission->id,
-                'role_id' => $role->id
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $lanRole->id
+            ]);
+        }
+        for ($i = 5; $i < 8; $i++) {
+            factory('App\Model\PermissionGlobalRole')->create([
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $globalRole->id
             ]);
         }
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $role->id
+            'role_id' => $lanRole->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
+            'user_id' => $this->user->id,
+            'role_id' => $globalRole->id
         ]);
         $this->actingAs($this->user)
             ->json('GET', '/api/admin/summary', [
@@ -76,6 +87,24 @@ class GetAdminSummaryTest extends TestCase
                         'display_name' => trans('permission.display-name-' . $permissions[4]->name),
                         'description' => trans('permission.description-' . $permissions[4]->name)
                     ],
+                    [
+                        'id' => $permissions[5]->id,
+                        'name' => $permissions[5]->name,
+                        'display_name' => trans('permission.display-name-' . $permissions[5]->name),
+                        'description' => trans('permission.description-' . $permissions[5]->name)
+                    ],
+                    [
+                        'id' => $permissions[6]->id,
+                        'name' => $permissions[6]->name,
+                        'display_name' => trans('permission.display-name-' . $permissions[6]->name),
+                        'description' => trans('permission.description-' . $permissions[6]->name)
+                    ],
+                    [
+                        'id' => $permissions[7]->id,
+                        'name' => $permissions[7]->name,
+                        'display_name' => trans('permission.display-name-' . $permissions[7]->name),
+                        'description' => trans('permission.description-' . $permissions[7]->name)
+                    ],
                 ],
             ])
             ->assertResponseStatus(200);
@@ -87,23 +116,36 @@ class GetAdminSummaryTest extends TestCase
             'is_current' => true
         ]);
         $permissions = Permission::inRandomOrder()
-            ->take(5)
+            ->take(8)
             ->get();
-        $role = factory('App\Model\LanRole')->create([
+        $lanRole = factory('App\Model\LanRole')->create([
             'lan_id' => $lan->id
         ]);
-        foreach ($permissions as $permission) {
+        $globalRole = factory('App\Model\GlobalRole')->create();
+        for ($i = 0; $i < 5; $i++) {
             factory('App\Model\PermissionLanRole')->create([
-                'permission_id' => $permission->id,
-                'role_id' => $role->id
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $lanRole->id
+            ]);
+        }
+        for ($i = 5; $i < 8; $i++) {
+            factory('App\Model\PermissionGlobalRole')->create([
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $globalRole->id
             ]);
         }
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $role->id
+            'role_id' => $lanRole->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
+            'user_id' => $this->user->id,
+            'role_id' => $globalRole->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/summary')
+            ->json('GET', '/api/admin/summary', [
+                'lan_id' => $lan->id
+            ])
             ->seeJsonEquals([
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
@@ -137,6 +179,24 @@ class GetAdminSummaryTest extends TestCase
                         'name' => $permissions[4]->name,
                         'display_name' => trans('permission.display-name-' . $permissions[4]->name),
                         'description' => trans('permission.description-' . $permissions[4]->name)
+                    ],
+                    [
+                        'id' => $permissions[5]->id,
+                        'name' => $permissions[5]->name,
+                        'display_name' => trans('permission.display-name-' . $permissions[5]->name),
+                        'description' => trans('permission.description-' . $permissions[5]->name)
+                    ],
+                    [
+                        'id' => $permissions[6]->id,
+                        'name' => $permissions[6]->name,
+                        'display_name' => trans('permission.display-name-' . $permissions[6]->name),
+                        'description' => trans('permission.description-' . $permissions[6]->name)
+                    ],
+                    [
+                        'id' => $permissions[7]->id,
+                        'name' => $permissions[7]->name,
+                        'display_name' => trans('permission.display-name-' . $permissions[7]->name),
+                        'description' => trans('permission.description-' . $permissions[7]->name)
                     ],
                 ],
             ])

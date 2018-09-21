@@ -29,20 +29,31 @@ class GetAdminSummaryTest extends TestCase
     {
         $lan = factory('App\Model\Lan')->create();
         $permissions = Permission::inRandomOrder()
-            ->take(5)
+            ->take(8)
             ->get();
-        $role = factory('App\Model\LanRole')->create([
+        $lanRole = factory('App\Model\LanRole')->create([
             'lan_id' => $lan->id
         ]);
-        foreach ($permissions as $permission) {
+        $globalRole = factory('App\Model\GlobalRole')->create();
+        for ($i = 0; $i < 5; $i++) {
             factory('App\Model\PermissionLanRole')->create([
-                'permission_id' => $permission->id,
-                'role_id' => $role->id
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $lanRole->id
+            ]);
+        }
+        for ($i = 5; $i < 8; $i++) {
+            factory('App\Model\PermissionGlobalRole')->create([
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $globalRole->id
             ]);
         }
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $role->id
+            'role_id' => $lanRole->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
+            'user_id' => $this->user->id,
+            'role_id' => $globalRole->id
         ]);
 
         $request = new Request([
@@ -78,6 +89,21 @@ class GetAdminSummaryTest extends TestCase
         $this->assertEquals($permissions[4]->name, $permissionsResult[4]['name']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[4]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[4]['description']);
+
+        $this->assertEquals($permissions[5]->id, $permissionsResult[5]['id']);
+        $this->assertEquals($permissions[5]->name, $permissionsResult[5]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[5]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[5]['description']);
+
+        $this->assertEquals($permissions[6]->id, $permissionsResult[6]['id']);
+        $this->assertEquals($permissions[6]->name, $permissionsResult[6]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[6]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[6]['description']);
+
+        $this->assertEquals($permissions[7]->id, $permissionsResult[7]['id']);
+        $this->assertEquals($permissions[7]->name, $permissionsResult[7]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[7]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[7]['description']);
     }
 
     public function testGetAdminSummaryCurrentLan(): void
@@ -86,23 +112,36 @@ class GetAdminSummaryTest extends TestCase
             'is_current' => true
         ]);
         $permissions = Permission::inRandomOrder()
-            ->take(5)
+            ->take(8)
             ->get();
-        $role = factory('App\Model\LanRole')->create([
+        $lanRole = factory('App\Model\LanRole')->create([
             'lan_id' => $lan->id
         ]);
-        foreach ($permissions as $permission) {
+        $globalRole = factory('App\Model\GlobalRole')->create();
+        for ($i = 0; $i < 5; $i++) {
             factory('App\Model\PermissionLanRole')->create([
-                'permission_id' => $permission->id,
-                'role_id' => $role->id
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $lanRole->id
+            ]);
+        }
+        for ($i = 5; $i < 8; $i++) {
+            factory('App\Model\PermissionGlobalRole')->create([
+                'permission_id' => $permissions[$i]->id,
+                'role_id' => $globalRole->id
             ]);
         }
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $role->id
+            'role_id' => $lanRole->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
+            'user_id' => $this->user->id,
+            'role_id' => $globalRole->id
         ]);
 
-        $request = new Request();
+        $request = new Request([
+            'lan_id' => $lan->id
+        ]);
         $result = $this->userService->getAdminSummary($request)->jsonSerialize();
         $permissionsResult = $result['permissions']->jsonSerialize();
 
@@ -133,6 +172,21 @@ class GetAdminSummaryTest extends TestCase
         $this->assertEquals($permissions[4]->name, $permissionsResult[4]['name']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[4]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[4]['description']);
+
+        $this->assertEquals($permissions[5]->id, $permissionsResult[5]['id']);
+        $this->assertEquals($permissions[5]->name, $permissionsResult[5]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[5]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[5]['description']);
+
+        $this->assertEquals($permissions[6]->id, $permissionsResult[6]['id']);
+        $this->assertEquals($permissions[6]->name, $permissionsResult[6]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[6]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[6]['description']);
+
+        $this->assertEquals($permissions[7]->id, $permissionsResult[7]['id']);
+        $this->assertEquals($permissions[7]->name, $permissionsResult[7]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[7]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[7]['description']);
     }
 
     public function testGetAdminSummaryLanIdExist(): void

@@ -44,14 +44,24 @@ class RoleRepositoryImpl implements RoleRepository
 
     public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection
     {
-        return DB::table('role')
-            ->join('permission_lan_role', 'role.id', '=', 'permission_lan_role.role_id')
-            ->join('permission', 'permission_lan_role.permission_id', '=', 'permission.id')
-            ->join('lan_role_user', 'role.id', '=', 'lan_role_user.role_id')
-            ->where('role.lan_id', $lan->id)
+        $lanPermissions = DB::table('permission')
+            ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
+            ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
+            ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
+            ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
+            ->where('lan_role.lan_id', $lan->id)
             ->where('lan_role_user.user_id', $user->id)
             ->select('permission.id', 'permission.name')
             ->get();
 
+        $globalPermissions = DB::table('permission')
+            ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
+            ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
+            ->join('global_role_user', 'global_role.id', '=', 'global_role_user.role_id')
+            ->where('global_role_user.user_id', $user->id)
+            ->select('permission.id', 'permission.name')
+            ->get();
+
+        return $lanPermissions->merge($globalPermissions)->unique();
     }
 }
