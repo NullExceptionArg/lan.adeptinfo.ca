@@ -46,7 +46,7 @@ class RoleServiceImpl implements RoleService
             'permissions' => $input->input('permissions')
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'name' => 'required|string|max:50|unique:role,name',
+            'name' => 'required|string|max:50|unique:lan_role,name',
             'en_display_name' => 'required|string|max:70',
             'en_description' => 'required|string|max:1000',
             'fr_display_name' => 'required|string|max:70',

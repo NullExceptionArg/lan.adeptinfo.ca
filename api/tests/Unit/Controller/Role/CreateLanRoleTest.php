@@ -56,7 +56,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -73,7 +73,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -90,7 +90,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -107,7 +107,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -124,7 +124,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 51);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -144,7 +144,7 @@ class CreateLanRoleTest extends TestCase
             'name' => $this->requestContent['name']
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -161,7 +161,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -178,7 +178,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -195,7 +195,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -212,7 +212,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -229,7 +229,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -246,7 +246,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -263,7 +263,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -280,7 +280,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -297,7 +297,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -314,7 +314,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -331,7 +331,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -348,7 +348,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -365,7 +365,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -382,7 +382,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -399,7 +399,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = ['1', 2];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -416,7 +416,7 @@ class CreateLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = [2, -1];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role', $this->requestContent)
+            ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
