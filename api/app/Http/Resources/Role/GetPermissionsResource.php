@@ -16,7 +16,7 @@ class GetPermissionsResource extends Resource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => intval($this->id),
             'name' => $this->name,
             'display_name' => trans('permission.display-name-' . $this->name),
             'description' => trans('permission.description-' . $this->name)
