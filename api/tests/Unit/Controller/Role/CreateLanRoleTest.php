@@ -32,6 +32,7 @@ class CreateLanRoleTest extends TestCase
 
         $this->requestContent['lan_id'] = $this->lan->id;
         $this->requestContent['permissions'] = Permission::inRandomOrder()
+            ->where('can_be_per_lan', true)
             ->take(5)
             ->pluck('id')
             ->toArray();

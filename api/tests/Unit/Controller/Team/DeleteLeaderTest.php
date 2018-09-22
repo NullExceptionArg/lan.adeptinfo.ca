@@ -102,7 +102,7 @@ class DeleteLeaderTest extends TestCase
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
-                'message' => null
+                'message' => 'REEEEEEEEEE'
             ])
             ->assertResponseStatus(403);
     }

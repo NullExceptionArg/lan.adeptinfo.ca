@@ -232,7 +232,7 @@ class GetAdminSummaryTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
+                        0 => 'The lan id must be an integer.',
                     ],
                 ]
             ])
