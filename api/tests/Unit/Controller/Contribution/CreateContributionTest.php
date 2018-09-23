@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Contribution;
 
+use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -30,6 +31,19 @@ class CreateContributionTest extends TestCase
         ]);
         $this->requestContent['contribution_category_id'] = $this->category->id;
         $this->requestContent['lan_id'] = $this->lan->id;
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'create-contribution')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
     }
 
     public function testCreateContributionUserFullName(): void
@@ -53,6 +67,20 @@ class CreateContributionTest extends TestCase
         $category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $lan->id
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'create-contribution')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
         $this->requestContent['user_full_name'] = $this->user->getFullName();
         $this->requestContent['lan_id'] = $lan->id;
         $this->requestContent['contribution_category_id'] = $category->id;
@@ -64,6 +92,19 @@ class CreateContributionTest extends TestCase
                 'contribution_category_id' => $category->id
             ])
             ->assertResponseStatus(201);
+    }
+
+    public function testCreateContributionPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('POST', '/api/contribution', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testCreateContributionUserEmail(): void

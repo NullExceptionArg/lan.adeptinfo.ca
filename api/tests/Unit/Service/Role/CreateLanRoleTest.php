@@ -348,7 +348,7 @@ class CreateLanRoleTest extends TestCase
 
     public function testCreateLanRolePermissionsElementsInArrayExistInPermission(): void
     {
-        $this->paramsContent['permissions'] = [2, -1];
+        $this->paramsContent['permissions'] = [$this->paramsContent['permissions'][0], -1];
         $request = new Request($this->paramsContent);
         try {
             $this->roleService->createLanRole($request);

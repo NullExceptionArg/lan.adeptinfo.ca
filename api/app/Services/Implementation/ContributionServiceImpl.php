@@ -136,6 +136,7 @@ class ContributionServiceImpl implements ContributionService
             'contribution_category_id' => $input->input('contribution_category_id'),
             'user_full_name' => $input->input('user_full_name'),
             'user_email' => $input->input('user_email'),
+            'permission' => 'create-contribution'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
@@ -152,6 +153,7 @@ class ContributionServiceImpl implements ContributionService
                 'exists:user,email',
                 new OneOfTwoFields($input->input('user_full_name'), 'user_full_name')
             ],
+            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
         ]);
 
         if ($contributionValidator->fails()) {

@@ -3,6 +3,8 @@
 namespace Tests\Unit\Service\Contribution;
 
 
+use App\Model\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -36,8 +38,36 @@ class CreateContributionTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
         $this->paramsContent['contribution_category_id'] = $this->category->id;
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'create-contribution')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
+        $this->be($this->user);
     }
 
+    public function testCreateCategoryPermission(): void
+    {
+        $this->paramsContent['lan_id'] = $this->lan->id;
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request($this->paramsContent);
+        try {
+            $this->contributorService->createContribution($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
+    }
 
     public function testCreateContributionUserFullName(): void
     {
