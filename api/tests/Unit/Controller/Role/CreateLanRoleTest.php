@@ -398,7 +398,7 @@ class CreateLanRoleTest extends TestCase
 
     public function testCreateLanRolePermissionsArrayOfInteger(): void
     {
-        $this->requestContent['permissions'] = ['1', 2];
+        $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([
@@ -433,7 +433,7 @@ class CreateLanRoleTest extends TestCase
 
     public function testCreateLanRolePermissionsElementsInArrayExistInPermission(): void
     {
-        $this->requestContent['permissions'] = [2, -1];
+        $this->requestContent['permissions'] = [$this->requestContent['permissions'][0], -1];
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan', $this->requestContent)
             ->seeJsonEquals([

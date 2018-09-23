@@ -23,6 +23,7 @@ class PermissionsCanBePerLan implements Rule
         }
 
         foreach ($value as $permissionId) {
+            if (is_null(DB::table('permission')->find($permissionId))) return true;
             if (!DB::table('permission')->find($permissionId)->can_be_per_lan) return false;
         }
         return true;
