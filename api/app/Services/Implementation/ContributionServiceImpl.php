@@ -213,9 +213,11 @@ class ContributionServiceImpl implements ContributionService
         $contributionValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'contribution_id' => $input->input('contribution_id'),
+            'permission' => 'delete-contribution'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL'
+            'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL',
+            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
         ]);
 
         if ($contributionValidator->fails()) {

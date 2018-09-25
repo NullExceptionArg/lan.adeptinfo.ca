@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Image;
 
+use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -22,6 +23,19 @@ class addImageTest extends TestCase
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'add-image')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
 
         $this->requestContent['image'] = factory('App\Model\Image')->make([
             'lan_id' => $this->lan->id
@@ -46,6 +60,20 @@ class addImageTest extends TestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'add-image')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
             ->json('POST', '/api/image', $this->requestContent)
@@ -55,6 +83,19 @@ class addImageTest extends TestCase
                 'lan_id' => $lan->id
             ])
             ->assertResponseStatus(201);
+    }
+
+    public function testAddImageHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('POST', '/api/image', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testAddImageLanIdExists(): void

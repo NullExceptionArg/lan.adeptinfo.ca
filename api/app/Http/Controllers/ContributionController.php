@@ -38,7 +38,6 @@ class ContributionController extends Controller
 
     public function createContribution(Request $request)
     {
-        // TODO Permission create-contribution
         return response()->json($this->contributionService->createContribution($request), 201);
     }
 
@@ -49,7 +48,6 @@ class ContributionController extends Controller
 
     public function deleteContribution(Request $request)
     {
-        // TODO Permission delete-contribution
         return response()->json($this->contributionService->deleteContribution($request), 200);
     }
 }

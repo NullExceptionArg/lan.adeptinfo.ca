@@ -21,7 +21,6 @@ class ImageController extends Controller
 
     public function addImage(Request $request)
     {
-        // TODO Permissions add-image
         return response()->json($this->imageService->addImage($request), 201);
     }
 
