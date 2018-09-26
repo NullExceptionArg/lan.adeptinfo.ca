@@ -26,7 +26,6 @@ class ImageController extends Controller
 
     public function deleteImages(Request $request)
     {
-        // TODO Permissions delete-image
         return response()->json($this->imageService->deleteImages($request), 200);
     }
 }

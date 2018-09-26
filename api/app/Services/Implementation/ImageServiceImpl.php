@@ -65,10 +65,12 @@ class ImageServiceImpl implements ImageService
 
         $rulesValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'images_id' => $input->input('images_id')
+            'images_id' => $input->input('images_id'),
+            'permission' => 'delete-image'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'images_id' => ['required', 'string', new ManyImageIdsExist]
+            'images_id' => ['required', 'string', new ManyImageIdsExist],
+            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
         ]);
 
         if ($rulesValidator->fails()) {
