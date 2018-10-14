@@ -30,6 +30,19 @@ class CreateLanRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'create-lan-role')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
         $this->requestContent['lan_id'] = $this->lan->id;
         $this->requestContent['permissions'] = Permission::inRandomOrder()
             ->where('can_be_per_lan', true)
@@ -51,6 +64,19 @@ class CreateLanRoleTest extends TestCase
                 'fr_description' => $this->requestContent['fr_description']
             ])
             ->assertResponseStatus(201);
+    }
+
+    public function testCreateLanRoleLanHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('POST', '/api/role/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testCreateLanRoleLanIdExists(): void

@@ -29,7 +29,6 @@ class LanController extends Controller
 
     public function edit(Request $request)
     {
-        // TODO Permission edit-lan
         return response()->json($this->lanService->edit($request), 200);
     }
 

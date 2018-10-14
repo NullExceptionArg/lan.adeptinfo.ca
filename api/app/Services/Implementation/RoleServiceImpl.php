@@ -7,9 +7,11 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Rules\ArrayOfInteger;
 use App\Rules\ElementsInArrayExistInPermission;
+use App\Rules\HasPermission;
 use App\Rules\PermissionsCanBePerLan;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -44,7 +46,8 @@ class RoleServiceImpl implements RoleService
             'en_description' => $input->input('en_description'),
             'fr_display_name' => $input->input('fr_display_name'),
             'fr_description' => $input->input('fr_description'),
-            'permissions' => $input->input('permissions')
+            'permissions' => $input->input('permissions'),
+            'permission' => 'create-lan-role',
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'name' => 'required|string|max:50|unique:lan_role,name',
@@ -53,6 +56,7 @@ class RoleServiceImpl implements RoleService
             'fr_display_name' => 'required|string|max:70',
             'fr_description' => 'required|string|max:1000',
             'permissions' => ['required', 'array', new ArrayOfInteger, new ElementsInArrayExistInPermission, new PermissionsCanBePerLan],
+            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
         ]);
 
         if ($roleValidator->fails()) {

@@ -3,6 +3,7 @@
 namespace Tests\Unit\Service\Role;
 
 use App\Model\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -41,6 +42,21 @@ class CreateLanRoleTest extends TestCase
             ->take(5)
             ->pluck('id')
             ->toArray();
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'create-lan-role')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
+        $this->be($this->user);
     }
 
     public function testCreateLanRoleTest(): void
@@ -54,6 +70,19 @@ class CreateLanRoleTest extends TestCase
         $this->assertEquals($this->paramsContent['en_description'], $result->en_description);
         $this->assertEquals($this->paramsContent['fr_display_name'], $result->fr_display_name);
         $this->assertEquals($this->paramsContent['fr_description'], $result->fr_description);
+    }
+
+    public function testCreateLanRoleLanHasPermission(): void
+    {
+        $user = $this->user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request($this->paramsContent);
+        try {
+            $this->roleService->createLanRole($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
     }
 
     public function testCreateLanRoleLanIdExists(): void
