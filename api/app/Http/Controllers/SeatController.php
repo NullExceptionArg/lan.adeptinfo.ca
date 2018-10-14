@@ -28,7 +28,6 @@ class SeatController extends Controller
 
     public function confirmArrival(Request $request, string $seatId)
     {
-        // TODO Permissions confirm-arrival
         return response()->json($this->seatService->confirmArrival($request, $seatId), 200);
     }
 
