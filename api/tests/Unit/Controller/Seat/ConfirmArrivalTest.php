@@ -24,7 +24,6 @@ class ConfirmArrivalTest extends SeatsTestCase
         $role = factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id
         ]);
-
         $permission = Permission::where('name', 'confirm-arrival')->first();
         factory('App\Model\PermissionLanRole')->create([
             'role_id' => $role->id,

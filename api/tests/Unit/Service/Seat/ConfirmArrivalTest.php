@@ -3,6 +3,7 @@
 namespace Tests\Unit\Service\Seat;
 
 use App\Model\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
@@ -63,14 +64,13 @@ class ConfirmArrivalTest extends SeatsTestCase
         $user = factory('App\Model\User')->create();
         $this->be($user);
         $request = new Request([
-            'lan_id' => -1
+            'lan_id' => $this->lan->id
         ]);
         try {
             $this->seatService->confirmArrival($request, env('SEAT_ID'));
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
         }
     }
 

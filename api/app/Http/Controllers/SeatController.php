@@ -33,7 +33,6 @@ class SeatController extends Controller
 
     public function unConfirmArrival(Request $request, string $seatId)
     {
-        // TODO Permissions unconfirm-arrival
         return response()->json($this->seatService->unConfirmArrival($request, $seatId), 200);
     }
 
