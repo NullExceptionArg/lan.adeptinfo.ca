@@ -38,7 +38,6 @@ class SeatController extends Controller
 
     public function assignSeat(Request $request, string $seatId)
     {
-        // TODO Permissions assign-seat
         return response()->json($this->seatService->assign($request, $seatId), 201);
     }
 
