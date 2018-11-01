@@ -48,7 +48,6 @@ class SeatController extends Controller
 
     public function unAssignSeat(Request $request, string $seatId)
     {
-        // TODO Permissions unassign-seat
         return response()->json($this->seatService->unAssign($request, $seatId), 200);
     }
 }

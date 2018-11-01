@@ -276,7 +276,8 @@ class SeatServiceImpl implements SeatService
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'user_email' => $input->input('user_email'),
-            'seat_id' => $seatId
+            'seat_id' => $seatId,
+            'permission' => 'unassign-seat',
         ], [
             'user_email' => 'exists:user,email',
             'lan_id' => [
@@ -290,6 +291,7 @@ class SeatServiceImpl implements SeatService
                 new SeatExistInLanSeatIo($input->input('lan_id')),
                 new SeatLanRelationExists($input->input('lan_id'))
             ],
+            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
