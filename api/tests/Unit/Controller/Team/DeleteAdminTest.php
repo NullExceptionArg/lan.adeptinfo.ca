@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Team;
 
+use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -39,7 +40,33 @@ class DeleteAdminTest extends TestCase
             'tournament_id' => $this->tournament->id
         ]);
 
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-team')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->organizer->id
+        ]);
+
         $this->requestContent['team_id'] = $this->team->id;
+    }
+
+    public function testDeleteAdminHasPermission(): void
+    {
+        $admin = factory('App\Model\User')->create();
+        $this->actingAs($admin)
+            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testDeleteAdmin(): void
@@ -72,6 +99,24 @@ class DeleteAdminTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testDeleteAdminLanHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        factory('App\Model\OrganizerTournament')->create([
+            'organizer_id' => $user->id,
+            'tournament_id' => $this->tournament->id
+        ]);
+
+        $this->actingAs($user)
+            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
     public function testDeleteAdminTeamIdExist(): void
     {
         $this->requestContent['team_id'] = -1;
@@ -92,6 +137,18 @@ class DeleteAdminTest extends TestCase
     public function testDeleteAdminTeamIdUserIsTournamentAdmin(): void
     {
         $user = factory('App\Model\User')->create();
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-team')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $user->id
+        ]);
         $this->actingAs($user)
             ->json('DELETE', '/api/team/admin', $this->requestContent)
             ->seeJsonEquals([

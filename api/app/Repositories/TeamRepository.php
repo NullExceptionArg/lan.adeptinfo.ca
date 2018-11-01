@@ -51,4 +51,6 @@ interface TeamRepository
     public function findTagById(int $id): ?Tag;
 
     public function deleteTagTeam(Tag $tag, Team $team): void;
+
+    public function getTeamsLanId(int $teamId): ?int;
 }

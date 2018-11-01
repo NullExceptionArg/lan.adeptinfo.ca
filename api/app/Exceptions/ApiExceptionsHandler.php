@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exceptions;
 
 use Dingo\Api\Exception\Handler as DingoHandler;
@@ -21,7 +22,7 @@ class ApiExceptionsHandler extends DingoHandler
         $success = false;
         $response = null;
         $status = Response::HTTP_INTERNAL_SERVER_ERROR;
-        if($e instanceof BadRequestHttpException) {
+        if ($e instanceof BadRequestHttpException) {
             $status = Response::HTTP_BAD_REQUEST;
             $e = new BadRequestHttpException($e->getMessage());
         } elseif ($e instanceof HttpResponseException) {

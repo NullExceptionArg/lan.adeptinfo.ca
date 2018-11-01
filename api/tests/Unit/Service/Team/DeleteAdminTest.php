@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\Service\Team;
 
+use App\Model\Permission;
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -45,6 +47,19 @@ class DeleteAdminTest extends TestCase
             'tournament_id' => $this->tournament->id
         ]);
 
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-team')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->organizer->id
+        ]);
+
         $this->requestContent['team_id'] = $this->team->id;
         $this->be($this->organizer);
     }
@@ -58,6 +73,19 @@ class DeleteAdminTest extends TestCase
         $this->assertEquals($this->team->name, $result->name);
         $this->assertEquals($this->team->tag, $result->tag);
         $this->assertEquals($this->team->tournament_id, $result->tournament_id);
+    }
+
+    public function testDeleteAdminHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request($this->requestContent);
+        try {
+            $this->teamService->deleteAdmin($request, env('SEAT_ID'));
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
     }
 
     public function testDeleteAdminTeamIdInteger(): void
@@ -89,6 +117,18 @@ class DeleteAdminTest extends TestCase
     public function testDeleteAdminTeamIdUserIsTournamentAdmin(): void
     {
         $user = factory('App\Model\User')->create();
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-team')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $user->id
+        ]);
         $this->be($user);
         $request = new Request($this->requestContent);
         try {
