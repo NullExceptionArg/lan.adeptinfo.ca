@@ -21,7 +21,6 @@ class TournamentController extends Controller
 
     public function createTournament(Request $request)
     {
-        // TODO Permissions create-tournament
         return response()->json($this->tournamentService->create($request), 201);
     }
 
