@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Lan;
 
+use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -15,6 +16,17 @@ class SetCurrentLanTest extends TestCase
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
+
+        $role = factory('App\Model\GlobalRole')->create();
+        $permission = Permission::where('name', 'set-current-lan')->first();
+        factory('App\Model\PermissionGlobalRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
     }
 
     public function testSetCurrentLanNoCurrentLan(): void
@@ -27,6 +39,22 @@ class SetCurrentLanTest extends TestCase
 
         $this->assertEquals($lan->id, $response->content());
         $this->assertEquals(200, $response->status());
+    }
+
+    public function testSetCurrentLanHasPermission(): void
+    {
+        $lan = factory('App\Model\Lan')->create();
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('POST', '/api/lan/current', [
+                'lan_id' => $lan->id
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testSetCurrentLanHasCurrentLan(): void

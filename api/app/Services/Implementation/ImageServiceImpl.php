@@ -6,7 +6,7 @@ namespace App\Services\Implementation;
 use App\Model\Image;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
-use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\ManyImageIdsExist;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class ImageServiceImpl implements ImageService
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'image' => 'required|string',
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($rulesValidator->fails()) {
@@ -70,7 +70,7 @@ class ImageServiceImpl implements ImageService
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'images_id' => ['required', 'string', new ManyImageIdsExist],
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($rulesValidator->fails()) {

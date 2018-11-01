@@ -8,7 +8,7 @@ use App\Model\ContributionCategory;
 use App\Repositories\Implementation\ContributionRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
-use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\OneOfTwoFields;
 use App\Services\ContributionService;
 use Illuminate\Database\Eloquent\Collection;
@@ -56,7 +56,7 @@ class ContributionServiceImpl implements ContributionService
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'name' => 'required|string',
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($categoryValidator->fails()) {
@@ -109,7 +109,7 @@ class ContributionServiceImpl implements ContributionService
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -153,7 +153,7 @@ class ContributionServiceImpl implements ContributionService
                 'exists:user,email',
                 new OneOfTwoFields($input->input('user_full_name'), 'user_full_name')
             ],
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($contributionValidator->fails()) {
@@ -217,7 +217,7 @@ class ContributionServiceImpl implements ContributionService
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL',
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($contributionValidator->fails()) {

@@ -7,7 +7,7 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Rules\ArrayOfInteger;
 use App\Rules\ElementsInArrayExistInPermission;
-use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\PermissionsCanBePerLan;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
@@ -56,7 +56,7 @@ class RoleServiceImpl implements RoleService
             'fr_display_name' => 'required|string|max:70',
             'fr_description' => 'required|string|max:1000',
             'permissions' => ['required', 'array', new ArrayOfInteger, new ElementsInArrayExistInPermission, new PermissionsCanBePerLan],
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($roleValidator->fails()) {

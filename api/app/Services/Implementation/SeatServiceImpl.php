@@ -6,7 +6,7 @@ use App\Model\Reservation;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
-use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\SeatExistInLanSeatIo;
 use App\Rules\SeatLanRelationExists;
 use App\Rules\SeatNotArrivedSeatIo;
@@ -113,7 +113,7 @@ class SeatServiceImpl implements SeatService
                 new SeatNotArrivedSeatIo($input->input('lan_id')),
                 new SeatLanRelationExists($input->input('lan_id'))
             ],
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -155,7 +155,7 @@ class SeatServiceImpl implements SeatService
                 new SeatExistInLanSeatIo($input->input('lan_id')),
                 new SeatLanRelationExists($input->input('lan_id'))
             ],
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -201,7 +201,7 @@ class SeatServiceImpl implements SeatService
                 new SeatOncePerLanSeatIo($input->input('lan_id')),
                 new SeatExistInLanSeatIo($input->input('lan_id'))
             ],
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -291,7 +291,7 @@ class SeatServiceImpl implements SeatService
                 new SeatExistInLanSeatIo($input->input('lan_id')),
                 new SeatLanRelationExists($input->input('lan_id'))
             ],
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {

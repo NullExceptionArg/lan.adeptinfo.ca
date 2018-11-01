@@ -12,7 +12,7 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TagRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
-use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\Team\RequestBelongsInTeam;
 use App\Rules\Team\TagBelongsInTeam;
 use App\Rules\Team\TagBelongsToUser;
@@ -304,7 +304,7 @@ class TeamServiceImpl implements TeamService
             'permission' => 'delete-team'
         ], [
             'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTournamentAdmin],
-            'permission' => new HasPermission($lanId, Auth::id())
+            'permission' => new HasPermissionInLan($lanId, Auth::id())
         ]);
 
         if ($teamValidator->fails()) {

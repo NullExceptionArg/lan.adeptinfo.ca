@@ -9,7 +9,7 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
-use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
 use App\Tournament\Rules\UserIsTournamentAdmin;
@@ -67,7 +67,7 @@ class TournamentServiceImpl implements TournamentService
             'players_to_reach' => 'required|min:1|integer',
             'teams_to_reach' => 'required|min:1|integer',
             'rules' => 'required|string',
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -144,7 +144,7 @@ class TournamentServiceImpl implements TournamentService
             'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
             'teams_to_reach' => 'min:1|integer',
             'rules' => 'string',
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -192,7 +192,7 @@ class TournamentServiceImpl implements TournamentService
             'permission' => 'delete-tournament'
         ], [
             'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
-            'permission' => new HasPermission($lanId, Auth::id())
+            'permission' => new HasPermissionInLan($lanId, Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -213,7 +213,7 @@ class TournamentServiceImpl implements TournamentService
             'permission' => 'quit-tournament'
         ], [
             'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
-            'permission' => new HasPermission($lanId, Auth::id())
+            'permission' => new HasPermissionInLan($lanId, Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {

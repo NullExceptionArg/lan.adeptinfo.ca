@@ -2,9 +2,11 @@
 
 namespace Tests\Unit\Service\Lan;
 
+use App\Model\Permission;
 use DateInterval;
 use DateTime;
 use Exception;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -15,6 +17,8 @@ class CreateTest extends TestCase
     protected $lanService;
 
     use DatabaseMigrations;
+
+    protected $user;
 
     protected $paramsContent = [
         'name' => "Bolshevik Revolution",
@@ -41,6 +45,21 @@ class CreateTest extends TestCase
         $this->paramsContent['event_key'] = env('EVENT_KEY');
         $this->paramsContent['secret_key'] = env('SECRET_KEY');
         $this->paramsContent['public_key'] = env('PUBLIC_KEY');
+
+        $this->user = factory('App\Model\User')->create();
+
+        $role = factory('App\Model\GlobalRole')->create();
+        $permission = Permission::where('name', 'create-lan')->first();
+        factory('App\Model\PermissionGlobalRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
+        $this->be($this->user);
     }
 
     public function testCreate(): void
@@ -63,6 +82,20 @@ class CreateTest extends TestCase
         $this->assertEquals($this->paramsContent['price'], $result->price);
         $this->assertEquals($this->paramsContent['rules'], $result->rules);
         $this->assertEquals($this->paramsContent['description'], $result->description);
+    }
+
+    public function testCreateHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request($this->paramsContent);
+
+        try {
+            $this->lanService->create($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
     }
 
     public function testCreateHasCurrentLan(): void

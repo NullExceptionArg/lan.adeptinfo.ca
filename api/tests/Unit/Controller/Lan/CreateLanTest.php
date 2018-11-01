@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Lan;
 
+use App\Model\Permission;
 use DateInterval;
 use DateTime;
 use Exception;
@@ -40,6 +41,17 @@ class CreateLanTest extends TestCase
         $this->requestContent['public_key'] = env('PUBLIC_KEY');
 
         $this->user = factory('App\Model\User')->create();
+
+        $role = factory('App\Model\GlobalRole')->create();
+        $permission = Permission::where('name', 'create-lan')->first();
+        factory('App\Model\PermissionGlobalRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
     }
 
 
@@ -66,6 +78,19 @@ class CreateLanTest extends TestCase
                 "id" => 1
             ])
             ->assertResponseStatus(201);
+    }
+
+    public function testCreateLanHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('POST', '/api/lan', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testCreateLanHasCurrentLan(): void

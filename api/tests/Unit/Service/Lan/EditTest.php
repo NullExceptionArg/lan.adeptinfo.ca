@@ -67,7 +67,7 @@ class EditTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testEdit(): void
+    public function testEditHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);
@@ -81,7 +81,7 @@ class EditTest extends TestCase
         }
     }
 
-    public function testEditHasPermission(): void
+    public function testEdit(): void
     {
 
         $request = new Request($this->paramsContent);

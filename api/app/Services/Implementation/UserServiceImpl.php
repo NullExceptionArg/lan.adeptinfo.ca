@@ -14,7 +14,7 @@ use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\FacebookEmailPermission;
-use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\UniqueEmailSocialLogin;
 use App\Rules\ValidFacebookToken;
 use App\Rules\ValidGoogleToken;
@@ -289,7 +289,7 @@ class UserServiceImpl implements UserService
             'permission' => 'admin-summary'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($userValidator->fails()) {
