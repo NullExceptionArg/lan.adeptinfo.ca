@@ -14,6 +14,7 @@ use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\FacebookEmailPermission;
+use App\Rules\HasPermission;
 use App\Rules\UniqueEmailSocialLogin;
 use App\Rules\ValidFacebookToken;
 use App\Rules\ValidGoogleToken;
@@ -284,9 +285,11 @@ class UserServiceImpl implements UserService
         }
 
         $userValidator = Validator::make([
-            'lan_id' => $input->input('lan_id')
+            'lan_id' => $input->input('lan_id'),
+            'permission' => 'admin-summary'
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
         ]);
 
         if ($userValidator->fails()) {

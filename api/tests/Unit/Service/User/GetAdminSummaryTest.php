@@ -28,7 +28,20 @@ class GetAdminSummaryTest extends TestCase
     public function testGetAdminSummary(): void
     {
         $lan = factory('App\Model\Lan')->create();
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'admin-summary')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
         $permissions = Permission::inRandomOrder()
+            ->where('name', '!=', 'admin-summary')
             ->take(8)
             ->get();
         $lanRole = factory('App\Model\LanRole')->create([
@@ -65,45 +78,50 @@ class GetAdminSummaryTest extends TestCase
         $this->assertEquals($this->user->first_name, $result['first_name']);
         $this->assertEquals($this->user->last_name, $result['last_name']);
 
-        $this->assertEquals($permissions[0]->id, $permissionsResult[0]['id']);
-        $this->assertEquals($permissions[0]->name, $permissionsResult[0]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[0]->name), $permissionsResult[0]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[0]->name), $permissionsResult[0]['description']);
+        $this->assertEquals($permission->id, $permissionsResult[0]['id']);
+        $this->assertEquals($permission->name, $permissionsResult[0]['name']);
+        $this->assertEquals(trans('permission.display-name-admin-summary'), $permissionsResult[0]['display_name']);
+        $this->assertEquals(trans('permission.description-admin-summary'), $permissionsResult[0]['description']);
 
-        $this->assertEquals($permissions[1]->id, $permissionsResult[1]['id']);
-        $this->assertEquals($permissions[1]->name, $permissionsResult[1]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[1]->name), $permissionsResult[1]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[1]->name), $permissionsResult[1]['description']);
+        $this->assertEquals($permissions[0]->id, $permissionsResult[1]['id']);
+        $this->assertEquals($permissions[0]->name, $permissionsResult[1]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[0]->name), $permissionsResult[1]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[0]->name), $permissionsResult[1]['description']);
 
-        $this->assertEquals($permissions[2]->id, $permissionsResult[2]['id']);
-        $this->assertEquals($permissions[2]->name, $permissionsResult[2]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[2]->name), $permissionsResult[2]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[2]->name), $permissionsResult[2]['description']);
+        $this->assertEquals($permissions[1]->id, $permissionsResult[2]['id']);
+        $this->assertEquals($permissions[1]->name, $permissionsResult[2]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[1]->name), $permissionsResult[2]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[1]->name), $permissionsResult[2]['description']);
 
-        $this->assertEquals($permissions[3]->id, $permissionsResult[3]['id']);
-        $this->assertEquals($permissions[3]->name, $permissionsResult[3]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[3]->name), $permissionsResult[3]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[3]->name), $permissionsResult[3]['description']);
+        $this->assertEquals($permissions[2]->id, $permissionsResult[3]['id']);
+        $this->assertEquals($permissions[2]->name, $permissionsResult[3]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[2]->name), $permissionsResult[3]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[2]->name), $permissionsResult[3]['description']);
 
-        $this->assertEquals($permissions[4]->id, $permissionsResult[4]['id']);
-        $this->assertEquals($permissions[4]->name, $permissionsResult[4]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[4]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[4]['description']);
+        $this->assertEquals($permissions[3]->id, $permissionsResult[4]['id']);
+        $this->assertEquals($permissions[3]->name, $permissionsResult[4]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[3]->name), $permissionsResult[4]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[3]->name), $permissionsResult[4]['description']);
 
-        $this->assertEquals($permissions[5]->id, $permissionsResult[5]['id']);
-        $this->assertEquals($permissions[5]->name, $permissionsResult[5]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[5]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[5]['description']);
+        $this->assertEquals($permissions[4]->id, $permissionsResult[5]['id']);
+        $this->assertEquals($permissions[4]->name, $permissionsResult[5]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[5]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[5]['description']);
 
-        $this->assertEquals($permissions[6]->id, $permissionsResult[6]['id']);
-        $this->assertEquals($permissions[6]->name, $permissionsResult[6]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[6]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[6]['description']);
+        $this->assertEquals($permissions[5]->id, $permissionsResult[6]['id']);
+        $this->assertEquals($permissions[5]->name, $permissionsResult[6]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[6]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[6]['description']);
 
-        $this->assertEquals($permissions[7]->id, $permissionsResult[7]['id']);
-        $this->assertEquals($permissions[7]->name, $permissionsResult[7]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[7]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[7]['description']);
+        $this->assertEquals($permissions[6]->id, $permissionsResult[7]['id']);
+        $this->assertEquals($permissions[6]->name, $permissionsResult[7]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[7]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[7]['description']);
+
+        $this->assertEquals($permissions[7]->id, $permissionsResult[8]['id']);
+        $this->assertEquals($permissions[7]->name, $permissionsResult[8]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[8]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[8]['description']);
     }
 
     public function testGetAdminSummaryCurrentLan(): void
@@ -111,7 +129,20 @@ class GetAdminSummaryTest extends TestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'admin-summary')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
         $permissions = Permission::inRandomOrder()
+            ->where('name', '!=', 'admin-summary')
             ->take(8)
             ->get();
         $lanRole = factory('App\Model\LanRole')->create([
@@ -148,45 +179,50 @@ class GetAdminSummaryTest extends TestCase
         $this->assertEquals($this->user->first_name, $result['first_name']);
         $this->assertEquals($this->user->last_name, $result['last_name']);
 
-        $this->assertEquals($permissions[0]->id, $permissionsResult[0]['id']);
-        $this->assertEquals($permissions[0]->name, $permissionsResult[0]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[0]->name), $permissionsResult[0]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[0]->name), $permissionsResult[0]['description']);
+        $this->assertEquals($permission->id, $permissionsResult[0]['id']);
+        $this->assertEquals($permission->name, $permissionsResult[0]['name']);
+        $this->assertEquals(trans('permission.display-name-admin-summary'), $permissionsResult[0]['display_name']);
+        $this->assertEquals(trans('permission.description-admin-summary'), $permissionsResult[0]['description']);
 
-        $this->assertEquals($permissions[1]->id, $permissionsResult[1]['id']);
-        $this->assertEquals($permissions[1]->name, $permissionsResult[1]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[1]->name), $permissionsResult[1]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[1]->name), $permissionsResult[1]['description']);
+        $this->assertEquals($permissions[0]->id, $permissionsResult[1]['id']);
+        $this->assertEquals($permissions[0]->name, $permissionsResult[1]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[0]->name), $permissionsResult[1]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[0]->name), $permissionsResult[1]['description']);
 
-        $this->assertEquals($permissions[2]->id, $permissionsResult[2]['id']);
-        $this->assertEquals($permissions[2]->name, $permissionsResult[2]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[2]->name), $permissionsResult[2]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[2]->name), $permissionsResult[2]['description']);
+        $this->assertEquals($permissions[1]->id, $permissionsResult[2]['id']);
+        $this->assertEquals($permissions[1]->name, $permissionsResult[2]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[1]->name), $permissionsResult[2]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[1]->name), $permissionsResult[2]['description']);
 
-        $this->assertEquals($permissions[3]->id, $permissionsResult[3]['id']);
-        $this->assertEquals($permissions[3]->name, $permissionsResult[3]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[3]->name), $permissionsResult[3]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[3]->name), $permissionsResult[3]['description']);
+        $this->assertEquals($permissions[2]->id, $permissionsResult[3]['id']);
+        $this->assertEquals($permissions[2]->name, $permissionsResult[3]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[2]->name), $permissionsResult[3]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[2]->name), $permissionsResult[3]['description']);
 
-        $this->assertEquals($permissions[4]->id, $permissionsResult[4]['id']);
-        $this->assertEquals($permissions[4]->name, $permissionsResult[4]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[4]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[4]['description']);
+        $this->assertEquals($permissions[3]->id, $permissionsResult[4]['id']);
+        $this->assertEquals($permissions[3]->name, $permissionsResult[4]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[3]->name), $permissionsResult[4]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[3]->name), $permissionsResult[4]['description']);
 
-        $this->assertEquals($permissions[5]->id, $permissionsResult[5]['id']);
-        $this->assertEquals($permissions[5]->name, $permissionsResult[5]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[5]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[5]['description']);
+        $this->assertEquals($permissions[4]->id, $permissionsResult[5]['id']);
+        $this->assertEquals($permissions[4]->name, $permissionsResult[5]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[5]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[5]['description']);
 
-        $this->assertEquals($permissions[6]->id, $permissionsResult[6]['id']);
-        $this->assertEquals($permissions[6]->name, $permissionsResult[6]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[6]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[6]['description']);
+        $this->assertEquals($permissions[5]->id, $permissionsResult[6]['id']);
+        $this->assertEquals($permissions[5]->name, $permissionsResult[6]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[6]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[6]['description']);
 
-        $this->assertEquals($permissions[7]->id, $permissionsResult[7]['id']);
-        $this->assertEquals($permissions[7]->name, $permissionsResult[7]['name']);
-        $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[7]['display_name']);
-        $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[7]['description']);
+        $this->assertEquals($permissions[6]->id, $permissionsResult[7]['id']);
+        $this->assertEquals($permissions[6]->name, $permissionsResult[7]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[7]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[7]['description']);
+
+        $this->assertEquals($permissions[7]->id, $permissionsResult[8]['id']);
+        $this->assertEquals($permissions[7]->name, $permissionsResult[8]['name']);
+        $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[8]['display_name']);
+        $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[8]['description']);
     }
 
     public function testGetAdminSummaryLanIdExist(): void
