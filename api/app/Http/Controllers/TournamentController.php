@@ -26,7 +26,6 @@ class TournamentController extends Controller
 
     public function edit(Request $request, string $tournamentId)
     {
-        // TODO Permissions edit-tournament
         return response()->json($this->tournamentService->edit($request, $tournamentId), 200);
     }
 

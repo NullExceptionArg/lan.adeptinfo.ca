@@ -133,6 +133,7 @@ class TournamentServiceImpl implements TournamentService
             'players_to_reach' => $input->input('players_to_reach'),
             'teams_to_reach' => $input->input('teams_to_reach'),
             'rules' => $input->input('rules'),
+            'permission' => 'edit-tournament'
         ], [
             'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
             'name' => 'string|max:255',
@@ -142,7 +143,8 @@ class TournamentServiceImpl implements TournamentService
             'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($input->input('lan_id'))],
             'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
             'teams_to_reach' => 'min:1|integer',
-            'rules' => 'string'
+            'rules' => 'string',
+            'permission' => new HasPermission($input->input('lan_id'), Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
