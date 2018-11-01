@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Service\Tournament;
 
+use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -38,6 +39,19 @@ class DeleteTest extends TestCase
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
+        ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-tournament')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
         ]);
 
         $this->be($this->user);

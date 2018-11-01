@@ -123,4 +123,10 @@ class TournamentRepositoryImpl implements TournamentRepository
         return OrganizerTournament::where('tournament_id', $tournament->id)
             ->count();
     }
+
+    public function getTournamentsLanId(int $tournamentId): ?int
+    {
+        $lanId = Tournament::find($tournamentId);
+        return $lanId != null ? $lanId->lan_id : null;
+    }
 }

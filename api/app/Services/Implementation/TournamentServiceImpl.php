@@ -186,10 +186,13 @@ class TournamentServiceImpl implements TournamentService
 
     public function delete(string $tournamentId): Tournament
     {
+        $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
-            'tournament_id' => $tournamentId
+            'tournament_id' => $tournamentId,
+            'permission' => 'delete-tournament'
         ], [
-            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL'
+            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
+            'permission' => new HasPermission($lanId, Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {

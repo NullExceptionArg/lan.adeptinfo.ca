@@ -41,7 +41,6 @@ class TournamentController extends Controller
 
     public function delete(Request $request, string $tournamentId)
     {
-        // TODO Permissions delete-tournament
         return response()->json($this->tournamentService->delete($tournamentId), 200);
     }
 
