@@ -122,6 +122,18 @@ class QuitTest extends TestCase
     public function testQuitOrganizerHasTournament(): void
     {
         $user = factory('App\Model\User')->create();
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'quit-tournament')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $user->id
+        ]);
         $this->be($user);
         try {
             $this->tournamentService->quit($this->tournament->id);
