@@ -46,7 +46,6 @@ class TournamentController extends Controller
 
     public function quit(Request $request, string $tournamentId)
     {
-        // TODO Permissions quit-tournament
         return response()->json($this->tournamentService->quit($tournamentId), 200);
     }
 

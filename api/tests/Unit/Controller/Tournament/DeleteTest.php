@@ -51,6 +51,19 @@ class DeleteTest extends TestCase
         ]);
     }
 
+    public function testDeleteHasPermission(): void
+    {
+        $admin = factory('App\Model\User')->create();
+        $this->actingAs($admin)
+            ->json('DELETE', '/api/tournament/' . $this->tournament->id)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
     public function testDelete(): void
     {
         $user2 = factory('App\Model\User')->create();

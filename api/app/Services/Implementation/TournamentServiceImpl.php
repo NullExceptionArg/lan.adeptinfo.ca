@@ -207,10 +207,13 @@ class TournamentServiceImpl implements TournamentService
 
     public function quit(string $tournamentId): Tournament
     {
+        $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
-            'tournament_id' => $tournamentId
+            'tournament_id' => $tournamentId,
+            'permission' => 'quit-tournament'
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin]
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
+            'permission' => new HasPermission($lanId, Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {

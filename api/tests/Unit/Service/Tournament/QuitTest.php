@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\Service\Tournament;
 
+use App\Model\Permission;
 use Carbon\Carbon;
+use Illuminate\Auth\Access\AuthorizationException;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
@@ -38,6 +40,19 @@ class QuitTest extends TestCase
             'organizer_id' => $this->organizer->id,
             'tournament_id' => $this->tournament->id
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'quit-tournament')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->organizer->id
+        ]);
     }
 
     public function testQuit(): void
@@ -61,6 +76,18 @@ class QuitTest extends TestCase
         $this->assertEquals($this->tournament->teams_to_reach, $result->teams_to_reach);
         $this->assertEquals('hidden', $result->state);
         $this->assertEquals($this->tournament->rules, $result->rules);
+    }
+
+    public function testQuitHasPermission(): void
+    {
+        $user = $this->organizer = factory('App\Model\User')->create();
+        $this->be($user);
+        try {
+            $this->tournamentService->quit($this->tournament->id);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
     }
 
     public function testQuitLastOrganizer(): void
