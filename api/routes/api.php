@@ -93,6 +93,7 @@ $api->version('v1', function ($api) {
                 $api->delete('team/admin', 'TeamController@deleteAdmin');
 
                 $api->post('role/lan', 'RoleController@createLanRole');
+                $api->post('role/global', 'RoleController@createGlobalRole');
                 $api->get('admin/summary', 'UserController@getAdminSummary');
             });
 

@@ -3,6 +3,7 @@
 namespace App\Repositories\Implementation;
 
 
+use App\Model\GlobalRole;
 use App\Model\Lan;
 use App\Model\LanRole;
 use App\Repositories\RoleRepository;
@@ -33,9 +34,37 @@ class RoleRepositoryImpl implements RoleRepository
         return $role;
     }
 
+    public function createGlobalRole(
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription
+    ): GlobalRole
+    {
+        $role = new GlobalRole();
+        $role->name = $name;
+        $role->en_display_name = $enDisplayName;
+        $role->en_description = $enDescription;
+        $role->fr_display_name = $frDisplayName;
+        $role->fr_description = $frDescription;
+        $role->save();
+
+        return $role;
+    }
+
     public function linkPermissionIdLanRole(string $permissionId, LanRole $role): void
     {
         DB::table('permission_lan_role')
+            ->insert([
+                'permission_id' => $permissionId,
+                'role_id' => $role->id
+            ]);
+    }
+
+    public function linkPermissionIdGlobalRole(string $permissionId, GlobalRole $role): void
+    {
+        DB::table('permission_global_role')
             ->insert([
                 'permission_id' => $permissionId,
                 'role_id' => $role->id

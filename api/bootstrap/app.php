@@ -123,7 +123,7 @@ $app['translator']->setLocale(env('APP_LOCALE', 'en'));
 
 
 $app->router->group([], function () {
-    require __DIR__ . '/../routes/web.php';
+    require __DIR__ . '/../routes/api.php';
 });
 
 return $app;

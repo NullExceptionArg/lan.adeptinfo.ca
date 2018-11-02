@@ -2,11 +2,13 @@
 
 namespace App\Services\Implementation;
 
+use App\Model\GlobalRole;
 use App\Model\LanRole;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Rules\ArrayOfInteger;
 use App\Rules\ElementsInArrayExistInPermission;
+use App\Rules\HasPermission;
 use App\Rules\HasPermissionInLan;
 use App\Rules\PermissionsCanBePerLan;
 use App\Services\RoleService;
@@ -74,6 +76,45 @@ class RoleServiceImpl implements RoleService
 
         foreach ($input->input('permissions') as $permissionId) {
             $this->roleRepository->linkPermissionIdLanRole($permissionId, $role);
+        }
+
+        return $role;
+    }
+
+    public function createGlobalRole(Request $input): GlobalRole
+    {
+        $roleValidator = Validator::make([
+            'name' => $input->input('name'),
+            'en_display_name' => $input->input('en_display_name'),
+            'en_description' => $input->input('en_description'),
+            'fr_display_name' => $input->input('fr_display_name'),
+            'fr_description' => $input->input('fr_description'),
+            'permissions' => $input->input('permissions'),
+            'permission' => 'create-global-role',
+        ], [
+            'name' => 'required|string|max:50|unique:global_role,name',
+            'en_display_name' => 'required|string|max:70',
+            'en_description' => 'required|string|max:1000',
+            'fr_display_name' => 'required|string|max:70',
+            'fr_description' => 'required|string|max:1000',
+            'permissions' => ['required', 'array', new ArrayOfInteger, new ElementsInArrayExistInPermission],
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->createGlobalRole(
+            $input->input('name'),
+            $input->input('en_display_name'),
+            $input->input('en_description'),
+            $input->input('fr_display_name'),
+            $input->input('fr_description')
+        );
+
+        foreach ($input->input('permissions') as $permissionId) {
+            $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $role);
         }
 
         return $role;
