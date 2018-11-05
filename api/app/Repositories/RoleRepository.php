@@ -33,4 +33,8 @@ interface RoleRepository
     public function linkPermissionIdGlobalRole(string $permissionId, GlobalRole $role): void;
 
     public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection;
+
+    public function findLanRoleById(int $id): ?LanRole;
+
+    public function findGlobalRoleById(int $id): ?GlobalRole;
 }

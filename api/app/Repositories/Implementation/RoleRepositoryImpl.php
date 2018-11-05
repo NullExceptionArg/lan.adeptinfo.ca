@@ -71,6 +71,16 @@ class RoleRepositoryImpl implements RoleRepository
             ]);
     }
 
+    public function findLanRoleById(int $id): ?LanRole
+    {
+        return LanRole::find($id);
+    }
+
+    public function findGlobalRoleById(int $id): ?GlobalRole
+    {
+        return GlobalRole::find($id);
+    }
+
     public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection
     {
         $lanPermissions = DB::table('permission')

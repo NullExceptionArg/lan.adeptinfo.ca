@@ -6,6 +6,7 @@ use App\Model\GlobalRole;
 use App\Model\LanRole;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\RoleRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\ArrayOfInteger;
 use App\Rules\ElementsInArrayExistInPermission;
 use App\Rules\HasPermission;
@@ -21,16 +22,19 @@ class RoleServiceImpl implements RoleService
 {
     protected $roleRepository;
     protected $lanRepository;
+    protected $userRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param RoleRepositoryImpl $roleRepository
      * @param LanRepositoryImpl $lanRepository
+     * @param UserRepositoryImpl $userRepository
      */
-    public function __construct(RoleRepositoryImpl $roleRepository, LanRepositoryImpl $lanRepository)
+    public function __construct(RoleRepositoryImpl $roleRepository, LanRepositoryImpl $lanRepository, UserRepositoryImpl $userRepository)
     {
         $this->roleRepository = $roleRepository;
         $this->lanRepository = $lanRepository;
+        $this->$userRepository = $userRepository;
     }
 
     public function createLanRole(Request $input): LanRole
@@ -81,6 +85,36 @@ class RoleServiceImpl implements RoleService
         return $role;
     }
 
+    public function assignLanRole(Request $input): LanRole
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $roleValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'email' => $input->input('email'),
+            'role_id' => $input->input('role_id'),
+            'permission' => 'create-global-role',
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'email' => 'required|exists:user,email',
+            'role_id' => 'integer|exists:role,id',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+        $user = $this->userRepository->findByEmail($input->input('email'));
+
+        return $role;
+    }
+
     public function createGlobalRole(Request $input): GlobalRole
     {
         $roleValidator = Validator::make([
@@ -118,6 +152,11 @@ class RoleServiceImpl implements RoleService
         }
 
         return $role;
+    }
+
+    public function assignGlobalRole(Request $input): GlobalRole
+    {
+
     }
 
 }
