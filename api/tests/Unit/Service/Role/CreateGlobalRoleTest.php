@@ -57,7 +57,6 @@ class CreateGlobalRoleTest extends TestCase
         $request = new Request($this->paramsContent);
         $result = $this->roleService->createGlobalRole($request);
 
-        $this->assertEquals($this->paramsContent['lan_id'], $result->lan_id);
         $this->assertEquals($this->paramsContent['name'], $result->name);
         $this->assertEquals($this->paramsContent['en_display_name'], $result->en_display_name);
         $this->assertEquals($this->paramsContent['en_description'], $result->en_description);
