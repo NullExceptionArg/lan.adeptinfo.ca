@@ -17,9 +17,9 @@ class CreateTableGlobalRole extends Migration
             $table->increments('id');
             $table->string('name')->unique();
             $table->string('en_display_name');
-            $table->string('en_description');
+            $table->string('en_description', 500);
             $table->string('fr_display_name');
-            $table->string('fr_description');
+            $table->string('fr_description', 500);
             $table->timestamps();
         });
     }

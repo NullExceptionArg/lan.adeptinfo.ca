@@ -62,11 +62,29 @@ class RoleRepositoryImpl implements RoleRepository
             ]);
     }
 
+    public function linkLanRoleUser(LanRole $role, Authenticatable $user): void
+    {
+        DB::table('lan_role_user')
+            ->insert([
+                'user_id' => $user->id,
+                'role_id' => $role->id
+            ]);
+    }
+
     public function linkPermissionIdGlobalRole(string $permissionId, GlobalRole $role): void
     {
         DB::table('permission_global_role')
             ->insert([
                 'permission_id' => $permissionId,
+                'role_id' => $role->id
+            ]);
+    }
+
+    public function linkGlobalRoleUser(GlobalRole $role, Authenticatable $user): void
+    {
+        DB::table('global_role_user')
+            ->insert([
+                'user_id' => $user->id,
                 'role_id' => $role->id
             ]);
     }

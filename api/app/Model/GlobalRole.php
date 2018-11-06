@@ -15,8 +15,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class GlobalRole extends Model
 {
-    use SoftDeletes;
-
     protected $table = 'global_role';
 
     /**

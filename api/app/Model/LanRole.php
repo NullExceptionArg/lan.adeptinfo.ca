@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * @property int id
  * @property int lan_id
  * @property string name
  * @property string en_display_name
@@ -15,8 +16,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class LanRole extends Model
 {
-    use SoftDeletes;
-
     protected $table = 'lan_role';
 
     /**
