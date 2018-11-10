@@ -36,7 +36,7 @@ class CreateGlobalRoleTest extends TestCase
             ->toArray();
     }
 
-    public function testCreateGlobalRoleTest(): void
+    public function testCreateGlobalRole(): void
     {
         $this->notSeeInDatabase('global_role', [
             'name' => $this->paramsContent['name'],
