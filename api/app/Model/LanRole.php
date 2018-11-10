@@ -26,4 +26,8 @@ class LanRole extends Model
     protected $dates = ['deleted_at'];
 
     protected $hidden = ['id', 'deleted_at', 'created_at', 'updated_at'];
+
+    protected $casts = [
+        'id' => 'integer'
+    ];
 }

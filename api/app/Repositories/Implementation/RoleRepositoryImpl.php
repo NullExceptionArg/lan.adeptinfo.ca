@@ -6,6 +6,8 @@ namespace App\Repositories\Implementation;
 use App\Model\GlobalRole;
 use App\Model\Lan;
 use App\Model\LanRole;
+use App\Model\PermissionGlobalRole;
+use App\Model\PermissionLanRole;
 use App\Repositories\RoleRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
@@ -34,6 +36,25 @@ class RoleRepositoryImpl implements RoleRepository
         return $role;
     }
 
+    public function editLanRole(
+        LanRole $role,
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
+    ): LanRole
+    {
+        $role->name = $name != null ? $name : $role->name;
+        $role->en_display_name = $enDisplayName != null ? $enDisplayName : $role->en_display_name;
+        $role->en_description = $enDescription != null ? $enDescription : $role->en_description;
+        $role->fr_display_name = $frDisplayName != null ? $frDisplayName : $role->fr_display_name;
+        $role->fr_description = $frDescription != null ? $frDescription : $role->fr_description;
+        $role->save();
+
+        return $role;
+    }
+
     public function createGlobalRole(
         string $name,
         string $enDisplayName,
@@ -48,6 +69,25 @@ class RoleRepositoryImpl implements RoleRepository
         $role->en_description = $enDescription;
         $role->fr_display_name = $frDisplayName;
         $role->fr_description = $frDescription;
+        $role->save();
+
+        return $role;
+    }
+
+    public function editGlobalRole(
+        GlobalRole $role,
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription
+    ): GlobalRole
+    {
+        $role->name = $name != null ? $name : $role->name;
+        $role->en_display_name = $enDisplayName != null ? $enDisplayName : $role->en_display_name;
+        $role->en_description = $enDescription != null ? $enDescription : $role->en_description;
+        $role->fr_display_name = $frDisplayName != null ? $frDisplayName : $role->fr_display_name;
+        $role->fr_description = $frDescription != null ? $frDescription : $role->fr_description;
         $role->save();
 
         return $role;
@@ -71,6 +111,12 @@ class RoleRepositoryImpl implements RoleRepository
             ]);
     }
 
+    public function unlinkPermissionsFromLanRole(LanRole $role): void
+    {
+        PermissionLanRole::where('role_id', $role->id)
+            ->delete();
+    }
+
     public function linkPermissionIdGlobalRole(string $permissionId, GlobalRole $role): void
     {
         DB::table('permission_global_role')
@@ -87,6 +133,12 @@ class RoleRepositoryImpl implements RoleRepository
                 'user_id' => $user->id,
                 'role_id' => $role->id
             ]);
+    }
+
+    public function unlinkPermissionsFromGlobalRole(GlobalRole $role): void
+    {
+        PermissionGlobalRole::where('role_id', $role->id)
+            ->delete();
     }
 
     public function findLanRoleById(int $id): ?LanRole

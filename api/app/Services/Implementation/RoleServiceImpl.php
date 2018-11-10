@@ -89,6 +89,56 @@ class RoleServiceImpl implements RoleService
         return $role;
     }
 
+    public function editLanRole(Request $input): LanRole
+    {
+        $role = null;
+        if ($input->input('role_id') == null) {
+            $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+            $input['role_id'] = $role != null ? $role->id : null;
+        }
+
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'name' => $input->input('name'),
+            'en_display_name' => $input->input('en_display_name'),
+            'en_description' => $input->input('en_description'),
+            'fr_display_name' => $input->input('fr_display_name'),
+            'fr_description' => $input->input('fr_description'),
+            'permissions' => $input->input('permissions'),
+            'permission' => 'create-lan-role',
+        ], [
+            'role_id' => 'required|exists:global_role,id',
+            'name' => 'required|string|max:50|unique:lan_role,name',
+            'en_display_name' => 'required|string|max:70',
+            'en_description' => 'required|string|max:1000',
+            'fr_display_name' => 'required|string|max:70',
+            'fr_description' => 'required|string|max:1000',
+            'permissions' => ['required', 'array', new ArrayOfInteger, new ElementsInArrayExistInPermission, new PermissionsCanBePerLan],
+            'permission' => new HasPermissionInLan($role->lan_id, Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+        $role = $this->roleRepository->editLanRole(
+            $role,
+            $input->input('name'),
+            $input->input('en_display_name'),
+            $input->input('en_description'),
+            $input->input('fr_display_name'),
+            $input->input('fr_description')
+        );
+
+        $this->roleRepository->unlinkPermissionsFromLanRole($role);
+        foreach ($input->input('permissions') as $permissionId) {
+            $this->roleRepository->linkPermissionIdLanRole($permissionId, $role);
+        }
+
+        return $role;
+    }
+
     public function assignLanRole(Request $input): LanRole
     {
         $lan = null;
@@ -153,6 +203,50 @@ class RoleServiceImpl implements RoleService
             $input->input('fr_description')
         );
 
+        foreach ($input->input('permissions') as $permissionId) {
+            $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $role);
+        }
+
+        return $role;
+    }
+
+    public function editGlobalRole(Request $input): GlobalRole
+    {
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'name' => $input->input('name'),
+            'en_display_name' => $input->input('en_display_name'),
+            'en_description' => $input->input('en_description'),
+            'fr_display_name' => $input->input('fr_display_name'),
+            'fr_description' => $input->input('fr_description'),
+            'permissions' => $input->input('permissions'),
+            'permission' => 'edit-global-role',
+        ], [
+            'role_id' => 'required|exists:global_role,id',
+            'name' => 'required|string|max:50|unique:global_role,name',
+            'en_display_name' => 'required|string|max:70',
+            'en_description' => 'required|string|max:1000',
+            'fr_display_name' => 'required|string|max:70',
+            'fr_description' => 'required|string|max:1000',
+            'permissions' => ['required', 'array', new ArrayOfInteger, new ElementsInArrayExistInPermission],
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findGlobalRoleById($input->input('role_id'));
+        $role = $this->roleRepository->editGlobalRole(
+            $role,
+            $input->input('name'),
+            $input->input('en_display_name'),
+            $input->input('en_description'),
+            $input->input('fr_display_name'),
+            $input->input('fr_description')
+        );
+
+        $this->roleRepository->unlinkPermissionsFromGlobalRole($role);
         foreach ($input->input('permissions') as $permissionId) {
             $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $role);
         }
