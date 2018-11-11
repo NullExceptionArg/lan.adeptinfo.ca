@@ -92,9 +92,8 @@ class RoleServiceImpl implements RoleService
     public function editLanRole(Request $input): LanRole
     {
         $role = null;
-        if ($input->input('role_id') == null) {
+        if(is_int($input->input('role_id'))){
             $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
-            $input['role_id'] = $role != null ? $role->id : null;
         }
 
         $roleValidator = Validator::make([
@@ -104,17 +103,15 @@ class RoleServiceImpl implements RoleService
             'en_description' => $input->input('en_description'),
             'fr_display_name' => $input->input('fr_display_name'),
             'fr_description' => $input->input('fr_description'),
-            'permissions' => $input->input('permissions'),
-            'permission' => 'create-lan-role',
+            'permission' => 'edit-lan-role',
         ], [
-            'role_id' => 'required|exists:global_role,id',
-            'name' => 'required|string|max:50|unique:lan_role,name',
-            'en_display_name' => 'required|string|max:70',
-            'en_description' => 'required|string|max:1000',
-            'fr_display_name' => 'required|string|max:70',
-            'fr_description' => 'required|string|max:1000',
-            'permissions' => ['required', 'array', new ArrayOfInteger, new ElementsInArrayExistInPermission, new PermissionsCanBePerLan],
-            'permission' => new HasPermissionInLan($role->lan_id, Auth::id())
+            'role_id' => 'required|exists:lan_role,id',
+            'name' => 'string|max:50|unique:lan_role,name',
+            'en_display_name' => 'string|max:70',
+            'en_description' => 'string|max:1000',
+            'fr_display_name' => 'string|max:70',
+            'fr_description' => 'string|max:1000',
+            'permission' => new HasPermissionInLan(is_null($role) ? null : $role->lan_id, Auth::id())
         ]);
 
         if ($roleValidator->fails()) {
@@ -130,11 +127,6 @@ class RoleServiceImpl implements RoleService
             $input->input('fr_display_name'),
             $input->input('fr_description')
         );
-
-        $this->roleRepository->unlinkPermissionsFromLanRole($role);
-        foreach ($input->input('permissions') as $permissionId) {
-            $this->roleRepository->linkPermissionIdLanRole($permissionId, $role);
-        }
 
         return $role;
     }
@@ -219,16 +211,14 @@ class RoleServiceImpl implements RoleService
             'en_description' => $input->input('en_description'),
             'fr_display_name' => $input->input('fr_display_name'),
             'fr_description' => $input->input('fr_description'),
-            'permissions' => $input->input('permissions'),
             'permission' => 'edit-global-role',
         ], [
             'role_id' => 'required|exists:global_role,id',
-            'name' => 'required|string|max:50|unique:global_role,name',
-            'en_display_name' => 'required|string|max:70',
-            'en_description' => 'required|string|max:1000',
-            'fr_display_name' => 'required|string|max:70',
-            'fr_description' => 'required|string|max:1000',
-            'permissions' => ['required', 'array', new ArrayOfInteger, new ElementsInArrayExistInPermission],
+            'name' => 'string|max:50|unique:global_role,name',
+            'en_display_name' => 'string|max:70',
+            'en_description' => 'string|max:1000',
+            'fr_display_name' => 'string|max:70',
+            'fr_description' => 'string|max:1000',
             'permission' => new HasPermission(Auth::id())
         ]);
 
@@ -245,11 +235,6 @@ class RoleServiceImpl implements RoleService
             $input->input('fr_display_name'),
             $input->input('fr_description')
         );
-
-        $this->roleRepository->unlinkPermissionsFromGlobalRole($role);
-        foreach ($input->input('permissions') as $permissionId) {
-            $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $role);
-        }
 
         return $role;
     }

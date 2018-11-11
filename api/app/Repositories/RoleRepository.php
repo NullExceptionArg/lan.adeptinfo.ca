@@ -50,11 +50,7 @@ interface RoleRepository
 
     public function linkLanRoleUser(LanRole $role, Authenticatable $user): void;
 
-    public function unlinkPermissionsFromLanRole(LanRole $role): void;
-
     public function linkPermissionIdGlobalRole(string $permissionId, GlobalRole $role): void;
-
-    public function unlinkPermissionsFromGlobalRole(GlobalRole $role): void;
 
     public function linkGlobalRoleUser(GlobalRole $role, Authenticatable $user): void;
 

@@ -111,12 +111,6 @@ class RoleRepositoryImpl implements RoleRepository
             ]);
     }
 
-    public function unlinkPermissionsFromLanRole(LanRole $role): void
-    {
-        PermissionLanRole::where('role_id', $role->id)
-            ->delete();
-    }
-
     public function linkPermissionIdGlobalRole(string $permissionId, GlobalRole $role): void
     {
         DB::table('permission_global_role')
@@ -133,12 +127,6 @@ class RoleRepositoryImpl implements RoleRepository
                 'user_id' => $user->id,
                 'role_id' => $role->id
             ]);
-    }
-
-    public function unlinkPermissionsFromGlobalRole(GlobalRole $role): void
-    {
-        PermissionGlobalRole::where('role_id', $role->id)
-            ->delete();
     }
 
     public function findLanRoleById(int $id): ?LanRole
