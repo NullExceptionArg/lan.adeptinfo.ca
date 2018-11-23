@@ -65,9 +65,11 @@ class GeneratePermissions extends Command
             // Roles
             ['name' => 'create-lan-role', 'can_be_per_lan' => true],
             ['name' => 'edit-lan-role', 'can_be_per_lan' => true],
+            ['name' => 'add-permissions-lan-role', 'can_be_per_lan' => true],
             ['name' => 'assign-lan-role', 'can_be_per_lan' => true],
             ['name' => 'create-global-role', 'can_be_per_lan' => false],
             ['name' => 'edit-global-role', 'can_be_per_lan' => false],
+            ['name' => 'add-permission-global-role', 'can_be_per_lan' => false],
             ['name' => 'assign-global-role', 'can_be_per_lan' => false],
 
             // User

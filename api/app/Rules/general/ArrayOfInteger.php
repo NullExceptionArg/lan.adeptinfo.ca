@@ -21,8 +21,8 @@ class ArrayOfInteger implements Rule
             return true;
         }
 
-        foreach ($value as $permissionId) {
-            if (!is_int($permissionId)) return false;
+        foreach ($value as $v) {
+            if (!is_int($v)) return false;
         }
         return true;
     }

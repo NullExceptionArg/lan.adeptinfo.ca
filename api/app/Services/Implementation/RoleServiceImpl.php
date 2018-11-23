@@ -12,6 +12,7 @@ use App\Rules\ElementsInArrayExistInPermission;
 use App\Rules\HasPermission;
 use App\Rules\HasPermissionInLan;
 use App\Rules\PermissionsCanBePerLan;
+use App\Rules\PermissionsDontBelongToRole;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,7 +93,7 @@ class RoleServiceImpl implements RoleService
     public function editLanRole(Request $input): LanRole
     {
         $role = null;
-        if(is_int($input->input('role_id'))){
+        if (is_int($input->input('role_id'))) {
             $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
         }
 
@@ -148,6 +149,47 @@ class RoleServiceImpl implements RoleService
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'email' => 'required|exists:user,email',
             'role_id' => 'integer|exists:lan_role,id',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+        $user = $this->userRepository->findByEmail($input->input('email'));
+
+        $this->roleRepository->linkLanRoleUser($role, $user);
+
+        return $role;
+    }
+
+    public function addPermissionsLanRole(Request $input): LanRole
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $roleValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'email' => $input->input('email'),
+            'role_id' => $input->input('role_id'),
+            'permissions' => $input->input('permissions'),
+            'permission' => 'add-permissions-lan-role',
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'email' => 'required|exists:user,email',
+            'role_id' => 'integer|exists:lan_role,id',
+            'permissions' => [
+                'required',
+                'array',
+                new ArrayOfInteger,
+                new ElementsInArrayExistInPermission,
+                new PermissionsCanBePerLan,
+                new PermissionsDontBelongToRole($input->input('role_id'))
+            ],
             'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
