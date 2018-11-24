@@ -70,8 +70,8 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - Interpreter options: `-dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9000 -dxdebug.remote_host=127.0.0.1`
     - (Optionnel) "Cocher Single Instance Only"
     - Cliquer sur "Apply"
- - Configurer PHP Storm pour écouter le débogeur (Bouton  côté de démarrer).
- - Démarrer le serveur.
+ - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer).
+ - Démarrez le serveur.
  
  ### Utiliser Postman
  Une liste de requête a déjà été montée par le créateur du reposiory. Pour obtenir cette liste simplement contacter [Pierre-Olivier Brillant](https://github.com/PierreOlivierBrillant).
@@ -99,7 +99,6 @@ Homestead est un environnement de développement fourni par les développeurs de
   - [Composer](https://getcomposer.org/)
   - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
   - [Vagrant](https://www.vagrantup.com/downloads.html)
-  - Une instance de MySQL server, un utilisateur qui possède tous les droits, ainsi que deux bases de données: `lanadept` et `lanadepttest`.
   
 ### Installation de Homestead
 Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagrantfile` et `after.sh`. Cependant certaines informations doivent être fournies par l'utilisateur.
@@ -113,3 +112,13 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
   - Exécuter `composer install`
   - Exécuter `php vendor/bin/homestead make`. Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
   - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
+  
+  ### Déboguer avec PhpStorm
+  - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer)
+  - Ajoutez et faites le point d'arrêt que vous voulez atteindre et votre navigateur ou depuis Postman, accédez à l'adresse qui attendra le point d'arrêt
+  - Une fenêtre contextuelle devrait apparaître. Dans la section en bas, sélectionnez la première option ((...)`/api/public/index.php`) et appuyez sur ACCEPT
+  - Veuillez suivre les prochaines étapes uniquement si le point de d'arrêt n'a pas été atteint.
+  - Une erreur devrait appraître dans le log d'événements, avec des liens. Sélectionnez `PHP|Server`. Si l'erreur ne s'est pas affiché, simplement naviguer vers `Settings/Language & Framework/PHP/Servers`
+  - Dans la hiérarchie de fichiers qui s'affichent, à droite de l'entrée qui indique ((...)`lan.adeptinfo.ca/api`), cliquer, et entrer `home/vagrant/code`
+  - Cliquez sur APPLIQUER et fermez la fenêtre.
+  - Vos points d'arrêt devraient maintenant être atteints
