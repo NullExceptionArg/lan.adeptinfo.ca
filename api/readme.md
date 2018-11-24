@@ -2,6 +2,20 @@
 
 Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemble donc le côté utilisateur, ainsi que le côté administrateur du site.
 
+# Table des matières
+  1. [Information générale](#information-générale)  
+  2. [Développer en local](#développer-en-local)
+      1. [Outils requis en local](#outils-requis-en-local)  
+      2. [Exécuter pour la première fois](#exécuter-pour-la-première-fois)  
+      3. [Exécuter](#exécuter)  
+      4. [Déboguer en local avec PhpStorm](#déboguer-en-local-avec-phpstorm) 
+  3. [Développer avec Homestead (vagrant)](#développer-avec-homestead-vagrant)   
+      1. [Outils requis avec Homestead](#outils-requis-avec-homestead)  
+      2. [Installation de Homestead](#installation-de-homestead)
+      3. [Déboguer Homestead avec PhpStorm](#déboguer-homestead-avec-phpstorm) 
+  5. [Postman](#postman)  
+      1. [Mise en place de Postman](#mise-en-place-de-postman)
+
 ## Information générale
 
  - Version de Lumen: 5.6
@@ -12,13 +26,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 
 ## Développer en local
 
-### Outils recommandés
-
- - Un IDE polyvalent pour développer en PHP (ex: atom, sublime, PhpStorm, VsCode, etc...)
- - Postman
- - Xdebug
- 
- ### Outils requis
+ ### Outils requis en local
   - PHP 7.2
   - [Composer](https://getcomposer.org/)
   - Une instance de MySQL server, un utilisateur qui possède tous les droits, ainsi que deux bases de données: `lanadept` et `lanadepttest`.
@@ -32,6 +40,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Exécuter `php artisan key:generate`
  - Exécuter `php artisan migrate`
  - Exécuter `php artisan passport:install`
+ - Exécuter `php lan:install`. Cette commande a été créée par les développeurs de l'API afin de générer les permissions existantes pour chaques appels Http.
  - Exécuter `php -S localhost:8000 -t public`
  - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000](http://localhost:8000)
 
@@ -40,7 +49,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Exécuter `php -S localhost:8000 -t public`
  - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000](http://localhost:8000)
 
-### Déboguer avec PhpStorm
+### Déboguer en local avec PhpStorm
 
  - Sous `Settings/Language & Framework/PHP`:
     - À côté de CLI interpreter, cliquer sur les [...]
@@ -72,29 +81,13 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - Cliquer sur "Apply"
  - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer).
  - Démarrez le serveur.
- 
- ### Utiliser Postman
- Une liste de requête a déjà été montée par le créateur du reposiory. Pour obtenir cette liste simplement contacter [Pierre-Olivier Brillant](https://github.com/PierreOlivierBrillant).
- - Configuration de la fenêtre Get new access token
-    - Token name: `Lumen`
-    - Grant Type: `Password Credential`
-    - Access Token URL `{{server-address}}/oauth/token`
-    - Username: `karl.marx@unite.org`
-    - Password: `Passw0rd!`
-    - Client ID: `2`
-    - Client Secret: `{{client-secret}}`
-    - Scope: 
-    - Client Authentication: `Send as Basic Auth header`
- - Créer un environnement pour le projet avec les paramètres suivants
-    - server-address: `http://localhost:8000`
-    - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`.
     
 ## Développer avec Homestead (vagrant)
 Homestead est un environnement de développement fourni par les développeurs de Laravel. L'objectif de homestead est de fournir un environement de développement standardisé qui est garanti de fonctionner avec Laravel (et Lumen). Ce qui signifie qu'aucune configuration ou installation de package n'est nécessaire pour commencer à développer une fois que l'environnement est lancé. Pour plus d'information sur Homestead et vagrant, vous pouvez lire les ressources suivantes:
   - [Homestead](https://laravel.com/docs/5.6/homestead)
   - [Vagrant](https://www.vagrantup.com/docs/index.html)
 
- ### Outils requis
+ ### Outils requis avec Homestead
    - PHP 7.2
   - [Composer](https://getcomposer.org/)
   - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
@@ -113,7 +106,7 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
   - Exécuter `php vendor/bin/homestead make`. Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
   - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
   
-  ### Déboguer avec PhpStorm
+  ### Déboguer Homestead avec PhpStorm
   - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer)
   - Ajoutez et faites le point d'arrêt que vous voulez atteindre et votre navigateur ou depuis Postman, accédez à l'adresse qui attendra le point d'arrêt
   - Une fenêtre contextuelle devrait apparaître. Dans la section en bas, sélectionnez la première option ((...)`/api/public/index.php`) et appuyez sur ACCEPT
@@ -122,3 +115,20 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
   - Dans la hiérarchie de fichiers qui s'affichent, à droite de l'entrée qui indique ((...)`lan.adeptinfo.ca/api`), cliquer, et entrer `home/vagrant/code`
   - Cliquez sur APPLIQUER et fermez la fenêtre.
   - Vos points d'arrêt devraient maintenant être atteints
+
+ ## Postman
+ ### Mise en place de Postman
+ Une liste de requête a déjà été montée par le créateur du reposiory. Pour obtenir cette liste simplement contacter [Pierre-Olivier Brillant](https://github.com/PierreOlivierBrillant).
+ - Configuration de la fenêtre Get new access token
+    - Token name: `Lumen`
+    - Grant Type: `Password Credential`
+    - Access Token URL `{{server-address}}/oauth/token`
+    - Username: `karl.marx@unite.org`
+    - Password: `Passw0rd!`
+    - Client ID: `2`
+    - Client Secret: `{{client-secret}}`
+    - Scope: 
+    - Client Authentication: `Send as Basic Auth header`
+ - Créer un environnement pour le projet avec les paramètres suivants
+    - server-address: si vous développez en local: `http://localhost:8000`. Si vous développez avec Homestead: `http://homestead.test`. Vous pouvez aussi créer un environnement pour chaque options, puisqu'il s'agit en effet "d'environnements" de développement différents.
+    - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`.
