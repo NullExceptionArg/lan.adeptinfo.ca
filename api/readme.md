@@ -14,7 +14,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 
 ### Outils recommandés
 
- - Un IDE polyvalent pour développer en PHP (ex: atom, sublime, PhpStorm, etc...)
+ - Un IDE polyvalent pour développer en PHP (ex: atom, sublime, PhpStorm, VsCode, etc...)
  - Postman
  - Xdebug
  
@@ -28,8 +28,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Avec un terminal de commande, se placer à la racine du projet API
  - Exécuter `composer install` (prend un certain temps)
  - Copier le fichier .env.example pour .env et informer les champs.
-    - Les champs avec le préfix `DB_` sont les informations liées  MySQL
-    - Veuillez contacter un administrateur du projet pour avoir les clés secrètes de seats.io .
+    - Veuillez contacter un administrateur du projet pour avoir une configuration de .env préremplie.
  - Exécuter `php artisan key:generate`
  - Exécuter `php artisan migrate`
  - Exécuter `php artisan passport:install`
@@ -89,3 +88,28 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Créer un environnement pour le projet avec les paramètres suivants
     - server-address: `http://localhost:8000`
     - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`.
+    
+## Développer avec Homestead (vagrant)
+Homestead est un environnement de développement fourni par les développeurs de Laravel. L'objectif de homestead est de fournir un environement de développement standardisé qui est garanti de fonctionner avec Laravel (et Lumen). Ce qui signifie qu'aucune configuration ou installation de package n'est nécessaire pour commencer à développer une fois que l'environnement est lancé. Pour plus d'information sur Homestead et vagrant, vous pouvez lire les ressources suivantes:
+  - [Homestead](https://laravel.com/docs/5.6/homestead)
+  - [Vagrant](https://www.vagrantup.com/docs/index.html)
+
+ ### Outils requis
+   - PHP 7.2
+  - [Composer](https://getcomposer.org/)
+  - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+  - [Vagrant](https://www.vagrantup.com/downloads.html)
+  - Une instance de MySQL server, un utilisateur qui possède tous les droits, ainsi que deux bases de données: `lanadept` et `lanadepttest`.
+  
+### Installation de Homestead
+Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagrantfile` et `after.sh`. Cependant certaines informations doivent être fournies par l'utilisateur.
+  - *N'oubliez pas d'activer les technologies de virtualisation dans votre BIOS: vt-x pour Intel, et amd-v pour AMD.*
+  - Si vous n'avez pas encore de clé ssh, vous devez en générer une. (Si vous ne savez pas ce que c'est, c'est probablement que vous n'en avez pas)
+    - Voici les instructions sous linux (et probablement mac)
+    - Dans un terminal, exécutez `ssh-keygen -t rsa -b 4096 -C "votre_courriel@example.com"
+    - Exécutez eval `"$(ssh-agent -s)"`
+    - Exécutez `ssh-add -k ~/.ssh/id_rsa`
+  - Avec un terminal de commande, se placer à la racine du projet API
+  - Exécuter `composer install`
+  - Exécuter `php vendor/bin/homestead make`. Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
+  - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
