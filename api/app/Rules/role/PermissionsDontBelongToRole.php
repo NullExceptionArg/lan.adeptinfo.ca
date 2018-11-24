@@ -3,7 +3,10 @@
 namespace App\Rules;
 
 
+use App\Model\GlobalRole;
+use App\Model\LanRole;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class PermissionsDontBelongToRole implements Rule
 {
@@ -31,21 +34,32 @@ class PermissionsDontBelongToRole implements Rule
             return true;
         }
 
+        $lanRole = LanRole::find($this->roleId);
+        $globalRole = GlobalRole::find($this->roleId);
 
-//        foreach ($value as $permissionId) {
-//            if (is_nullDB::table('permission')->find($permissionId))) return true;
-//            if ($this->isGlobal) {
-//                if (DB::table('permission_global_role')
-//                        ->where('role_id', $this->roleId)
-//                        ->permission_id == $value) return false;
-//            } else {
-//                if (DB::table('permission_lan_role')
-//                        ->where('role_id', $this->roleId)
-//                        ->permission_id == $value) return false;
-//            }
+        if (!is_null($lanRole)) {
+            foreach ($value as $permissionId) {
+                $permission = DB::table('permission_lan_role')
+                    ->where('permission_id', $permissionId)
+                    ->where('role_id', $lanRole->id);
+                if (!is_null($permission)) {
+                    return false;
+                }
+            }
+        } else if (!is_null($globalRole)) {
+            foreach ($value as $permissionId) {
+                $permission = DB::table('permission_global_role')
+                    ->where('permission_id', $permissionId)
+                    ->where('role_id', $lanRole->id);
+                if (!is_null($permission)) {
+                    return false;
+                }
+            }
+        } else {
+            return true;
+        }
 
-//        }
-//        return true;
+        return true;
     }
 
     /**

@@ -198,9 +198,10 @@ class RoleServiceImpl implements RoleService
         }
 
         $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
-        $user = $this->userRepository->findByEmail($input->input('email'));
 
-        $this->roleRepository->linkLanRoleUser($role, $user);
+        foreach ($input->input('permissions') as $permissionId) {
+            $this->roleRepository->linkPermissionIdLanRole($permissionId, $role);
+        }
 
         return $role;
     }
@@ -301,6 +302,48 @@ class RoleServiceImpl implements RoleService
         $user = $this->userRepository->findByEmail($input->input('email'));
 
         $this->roleRepository->linkGlobalRoleUser($role, $user);
+
+        return $role;
+    }
+
+    public function addPermissionsGlobalRole(Request $input): GlobalRole
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $roleValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'email' => $input->input('email'),
+            'role_id' => $input->input('role_id'),
+            'permissions' => $input->input('permissions'),
+            'permission' => 'add-permissions-global-role',
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'email' => 'required|exists:user,email',
+            'role_id' => 'integer|exists:lan_role,id',
+            'permissions' => [
+                'required',
+                'array',
+                new ArrayOfInteger,
+                new ElementsInArrayExistInPermission,
+                new PermissionsCanBePerLan,
+                new PermissionsDontBelongToRole($input->input('role_id'))
+            ],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findGlobalRoleById($input->input('role_id'));
+
+        foreach ($input->input('permissions') as $permissionId) {
+            $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $role);
+        }
 
         return $role;
     }
