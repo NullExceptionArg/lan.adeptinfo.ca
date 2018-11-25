@@ -381,10 +381,10 @@ class CreateLanRoleTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->roleService->createLanRole($request);
-            $this->fail('Expected: {"permissions":["An element of the array is not contained an existing permission id."]}');
+            $this->fail('Expected: {"permissions":["An element of the array is not an existing permission id."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"permissions":["An element of the array is not contained an existing permission id."]}', $e->getMessage());
+            $this->assertEquals('{"permissions":["An element of the array is not an existing permission id."]}', $e->getMessage());
         }
     }
 }

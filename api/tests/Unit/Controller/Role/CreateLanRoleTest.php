@@ -467,7 +467,7 @@ class CreateLanRoleTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'permissions' => [
-                        0 => 'An element of the array is not contained an existing permission id.',
+                        0 => 'An element of the array is not an existing permission id.',
                     ],
                 ]
             ])
