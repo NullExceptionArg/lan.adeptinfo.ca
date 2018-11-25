@@ -4,16 +4,17 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 
 # Table des matières
   1. [Information générale](#information-générale)  
-  2. [Développer en local](#développer-en-local)
+  2. [Développer avec Homestead (vagrant)](#développer-avec-homestead-vagrant)   
+      1. [Outils requis avec Homestead](#outils-requis-avec-homestead)  
+      2. [Installation de Homestead](#installation-de-homestead)
+      3. [Déboguer Homestead avec PhpStorm](#déboguer-homestead-avec-phpstorm) 
+  3. [Développer en local](#développer-en-local)
       1. [Outils requis en local](#outils-requis-en-local)  
       2. [Exécuter pour la première fois](#exécuter-pour-la-première-fois)  
       3. [Exécuter](#exécuter)  
       4. [Déboguer en local avec PhpStorm](#déboguer-en-local-avec-phpstorm) 
-  3. [Développer avec Homestead (vagrant)](#développer-avec-homestead-vagrant)   
-      1. [Outils requis avec Homestead](#outils-requis-avec-homestead)  
-      2. [Installation de Homestead](#installation-de-homestead)
-      3. [Déboguer Homestead avec PhpStorm](#déboguer-homestead-avec-phpstorm) 
-  5. [Postman](#postman)  
+      5. [Connection à la base de donnée avec Homestead, sur PhpStorm](#connection-à-la-base-de-donnée-avec-homestead-sur-PhpStorm) 
+  4. [Postman](#postman)  
       1. [Mise en place de Postman](#mise-en-place-de-postman)
 
 ## Information générale
@@ -23,6 +24,63 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Documentation Laravel: https://laravel.com/docs/5.6
  - Documentation de l'API: https://adept-informatique.github.io/lan.adeptinfo.ca/
 
+## Développer avec Homestead (Recommandé)
+Homestead est un environnement de développement fourni par les développeurs de Laravel. L'objectif de homestead est de fournir un environement de développement standardisé qui est garanti de fonctionner avec Laravel (et Lumen). Ce qui signifie qu'aucune configuration ou installation de package n'est nécessaire pour commencer à développer une fois que l'environnement est lancé. Pour plus d'information sur Homestead et vagrant, vous pouvez lire les ressources suivantes:
+  - [Homestead](https://laravel.com/docs/5.6/homestead)
+  - [Vagrant](https://www.vagrantup.com/docs/index.html)
+
+ ### Outils requis avec Homestead
+   - PHP 7.2
+  - [Composer](https://getcomposer.org/)
+  - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
+  - [Vagrant](https://www.vagrantup.com/downloads.html)
+  
+### Installation de Homestead
+Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagrantfile` et `after.sh`. Cependant certaines informations doivent être fournies par l'utilisateur.
+  - *N'oubliez pas d'activer les technologies de virtualisation dans votre BIOS: vt-x pour Intel, et amd-v pour AMD.*
+  - Si vous n'avez pas encore de clé ssh, vous devez en générer une. (Si vous ne savez pas ce que c'est, c'est probablement que vous n'en avez pas)
+    - Voici les instructions sous linux (et probablement mac)
+    - Dans un terminal, exécutez `ssh-keygen -t rsa -b 4096 -C "votre_courriel@example.com"
+    - Exécutez eval `"$(ssh-agent -s)"`
+    - Exécutez `ssh-add -k ~/.ssh/id_rsa`
+  - Avec un terminal de commande, se placer à la racine du projet API
+  - Exécuter `composer install`
+  - Exécuter `php vendor/bin/homestead make`. Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
+  - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
+  
+  ### Déboguer Homestead avec PhpStorm
+  - Assurez vous que votre machine virtuelle est allumée. Il est possible de la mettre en marche via les menus de PhpStorm: `Tools/Vagrant/Up`
+  - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer)
+  - Sous `Settings/Language & Framework/PHP` :
+    - À côté de "CLI interpreter", cliquer sur les [...]
+    - Cliquez sur + et entrez sélectionnez "From Docker, Vagrant, VM, Remote..."
+    - Sélectionner le bouton radio "Vagrant"
+    - Cliquez sur "OK".
+    - Cliquez sur "APPLIQUER".
+  - Sous `Settings/Language & Framework/PHP/Test Frameworks`:
+    - Cliquez sur + et entrez sélectionnez "PHPUnit by Remote Interpreter"
+    - Dans le menu déroulant, sélectionnez l'interpreteur CLI que vous venez d'ajouter à l'étape précédente. Exemple: Remote PHP 7.2 (...)
+    - Cliquez sur "OK"
+    - Sous la section `Test Runner`, cocher `Default configuration file:`
+    - Sur la ligne `Default configuration file:`, sélectionner le chemin vers le fichier `phpunit.xml` du projet.
+  - Ajoutez et faites le point d'arrêt que vous voulez atteindre et votre navigateur ou depuis Postman, accédez à l'adresse qui attendra le point d'arrêt
+  - Une fenêtre contextuelle devrait apparaître. Dans la section en bas, sélectionnez la première option ((...)`/api/public/index.php`) et appuyez sur "ACCEPT"
+  - Veuillez suivre les prochaines étapes uniquement si le point de d'arrêt n'a pas été atteint.
+  - Une erreur devrait appraître dans le log d'événements, avec des liens. Sélectionnez `PHP|Server`. Si l'erreur ne s'est pas affiché, simplement naviguer vers `Settings/Language & Framework/PHP/Servers`
+  - Dans la hiérarchie de fichiers qui s'affichent, à droite de l'entrée qui indique ((...)`lan.adeptinfo.ca/api`), cliquer, et entrer `home/vagrant/code`
+  - Cliquez sur "APPLIQUER" et fermez la fenêtre.
+  - Vos points d'arrêt devraient maintenant être atteints
+  
+### Connection à la base de donnée avec Homestead sur PhpStorm
+ - Ouvrez l'onglet "Database", cliquez sur "+", et sélectionnez "Data source", et finalement "MySQL"
+ - Vous pouvez cliquer sur le lien "Download drivers" si c'est offert
+ - Les champs doivent être remplis comme suit :
+    - Host: `homestead.test`
+    - Database: `homestead`
+    - User: `homestead`
+    - Password: `secret`
+ - Pour valider, vous pouvez cliquer sur "TEST CONNECTION", puis cliquer sur "APPLY"
+ - Pour sélectionner uniquement les shémas qui nous intéressent, à côté de l'entrée "homestead@homestead.test", cliquez sur le chiffre. Ne laissez coché que "homestead" et "lanadepttest"
 
 ## Développer en local
 
@@ -81,53 +139,17 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - Cliquer sur "Apply"
  - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer).
  - Démarrez le serveur.
-    
-## Développer avec Homestead (vagrant)
-Homestead est un environnement de développement fourni par les développeurs de Laravel. L'objectif de homestead est de fournir un environement de développement standardisé qui est garanti de fonctionner avec Laravel (et Lumen). Ce qui signifie qu'aucune configuration ou installation de package n'est nécessaire pour commencer à développer une fois que l'environnement est lancé. Pour plus d'information sur Homestead et vagrant, vous pouvez lire les ressources suivantes:
-  - [Homestead](https://laravel.com/docs/5.6/homestead)
-  - [Vagrant](https://www.vagrantup.com/docs/index.html)
-
- ### Outils requis avec Homestead
-   - PHP 7.2
-  - [Composer](https://getcomposer.org/)
-  - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
-  - [Vagrant](https://www.vagrantup.com/downloads.html)
-  
-### Installation de Homestead
-Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagrantfile` et `after.sh`. Cependant certaines informations doivent être fournies par l'utilisateur.
-  - *N'oubliez pas d'activer les technologies de virtualisation dans votre BIOS: vt-x pour Intel, et amd-v pour AMD.*
-  - Si vous n'avez pas encore de clé ssh, vous devez en générer une. (Si vous ne savez pas ce que c'est, c'est probablement que vous n'en avez pas)
-    - Voici les instructions sous linux (et probablement mac)
-    - Dans un terminal, exécutez `ssh-keygen -t rsa -b 4096 -C "votre_courriel@example.com"
-    - Exécutez eval `"$(ssh-agent -s)"`
-    - Exécutez `ssh-add -k ~/.ssh/id_rsa`
-  - Avec un terminal de commande, se placer à la racine du projet API
-  - Exécuter `composer install`
-  - Exécuter `php vendor/bin/homestead make`. Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
-  - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
-  
-  ### Déboguer Homestead avec PhpStorm
-  - Assurez vous que votre machine virtuelle est allumée. Il est possible de la mettre en marche via les menus de PhpStorm: `Tools/Vagrant/Up`
-  - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer)
-  - Sous `Settings/Language & Framework/PHP` :
-    - À côté de "CLI interpreter", cliquer sur les [...]
-    - Cliquez sur + et entrez sélectionnez "From Docker, Vagrant, VM, Remote..."
-    - Sélectionner le bouton radio "Vagrant"
-    - Cliquez sur "OK".
-    - Cliquez sur "APPLIQUER".
-  - Sous `Settings/Language & Framework/PHP/Test Frameworks`:
-    - Cliquez sur + et entrez sélectionnez "PHPUnit by Remote Interpreter"
-    - Dans le menu déroulant, sélectionnez l'interpreteur CLI que vous venez d'ajouter à l'étape précédente. Exemple: Remote PHP 7.2 (...)
-    - Cliquez sur "OK"
-    - Sous la section `Test Runner`, cocher `Default configuration file:`
-    - Sur la ligne `Default configuration file:`, sélectionner le chemin vers le fichier `phpunit.xml` du projet.
-  - Ajoutez et faites le point d'arrêt que vous voulez atteindre et votre navigateur ou depuis Postman, accédez à l'adresse qui attendra le point d'arrêt
-  - Une fenêtre contextuelle devrait apparaître. Dans la section en bas, sélectionnez la première option ((...)`/api/public/index.php`) et appuyez sur "ACCEPT"
-  - Veuillez suivre les prochaines étapes uniquement si le point de d'arrêt n'a pas été atteint.
-  - Une erreur devrait appraître dans le log d'événements, avec des liens. Sélectionnez `PHP|Server`. Si l'erreur ne s'est pas affiché, simplement naviguer vers `Settings/Language & Framework/PHP/Servers`
-  - Dans la hiérarchie de fichiers qui s'affichent, à droite de l'entrée qui indique ((...)`lan.adeptinfo.ca/api`), cliquer, et entrer `home/vagrant/code`
-  - Cliquez sur "APPLIQUER" et fermez la fenêtre.
-  - Vos points d'arrêt devraient maintenant être atteints
+ 
+ ### Connection à la base de donnée en local, sur PhpStorm
+ - Ouvrez l'onglet "Database", cliquez sur "+", et sélectionnez "Data source", et finalement "MySQL"
+ - Vous pouvez cliquer sur le lien "Download drivers" si c'est offert
+ - Les champs doivent être remplis comme suit :
+    - Host: `localhost`
+    - Database: `lanadept`
+    - User: `votre-nom-d'utilisateur`
+    - Password: `votre-mot-de-passe-de-bd`
+ - Pour valider, vous pouvez cliquer sur "TEST CONNECTION", puis cliquer sur "APPLY"
+ - Pour sélectionner uniquement les shémas qui nous intéressent, à côté de l'entrée "homestead@homestead.test", cliquez sur le chiffre. Ne laissez coché que "homestead" et "lanadepttest"
 
  ## Postman
  ### Mise en place de Postman
