@@ -23,7 +23,6 @@ class LanController extends Controller
 
     public function createLan(Request $request)
     {
-        // TODO Permission create-lan * Doit être géré différement des autres permissions, puisqu'elle ne peut pas dépendre du lan *
         return response()->json($this->lanService->create($request), 201);
     }
 
@@ -44,7 +43,6 @@ class LanController extends Controller
 
     public function setCurrentLan(Request $request)
     {
-        // TODO Permission set-current-lan * Doit être géré différement des autres permissions, puisqu'elle ne peut pas dépendre du lan *
         return response()->json($this->lanService->setCurrent($request), 200);
     }
 }
