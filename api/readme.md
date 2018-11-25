@@ -4,7 +4,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 
 # Table des matières
   1. [Information générale](#information-générale)  
-  2. [Développer avec Homestead (vagrant)](#développer-avec-homestead-vagrant)   
+  2. [Développer avec Homestead (recommandé)](#développer-avec-homestead-recommandé)   
       1. [Outils requis avec Homestead](#outils-requis-avec-homestead)  
       2. [Installation de Homestead](#installation-de-homestead)
       3. [Déboguer Homestead avec PhpStorm](#déboguer-homestead-avec-phpstorm) 
