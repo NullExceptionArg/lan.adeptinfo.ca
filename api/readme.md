@@ -8,6 +8,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
       1. [Outils requis avec Homestead](#outils-requis-avec-homestead)  
       2. [Installation de Homestead](#installation-de-homestead)
       3. [Déboguer Homestead avec PhpStorm](#déboguer-homestead-avec-phpstorm) 
+      4. [Connection à la base de donnée en local, sur PhpStorm](#connection-à-la-base-de-donnée-en-local-sur-PhpStorm) 
   3. [Développer en local](#développer-en-local)
       1. [Outils requis en local](#outils-requis-en-local)  
       2. [Exécuter pour la première fois](#exécuter-pour-la-première-fois)  
