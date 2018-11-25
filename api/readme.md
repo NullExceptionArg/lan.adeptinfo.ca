@@ -144,4 +144,4 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
     - Client Authentication: `Send as Basic Auth header`
  - Créer un environnement pour le projet avec les paramètres suivants
     - server-address: si vous développez en local: `http://localhost:8000`. Si vous développez avec Homestead: `http://homestead.test`. Vous pouvez aussi créer un environnement pour chaque options, puisqu'il s'agit en effet "d'environnements" de développement différents.
-    - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`.
+    - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`, l'entrée avec l'id 2, la colonne "secret".
