@@ -5,8 +5,9 @@ namespace App\Rules;
 
 use App\Model\GlobalRole;
 use App\Model\LanRole;
+use App\Model\PermissionGlobalRole;
+use App\Model\PermissionLanRole;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 
 class PermissionsDontBelongToRole implements Rule
 {
@@ -14,9 +15,9 @@ class PermissionsDontBelongToRole implements Rule
 
     /**
      * PermissionsDontBelongToRole constructor.
-     * @param int $roleId
+     * @param $roleId
      */
-    public function __construct(int $roleId)
+    public function __construct($roleId)
     {
         $this->roleId = $roleId;
     }
@@ -30,7 +31,7 @@ class PermissionsDontBelongToRole implements Rule
      */
     public function passes($attribute, $value)
     {
-        if ($value == null || !is_array($value)) {
+        if (is_null($value) || !is_array($value) || is_null($this->roleId)) {
             return true;
         }
 
@@ -39,18 +40,20 @@ class PermissionsDontBelongToRole implements Rule
 
         if (!is_null($lanRole)) {
             foreach ($value as $permissionId) {
-                $permission = DB::table('permission_lan_role')
-                    ->where('permission_id', $permissionId)
-                    ->where('role_id', $lanRole->id);
+                $permission = PermissionLanRole::where('permission_id', $permissionId)
+                    ->where('role_id', $lanRole->id)
+                    ->get()
+                    ->first();
                 if (!is_null($permission)) {
                     return false;
                 }
             }
         } else if (!is_null($globalRole)) {
             foreach ($value as $permissionId) {
-                $permission = DB::table('permission_global_role')
-                    ->where('permission_id', $permissionId)
-                    ->where('role_id', $lanRole->id);
+                $permission = PermissionGlobalRole::where('permission_id', $permissionId)
+                    ->where('role_id', $globalRole->id)
+                    ->get()
+                    ->first();
                 if (!is_null($permission)) {
                     return false;
                 }

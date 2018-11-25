@@ -174,13 +174,11 @@ class RoleServiceImpl implements RoleService
 
         $roleValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'email' => $input->input('email'),
             'role_id' => $input->input('role_id'),
             'permissions' => $input->input('permissions'),
             'permission' => 'add-permissions-lan-role',
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'email' => 'required|exists:user,email',
             'role_id' => 'integer|exists:lan_role,id',
             'permissions' => [
                 'required',
@@ -308,31 +306,20 @@ class RoleServiceImpl implements RoleService
 
     public function addPermissionsGlobalRole(Request $input): GlobalRole
     {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
-        }
-
         $roleValidator = Validator::make([
-            'lan_id' => $input->input('lan_id'),
-            'email' => $input->input('email'),
             'role_id' => $input->input('role_id'),
             'permissions' => $input->input('permissions'),
             'permission' => 'add-permissions-global-role',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'email' => 'required|exists:user,email',
-            'role_id' => 'integer|exists:lan_role,id',
+            'role_id' => 'integer|exists:global_role,id',
             'permissions' => [
                 'required',
                 'array',
                 new ArrayOfInteger,
                 new ElementsInArrayExistInPermission,
-                new PermissionsCanBePerLan,
                 new PermissionsDontBelongToRole($input->input('role_id'))
             ],
-            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermission(Auth::id())
         ]);
 
         if ($roleValidator->fails()) {
