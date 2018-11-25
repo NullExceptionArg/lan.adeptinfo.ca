@@ -52,9 +52,9 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 ### Déboguer en local avec PhpStorm
 
  - Sous `Settings/Language & Framework/PHP`:
-    - À côté de CLI interpreter, cliquer sur les [...]
-    - Cliquer sur + et entrez le chemin vers votre interpreteur PHP. Sur linux ce sera `usr/bin/php` la plupart du temps.
-    - Cliquer sur OK.
+    - À côté de "CLI interpreter", cliquez sur les [...]
+    - Cliquez sur + et entrez le chemin vers votre interpreteur PHP. Sur linux ce sera `usr/bin/php` la plupart du temps.
+    - Cliquez sur OK.
  - Sous `Settings/Language & Framework/PHP/Debug/DBGp Proxy`
     - IDE key: `PHPSTORM`
     - Host: `127.0.0.1`
@@ -107,13 +107,26 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
   - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
   
   ### Déboguer Homestead avec PhpStorm
+  - Assurez vous que votre machine virtuelle est allumée. Il est possible de la mettre en marche via les menus de PhpStorm: `Tools/Vagrant/Up`
   - Configurez PHP Storm pour écouter le débogeur (Bouton  côté de démarrer)
+  - Sous `Settings/Language & Framework/PHP` :
+    - À côté de "CLI interpreter", cliquer sur les [...]
+    - Cliquez sur + et entrez sélectionnez "From Docker, Vagrant, VM, Remote..."
+    - Sélectionner le bouton radio "Vagrant"
+    - Cliquez sur "OK".
+    - Cliquez sur "APPLIQUER".
+  - Sous `Settings/Language & Framework/PHP/Test Frameworks`:
+    - Cliquez sur + et entrez sélectionnez "PHPUnit by Remote Interpreter"
+    - Dans le menu déroulant, sélectionnez l'interpreteur CLI que vous venez d'ajouter à l'étape précédente. Exemple: Remote PHP 7.2 (...)
+    - Cliquez sur "OK"
+    - Sous la section `Test Runner`, cocher `Default configuration file:`
+    - Sur la ligne `Default configuration file:`, sélectionner le chemin vers le fichier `phpunit.xml` du projet.
   - Ajoutez et faites le point d'arrêt que vous voulez atteindre et votre navigateur ou depuis Postman, accédez à l'adresse qui attendra le point d'arrêt
-  - Une fenêtre contextuelle devrait apparaître. Dans la section en bas, sélectionnez la première option ((...)`/api/public/index.php`) et appuyez sur ACCEPT
+  - Une fenêtre contextuelle devrait apparaître. Dans la section en bas, sélectionnez la première option ((...)`/api/public/index.php`) et appuyez sur "ACCEPT"
   - Veuillez suivre les prochaines étapes uniquement si le point de d'arrêt n'a pas été atteint.
   - Une erreur devrait appraître dans le log d'événements, avec des liens. Sélectionnez `PHP|Server`. Si l'erreur ne s'est pas affiché, simplement naviguer vers `Settings/Language & Framework/PHP/Servers`
   - Dans la hiérarchie de fichiers qui s'affichent, à droite de l'entrée qui indique ((...)`lan.adeptinfo.ca/api`), cliquer, et entrer `home/vagrant/code`
-  - Cliquez sur APPLIQUER et fermez la fenêtre.
+  - Cliquez sur "APPLIQUER" et fermez la fenêtre.
   - Vos points d'arrêt devraient maintenant être atteints
 
  ## Postman
