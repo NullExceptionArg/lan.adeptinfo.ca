@@ -362,7 +362,7 @@ class RoleServiceImpl implements RoleService
     public function getGlobalRoles(Request $input): Collection
     {
         $roleValidator = Validator::make([
-            'permission' => 'get-lan-roles',
+            'permission' => 'get-global-roles',
         ], [
             'permission' => new HasPermission(Auth::id())
         ]);
