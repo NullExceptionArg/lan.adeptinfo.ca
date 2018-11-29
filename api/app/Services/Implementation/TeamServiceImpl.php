@@ -140,7 +140,7 @@ class TeamServiceImpl implements TeamService
         return GetUserTeamsResource::collection($teams);
     }
 
-    public function getUsersTeamDetails(Request $input)
+    public function getUsersTeamDetails(Request $input): GetUsersTeamDetailsResource
     {
         $teamValidator = Validator::make([
             'team_id' => $input->input('team_id')

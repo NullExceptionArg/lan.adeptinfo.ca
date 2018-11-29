@@ -15,6 +15,7 @@ use App\Rules\PermissionsCanBePerLan;
 use App\Rules\PermissionsDontBelongToRole;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -204,6 +205,29 @@ class RoleServiceImpl implements RoleService
         return $role;
     }
 
+    public function getLanRoles(Request $input): Collection
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $roleValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'permission' => 'get-lan-roles',
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        return $this->roleRepository->getLanRoles($input->input('lan_id'));
+    }
+
     public function createGlobalRole(Request $input): GlobalRole
     {
         $roleValidator = Validator::make([
@@ -333,6 +357,21 @@ class RoleServiceImpl implements RoleService
         }
 
         return $role;
+    }
+
+    public function getGlobalRoles(Request $input): Collection
+    {
+        $roleValidator = Validator::make([
+            'permission' => 'get-lan-roles',
+        ], [
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        return $this->roleRepository->getGlobalRoles();
     }
 
 }

@@ -6,8 +6,6 @@ namespace App\Repositories\Implementation;
 use App\Model\GlobalRole;
 use App\Model\Lan;
 use App\Model\LanRole;
-use App\Model\PermissionGlobalRole;
-use App\Model\PermissionLanRole;
 use App\Repositories\RoleRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
@@ -160,5 +158,16 @@ class RoleRepositoryImpl implements RoleRepository
             ->get();
 
         return $lanPermissions->merge($globalPermissions)->unique();
+    }
+
+    public function getLanRoles(int $lanId): Collection
+    {
+        return LanRole::where('lan_id', $lanId)
+            ->get();
+    }
+
+    public function getGlobalRoles(): Collection
+    {
+        return GlobalRole::get();
     }
 }

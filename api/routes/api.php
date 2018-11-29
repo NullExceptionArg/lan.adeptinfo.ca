@@ -96,10 +96,12 @@ $api->version('v1', function ($api) {
                 $api->put('role/lan', 'RoleController@editLanRole');
                 $api->post('role/lan/assign', 'RoleController@assignLanRole');
                 $api->post('role/lan/permissions', 'RoleController@addPermissionsLanRole');
+                $api->get('role/lan', 'RoleController@getLanRoles');
                 $api->post('role/global', 'RoleController@createGlobalRole');
                 $api->put('role/global', 'RoleController@editGlobalRole');
                 $api->post('role/global/assign', 'RoleController@assignGlobalRole');
                 $api->post('role/global/permissions', 'RoleController@addPermissionsGlobalRole');
+                $api->get('role/global', 'RoleController@getGlobalRoles');
                 $api->get('admin/summary', 'UserController@getAdminSummary');
             });
 

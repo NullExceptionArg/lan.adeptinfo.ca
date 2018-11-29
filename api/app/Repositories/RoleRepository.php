@@ -59,4 +59,8 @@ interface RoleRepository
     public function findLanRoleById(int $id): ?LanRole;
 
     public function findGlobalRoleById(int $id): ?GlobalRole;
+
+    public function getLanRoles(int $lanId): Collection;
+
+    public function getGlobalRoles(): Collection;
 }

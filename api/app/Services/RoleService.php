@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Model\GlobalRole;
 use App\Model\LanRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 interface RoleService
 {
@@ -17,6 +18,8 @@ interface RoleService
 
     public function addPermissionsLanRole(Request $input): LanRole;
 
+    public function getLanRoles(Request $input): Collection;
+
     public function createGlobalRole(Request $request): GlobalRole;
 
     public function editGlobalRole(Request $input): GlobalRole;
@@ -24,4 +27,6 @@ interface RoleService
     public function assignGlobalRole(Request $input): GlobalRole;
 
     public function addPermissionsGlobalRole(Request $input): GlobalRole;
+
+    public function getGlobalRoles(Request $input): Collection;
 }
