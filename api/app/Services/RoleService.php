@@ -15,9 +15,13 @@ interface RoleService
 
     public function assignLanRole(Request $input): LanRole;
 
+    public function addPermissionsLanRole(Request $input): LanRole;
+
     public function createGlobalRole(Request $request): GlobalRole;
 
     public function editGlobalRole(Request $input): GlobalRole;
 
     public function assignGlobalRole(Request $input): GlobalRole;
+
+    public function addPermissionsGlobalRole(Request $input): GlobalRole;
 }
