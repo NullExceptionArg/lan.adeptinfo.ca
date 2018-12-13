@@ -63,4 +63,8 @@ interface RoleRepository
     public function getLanRoles(int $lanId): Collection;
 
     public function getGlobalRoles(): Collection;
+
+    public function getGlobalRolePermissions(int $roleId): Collection;
+
+    public function getLanRolePermissions(int $roleId): Collection;
 }

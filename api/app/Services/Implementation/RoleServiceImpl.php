@@ -179,8 +179,8 @@ class RoleServiceImpl implements RoleService
             'permissions' => $input->input('permissions'),
             'permission' => 'add-permissions-lan-role',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'role_id' => 'integer|exists:lan_role,id',
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
+            'role_id' => 'required|integer|exists:lan_role,id',
             'permissions' => [
                 'required',
                 'array',
@@ -217,7 +217,7 @@ class RoleServiceImpl implements RoleService
             'lan_id' => $input->input('lan_id'),
             'permission' => 'get-lan-roles',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
             'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
@@ -226,6 +226,28 @@ class RoleServiceImpl implements RoleService
         }
 
         return $this->roleRepository->getLanRoles($input->input('lan_id'));
+    }
+
+    public function getLanRolePermission(Request $input): Collection
+    {
+        $role = null;
+        if (is_int($input->input('role_id'))) {
+            $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+        }
+
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'permission' => 'get-lan-role-permissions',
+        ], [
+            'role_id' => 'required|integer|exists:global_role,id',
+            'permission' => new HasPermissionInLan(is_null($role) ? null : $role->lan_id, Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        return $this->roleRepository->getGlobalRolePermissions($input->input('role_id'));
     }
 
     public function createGlobalRole(Request $input): GlobalRole
@@ -278,7 +300,7 @@ class RoleServiceImpl implements RoleService
             'fr_description' => $input->input('fr_description'),
             'permission' => 'edit-global-role',
         ], [
-            'role_id' => 'required|exists:global_role,id',
+            'role_id' => 'required|integer|exists:global_role,id',
             'name' => 'string|max:50|unique:global_role,name',
             'en_display_name' => 'string|max:70',
             'en_description' => 'string|max:1000',
@@ -335,7 +357,7 @@ class RoleServiceImpl implements RoleService
             'permissions' => $input->input('permissions'),
             'permission' => 'add-permissions-global-role',
         ], [
-            'role_id' => 'integer|exists:global_role,id',
+            'role_id' => 'required|integer|exists:global_role,id',
             'permissions' => [
                 'required',
                 'array',
@@ -372,6 +394,23 @@ class RoleServiceImpl implements RoleService
         }
 
         return $this->roleRepository->getGlobalRoles();
+    }
+
+    public function getGlobalRolePermissions(Request $input): Collection
+    {
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'permission' => 'get-global-role-permissions',
+        ], [
+            'role_id' => 'required|integer|exists:global_role,id',
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        return $this->roleRepository->getGlobalRolePermissions($input->input('role_id'));
     }
 
 }

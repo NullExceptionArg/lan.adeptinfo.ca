@@ -83,10 +83,10 @@ class AddPermissionGlobalRoleTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->roleService->addPermissionsGlobalRole($request);
-            $this->fail('Expected: {"role_id":["The role id must be an integer."]}');
+            $this->fail('Expected: {"role_id":["The role id field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"role_id":["The role id must be an integer."]}', $e->getMessage());
+            $this->assertEquals('{"role_id":["The role id field is required."]}', $e->getMessage());
         }
     }
 

@@ -80,7 +80,7 @@ class AddPermissionGlobalRoleTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'role_id' => [
-                        0 => 'The role id must be an integer.',
+                        0 => 'The role id field is required.',
                     ],
                 ]
             ])

@@ -170,4 +170,30 @@ class RoleRepositoryImpl implements RoleRepository
     {
         return GlobalRole::get();
     }
+
+    public function getGlobalRolePermissions(int $roleId): Collection
+    {
+        return DB::table('permission_global_role')
+            ->join('permission', 'permission_global_role.permission_id', '=', 'permission.id')
+            ->where('permission_global_role.role_id', $roleId)
+            ->select([
+                'permission.id',
+                'permission.name',
+                'permission.can_be_per_lan',
+            ])
+            ->get();
+    }
+
+    public function getLanRolePermissions(int $roleId): Collection
+    {
+        return DB::table('permission_lan_role')
+            ->join('permission', 'permission_lan_role.permission_id', '=', 'permission.id')
+            ->where('permission_lan_role.role_id', $roleId)
+            ->select([
+                'permission.id',
+                'permission.name',
+                'permission.can_be_per_lan',
+            ])
+            ->get();
+    }
 }

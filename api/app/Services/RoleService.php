@@ -20,6 +20,8 @@ interface RoleService
 
     public function getLanRoles(Request $input): Collection;
 
+    public function getLanRolePermission(Request $input): Collection;
+
     public function createGlobalRole(Request $request): GlobalRole;
 
     public function editGlobalRole(Request $input): GlobalRole;
@@ -29,4 +31,6 @@ interface RoleService
     public function addPermissionsGlobalRole(Request $input): GlobalRole;
 
     public function getGlobalRoles(Request $input): Collection;
+
+    public function getGlobalRolePermissions(Request $input): Collection;
 }
