@@ -26,7 +26,7 @@ class GeneratePermissions extends Command
         DB::table('permission')->insert($this->getPermissions());
     }
 
-    public function getPermissions()
+    public static function getPermissions()
     {
         return [
 
@@ -75,6 +75,7 @@ class GeneratePermissions extends Command
             ['name' => 'assign-global-role', 'can_be_per_lan' => false],
             ['name' => 'get-global-roles', 'can_be_per_lan' => false],
             ['name' => 'get-global-role-permissions', 'can_be_per_lan' => false],
+            ['name' => 'get-permissions', 'can_be_per_lan' => true],
 
             // User
             ['name' => 'admin-summary', 'can_be_per_lan' => true]

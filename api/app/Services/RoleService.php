@@ -34,4 +34,6 @@ interface RoleService
     public function getGlobalRoles(Request $input): Collection;
 
     public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection;
+
+    public function getPermissions(): AnonymousResourceCollection;
 }

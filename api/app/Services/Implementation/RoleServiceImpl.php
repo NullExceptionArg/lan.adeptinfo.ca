@@ -415,4 +415,18 @@ class RoleServiceImpl implements RoleService
         return GetPermissionsResource::collection($this->roleRepository->getGlobalRolePermissions($input->input('role_id')));
     }
 
+    public function getPermissions(): AnonymousResourceCollection
+    {
+        $roleValidator = Validator::make([
+            'permission' => 'get-permissions',
+        ], [
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        return GetPermissionsResource::collection($this->roleRepository->getPermissions());
+    }
 }

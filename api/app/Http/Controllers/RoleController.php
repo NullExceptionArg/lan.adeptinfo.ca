@@ -76,4 +76,9 @@ class RoleController extends Controller
     {
         return response()->json($this->roleService->getGlobalRolePermissions($request), 200);
     }
+
+    public function getPermissions(Request $request)
+    {
+        return response()->json($this->roleService->getPermissions($request), 200);
+    }
 }

@@ -6,6 +6,7 @@ namespace App\Repositories\Implementation;
 use App\Model\GlobalRole;
 use App\Model\Lan;
 use App\Model\LanRole;
+use App\Model\Permission;
 use App\Repositories\RoleRepository;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
@@ -178,7 +179,8 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('permission_global_role.role_id', $roleId)
             ->select([
                 'permission.id',
-                'permission.name'
+                'permission.name',
+                'permission.can_be_per_lan'
             ])
             ->get();
     }
@@ -190,8 +192,14 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('permission_lan_role.role_id', $roleId)
             ->select([
                 'permission.id',
-                'permission.name'
+                'permission.name',
+                'permission.can_be_per_lan',
             ])
             ->get();
+    }
+
+    public function getPermissions(): Collection
+    {
+        return Permission::all();
     }
 }

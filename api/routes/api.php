@@ -104,6 +104,8 @@ $api->version('v1', function ($api) {
                 $api->post('role/global/permissions', 'RoleController@addPermissionsGlobalRole');
                 $api->get('role/global', 'RoleController@getGlobalRoles');
                 $api->get('role/global/permissions', 'RoleController@getGlobalRolePermissions');
+                $api->get('role/permissions', 'RoleController@getPermissions');
+
                 $api->get('admin/summary', 'UserController@getAdminSummary');
             });
 
