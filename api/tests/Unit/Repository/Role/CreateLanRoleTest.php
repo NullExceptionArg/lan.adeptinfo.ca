@@ -40,7 +40,7 @@ class CreateLanRoleTest extends TestCase
             ->toArray();
     }
 
-    public function testCreateLanRoleTest(): void
+    public function testCreateLanRole(): void
     {
         $this->notSeeInDatabase('lan_role', [
             'lan_id' => $this->paramsContent['lan_id'],

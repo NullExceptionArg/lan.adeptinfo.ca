@@ -60,7 +60,7 @@ class AddPermissionLanRoleTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testAddPermissionLanRoleTest(): void
+    public function testAddPermissionLanRole(): void
     {
         $request = new Request($this->paramsContent);
 

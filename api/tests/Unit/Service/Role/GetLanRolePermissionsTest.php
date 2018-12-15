@@ -9,14 +9,15 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class GetGlobalRolePermissionsTest extends TestCase
+class GetLanRolePermissionsTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $roleService;
+    protected $lanService;
 
     protected $user;
-    protected $globalRole;
+    protected $lan;
+    protected $lanRole;
     protected $permissions;
     protected $accessRole;
 
@@ -26,21 +27,26 @@ class GetGlobalRolePermissionsTest extends TestCase
         $this->roleService = $this->app->make('App\Services\Implementation\RoleServiceImpl');
 
         $this->user = factory('App\Model\User')->create();
-        $this->globalRole = factory('App\Model\GlobalRole')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->lanRole = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+
         $this->permissions = Permission::inRandomOrder()
-            ->where('name', '!=', 'get-global-role-permissions')
+            ->where('name', '!=', 'get-lan-role-permissions')
+            ->where('can_be_per_lan', true)
             ->take(3)
             ->get();
 
         foreach ($this->permissions as $permission) {
-            factory('App\Model\PermissionGlobalRole')->create([
-                'role_id' => $this->globalRole->id,
+            factory('App\Model\PermissionLanRole')->create([
+                'role_id' => $this->lanRole->id,
                 'permission_id' => $permission->id
             ]);
         }
 
         $this->accessRole = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'get-global-role-permissions')->first();
+        $permission = Permission::where('name', 'get-lan-role-permissions')->first();
         factory('App\Model\PermissionGlobalRole')->create([
             'role_id' => $this->accessRole->id,
             'permission_id' => $permission->id
@@ -53,11 +59,11 @@ class GetGlobalRolePermissionsTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testGetGlobalRolePermissions(): void
+    public function testGetLanRolePermissions(): void
     {
-        $request = new Request(['role_id' => $this->globalRole->id]);
+        $request = new Request(['role_id' => $this->lanRole->id]);
 
-        $result = $this->roleService->getGlobalRolePermissions($request);
+        $result = $this->roleService->getLanRolePermissions($request);
         $permissionsResult = $result->jsonSerialize();
 
         $this->assertEquals($this->permissions[0]['id'], $result[0]->id);
@@ -76,24 +82,24 @@ class GetGlobalRolePermissionsTest extends TestCase
         $this->assertEquals(trans('permission.description-' . $this->permissions[2]['name']), $permissionsResult[2]['description']);
     }
 
-    public function testGetGlobalRolePermissionsLanHasPermission(): void
+    public function testGetLanRolePermissionsLanHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);
-        $request = new Request(['role_id' => $this->globalRole->id]);
+        $request = new Request(['role_id' => $this->lanRole->id]);
         try {
-            $this->roleService->getGlobalRolePermissions($request);
+            $this->roleService->getLanRolePermissions($request);
             $this->fail('Expected: REEEEEEEEEE');
         } catch (AuthorizationException $e) {
             $this->assertEquals('REEEEEEEEEE', $e->getMessage());
         }
     }
 
-    public function testGetGlobalRolePermissionsRoleIdRequired(): void
+    public function testGetLanRolePermissionsRoleIdRequired(): void
     {
         $request = new Request(['role_id' => null]);
         try {
-            $this->roleService->getGlobalRolePermissions($request);
+            $this->roleService->getLanRolePermissions($request);
             $this->fail('Expected: {"role_id":["The role id field is required."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
@@ -101,11 +107,11 @@ class GetGlobalRolePermissionsTest extends TestCase
         }
     }
 
-    public function testGetGlobalRolePermissionsRoleIdExist(): void
+    public function testGetLanRolePermissionsRoleIdExist(): void
     {
         $request = new Request(['role_id' => '☭']);
         try {
-            $this->roleService->getGlobalRolePermissions($request);
+            $this->roleService->getLanRolePermissions($request);
             $this->fail('Expected: {"role_id":["The role id must be an integer."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());

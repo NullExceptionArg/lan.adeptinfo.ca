@@ -46,7 +46,7 @@ class GetLanRolesTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testGetLanRolesTest(): void
+    public function testGetLanRoles(): void
     {
         $request = new Request([
             'lan_id' => $this->lan->id

@@ -52,7 +52,7 @@ class AddPermissionLanRoleTest extends TestCase
             ->toArray();
     }
 
-    public function testAddPermissionLanRoleTest(): void
+    public function testAddPermissionLanRole(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan/permissions', $this->requestContent)

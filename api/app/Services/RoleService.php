@@ -21,7 +21,7 @@ interface RoleService
 
     public function getLanRoles(Request $input): Collection;
 
-    public function getLanRolePermission(Request $input): AnonymousResourceCollection;
+    public function getLanRolePermissions(Request $input): AnonymousResourceCollection;
 
     public function createGlobalRole(Request $request): GlobalRole;
 

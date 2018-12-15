@@ -21,7 +21,7 @@ class GetGlobalRolesTest extends TestCase
         $this->globalRoles = factory('App\Model\GlobalRole', 3)->create();
     }
 
-    public function testGetLanRoleTest(): void
+    public function testGetLanRole(): void
     {
         $result = $this->roleRepository->getGlobalRoles();
 

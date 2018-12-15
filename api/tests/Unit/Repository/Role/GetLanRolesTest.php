@@ -25,7 +25,7 @@ class GetLanRolesTest extends TestCase
         ]);
     }
 
-    public function testGetLanRoleTest(): void
+    public function testGetLanRole(): void
     {
         $result = $this->roleRepository->getLanRoles($this->lan->id);
 

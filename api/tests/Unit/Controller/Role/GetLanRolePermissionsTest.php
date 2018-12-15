@@ -6,12 +6,13 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetGlobalRolePermissionsTest extends TestCase
+class GetLanRolePermissionsTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $user;
-    protected $globalRole;
+    protected $lan;
+    protected $lanRole;
     protected $permissions;
     protected $accessRole;
 
@@ -20,36 +21,43 @@ class GetGlobalRolePermissionsTest extends TestCase
         parent::setUp();
 
         $this->user = factory('App\Model\User')->create();
-        $this->globalRole = factory('App\Model\GlobalRole')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->lanRole = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+
         $this->permissions = Permission::inRandomOrder()
-            ->where('name', '!=', 'get-global-role-permissions')
+            ->where('name', '!=', 'get-lan-role-permissions')
+            ->where('can_be_per_lan', true)
             ->take(3)
             ->get();
 
         foreach ($this->permissions as $permission) {
-            factory('App\Model\PermissionGlobalRole')->create([
-                'role_id' => $this->globalRole->id,
+            factory('App\Model\PermissionLanRole')->create([
+                'role_id' => $this->lanRole->id,
                 'permission_id' => $permission->id
             ]);
         }
 
-        $this->accessRole = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'get-global-role-permissions')->first();
-        factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $this->accessRole->id,
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'get-lan-role-permissions')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
             'permission_id' => $permission->id
         ]);
-        factory('App\Model\GlobalRoleUser')->create([
-            'role_id' => $this->accessRole->id,
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
             'user_id' => $this->user->id
         ]);
     }
 
-    public function testGetGlobalRolePermissions(): void
+    public function testGetLanRolePermissions(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/permissions', [
-                'role_id' => $this->globalRole->id
+            ->json('GET', '/api/role/lan/permissions', [
+                'role_id' => $this->lanRole->id
             ])
             ->seeJsonEquals([
                 [
@@ -74,12 +82,12 @@ class GetGlobalRolePermissionsTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetGlobalRolePermissionsLanHasPermission(): void
+    public function testGetLanRolePermissionsLanHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/global/permissions', [
-                'role_id' => $this->role->id
+            ->json('GET', '/api/role/lan/permissions', [
+                'role_id' => $this->lanRole->id
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -89,10 +97,10 @@ class GetGlobalRolePermissionsTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testGetGlobalRolePermissionssRoleIdRequired(): void
+    public function testGetLanRolePermissionsRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/permissions', [
+            ->json('GET', '/api/role/lan/permissions', [
                 'role_id' => null
             ])
             ->seeJsonEquals([
@@ -107,10 +115,10 @@ class GetGlobalRolePermissionsTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetGlobalRolePermissionssRoleIdExist(): void
+    public function testGetLanRolePermissionsRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/permissions', [
+            ->json('GET', '/api/role/lan/permissions', [
                 'role_id' => '☭'
             ])
             ->seeJsonEquals([

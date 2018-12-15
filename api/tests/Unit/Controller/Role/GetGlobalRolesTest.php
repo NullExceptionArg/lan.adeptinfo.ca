@@ -33,7 +33,7 @@ class GetGlobalRolesTest extends TestCase
         ]);
     }
 
-    public function testGetGlobalRolesTest(): void
+    public function testGetGlobalRoles(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/global')

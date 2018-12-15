@@ -59,7 +59,7 @@ class CreateLanRoleTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testCreateLanRoleTest(): void
+    public function testCreateLanRole(): void
     {
         $request = new Request($this->paramsContent);
         $result = $this->roleService->createLanRole($request);

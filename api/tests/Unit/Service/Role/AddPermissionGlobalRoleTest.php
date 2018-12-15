@@ -51,7 +51,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testAddPermissionGlobalRoleTest(): void
+    public function testAddPermissionGlobalRole(): void
     {
         $request = new Request($this->paramsContent);
 

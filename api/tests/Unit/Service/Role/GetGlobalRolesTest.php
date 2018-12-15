@@ -40,7 +40,7 @@ class GetGlobalRolesTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testGetGlobalRolesTest(): void
+    public function testGetGlobalRoles(): void
     {
         $result = $this->roleService->getGlobalRoles(new Request());
 

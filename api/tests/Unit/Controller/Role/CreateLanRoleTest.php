@@ -51,7 +51,7 @@ class CreateLanRoleTest extends TestCase
             ->toArray();
     }
 
-    public function testCreateLanRoleTest(): void
+    public function testCreateLanRole(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan', $this->requestContent)

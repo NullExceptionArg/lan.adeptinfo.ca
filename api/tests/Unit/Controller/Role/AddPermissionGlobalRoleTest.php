@@ -43,7 +43,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->toArray();
     }
 
-    public function testAddPermissionGlobalRoleTest(): void
+    public function testAddPermissionGlobalRole(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/role/global/permissions', $this->requestContent)

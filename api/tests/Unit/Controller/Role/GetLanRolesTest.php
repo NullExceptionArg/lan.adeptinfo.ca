@@ -39,7 +39,7 @@ class GetLanRolesTest extends TestCase
         ]);
     }
 
-    public function testGetLanRolesTest(): void
+    public function testGetLanRoles(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/lan', ['lan_id' => $this->lan->id])

@@ -230,7 +230,7 @@ class RoleServiceImpl implements RoleService
         return $this->roleRepository->getLanRoles($input->input('lan_id'));
     }
 
-    public function getLanRolePermission(Request $input): AnonymousResourceCollection
+    public function getLanRolePermissions(Request $input): AnonymousResourceCollection
     {
         $role = null;
         if (is_int($input->input('role_id'))) {
@@ -241,7 +241,7 @@ class RoleServiceImpl implements RoleService
             'role_id' => $input->input('role_id'),
             'permission' => 'get-lan-role-permissions',
         ], [
-            'role_id' => 'required|integer|exists:global_role,id',
+            'role_id' => 'required|integer|exists:lan_role,id',
             'permission' => new HasPermissionInLan(is_null($role) ? null : $role->lan_id, Auth::id())
         ]);
 
@@ -249,7 +249,7 @@ class RoleServiceImpl implements RoleService
             throw new BadRequestHttpException($roleValidator->errors());
         }
 
-        return GetPermissionsResource::collection($this->roleRepository->getGlobalRolePermissions($input->input('role_id')));
+        return GetPermissionsResource::collection($this->roleRepository->getLanRolePermissions($input->input('role_id')));
     }
 
     public function createGlobalRole(Request $input): GlobalRole
