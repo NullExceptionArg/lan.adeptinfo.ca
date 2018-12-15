@@ -13,7 +13,7 @@ class SeatController extends Controller
     protected $seatService;
 
     /**
-     * LanController constructor.
+     * SeatController constructor.
      * @param SeatServiceImpl $seatServiceImpl
      */
     public function __construct(SeatServiceImpl $seatServiceImpl)

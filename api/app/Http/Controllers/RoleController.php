@@ -11,7 +11,7 @@ class RoleController extends Controller
     protected $roleService;
 
     /**
-     * LanController constructor.
+     * RoleController constructor.
      * @param RoleServiceImpl $roleService
      */
     public function __construct(RoleServiceImpl $roleService)

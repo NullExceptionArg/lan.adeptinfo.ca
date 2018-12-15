@@ -190,7 +190,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->join('permission', 'permission_lan_role.permission_id', '=', 'permission.id')
             ->where('permission_lan_role.role_id', $roleId)
             ->select([
-                'permission.id',
+                'CAST(permission.id AS int)',
                 'permission.name',
                 'permission.can_be_per_lan',
             ])

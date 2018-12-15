@@ -90,7 +90,7 @@ class EditGlobalRoleTest extends TestCase
 
     public function testEditGlobalRoleRoleIdExist(): void
     {
-        $this->paramsContent['role_id'] = '☭';
+        $this->paramsContent['role_id'] = -1;
         $request = new Request($this->paramsContent);
         try {
             $this->roleService->editGlobalRole($request);

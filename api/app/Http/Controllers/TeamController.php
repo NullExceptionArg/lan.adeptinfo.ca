@@ -11,7 +11,7 @@ class TeamController extends Controller
     protected $teamServiceImpl;
 
     /**
-     * LanController constructor.
+     * TeamController constructor.
      * @param TeamServiceImpl $teamServiceImpl
      */
     public function __construct(TeamServiceImpl $teamServiceImpl)

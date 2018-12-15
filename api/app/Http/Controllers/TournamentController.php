@@ -11,7 +11,7 @@ class TournamentController extends Controller
     protected $tournamentService;
 
     /**
-     * LanController constructor.
+     * TournamentController constructor.
      * @param TournamentServiceImpl $tournamentService
      */
     public function __construct(TournamentServiceImpl $tournamentService)

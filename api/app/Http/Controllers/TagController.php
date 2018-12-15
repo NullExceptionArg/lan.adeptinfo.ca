@@ -11,7 +11,7 @@ class TagController extends Controller
     protected $tagServiceImpl;
 
     /**
-     * LanController constructor.
+     * TagController constructor.
      * @param TagServiceImpl $tagServiceImpl
      */
     public function __construct(TagServiceImpl $tagServiceImpl)

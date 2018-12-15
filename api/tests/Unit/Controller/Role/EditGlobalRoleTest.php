@@ -89,7 +89,7 @@ class EditGlobalRoleTest extends TestCase
 
     public function testEditGlobalRoleRoleIdExist(): void
     {
-        $this->requestContent['role_id'] = '☭';
+        $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
             ->json('PUT', '/api/role/global', $this->requestContent)
             ->seeJsonEquals([
