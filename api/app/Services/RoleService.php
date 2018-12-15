@@ -6,6 +6,7 @@ namespace App\Services;
 use App\Model\GlobalRole;
 use App\Model\LanRole;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
 
 interface RoleService
@@ -20,7 +21,7 @@ interface RoleService
 
     public function getLanRoles(Request $input): Collection;
 
-    public function getLanRolePermission(Request $input): Collection;
+    public function getLanRolePermission(Request $input): AnonymousResourceCollection;
 
     public function createGlobalRole(Request $request): GlobalRole;
 
@@ -32,5 +33,5 @@ interface RoleService
 
     public function getGlobalRoles(Request $input): Collection;
 
-    public function getGlobalRolePermissions(Request $input): Collection;
+    public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection;
 }

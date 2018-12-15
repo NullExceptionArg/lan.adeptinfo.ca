@@ -2,6 +2,7 @@
 
 namespace App\Services\Implementation;
 
+use App\Http\Resources\Role\GetPermissionsResource;
 use App\Model\GlobalRole;
 use App\Model\LanRole;
 use App\Repositories\Implementation\LanRepositoryImpl;
@@ -15,6 +16,7 @@ use App\Rules\PermissionsCanBePerLan;
 use App\Rules\PermissionsDontBelongToRole;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -228,7 +230,7 @@ class RoleServiceImpl implements RoleService
         return $this->roleRepository->getLanRoles($input->input('lan_id'));
     }
 
-    public function getLanRolePermission(Request $input): Collection
+    public function getLanRolePermission(Request $input): AnonymousResourceCollection
     {
         $role = null;
         if (is_int($input->input('role_id'))) {
@@ -247,7 +249,7 @@ class RoleServiceImpl implements RoleService
             throw new BadRequestHttpException($roleValidator->errors());
         }
 
-        return $this->roleRepository->getGlobalRolePermissions($input->input('role_id'));
+        return GetPermissionsResource::collection($this->roleRepository->getGlobalRolePermissions($input->input('role_id')));
     }
 
     public function createGlobalRole(Request $input): GlobalRole
@@ -396,7 +398,7 @@ class RoleServiceImpl implements RoleService
         return $this->roleRepository->getGlobalRoles();
     }
 
-    public function getGlobalRolePermissions(Request $input): Collection
+    public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection
     {
         $roleValidator = Validator::make([
             'role_id' => $input->input('role_id'),
@@ -410,7 +412,7 @@ class RoleServiceImpl implements RoleService
             throw new BadRequestHttpException($roleValidator->errors());
         }
 
-        return $this->roleRepository->getGlobalRolePermissions($input->input('role_id'));
+        return GetPermissionsResource::collection($this->roleRepository->getGlobalRolePermissions($input->input('role_id')));
     }
 
 }

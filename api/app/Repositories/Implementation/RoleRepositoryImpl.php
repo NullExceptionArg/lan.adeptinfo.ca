@@ -178,8 +178,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('permission_global_role.role_id', $roleId)
             ->select([
                 'permission.id',
-                'permission.name',
-                'permission.can_be_per_lan',
+                'permission.name'
             ])
             ->get();
     }
@@ -190,9 +189,8 @@ class RoleRepositoryImpl implements RoleRepository
             ->join('permission', 'permission_lan_role.permission_id', '=', 'permission.id')
             ->where('permission_lan_role.role_id', $roleId)
             ->select([
-                'CAST(permission.id AS int)',
-                'permission.name',
-                'permission.can_be_per_lan',
+                'permission.id',
+                'permission.name'
             ])
             ->get();
     }
