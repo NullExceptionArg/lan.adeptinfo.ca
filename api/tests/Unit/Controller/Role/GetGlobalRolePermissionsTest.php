@@ -79,7 +79,7 @@ class GetGlobalRolePermissionsTest extends TestCase
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
             ->json('GET', '/api/role/global/permissions', [
-                'role_id' => $this->role->id
+                'role_id' => $this->globalRole->id
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -89,7 +89,7 @@ class GetGlobalRolePermissionsTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testGetGlobalRolePermissionssRoleIdRequired(): void
+    public function testGetGlobalRolePermissionsRoleIdRequired(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/global/permissions', [
@@ -107,7 +107,7 @@ class GetGlobalRolePermissionsTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetGlobalRolePermissionssRoleIdExist(): void
+    public function testGetGlobalRolePermissionsRoleIdExist(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/global/permissions', [
