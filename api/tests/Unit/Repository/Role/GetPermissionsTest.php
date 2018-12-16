@@ -28,7 +28,7 @@ class GetPermissionsTest extends TestCase
         for ($i = 0; $i < count($permissions); $i++) {
             $this->assertNotNull($arrayResults[$i]['id']);
             $this->assertEquals($permissions[$i]['name'], $arrayResults[$i]['name']);
-            $this->assertEquals($permissions[$i]['can_be_per_lan'], $arrayResults[$i]['can_be_per_lan']);
+            $this->assertEquals($permissions[$i]['can_be_per_lan'], (bool)$arrayResults[$i]['can_be_per_lan']);
         }
     }
 }

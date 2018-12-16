@@ -147,7 +147,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
             ->where('lan_role.lan_id', $lan->id)
             ->where('lan_role_user.user_id', $user->id)
-            ->select('permission.id', 'permission.name')
+            ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 
         $globalPermissions = DB::table('permission')
@@ -155,7 +155,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
             ->join('global_role_user', 'global_role.id', '=', 'global_role_user.role_id')
             ->where('global_role_user.user_id', $user->id)
-            ->select('permission.id', 'permission.name')
+            ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 
         return $lanPermissions->merge($globalPermissions)->unique();

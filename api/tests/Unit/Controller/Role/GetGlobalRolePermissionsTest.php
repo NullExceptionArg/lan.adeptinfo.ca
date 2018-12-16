@@ -55,18 +55,21 @@ class GetGlobalRolePermissionsTest extends TestCase
                 [
                     'id' => $this->permissions[0]['id'],
                     'name' => $this->permissions[0]['name'],
+                    'can_be_per_lan' => $this->permissions[0]['can_be_per_lan'],
                     'display_name' => trans('permission.display-name-' . $this->permissions[0]->name),
                     'description' => trans('permission.description-' . $this->permissions[0]->name)
                 ],
                 [
                     'id' => $this->permissions[1]['id'],
                     'name' => $this->permissions[1]['name'],
+                    'can_be_per_lan' => $this->permissions[1]['can_be_per_lan'],
                     'display_name' => trans('permission.display-name-' . $this->permissions[1]->name),
                     'description' => trans('permission.description-' . $this->permissions[1]->name)
                 ],
                 [
                     'id' => $this->permissions[2]['id'],
                     'name' => $this->permissions[2]['name'],
+                    'can_be_per_lan' => $this->permissions[2]['can_be_per_lan'],
                     'display_name' => trans('permission.display-name-' . $this->permissions[2]->name),
                     'description' => trans('permission.description-' . $this->permissions[2]->name)
                 ]
