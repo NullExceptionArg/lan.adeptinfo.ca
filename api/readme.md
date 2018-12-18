@@ -45,7 +45,7 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
 
  - Sous `Settings/Language & Framework/PHP`:
     - À côté de CLI interpreter, cliquer sur les [...]
-    - Cliquer sur + et entrez le chemin vers votre interpreteur PHP. Sur linux ce sera `usr/bin/php` la plupart du temps.
+    - Cliquer sur + et entrez le chemin vers votre interpreteur PHP. Sur linux ce sera `/usr/bin/php` la plupart du temps.
     - Cliquer sur OK.
  - Sous `Settings/Language & Framework/PHP/Debug/DBGp Proxy`
     - IDE key: `PHPSTORM`
