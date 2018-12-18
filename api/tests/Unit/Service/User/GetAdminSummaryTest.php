@@ -80,46 +80,55 @@ class GetAdminSummaryTest extends TestCase
 
         $this->assertEquals($permission->id, $permissionsResult[0]['id']);
         $this->assertEquals($permission->name, $permissionsResult[0]['name']);
+        $this->assertEquals($permission->can_be_per_lan, $permissionsResult[0]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-admin-summary'), $permissionsResult[0]['display_name']);
         $this->assertEquals(trans('permission.description-admin-summary'), $permissionsResult[0]['description']);
 
         $this->assertEquals($permissions[0]->id, $permissionsResult[1]['id']);
         $this->assertEquals($permissions[0]->name, $permissionsResult[1]['name']);
+        $this->assertEquals($permissions[0]->can_be_per_lan, $permissionsResult[1]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[0]->name), $permissionsResult[1]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[0]->name), $permissionsResult[1]['description']);
 
         $this->assertEquals($permissions[1]->id, $permissionsResult[2]['id']);
         $this->assertEquals($permissions[1]->name, $permissionsResult[2]['name']);
+        $this->assertEquals($permissions[1]->can_be_per_lan, $permissionsResult[2]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[1]->name), $permissionsResult[2]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[1]->name), $permissionsResult[2]['description']);
 
         $this->assertEquals($permissions[2]->id, $permissionsResult[3]['id']);
         $this->assertEquals($permissions[2]->name, $permissionsResult[3]['name']);
+        $this->assertEquals($permissions[2]->can_be_per_lan, $permissionsResult[3]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[2]->name), $permissionsResult[3]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[2]->name), $permissionsResult[3]['description']);
 
         $this->assertEquals($permissions[3]->id, $permissionsResult[4]['id']);
         $this->assertEquals($permissions[3]->name, $permissionsResult[4]['name']);
+        $this->assertEquals($permissions[3]->can_be_per_lan, $permissionsResult[4]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[3]->name), $permissionsResult[4]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[3]->name), $permissionsResult[4]['description']);
 
         $this->assertEquals($permissions[4]->id, $permissionsResult[5]['id']);
         $this->assertEquals($permissions[4]->name, $permissionsResult[5]['name']);
+        $this->assertEquals($permissions[4]->can_be_per_lan, $permissionsResult[5]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[5]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[5]['description']);
 
         $this->assertEquals($permissions[5]->id, $permissionsResult[6]['id']);
         $this->assertEquals($permissions[5]->name, $permissionsResult[6]['name']);
+        $this->assertEquals($permissions[5]->can_be_per_lan, $permissionsResult[6]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[6]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[6]['description']);
 
         $this->assertEquals($permissions[6]->id, $permissionsResult[7]['id']);
         $this->assertEquals($permissions[6]->name, $permissionsResult[7]['name']);
+        $this->assertEquals($permissions[6]->can_be_per_lan, $permissionsResult[7]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[7]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[7]['description']);
 
         $this->assertEquals($permissions[7]->id, $permissionsResult[8]['id']);
         $this->assertEquals($permissions[7]->name, $permissionsResult[8]['name']);
+        $this->assertEquals($permissions[7]->can_be_per_lan, $permissionsResult[8]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[8]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[8]['description']);
     }
@@ -181,46 +190,55 @@ class GetAdminSummaryTest extends TestCase
 
         $this->assertEquals($permission->id, $permissionsResult[0]['id']);
         $this->assertEquals($permission->name, $permissionsResult[0]['name']);
+        $this->assertEquals($permission->can_be_per_lan, $permissionsResult[0]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-admin-summary'), $permissionsResult[0]['display_name']);
         $this->assertEquals(trans('permission.description-admin-summary'), $permissionsResult[0]['description']);
 
         $this->assertEquals($permissions[0]->id, $permissionsResult[1]['id']);
         $this->assertEquals($permissions[0]->name, $permissionsResult[1]['name']);
+        $this->assertEquals($permissions[0]->can_be_per_lan, $permissionsResult[1]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[0]->name), $permissionsResult[1]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[0]->name), $permissionsResult[1]['description']);
 
         $this->assertEquals($permissions[1]->id, $permissionsResult[2]['id']);
         $this->assertEquals($permissions[1]->name, $permissionsResult[2]['name']);
+        $this->assertEquals($permissions[1]->can_be_per_lan, $permissionsResult[2]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[1]->name), $permissionsResult[2]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[1]->name), $permissionsResult[2]['description']);
 
         $this->assertEquals($permissions[2]->id, $permissionsResult[3]['id']);
         $this->assertEquals($permissions[2]->name, $permissionsResult[3]['name']);
+        $this->assertEquals($permissions[2]->can_be_per_lan, $permissionsResult[3]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[2]->name), $permissionsResult[3]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[2]->name), $permissionsResult[3]['description']);
 
         $this->assertEquals($permissions[3]->id, $permissionsResult[4]['id']);
         $this->assertEquals($permissions[3]->name, $permissionsResult[4]['name']);
+        $this->assertEquals($permissions[3]->can_be_per_lan, $permissionsResult[4]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[3]->name), $permissionsResult[4]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[3]->name), $permissionsResult[4]['description']);
 
         $this->assertEquals($permissions[4]->id, $permissionsResult[5]['id']);
         $this->assertEquals($permissions[4]->name, $permissionsResult[5]['name']);
+        $this->assertEquals($permissions[4]->can_be_per_lan, $permissionsResult[5]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[4]->name), $permissionsResult[5]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[4]->name), $permissionsResult[5]['description']);
 
         $this->assertEquals($permissions[5]->id, $permissionsResult[6]['id']);
         $this->assertEquals($permissions[5]->name, $permissionsResult[6]['name']);
+        $this->assertEquals($permissions[5]->can_be_per_lan, $permissionsResult[6]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[5]->name), $permissionsResult[6]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[5]->name), $permissionsResult[6]['description']);
 
         $this->assertEquals($permissions[6]->id, $permissionsResult[7]['id']);
         $this->assertEquals($permissions[6]->name, $permissionsResult[7]['name']);
+        $this->assertEquals($permissions[6]->can_be_per_lan, $permissionsResult[7]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[6]->name), $permissionsResult[7]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[6]->name), $permissionsResult[7]['description']);
 
         $this->assertEquals($permissions[7]->id, $permissionsResult[8]['id']);
         $this->assertEquals($permissions[7]->name, $permissionsResult[8]['name']);
+        $this->assertEquals($permissions[7]->can_be_per_lan, $permissionsResult[8]['can_be_per_lan']);
         $this->assertEquals(trans('permission.display-name-' . $permissions[7]->name), $permissionsResult[8]['display_name']);
         $this->assertEquals(trans('permission.description-' . $permissions[7]->name), $permissionsResult[8]['description']);
     }
