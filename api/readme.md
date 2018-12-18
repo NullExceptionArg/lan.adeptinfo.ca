@@ -65,7 +65,8 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
     - xdebug.remote_enable=1
     - xdebug.idekey=PHPSTORM
  - Créer une nouvelle configuration "PHP Built-in Web Server"
-    - Host: `localhost`
+    - Host: `127.0.0.2`
+    - Port: 8000
     - Document root: `[...]/lanadept.com/api`
     - Use router script (coché): `[...]/lanadept.com/api/public/index.php`
     - Interpreter options: `-dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9000 -dxdebug.remote_host=127.0.0.1`
