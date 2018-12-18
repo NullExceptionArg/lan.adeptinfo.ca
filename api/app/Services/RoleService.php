@@ -23,6 +23,8 @@ interface RoleService
 
     public function getLanRolePermissions(Request $input): AnonymousResourceCollection;
 
+    public function getLanUsers(Request $input): Collection;
+
     public function createGlobalRole(Request $request): GlobalRole;
 
     public function editGlobalRole(Request $input): GlobalRole;
@@ -34,6 +36,8 @@ interface RoleService
     public function getGlobalRoles(Request $input): Collection;
 
     public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection;
+
+    public function getGlobalUsers(Request $input): Collection;
 
     public function getPermissions(): AnonymousResourceCollection;
 }

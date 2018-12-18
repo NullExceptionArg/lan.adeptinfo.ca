@@ -252,6 +252,28 @@ class RoleServiceImpl implements RoleService
         return GetPermissionsResource::collection($this->roleRepository->getLanRolePermissions($input->input('role_id')));
     }
 
+    public function getLanUsers(Request $input): Collection
+    {
+        $role = null;
+        if (is_int($input->input('role_id'))) {
+            $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+        }
+
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'permission' => 'get-lan-user-roles',
+        ], [
+            'role_id' => 'required|integer|exists:lan_role,id',
+            'permission' => new HasPermissionInLan(is_null($role) ? null : $role->lan_id, Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        return $this->roleRepository->getLanUserRoles($input->input('role_id'));
+    }
+
     public function createGlobalRole(Request $input): GlobalRole
     {
         $roleValidator = Validator::make([
@@ -413,6 +435,23 @@ class RoleServiceImpl implements RoleService
         }
 
         return GetPermissionsResource::collection($this->roleRepository->getGlobalRolePermissions($input->input('role_id')));
+    }
+
+    public function getGlobalUsers(Request $input): Collection
+    {
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'permission' => 'get-global-user-roles',
+        ], [
+            'role_id' => 'required|integer|exists:global_role,id',
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        return $this->roleRepository->getGlobalUserRoles($input->input('role_id'));
     }
 
     public function getPermissions(): AnonymousResourceCollection
