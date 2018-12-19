@@ -73,4 +73,8 @@ interface RoleRepository
     public function getLanUserRoles(int $roleId): Collection;
 
     public function getGlobalUserRoles(int $roleId): Collection;
+
+    public function deleteLanRole(int $roleId): void;
+
+    public function deleteGlobalRole(int $roleId): void;
 }

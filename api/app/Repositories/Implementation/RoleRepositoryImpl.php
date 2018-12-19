@@ -275,4 +275,14 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('role_id', $role->id)
             ->delete();
     }
+
+    public function deleteLanRole(int $roleId): void
+    {
+        LanRole::destroy($roleId);
+    }
+
+    public function deleteGlobalRole(int $roleId): void
+    {
+        GlobalRole::destroy($roleId);
+    }
 }

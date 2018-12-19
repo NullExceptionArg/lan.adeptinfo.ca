@@ -21,6 +21,8 @@ interface RoleService
 
     public function deletePermissionsLanRole(Request $input): LanRole;
 
+    public function deleteLanRole(Request $input): LanRole;
+
     public function getLanRoles(Request $input): Collection;
 
     public function getLanRolePermissions(Request $input): AnonymousResourceCollection;
@@ -36,6 +38,8 @@ interface RoleService
     public function addPermissionsGlobalRole(Request $input): GlobalRole;
 
     public function deletePermissionsGlobalRole(Request $input): GlobalRole;
+
+    public function deleteGlobalRole(Request $input): GlobalRole;
 
     public function getGlobalRoles(Request $input): Collection;
 

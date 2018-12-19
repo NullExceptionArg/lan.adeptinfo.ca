@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int id
@@ -31,4 +30,14 @@ class LanRole extends Model
         'id' => 'integer',
         'lan_id' => 'integer'
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($role) {
+            PermissionLanRole::where('role_id', $role->id)->delete();
+            LanRoleUser::where('role_id', $role->id)->delete();
+        });
+    }
 }

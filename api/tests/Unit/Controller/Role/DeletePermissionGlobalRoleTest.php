@@ -53,7 +53,7 @@ class DeletePermissionGlobalRoleTest extends TestCase
         $this->requestContent['permissions'] = collect($this->permissions)->take(5)->toArray();
     }
 
-    public function testUnlinkPermissionIdLanRole(): void
+    public function testDeletePermissionGlobalRole(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
@@ -67,7 +67,7 @@ class DeletePermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testDeletePermissionGlobalRoleLanHasPermission(): void
+    public function testDeletePermissionGlobalRoleHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -108,6 +108,23 @@ class DeletePermissionGlobalRoleTest extends TestCase
                 'message' => [
                     'role_id' => [
                         0 => 'The role id must be an integer.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
+    public function testDeletePermissionGlobalRoleIdExist(): void
+    {
+        $this->requestContent['role_id'] = -1;
+        $this->actingAs($this->user)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'role_id' => [
+                        0 => 'The selected role id is invalid.',
                     ],
                 ]
             ])

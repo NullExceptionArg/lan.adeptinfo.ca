@@ -112,6 +112,19 @@ class DeletePermissionGlobalRoleTest extends TestCase
         }
     }
 
+    public function testDeletePermissionGlobalRoleIdExist(): void
+    {
+        $this->paramsContent['role_id'] = -1;
+        $request = new Request($this->paramsContent);
+        try {
+            $this->roleService->deletePermissionsGlobalRole($request);
+            $this->fail('Expected: {"role_id":["The selected role id is invalid."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"role_id":["The selected role id is invalid."]}', $e->getMessage());
+        }
+    }
+
     public function testDeletePermissionGlobalRolePermissionsRequired(): void
     {
         $this->paramsContent['permissions'] = null;

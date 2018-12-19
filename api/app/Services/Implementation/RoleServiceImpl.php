@@ -246,6 +246,34 @@ class RoleServiceImpl implements RoleService
         return $role;
     }
 
+    public function deleteLanRole(Request $input): LanRole
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $roleValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'role_id' => $input->input('role_id'),
+            'permission' => 'delete-lan-role',
+        ], [
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
+            'role_id' => 'required|integer|exists:lan_role,id',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+        $this->roleRepository->deleteLanRole($input->input('role_id'));
+
+        return $role;
+    }
+
     public function getLanRoles(Request $input): Collection
     {
         $lan = null;
@@ -470,6 +498,26 @@ class RoleServiceImpl implements RoleService
         foreach ($input->input('permissions') as $permissionId) {
             $this->roleRepository->unlinkPermissionIdGlobalRole($permissionId, $role);
         }
+
+        return $role;
+    }
+
+    public function deleteGlobalRole(Request $input): GlobalRole
+    {
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'permission' => 'delete-global-role',
+        ], [
+            'role_id' => 'required|integer|exists:global_role,id',
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findGlobalRoleById($input->input('role_id'));
+        $this->roleRepository->deleteGlobalRole($input->input('role_id'));
 
         return $role;
     }

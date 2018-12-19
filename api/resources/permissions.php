@@ -34,23 +34,29 @@ return [
     // Team
     ['name' => 'delete-team', 'can_be_per_lan' => true],
 
-    // Roles
+    // Lan roles
     ['name' => 'create-lan-role', 'can_be_per_lan' => true],
     ['name' => 'edit-lan-role', 'can_be_per_lan' => true],
     ['name' => 'add-permissions-lan-role', 'can_be_per_lan' => true],
     ['name' => 'delete-permissions-lan-role', 'can_be_per_lan' => true],
+    ['name' => 'delete-lan-role', 'can_be_per_lan' => true],
     ['name' => 'get-lan-roles', 'can_be_per_lan' => true],
     ['name' => 'get-lan-role-permissions', 'can_be_per_lan' => true],
     ['name' => 'assign-lan-role', 'can_be_per_lan' => true],
     ['name' => 'get-lan-user-roles', 'can_be_per_lan' => true],
+
+    // Global roles
     ['name' => 'create-global-role', 'can_be_per_lan' => false],
     ['name' => 'edit-global-role', 'can_be_per_lan' => false],
     ['name' => 'add-permissions-global-role', 'can_be_per_lan' => false],
     ['name' => 'delete-permissions-global-role', 'can_be_per_lan' => false],
+    ['name' => 'delete-global-role', 'can_be_per_lan' => false],
     ['name' => 'assign-global-role', 'can_be_per_lan' => false],
     ['name' => 'get-global-roles', 'can_be_per_lan' => false],
     ['name' => 'get-global-role-permissions', 'can_be_per_lan' => false],
     ['name' => 'get-global-user-roles', 'can_be_per_lan' => false],
+
+    // Permissions
     ['name' => 'get-permissions', 'can_be_per_lan' => true],
 
     // User

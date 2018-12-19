@@ -3,7 +3,6 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int lan_id
@@ -25,4 +24,14 @@ class GlobalRole extends Model
     protected $dates = ['deleted_at'];
 
     protected $hidden = ['id', 'deleted_at', 'created_at', 'updated_at'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($role) {
+            PermissionGlobalRole::where('role_id', $role->id)->delete();
+            GlobalRoleUser::where('role_id', $role->id)->delete();
+        });
+    }
 }
