@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Service\Role;
 
-use App\Console\Commands\GeneratePermissions;
 use App\Model\Permission;
 use Illuminate\Auth\Access\AuthorizationException;
 use Laravel\Lumen\Testing\DatabaseMigrations;
@@ -41,7 +40,7 @@ class GetPermissionsTest extends TestCase
     {
         $result = $this->roleService->getPermissions();
         $arrayResults = $result->collection->jsonSerialize();
-        $permissions = GeneratePermissions::getPermissions();
+        $permissions = include(base_path() . '/resources/permissions.php');
         for ($i = 0; $i < count($permissions); $i++) {
             $this->assertNotNull($arrayResults[$i]['id']);
             $this->assertEquals($permissions[$i]['name'], $arrayResults[$i]['name']);

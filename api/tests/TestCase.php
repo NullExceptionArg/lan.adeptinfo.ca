@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use App\Console\Commands\GeneratePermissions;
 use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
 
@@ -22,7 +21,6 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $permissions = new GeneratePermissions();
-        DB::table('permission')->insert($permissions->getPermissions());
+        DB::table('permission')->insert(include(base_path() . '/resources/permissions.php'));
     }
 }
