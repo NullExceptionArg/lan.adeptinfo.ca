@@ -3,6 +3,7 @@
 
 namespace App\Services\Implementation;
 
+use App\Http\Resources\User\GetAdminRolesResource;
 use App\Http\Resources\User\GetAdminSummaryResource;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
@@ -14,6 +15,7 @@ use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\FacebookEmailPermission;
+use App\Rules\HasPermission;
 use App\Rules\HasPermissionInLan;
 use App\Rules\UniqueEmailSocialLogin;
 use App\Rules\ValidFacebookToken;
@@ -302,5 +304,40 @@ class UserServiceImpl implements UserService
 
         $user = Auth::user();
         return new GetAdminSummaryResource($user, $this->roleRepository->getAdminPermissions($lan, $user));
+    }
+
+    public function getAdminRoles(Request $input)
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        if (is_null($input->input('email'))) {
+            $input['email'] = Auth::user()->email;
+        }
+
+        $userValidator = Validator::make([
+            'email' => $input->input('email'),
+            'lan_id' => $input->input('lan_id'),
+            'permission' => 'get-admin-roles'
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'email' => 'string|exists:user,email'
+        ]);
+
+        $userValidator->sometimes('permission', [new HasPermission(Auth::id())], function ($input) {
+            return Auth::user()->email != $input['email'];
+        });
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        $globalRoles = $this->roleRepository->getUsersGlobalRoles($input['email']);
+        $lanRoles = $this->roleRepository->getUsersLanRoles($input['email'], $input->input('lan_id'));
+
+        return new GetAdminRolesResource($globalRoles, $lanRoles);
     }
 }

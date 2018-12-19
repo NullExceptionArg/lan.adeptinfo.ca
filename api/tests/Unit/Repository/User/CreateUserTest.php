@@ -24,7 +24,7 @@ class CreateUserTest extends TestCase
         $this->userRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
     }
 
-    public function testSignUp(): void
+    public function testCreateUser(): void
     {
         $this->userRepository->createUser(
             $this->paramsContent['first_name'],

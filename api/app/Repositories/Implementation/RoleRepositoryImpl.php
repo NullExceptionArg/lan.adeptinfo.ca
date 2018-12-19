@@ -220,4 +220,43 @@ class RoleRepositoryImpl implements RoleRepository
             ->select('user.email', 'user.first_name', 'user.last_name')
             ->get();
     }
+
+    public function getUsersGlobalRoles(string $email): Collection
+    {
+        $globalRoles = DB::table('user')
+            ->join('global_role_user', 'user.id', '=', 'global_role_user.user_id')
+            ->join('global_role', 'global_role_user.role_id', '=', 'global_role.id')
+            ->where('user.email', $email)
+            ->select(
+                'global_role.id',
+                'global_role.name',
+                'global_role.en_display_name',
+                'global_role.fr_display_name',
+                'global_role.en_description',
+                'global_role.fr_description'
+            )
+            ->get();
+
+        return $globalRoles;
+    }
+
+    public function getUsersLanRoles(string $email, int $lanId): Collection
+    {
+        $lanRoles = DB::table('user')
+            ->join('lan_role_user', 'user.id', '=', 'lan_role_user.user_id')
+            ->join('lan_role', 'lan_role_user.role_id', '=', 'lan_role.id')
+            ->where('user.email', $email)
+            ->where('lan_role.lan_id', $lanId)
+            ->select(
+                'lan_role.id',
+                'lan_role.name',
+                'lan_role.en_display_name',
+                'lan_role.fr_display_name',
+                'lan_role.en_description',
+                'lan_role.fr_description'
+            )
+            ->get();
+
+        return $lanRoles;
+    }
 }

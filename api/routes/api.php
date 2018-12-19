@@ -108,6 +108,7 @@ $api->version('v1', function ($api) {
                 $api->get('role/global/users', 'RoleController@getGlobalUsers');
                 $api->get('role/permissions', 'RoleController@getPermissions');
 
+                $api->get('admin/roles', 'UserController@getAdminRoles');
                 $api->get('admin/summary', 'UserController@getAdminSummary');
             });
 
