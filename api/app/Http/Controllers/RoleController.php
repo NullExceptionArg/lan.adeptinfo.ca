@@ -38,6 +38,11 @@ class RoleController extends Controller
         return response()->json($this->roleService->addPermissionsLanRole($request), 200);
     }
 
+    public function deletePermissionsLanRole(Request $request)
+    {
+        return response()->json($this->roleService->deletePermissionsLanRole($request), 200);
+    }
+
     public function getLanRoles(Request $request)
     {
         return response()->json($this->roleService->getLanRoles($request), 200);
@@ -73,6 +78,11 @@ class RoleController extends Controller
         return response()->json($this->roleService->addPermissionsGlobalRole($request), 200);
     }
 
+    public function deletePermissionsGlobalRole(Request $request)
+    {
+        return response()->json($this->roleService->deletePermissionsGlobalRole($request), 200);
+    }
+
     public function getGlobalRoles(Request $request)
     {
         return response()->json($this->roleService->getGlobalRoles($request), 200);
@@ -85,7 +95,7 @@ class RoleController extends Controller
 
     public function getPermissions(Request $request)
     {
-        return response()->json($this->roleService->getPermissions($request), 200);
+        return response()->json($this->roleService->getPermissions(), 200);
     }
 
     public function getGlobalUsers(Request $request)

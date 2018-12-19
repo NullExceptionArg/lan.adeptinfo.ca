@@ -259,4 +259,20 @@ class RoleRepositoryImpl implements RoleRepository
 
         return $lanRoles;
     }
+
+    public function unlinkPermissionIdLanRole(int $permissionId, LanRole $role)
+    {
+        DB::table('permission_lan_role')
+            ->where('permission_id', $permissionId)
+            ->where('role_id', $role->id)
+            ->delete();
+    }
+
+    public function unlinkPermissionIdGlobalRole(int $permissionId, GlobalRole $role)
+    {
+        DB::table('permission_global_role')
+            ->where('permission_id', $permissionId)
+            ->where('role_id', $role->id)
+            ->delete();
+    }
 }

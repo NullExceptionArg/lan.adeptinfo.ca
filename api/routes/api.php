@@ -96,6 +96,7 @@ $api->version('v1', function ($api) {
                 $api->put('role/lan', 'RoleController@editLanRole');
                 $api->post('role/lan/assign', 'RoleController@assignLanRole');
                 $api->post('role/lan/permissions', 'RoleController@addPermissionsLanRole');
+                $api->delete('role/lan/permissions', 'RoleController@deletePermissionsLanRole');
                 $api->get('role/lan', 'RoleController@getLanRoles');
                 $api->get('role/lan/permissions', 'RoleController@getLanRolePermissions');
                 $api->get('role/lan/users', 'RoleController@getLanUsers');
@@ -103,6 +104,7 @@ $api->version('v1', function ($api) {
                 $api->put('role/global', 'RoleController@editGlobalRole');
                 $api->post('role/global/assign', 'RoleController@assignGlobalRole');
                 $api->post('role/global/permissions', 'RoleController@addPermissionsGlobalRole');
+                $api->delete('role/global/permissions', 'RoleController@deletePermissionsGlobalRole');
                 $api->get('role/global', 'RoleController@getGlobalRoles');
                 $api->get('role/global/permissions', 'RoleController@getGlobalRolePermissions');
                 $api->get('role/global/users', 'RoleController@getGlobalUsers');

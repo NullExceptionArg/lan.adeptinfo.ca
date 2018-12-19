@@ -148,6 +148,7 @@ return [
     'has_permission' => 'L\'utilisateur n\'a pas la permission d\'accéder à la ressource demandé.',
     'permissions_can_be_per_lan' => 'L\'une des permissions fournies ne peut être attribuée à un rôle pour LAN.',
     'permissions_dont_belong_to_user' => 'L\'une des permissions fournies est déjà attribuée à ce rôle.',
+    'permissions_belong_to_user' => 'L\'une des permissions n\'est pas attribuée à ce rôle.',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

@@ -24,7 +24,7 @@ class LinkPermissionIdGlobalRoleTest extends TestCase
         $this->role = factory('App\Model\GlobalRole')->create();
     }
 
-    public function testCreateGlobalRole(): void
+    public function testLinkPermissionIdGlobalRole(): void
     {
         $permission = DB::table('permission')
             ->first();

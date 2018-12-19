@@ -28,7 +28,7 @@ class LinkPermissionIdLanRoleTest extends TestCase
         ]);
     }
 
-    public function testCreateLanRole(): void
+    public function testLinkPermissionIdLanRole(): void
     {
         $permission = DB::table('permission')
             ->first();

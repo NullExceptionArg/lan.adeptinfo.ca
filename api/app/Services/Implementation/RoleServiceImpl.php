@@ -12,6 +12,7 @@ use App\Rules\ArrayOfInteger;
 use App\Rules\ElementsInArrayExistInPermission;
 use App\Rules\HasPermission;
 use App\Rules\HasPermissionInLan;
+use App\Rules\PermissionsBelongToRole;
 use App\Rules\PermissionsCanBePerLan;
 use App\Rules\PermissionsDontBelongToRole;
 use App\Services\RoleService;
@@ -202,6 +203,44 @@ class RoleServiceImpl implements RoleService
 
         foreach ($input->input('permissions') as $permissionId) {
             $this->roleRepository->linkPermissionIdLanRole($permissionId, $role);
+        }
+
+        return $role;
+    }
+
+    public function deletePermissionsLanRole(Request $input): LanRole
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $roleValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'role_id' => $input->input('role_id'),
+            'permissions' => $input->input('permissions'),
+            'permission' => 'delete-permissions-lan-role',
+        ], [
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
+            'role_id' => 'required|integer|exists:lan_role,id',
+            'permissions' => [
+                'required',
+                'array',
+                new ArrayOfInteger,
+                new PermissionsBelongToRole($input->input('role_id'))
+            ],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
+
+        foreach ($input->input('permissions') as $permissionId) {
+            $this->roleRepository->unlinkPermissionIdLanRole($permissionId, $role);
         }
 
         return $role;
@@ -400,6 +439,36 @@ class RoleServiceImpl implements RoleService
 
         foreach ($input->input('permissions') as $permissionId) {
             $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $role);
+        }
+
+        return $role;
+    }
+
+    public function deletePermissionsGlobalRole(Request $input): GlobalRole
+    {
+        $roleValidator = Validator::make([
+            'role_id' => $input->input('role_id'),
+            'permissions' => $input->input('permissions'),
+            'permission' => 'delete-permissions-global-role',
+        ], [
+            'role_id' => 'required|integer|exists:global_role,id',
+            'permissions' => [
+                'required',
+                'array',
+                new ArrayOfInteger,
+                new PermissionsBelongToRole($input->input('role_id'))
+            ],
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        if ($roleValidator->fails()) {
+            throw new BadRequestHttpException($roleValidator->errors());
+        }
+
+        $role = $this->roleRepository->findGlobalRoleById($input->input('role_id'));
+
+        foreach ($input->input('permissions') as $permissionId) {
+            $this->roleRepository->unlinkPermissionIdGlobalRole($permissionId, $role);
         }
 
         return $role;
