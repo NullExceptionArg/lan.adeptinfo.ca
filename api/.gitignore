@@ -6,3 +6,6 @@ Homestead.yaml
 /.env.testing
 .vagrant/
 phpunit.phar
+/composer.lock
+/database/database.sqlite
+/database/database.sqlite-journal
