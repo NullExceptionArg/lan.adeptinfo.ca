@@ -43,8 +43,7 @@ class AssignLanRoleTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan/assign', [
                 'role_id' => $this->role->id,
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+                'email' => $this->user->email
             ])
             ->seeJsonEquals([
                 'name' => $this->role->name,
@@ -63,8 +62,7 @@ class AssignLanRoleTest extends TestCase
         $this->actingAs($user)
             ->json('POST', '/api/role/lan/assign', [
                 'role_id' => $this->role->id,
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+                'email' => $this->user->email
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -78,8 +76,7 @@ class AssignLanRoleTest extends TestCase
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan/assign', [
-                'role_id' => $this->role->id,
-                'lan_id' => $this->lan->id
+                'role_id' => $this->role->id
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -98,8 +95,7 @@ class AssignLanRoleTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan/assign', [
                 'role_id' => $this->role->id,
-                'email' => '☭',
-                'lan_id' => $this->lan->id
+                'email' => '☭'
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -118,8 +114,7 @@ class AssignLanRoleTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan/assign', [
                 'role_id' => '☭',
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+                'email' => $this->user->email
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -133,13 +128,35 @@ class AssignLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testAssignGlobalRoleIdLanRoleOncePerUser(): void
+    {
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $this->role->id,
+            'user_id' => $this->user->id
+        ]);
+        $this->actingAs($this->user)
+            ->json('POST', '/api/role/lan/assign', [
+                'role_id' => $this->role->id,
+                'email' => $this->user->email
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'role_id' => [
+                        0 => 'The user already has this role.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
     public function testAssignLanRoleIdExist(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan/assign', [
                 'role_id' => -1,
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+                'email' => $this->user->email
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -147,46 +164,6 @@ class AssignLanRoleTest extends TestCase
                 'message' => [
                     'role_id' => [
                         0 => 'The selected role id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testAssignLanIdExist(): void
-    {
-        $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
-                'role_id' => $this->role->id,
-                'email' => $this->user->email,
-                'lan_id' => -1
-            ])
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testAssignLanIdRequired(): void
-    {
-        $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
-                'role_id' => $this->role->id,
-                'email' => $this->user->email,
-                'lan_id' => '☭'
-            ])
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id must be an integer.',
                     ],
                 ]
             ])

@@ -10,9 +10,11 @@ use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\ArrayOfInteger;
 use App\Rules\ElementsInArrayExistInPermission;
+use App\Rules\GlobalRoleOncePerUser;
 use App\Rules\HasPermission;
 use App\Rules\HasPermissionInLan;
 use App\Rules\LanRoleNameOncePerLan;
+use App\Rules\LanRoleOncePerUser;
 use App\Rules\PermissionsBelongToRole;
 use App\Rules\PermissionsCanBePerLan;
 use App\Rules\PermissionsDontBelongToRole;
@@ -139,22 +141,19 @@ class RoleServiceImpl implements RoleService
 
     public function assignLanRole(Request $input): LanRole
     {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
+        $role = null;
+        if (is_int($input->input('role_id'))) {
+            $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
         }
 
         $roleValidator = Validator::make([
-            'lan_id' => $input->input('lan_id'),
             'email' => $input->input('email'),
             'role_id' => $input->input('role_id'),
             'permission' => 'assign-lan-role',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'email' => 'required|exists:user,email',
-            'role_id' => 'integer|exists:lan_role,id',
-            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+            'role_id' => ['integer', 'exists:lan_role,id', new LanRoleOncePerUser($input->input('email'))],
+            'permission' => new HasPermissionInLan(is_null($role) ? null : $role->lan_id, Auth::id())
         ]);
 
         if ($roleValidator->fails()) {
@@ -426,7 +425,7 @@ class RoleServiceImpl implements RoleService
             'permission' => 'assign-global-role',
         ], [
             'email' => 'required|exists:user,email',
-            'role_id' => 'integer|exists:global_role,id',
+            'role_id' => ['integer', 'exists:global_role,id', new GlobalRoleOncePerUser($input->input('email'))],
             'permission' => new HasPermission(Auth::id())
         ]);
 

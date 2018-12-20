@@ -5,7 +5,7 @@ Les rôles de LAN sont des rôles qui se sont effectif que sur un LAN spécifiqu
 
 ## Créer un rôle de LAN
 
-Créer un rôle pour un lan.
+Créer un rôle de lan.
 
 ### Requête HTTP
 
@@ -71,7 +71,7 @@ fr_description | Nom du rôles créé, en français.
 
 ## Modifier un rôle de LAN
 
-Modifier un rôle pour un lan.
+Modifier un rôle de lan.
 D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au rôle.
 
 ### Requête HTTP
@@ -128,10 +128,53 @@ fr_display_name | Description du rôle modifié, en français.
 fr_description | Nom du rôles modifié, en français.
 
 
+## Assigner un rôle de LAN
+
+Assigner un rôle de LAN à un utilisateur
+
 ### Requête HTTP
 
 `POST /api/role/lan/assign`
 
+> Exemple de requête
+
+```json
+{
+	"email" : "karl.marx@unite.org",
+	"role_id" : 1
+}
+```
+
+### POST Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+email | Courriel de l'utilisateur à qui on veut attribuer le rôle. | requis.
+role_id | Id du rôle à attribuer à l'utilisateur | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "name": "comrades",
+    "en_display_name": "Comrade",
+    "en_description": "Our equal",
+    "fr_display_name": "Camarade",
+    "fr_description": "Notre égal.",
+    "lan_id": 1
+}
+```
+
+Champ | Description
+--------- | -----------
+lan_id | Id du LAN attribué.
+name | Nom unique du rôle attribué.
+en_display_name | Nom du rôle attribué, en anglais.
+en_description | Description du rôle attribué, en anglais.
+fr_display_name | Description du rôle attribué, en français.
+fr_description | Nom du rôles attribué, en français.
 
 ### Requête HTTP
 

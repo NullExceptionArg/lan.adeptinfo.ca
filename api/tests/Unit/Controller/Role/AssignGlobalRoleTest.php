@@ -121,6 +121,29 @@ class AssignGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testAssignGlobalRoleIdGlobalRoleOncePerUser(): void
+    {
+        factory('App\Model\GlobalRoleUser')->create([
+            'role_id' => $this->role->id,
+            'user_id' => $this->user->id
+        ]);
+        $this->actingAs($this->user)
+            ->json('POST', '/api/role/global/assign', [
+                'role_id' => $this->role->id,
+                'email' => $this->user->email
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 400,
+                'message' => [
+                    'role_id' => [
+                        0 => 'The user already has this role.',
+                    ],
+                ]
+            ])
+            ->assertResponseStatus(400);
+    }
+
     public function testAssignGlobalRoleIdExist(): void
     {
         $this->actingAs($this->user)

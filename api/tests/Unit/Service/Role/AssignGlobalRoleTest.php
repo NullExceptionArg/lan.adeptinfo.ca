@@ -115,6 +115,25 @@ class AssignGlobalRoleTest extends TestCase
         }
     }
 
+    public function testAssignGlobalRoleIdGlobalRoleOncePerUser(): void
+    {
+        factory('App\Model\GlobalRoleUser')->create([
+            'role_id' => $this->role->id,
+            'user_id' => $this->user->id
+        ]);
+        $request = new Request([
+            'role_id' => $this->role->id,
+            'email' => $this->user->email
+        ]);
+        try {
+            $this->roleService->assignGlobalRole($request);
+            $this->fail('Expected: {"role_id":["The user already has this role."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"role_id":["The user already has this role."]}', $e->getMessage());
+        }
+    }
+
     public function testAssignGlobalRoleIdExist(): void
     {
         $request = new Request([

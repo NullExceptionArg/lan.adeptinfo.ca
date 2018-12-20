@@ -118,9 +118,51 @@ fr_display_name | Description du rôle modifié, en français.
 fr_description | Nom du rôles modifié, en français.
 
 
+## Assigner un rôle global
+
+Assigner un rôle global à un utilisateur
+
 ### Requête HTTP
 
 `POST /api/role/global/assign`
+
+> Exemple de requête
+
+```json
+{
+	"email" : "karl.marx@unite.org",
+	"role_id" : 1
+}
+```
+
+### POST Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+email | Courriel de l'utilisateur à qui on veut attribuer le rôle. | requis.
+role_id | Id du rôle à attribuer à l'utilisateur | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "name": "comrades",
+    "en_display_name": "Comrade",
+    "en_description": "Our equal",
+    "fr_display_name": "Camarade",
+    "fr_description": "Notre égal."
+}
+```
+
+Champ | Description
+--------- | -----------
+name | Nom unique du rôle attribué.
+en_display_name | Nom du rôle attribué, en anglais.
+en_description | Description du rôle attribué, en anglais.
+fr_display_name | Description du rôle attribué, en français.
+fr_description | Nom du rôles attribué, en français.
 
 
 ### Requête HTTP

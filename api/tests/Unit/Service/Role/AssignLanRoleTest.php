@@ -126,6 +126,26 @@ class AssignLanRoleTest extends TestCase
         }
     }
 
+    public function testAssignGlobalRoleIdLanRoleOncePerUser(): void
+    {
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $this->role->id,
+            'user_id' => $this->user->id
+        ]);
+        $request = new Request([
+            'role_id' => $this->role->id,
+            'email' => $this->user->email,
+            'lan_id' => $this->lan->id
+        ]);
+        try {
+            $this->roleService->assignLanRole($request);
+            $this->fail('Expected: {"role_id":["The user already has this role."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"role_id":["The user already has this role."]}', $e->getMessage());
+        }
+    }
+
     public function testAssignLanRoleIdExist(): void
     {
         $request = new Request([
