@@ -33,6 +33,9 @@ Cet api représente le backend complet du site web du LAN de l'ADEPT. Il rassemb
  - Exécuter `php artisan key:generate`
  - Exécuter `php artisan migrate`
  - Exécuter `php artisan passport:install`
+ - Exécuter `php artisan lan:permissions`
+ - Exécuter `php artisan lan:roles`
+ - Exécuter `php artisan lan:general-admin`
  - Exécuter `php -S localhost:8000 -t public`
  - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000](http://localhost:8000)
 
