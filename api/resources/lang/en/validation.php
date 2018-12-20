@@ -149,6 +149,7 @@ return [
     'permissions_can_be_per_lan' => 'One of the provided permissions cannot be attributed to a LAN role.',
     'permissions_dont_belong_to_user' => 'One of the provided permissions is already attributed to this role.',
     'permissions_belong_to_user' => 'One of the provided permissions is not attributed to this role.',
+    'lan_role_name_once_per_lan' => 'The name of the LAN role must be unique per LAN.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*

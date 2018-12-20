@@ -22,11 +22,5 @@ abstract class TestCase extends BaseTestCase
 
         $this->artisan('lan:permissions');
         $this->artisan('lan:roles');
-        $this->artisan('lan:general-admin', [
-            'email' => 'karl.marx@unite.org',
-            'first-name' => 'karl',
-            'last-name' => 'marx',
-            'password' => 'Passw0rd!',
-        ]);
     }
 }

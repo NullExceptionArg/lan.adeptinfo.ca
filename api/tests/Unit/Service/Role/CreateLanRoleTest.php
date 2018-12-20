@@ -150,7 +150,7 @@ class CreateLanRoleTest extends TestCase
         }
     }
 
-    public function testCreateLanRoleNameUnique(): void
+    public function testCreateLanRoleNameLanRoleNameOncePerLan(): void
     {
         factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id,
@@ -159,10 +159,10 @@ class CreateLanRoleTest extends TestCase
         $request = new Request($this->paramsContent);
         try {
             $this->roleService->createLanRole($request);
-            $this->fail('Expected: {"name":["The name has already been taken."]}');
+            $this->fail('Expected: {"name":["The name of the LAN role must be unique per LAN."]}');
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"name":["The name has already been taken."]}', $e->getMessage());
+            $this->assertEquals('{"name":["The name of the LAN role must be unique per LAN."]}', $e->getMessage());
         }
     }
 

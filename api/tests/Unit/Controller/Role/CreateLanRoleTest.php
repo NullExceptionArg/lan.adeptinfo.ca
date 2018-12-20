@@ -164,7 +164,7 @@ class CreateLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateLanRoleNameUnique(): void
+    public function testCreateLanRoleNameLanRoleNameOncePerLan(): void
     {
         factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id,
@@ -177,7 +177,7 @@ class CreateLanRoleTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name has already been taken.',
+                        0 => 'The name of the LAN role must be unique per LAN.',
                     ],
                 ]
             ])

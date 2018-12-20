@@ -15,7 +15,7 @@ class CreateTableLanRole extends Migration
     {
         Schema::create('lan_role', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('en_display_name');
             $table->string('en_description', 500);
             $table->string('fr_display_name');

@@ -12,6 +12,7 @@ use App\Rules\ArrayOfInteger;
 use App\Rules\ElementsInArrayExistInPermission;
 use App\Rules\HasPermission;
 use App\Rules\HasPermissionInLan;
+use App\Rules\LanRoleNameOncePerLan;
 use App\Rules\PermissionsBelongToRole;
 use App\Rules\PermissionsCanBePerLan;
 use App\Rules\PermissionsDontBelongToRole;
@@ -65,7 +66,7 @@ class RoleServiceImpl implements RoleService
             'permission' => 'create-lan-role',
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'name' => 'required|string|max:50|unique:lan_role,name',
+            'name' => ['required', 'string', 'max:50', new LanRoleNameOncePerLan($input->input('lan_id'))],
             'en_display_name' => 'required|string|max:70',
             'en_description' => 'required|string|max:1000',
             'fr_display_name' => 'required|string|max:70',
