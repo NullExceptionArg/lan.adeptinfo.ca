@@ -11,6 +11,8 @@ Créer un nouveau LAN.
 ### Paramètres POST
 
 Si le LAN est le premier à être créé, il sera le LAN courant (is_current dans le BD).
+Une liste de rôle est créé par défaut à la création du LAN. Pour en savoir plus sur la liste de rôle, veuillez vous référer à la section [Rôle de LAN](#role-de-lan)
+La liste peut être trouvée dans le projet sous `api/resources/roles.php`
 
 > Exemple de requête
 
