@@ -21,6 +21,5 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->artisan('lan:permissions');
-        $this->artisan('lan:roles');
     }
 }
