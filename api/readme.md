@@ -99,7 +99,9 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
  - Exécuter `php artisan key:generate`
  - Exécuter `php artisan migrate`
  - Exécuter `php artisan passport:install`
- - Exécuter `php lan:install`. Cette commande a été créée par les développeurs de l'API afin de générer les permissions existantes pour chaques appels Http.
+ - Exécuter `php artisan lan:permissions`
+ - Exécuter `php artisan lan:roles`
+ - Exécuter `php artisan lan:general-admin`
  - Exécuter `php -S localhost:8000 -t public`
  - Ouvrir un navigateur à l'URL suivante: [http://localhost:8000](http://localhost:8000)
 
@@ -111,9 +113,9 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
 ### Déboguer en local avec PhpStorm
 
  - Sous `Settings/Language & Framework/PHP`:
-    - À côté de "CLI interpreter", cliquez sur les [...]
-    - Cliquez sur + et entrez le chemin vers votre interpreteur PHP. Sur linux ce sera `usr/bin/php` la plupart du temps.
-    - Cliquez sur OK.
+    - À côté de CLI interpreter, cliquer sur les [...]
+    - Cliquer sur + et entrez le chemin vers votre interpreteur PHP. Sur linux ce sera `/usr/bin/php` la plupart du temps.
+    - Cliquer sur OK.
  - Sous `Settings/Language & Framework/PHP/Debug/DBGp Proxy`
     - IDE key: `PHPSTORM`
     - Host: `127.0.0.1`
@@ -132,7 +134,8 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
     - xdebug.remote_enable=1
     - xdebug.idekey=PHPSTORM
  - Créer une nouvelle configuration "PHP Built-in Web Server"
-    - Host: `localhost`
+    - Host: `127.0.0.2`
+    - Port: 8000
     - Document root: `[...]/lanadept.com/api`
     - Use router script (coché): `[...]/lanadept.com/api/public/index.php`
     - Interpreter options: `-dxdebug.remote_enable=1 -dxdebug.remote_mode=req -dxdebug.remote_port=9000 -dxdebug.remote_host=127.0.0.1`
