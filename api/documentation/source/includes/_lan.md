@@ -201,7 +201,7 @@ Obtenir l'ensemble des LANs
 
 `GET /api/lan/all`
 
-Cette requête ne nécessite aucuns paramètres
+Cette requête ne nécessite aucuns paramètres.
 
 ### Format de réponse
 

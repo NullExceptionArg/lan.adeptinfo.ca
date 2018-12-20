@@ -18,6 +18,9 @@ includes:
   - tournament
   - team
   - tag
+  - permission
+  - global_role
+  - lan_role
   - language
   - errors
 

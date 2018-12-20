@@ -1,12 +1,27 @@
-# Role
+# Role de LAN
 
-## Créer un rôle
+## Créer un rôle de LAN
 
 Créer un rôle pour un lan à partir des permissions d'administration de l'API.
 
 ### Requête HTTP
 
 `POST /api/role/lan`
+
+> Exemple de requête
+
+```json
+{
+	"name": "comrade",
+	"en_display_name" : "Comrade",
+	"en_description" : "Our equal",
+	"fr_display_name" : "Camarade",
+	"fr_description" : "Notre égal.",
+	"permissions" : [
+		39, 23
+	]
+}
+```
 
 ### POST Params
 
@@ -48,3 +63,43 @@ en_display_name | Nom du rôle créé, en anglais.
 en_description | Description du rôle créé, en anglais.
 fr_display_name | Description du rôle créé, en français.
 fr_description | Nom du rôles créé, en français.
+
+
+### Requête HTTP
+
+`PUT /api/role/lan`
+
+
+### Requête HTTP
+
+`POST /api/role/lan/assign`
+
+
+### Requête HTTP
+
+`POST /api/role/lan/permissions`
+
+
+### Requête HTTP
+
+`DELETE /api/role/lan/permissions`
+
+
+### Requête HTTP
+
+`DELETE /api/role/lan`
+
+
+### Requête HTTP
+
+`GET /api/role/lan`
+
+
+### Requête HTTP
+
+`GET /api/role/lan/permissions`
+
+
+### Requête HTTP
+
+`GET /api/role/lan/users`

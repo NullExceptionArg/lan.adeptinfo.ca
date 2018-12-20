@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7285f9f127ed91b330f6a138c6a8234f",
+  "content-hash": "5699c675126115373f5a17bd2ac40d57",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -743,6 +743,109 @@
             "time": "2018-11-28T22:47:46+00:00"
         },
         {
+          "name": "egulias/email-validator",
+          "version": "2.1.7",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/egulias/EmailValidator.git",
+            "reference": "709f21f92707308cdf8f9bcfa1af4cb26586521e"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/709f21f92707308cdf8f9bcfa1af4cb26586521e",
+            "reference": "709f21f92707308cdf8f9bcfa1af4cb26586521e",
+            "shasum": ""
+          },
+          "require": {
+            "doctrine/lexer": "^1.0.1",
+            "php": ">= 5.5"
+          },
+          "require-dev": {
+            "dominicsayers/isemail": "dev-master",
+            "phpunit/phpunit": "^4.8.35||^5.7||^6.0",
+            "satooshi/php-coveralls": "^1.0.1"
+          },
+          "suggest": {
+            "ext-intl": "PHP Internationalization Libraries are required to use the SpoofChecking validation"
+          },
+          "type": "library",
+          "extra": {
+            "branch-alias": {
+              "dev-master": "2.0.x-dev"
+            }
+          },
+          "autoload": {
+            "psr-4": {
+              "Egulias\\EmailValidator\\": "EmailValidator"
+            }
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "Eduardo Gulias Davis"
+            }
+          ],
+          "description": "A library for validating emails against several RFCs",
+          "homepage": "https://github.com/egulias/EmailValidator",
+          "keywords": [
+            "email",
+            "emailvalidation",
+            "emailvalidator",
+            "validation",
+            "validator"
+          ],
+          "time": "2018-12-04T22:38:24+00:00"
+        },
+      {
+        "name": "erusev/parsedown",
+        "version": "1.7.1",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/erusev/parsedown.git",
+          "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/erusev/parsedown/zipball/92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
+          "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
+          "shasum": ""
+        },
+        "require": {
+          "ext-mbstring": "*",
+          "php": ">=5.3.0"
+        },
+        "require-dev": {
+          "phpunit/phpunit": "^4.8.35"
+        },
+        "type": "library",
+        "autoload": {
+          "psr-0": {
+            "Parsedown": ""
+          }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+          "MIT"
+        ],
+        "authors": [
+          {
+            "name": "Emanuil Rusev",
+            "email": "hello@erusev.com",
+            "homepage": "http://erusev.com"
+          }
+        ],
+        "description": "Parser for Markdown.",
+        "homepage": "http://parsedown.org",
+        "keywords": [
+          "markdown",
+          "parser"
+        ],
+        "time": "2018-03-08T01:11:30+00:00"
+      },
+      {
             "name": "firebase/php-jwt",
             "version": "v5.0.0",
             "source": {
@@ -888,16 +991,16 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.77",
+          "version": "v0.78",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
-                "reference": "f16907e09b5529cd92b109cfdadcd5260691a477"
+              "reference": "16a71009a5b402012e00e0d46628ace599c1abb2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/f16907e09b5529cd92b109cfdadcd5260691a477",
-                "reference": "f16907e09b5529cd92b109cfdadcd5260691a477",
+              "url": "https://api.github.com/repos/googleapis/google-api-php-client-services/zipball/16a71009a5b402012e00e0d46628ace599c1abb2",
+              "reference": "16a71009a5b402012e00e0d46628ace599c1abb2",
                 "shasum": ""
             },
             "require": {
@@ -921,7 +1024,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2018-12-08T00:22:54+00:00"
+          "time": "2018-12-16T00:22:52+00:00"
         },
         {
             "name": "google/auth",
@@ -1868,6 +1971,59 @@
             "time": "2018-06-07T13:33:23+00:00"
         },
         {
+          "name": "illuminate/mail",
+          "version": "v5.6.39",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/illuminate/mail.git",
+            "reference": "affc84b390b8d482da2a05046834772c124b74b4"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/illuminate/mail/zipball/affc84b390b8d482da2a05046834772c124b74b4",
+            "reference": "affc84b390b8d482da2a05046834772c124b74b4",
+            "shasum": ""
+          },
+          "require": {
+            "erusev/parsedown": "~1.7",
+            "illuminate/container": "5.6.*",
+            "illuminate/contracts": "5.6.*",
+            "illuminate/support": "5.6.*",
+            "php": "^7.1.3",
+            "psr/log": "~1.0",
+            "swiftmailer/swiftmailer": "~6.0",
+            "tijsverkoyen/css-to-inline-styles": "^2.2.1"
+          },
+          "suggest": {
+            "aws/aws-sdk-php": "Required to use the SES mail driver (~3.0).",
+            "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers (~6.0)."
+          },
+          "type": "library",
+          "extra": {
+            "branch-alias": {
+              "dev-master": "5.6-dev"
+            }
+          },
+          "autoload": {
+            "psr-4": {
+              "Illuminate\\Mail\\": ""
+            }
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "Taylor Otwell",
+              "email": "taylor@laravel.com"
+            }
+          ],
+          "description": "The Illuminate Mail package.",
+          "homepage": "https://laravel.com",
+          "time": "2018-08-29T21:40:58+00:00"
+        },
+      {
             "name": "illuminate/pagination",
             "version": "v5.6.39",
             "source": {
@@ -3347,16 +3503,16 @@
         },
         {
             "name": "phpseclib/phpseclib",
-            "version": "2.0.12",
+          "version": "2.0.13",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "8814dc7841db159daed0b32c2b08fb7e03c6afe7"
+              "reference": "42603ce3f42a27f7e14e54feab95db7b680ad473"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/8814dc7841db159daed0b32c2b08fb7e03c6afe7",
-                "reference": "8814dc7841db159daed0b32c2b08fb7e03c6afe7",
+              "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/42603ce3f42a27f7e14e54feab95db7b680ad473",
+              "reference": "42603ce3f42a27f7e14e54feab95db7b680ad473",
                 "shasum": ""
             },
             "require": {
@@ -3435,7 +3591,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2018-11-04T05:45:48+00:00"
+          "time": "2018-12-16T17:45:25+00:00"
         },
         {
             "name": "predis/predis",
@@ -3878,6 +4034,65 @@
             "time": "2018-03-29T09:27:45+00:00"
         },
         {
+          "name": "swiftmailer/swiftmailer",
+          "version": "v6.1.3",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/swiftmailer/swiftmailer.git",
+            "reference": "8ddcb66ac10c392d3beb54829eef8ac1438595f4"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/8ddcb66ac10c392d3beb54829eef8ac1438595f4",
+            "reference": "8ddcb66ac10c392d3beb54829eef8ac1438595f4",
+            "shasum": ""
+          },
+          "require": {
+            "egulias/email-validator": "~2.0",
+            "php": ">=7.0.0"
+          },
+          "require-dev": {
+            "mockery/mockery": "~0.9.1",
+            "symfony/phpunit-bridge": "~3.3@dev"
+          },
+          "suggest": {
+            "ext-intl": "Needed to support internationalized email addresses",
+            "true/punycode": "Needed to support internationalized email addresses, if ext-intl is not installed"
+          },
+          "type": "library",
+          "extra": {
+            "branch-alias": {
+              "dev-master": "6.1-dev"
+            }
+          },
+          "autoload": {
+            "files": [
+              "lib/swift_required.php"
+            ]
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "Chris Corbyn"
+            },
+            {
+              "name": "Fabien Potencier",
+              "email": "fabien@symfony.com"
+            }
+          ],
+          "description": "Swiftmailer, free feature-rich PHP mailer",
+          "homepage": "https://swiftmailer.symfony.com",
+          "keywords": [
+            "email",
+            "mail",
+            "mailer"
+          ],
+          "time": "2018-09-11T07:12:52+00:00"
+        },
+      {
             "name": "symfony/console",
             "version": "v4.2.1",
             "source": {
@@ -4015,6 +4230,59 @@
             "time": "2018-12-05T08:06:11+00:00"
         },
         {
+          "name": "symfony/css-selector",
+          "version": "v4.2.1",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/css-selector.git",
+            "reference": "aa9fa526ba1b2ec087ffdfb32753803d999fcfcd"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/css-selector/zipball/aa9fa526ba1b2ec087ffdfb32753803d999fcfcd",
+            "reference": "aa9fa526ba1b2ec087ffdfb32753803d999fcfcd",
+            "shasum": ""
+          },
+          "require": {
+            "php": "^7.1.3"
+          },
+          "type": "library",
+          "extra": {
+            "branch-alias": {
+              "dev-master": "4.2-dev"
+            }
+          },
+          "autoload": {
+            "psr-4": {
+              "Symfony\\Component\\CssSelector\\": ""
+            },
+            "exclude-from-classmap": [
+              "/Tests/"
+            ]
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "MIT"
+          ],
+          "authors": [
+            {
+              "name": "Jean-François Simon",
+              "email": "jeanfrancois.simon@sensiolabs.com"
+            },
+            {
+              "name": "Fabien Potencier",
+              "email": "fabien@symfony.com"
+            },
+            {
+              "name": "Symfony Community",
+              "homepage": "https://symfony.com/contributors"
+            }
+          ],
+          "description": "Symfony CssSelector Component",
+          "homepage": "https://symfony.com",
+          "time": "2018-11-11T19:52:12+00:00"
+        },
+      {
             "name": "symfony/debug",
             "version": "v4.2.1",
             "source": {
@@ -4834,6 +5102,53 @@
             "time": "2018-11-25T12:50:42+00:00"
         },
         {
+          "name": "tijsverkoyen/css-to-inline-styles",
+          "version": "2.2.1",
+          "source": {
+            "type": "git",
+            "url": "https://github.com/tijsverkoyen/CssToInlineStyles.git",
+            "reference": "0ed4a2ea4e0902dac0489e6436ebcd5bbcae9757"
+          },
+          "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/tijsverkoyen/CssToInlineStyles/zipball/0ed4a2ea4e0902dac0489e6436ebcd5bbcae9757",
+            "reference": "0ed4a2ea4e0902dac0489e6436ebcd5bbcae9757",
+            "shasum": ""
+          },
+          "require": {
+            "php": "^5.5 || ^7.0",
+            "symfony/css-selector": "^2.7 || ^3.0 || ^4.0"
+          },
+          "require-dev": {
+            "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.0"
+          },
+          "type": "library",
+          "extra": {
+            "branch-alias": {
+              "dev-master": "2.2.x-dev"
+            }
+          },
+          "autoload": {
+            "psr-4": {
+              "TijsVerkoyen\\CssToInlineStyles\\": "src"
+            }
+          },
+          "notification-url": "https://packagist.org/downloads/",
+          "license": [
+            "BSD-3-Clause"
+          ],
+          "authors": [
+            {
+              "name": "Tijs Verkoyen",
+              "email": "css_to_inline_styles@verkoyen.eu",
+              "role": "Developer"
+            }
+          ],
+          "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
+          "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
+          "time": "2017-11-27T11:13:29+00:00"
+        },
+      {
             "name": "vlucas/phpdotenv",
             "version": "v2.5.1",
             "source": {

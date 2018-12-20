@@ -6,6 +6,7 @@ use App\Model\GlobalRole;
 use App\Rules\UniqueEmailSocialLogin;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class GenerateGeneralAdmin extends Command
@@ -105,7 +106,8 @@ class GenerateGeneralAdmin extends Command
             'first_name' => $firstName,
             'last_name' => $lastName,
             'email' => $email,
-            'password' => $password,
+            'password' => Hash::make($password),
+            'is_confirmed' => true
         ]);
 
         DB::table('global_role_user')->insert([
