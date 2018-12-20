@@ -7,6 +7,7 @@ use App\Http\Resources\User\GetAdminRolesResource;
 use App\Http\Resources\User\GetAdminSummaryResource;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
+use App\Mail\ConfirmAccount;
 use App\Http\Resources\User\GetUserSummaryResource;
 use App\Model\User;
 use App\Repositories\Implementation\LanRepositoryImpl;
@@ -25,6 +26,7 @@ use Google_Client;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -66,19 +68,35 @@ class UserServiceImpl implements UserService
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'email' => ['required', 'email', new UniqueEmailSocialLogin],
-            'password' => 'required|min:6|max:20'
+            'password' => 'required|min:6|max:20',
         ]);
 
         if ($userValidator->fails()) {
             throw new BadRequestHttpException($userValidator->errors());
+        };
+
+        $user = $this->userRepository->findByEmail($input->input('email'));
+        $confirmationCode = str_random(30);
+
+        if ($user != null) {
+            $this->userRepository->addConfirmationCode($user, $confirmationCode);
+        } else {
+            $user = $this->userRepository->createUser(
+                $input->input('first_name'),
+                $input->input('last_name'),
+                $input->input('email'),
+                $input->input('password'),
+                $confirmationCode
+            );
         }
 
-        return $this->userRepository->createUser(
-            $input->input('first_name'),
-            $input->input('last_name'),
+        Mail::send(new ConfirmAccount(
             $input->input('email'),
-            $input->input('password')
-        );
+            $confirmationCode,
+            $user->first_name
+        ));
+
+        return $user;
     }
 
     public function logOut(): void
@@ -211,6 +229,22 @@ class UserServiceImpl implements UserService
             'token' => $token,
             'is_new' => $isNew
         ];
+    }
+
+    public function confirm(string $confirmationCode)
+    {
+        $confirmationValidator = Validator::make([
+            'confirmation_code' => $confirmationCode,
+        ], [
+            'confirmation_code' => 'exists:user,confirmation_code'
+        ]);
+
+        if ($confirmationValidator->fails()) {
+            throw new BadRequestHttpException($confirmationValidator->errors());
+        }
+
+        $user = $this->userRepository->findByConfirmationCode($confirmationCode);
+        $this->userRepository->confirmAccount($user);
     }
 
     public function signInGoogle(Request $input): array

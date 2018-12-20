@@ -38,6 +38,8 @@ $app->withEloquent();
 
 $app->configure('auth');
 $app->configure('cors');
+$app->configure('services');
+$app->configure('mail');
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -81,7 +83,8 @@ $app->singleton(
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
     'cors' => \Barryvdh\Cors\HandleCors::class,
-    'language' => App\Http\Middleware\Language::class
+    'language' => App\Http\Middleware\Language::class,
+    'login' => App\Http\Middleware\Login::class
 ]);
 
 /*
@@ -100,7 +103,7 @@ $app->register(App\Providers\AppServiceProvider::class);
 // Passport & Auth - https://github.com/dusterio/lumen-passport
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(Laravel\Passport\PassportServiceProvider::class);
-Dusterio\LumenPassport\LumenPassport::routes($app);
+//Dusterio\LumenPassport\LumenPassport::routes($app);
 // Lumen generator - https://github.com/flipboxstudio/lumen-generator
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 // Dingo
@@ -108,6 +111,8 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(App\Providers\DingoServiceProvider::class);
 // CORS - https://github.com/barryvdh/laravel-cors
 $app->register(Barryvdh\Cors\ServiceProvider::class);
+// Mail
+$app->register(Illuminate\Mail\MailServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

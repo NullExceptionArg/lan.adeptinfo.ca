@@ -2,14 +2,12 @@
 
 namespace Tests\Unit\Service\User;
 
-use App\Model\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class CreateUserTest extends TestCase
+class SignUpUserTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -61,25 +59,6 @@ class CreateUserTest extends TestCase
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"email":["The email must be a valid email address."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpEmailUnique(): void
-    {
-        $this->paramsContent['email'] = 'john@doe.com';
-        $user = new User();
-        $user->first_name = $this->paramsContent['first_name'];
-        $user->last_name = $this->paramsContent['last_name'];
-        $user->email = $this->paramsContent['email'];
-        $user->password = Hash::make($this->paramsContent['password']);
-        $user->save();
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"email":["The email has already been taken."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The email has already been taken."]}', $e->getMessage());
         }
     }
 
@@ -171,6 +150,37 @@ class CreateUserTest extends TestCase
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"last_name":["The last name may not be greater than 255 characters."]}', $e->getMessage());
+        }
+    }
+
+    public function testSignUpUniqueEmailSocialLoginReturningFacebook(): void
+    {
+        factory('App\Model\User')->create([
+            'facebook_id' => '12345678',
+            'first_name' => $this->paramsContent['first_name'],
+            'last_name' => $this->paramsContent['last_name'],
+            'email' => $this->paramsContent['email'],
+            'password' => null
+        ]);
+
+        $request = new Request($this->paramsContent);
+        $result = $this->userService->signUpUser($request);
+
+        $this->assertEquals($this->paramsContent['first_name'], $result->first_name);
+        $this->assertEquals($this->paramsContent['last_name'], $result->last_name);
+        $this->assertEquals($this->paramsContent['email'], $result->email);
+    }
+
+    public function testSignUpUniqueEmailSocialLoginAlreadyAwaitingConfirmation(): void
+    {
+        $request = new Request($this->paramsContent);
+        $this->userService->signUpUser($request);
+        try {
+            $this->userService->signUpUser($request);
+            $this->fail('{"email":["The email has already been taken."]}');
+        } catch (BadRequestHttpException $e) {
+            $this->assertEquals(400, $e->getStatusCode());
+            $this->assertEquals('{"email":["The email has already been taken."]}', $e->getMessage());
         }
     }
 }
