@@ -14,7 +14,7 @@ class LanRoleNameOncePerLan implements Rule
      * SeatOncePerLan constructor.
      * @param string $lanId
      */
-    public function __construct(string $lanId)
+    public function __construct(?string $lanId)
     {
         $this->lanId = $lanId;
     }
@@ -28,6 +28,10 @@ class LanRoleNameOncePerLan implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (is_null($this->lanId)) {
+            return true;
+        }
+
         $lanSeatReservation = LanRole::where('lan_id', $this->lanId)
             ->where('name', $value)->first();
         return $lanSeatReservation == null || $lanSeatReservation->count() == 0;

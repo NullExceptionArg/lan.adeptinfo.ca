@@ -80,40 +80,6 @@ class AddPermissionLanRoleTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testAddPermissionLanRoleLanIdExists(): void
-    {
-        $this->requestContent['lan_id'] = -1;
-        $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testAddPermissionLanRoleLanIdInteger(): void
-    {
-        $this->requestContent['lan_id'] = '☭';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id must be an integer.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testAddPermissionLanRoleIdRequired(): void
     {
         $this->requestContent['role_id'] = null;

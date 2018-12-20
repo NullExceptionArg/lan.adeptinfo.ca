@@ -161,36 +161,4 @@ class AssignLanRoleTest extends TestCase
             $this->assertEquals('{"role_id":["The selected role id is invalid."]}', $e->getMessage());
         }
     }
-
-    public function testAssignLanIdExist(): void
-    {
-        $request = new Request([
-            'role_id' => $this->role->id,
-            'email' => $this->user->email,
-            'lan_id' => -1
-        ]);
-        try {
-            $this->roleService->assignLanRole($request);
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testAssignLanIdRequired(): void
-    {
-        $request = new Request([
-            'role_id' => $this->role->id,
-            'email' => $this->user->email,
-            'lan_id' => '☭'
-        ]);
-        try {
-            $this->roleService->assignLanRole($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
-        }
-    }
 }

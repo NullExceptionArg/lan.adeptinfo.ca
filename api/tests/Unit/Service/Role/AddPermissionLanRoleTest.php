@@ -86,32 +86,6 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRoleLanIdExists(): void
-    {
-        $this->paramsContent['lan_id'] = -1;
-        $request = new Request($this->paramsContent);
-        try {
-            $this->roleService->addPermissionsLanRole($request);
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testAddPermissionLanRoleLanIdInteger(): void
-    {
-        $this->paramsContent['lan_id'] = '☭';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->roleService->addPermissionsLanRole($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
-        }
-    }
-
     public function testAddPermissionLanRoleIdRequired(): void
     {
         $this->paramsContent['role_id'] = null;

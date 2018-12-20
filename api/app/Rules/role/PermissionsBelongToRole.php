@@ -14,7 +14,7 @@ class PermissionsBelongToRole implements Rule
     protected $roleId;
 
     /**
-     * PermissionsDontBelongToRole constructor.
+     * PermissionsDontBelongToGlobalRole constructor.
      * @param $roleId
      */
     public function __construct($roleId)

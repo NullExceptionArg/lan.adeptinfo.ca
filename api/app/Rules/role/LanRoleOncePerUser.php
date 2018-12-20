@@ -29,11 +29,11 @@ class LanRoleOncePerUser implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (is_null($value) || is_null($this->email)) {
+        $user = User::where('email', $this->email)->first();
+        if (is_null($value) || is_null($user)) {
             return true;
         }
 
-        $user = User::where('email', $this->email)->first();
         $lanRoleUser = LanRoleUser::where('role_id', $value)
             ->where('user_id', $user->id)->first();
         return $lanRoleUser == null || $lanRoleUser->count() == 0;

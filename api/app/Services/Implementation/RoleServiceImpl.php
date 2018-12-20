@@ -17,7 +17,8 @@ use App\Rules\LanRoleNameOncePerLan;
 use App\Rules\LanRoleOncePerUser;
 use App\Rules\PermissionsBelongToRole;
 use App\Rules\PermissionsCanBePerLan;
-use App\Rules\PermissionsDontBelongToRole;
+use App\Rules\PermissionsDontBelongToGlobalRole;
+use App\Rules\PermissionsDontBelongToLanRole;
 use App\Services\RoleService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -170,19 +171,16 @@ class RoleServiceImpl implements RoleService
 
     public function addPermissionsLanRole(Request $input): LanRole
     {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
+        $role = null;
+        if (is_int($input->input('role_id'))) {
+            $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
         }
 
         $roleValidator = Validator::make([
-            'lan_id' => $input->input('lan_id'),
             'role_id' => $input->input('role_id'),
             'permissions' => $input->input('permissions'),
             'permission' => 'add-permissions-lan-role',
         ], [
-            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
             'role_id' => 'required|integer|exists:lan_role,id',
             'permissions' => [
                 'required',
@@ -190,9 +188,9 @@ class RoleServiceImpl implements RoleService
                 new ArrayOfInteger,
                 new ElementsInArrayExistInPermission,
                 new PermissionsCanBePerLan,
-                new PermissionsDontBelongToRole($input->input('role_id'))
+                new PermissionsDontBelongToLanRole($input->input('role_id'))
             ],
-            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan(is_null($role) ? null : $role->lan_id, Auth::id())
         ]);
 
         if ($roleValidator->fails()) {
@@ -210,19 +208,16 @@ class RoleServiceImpl implements RoleService
 
     public function deletePermissionsLanRole(Request $input): LanRole
     {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
+        $role = null;
+        if (is_int($input->input('role_id'))) {
+            $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
         }
 
         $roleValidator = Validator::make([
-            'lan_id' => $input->input('lan_id'),
             'role_id' => $input->input('role_id'),
             'permissions' => $input->input('permissions'),
             'permission' => 'delete-permissions-lan-role',
         ], [
-            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
             'role_id' => 'required|integer|exists:lan_role,id',
             'permissions' => [
                 'required',
@@ -230,7 +225,7 @@ class RoleServiceImpl implements RoleService
                 new ArrayOfInteger,
                 new PermissionsBelongToRole($input->input('role_id'))
             ],
-            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan(is_null($role) ? null : $role->lan_id, Auth::id())
         ]);
 
         if ($roleValidator->fails()) {
@@ -454,7 +449,7 @@ class RoleServiceImpl implements RoleService
                 'array',
                 new ArrayOfInteger,
                 new ElementsInArrayExistInPermission,
-                new PermissionsDontBelongToRole($input->input('role_id'))
+                new PermissionsDontBelongToGlobalRole($input->input('role_id'))
             ],
             'permission' => new HasPermission(Auth::id())
         ]);

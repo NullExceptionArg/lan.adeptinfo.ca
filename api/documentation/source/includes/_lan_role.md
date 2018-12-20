@@ -176,10 +176,55 @@ en_description | Description du rôle attribué, en anglais.
 fr_display_name | Description du rôle attribué, en français.
 fr_description | Nom du rôles attribué, en français.
 
+## Ajouter des permissions à un role de LAN
+
+Ajouter des permissions à un role de LAN
+
 ### Requête HTTP
 
 `POST /api/role/lan/permissions`
 
+> Exemple de requête
+
+```json
+{
+	"role_id" : 1,
+	"permissions" : [
+		10, 11	
+	]
+}
+```
+
+### POST Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+role_id | Id du rôle où l'on veut ajouter des permissions | integer.
+permissions | Permissions à ajouter au rôle. | requis, liste de integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "name": "lan-general-admin",
+    "en_display_name": "LAN General admin",
+    "en_description": "Has every permissions for a LAN",
+    "fr_display_name": "Administrateur général de LAN",
+    "fr_description": "Possède toutes les permissions pour un LAN",
+    "lan_id": 1
+}
+```
+
+Champ | Description
+--------- | -----------
+lan_id | Id du LAN où les permissions ont été ajoutées.
+name | Nom unique du rôle où les permissions ont été ajoutées.
+en_display_name | Nom du rôle où les permissions ont été ajoutées, en anglais.
+en_description | Description du rôle où les permissions ont été ajoutées, en anglais.
+fr_display_name | Description du rôle où les permissions ont été ajoutées, en français.
+fr_description | Nom du rôles où les permissions ont été ajoutées, en français.
 
 ### Requête HTTP
 

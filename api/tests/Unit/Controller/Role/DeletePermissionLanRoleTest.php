@@ -90,57 +90,6 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testDeletePermissionLanRoleLanIdExists(): void
-    {
-        $this->requestContent['lan_id'] = -1;
-        $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testDeletePermissionLanRoleLanIdInteger(): void
-    {
-        $this->requestContent['lan_id'] = '☭';
-        $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id must be an integer.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testDeletePermissionLanRoleLanIdRequired(): void
-    {
-        $this->requestContent['lan_id'] = null;
-        $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testDeletePermissionLanRoleIdRequired(): void
     {
         $this->requestContent['role_id'] = null;

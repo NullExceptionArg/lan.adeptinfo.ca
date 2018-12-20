@@ -61,9 +61,9 @@ fr_display_name | Description du rôle créé, en français.
 fr_description | Nom du rôles créé, en français.
 
 
-## Modifier un rôle de LAN
+## Modifier un rôle global
 
-Modifier un rôle pour un lan.
+Modifier un rôle global.
 D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au rôle.
 
 ### Requête HTTP
@@ -105,7 +105,7 @@ fr_description | Description du rôle à afficher, en français. | string, max:5
     "en_display_name": "new english name",
     "en_description": "new english description",
     "fr_display_name": "nouveau nom francophone",
-    "fr_description": "nouvelle description francophone",
+    "fr_description": "nouvelle description francophone"
 }
 ```
 
@@ -165,9 +165,53 @@ fr_display_name | Description du rôle attribué, en français.
 fr_description | Nom du rôles attribué, en français.
 
 
+## Ajouter des permissions à un role global
+
+Ajouter des permissions à un role global
+
 ### Requête HTTP
 
 `POST /api/role/global/permissions`
+
+> Exemple de requête
+
+```json
+{
+	"role_id" : 1,
+	"permissions" : [
+		10, 11	
+	]
+}
+```
+
+### POST Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+role_id | Id du rôle où l'on veut ajouter des permissions | integer.
+permissions | Permissions à ajouter au rôle. | requis, liste de integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "name": "general-admin",
+    "en_display_name": "General admin",
+    "en_description": "Has every permissions",
+    "fr_display_name": "Administrateur général",
+    "fr_description": "Possède toutes les permissions"
+}
+```
+
+Champ | Description
+--------- | -----------
+name | Nom unique du rôle où les permissions ont été ajoutées.
+en_display_name | Nom du rôle où les permissions ont été ajoutées, en anglais.
+en_description | Description du rôle où les permissions ont été ajoutées, en anglais.
+fr_display_name | Description du rôle où les permissions ont été ajoutées, en français.
+fr_description | Nom du rôles où les permissions ont été ajoutées, en français.
 
 
 ### Requête HTTP

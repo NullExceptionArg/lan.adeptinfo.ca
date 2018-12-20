@@ -135,45 +135,6 @@ class DeletePermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testDeletePermissionLanIdRequired(): void
-    {
-        $this->paramsContent['lan_id'] = null;
-        $request = new Request($this->paramsContent);
-        try {
-            $this->roleService->deletePermissionsLanRole($request);
-            $this->fail('Expected: {"lan_id":["The lan id field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id field is required."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeletePermissionLanIdInteger(): void
-    {
-        $this->paramsContent['lan_id'] = '☭';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->roleService->deletePermissionsLanRole($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeletePermissionLanIdExist(): void
-    {
-        $this->paramsContent['lan_id'] = -1;
-        $request = new Request($this->paramsContent);
-        try {
-            $this->roleService->deletePermissionsLanRole($request);
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
-        }
-    }
-
     public function testDeletePermissionLanRolePermissionsRequired(): void
     {
         $this->paramsContent['permissions'] = null;
