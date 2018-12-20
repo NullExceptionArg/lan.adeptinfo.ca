@@ -2,8 +2,6 @@
 
 return [
 
-    /// Route based
-
     // LAN
     ['name' => 'create-lan', 'can_be_per_lan' => false],
     ['name' => 'set-current-lan', 'can_be_per_lan' => false],

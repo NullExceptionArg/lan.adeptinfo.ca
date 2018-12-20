@@ -23,6 +23,13 @@ class GeneratePermissions extends Command
 
     public function handle()
     {
+        $this->comment('Generating permissions');
         DB::table('permission')->insert(include(base_path() . '/resources/permissions.php'));
+        $this->info('Permissions generated');
+
+        $headers = ['id', 'name'];
+        $roles = json_decode(json_encode(DB::table('permission')->orderBy('id')->get(['id', 'name'])), true);
+        $this->table($headers, $roles);
+        $this->line('');
     }
 }

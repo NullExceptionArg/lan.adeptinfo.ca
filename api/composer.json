@@ -22,7 +22,8 @@
     "predis/predis": "^1.1",
     "league/flysystem": " ~1.0",
     "caouecs/laravel-lang": "~3.0",
-    "google/apiclient": "^2.2"
+    "google/apiclient": "^2.2",
+    "ext-json": "*"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

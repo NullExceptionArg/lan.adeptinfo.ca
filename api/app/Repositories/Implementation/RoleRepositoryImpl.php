@@ -285,4 +285,25 @@ class RoleRepositoryImpl implements RoleRepository
     {
         GlobalRole::destroy($roleId);
     }
+
+    public function createDefaultLanRoles(int $lanId): void
+    {
+        $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
+        foreach ($lanRoles as $role) {
+            $roleId = DB::table('lan_role')->insertGetId([
+                'name' => $role['name'],
+                'en_display_name' => $role['en_display_name'],
+                'en_description' => $role['en_description'],
+                'fr_display_name' => $role['fr_display_name'],
+                'fr_description' => $role['fr_description'],
+                'lan_id' => $lanId
+            ]);
+            foreach ($role['permissions'] as $permission) {
+                DB::table('permission_lan_role')->insert([
+                    'permission_id' => Permission::where('name', $permission['name'])->first()->id,
+                    'role_id' => $roleId
+                ]);
+            }
+        }
+    }
 }

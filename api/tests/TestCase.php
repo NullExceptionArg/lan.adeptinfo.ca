@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -21,6 +20,13 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        DB::table('permission')->insert(include(base_path() . '/resources/permissions.php'));
+        $this->artisan('lan:permissions');
+        $this->artisan('lan:roles');
+        $this->artisan('lan:general-admin', [
+            'email' => 'karl.marx@unite.org',
+            'first-name' => 'karl',
+            'last-name' => 'marx',
+            'password' => 'Passw0rd!',
+        ]);
     }
 }

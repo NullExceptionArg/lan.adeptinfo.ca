@@ -14,6 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\GeneratePermissions::class,
+        Commands\GenerateGlobalRoles::class,
+        Commands\GenerateGeneralAdmin::class
     ];
 
     /**

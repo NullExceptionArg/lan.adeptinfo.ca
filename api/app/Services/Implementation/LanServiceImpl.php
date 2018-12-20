@@ -9,6 +9,7 @@ use App\Http\Resources\Lan\UpdateResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Rules\HasPermission;
 use App\Rules\HasPermissionInLan;
 use App\Rules\LowerReservedPlace;
@@ -25,17 +26,24 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class LanServiceImpl implements LanService
 {
     protected $lanRepository;
+    protected $roleRepository;
     protected $imageRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param LanRepositoryImpl $lanRepositoryImpl
      * @param ImageRepositoryImpl $imageRepositoryImpl
+     * @param RoleRepositoryImpl $roleRepository
      */
-    public function __construct(LanRepositoryImpl $lanRepositoryImpl, ImageRepositoryImpl $imageRepositoryImpl)
+    public function __construct(
+        LanRepositoryImpl $lanRepositoryImpl,
+        ImageRepositoryImpl $imageRepositoryImpl,
+        RoleRepositoryImpl $roleRepository
+    )
     {
         $this->lanRepository = $lanRepositoryImpl;
         $this->imageRepository = $imageRepositoryImpl;
+        $this->roleRepository = $roleRepository;
     }
 
     public function create(Request $input): Lan
@@ -80,7 +88,7 @@ class LanServiceImpl implements LanService
 
         $hasNoCurrentLan = $this->lanRepository->getCurrent() == null;
 
-        return $this->lanRepository->create
+        $lan = $this->lanRepository->create
         (
             $input->input('name'),
             new DateTime($input->input('lan_start')),
@@ -98,6 +106,10 @@ class LanServiceImpl implements LanService
             $input->input('rules'),
             $input->input('description')
         );
+
+        $this->roleRepository->createDefaultLanRoles($lan->id);
+
+        return $lan;
     }
 
     public function get(Request $input): GetResource
