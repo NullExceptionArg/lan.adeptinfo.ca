@@ -158,16 +158,19 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
  ## Postman
  ### Mise en place de Postman
  Une liste de requête a déjà été montée par le créateur du reposiory. Pour obtenir cette liste simplement contacter [Pierre-Olivier Brillant](https://github.com/PierreOlivierBrillant).
- - Configuration de la fenêtre Get new access token
+ - Créez un utilisateur avec l'appel `User/sign up`
+ - Configuration de la fenêtre Get new access token (Sous la section `Authorization` d'une des requêtes, le lien `lanadept.com`, le bouton `get new access token` 
     - Token name: `Lumen`
     - Grant Type: `Password Credential`
-    - Access Token URL `{{server-address}}/oauth/token`
+    - Access Token URL `{{server-address}}/api/oauth/token`
     - Username: `karl.marx@unite.org`
     - Password: `Passw0rd!`
     - Client ID: `2`
     - Client Secret: `{{client-secret}}`
     - Scope: 
     - Client Authentication: `Send as Basic Auth header`
+ - Cliquer sur `Get new access token`
+ - *Attention* Si le serveur vous renvoit un code d'erreur `401` avec le message `Unauthorized`, il est possible que vous ayez à sélectionner votre token dans le menu déroulant dans la section `Authorization`. Cela ce produit puisque l'ancien token est sauvegardé dans Postman.
  - Créer un environnement pour le projet avec les paramètres suivants
     - server-address: si vous développez en local: `http://localhost:8000`. Si vous développez avec Homestead: `http://homestead.test`. Vous pouvez aussi créer un environnement pour chaque options, puisqu'il s'agit en effet "d'environnements" de développement différents.
     - client-secret: La clé qui a été généré après avoir entré la commande `php artisan passport:install`. La clé est aussi dans la base de donnée sous la table `oauth_clients`, l'entrée avec l'id 2, la colonne "secret".
