@@ -134,7 +134,7 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
     - xdebug.remote_enable=1
     - xdebug.idekey=PHPSTORM
  - Créer une nouvelle configuration "PHP Built-in Web Server"
-    - Host: `127.0.0.2`
+    - Host: `127.0.0.1`
     - Port: 8000
     - Document root: `[...]/lanadept.com/api`
     - Use router script (coché): `[...]/lanadept.com/api/public/index.php`
