@@ -29,11 +29,11 @@ class PermissionsDontBelongToGlobalRole implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (is_null($value) || !is_array($value) || is_null($this->roleId)) {
+        $globalRole = GlobalRole::find($this->roleId);
+
+        if (is_null($value) || !is_array($value) || is_null($this->roleId) || is_null($globalRole)) {
             return true;
         }
-
-        $globalRole = GlobalRole::find($this->roleId);
 
         foreach ($value as $permissionId) {
             $permission = PermissionGlobalRole::where('permission_id', $permissionId)
