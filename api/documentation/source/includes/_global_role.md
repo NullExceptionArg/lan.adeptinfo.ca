@@ -397,6 +397,36 @@ fr_display_name | Nom de la permission, en français.
 fr_description | Description de la permission, en français.
 
 
+## Obtenir les utilisateurs possédants un rôle global
+
+Obtenir les utilisateurs possédants un rôle global.
+
 ### Requête HTTP
 
 `GET /api/role/global/users`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+role_id | Id du rôle duquel on souhaite obtenir les utilisateurs. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+[
+  {
+    "email": "karl.marx@unite.org",
+    "first_name": "Karl",
+    "last_name": "Marx"
+  }
+]
+```
+
+Champ | Description
+--------- | -----------
+email | Courriel de l'utilisateur.
+first_name | Prénom de l'utilisateur.
+last_name | Nom de famille de l'utilisateur.
