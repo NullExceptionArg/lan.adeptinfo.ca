@@ -26,7 +26,7 @@ Créer un rôle de lan.
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -90,7 +90,7 @@ D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au r
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -143,7 +143,7 @@ Assigner un rôle de LAN à un utilisateur
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -193,7 +193,7 @@ Ajouter des permissions à un role de LAN
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------

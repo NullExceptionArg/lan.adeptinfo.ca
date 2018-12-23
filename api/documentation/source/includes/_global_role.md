@@ -26,7 +26,7 @@ Créer un rôle global.
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -82,7 +82,7 @@ D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au r
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -133,7 +133,7 @@ Assigner un rôle global à un utilisateur
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -182,7 +182,7 @@ Ajouter des permissions à un role global
 }
 ```
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -274,7 +274,7 @@ Supprimer un rôle global.
 
 ```json
 {
-	"role_id" : 1,
+	"role_id" : 1
 }
 ```
 

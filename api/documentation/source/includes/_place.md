@@ -90,7 +90,7 @@ Pour plus de détails sur le Extra Data, consulter la page suivante: [https://do
 
 `POST /api/seat/assign/{seat_id}`
 
-### POST Params
+### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
