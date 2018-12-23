@@ -3,8 +3,8 @@
 namespace App\Rules;
 
 
-use App\Model\GlobalRole;
-use App\Model\PermissionGlobalRole;
+use App\Model\LanRole;
+use App\Model\PermissionLanRole;
 use Illuminate\Contracts\Validation\Rule;
 
 class PermissionsDontBelongToLanRole implements Rule
@@ -29,15 +29,15 @@ class PermissionsDontBelongToLanRole implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (is_null($value) || !is_array($value) || is_null($this->roleId)) {
+        $lanRole = LanRole::find($this->roleId);
+
+        if (is_null($value) || !is_array($value) || is_null($lanRole)) {
             return true;
         }
 
-        $globalRole = GlobalRole::find($this->roleId);
-
         foreach ($value as $permissionId) {
-            $permission = PermissionGlobalRole::where('permission_id', $permissionId)
-                ->where('role_id', $globalRole->id)
+            $permission = PermissionLanRole::where('permission_id', $permissionId)
+                ->where('role_id', $lanRole->id)
                 ->get()
                 ->first();
             if (!is_null($permission)) {

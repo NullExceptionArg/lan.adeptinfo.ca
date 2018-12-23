@@ -9,7 +9,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class AddPermissionLanRoleTest extends TestCase
+class AddPermissionsLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -60,7 +60,7 @@ class AddPermissionLanRoleTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testAddPermissionLanRole(): void
+    public function testAddPermissionsLanRole(): void
     {
         $request = new Request($this->paramsContent);
 
@@ -73,7 +73,7 @@ class AddPermissionLanRoleTest extends TestCase
         $this->assertEquals($this->lanRole->fr_description, $result->fr_description);
     }
 
-    public function testAddPermissionLanRoleLanHasPermission(): void
+    public function testAddPermissionsLanRoleLanHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);
@@ -86,7 +86,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRoleIdRequired(): void
+    public function testAddPermissionsLanRoleIdRequired(): void
     {
         $this->paramsContent['role_id'] = null;
         $request = new Request($this->paramsContent);
@@ -99,7 +99,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRoleIdInteger(): void
+    public function testAddPermissionsLanRoleIdInteger(): void
     {
         $this->paramsContent['role_id'] = '☭';
         $request = new Request($this->paramsContent);
@@ -112,7 +112,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRolePermissionsRequired(): void
+    public function testAddPermissionsLanRolePermissionsRequired(): void
     {
         $this->paramsContent['permissions'] = null;
         $request = new Request($this->paramsContent);
@@ -125,7 +125,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRolePermissionsArray(): void
+    public function testAddPermissionsLanRolePermissionsArray(): void
     {
         $this->paramsContent['permissions'] = 1;
         $request = new Request($this->paramsContent);
@@ -138,7 +138,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRolePermissionsArrayOfInteger(): void
+    public function testAddPermissionsLanRolePermissionsArrayOfInteger(): void
     {
         $this->paramsContent['permissions'] = [(string)$this->paramsContent['permissions'][0], $this->paramsContent['permissions'][1]];
         $request = new Request($this->paramsContent);
@@ -151,7 +151,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRolePermissionCanBePerLan(): void
+    public function testAddPermissionsLanRolePermissionCanBePerLan(): void
     {
         $permission = Permission::where('can_be_per_lan', false)->first();
         $this->paramsContent['permissions'] = [intval($permission->id)];
@@ -165,7 +165,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRolePermissionsElementsInArrayExistInPermission(): void
+    public function testAddPermissionsLanRolePermissionsElementsInArrayExistInPermission(): void
     {
         $this->paramsContent['permissions'] = [$this->paramsContent['permissions'][0], -1];
         $request = new Request($this->paramsContent);
@@ -178,7 +178,7 @@ class AddPermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionLanRolePermissionsPermissionsDontBelongToRole(): void
+    public function testAddPermissionsLanRolePermissionsPermissionsDontBelongToRole(): void
     {
         factory('App\Model\PermissionLanRole')->create([
             'role_id' => $this->lanRole->id,

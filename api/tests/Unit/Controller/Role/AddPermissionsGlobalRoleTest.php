@@ -6,7 +6,7 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class AddPermissionGlobalRoleTest extends TestCase
+class AddPermissionsGlobalRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -43,7 +43,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->toArray();
     }
 
-    public function testAddPermissionGlobalRole(): void
+    public function testAddPermissionsGlobalRole(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/role/global/permissions', $this->requestContent)
@@ -57,7 +57,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testAddPermissionGlobalRoleLanHasPermission(): void
+    public function testAddPermissionsGlobalRoleLanHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -70,7 +70,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testAddPermissionGlobalRoleIdRequired(): void
+    public function testAddPermissionsGlobalRoleIdRequired(): void
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
@@ -87,7 +87,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddPermissionGlobalRoleIdInteger(): void
+    public function testAddPermissionsGlobalRoleIdInteger(): void
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
@@ -104,7 +104,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddPermissionGlobalRolePermissionsRequired(): void
+    public function testAddPermissionsGlobalRolePermissionsRequired(): void
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
@@ -121,7 +121,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddPermissionGlobalRolePermissionsArray(): void
+    public function testAddPermissionsGlobalRolePermissionsArray(): void
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
@@ -138,7 +138,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddPermissionGlobalRolePermissionsArrayOfInteger(): void
+    public function testAddPermissionsGlobalRolePermissionsArrayOfInteger(): void
     {
         $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
@@ -155,7 +155,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddPermissionGlobalRolePermissionsElementsInArrayExistInPermission(): void
+    public function testAddPermissionsGlobalRolePermissionsElementsInArrayExistInPermission(): void
     {
         $this->requestContent['permissions'] = [$this->requestContent['permissions'][0], -1];
         $this->actingAs($this->user)
@@ -172,7 +172,7 @@ class AddPermissionGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddPermissionGlobalRolePermissionsPermissionsDontBelongToRole(): void
+    public function testAddPermissionsGlobalRolePermissionsPermissionsDontBelongToRole(): void
     {
         factory('App\Model\PermissionGlobalRole')->create([
             'role_id' => $this->globalRole->id,

@@ -9,7 +9,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class AddPermissionGlobalRoleTest extends TestCase
+class AddPermissionsGlobalRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -51,7 +51,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testAddPermissionGlobalRole(): void
+    public function testAddPermissionsGlobalRole(): void
     {
         $request = new Request($this->paramsContent);
 
@@ -64,7 +64,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         $this->assertEquals($this->globalRole->fr_description, $result->fr_description);
     }
 
-    public function testAddPermissionGlobalRoleLanHasPermission(): void
+    public function testAddPermissionsGlobalRoleLanHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->be($user);
@@ -77,7 +77,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionGlobalRoleIdRequired(): void
+    public function testAddPermissionsGlobalRoleIdRequired(): void
     {
         $this->paramsContent['role_id'] = null;
         $request = new Request($this->paramsContent);
@@ -90,7 +90,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionGlobalRoleIdInteger(): void
+    public function testAddPermissionsGlobalRoleIdInteger(): void
     {
         $this->paramsContent['role_id'] = '☭';
         $request = new Request($this->paramsContent);
@@ -103,7 +103,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionGlobalRolePermissionsRequired(): void
+    public function testAddPermissionsGlobalRolePermissionsRequired(): void
     {
         $this->paramsContent['permissions'] = null;
         $request = new Request($this->paramsContent);
@@ -116,7 +116,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionGlobalRolePermissionsArray(): void
+    public function testAddPermissionsGlobalRolePermissionsArray(): void
     {
         $this->paramsContent['permissions'] = 1;
         $request = new Request($this->paramsContent);
@@ -129,7 +129,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionGlobalRolePermissionsArrayOfInteger(): void
+    public function testAddPermissionsGlobalRolePermissionsArrayOfInteger(): void
     {
         $this->paramsContent['permissions'] = [(string)$this->paramsContent['permissions'][0], $this->paramsContent['permissions'][1]];
         $request = new Request($this->paramsContent);
@@ -142,7 +142,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionGlobalRolePermissionsElementsInArrayExistInPermission(): void
+    public function testAddPermissionsGlobalRolePermissionsElementsInArrayExistInPermission(): void
     {
         $this->paramsContent['permissions'] = [$this->paramsContent['permissions'][0], -1];
         $request = new Request($this->paramsContent);
@@ -155,7 +155,7 @@ class AddPermissionGlobalRoleTest extends TestCase
         }
     }
 
-    public function testAddPermissionGlobalRolePermissionsPermissionsDontBelongToRole(): void
+    public function testAddPermissionsGlobalRolePermissionsPermissionsDontBelongToRole(): void
     {
         factory('App\Model\PermissionGlobalRole')->create([
             'role_id' => $this->globalRole->id,
