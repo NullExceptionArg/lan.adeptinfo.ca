@@ -53,33 +53,25 @@ class GetLanRolesTest extends TestCase
         ]);
         $result = $this->roleService->getLanRoles($request);
 
+        $this->assertEquals($this->lanRoles[0]['id'], $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->lanRoles[0]['name'], $result[0]->jsonSerialize()['name']);
-        $this->assertEquals($this->lanRoles[0]['en_display_name'], $result[0]->jsonSerialize()['en_display_name']);
-        $this->assertEquals($this->lanRoles[0]['en_description'], $result[0]->jsonSerialize()['en_description']);
-        $this->assertEquals($this->lanRoles[0]['fr_display_name'], $result[0]->jsonSerialize()['fr_display_name']);
-        $this->assertEquals($this->lanRoles[0]['fr_description'], $result[0]->jsonSerialize()['fr_description']);
-        $this->assertEquals($this->lan->id, $result[0]->jsonSerialize()['lan_id']);
+        $this->assertEquals($this->lanRoles[0]['en_display_name'], $result[0]->jsonSerialize()['display_name']);
+        $this->assertEquals($this->lanRoles[0]['en_description'], $result[0]->jsonSerialize()['description']);
 
+        $this->assertEquals($this->lanRoles[1]['id'], $result[1]->jsonSerialize()['id']);
         $this->assertEquals($this->lanRoles[1]['name'], $result[1]->jsonSerialize()['name']);
-        $this->assertEquals($this->lanRoles[1]['en_display_name'], $result[1]->jsonSerialize()['en_display_name']);
-        $this->assertEquals($this->lanRoles[1]['en_description'], $result[1]->jsonSerialize()['en_description']);
-        $this->assertEquals($this->lanRoles[1]['fr_display_name'], $result[1]->jsonSerialize()['fr_display_name']);
-        $this->assertEquals($this->lanRoles[1]['fr_description'], $result[1]->jsonSerialize()['fr_description']);
-        $this->assertEquals($this->lan->id, $result[1]->jsonSerialize()['lan_id']);
+        $this->assertEquals($this->lanRoles[1]['en_display_name'], $result[1]->jsonSerialize()['display_name']);
+        $this->assertEquals($this->lanRoles[1]['en_description'], $result[1]->jsonSerialize()['description']);
 
+        $this->assertEquals($this->lanRoles[2]['id'], $result[2]->jsonSerialize()['id']);
         $this->assertEquals($this->lanRoles[2]['name'], $result[2]->jsonSerialize()['name']);
-        $this->assertEquals($this->lanRoles[2]['en_display_name'], $result[2]->jsonSerialize()['en_display_name']);
-        $this->assertEquals($this->lanRoles[2]['en_description'], $result[2]->jsonSerialize()['en_description']);
-        $this->assertEquals($this->lanRoles[2]['fr_display_name'], $result[2]->jsonSerialize()['fr_display_name']);
-        $this->assertEquals($this->lanRoles[2]['fr_description'], $result[2]->jsonSerialize()['fr_description']);
-        $this->assertEquals($this->lan->id, $result[2]->jsonSerialize()['lan_id']);
+        $this->assertEquals($this->lanRoles[2]['en_display_name'], $result[2]->jsonSerialize()['display_name']);
+        $this->assertEquals($this->lanRoles[2]['en_description'], $result[2]->jsonSerialize()['description']);
 
+        $this->assertEquals($this->accessRole['id'], $result[3]->jsonSerialize()['id']);
         $this->assertEquals($this->accessRole['name'], $result[3]->jsonSerialize()['name']);
-        $this->assertEquals($this->accessRole['en_display_name'], $result[3]->jsonSerialize()['en_display_name']);
-        $this->assertEquals($this->accessRole['en_description'], $result[3]->jsonSerialize()['en_description']);
-        $this->assertEquals($this->accessRole['fr_display_name'], $result[3]->jsonSerialize()['fr_display_name']);
-        $this->assertEquals($this->accessRole['fr_description'], $result[3]->jsonSerialize()['fr_description']);
-        $this->assertEquals($this->lan->id, $result[3]->jsonSerialize()['lan_id']);
+        $this->assertEquals($this->accessRole['en_display_name'], $result[3]->jsonSerialize()['display_name']);
+        $this->assertEquals($this->accessRole['en_description'], $result[3]->jsonSerialize()['description']);
     }
 
     public function testGetLanRolesLanHasPermission(): void

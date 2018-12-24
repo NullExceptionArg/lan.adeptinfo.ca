@@ -18,7 +18,7 @@ class GetPermissionsResource extends Resource
         return [
             'id' => intval($this->id),
             'name' => $this->name,
-            'can_be_per_lan' => $this->can_be_per_lan,
+            'can_be_per_lan' => (boolean)$this->can_be_per_lan,
             'display_name' => trans('permission.display-name-' . $this->name),
             'description' => trans('permission.description-' . $this->name)
         ];

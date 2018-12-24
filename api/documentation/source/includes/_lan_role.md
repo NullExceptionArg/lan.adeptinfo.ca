@@ -98,7 +98,7 @@ role_id | Id du rôle à modifier | requis.
 name | Nom unique du rôle à modifier. | string, max:50, unique.
 en_display_name | Nom du rôle à afficher, en anglais. | string, max:50.
 en_description | Description du rôle à afficher, en anglais. | string, max:1000.
-fr_display_name | Nom du rôle à afficher, en anglais. | string, max:50.
+fr_display_name | Nom du rôle à afficher, en français. | string, max:50.
 fr_description | Description du rôle à afficher, en français. | string, max:1000.
 
 ### Format de réponse
@@ -156,23 +156,21 @@ role_id | Id du rôle à attribuer à l'utilisateur | integer.
 
 ```json
 {
+    "id": 1,
     "name": "comrades",
-    "en_display_name": "Comrade",
-    "en_description": "Our equal",
-    "fr_display_name": "Camarade",
-    "fr_description": "Notre égal.",
+    "display_name": "Comrade",
+    "description": "Our equal",
     "lan_id": 1
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 lan_id | Id du LAN attribué.
 name | Nom unique du rôle attribué.
-en_display_name | Nom du rôle attribué, en anglais.
-en_description | Description du rôle attribué, en anglais.
-fr_display_name | Nom du rôle attribué, en français.
-fr_description | Description du rôles attribué, en français.
+display_name | Nom du rôle attribué, selon la langue spécifiée.
+description | Description du rôle attribué, selon la langue spécifiée.
 
 ## Ajouter des permissions à un role de LAN
 
@@ -206,23 +204,21 @@ permissions | Permissions à ajouter au rôle. | requis, liste de integer.
 
 ```json
 {
+    "id": 1,
     "name": "lan-general-admin",
-    "en_display_name": "LAN General admin",
-    "en_description": "Has every permissions for a LAN",
-    "fr_display_name": "Administrateur général de LAN",
-    "fr_description": "Possède toutes les permissions pour un LAN",
+    "display_name": "LAN General admin",
+    "description": "Has every permissions for a LAN",
     "lan_id": 1
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 lan_id | Id du LAN où les permissions ont été ajoutées.
 name | Nom unique du rôle où les permissions ont été ajoutées.
-en_display_name | Nom du rôle où les permissions ont été ajoutées, en anglais.
-en_description | Description du rôle où les permissions ont été ajoutées, en anglais.
-fr_display_name | Nom du rôle où les permissions ont été ajoutées, en français.
-fr_description | Description du rôles où les permissions ont été ajoutées, en français.
+display_name | Nom du rôle où les permissions ont été ajoutées, selon la langue spécifiée.
+description | Description du rôle où les permissions ont été ajoutées, selon la langue spécifiée.
 
 
 ## Supprimer des permissions d'un rôle de LAN
@@ -258,23 +254,21 @@ permissions | Permissions à supprimer au rôle. | requis, liste de integer.
 
 ```json
 {
+    "id": 1,
     "name": "lan-general-admin",
-    "en_display_name": "LAN General admin",
-    "en_description": "Has every permissions for a LAN",
-    "fr_display_name": "Administrateur général de LAN",
-    "fr_description": "Possède toutes les permissions pour un LAN",
+    "display_name": "LAN General admin",
+    "description": "Has every permissions for a LAN",
     "lan_id": 1
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 lan_id | Id du LAN où les permissions ont été supprimées.
 name | Nom unique du rôle où les permissions ont été supprimées.
-en_display_name | Nom du rôle où les permissions ont été supprimées, en anglais.
-en_description | Description du rôle où les permissions ont été supprimées, en anglais.
-fr_display_name | Nom du rôle où les permissions ont été supprimées, en français.
-fr_description | Description du rôles où les permissions ont été supprimées, en français.
+display_name | Nom du rôle où les permissions ont été supprimées, selon la langue spécifiée.
+description | Description du rôle où les permissions ont été supprimées, selon la langue spécifiée.
 
 
 ## Supprimer un rôle de LAN
@@ -297,23 +291,21 @@ role_id | Id du rôle que l'on veut supprimer. | integer.
 
 ```json
 {
+    "id": 1,
     "name": "lan-general-admin",
-    "en_display_name": "LAN General admin",
-    "en_description": "Has every permissions for a LAN",
-    "fr_display_name": "Administrateur général de LAN",
-    "fr_description": "Possède toutes les permissions pour un LAN",
+    "display_name": "LAN General admin",
+    "description": "Has every permissions for a LAN",
     "lan_id": 1
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 lan_id | Id du LAN où le rôle a été supprimé.
 name | Nom unique du rôle qui a été supprimé.
-en_display_name | Nom du rôle qui a été supprimé, en anglais.
-en_description | Description du rôle qui a été supprimé, en anglais.
-fr_display_name | Nom du rôle qui a été supprimé, en français.
-fr_description | Description du rôles qui a été supprimé, en français.
+display_name | Nom du rôle qui a été supprimé, selon la langue spécifiée.
+description | Description du rôle qui a été supprimé, selon la langue spécifiée.
 
 
 ## Obtenir les rôles de LAN
@@ -337,27 +329,24 @@ lan_id | Id du LAN duquel on veut obtenir les rôles. | integer.
 ```json
 [
   {
+    "id": 1,
     "name": "lan-general-admin",
-    "en_display_name": "LAN General admin",
-    "en_description": "Has every permissions for a LAN",
-    "fr_display_name": "Administrateur général de LAN",
-    "fr_description": "Possède toutes les permissions pour un LAN",
+    "display_name": "LAN General admin",
+    "description": "Has every permissions for a LAN",
     "lan_id": 1
   },
   {
+    "id": 2,
     "name": "seat-admin",
-    "en_display_name": "Seat admin",
-    "en_description": "Can manage places",
-    "fr_display_name": "Administrateur des places",
-    "fr_description": "Peut gérer les places",
+    "display_name": "Seat admin",
+    "description": "Can manage places",
     "lan_id": 1
   },
   {
+    "id": 3,
     "name": "tournament-admin",
-    "en_display_name": "Tournament admin",
-    "en_description": "Can manage tournaments et les équipes",
-    "fr_display_name": "Administrateur des tournois",
-    "fr_description": "Peut gérer les tournois et les équipes",
+    "display_name": "Tournament admin",
+    "description": "Can manage tournaments et les équipes",
     "lan_id": 1
   }
 ]
@@ -365,12 +354,11 @@ lan_id | Id du LAN duquel on veut obtenir les rôles. | integer.
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 lan_id | Id du LAN du rôle.
 name | Nom unique rôle.
-en_display_name | Nom du rôle, en anglais.
-en_description | Description du rôle, en anglais.
-fr_display_name | Nom du rôle, en français.
-fr_description | Description du rôles, en français.
+display_name | Nom du rôle, selon la langue spécifiée.
+description | Description du rôle, selon la langue spécifiée.
 
 
 ## Obtenir les permissions d'un rôle de LAN
@@ -396,28 +384,28 @@ role_id | Id du rôle duquel on souhaite trouver les permissions. | integer.
   {
     "id": 1,
     "name": "create-lan",
-    "can_be_per_lan": 0,
+    "can_be_per_lan": false,
     "display_name": "Create a new LAN",
     "description": "Create a new LAN. Careful, this permission should not be given to anyone..."
   },
   {
     "id": 2,
     "name": "set-current-lan",
-    "can_be_per_lan": 0,
+    "can_be_per_lan": false,
     "display_name": "Set current LAN",
     "description": "Set the LAN that will be shown on the LAN website. Careful, this permission should not be given to anyone..."
   },
   {
     "id": 3,
     "name": "edit-lan",
-    "can_be_per_lan": 1,
+    "can_be_per_lan": true,
     "display_name": "Edit LAN",
     "description": "Edit the name, the starting date, the ending date, the tournament reservation start date, the seat reservation start date, the seats.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone..."
   },
   {
     "id": 4,
     "name": "create-contribution-category",
-    "can_be_per_lan": 1,
+    "can_be_per_lan": true,
     "display_name": "Create contribution category",
     "description": "Create new contribution categories."
   }
@@ -428,10 +416,9 @@ Champ | Description
 --------- | -----------
 id | Id de la permission.
 name | Nom unique de la permission.
-en_display_name | Nom de la permission, en anglais.
-en_description | Description de la permission, en anglais.
-fr_display_name | Nom de la permission, en français.
-fr_description | Description de la permission, en français.
+can_be_per_lan | Si la permission peut être par LAN.
+display_name | Nom de la permission, selon la langue spécifiée.
+description | Description de la permission, selon la langue spécifiée.
 
 
 ## Obtenir les utilisateurs possédants un rôle de LAN

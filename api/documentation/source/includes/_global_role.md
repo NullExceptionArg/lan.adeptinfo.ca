@@ -109,6 +109,7 @@ fr_description | Description du rôle à modifier, en français. | string, max:1
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 name | Nom unique du rôle modifié.
 en_display_name | Nom du rôle modifié, en anglais.
 en_description | Description du rôle modifié, en anglais.
@@ -146,21 +147,19 @@ role_id | Id du rôle à attribuer à l'utilisateur | integer.
 
 ```json
 {
+    "id": 1,
     "name": "comrades",
-    "en_display_name": "Comrade",
-    "en_description": "Our equal",
-    "fr_display_name": "Camarade",
-    "fr_description": "Notre égal."
+    "display_name": "Comrade",
+    "description": "Our equal"
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 name | Nom unique du rôle attribué.
-en_display_name | Nom du rôle attribué, en anglais.
-en_description | Description du rôle attribué, en anglais.
-fr_display_name | Nom du rôle attribué, en français.
-fr_description | Description du rôles attribué, en français.
+display_name | Nom du rôle attribué, selon la langue spécifiée.
+description | Description du rôle attribué, selon la langue spécifiée.
 
 
 ## Ajouter des permissions à un role global
@@ -195,21 +194,19 @@ permissions | Permissions à ajouter au rôle. | requis, liste de integer.
 
 ```json
 {
+    "id": 1,
     "name": "general-admin",
-    "en_display_name": "General admin",
-    "en_description": "Has every permissions",
-    "fr_display_name": "Administrateur général",
-    "fr_description": "Possède toutes les permissions"
+    "display_name": "General admin",
+    "description": "Has every permissions"
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 name | Nom unique du rôle où les permissions ont été ajoutées.
-en_display_name | Nom du rôle où les permissions ont été ajoutées, en anglais.
-en_description | Description du rôle où les permissions ont été ajoutées, en anglais.
-fr_display_name | Nom du rôle où les permissions ont été ajoutées, en français.
-fr_description | Description du rôles où les permissions ont été ajoutées, en français.
+display_name | Nom du rôle où les permissions ont été ajoutées, selon la langue spécifiée.
+description | Description du rôle où les permissions ont été ajoutées, selon la langue spécifiée.
 
 
 ## Supprimer des permissions d'un rôle global
@@ -245,21 +242,19 @@ permissions | Permissions à supprimer au rôle. | requis, liste de integer.
 
 ```json
 {
+    "id": 1,
     "name": "general-admin",
-    "en_display_name": "General admin",
-    "en_description": "Has every permissions",
-    "fr_display_name": "Administrateur général",
-    "fr_description": "Possède toutes les permissions"
+    "display_name": "General admin",
+    "description": "Has every permissions"
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 name | Nom unique du rôle où les permissions ont été supprimées.
-en_display_name | Nom du rôle où les permissions ont été supprimées, en anglais.
-en_description | Description du rôle où les permissions ont été supprimées, en anglais.
-fr_display_name | Nom du rôle où les permissions ont été supprimées, en français.
-fr_description | Description du rôles où les permissions ont été supprimées, en français.
+display_name | Nom du rôle où les permissions ont été supprimées, selon la langue spécifiée.
+description | Description du rôle où les permissions ont été supprimées, selon la langue spécifiée.
 
 
 ## Supprimer un rôle global
@@ -290,21 +285,19 @@ role_id | Id du rôle que l'on veut supprimer. | integer.
 
 ```json
 {
+    "id": 1,
     "name": "general-admin",
-    "en_display_name": "General admin",
-    "en_description": "Has every permissions",
-    "fr_display_name": "Administrateur général",
-    "fr_description": "Possède toutes les permissions"
+    "display_name": "General admin",
+    "description": "Has every permissions"
 }
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 name | Nom unique du rôle qui a été supprimé.
-en_display_name | Nom du rôle qui a été supprimé, en anglais.
-en_description | Description du rôle qui a été supprimé, en anglais.
-fr_display_name | Nom du rôle qui a été supprimé, en français.
-fr_description | Description du rôles qui a été supprimé, en français.
+display_name | Nom du rôle qui a été supprimé, selon la langue spécifiée.
+description | Description du rôle qui a été supprimé, selon la langue spécifiée.
 
 
 ## Obtenir les rôle globaux
@@ -324,22 +317,20 @@ Cette requête ne nécessite aucuns paramètres.
 ```json
 [
   {
+    "id": 1,
     "name": "comrades",
-    "en_display_name": "new english name",
-    "en_description": "new english description",
-    "fr_display_name": "nouveau nom francophone",
-    "fr_description": "nouvelle description francophone"
+    "display_name": "new english name",
+    "description": "new english description"
   }
 ]
 ```
 
 Champ | Description
 --------- | -----------
+id | Id du rôle.
 name | Nom unique rôle.
-en_display_name | Nom du rôle, en anglais.
-en_description | Description du rôle, en anglais.
-fr_display_name | Nom du rôle, en français.
-fr_description | Description du rôles, en français.
+display_name | Nom du rôle, selon la langue spécifiée.
+description | Description du rôle, selon la langue spécifiée.
 
 
 
@@ -366,21 +357,21 @@ role_id | Id du rôle duquel on souhaite trouver les permissions. | integer.
   {
     "id": 3,
     "name": "edit-lan",
-    "can_be_per_lan": 1,
+    "can_be_per_lan": true,
     "display_name": "Edit LAN",
     "description": "Edit the name, the starting date, the ending date, the tournament reservation start date, the seat reservation start date, the seats.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone..."
   },
   {
     "id": 4,
     "name": "create-contribution-category",
-    "can_be_per_lan": 1,
+    "can_be_per_lan": true,
     "display_name": "Create contribution category",
     "description": "Create new contribution categories."
   },
   {
     "id": 5,
     "name": "delete-contribution-category",
-    "can_be_per_lan": 1,
+    "can_be_per_lan": true,
     "display_name": "Delete contribution category",
     "description": "Delete contribution categories."
   }
@@ -390,11 +381,10 @@ role_id | Id du rôle duquel on souhaite trouver les permissions. | integer.
 Champ | Description
 --------- | -----------
 id | Id de la permission.
+can_be_per_lan | Si la permission peut être par LAN.
 name | Nom unique de la permission.
-en_display_name | Nom de la permission, en anglais.
-en_description | Description de la permission, en anglais.
-fr_display_name | Nom de la permission, en français.
-fr_description | Description de la permission, en français.
+can_be_per_lan | Nom de la permission, selon la langue spécifiée.
+description | Description de la permission, selon la langue spécifiée.
 
 
 ## Obtenir les utilisateurs possédants un rôle global
