@@ -4814,6 +4814,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>name</td>
 <td>Nom unique du rôle modifié.</td>
 </tr>
@@ -4870,11 +4874,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comrades"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comrade"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our equal"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Camarade"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notre égal."</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comrade"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our equal"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <table><thead>
@@ -4884,24 +4887,20 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>name</td>
 <td>Nom unique du rôle attribué.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle attribué, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle attribué, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle attribué, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle attribué, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles attribué, en français.</td>
+<td>description</td>
+<td>Description du rôle attribué, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='ajouter-des-permissions-a-un-role-global'>Ajouter des permissions à un role global</h2>
@@ -4942,11 +4941,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"general-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur général"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Possède toutes les permissions"</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <table><thead>
@@ -4956,24 +4954,20 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>name</td>
 <td>Nom unique du rôle où les permissions ont été ajoutées.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle où les permissions ont été ajoutées, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle où les permissions ont été ajoutées, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle où les permissions ont été ajoutées, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles où les permissions ont été ajoutées, en français.</td>
+<td>description</td>
+<td>Description du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='supprimer-des-permissions-d-39-un-role-global'>Supprimer des permissions d&#39;un rôle global</h2>
@@ -5014,11 +5008,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"general-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur général"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Possède toutes les permissions"</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <table><thead>
@@ -5028,24 +5021,20 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>name</td>
 <td>Nom unique du rôle où les permissions ont été supprimées.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle où les permissions ont été supprimées, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle où les permissions ont été supprimées, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle où les permissions ont été supprimées, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles où les permissions ont été supprimées, en français.</td>
+<td>description</td>
+<td>Description du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='supprimer-un-role-global'>Supprimer un rôle global</h2>
@@ -5078,11 +5067,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"general-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur général"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Possède toutes les permissions"</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"General admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <table><thead>
@@ -5092,24 +5080,20 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>name</td>
 <td>Nom unique du rôle qui a été supprimé.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle qui a été supprimé, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle qui a été supprimé, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle qui a été supprimé, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle qui a été supprimé, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles qui a été supprimé, en français.</td>
+<td>description</td>
+<td>Description du rôle qui a été supprimé, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-role-globaux'>Obtenir les rôle globaux</h2>
@@ -5124,11 +5108,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comrades"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new english name"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new english description"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nouveau nom francophone"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"nouvelle description francophone"</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new english name"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"new english description"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -5139,24 +5122,20 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>name</td>
 <td>Nom unique rôle.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles, en français.</td>
+<td>description</td>
+<td>Description du rôle, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-permissions-d-39-un-role-global'>Obtenir les permissions d&#39;un rôle global</h2>
@@ -5185,21 +5164,21 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"edit-lan"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit the name, the starting date, the ending date, the tournament reservation start date, the seat reservation start date, the seats.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone..."</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create-contribution-category"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create contribution category"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create new contribution categories."</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"delete-contribution-category"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Delete contribution category"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Delete contribution categories."</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -5216,24 +5195,20 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <td>Id de la permission.</td>
 </tr>
 <tr>
+<td>can_be_per_lan</td>
+<td>Si la permission peut être par LAN.</td>
+</tr>
+<tr>
 <td>name</td>
 <td>Nom unique de la permission.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom de la permission, en anglais.</td>
+<td>can_be_per_lan</td>
+<td>Nom de la permission, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description de la permission, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom de la permission, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description de la permission, en français.</td>
+<td>description</td>
+<td>Description de la permission, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-utilisateurs-possedants-un-role-global'>Obtenir les utilisateurs possédants un rôle global</h2>
@@ -5450,7 +5425,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>fr_display_name</td>
-<td>Nom du rôle à afficher, en anglais.</td>
+<td>Nom du rôle à afficher, en français.</td>
 <td>string, max:50.</td>
 </tr>
 <tr>
@@ -5539,11 +5514,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"comrades"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comrade"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our equal"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Camarade"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Notre égal."</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comrade"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Our equal"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -5554,6 +5528,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>lan_id</td>
 <td>Id du LAN attribué.</td>
 </tr>
@@ -5562,20 +5540,12 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <td>Nom unique du rôle attribué.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle attribué, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle attribué, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle attribué, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle attribué, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles attribué, en français.</td>
+<td>description</td>
+<td>Description du rôle attribué, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='ajouter-des-permissions-a-un-role-de-lan'>Ajouter des permissions à un role de LAN</h2>
@@ -5616,11 +5586,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lan-general-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur général de LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Possède toutes les permissions pour un LAN"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -5631,6 +5600,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>lan_id</td>
 <td>Id du LAN où les permissions ont été ajoutées.</td>
 </tr>
@@ -5639,20 +5612,12 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <td>Nom unique du rôle où les permissions ont été ajoutées.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle où les permissions ont été ajoutées, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle où les permissions ont été ajoutées, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle où les permissions ont été ajoutées, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles où les permissions ont été ajoutées, en français.</td>
+<td>description</td>
+<td>Description du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='supprimer-des-permissions-d-39-un-role-de-lan'>Supprimer des permissions d&#39;un rôle de LAN</h2>
@@ -5693,11 +5658,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lan-general-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur général de LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Possède toutes les permissions pour un LAN"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -5708,6 +5672,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>lan_id</td>
 <td>Id du LAN où les permissions ont été supprimées.</td>
 </tr>
@@ -5716,20 +5684,12 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <td>Nom unique du rôle où les permissions ont été supprimées.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle où les permissions ont été supprimées, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle où les permissions ont été supprimées, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle où les permissions ont été supprimées, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles où les permissions ont été supprimées, en français.</td>
+<td>description</td>
+<td>Description du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='supprimer-un-role-de-lan'>Supprimer un rôle de LAN</h2>
@@ -5755,11 +5715,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lan-general-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur général de LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Possède toutes les permissions pour un LAN"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -5770,6 +5729,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>lan_id</td>
 <td>Id du LAN où le rôle a été supprimé.</td>
 </tr>
@@ -5778,20 +5741,12 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <td>Nom unique du rôle qui a été supprimé.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle qui a été supprimé, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle qui a été supprimé, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle qui a été supprimé, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle qui a été supprimé, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles qui a été supprimé, en français.</td>
+<td>description</td>
+<td>Description du rôle qui a été supprimé, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-roles-de-lan'>Obtenir les rôles de LAN</h2>
@@ -5818,27 +5773,24 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"lan-general-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur général de LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Possède toutes les permissions pour un LAN"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"LAN General admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Has every permissions for a LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"seat-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Seat admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Can manage places"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur des places"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Peut gérer les places"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Seat admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Can manage places"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tournament-admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tournament admin"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"en_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Can manage tournaments et les équipes"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Administrateur des tournois"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fr_description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Peut gérer les tournois et les équipes"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tournament admin"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Can manage tournaments et les équipes"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
@@ -5850,6 +5802,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du rôle.</td>
+</tr>
+<tr>
 <td>lan_id</td>
 <td>Id du LAN du rôle.</td>
 </tr>
@@ -5858,20 +5814,12 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <td>Nom unique rôle.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom du rôle, en anglais.</td>
+<td>display_name</td>
+<td>Nom du rôle, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description du rôle, en anglais.</td>
-</tr>
-<tr>
-<td>fr_display_name</td>
-<td>Nom du rôle, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description du rôles, en français.</td>
+<td>description</td>
+<td>Description du rôle, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-permissions-d-39-un-role-de-lan'>Obtenir les permissions d&#39;un rôle de LAN</h2>
@@ -5900,28 +5848,28 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create-lan"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create a new LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create a new LAN. Careful, this permission should not be given to anyone..."</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"set-current-lan"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Set current LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Set the LAN that will be shown on the LAN website. Careful, this permission should not be given to anyone..."</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"edit-lan"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit LAN"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit the name, the starting date, the ending date, the tournament reservation start date, the seat reservation start date, the seats.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone..."</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create-contribution-category"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create contribution category"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create new contribution categories."</span><span class="w">
   </span><span class="p">}</span><span class="w">
@@ -5942,20 +5890,16 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <td>Nom unique de la permission.</td>
 </tr>
 <tr>
-<td>en_display_name</td>
-<td>Nom de la permission, en anglais.</td>
+<td>can_be_per_lan</td>
+<td>Si la permission peut être par LAN.</td>
 </tr>
 <tr>
-<td>en_description</td>
-<td>Description de la permission, en anglais.</td>
+<td>display_name</td>
+<td>Nom de la permission, selon la langue spécifiée.</td>
 </tr>
 <tr>
-<td>fr_display_name</td>
-<td>Nom de la permission, en français.</td>
-</tr>
-<tr>
-<td>fr_description</td>
-<td>Description de la permission, en français.</td>
+<td>description</td>
+<td>Description de la permission, selon la langue spécifiée.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-utilisateurs-possedants-un-role-de-lan'>Obtenir les utilisateurs possédants un rôle de LAN</h2>
