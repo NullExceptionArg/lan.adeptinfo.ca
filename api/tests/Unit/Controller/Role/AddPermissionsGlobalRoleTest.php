@@ -48,11 +48,10 @@ class AddPermissionsGlobalRoleTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
+                'id' => $this->globalRole->id,
                 'name' => $this->globalRole->name,
-                'en_display_name' => $this->globalRole->en_display_name,
-                'en_description' => $this->globalRole->en_description,
-                'fr_display_name' => $this->globalRole->fr_display_name,
-                'fr_description' => $this->globalRole->fr_description,
+                'display_name' => $this->globalRole->en_display_name,
+                'description' => $this->globalRole->en_description,
             ])
             ->assertResponseStatus(200);
     }

@@ -3,6 +3,7 @@
 namespace App\Services\Implementation;
 
 use App\Http\Resources\Role\GetPermissionsResource;
+use App\Http\Resources\Role\GetRoleResource;
 use App\Model\GlobalRole;
 use App\Model\LanRole;
 use App\Repositories\Implementation\LanRepositoryImpl;
@@ -140,7 +141,7 @@ class RoleServiceImpl implements RoleService
         return $role;
     }
 
-    public function assignLanRole(Request $input): LanRole
+    public function assignLanRole(Request $input): GetRoleResource
     {
         $role = null;
         if (is_int($input->input('role_id'))) {
@@ -166,10 +167,10 @@ class RoleServiceImpl implements RoleService
 
         $this->roleRepository->linkLanRoleUser($role, $user);
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function addPermissionsLanRole(Request $input): LanRole
+    public function addPermissionsLanRole(Request $input): GetRoleResource
     {
         $role = null;
         if (is_int($input->input('role_id'))) {
@@ -203,10 +204,10 @@ class RoleServiceImpl implements RoleService
             $this->roleRepository->linkPermissionIdLanRole($permissionId, $role);
         }
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function deletePermissionsLanRole(Request $input): LanRole
+    public function deletePermissionsLanRole(Request $input): GetRoleResource
     {
         $role = null;
         if (is_int($input->input('role_id'))) {
@@ -238,10 +239,10 @@ class RoleServiceImpl implements RoleService
             $this->roleRepository->unlinkPermissionIdLanRole($permissionId, $role);
         }
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function deleteLanRole(Request $input): LanRole
+    public function deleteLanRole(Request $input): GetRoleResource
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -266,10 +267,10 @@ class RoleServiceImpl implements RoleService
         $role = $this->roleRepository->findLanRoleById($input->input('role_id'));
         $this->roleRepository->deleteLanRole($input->input('role_id'));
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function getLanRoles(Request $input): Collection
+    public function getLanRoles(Request $input): AnonymousResourceCollection
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -289,7 +290,7 @@ class RoleServiceImpl implements RoleService
             throw new BadRequestHttpException($roleValidator->errors());
         }
 
-        return $this->roleRepository->getLanRoles($input->input('lan_id'));
+        return GetRoleResource::Collection($this->roleRepository->getLanRoles($input->input('lan_id')));
     }
 
     public function getLanRolePermissions(Request $input): AnonymousResourceCollection
@@ -412,7 +413,7 @@ class RoleServiceImpl implements RoleService
         return $role;
     }
 
-    public function assignGlobalRole(Request $input): GlobalRole
+    public function assignGlobalRole(Request $input): GetRoleResource
     {
         $roleValidator = Validator::make([
             'email' => $input->input('email'),
@@ -433,10 +434,10 @@ class RoleServiceImpl implements RoleService
 
         $this->roleRepository->linkGlobalRoleUser($role, $user);
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function addPermissionsGlobalRole(Request $input): GlobalRole
+    public function addPermissionsGlobalRole(Request $input): GetRoleResource
     {
         $roleValidator = Validator::make([
             'role_id' => $input->input('role_id'),
@@ -464,10 +465,10 @@ class RoleServiceImpl implements RoleService
             $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $role);
         }
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function deletePermissionsGlobalRole(Request $input): GlobalRole
+    public function deletePermissionsGlobalRole(Request $input): GetRoleResource
     {
         $roleValidator = Validator::make([
             'role_id' => $input->input('role_id'),
@@ -494,10 +495,10 @@ class RoleServiceImpl implements RoleService
             $this->roleRepository->unlinkPermissionIdGlobalRole($permissionId, $role);
         }
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function deleteGlobalRole(Request $input): GlobalRole
+    public function deleteGlobalRole(Request $input): GetRoleResource
     {
         $roleValidator = Validator::make([
             'role_id' => $input->input('role_id'),
@@ -514,10 +515,10 @@ class RoleServiceImpl implements RoleService
         $role = $this->roleRepository->findGlobalRoleById($input->input('role_id'));
         $this->roleRepository->deleteGlobalRole($input->input('role_id'));
 
-        return $role;
+        return new GetRoleResource($role);
     }
 
-    public function getGlobalRoles(Request $input): Collection
+    public function getGlobalRoles(Request $input): AnonymousResourceCollection
     {
         $roleValidator = Validator::make([
             'permission' => 'get-global-roles',
@@ -529,7 +530,7 @@ class RoleServiceImpl implements RoleService
             throw new BadRequestHttpException($roleValidator->errors());
         }
 
-        return $this->roleRepository->getGlobalRoles();
+        return GetRoleResource::Collection($this->roleRepository->getGlobalRoles());
     }
 
     public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection

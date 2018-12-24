@@ -39,32 +39,28 @@ class GetGlobalRolesTest extends TestCase
             ->json('GET', '/api/role/global')
             ->seeJsonEquals([
                 [
+                    'id' => $this->globalRoles[0]->id,
                     'name' => $this->globalRoles[0]->name,
-                    'en_display_name' => $this->globalRoles[0]->en_display_name,
-                    'en_description' => $this->globalRoles[0]->en_description,
-                    'fr_display_name' => $this->globalRoles[0]->fr_display_name,
-                    'fr_description' => $this->globalRoles[0]->fr_description,
+                    'display_name' => $this->globalRoles[0]->en_display_name,
+                    'description' => $this->globalRoles[0]->en_description,
                 ],
                 [
+                    'id' => $this->globalRoles[1]->id,
                     'name' => $this->globalRoles[1]->name,
-                    'en_display_name' => $this->globalRoles[1]->en_display_name,
-                    'en_description' => $this->globalRoles[1]->en_description,
-                    'fr_display_name' => $this->globalRoles[1]->fr_display_name,
-                    'fr_description' => $this->globalRoles[1]->fr_description,
+                    'display_name' => $this->globalRoles[1]->en_display_name,
+                    'description' => $this->globalRoles[1]->en_description,
                 ],
                 [
+                    'id' => $this->globalRoles[2]->id,
                     'name' => $this->globalRoles[2]->name,
-                    'en_display_name' => $this->globalRoles[2]->en_display_name,
-                    'en_description' => $this->globalRoles[2]->en_description,
-                    'fr_display_name' => $this->globalRoles[2]->fr_display_name,
-                    'fr_description' => $this->globalRoles[2]->fr_description,
+                    'display_name' => $this->globalRoles[2]->en_display_name,
+                    'description' => $this->globalRoles[2]->en_description,
                 ],
                 [
+                    'id' => $this->accessRole->id,
                     'name' => $this->accessRole->name,
-                    'en_display_name' => $this->accessRole->en_display_name,
-                    'en_description' => $this->accessRole->en_description,
-                    'fr_display_name' => $this->accessRole->fr_display_name,
-                    'fr_description' => $this->accessRole->fr_description,
+                    'display_name' => $this->accessRole->en_display_name,
+                    'description' => $this->accessRole->en_description,
                 ]
             ])
             ->assertResponseStatus(200);

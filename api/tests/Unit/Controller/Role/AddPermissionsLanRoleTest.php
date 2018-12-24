@@ -57,12 +57,10 @@ class AddPermissionsLanRoleTest extends TestCase
         $this->actingAs($this->user)
             ->json('POST', '/api/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
-                'lan_id' => $this->requestContent['lan_id'],
+                'id' => $this->lanRole->id,
                 'name' => $this->lanRole->name,
-                'en_display_name' => $this->lanRole->en_display_name,
-                'en_description' => $this->lanRole->en_description,
-                'fr_display_name' => $this->lanRole->fr_display_name,
-                'fr_description' => $this->lanRole->fr_description,
+                'display_name' => $this->lanRole->en_display_name,
+                'description' => $this->lanRole->en_description,
             ])
             ->assertResponseStatus(200);
     }

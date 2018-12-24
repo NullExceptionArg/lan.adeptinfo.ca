@@ -40,11 +40,10 @@ class AssignGlobalRoleTest extends TestCase
                 'email' => $this->user->email
             ])
             ->seeJsonEquals([
+                'id' => $this->role->id,
                 'name' => $this->role->name,
-                'en_display_name' => $this->role->en_display_name,
-                'en_description' => $this->role->en_description,
-                'fr_display_name' => $this->role->fr_display_name,
-                'fr_description' => $this->role->fr_description
+                'display_name' => $this->role->en_display_name,
+                'description' => $this->role->en_description,
             ])
             ->assertResponseStatus(200);
     }

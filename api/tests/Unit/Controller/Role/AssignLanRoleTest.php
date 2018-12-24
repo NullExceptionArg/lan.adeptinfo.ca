@@ -46,12 +46,10 @@ class AssignLanRoleTest extends TestCase
                 'email' => $this->user->email
             ])
             ->seeJsonEquals([
+                'id' => $this->role->id,
                 'name' => $this->role->name,
-                'en_display_name' => $this->role->en_display_name,
-                'en_description' => $this->role->en_description,
-                'fr_display_name' => $this->role->fr_display_name,
-                'fr_description' => $this->role->fr_description,
-                'lan_id' => $this->lan->id
+                'display_name' => $this->role->en_display_name,
+                'description' => $this->role->en_description,
             ])
             ->assertResponseStatus(200);
     }

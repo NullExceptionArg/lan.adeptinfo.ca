@@ -45,36 +45,28 @@ class GetLanRolesTest extends TestCase
             ->json('GET', '/api/role/lan', ['lan_id' => $this->lan->id])
             ->seeJsonEquals([
                 [
+                    'id' => $this->lanRoles[0]->id,
                     'name' => $this->lanRoles[0]->name,
-                    'en_display_name' => $this->lanRoles[0]->en_display_name,
-                    'en_description' => $this->lanRoles[0]->en_description,
-                    'fr_display_name' => $this->lanRoles[0]->fr_display_name,
-                    'fr_description' => $this->lanRoles[0]->fr_description,
-                    'lan_id' => $this->lanRoles[0]->lan_id
+                    'display_name' => $this->lanRoles[0]->en_display_name,
+                    'description' => $this->lanRoles[0]->en_description,
                 ],
                 [
+                    'id' => $this->lanRoles[1]->id,
                     'name' => $this->lanRoles[1]->name,
-                    'en_display_name' => $this->lanRoles[1]->en_display_name,
-                    'en_description' => $this->lanRoles[1]->en_description,
-                    'fr_display_name' => $this->lanRoles[1]->fr_display_name,
-                    'fr_description' => $this->lanRoles[1]->fr_description,
-                    'lan_id' => $this->lanRoles[1]->lan_id
+                    'display_name' => $this->lanRoles[1]->en_display_name,
+                    'description' => $this->lanRoles[1]->en_description,
                 ],
                 [
+                    'id' => $this->lanRoles[2]->id,
                     'name' => $this->lanRoles[2]->name,
-                    'en_display_name' => $this->lanRoles[2]->en_display_name,
-                    'en_description' => $this->lanRoles[2]->en_description,
-                    'fr_display_name' => $this->lanRoles[2]->fr_display_name,
-                    'fr_description' => $this->lanRoles[2]->fr_description,
-                    'lan_id' => $this->lanRoles[2]->lan_id
+                    'display_name' => $this->lanRoles[2]->en_display_name,
+                    'description' => $this->lanRoles[2]->en_description,
                 ],
                 [
+                    'id' => $this->accessRole->id,
                     'name' => $this->accessRole->name,
-                    'en_display_name' => $this->accessRole->en_display_name,
-                    'en_description' => $this->accessRole->en_description,
-                    'fr_display_name' => $this->accessRole->fr_display_name,
-                    'fr_description' => $this->accessRole->fr_description,
-                    'lan_id' => $this->accessRole->lan_id
+                    'display_name' => $this->accessRole->en_display_name,
+                    'description' => $this->accessRole->en_description,
                 ]
             ])
             ->assertResponseStatus(200);

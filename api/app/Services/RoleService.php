@@ -3,6 +3,7 @@
 namespace App\Services;
 
 
+use App\Http\Resources\Role\GetRoleResource;
 use App\Model\GlobalRole;
 use App\Model\LanRole;
 use Illuminate\Http\Request;
@@ -15,15 +16,15 @@ interface RoleService
 
     public function editLanRole(Request $input): LanRole;
 
-    public function assignLanRole(Request $input): LanRole;
+    public function assignLanRole(Request $input): GetRoleResource;
 
-    public function addPermissionsLanRole(Request $input): LanRole;
+    public function addPermissionsLanRole(Request $input): GetRoleResource;
 
-    public function deletePermissionsLanRole(Request $input): LanRole;
+    public function deletePermissionsLanRole(Request $input): GetRoleResource;
 
-    public function deleteLanRole(Request $input): LanRole;
+    public function deleteLanRole(Request $input): GetRoleResource;
 
-    public function getLanRoles(Request $input): Collection;
+    public function getLanRoles(Request $input): AnonymousResourceCollection;
 
     public function getLanRolePermissions(Request $input): AnonymousResourceCollection;
 
@@ -33,15 +34,15 @@ interface RoleService
 
     public function editGlobalRole(Request $input): GlobalRole;
 
-    public function assignGlobalRole(Request $input): GlobalRole;
+    public function assignGlobalRole(Request $input): GetRoleResource;
 
-    public function addPermissionsGlobalRole(Request $input): GlobalRole;
+    public function addPermissionsGlobalRole(Request $input): GetRoleResource;
 
-    public function deletePermissionsGlobalRole(Request $input): GlobalRole;
+    public function deletePermissionsGlobalRole(Request $input): GetRoleResource;
 
-    public function deleteGlobalRole(Request $input): GlobalRole;
+    public function deleteGlobalRole(Request $input): GetRoleResource;
 
-    public function getGlobalRoles(Request $input): Collection;
+    public function getGlobalRoles(Request $input): AnonymousResourceCollection;
 
     public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection;
 
