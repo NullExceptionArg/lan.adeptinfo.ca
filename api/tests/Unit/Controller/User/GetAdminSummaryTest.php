@@ -89,63 +89,63 @@ class GetAdminSummaryTest extends TestCase
                     [
                         'id' => $permission->id,
                         'name' => 'admin-summary',
-                        'can_be_per_lan' => $permission->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permission->can_be_per_lan,
                         'display_name' => trans('permission.display-name-admin-summary'),
                         'description' => trans('permission.description-admin-summary')
                     ],
                     [
                         'id' => $permissions[0]->id,
                         'name' => $permissions[0]->name,
-                        'can_be_per_lan' => $permissions[0]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[0]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[0]->name),
                         'description' => trans('permission.description-' . $permissions[0]->name)
                     ],
                     [
                         'id' => $permissions[1]->id,
                         'name' => $permissions[1]->name,
-                        'can_be_per_lan' => $permissions[1]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[1]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[1]->name),
                         'description' => trans('permission.description-' . $permissions[1]->name)
                     ],
                     [
                         'id' => $permissions[2]->id,
                         'name' => $permissions[2]->name,
-                        'can_be_per_lan' => $permissions[2]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[2]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[2]->name),
                         'description' => trans('permission.description-' . $permissions[2]->name)
                     ],
                     [
                         'id' => $permissions[3]->id,
                         'name' => $permissions[3]->name,
-                        'can_be_per_lan' => $permissions[3]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[3]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[3]->name),
                         'description' => trans('permission.description-' . $permissions[3]->name)
                     ],
                     [
                         'id' => $permissions[4]->id,
                         'name' => $permissions[4]->name,
-                        'can_be_per_lan' => $permissions[4]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[4]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[4]->name),
                         'description' => trans('permission.description-' . $permissions[4]->name)
                     ],
                     [
                         'id' => $permissions[5]->id,
                         'name' => $permissions[5]->name,
-                        'can_be_per_lan' => $permissions[5]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[5]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[5]->name),
                         'description' => trans('permission.description-' . $permissions[5]->name)
                     ],
                     [
                         'id' => $permissions[6]->id,
                         'name' => $permissions[6]->name,
-                        'can_be_per_lan' => $permissions[6]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[6]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[6]->name),
                         'description' => trans('permission.description-' . $permissions[6]->name)
                     ],
                     [
                         'id' => $permissions[7]->id,
                         'name' => $permissions[7]->name,
-                        'can_be_per_lan' => $permissions[7]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[7]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[7]->name),
                         'description' => trans('permission.description-' . $permissions[7]->name)
                     ],
@@ -210,63 +210,63 @@ class GetAdminSummaryTest extends TestCase
                     [
                         'id' => $permission->id,
                         'name' => 'admin-summary',
-                        'can_be_per_lan' => $permission->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permission->can_be_per_lan,
                         'display_name' => trans('permission.display-name-admin-summary'),
                         'description' => trans('permission.description-admin-summary')
                     ],
                     [
                         'id' => $permissions[0]->id,
                         'name' => $permissions[0]->name,
-                        'can_be_per_lan' => $permissions[0]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[0]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[0]->name),
                         'description' => trans('permission.description-' . $permissions[0]->name)
                     ],
                     [
                         'id' => $permissions[1]->id,
                         'name' => $permissions[1]->name,
-                        'can_be_per_lan' => $permissions[1]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[1]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[1]->name),
                         'description' => trans('permission.description-' . $permissions[1]->name)
                     ],
                     [
                         'id' => $permissions[2]->id,
                         'name' => $permissions[2]->name,
-                        'can_be_per_lan' => $permissions[2]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[2]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[2]->name),
                         'description' => trans('permission.description-' . $permissions[2]->name)
                     ],
                     [
                         'id' => $permissions[3]->id,
                         'name' => $permissions[3]->name,
-                        'can_be_per_lan' => $permissions[3]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[3]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[3]->name),
                         'description' => trans('permission.description-' . $permissions[3]->name)
                     ],
                     [
                         'id' => $permissions[4]->id,
                         'name' => $permissions[4]->name,
-                        'can_be_per_lan' => $permissions[4]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[4]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[4]->name),
                         'description' => trans('permission.description-' . $permissions[4]->name)
                     ],
                     [
                         'id' => $permissions[5]->id,
                         'name' => $permissions[5]->name,
-                        'can_be_per_lan' => $permissions[5]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[5]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[5]->name),
                         'description' => trans('permission.description-' . $permissions[5]->name)
                     ],
                     [
                         'id' => $permissions[6]->id,
                         'name' => $permissions[6]->name,
-                        'can_be_per_lan' => $permissions[6]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[6]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[6]->name),
                         'description' => trans('permission.description-' . $permissions[6]->name)
                     ],
                     [
                         'id' => $permissions[7]->id,
                         'name' => $permissions[7]->name,
-                        'can_be_per_lan' => $permissions[7]->can_be_per_lan,
+                        'can_be_per_lan' => (boolean)$permissions[7]->can_be_per_lan,
                         'display_name' => trans('permission.display-name-' . $permissions[7]->name),
                         'description' => trans('permission.description-' . $permissions[7]->name)
                     ],
