@@ -135,7 +135,7 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatAvailable()
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key);
-        $seatsClient->events()->book($this->lan->event_key, [env('SEAT_ID')]);
+        $seatsClient->events->book($this->lan->event_key, [env('SEAT_ID')]);
         $request = new Request([
             'lan_id' => $this->lan->id,
             'user_email' => $this->user->email

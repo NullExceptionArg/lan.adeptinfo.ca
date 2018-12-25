@@ -162,7 +162,7 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $seatsClient = new SeatsioClient($this->lan->secret_key);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'free');
+        $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'free');
         $request = new Request([
             'lan_id' => $this->lan->id
         ]);
@@ -182,7 +182,7 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $seatsClient = new SeatsioClient($this->lan->secret_key);
-        $seatsClient->events()->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'arrived');
+        $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_ID')], 'arrived');
         $request = new Request([
             'lan_id' => $this->lan->id
         ]);

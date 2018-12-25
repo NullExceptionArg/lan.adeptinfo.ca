@@ -62,7 +62,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(1, $user->Contribution()->count());
 
         // Seats.io
-        $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, 'A-1');
+        $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, 'A-1');
         $this->assertEquals('booked', $status->status);
 
         /// Delete user
@@ -79,7 +79,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(0, Contribution::where('user_id', $user->id)->count());
 
         // Seats.io
-        $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, 'A-1');
+        $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, 'A-1');
         $this->assertEquals('free', $status->status);
     }
 }

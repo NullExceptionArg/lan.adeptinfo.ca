@@ -32,7 +32,7 @@ class SeatNotArrivedSeatIo implements Rule
         }
         $seatsClient = new SeatsioClient($lan->secret_key);
         try {
-            $status = $seatsClient->events()->retrieveObjectStatus($lan->event_key, $value);
+            $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, $value);
             return $status->status != 'arrived';
         } catch (SeatsioException $exception) {
             return true;
