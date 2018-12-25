@@ -31,4 +31,6 @@ interface TournamentRepository
     public function quit(Tournament $tournament, Authenticatable $user): void;
 
     public function getOrganizerCount(Tournament $tournament): int;
+
+    public function getTournamentsLanId(int $tournamentId): ?int;
 }

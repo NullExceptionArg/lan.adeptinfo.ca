@@ -8,11 +8,13 @@ use App\Model\ContributionCategory;
 use App\Repositories\Implementation\ContributionRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Rules\HasPermissionInLan;
 use App\Rules\OneOfTwoFields;
 use App\Services\ContributionService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -49,10 +51,12 @@ class ContributionServiceImpl implements ContributionService
 
         $categoryValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'name' => $input->input('name')
+            'name' => $input->input('name'),
+            'permission' => 'create-contribution-category'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'name' => 'required|string',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($categoryValidator->fails()) {
@@ -100,10 +104,12 @@ class ContributionServiceImpl implements ContributionService
 
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'contribution_category_id' => $input->input('contribution_category_id')
+            'contribution_category_id' => $input->input('contribution_category_id'),
+            'permission' => 'delete-contribution-category'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL'
+            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -130,6 +136,7 @@ class ContributionServiceImpl implements ContributionService
             'contribution_category_id' => $input->input('contribution_category_id'),
             'user_full_name' => $input->input('user_full_name'),
             'user_email' => $input->input('user_email'),
+            'permission' => 'create-contribution'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
@@ -146,6 +153,7 @@ class ContributionServiceImpl implements ContributionService
                 'exists:user,email',
                 new OneOfTwoFields($input->input('user_full_name'), 'user_full_name')
             ],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($contributionValidator->fails()) {
@@ -205,9 +213,11 @@ class ContributionServiceImpl implements ContributionService
         $contributionValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'contribution_id' => $input->input('contribution_id'),
+            'permission' => 'delete-contribution'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL'
+            'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($contributionValidator->fails()) {

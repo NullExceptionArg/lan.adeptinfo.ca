@@ -13,7 +13,7 @@ class ContributionController extends Controller
     protected $contributionService;
 
     /**
-     * LanController constructor.
+     * ContributionController constructor.
      * @param ContributionServiceImpl $contributionService
      */
     public function __construct(ContributionServiceImpl $contributionService)

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\Team\GetUsersTeamDetailsResource;
 use App\Model\Request as TeamRequest;
 use App\Model\Tag;
 use App\Model\Team;
@@ -15,6 +16,8 @@ interface TeamService
     public function createRequest(Request $input): TeamRequest;
 
     public function getUserTeams(Request $input): AnonymousResourceCollection;
+
+    public function getUsersTeamDetails(Request $input): GetUsersTeamDetailsResource;
 
     public function changeLeader(Request $input): Tag;
 

@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Service\Image;
 
+use App\Model\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -14,6 +16,7 @@ class AddImageTest extends TestCase
     protected $imageService;
 
     protected $lan;
+    protected $user;
 
     protected $paramsContent = [
         'image' => null,
@@ -26,11 +29,27 @@ class AddImageTest extends TestCase
         $this->imageService = $this->app->make('App\Services\Implementation\ImageServiceImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
+        $this->user = factory('App\Model\User')->create();
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'add-image')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
 
         $this->paramsContent['image'] = factory('App\Model\Image')->make([
             'lan_id' => $this->lan->id
         ])->image;
         $this->paramsContent['lan_id'] = $this->lan->id;
+
+        $this->be($this->user);
     }
 
     public function testAddImage(): void
@@ -48,6 +67,20 @@ class AddImageTest extends TestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'add-image')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
         $request = new Request([
             'image' => $this->paramsContent['image']
         ]);
@@ -56,6 +89,19 @@ class AddImageTest extends TestCase
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->paramsContent['image'], $result['image']);
         $this->assertEquals($lan->id, $result['lan_id']);
+    }
+
+    public function testDeleteContributionHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $request = new Request($this->paramsContent);
+        $this->be($user);
+        try {
+            $this->imageService->addImage($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
     }
 
     public function testAddImageLanIdExists(): void

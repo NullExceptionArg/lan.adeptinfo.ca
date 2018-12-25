@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Seat;
 
+use App\Model\Permission;
 use App\Model\Reservation;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
@@ -26,6 +27,19 @@ class AssignTest extends SeatsTestCase
         $this->user = factory('App\Model\User')->create();
         $this->admin = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'assign-seat')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->admin->id
+        ]);
     }
 
     public function testAssignSeat(): void
@@ -42,10 +56,38 @@ class AssignTest extends SeatsTestCase
             ->assertResponseStatus(201);
     }
 
+    public function testAssignSeatHasPermission(): void
+    {
+        $admin = factory('App\Model\User')->create();
+        $this->actingAs($admin)
+            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+                'lan_id' => $this->lan->id,
+                'user_email' => $this->user->email
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
     public function testAssignSeatCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
+        ]);
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'assign-seat')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->admin->id
         ]);
         $this->actingAs($this->admin)
             ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [

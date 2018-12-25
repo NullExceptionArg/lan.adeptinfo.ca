@@ -3,16 +3,21 @@
 
 namespace App\Services\Implementation;
 
+use App\Http\Resources\User\GetAdminRolesResource;
+use App\Http\Resources\User\GetAdminSummaryResource;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
 use App\Mail\ConfirmAccount;
 use App\Http\Resources\User\GetUserSummaryResource;
 use App\Model\User;
 use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\FacebookEmailPermission;
+use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\UniqueEmailSocialLogin;
 use App\Rules\ValidFacebookToken;
 use App\Rules\ValidGoogleToken;
@@ -32,6 +37,7 @@ class UserServiceImpl implements UserService
     protected $seatRepository;
     protected $lanRepository;
     protected $teamRepository;
+    protected $roleRepository;
 
     /**
      * UserServiceImpl constructor.
@@ -39,18 +45,21 @@ class UserServiceImpl implements UserService
      * @param SeatRepositoryImpl $seatRepositoryImpl
      * @param LanRepositoryImpl $lanRepositoryImpl
      * @param TeamRepositoryImpl $teamRepositoryImpl
+     * @param RoleRepositoryImpl $roleRepositoryImpl
      */
     public function __construct(
         UserRepositoryImpl $userRepositoryImpl,
         SeatRepositoryImpl $seatRepositoryImpl,
         LanRepositoryImpl $lanRepositoryImpl,
-        TeamRepositoryImpl $teamRepositoryImpl
+        TeamRepositoryImpl $teamRepositoryImpl,
+        RoleRepositoryImpl $roleRepositoryImpl
     )
     {
         $this->userRepository = $userRepositoryImpl;
         $this->seatRepository = $seatRepositoryImpl;
         $this->lanRepository = $lanRepositoryImpl;
         $this->teamRepository = $teamRepositoryImpl;
+        $this->roleRepository = $roleRepositoryImpl;
     }
 
     public function signUpUser(Request $input): User
@@ -301,5 +310,68 @@ class UserServiceImpl implements UserService
 
         $user = Auth::user();
         return new GetUserSummaryResource($user, $this->teamRepository->getLeadersRequestTotalCount($user, $lan));
+    }
+
+    public function getAdminSummary(Request $input): GetAdminSummaryResource
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $userValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'permission' => 'admin-summary'
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+        ]);
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        if ($lan == null) {
+            $lan = $this->lanRepository->findById($input->input('lan_id'));
+        }
+
+        $user = Auth::user();
+        return new GetAdminSummaryResource($user, $this->roleRepository->getAdminPermissions($lan, $user));
+    }
+
+    public function getAdminRoles(Request $input)
+    {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        if (is_null($input->input('email'))) {
+            $input['email'] = Auth::user()->email;
+        }
+
+        $userValidator = Validator::make([
+            'email' => $input->input('email'),
+            'lan_id' => $input->input('lan_id'),
+            'permission' => 'get-admin-roles'
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'email' => 'string|exists:user,email'
+        ]);
+
+        $userValidator->sometimes('permission', [new HasPermission(Auth::id())], function ($input) {
+            return Auth::user()->email != $input['email'];
+        });
+
+        if ($userValidator->fails()) {
+            throw new BadRequestHttpException($userValidator->errors());
+        }
+
+        $globalRoles = $this->roleRepository->getUsersGlobalRoles($input['email']);
+        $lanRoles = $this->roleRepository->getUsersLanRoles($input['email'], $input->input('lan_id'));
+
+        return new GetAdminRolesResource($globalRoles, $lanRoles);
     }
 }

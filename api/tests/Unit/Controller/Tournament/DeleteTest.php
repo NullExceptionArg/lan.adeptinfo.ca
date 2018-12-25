@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Tournament;
 
+use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -35,6 +36,32 @@ class DeleteTest extends TestCase
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-tournament')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+    }
+
+    public function testDeleteHasPermission(): void
+    {
+        $admin = factory('App\Model\User')->create();
+        $this->actingAs($admin)
+            ->json('DELETE', '/api/tournament/' . $this->tournament->id)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testDelete(): void

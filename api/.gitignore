@@ -4,3 +4,8 @@ Homestead.json
 Homestead.yaml
 .env
 /.env.testing
+.vagrant/
+phpunit.phar
+/composer.lock
+/database/database.sqlite
+/database/database.sqlite-journal

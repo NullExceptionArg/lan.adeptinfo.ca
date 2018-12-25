@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Exceptions;
 
 use Dingo\Api\Exception\Handler as DingoHandler;
@@ -21,12 +22,11 @@ class ApiExceptionsHandler extends DingoHandler
         $success = false;
         $response = null;
         $status = Response::HTTP_INTERNAL_SERVER_ERROR;
-        if($e instanceof BadRequestHttpException) {
+        if ($e instanceof BadRequestHttpException) {
             $status = Response::HTTP_BAD_REQUEST;
             $e = new BadRequestHttpException($e->getMessage());
         } elseif ($e instanceof HttpResponseException) {
             $status = Response::HTTP_INTERNAL_SERVER_ERROR;
-            $response = $e->getResponse();
         } elseif ($e instanceof MethodNotAllowedHttpException) {
             $status = Response::HTTP_METHOD_NOT_ALLOWED;
             $e = new MethodNotAllowedHttpException([], 'HTTP_METHOD_NOT_ALLOWED', $e);
@@ -35,18 +35,17 @@ class ApiExceptionsHandler extends DingoHandler
             $e = new NotFoundHttpException('HTTP_NOT_FOUND', $e);
         } elseif ($e instanceof AuthorizationException) {
             $status = Response::HTTP_FORBIDDEN;
-            $e = new AuthorizationException('HTTP_FORBIDDEN', $status);
+            $e = new AuthorizationException(trans('validation.forbidden'), $status);
         } elseif ($e instanceof \Dotenv\Exception\ValidationException && $e->getResponse()) {
             $status = Response::HTTP_BAD_REQUEST;
             $e = new \Dotenv\Exception\ValidationException('HTTP_BAD_REQUEST', $status, $e);
-            $response = $e->getResponse();
         } elseif ($e) {
             $e = new HttpException($status, 'HTTP_INTERNAL_SERVER_ERROR');
         }
         return response()->json([
             'success' => $success,
             'status' => $status,
-            'message' => json_decode($e->getMessage())
+            'message' => is_null(json_decode($e->getMessage())) ? $e->getMessage() : json_decode($e->getMessage())
         ], $status);
     }
 }

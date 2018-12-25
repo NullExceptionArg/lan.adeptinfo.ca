@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Service\Image;
 
+use App\Model\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -34,6 +36,21 @@ class DeleteImagesTest extends TestCase
         $this->image2 = factory('App\Model\Image')->create([
             'lan_id' => $this->lan->id
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-image')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
+        $this->be($this->user);
     }
 
     public function testDeleteImages(): void
@@ -52,7 +69,7 @@ class DeleteImagesTest extends TestCase
 
     public function testDeleteImagesCurrentLan(): void
     {
-        factory('App\Model\Lan')->create([
+        $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
         $image1 = factory('App\Model\Image')->create([
@@ -61,6 +78,20 @@ class DeleteImagesTest extends TestCase
         $image2 = factory('App\Model\Image')->create([
             'lan_id' => $this->lan->id
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-image')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
         $request = new Request([
             'images_id' => $image1->id . ',' . $image2->id
         ]);
@@ -70,6 +101,22 @@ class DeleteImagesTest extends TestCase
             $image1->id,
             $image2->id
         ], $result);
+    }
+
+    public function testDeleteContributionHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $request = new Request([
+            'images_id' => $this->image1->id . ',' . $this->image2->id,
+            'lan_id' => $this->lan->id
+        ]);
+        $this->be($user);
+        try {
+            $this->imageService->deleteImages($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
     }
 
     public function testDeleteImagesLanIdExists(): void

@@ -12,6 +12,7 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TagRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Rules\HasPermissionInLan;
 use App\Rules\Team\RequestBelongsInTeam;
 use App\Rules\Team\TagBelongsInTeam;
 use App\Rules\Team\TagBelongsToUser;
@@ -131,6 +132,7 @@ class TeamServiceImpl implements TeamService
         if ($lan == null) {
             $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
+
         $user = Auth::user();
 
         $teams = $this->teamRepository->getUserTeams($user, $lan);
@@ -138,7 +140,7 @@ class TeamServiceImpl implements TeamService
         return GetUserTeamsResource::collection($teams);
     }
 
-    public function getUsersTeamDetails(Request $input)
+    public function getUsersTeamDetails(Request $input): GetUsersTeamDetailsResource
     {
         $teamValidator = Validator::make([
             'team_id' => $input->input('team_id')
@@ -296,10 +298,13 @@ class TeamServiceImpl implements TeamService
 
     public function deleteAdmin(Request $input): Team
     {
+        $lanId = $this->teamRepository->getTeamsLanId(intval($input->input('team_id')));
         $teamValidator = Validator::make([
-            'team_id' => $input->input('team_id')
+            'team_id' => $input->input('team_id'),
+            'permission' => 'delete-team'
         ], [
             'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTournamentAdmin],
+            'permission' => new HasPermissionInLan($lanId, Auth::id())
         ]);
 
         if ($teamValidator->fails()) {

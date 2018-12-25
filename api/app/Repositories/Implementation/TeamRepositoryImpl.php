@@ -243,4 +243,14 @@ class TeamRepositoryImpl implements TeamRepository
             ->where('team_id', $team->id)
             ->delete();
     }
+
+    public function getTeamsLanId(int $teamId): ?int
+    {
+        $lanId = DB::table('tournament')
+            ->join('team', 'tournament.id', '=', 'team.tournament_id')
+            ->where('team.id', $teamId)
+            ->select('tournament.lan_id')
+            ->first();
+        return $lanId != null ? $lanId->lan_id : null;
+    }
 }

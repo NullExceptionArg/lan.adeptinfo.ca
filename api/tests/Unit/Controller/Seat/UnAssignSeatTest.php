@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Seat;
 
+use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\SeatsTestCase;
 
@@ -24,6 +25,19 @@ class UnAssignSeatTest extends SeatsTestCase
         $this->user = factory('App\Model\User')->create();
         $this->admin = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'unassign-seat')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->admin->id
+        ]);
     }
 
     public function testUnAssignSeat(): void
@@ -49,6 +63,18 @@ class UnAssignSeatTest extends SeatsTestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'unassign-seat')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->admin->id
+        ]);
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
             'lan_id' => $lan->id
@@ -64,7 +90,23 @@ class UnAssignSeatTest extends SeatsTestCase
             ->assertResponseStatus(200);
     }
 
-    public function testBookLanIdExist()
+    public function testUnAssignSeatHasPermission(): void
+    {
+        $admin = factory('App\Model\User')->create();
+        $this->actingAs($admin)
+            ->json('DELETE', '/api/seat/assign/' . env('SEAT_ID'), [
+                'lan_id' => $this->lan->id,
+                'user_email' => $this->user->email
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
+    public function testUnAssignSeatLanIdExist()
     {
         $badLanId = -1;
         factory('App\Model\Reservation')->create([

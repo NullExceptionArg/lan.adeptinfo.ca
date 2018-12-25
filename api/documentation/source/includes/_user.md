@@ -344,7 +344,7 @@ Détails d'un utilisateur et son historique pour un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur à rechercher | integer.
+email | Courriel de l'utilisateur à rechercher | string.
 lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courant | requis.
 
 ### Format de réponse
@@ -427,3 +427,103 @@ Champ | Description
 first_name | Prénom de l'utilisateur.
 last_name | Nom de l'utilisateur.
 request_count | Demandes cummulées pour entrer dans les équipes d'un utilisateur (qui est chef).
+
+## Sommaire d'un administrateur
+
+Informations sommaires d'un administrateur.
+
+### Requête HTTP
+
+`GET /api/admin/summary`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "first_name": "Karl",
+    "last_name": "Marx",
+    "permissions": [
+        {
+            "id": 39,
+            "name": "create-lan",
+            "display_name": "Create a new LAN",
+            "description": "Create a new LAN. Careful, this permission should not be given to anyone..."
+        }
+    ]
+}
+```
+
+Champ | Description
+--------- | -----------
+first_name | Prénom de l'utilisateur.
+last_name | Nom de l'utilisateur.
+permissions | Permissions administratives que possède l'administrateur pour le LAN. Voir Permissions.
+
+#### Permissions
+Champ | Description
+--------- | -----------
+id | Id de la permission.
+name | Nom interne de la permission.
+display_name | Nom à afficher de la permission.
+description | Description de la permission.
+
+## Roles d'un administrateur
+
+Rôles globaux et de LAN d'un administrateur.
+
+### Requête HTTP
+
+`GET /api/admin/roles`
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+email | Courriel de l'utilisateur dont on veut connaître les rôles. Si ce paramètre n'est pas spécifié, on retourne les rôles de l'utilisateur qui fait la requête (L'utilisateur n'a pas besoin d'avoir cette permission à ce moment). | string.
+lan_id | Id du LAN pour lequel l'administrateur souhaite connaître ses rôle. Si paramètre n'est pas spécifié, on utilise le LAN courant. | integer.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "global_roles": [
+        {
+            "id": 1,
+            "name": "general-admin",
+            "display_name": "Administrateur général",
+            "description": "Possède toutes les permissions (LAN et globales)"
+        }
+    ],
+    "lan_roles": [
+        {
+            "id": 1,
+            "name": "lan-general-admin",
+            "display_name": "Administrateur général de LAN",
+            "description": "Possède toutes les permissions pour un LAN"
+        }
+    ]
+}
+```
+
+Champ | Description
+--------- | -----------
+global_roles | Rôles globaux de l'utilisateur. Voir Roles.
+lan_roles | Rôles de LAN de l'utilisateur. Voir Roles.
+
+#### Roles
+Champ | Description
+--------- | -----------
+id | Id du rôle.
+name | Nom du rôle.
+display_name | Nom d'affichage du rôle, selon la langue spécifiée.
+description | Description du rôle, selon la langue spécifiée.

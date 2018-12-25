@@ -4,6 +4,8 @@ namespace Tests\Unit\Service\Contribution;
 
 use App\Model\Contribution;
 use App\Model\ContributionCategory;
+use App\Model\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -23,17 +25,33 @@ class DeleteCategoryTest extends TestCase
     {
         parent::setUp();
         $this->contributionService = $this->app->make('App\Services\Implementation\ContributionServiceImpl');
+
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'delete-contribution-category')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
+
+        $this->be($this->user);
     }
 
     public function testDeleteCategorySimple(): void
     {
         $request = new Request([
-           'lan_id' => $this->lan->id,
+            'lan_id' => $this->lan->id,
             'contribution_category_id' => $this->category->id
         ]);
         $result = $this->contributionService->deleteCategory($request);
@@ -129,6 +147,24 @@ class DeleteCategoryTest extends TestCase
         } catch (BadRequestHttpException $e) {
             $this->assertEquals(400, $e->getStatusCode());
             $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
+        }
+    }
+
+    public function testDeleteCategoryPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+
+        $request = new Request([
+            'lan_id' => $this->lan->id,
+            'contribution_category_id' => $this->category->id
+        ]);
+
+        try {
+            $this->contributionService->deleteCategory($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
         }
     }
 

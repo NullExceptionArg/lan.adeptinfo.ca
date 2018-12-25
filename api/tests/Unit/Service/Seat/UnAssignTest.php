@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Service\Seat;
 
+use App\Model\Permission;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -25,10 +27,25 @@ class UnAssignTest extends SeatsTestCase
     {
         parent::setUp();
         $this->seatService = $this->app->make('App\Services\Implementation\SeatServiceImpl');
-        
+
         $this->user = factory('App\Model\User')->create();
         $this->admin = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'unassign-seat')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->admin->id
+        ]);
+
+        $this->be($this->admin);
     }
 
     public function testUnAssign(): void
@@ -52,6 +69,20 @@ class UnAssignTest extends SeatsTestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $lan->id
+        ]);
+        $permission = Permission::where('name', 'unassign-seat')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->admin->id
+        ]);
+
+        $this->be($this->admin);
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
             'lan_id' => $lan->id
@@ -65,7 +96,22 @@ class UnAssignTest extends SeatsTestCase
         $this->assertEquals($lan->id, $result->lan_id);
     }
 
-    public function testBookLanIdExist()
+    public function testUnAssignHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request([
+            'lan_id' => $this->lan->id
+        ]);
+        try {
+            $this->seatService->unAssign($request, env('SEAT_ID'));
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
+    }
+
+    public function testUnAssignLanIdExist()
     {
         $request = new Request([
             'lan_id' => -1,

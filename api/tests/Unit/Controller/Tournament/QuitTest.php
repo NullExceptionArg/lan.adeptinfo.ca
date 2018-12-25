@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Tournament;
 
+use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -34,6 +35,32 @@ class QuitTest extends TestCase
             'organizer_id' => $this->organizer->id,
             'tournament_id' => $this->tournament->id
         ]);
+
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'quit-tournament')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->organizer->id
+        ]);
+    }
+
+    public function testQuitHasPermission(): void
+    {
+        $admin = factory('App\Model\User')->create();
+        $this->actingAs($admin)
+            ->json('POST', '/api/tournament/quit/' . $this->tournament->id)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testQuit(): void

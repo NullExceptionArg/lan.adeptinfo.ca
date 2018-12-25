@@ -3,10 +3,13 @@
 namespace Tests\Unit\Misc;
 
 use GuzzleHttp\Client;
+use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 class ImagesExistTest extends TestCase
 {
+    use DatabaseMigrations;
+
     public function testBannerImageExist(): void
     {
         $client = new Client();

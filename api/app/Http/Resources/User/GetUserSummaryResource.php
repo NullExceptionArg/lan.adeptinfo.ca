@@ -9,9 +9,9 @@ class GetUserSummaryResource extends Resource
 {
     protected $requestCount;
 
-    public function __construct(Authenticatable $resource, int $requestCount)
+    public function __construct(Authenticatable $resource, int $permissions)
     {
-        $this->requestCount = $requestCount;
+        $this->requestCount = $permissions;
         parent::__construct($resource);
     }
 

@@ -6,6 +6,7 @@ use App\Model\Reservation;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Rules\HasPermissionInLan;
 use App\Rules\SeatExistInLanSeatIo;
 use App\Rules\SeatLanRelationExists;
 use App\Rules\SeatNotArrivedSeatIo;
@@ -100,7 +101,8 @@ class SeatServiceImpl implements SeatService
 
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'seat_id' => $seatId
+            'seat_id' => $seatId,
+            'permission' => 'confirm-arrival'
         ], [
             'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
             'seat_id' => [
@@ -111,6 +113,7 @@ class SeatServiceImpl implements SeatService
                 new SeatNotArrivedSeatIo($input->input('lan_id')),
                 new SeatLanRelationExists($input->input('lan_id'))
             ],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -139,7 +142,8 @@ class SeatServiceImpl implements SeatService
 
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'seat_id' => $seatId
+            'seat_id' => $seatId,
+            'permission' => 'unconfirm-arrival',
         ], [
             'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
             'seat_id' => [
@@ -150,7 +154,8 @@ class SeatServiceImpl implements SeatService
                 new SeatNotBookedSeatIo($input->input('lan_id')),
                 new SeatExistInLanSeatIo($input->input('lan_id')),
                 new SeatLanRelationExists($input->input('lan_id'))
-            ]
+            ],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -180,7 +185,8 @@ class SeatServiceImpl implements SeatService
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'seat_id' => $seatId,
-            'user_email' => $input->input('user_email')
+            'user_email' => $input->input('user_email'),
+            'permission' => 'assign-seat',
         ], [
             'user_email' => 'exists:user,email',
             'lan_id' => [
@@ -194,7 +200,8 @@ class SeatServiceImpl implements SeatService
                 new SeatOncePerLan($input->input('lan_id')),
                 new SeatOncePerLanSeatIo($input->input('lan_id')),
                 new SeatExistInLanSeatIo($input->input('lan_id'))
-            ]
+            ],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {
@@ -269,7 +276,8 @@ class SeatServiceImpl implements SeatService
         $reservationValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
             'user_email' => $input->input('user_email'),
-            'seat_id' => $seatId
+            'seat_id' => $seatId,
+            'permission' => 'unassign-seat',
         ], [
             'user_email' => 'exists:user,email',
             'lan_id' => [
@@ -283,6 +291,7 @@ class SeatServiceImpl implements SeatService
                 new SeatExistInLanSeatIo($input->input('lan_id')),
                 new SeatLanRelationExists($input->input('lan_id'))
             ],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($reservationValidator->fails()) {

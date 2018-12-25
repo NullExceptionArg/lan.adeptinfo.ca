@@ -8,7 +8,7 @@ Créer un nouveau tag pour un utilisateur.
 
 `POST /api/tag`
 
-### POST Params
+### Body Params
 
 > Exemple de requête
 

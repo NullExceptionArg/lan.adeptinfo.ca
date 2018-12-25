@@ -9,6 +9,7 @@ use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
+use App\Rules\HasPermissionInLan;
 use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
 use App\Tournament\Rules\UserIsTournamentAdmin;
@@ -56,6 +57,7 @@ class TournamentServiceImpl implements TournamentService
             'players_to_reach' => $input->input('players_to_reach'),
             'teams_to_reach' => $input->input('teams_to_reach'),
             'rules' => $input->input('rules'),
+            'permission' => 'create-tournament'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'name' => 'required|string|max:255',
@@ -64,7 +66,8 @@ class TournamentServiceImpl implements TournamentService
             'tournament_end' => ['required', 'after:tournament_start', new BeforeOrEqualLanEndTime($input->input('lan_id'))],
             'players_to_reach' => 'required|min:1|integer',
             'teams_to_reach' => 'required|min:1|integer',
-            'rules' => 'required|string'
+            'rules' => 'required|string',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -130,6 +133,7 @@ class TournamentServiceImpl implements TournamentService
             'players_to_reach' => $input->input('players_to_reach'),
             'teams_to_reach' => $input->input('teams_to_reach'),
             'rules' => $input->input('rules'),
+            'permission' => 'edit-tournament'
         ], [
             'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
             'name' => 'string|max:255',
@@ -139,7 +143,8 @@ class TournamentServiceImpl implements TournamentService
             'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($input->input('lan_id'))],
             'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
             'teams_to_reach' => 'min:1|integer',
-            'rules' => 'string'
+            'rules' => 'string',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -181,10 +186,13 @@ class TournamentServiceImpl implements TournamentService
 
     public function delete(string $tournamentId): Tournament
     {
+        $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
-            'tournament_id' => $tournamentId
+            'tournament_id' => $tournamentId,
+            'permission' => 'delete-tournament'
         ], [
-            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL'
+            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
+            'permission' => new HasPermissionInLan($lanId, Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -199,10 +207,13 @@ class TournamentServiceImpl implements TournamentService
 
     public function quit(string $tournamentId): Tournament
     {
+        $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
-            'tournament_id' => $tournamentId
+            'tournament_id' => $tournamentId,
+            'permission' => 'quit-tournament'
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin]
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
+            'permission' => new HasPermissionInLan($lanId, Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {

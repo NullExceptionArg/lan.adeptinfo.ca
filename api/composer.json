@@ -23,12 +23,14 @@
     "league/flysystem": " ~1.0",
     "caouecs/laravel-lang": "~3.0",
     "illuminate/mail": "^5.6",
-    "google/apiclient": "^2.2"
+    "google/apiclient": "^2.2",
+    "ext-json": "*"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
     "phpunit/phpunit": "~7.0",
-    "mockery/mockery": "~1.0"
+    "mockery/mockery": "~1.0",
+    "laravel/homestead": "^7.19"
   },
   "autoload": {
     "psr-4": {

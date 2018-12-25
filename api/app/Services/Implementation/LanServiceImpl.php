@@ -9,6 +9,9 @@ use App\Http\Resources\Lan\UpdateResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
+use App\Rules\HasPermission;
+use App\Rules\HasPermissionInLan;
 use App\Rules\LowerReservedPlace;
 use App\Rules\ValidEventKey;
 use App\Rules\ValidSecretKey;
@@ -16,28 +19,52 @@ use App\Services\LanService;
 use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class LanServiceImpl implements LanService
 {
     protected $lanRepository;
+    protected $roleRepository;
     protected $imageRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param LanRepositoryImpl $lanRepositoryImpl
      * @param ImageRepositoryImpl $imageRepositoryImpl
+     * @param RoleRepositoryImpl $roleRepository
      */
-    public function __construct(LanRepositoryImpl $lanRepositoryImpl, ImageRepositoryImpl $imageRepositoryImpl)
+    public function __construct(
+        LanRepositoryImpl $lanRepositoryImpl,
+        ImageRepositoryImpl $imageRepositoryImpl,
+        RoleRepositoryImpl $roleRepository
+    )
     {
         $this->lanRepository = $lanRepositoryImpl;
         $this->imageRepository = $imageRepositoryImpl;
+        $this->roleRepository = $roleRepository;
     }
 
     public function create(Request $input): Lan
     {
-        $lanValidator = Validator::make($input->all(), [
+        $lanValidator = Validator::make([
+            'name' => $input->input('name'),
+            'lan_start' => $input->input('lan_start'),
+            'lan_end' => $input->input('lan_end'),
+            'seat_reservation_start' => $input->input('seat_reservation_start'),
+            'tournament_reservation_start' => $input->input('tournament_reservation_start'),
+            'event_key' => $input->input('event_key'),
+            'public_key' => $input->input('public_key'),
+            'secret_key' => $input->input('secret_key'),
+            'latitude' => $input->input('latitude'),
+            'longitude' => $input->input('longitude'),
+            'places' => $input->input('places'),
+            'price' => $input->input('price'),
+            'rules' => $input->input('rules'),
+            'description' => $input->input('description'),
+            'permission' => 'create-lan',
+        ], [
             'name' => 'required|string|max:255',
             'lan_start' => 'required|after:seat_reservation_start|after:tournament_reservation_start',
             'lan_end' => 'required|after:lan_start',
@@ -51,7 +78,8 @@ class LanServiceImpl implements LanService
             'places' => 'required|integer|min:1',
             'price' => 'integer|min:0',
             'rules' => 'string',
-            'description' => 'string'
+            'description' => 'string',
+            'permission' => new HasPermission(Auth::id())
         ]);
 
         if ($lanValidator->fails()) {
@@ -60,7 +88,7 @@ class LanServiceImpl implements LanService
 
         $hasNoCurrentLan = $this->lanRepository->getCurrent() == null;
 
-        return $this->lanRepository->create
+        $lan = $this->lanRepository->create
         (
             $input->input('name'),
             new DateTime($input->input('lan_start')),
@@ -78,6 +106,10 @@ class LanServiceImpl implements LanService
             $input->input('rules'),
             $input->input('description')
         );
+
+        $this->roleRepository->createDefaultLanRoles($lan->id);
+
+        return $lan;
     }
 
     public function get(Request $input): GetResource
@@ -115,9 +147,11 @@ class LanServiceImpl implements LanService
     public function setCurrent(Request $input): int
     {
         $rulesValidator = Validator::make([
-            'lan_id' => $input->input('lan_id')
+            'lan_id' => $input->input('lan_id'),
+            'permission' => 'set-current-lan'
         ], [
-            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
+            'permission' => new HasPermission(Auth::id())
         ]);
 
         if ($rulesValidator->fails()) {
@@ -139,7 +173,24 @@ class LanServiceImpl implements LanService
             $input['lan_id'] = $lan != null ? $lan->id : null;
         }
 
-        $lanValidator = Validator::make($input->all(), [
+        $lanValidator = Validator::make([
+            'lan_id' => $input->input('lan_id'),
+            'name' => $input->input('name'),
+            'lan_start' => $input->input('lan_start'),
+            'lan_end' => $input->input('lan_end'),
+            'seat_reservation_start' => $input->input('seat_reservation_start'),
+            'tournament_reservation_start' => $input->input('tournament_reservation_start'),
+            'event_key' => $input->input('event_key'),
+            'public_key' => $input->input('public_key'),
+            'secret_key' => $input->input('secret_key'),
+            'latitude' => $input->input('latitude'),
+            'longitude' => $input->input('longitude'),
+            'places' => $input->input('places'),
+            'price' => $input->input('price'),
+            'rules' => $input->input('rules'),
+            'description' => $input->input('description'),
+            'permission' => 'edit-lan',
+        ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'name' => 'string|max:255',
             'lan_start' => 'after:seat_reservation_start|after:tournament_reservation_start',
@@ -154,7 +205,8 @@ class LanServiceImpl implements LanService
             'places' => ['integer', 'min:1', new LowerReservedPlace($input->input('lan_id'))],
             'price' => 'integer|min:0',
             'rules' => 'string',
-            'description' => 'string'
+            'description' => 'string',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($lanValidator->fails()) {

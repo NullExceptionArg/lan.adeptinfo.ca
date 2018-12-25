@@ -27,7 +27,7 @@ class CreateUserTest extends TestCase
         $this->paramsContent['confirmation_code'] = $confirmationCode = str_random(30);;
     }
 
-    public function testSignUp(): void
+    public function testCreateUser(): void
     {
         $this->userRepository->createUser(
             $this->paramsContent['first_name'],

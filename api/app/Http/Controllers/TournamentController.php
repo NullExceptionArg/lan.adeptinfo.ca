@@ -11,7 +11,7 @@ class TournamentController extends Controller
     protected $tournamentService;
 
     /**
-     * LanController constructor.
+     * TournamentController constructor.
      * @param TournamentServiceImpl $tournamentService
      */
     public function __construct(TournamentServiceImpl $tournamentService)
@@ -24,7 +24,7 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->create($request), 201);
     }
 
-    public function editTournament(Request $request, string $tournamentId)
+    public function edit(Request $request, string $tournamentId)
     {
         return response()->json($this->tournamentService->edit($request, $tournamentId), 200);
     }

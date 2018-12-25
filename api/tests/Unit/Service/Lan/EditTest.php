@@ -2,8 +2,10 @@
 
 namespace Tests\Unit\Service\Lan;
 
+use App\Model\Permission;
 use DateInterval;
 use DateTime;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -16,6 +18,7 @@ class EditTest extends TestCase
     protected $lanService;
 
     protected $lan;
+    protected $user;
 
     protected $paramsContent = [
         'lan_id' => null,
@@ -38,20 +41,49 @@ class EditTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
 
         $this->paramsContent['event_key'] = env('EVENT_KEY');
         $this->paramsContent['secret_key'] = env('SECRET_KEY');
         $this->paramsContent['public_key'] = env('PUBLIC_KEY');
 
+        $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $this->paramsContent['lan_id'] = $this->lan->id;
+        $role = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
+        $permission = Permission::where('name', 'edit-lan')->first();
+        factory('App\Model\PermissionLanRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $this->user->id
+        ]);
 
-        $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
+        $this->paramsContent['lan_id'] = $this->lan->id;
+        $this->be($this->user);
+    }
+
+    public function testEditHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->be($user);
+        $request = new Request($this->paramsContent);
+
+        try {
+            $this->lanService->edit($request);
+            $this->fail('Expected: REEEEEEEEEE');
+        } catch (AuthorizationException $e) {
+            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
+        }
     }
 
     public function testEdit(): void
     {
+
         $request = new Request($this->paramsContent);
         $result = $this->lanService->edit($request);
 

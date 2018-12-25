@@ -8,7 +8,7 @@ Créer une nouvelle équipe pour participer à un tournoi.
 
 `POST /api/team`
 
-### POST Params
+### Body Params
 
 > Exemple de requête
 
@@ -60,7 +60,7 @@ Créer une demande pour joindre une équipe
 
 `POST /api/team/request`
 
-### POST Params
+### Body Params
 
 > Exemple de requête
 
@@ -263,7 +263,7 @@ Le chef accepte une requête pour entrer dans l'équipe.
 
 `POST /api/team/accept`
 
-### POST Params
+### Body Params
 
 > Exemple de requête
 

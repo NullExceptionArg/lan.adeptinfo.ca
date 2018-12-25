@@ -21,7 +21,7 @@ class CreateContributionUserFullNameTest extends TestCase
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
     }
 
-    public function testCreateContributionUserFullNameTest(): void
+    public function testCreateContributionUserFullName(): void
     {
         $this->contributionRepository->createContributionUserFullName($this->paramsContent['user_full_name']);
 

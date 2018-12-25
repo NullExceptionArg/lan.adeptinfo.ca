@@ -6,9 +6,11 @@ namespace App\Services\Implementation;
 use App\Model\Image;
 use App\Repositories\Implementation\ImageRepositoryImpl;
 use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Rules\HasPermissionInLan;
 use App\Rules\ManyImageIdsExist;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -38,10 +40,12 @@ class ImageServiceImpl implements ImageService
 
         $rulesValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'image' => $input->input('image')
+            'image' => $input->input('image'),
+            'permission' => 'add-image'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'image' => 'required|string'
+            'image' => 'required|string',
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($rulesValidator->fails()) {
@@ -61,10 +65,12 @@ class ImageServiceImpl implements ImageService
 
         $rulesValidator = Validator::make([
             'lan_id' => $input->input('lan_id'),
-            'images_id' => $input->input('images_id')
+            'images_id' => $input->input('images_id'),
+            'permission' => 'delete-image'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'images_id' => ['required', 'string', new ManyImageIdsExist]
+            'images_id' => ['required', 'string', new ManyImageIdsExist],
+            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
         ]);
 
         if ($rulesValidator->fails()) {

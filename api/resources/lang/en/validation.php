@@ -143,6 +143,14 @@ return [
     'user_is_team_leader' => 'The user user be the team leader.',
     'request_belongs_in_team' => 'The request must be for the leaders team.',
     'organizer_has_tournament' => 'The user doesn\'t have any tournaments',
+    'array_of_integer' => 'The array must contain only integers.',
+    'elements_in_array_exist_in_permission' => 'An element of the array is not an existing permission id.',
+    'has_permission' => 'The user does not have the permission to access the requested resource.',
+    'permissions_can_be_per_lan' => 'One of the provided permissions cannot be attributed to a LAN role.',
+    'permissions_dont_belong_to_user' => 'One of the provided permissions is already attributed to this role.',
+    'permissions_belong_to_user' => 'One of the provided permissions is not attributed to this role.',
+    'lan_role_name_once_per_lan' => 'The name of the LAN role must be unique per LAN.',
+    'role_once_per_user' => 'The user already has this role.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*
