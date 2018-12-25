@@ -19,7 +19,7 @@ class ValidSecretKey implements Rule
     {
         $seatsClient = new SeatsioClient($value);
         try {
-            $seatsClient->charts()->listAllTags();
+            $seatsClient->charts->listAllTags();
         } catch (SeatsioException $exception) {
             return false;
         }

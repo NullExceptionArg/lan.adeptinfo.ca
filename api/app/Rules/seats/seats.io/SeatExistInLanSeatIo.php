@@ -14,7 +14,7 @@ class SeatExistInLanSeatIo implements Rule
 
     /**
      * SeatOncePerLan constructor.
-     * @param string $lanId
+     * @param string|null $lanId
      */
     public function __construct(?string $lanId)
     {
@@ -36,7 +36,7 @@ class SeatExistInLanSeatIo implements Rule
         }
         $seatsClient = new SeatsioClient($lan->secret_key);
         try {
-            $seatsClient->events()->retrieveObjectStatus($lan->event_key, $value);
+            $seatsClient->events->retrieveObjectStatus($lan->event_key, $value);
         } catch (SeatsioException $exception) {
             return false;
         }

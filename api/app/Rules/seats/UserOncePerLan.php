@@ -15,7 +15,7 @@ class UserOncePerLan implements Rule
     /**
      * SeatOncePerLan constructor.
      * @param Authenticatable $user
-     * @param string $email
+     * @param string|null $email
      */
     public function __construct(?Authenticatable $user, ?string $email)
     {

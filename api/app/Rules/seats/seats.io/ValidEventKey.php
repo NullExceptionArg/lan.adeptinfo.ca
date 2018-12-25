@@ -41,7 +41,7 @@ class ValidEventKey implements Rule
 
         $seatsClient = new SeatsioClient($this->secretKey);
         try {
-            $seatsClient->events()->retrieve($value);
+            $seatsClient->events->retrieve($value);
         } catch (SeatsioException $exception) {
             return false;
         }
