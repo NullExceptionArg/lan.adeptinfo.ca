@@ -17,4 +17,6 @@ interface TournamentService
     public function delete(string $tournamentId): Tournament;
 
     public function quit(string $tournamentId): Tournament;
+
+    public function addOrganizer(Request $request, string $tournamentId): Tournament;
 }

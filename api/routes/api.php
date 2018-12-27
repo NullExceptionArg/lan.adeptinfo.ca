@@ -90,6 +90,7 @@ $api->version('v1', function ($api) {
                 $api->put('tournament/{tournament_id}', 'TournamentController@edit');
                 $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
                 $api->post('tournament/quit/{tournament_id}', 'TournamentController@quit');
+                $api->post('tournament/{tournament_id}/organizer', 'TournamentController@addOrganizer');
 
                 $api->delete('team/admin', 'TeamController@deleteAdmin');
 

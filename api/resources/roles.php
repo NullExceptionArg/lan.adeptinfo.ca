@@ -47,7 +47,8 @@ return [
                 ['name' => 'delete-tournament', 'can_be_per_lan' => true],
                 ['name' => 'quit-tournament', 'can_be_per_lan' => true],
                 ['name' => 'delete-team', 'can_be_per_lan' => true],
-                ['name' => 'admin-summary', 'can_be_per_lan' => true]
+                ['name' => 'admin-summary', 'can_be_per_lan' => true],
+                ['name' => 'add-organizer', 'can_be_per_lan' => true]
             ]
         ],
     ]

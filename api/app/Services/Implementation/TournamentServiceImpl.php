@@ -7,6 +7,7 @@ use App\Http\Resources\Tournament\GetDetailsResource;
 use App\Model\Tournament;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
 use App\Rules\HasPermissionInLan;
@@ -24,20 +25,24 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 class TournamentServiceImpl implements TournamentService
 {
     protected $lanRepository;
+    protected $userRepository;
     protected $tournamentRepository;
 
     /**
      * LanServiceImpl constructor.
-     * @param LanRepositoryImpl $lanRepositoryImpl
-     * @param TournamentRepositoryImpl $tournamentRepositoryImpl
+     * @param LanRepositoryImpl $lanRepository
+     * @param TournamentRepositoryImpl $tournamentRepository
+     * @param UserRepositoryImpl $userRepository
      */
     public function __construct(
-        LanRepositoryImpl $lanRepositoryImpl,
-        TournamentRepositoryImpl $tournamentRepositoryImpl
+        LanRepositoryImpl $lanRepository,
+        TournamentRepositoryImpl $tournamentRepository,
+        UserRepositoryImpl $userRepository
     )
     {
-        $this->lanRepository = $lanRepositoryImpl;
-        $this->tournamentRepository = $tournamentRepositoryImpl;
+        $this->lanRepository = $lanRepository;
+        $this->tournamentRepository = $tournamentRepository;
+        $this->userRepository = $userRepository;
     }
 
     public function create(Request $input): Tournament
@@ -89,7 +94,7 @@ class TournamentServiceImpl implements TournamentService
             intval($input->input('price'))
         );
 
-        $this->tournamentRepository->associateOrganizerTournament(Auth::user(), $tournament);
+        $this->tournamentRepository->associateOrganizerTournament(Auth::id(), $tournament->id);
 
         return $tournament;
     }
@@ -228,6 +233,31 @@ class TournamentServiceImpl implements TournamentService
         if ($organizerCount <= 1) {
             $this->tournamentRepository->delete($tournament);
         }
+
+        return $tournament;
+    }
+
+    public function addOrganizer(Request $input, string $tournamentId): Tournament
+    {
+        $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
+        $tournamentValidator = Validator::make([
+            'tournament_id' => $tournamentId,
+            'email' => $input->input('email'),
+            'permission' => 'add-organizer'
+        ], [
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
+            'email' => 'string|exists:user,email',
+            'permission' => new HasPermissionInLan($lanId, Auth::id())
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+        $user = $this->userRepository->findByEmail($input->input('email'));
+
+        $this->tournamentRepository->associateOrganizerTournament($user->id, $tournament->id);
 
         return $tournament;
     }

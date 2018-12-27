@@ -43,7 +43,7 @@ class AssociateOrganizerTournamentTest extends TestCase
             'tournament_id' => $this->tournament->id
         ]);
 
-        $this->tournamentRepository->associateOrganizerTournament($this->user, $this->tournament);
+        $this->tournamentRepository->associateOrganizerTournament($this->user->id, $this->tournament->id);
 
         $this->seeInDatabase('organizer_tournament', [
             'id' => 1,

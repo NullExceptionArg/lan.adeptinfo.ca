@@ -22,7 +22,7 @@ interface TournamentRepository
 
     public function findById(int $id): ?Tournament;
 
-    public function associateOrganizerTournament(Authenticatable $organizer, Tournament $tournament): void;
+    public function associateOrganizerTournament(int $organizerId, int $tournamentId): void;
 
     public function getReachedTeams(Tournament $tournament): int;
 
