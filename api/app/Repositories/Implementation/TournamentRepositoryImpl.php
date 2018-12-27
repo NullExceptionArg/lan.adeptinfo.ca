@@ -45,12 +45,12 @@ class TournamentRepositoryImpl implements TournamentRepository
         return Tournament::find($id);
     }
 
-    public function associateOrganizerTournament(Authenticatable $organizer, Tournament $tournament): void
+    public function associateOrganizerTournament(int $organizerId, int $tournamentId): void
     {
-        $organizerTournament = new OrganizerTournament();
-        $organizerTournament->organizer_id = $organizer->id;
-        $organizerTournament->tournament_id = $tournament->id;
-        $organizerTournament->save();
+        DB::table('organizer_tournament')->insert([
+            'organizer_id' => $organizerId,
+            'tournament_id' => $tournamentId
+        ]);
     }
 
     public function getTournamentForOrganizer(Authenticatable $user, Lan $lan): Collection

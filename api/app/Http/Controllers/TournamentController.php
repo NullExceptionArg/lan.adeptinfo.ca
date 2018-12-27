@@ -49,4 +49,9 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->quit($tournamentId), 200);
     }
 
+    public function addOrganizer(Request $request, string $tournamentId)
+    {
+        return response()->json($this->tournamentService->addOrganizer($request, $tournamentId), 200);
+    }
+
 }

@@ -2,7 +2,7 @@
 
 ## Créer un tournoi
 
-Créer un nouveau tournoi.
+Créer un nouveau tournoi. L'utilisateur qui créer le tournoi en devient automatiquement l'administrateur.
 
 ### Requête HTTP
 
