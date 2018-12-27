@@ -396,3 +396,54 @@ players_to_reach| Nombre de joueur à atteindre par équipe.
 teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.
 rules | Règlements du tournoi.
 lan_id | LAN auquel le tournoi est associé.
+
+## Ajouter un organisateur à un tournoi
+
+Un administrateur d'un tournoi peut en ajouter un autre.
+
+### Requête HTTP
+
+`POST /api/tournament/{tournament_id}/organizer`
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+tournament_id | Id du tournoi l'administrateur veut quitter. | integer.
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+email | Courriel de l'utilisateur que l'on veut ajouter comme organisateur du tournoi. | string.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 1,
+    "name": "Octobers",
+    "price": 0,
+    "tournament_start": "2100-10-11 14:00:00",
+    "tournament_end": "2100-10-11 18:00:00",
+    "players_to_reach": 5,
+    "teams_to_reach": 6,
+    "state": "hidden",
+    "rules": "The Bolsheviks seize control of Petrograd.",
+    "lan_id": 1
+}
+```
+
+Paramètre | Description
+--------- | -----------
+name | Nom du tournoi dans lequel le l'organisateur a été ajouté.
+price | Prix d'entrée du tournoi dans lequel le l'organisateur a été ajouté. 
+state | État courant du tournoi dans lequel le l'organisateur a été ajouté. Voir État Courant. 
+tournament_start | Date et heure de début du tournoi dans lequel le l'organisateur a été ajouté.
+tournament_end | Date et heure de fin du tournoi dans lequel le l'organisateur a été ajouté.
+players_to_reach| Nombre de joueur à atteindre par équipe pour le tournoi dans lequel le l'organisateur a été ajouté.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi dans lequel le l'organisateur a été ajouté ait lieu.
+rules | Règlements du tournoi dans lequel le l'organisateur a été ajouté.
+lan_id | LAN auquel le tournoi dans lequel le l'organisateur a été ajouté est associé.
