@@ -63,13 +63,14 @@ class EditTest extends TestCase
             ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'lan_id' => $this->requestContent['lan_id'],
                 'name' => $this->requestContent['name'],
-                'state' => $this->requestContent['state'],
+                'state' => 'fourthcoming',
                 'tournament_start' => $this->requestContent['tournament_start'],
                 'tournament_end' => $this->requestContent['tournament_end'],
                 'players_to_reach' => $this->requestContent['players_to_reach'],
                 'teams_to_reach' => $this->requestContent['teams_to_reach'],
+                'teams_reached' => 0,
+                'teams' => [],
                 'rules' => $this->requestContent['rules'],
                 'price' => $this->requestContent['price']
             ])

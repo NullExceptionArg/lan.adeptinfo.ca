@@ -39,8 +39,6 @@ return [
     'description-edit-tournament' => 'Modifier le nom, le coût, la date de début, la date de fin attendue, le nombre de joueurs à atteindre, le nombre d\'équipes à atteindre, et les règles de n\'importe quel tournoi.',
     'display-name-delete-tournament' => 'Supprimer un tournoi',
     'description-delete-tournament' => 'Supprimer un tournoi existant.',
-    'display-name-quit-tournament' => 'Abandonner un tournoi',
-    'description-quit-tournament' => 'Abandonner l\'organisation d\'un tournoi.',
 
     'display-name-delete-team' => 'Supprimer une équipe',
     'description-delete-team' => 'Supprimer une équipe existante.',

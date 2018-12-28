@@ -2,15 +2,16 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Tournament\GetAllTournamentResource;
-use App\Http\Resources\Tournament\GetDetailsResource;
-use App\Model\Tournament;
+use App\Http\Resources\Tournament\TournamentDetailsResource;
+use App\Http\Resources\Tournament\TournamentResource;
 use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\AfterOrEqualLanStartTime;
 use App\Rules\BeforeOrEqualLanEndTime;
 use App\Rules\HasPermissionInLan;
+use App\Rules\HasPermissionInLanOrIsTournamentAdmin;
 use App\Rules\PlayersToReachLock;
 use App\Services\TournamentService;
 use App\Tournament\Rules\UserIsTournamentAdmin;
@@ -27,25 +28,29 @@ class TournamentServiceImpl implements TournamentService
     protected $lanRepository;
     protected $userRepository;
     protected $tournamentRepository;
+    protected $roleRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param LanRepositoryImpl $lanRepository
      * @param TournamentRepositoryImpl $tournamentRepository
      * @param UserRepositoryImpl $userRepository
+     * @param RoleRepositoryImpl $roleRepository
      */
     public function __construct(
         LanRepositoryImpl $lanRepository,
         TournamentRepositoryImpl $tournamentRepository,
-        UserRepositoryImpl $userRepository
+        UserRepositoryImpl $userRepository,
+        RoleRepositoryImpl $roleRepository
     )
     {
         $this->lanRepository = $lanRepository;
         $this->tournamentRepository = $tournamentRepository;
         $this->userRepository = $userRepository;
+        $this->roleRepository = $roleRepository;
     }
 
-    public function create(Request $input): Tournament
+    public function create(Request $input): TournamentDetailsResource
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -83,7 +88,7 @@ class TournamentServiceImpl implements TournamentService
             $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
-        $tournament = $this->tournamentRepository->create(
+        $tournamentId = $this->tournamentRepository->create(
             $lan,
             $input->input('name'),
             new DateTime($input->input('tournament_start')),
@@ -94,12 +99,13 @@ class TournamentServiceImpl implements TournamentService
             intval($input->input('price'))
         );
 
-        $this->tournamentRepository->associateOrganizerTournament(Auth::id(), $tournament->id);
+        $this->tournamentRepository->associateOrganizerTournament(Auth::id(), $tournamentId);
+        $tournament = $this->tournamentRepository->findById($tournamentId);
 
-        return $tournament;
+        return new TournamentDetailsResource($tournament);
     }
 
-    public function getAll(Request $input): AnonymousResourceCollection
+    public function getAllOrganizer(Request $input): AnonymousResourceCollection
     {
         $lan = null;
         if ($input->input('lan_id') == null) {
@@ -123,11 +129,35 @@ class TournamentServiceImpl implements TournamentService
 
         $tournaments = $this->tournamentRepository->getTournamentForOrganizer(Auth::user(), $lan);
 
-        return GetAllTournamentResource::collection($tournaments);
+        return TournamentResource::collection($tournaments);
     }
 
-    public function edit(Request $input, string $tournamentId): Tournament
+    public function getAll(Request $input): AnonymousResourceCollection
     {
+        $lan = null;
+        if ($input->input('lan_id') == null) {
+            $lan = $this->lanRepository->getCurrent();
+            $input['lan_id'] = $lan != null ? $lan->id : null;
+        }
+
+        $tournamentValidator = Validator::make([
+            'lan_id' => $input->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+        ]);
+
+        if ($tournamentValidator->fails()) {
+            throw new BadRequestHttpException($tournamentValidator->errors());
+        }
+
+        $tournaments = $this->tournamentRepository->getAllTournaments($input->input('lan_id'));
+
+        return TournamentResource::collection($tournaments);
+    }
+
+    public function edit(Request $input, string $tournamentId): TournamentDetailsResource
+    {
+        $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
             'tournament_id' => $tournamentId,
             'name' => $input->input('name'),
@@ -140,7 +170,7 @@ class TournamentServiceImpl implements TournamentService
             'rules' => $input->input('rules'),
             'permission' => 'edit-tournament'
         ], [
-            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
             'name' => 'string|max:255',
             'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
             'price' => 'integer|min:0',
@@ -149,7 +179,7 @@ class TournamentServiceImpl implements TournamentService
             'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
             'teams_to_reach' => 'min:1|integer',
             'rules' => 'string',
-            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin($lanId, Auth::id(), $tournamentId)
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -158,7 +188,7 @@ class TournamentServiceImpl implements TournamentService
 
         $tournament = $this->tournamentRepository->findById($tournamentId);
 
-        return $this->tournamentRepository->update(
+        $tournament = $this->tournamentRepository->update(
             $tournament,
             $input->input('name'),
             $input->input('state'),
@@ -169,9 +199,11 @@ class TournamentServiceImpl implements TournamentService
             $input->input('rules'),
             intval($input->input('price'))
         );
+
+        return new TournamentDetailsResource($tournament);
     }
 
-    public function get(string $tournamentId)
+    public function get(string $tournamentId): TournamentDetailsResource
     {
         $tournamentValidator = Validator::make([
             'tournament_id' => $tournamentId
@@ -184,12 +216,11 @@ class TournamentServiceImpl implements TournamentService
         }
 
         $tournament = $this->tournamentRepository->findById($tournamentId);
-        $teamsReached = $this->tournamentRepository->getReachedTeams($tournament);
 
-        return new GetDetailsResource($tournament, $teamsReached);
+        return new TournamentDetailsResource($tournament);
     }
 
-    public function delete(string $tournamentId): Tournament
+    public function delete(string $tournamentId): TournamentResource
     {
         $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
@@ -197,7 +228,7 @@ class TournamentServiceImpl implements TournamentService
             'permission' => 'delete-tournament'
         ], [
             'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLan($lanId, Auth::id())
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin($lanId, Auth::id(), $tournamentId)
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -207,18 +238,15 @@ class TournamentServiceImpl implements TournamentService
         $tournament = $this->tournamentRepository->findById($tournamentId);
         $this->tournamentRepository->delete($tournament);
 
-        return $tournament;
+        return new TournamentResource($tournament);
     }
 
-    public function quit(string $tournamentId): Tournament
+    public function quit(string $tournamentId): TournamentResource
     {
-        $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
-            'tournament_id' => $tournamentId,
-            'permission' => 'quit-tournament'
+            'tournament_id' => $tournamentId
         ], [
             'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
-            'permission' => new HasPermissionInLan($lanId, Auth::id())
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -234,10 +262,10 @@ class TournamentServiceImpl implements TournamentService
             $this->tournamentRepository->delete($tournament);
         }
 
-        return $tournament;
+        return new TournamentResource($tournament);
     }
 
-    public function addOrganizer(Request $input, string $tournamentId): Tournament
+    public function addOrganizer(Request $input, string $tournamentId): TournamentResource
     {
         $lanId = $this->tournamentRepository->getTournamentsLanId(intval($tournamentId));
         $tournamentValidator = Validator::make([
@@ -245,9 +273,9 @@ class TournamentServiceImpl implements TournamentService
             'email' => $input->input('email'),
             'permission' => 'add-organizer'
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
             'email' => 'string|exists:user,email',
-            'permission' => new HasPermissionInLan($lanId, Auth::id())
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin($lanId, Auth::id(), $tournamentId)
         ]);
 
         if ($tournamentValidator->fails()) {
@@ -259,6 +287,6 @@ class TournamentServiceImpl implements TournamentService
 
         $this->tournamentRepository->associateOrganizerTournament($user->id, $tournament->id);
 
-        return $tournament;
+        return new TournamentResource($tournament);
     }
 }

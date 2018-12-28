@@ -2,21 +2,26 @@
 
 namespace App\Services;
 
-use App\Model\Tournament;
+use App\Http\Resources\Tournament\TournamentDetailsResource;
+use App\Http\Resources\Tournament\TournamentResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface TournamentService
 {
-    public function create(Request $input): Tournament;
+    public function create(Request $input): TournamentDetailsResource;
 
-    public function edit(Request $input, string $tournamentId): Tournament;
+    public function edit(Request $input, string $tournamentId): TournamentDetailsResource;
 
     public function getAll(Request $input): AnonymousResourceCollection;
 
-    public function delete(string $tournamentId): Tournament;
+    public function getAllOrganizer(Request $input): AnonymousResourceCollection;
 
-    public function quit(string $tournamentId): Tournament;
+    public function get(string $tournamentId): TournamentDetailsResource;
 
-    public function addOrganizer(Request $request, string $tournamentId): Tournament;
+    public function delete(string $tournamentId): TournamentResource;
+
+    public function quit(string $tournamentId): TournamentResource;
+
+    public function addOrganizer(Request $request, string $tournamentId): TournamentResource;
 }

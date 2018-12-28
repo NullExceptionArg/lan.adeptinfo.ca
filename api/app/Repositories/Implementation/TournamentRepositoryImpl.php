@@ -24,17 +24,40 @@ class TournamentRepositoryImpl implements TournamentRepository
         int $teamsToReach,
         string $rules,
         ?int $price
+    ): int
+    {
+        return DB::table('tournament')->insertGetId([
+            'lan_id' => $lan->id,
+            'name' => $name,
+            'tournament_start' => $tournamentStart->format('Y-m-d H:i:s'),
+            'tournament_end' => $tournamentEnd->format('Y-m-d H:i:s'),
+            'players_to_reach' => $playersToReach,
+            'teams_to_reach' => $teamsToReach,
+            'rules' => $rules,
+            'price' => $price
+        ]);
+    }
+
+    public function update(
+        Tournament $tournament,
+        ?string $name,
+        ?string $state,
+        ?DateTime $tournamentStart,
+        ?DateTime $tournamentEnd,
+        ?int $playersToReach,
+        ?int $teamsToReach,
+        ?string $rules,
+        ?int $price
     ): Tournament
     {
-        $tournament = new Tournament();
-        $tournament->lan_id = $lan->id;
-        $tournament->name = $name;
-        $tournament->tournament_start = $tournamentStart->format('Y-m-d H:i:s');
-        $tournament->tournament_end = $tournamentEnd->format('Y-m-d H:i:s');
-        $tournament->players_to_reach = $playersToReach;
-        $tournament->teams_to_reach = $teamsToReach;
-        $tournament->rules = $rules;
-        $tournament->price = $price;
+        $tournament->name = $name != null ? $name : $tournament->name;
+        $tournament->state = $state != null ? $state : $tournament->state;;
+        $tournament->tournament_start = $tournamentStart != null ? $tournamentStart->format('Y-m-d H:i:s') : $tournament->tournament_start->format('Y-m-d H:i:s');
+        $tournament->tournament_end = $tournamentEnd != null ? $tournamentEnd->format('Y-m-d H:i:s') : $tournament->tournament_end->format('Y-m-d H:i:s');
+        $tournament->players_to_reach = $playersToReach != null ? $playersToReach : $tournament->players_to_reach;
+        $tournament->teams_to_reach = $teamsToReach != null ? $teamsToReach : $tournament->teams_to_reach;
+        $tournament->rules = $rules != null ? $rules : $tournament->rules;
+        $tournament->price = is_null($price) ? $tournament->price : $price;
         $tournament->save();
 
         return $tournament;
@@ -66,29 +89,9 @@ class TournamentRepositoryImpl implements TournamentRepository
             ->get();
     }
 
-    public function update(
-        Tournament $tournament,
-        ?string $name,
-        ?string $state,
-        ?DateTime $tournamentStart,
-        ?DateTime $tournamentEnd,
-        ?int $playersToReach,
-        ?int $teamsToReach,
-        ?string $rules,
-        ?int $price
-    ): Tournament
+    public function getAllTournaments(int $lanId): Collection
     {
-        $tournament->name = $name != null ? $name : $tournament->name;
-        $tournament->state = $state != null ? $state : $tournament->state;;
-        $tournament->tournament_start = $tournamentStart != null ? $tournamentStart->format('Y-m-d H:i:s') : $tournament->tournament_start->format('Y-m-d H:i:s');
-        $tournament->tournament_end = $tournamentEnd != null ? $tournamentEnd->format('Y-m-d H:i:s') : $tournament->tournament_end->format('Y-m-d H:i:s');
-        $tournament->players_to_reach = $playersToReach != null ? $playersToReach : $tournament->players_to_reach;
-        $tournament->teams_to_reach = $teamsToReach != null ? $teamsToReach : $tournament->teams_to_reach;
-        $tournament->rules = $rules != null ? $rules : $tournament->rules;
-        $tournament->price = is_null($price) ? $tournament->price : $price;
-        $tournament->save();
-
-        return $tournament;
+        return Tournament::where('lan_id', $lanId)->get();
     }
 
     public function getReachedTeams(Tournament $tournament): int

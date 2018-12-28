@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class getAllTest extends TestCase
+class GetAllTournamentTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -28,7 +28,7 @@ class getAllTest extends TestCase
         ]);
     }
 
-    public function testGetAllHidden(): void
+    public function testGetAllTournamentHidden(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -48,16 +48,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'hidden',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'hidden',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllFinished(): void
+    public function testGetAllTournamentFinished(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -78,16 +78,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'finished',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'finished',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllFourthcoming(): void
+    public function testGetAllTournamentFourthcoming(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -111,16 +111,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'fourthcoming',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'fourthcoming',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllLate(): void
+    public function testGetAllTournamentLate(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -144,16 +144,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'late',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'late',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllOutguessed(): void
+    public function testGetAllTournamentOutguessed(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -177,16 +177,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'outguessed',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'outguessed',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllBehindhand(): void
+    public function testGetAllTournamentBehindhand(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -209,16 +209,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'behindhand',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'behindhand',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllRunning(): void
+    public function testGetAllTournamentRunning(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -242,16 +242,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'running',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'running',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTeamsReachedTeamFull(): void
+    public function testGetAllTournamentTeamsReachedTeamFull(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -286,16 +286,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'hidden',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'hidden',
                 'teams_reached' => 1,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTeamsReachedTeamEmpty(): void
+    public function testGetAllTournamentTeamsReachedTeamEmpty(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -330,16 +330,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'hidden',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'hidden',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllCurrentLan(): void
+    public function testGetAllTournamentCurrentLan(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -360,16 +360,16 @@ class getAllTest extends TestCase
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
-                'tournament_start' => date('F Y', strtotime($tournament->tournament_start)),
-                'tournament_end' => date('F Y', strtotime($tournament->tournament_end)),
-                'current_state' => 'hidden',
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($tournament->tournament_end)),
+                'state' => 'hidden',
                 'teams_reached' => 0,
                 'teams_to_reach' => $tournament->teams_to_reach,
             ]])
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllLanInteger(): void
+    public function testGetAllTournamentLanInteger(): void
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
@@ -386,7 +386,7 @@ class getAllTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetAllLanExist(): void
+    public function testGetAllTournamentLanExist(): void
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)

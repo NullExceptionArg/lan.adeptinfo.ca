@@ -5,7 +5,6 @@ namespace Tests\Unit\Service\Tournament;
 use App\Model\Reservation;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class GetTest extends TestCase
@@ -144,17 +143,5 @@ class GetTest extends TestCase
         $this->assertEquals(true, $result['teams']->jsonSerialize()[1]['players']->jsonSerialize()[0]['is_leader']);
         $this->assertEquals($this->reservation2->id, $result['teams']->jsonSerialize()[1]['players']->jsonSerialize()[0]['reservation_id']);
         $this->assertEquals($this->reservation2->seat_id, $result['teams']->jsonSerialize()[1]['players']->jsonSerialize()[0]['seat_id']);
-    }
-
-
-    public function testGetTournamentIdExist(): void
-    {
-        try {
-            $this->tournamentService->get(-1);
-            $this->fail('Expected: {"tournament_id":["The selected tournament id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tournament_id":["The selected tournament id is invalid."]}', $e->getMessage());
-        }
     }
 }

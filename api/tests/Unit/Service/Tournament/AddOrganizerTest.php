@@ -4,10 +4,8 @@ namespace Tests\Unit\Service\Tournament;
 
 use App\Model\Permission;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class AddOrganizerTest extends TestCase
@@ -60,19 +58,6 @@ class AddOrganizerTest extends TestCase
         $this->be($this->organizer);
     }
 
-    public function testAddOrganizerHasPermission(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $this->be($user);
-        $request = new Request(['email' => $this->organizer2->email]);
-        try {
-            $this->tournamentService->addOrganizer($request, $this->tournament->id);
-            $this->fail('Expected: REEEEEEEEEE');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
-    }
-
     public function testAddOrganizer(): void
     {
         $request = new Request(['email' => $this->organizer2->email]);
@@ -89,65 +74,4 @@ class AddOrganizerTest extends TestCase
         $this->assertEquals($this->tournament->rules, $result->rules);
     }
 
-    public function testAddOrganizerTournamentIdExist(): void
-    {
-        $request = new Request(['email' => $this->organizer2->email]);;
-        try {
-            $this->tournamentService->addOrganizer($request, -1);
-            $this->fail('Expected: {"tournament_id":["The selected tournament id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tournament_id":["The selected tournament id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testAddOrganizerOrganizerHasTournament(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'add-organizer')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $user->id
-        ]);
-        $this->be($user);
-        $request = new Request(['email' => $this->organizer2->email]);
-        try {
-            $this->tournamentService->addOrganizer($request, $this->tournament->id);
-            $this->fail('Expected: {"tournament_id":["The user doesn\'t have any tournaments"]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tournament_id":["The user doesn\'t have any tournaments"]}', $e->getMessage());
-        }
-    }
-
-    public function testAddOrganizerEmailString(): void
-    {
-        $request = new Request(['email' => 0]);
-        try {
-            $this->tournamentService->addOrganizer($request, $this->tournament->id);
-            $this->fail('Expected: {"email":["The email must be a string."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The email must be a string."]}', $e->getMessage());
-        }
-    }
-
-    public function testAddOrganizerEmailExist(): void
-    {
-        $request = new Request(['email' => '☭']);
-        try {
-            $this->tournamentService->addOrganizer($request, $this->tournament->id);
-            $this->fail('Expected: {"email":["The selected email is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The selected email is invalid."]}', $e->getMessage());
-        }
-    }
 }

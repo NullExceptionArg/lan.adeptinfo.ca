@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Controller\Tournament;
 
-use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -35,32 +34,6 @@ class QuitTest extends TestCase
             'organizer_id' => $this->organizer->id,
             'tournament_id' => $this->tournament->id
         ]);
-
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'quit-tournament')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->organizer->id
-        ]);
-    }
-
-    public function testQuitHasPermission(): void
-    {
-        $admin = factory('App\Model\User')->create();
-        $this->actingAs($admin)
-            ->json('POST', '/api/tournament/quit/' . $this->tournament->id)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
-            ])
-            ->assertResponseStatus(403);
     }
 
     public function testQuit(): void
@@ -72,18 +45,15 @@ class QuitTest extends TestCase
         ]);
 
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/quit/' . $this->tournament->id)
+            ->json('POST', '/api/tournament/' . $this->tournament->id . '/quit')
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
-                'lan_id' => $this->tournament->lan_id,
                 'name' => $this->tournament->name,
-                'price' => $this->tournament->price,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
                 'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'players_to_reach' => $this->tournament->players_to_reach,
                 'teams_to_reach' => $this->tournament->teams_to_reach,
+                'teams_reached' => 0,
                 'state' => 'hidden',
-                'rules' => $this->tournament->rules
             ])
             ->assertResponseStatus(200);
     }
@@ -91,18 +61,15 @@ class QuitTest extends TestCase
     public function testQuitLastOrganizer(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/quit/' . $this->tournament->id)
+            ->json('POST', '/api/tournament/' . $this->tournament->id . '/quit')
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
-                'lan_id' => $this->tournament->lan_id,
                 'name' => $this->tournament->name,
-                'price' => $this->tournament->price,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
                 'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'players_to_reach' => $this->tournament->players_to_reach,
                 'teams_to_reach' => $this->tournament->teams_to_reach,
+                'teams_reached' => 0,
                 'state' => 'hidden',
-                'rules' => $this->tournament->rules
             ])
             ->assertResponseStatus(200);
     }
@@ -110,7 +77,7 @@ class QuitTest extends TestCase
     public function testQuitTournamentIdExist(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/quit/' . -1)
+            ->json('POST', '/api/tournament/' . -1 . '/quit')
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -123,17 +90,17 @@ class QuitTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testQuitOrganizerHasTournament(): void
+    public function testQuitUserIsTournamentAdmin(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/tournament/quit/' . -1)
+            ->json('POST', '/api/tournament/' . $this->tournament->id . '/quit')
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'tournament_id' => [
-                        0 => 'The selected tournament id is invalid.'
+                        0 => 'The user doesn\'t have any tournaments'
                     ],
                 ]
             ])

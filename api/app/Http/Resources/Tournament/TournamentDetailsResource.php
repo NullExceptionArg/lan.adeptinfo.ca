@@ -3,20 +3,12 @@
 namespace App\Http\Resources\Tournament;
 
 use App\Http\Resources\Team\GetTournamentDetailsTeamResource;
+use App\Model\TagTeam;
 use App\Model\Team;
-use App\Model\Tournament;
 use Illuminate\Http\Resources\Json\Resource;
 
-class GetDetailsResource extends Resource
+class TournamentDetailsResource extends Resource
 {
-    protected $teamsReached;
-
-    public function __construct(Tournament $resource, int $teamsReached)
-    {
-        $this->teamsReached = $teamsReached;
-        parent::__construct($resource);
-    }
-
     /**
      * Transform the resource into an array.
      *
@@ -27,6 +19,14 @@ class GetDetailsResource extends Resource
     {
         $teams = Team::where('tournament_id', $this->id)
             ->get();
+        $teamsReached = 0;
+        foreach ($teams as $team) {
+            $playersReached = TagTeam::where('team_id', $team->id)->count();
+            if ($playersReached >= $this->players_to_reach) {
+                $teamsReached++;
+                break;
+            }
+        }
         $teams->map(function ($team) {
             $team['lan_id'] = $this->lan_id;
             return $team;
@@ -37,10 +37,10 @@ class GetDetailsResource extends Resource
             'name' => $this->name,
             'rules' => $this->rules,
             'price' => intval($this->price),
-            'tournament_start' => $this->tournament_start,
-            'tournament_end' => $this->tournament_end,
+            'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament_start)),
+            'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament_end)),
             'teams_to_reach' => intval($this->teams_to_reach),
-            'teams_reached' => intval($this->teamsReached),
+            'teams_reached' => $teamsReached,
             'players_to_reach' => intval($this->players_to_reach),
             'state' => $this->getCurrentState(),
             'teams' => GetTournamentDetailsTeamResource::collection($teams)
