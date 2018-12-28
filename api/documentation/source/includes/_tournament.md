@@ -166,6 +166,8 @@ unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse
 ## Tournois d'un organisateur
 
 Obtenir les tournois d'un organisateur.
+Si l'organisateur possède les permissions pour modifier, et supprimer, et ajouter un organisateur à un tournoi, tous les tournois s'affichent. 
+Sinon on retourne uniquement les tournois qui sont organisés par l'utilisateur.
 
 ### Requête HTTP
 

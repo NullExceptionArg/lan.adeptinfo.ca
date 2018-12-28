@@ -48,4 +48,6 @@ interface TournamentRepository
     public function getOrganizerCount(Tournament $tournament): int;
 
     public function getTournamentsLanId(int $tournamentId): ?int;
+
+    public function adminHasTournaments(int $userId, int $lanId): bool;
 }

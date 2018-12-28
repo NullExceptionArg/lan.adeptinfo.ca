@@ -7,13 +7,14 @@ use App\Http\Resources\User\GetAdminRolesResource;
 use App\Http\Resources\User\GetAdminSummaryResource;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
-use App\Mail\ConfirmAccount;
 use App\Http\Resources\User\GetUserSummaryResource;
+use App\Mail\ConfirmAccount;
 use App\Model\User;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\RoleRepositoryImpl;
 use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Repositories\Implementation\TeamRepositoryImpl;
+use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Rules\FacebookEmailPermission;
 use App\Rules\HasPermission;
@@ -38,28 +39,32 @@ class UserServiceImpl implements UserService
     protected $lanRepository;
     protected $teamRepository;
     protected $roleRepository;
+    protected $tournamentRepository;
 
     /**
      * UserServiceImpl constructor.
-     * @param UserRepositoryImpl $userRepositoryImpl
-     * @param SeatRepositoryImpl $seatRepositoryImpl
-     * @param LanRepositoryImpl $lanRepositoryImpl
-     * @param TeamRepositoryImpl $teamRepositoryImpl
-     * @param RoleRepositoryImpl $roleRepositoryImpl
+     * @param UserRepositoryImpl $userRepository
+     * @param SeatRepositoryImpl $seatRepository
+     * @param LanRepositoryImpl $lanRepository
+     * @param TeamRepositoryImpl $teamRepository
+     * @param RoleRepositoryImpl $roleRepository
+     * @param TournamentRepositoryImpl $tournamentRepository
      */
     public function __construct(
-        UserRepositoryImpl $userRepositoryImpl,
-        SeatRepositoryImpl $seatRepositoryImpl,
-        LanRepositoryImpl $lanRepositoryImpl,
-        TeamRepositoryImpl $teamRepositoryImpl,
-        RoleRepositoryImpl $roleRepositoryImpl
+        UserRepositoryImpl $userRepository,
+        SeatRepositoryImpl $seatRepository,
+        LanRepositoryImpl $lanRepository,
+        TeamRepositoryImpl $teamRepository,
+        RoleRepositoryImpl $roleRepository,
+        TournamentRepositoryImpl $tournamentRepository
     )
     {
-        $this->userRepository = $userRepositoryImpl;
-        $this->seatRepository = $seatRepositoryImpl;
-        $this->lanRepository = $lanRepositoryImpl;
-        $this->teamRepository = $teamRepositoryImpl;
-        $this->roleRepository = $roleRepositoryImpl;
+        $this->userRepository = $userRepository;
+        $this->seatRepository = $seatRepository;
+        $this->lanRepository = $lanRepository;
+        $this->teamRepository = $teamRepository;
+        $this->roleRepository = $roleRepository;
+        $this->tournamentRepository = $tournamentRepository;
     }
 
     public function signUpUser(Request $input): User
@@ -337,7 +342,15 @@ class UserServiceImpl implements UserService
         }
 
         $user = Auth::user();
-        return new GetAdminSummaryResource($user, $this->roleRepository->getAdminPermissions($lan, $user));
+        $permissions = $this->roleRepository->getAdminPermissions($lan, $user);
+
+        $hasTournaments =
+            ($this->roleRepository->userHasPermission('edit-tournament', $user->id, $lan->id) &&
+                $this->roleRepository->userHasPermission('delete-tournament', $user->id, $lan->id) &&
+                $this->roleRepository->userHasPermission('add-organizer', $user->id, $lan->id)) ||
+            $this->tournamentRepository->adminHasTournaments($user->id, $lan->id);
+
+        return new GetAdminSummaryResource($user, $hasTournaments, $permissions);
     }
 
     public function getAdminRoles(Request $input)

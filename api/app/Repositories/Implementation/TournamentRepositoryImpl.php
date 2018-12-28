@@ -76,7 +76,7 @@ class TournamentRepositoryImpl implements TournamentRepository
         ]);
     }
 
-    public function getTournamentForOrganizer(Authenticatable $user, Lan $lan): Collection
+    public function getTournamentsForOrganizer(Authenticatable $user, Lan $lan): Collection
     {
         $tournamentIds = DB::table('organizer_tournament')
             ->select('tournament_id')
@@ -131,5 +131,14 @@ class TournamentRepositoryImpl implements TournamentRepository
     {
         $lanId = Tournament::find($tournamentId);
         return $lanId != null ? $lanId->lan_id : null;
+    }
+
+    public function adminHasTournaments(int $userId, int $lanId): bool
+    {
+        return DB::table('organizer_tournament')
+                ->join('tournament', 'organizer_tournament.tournament_id', '=', 'tournament.id')
+                ->where('organizer_tournament.organizer_id', $userId)
+                ->where('tournament.lan_id', $lanId)
+                ->count() > 0;
     }
 }

@@ -127,9 +127,15 @@ class TournamentServiceImpl implements TournamentService
             $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
-        $tournaments = $this->tournamentRepository->getTournamentForOrganizer(Auth::user(), $lan);
-
-        return TournamentResource::collection($tournaments);
+        if (
+            $this->roleRepository->userHasPermission('edit-tournament', Auth::id(), $lan->id) &&
+            $this->roleRepository->userHasPermission('delete-tournamnet', Auth::id(), $lan->id) &&
+            $this->roleRepository->userHasPermission('add-organizer', Auth::id(), $lan->id)
+        ) {
+            return TournamentResource::collection($this->tournamentRepository->getAllTournaments($lan->id));
+        } else {
+            return TournamentResource::collection($this->tournamentRepository->getTournamentsForOrganizer(Auth::user(), $lan));
+        }
     }
 
     public function getAll(Request $input): AnonymousResourceCollection
