@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\Implementation\SeatServiceImpl;
-use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
 class SeatController extends Controller
 {
-    use Helpers;
-
     protected $seatService;
 
     /**

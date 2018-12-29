@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\Implementation\ContributionServiceImpl;
-use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
 class ContributionController extends Controller
 {
-    use Helpers;
-
     protected $contributionService;
 
     /**

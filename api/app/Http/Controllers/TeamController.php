@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Services\Implementation\TeamServiceImpl;
 use Illuminate\Http\Request;
 

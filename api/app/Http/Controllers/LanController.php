@@ -3,13 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Services\Implementation\LanServiceImpl;
-use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
 
 class LanController extends Controller
 {
-    use Helpers;
-
     protected $lanService;
 
     /**

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Services\Implementation\TournamentServiceImpl;
 use Illuminate\Http\Request;
 
