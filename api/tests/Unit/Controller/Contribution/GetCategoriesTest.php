@@ -5,7 +5,7 @@ namespace Tests\Unit\Controller\Contribution;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetContributionCategoryTest extends TestCase
+class GetCategoriesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,7 +21,7 @@ class GetContributionCategoryTest extends TestCase
         ]);
     }
 
-    public function testGetContributionCategory(): void
+    public function testGetCategories(): void
     {
         $this->json('GET', '/api/contribution/category', [
             'lan_id' => $this->lan->id
@@ -33,7 +33,7 @@ class GetContributionCategoryTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetContributionCategoryCurrentLan(): void
+    public function testGetCategoriesCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true

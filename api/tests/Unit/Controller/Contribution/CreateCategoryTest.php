@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Controller\Contribution;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateContributionCategoryTest extends TestCase
+class CreateCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -24,23 +23,16 @@ class CreateContributionCategoryTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'create-contribution-category')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'create-contribution-category'
+        );
 
         $this->requestContent['lan_id'] = $this->lan->id;
     }
 
-    public function testCreateContributionCategory(): void
+    public function testCreateCategory(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/contribution/category', $this->requestContent)
@@ -51,7 +43,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testCreateContributionCategoryPermission(): void
+    public function testCreateCategoryPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -64,7 +56,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testCreateContributionCategoryLanIdExist(): void
+    public function testCreateCategoryLanIdExist(): void
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
@@ -81,7 +73,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryLanIdInteger(): void
+    public function testCreateCategoryLanIdInteger(): void
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
@@ -98,7 +90,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryNameRequired(): void
+    public function testCreateCategoryNameRequired(): void
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
@@ -115,7 +107,7 @@ class CreateContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateContributionCategoryNameString(): void
+    public function testCreateCategoryNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)

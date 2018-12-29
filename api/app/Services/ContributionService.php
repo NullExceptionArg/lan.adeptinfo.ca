@@ -2,24 +2,25 @@
 
 namespace App\Services;
 
-
-use App\Model\Contribution;
+use App\Http\Resources\Contribution\ContributionResource;
 use App\Model\ContributionCategory;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface ContributionService
 {
     public function createCategory(int $lanId, string $name): ContributionCategory;
 
-    public function createContribution(Request $input): Contribution;
+    public function createContribution(
+        int $contributionCategoryId,
+        ?string $userFullName,
+        ?string $email
+    ): ContributionResource;
 
-    public function getContributions(Request $input): AnonymousResourceCollection;
+    public function getCategories(int $lanId): AnonymousResourceCollection;
 
-    public function getCategories(Request $input): Collection;
+    public function getContributions(int $lanId): AnonymousResourceCollection;
 
-    public function deleteCategory(Request $input): ContributionCategory;
+    public function deleteCategory(int $lanId): ContributionCategory;
 
-    public function deleteContribution(Request $input): Contribution;
+    public function deleteContribution(int $contributionId): ContributionResource;
 }

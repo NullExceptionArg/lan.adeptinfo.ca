@@ -26,7 +26,6 @@ class FindContributionByIdTest extends TestCase
     public function testFindContributionById(): void
     {
         $result = $this->contributionRepository->findContributionById($this->contribution->id);
-
         $this->assertEquals($this->contribution->id, $result->id);
     }
 }

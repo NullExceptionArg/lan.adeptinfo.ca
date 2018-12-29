@@ -2,14 +2,13 @@
 
 namespace Tests\Unit\Controller\Contribution;
 
-
 use App\Model\Contribution;
 use App\Model\ContributionCategory;
 use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteContributionCategoryTest extends TestCase
+class DeleteCategoryTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -26,21 +25,14 @@ class DeleteContributionCategoryTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'delete-contribution-category')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'delete-contribution-category'
+        );
     }
 
-    public function testDeleteContributionCategorySimple(): void
+    public function testDeleteCategorySimple(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/contribution/category', [
@@ -54,7 +46,7 @@ class DeleteContributionCategoryTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testDeleteContributionCategoryCurrentLan(): void
+    public function testDeleteCategoryCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -88,7 +80,7 @@ class DeleteContributionCategoryTest extends TestCase
     }
 
     // Should be updated every time Contribution Category has a new relation
-    public function testDeleteContributionCategoryComplexOnCategoryForContribution(): void
+    public function testDeleteCategoryComplexOnCategoryForContribution(): void
     {
         $contribution = factory('App\Model\Contribution')->create([
             'user_id' => $this->user
@@ -127,7 +119,7 @@ class DeleteContributionCategoryTest extends TestCase
         $this->assertEquals(0, Contribution::all()->count());
     }
 
-    public function testDeleteContributionCategoryPermission(): void
+    public function testDeleteCategoryPermission(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/contribution/category', [
@@ -142,7 +134,7 @@ class DeleteContributionCategoryTest extends TestCase
     }
 
     // Should be updated every time Contribution Category has a new relation
-    public function testDeleteContributionCategoryComplexManyCategoryForContribution(): void
+    public function testDeleteCategoryComplexManyCategoryForContribution(): void
     {
         $category2 = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
@@ -185,7 +177,7 @@ class DeleteContributionCategoryTest extends TestCase
         $this->assertEquals(1, Contribution::all()->count());
     }
 
-    public function testDeleteContributionCategoryTestLanIdExist(): void
+    public function testDeleteCategoryTestLanIdExist(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/contribution/category', [
@@ -204,7 +196,7 @@ class DeleteContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryTestLanIdInteger(): void
+    public function testDeleteCategoryTestLanIdInteger(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/contribution/category', [
@@ -223,7 +215,7 @@ class DeleteContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryTestCategoryIdExist(): void
+    public function testDeleteCategoryTestCategoryIdExist(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/contribution/category', [
@@ -242,7 +234,7 @@ class DeleteContributionCategoryTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteContributionCategoryTestCategoryIdInteger(): void
+    public function testDeleteCategoryTestCategoryIdInteger(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/contribution/category', [

@@ -33,7 +33,7 @@ class AttachContributionCategoryContributionTest extends TestCase
 
     public function testAttachContributionCategoryContribution(): void
     {
-        $this->contributionRepository->attachContributionCategoryContribution($this->contribution, $this->category);
+        $this->contributionRepository->attachContributionCategoryContribution($this->contribution->id, $this->category->id);
 
         $this->seeInDatabase('contribution_cat_contribution', [
             'contribution_category_id' => $this->category->id,

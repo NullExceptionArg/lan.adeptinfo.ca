@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Rules\HasPermissionInLan;
+use App\Rules\OneOfTwoFields;
 use App\Services\Implementation\ContributionServiceImpl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ContributionController extends Controller
 {
@@ -22,10 +22,10 @@ class ContributionController extends Controller
         $this->contributionService = $contributionService;
     }
 
-    public function createContributionCategory(Request $request)
+    public function createCategory(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
-        $categoryValidator = Validator::make([
+        $validator = Validator::make([
             'lan_id' => $request->input('lan_id'),
             'name' => $request->input('name'),
             'permission' => 'create-contribution-category'
@@ -35,9 +35,7 @@ class ContributionController extends Controller
             'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
         ]);
 
-        if ($categoryValidator->fails()) {
-            throw new BadRequestHttpException($categoryValidator->errors());
-        }
+        $this->checkValidation($validator);
 
         return response()->json($this->contributionService->createCategory(
             $request->input('lan_id'),
@@ -45,28 +43,112 @@ class ContributionController extends Controller
         ), 201);
     }
 
-    public function getContributionCategories(Request $request)
-    {
-        return response()->json($this->contributionService->getCategories($request), 200);
-    }
-
-    public function deleteContributionCategory(Request $request)
-    {
-        return response()->json($this->contributionService->deleteCategory($request), 200);
-    }
-
     public function createContribution(Request $request)
     {
-        return response()->json($this->contributionService->createContribution($request), 201);
+        $request = $this->adjustRequestForLan($request);
+        $validator = Validator::make([
+            'lan_id' => $request->input('lan_id'),
+            'contribution_category_id' => $request->input('contribution_category_id'),
+            'user_full_name' => $request->input('user_full_name'),
+            'user_email' => $request->input('user_email'),
+            'permission' => 'create-contribution'
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
+            'user_full_name' => [
+                'required_without:user_email',
+                'string',
+                'nullable',
+                new OneOfTwoFields($request->input('user_email'), 'user_email')
+            ],
+            'user_email' => [
+                'required_without:user_full_name',
+                'string',
+                'nullable',
+                'exists:user,email',
+                new OneOfTwoFields($request->input('user_full_name'), 'user_full_name')
+            ],
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->contributionService->createContribution(
+            $request->input('contribution_category_id'),
+            $request->input('user_full_name'),
+            $request->input('user_email')
+        ), 201);
     }
 
-    public function getContributions(Request $request)
+    public function deleteCategory(Request $request)
     {
-        return response()->json($this->contributionService->getContributions($request), 200);
+        $request = $this->adjustRequestForLan($request);
+        $validator = Validator::make([
+            'lan_id' => $request->input('lan_id'),
+            'contribution_category_id' => $request->input('contribution_category_id'),
+            'permission' => 'delete-contribution-category'
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->contributionService->deleteCategory(
+            $request->input('contribution_category_id')
+        ), 200);
     }
 
     public function deleteContribution(Request $request)
     {
-        return response()->json($this->contributionService->deleteContribution($request), 200);
+        $request = $this->adjustRequestForLan($request);
+        $validator = Validator::make([
+            'lan_id' => $request->input('lan_id'),
+            'contribution_id' => $request->input('contribution_id'),
+            'permission' => 'delete-contribution'
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+            'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL',
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->contributionService->deleteContribution(
+            $request->input('contribution_id')
+        ), 200);
+    }
+
+    public function getCategories(Request $request)
+    {
+        $request = $this->adjustRequestForLan($request);
+        $validator = Validator::make([
+            'lan_id' => $request->input('lan_id'),
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->contributionService->getCategories(
+            $request->input('lan_id')
+        ), 200);
+    }
+
+    public function getContributions(Request $request)
+    {
+        $request = $this->adjustRequestForLan($request);
+        $validator = Validator::make([
+            'lan_id' => $request->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->contributionService->getContributions(
+            $request->input('lan_id')
+        ), 200);
     }
 }

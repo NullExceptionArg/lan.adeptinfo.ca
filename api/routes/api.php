@@ -29,7 +29,7 @@ $api->version('v1', function ($api) {
             $api->get('lan', 'LanController@getLan');
             $api->get('lan/all', 'LanController@getAllLan');
 
-            $api->get('contribution/category', 'ContributionController@getContributionCategories');
+            $api->get('contribution/category', 'ContributionController@getCategories');
             $api->get('contribution', 'ContributionController@getContributions');
 
             $api->get('tournament/details/{tournament_id}', 'TournamentController@get');
@@ -73,8 +73,8 @@ $api->version('v1', function ($api) {
                 $api->post('lan/current', 'LanController@setCurrentLan');
                 $api->put('lan', 'LanController@edit');
 
-                $api->post('contribution/category', 'ContributionController@createContributionCategory');
-                $api->delete('contribution/category', 'ContributionController@deleteContributionCategory');
+                $api->post('contribution/category', 'ContributionController@createCategory');
+                $api->delete('contribution/category', 'ContributionController@deleteCategory');
                 $api->post('contribution', 'ContributionController@createContribution');
                 $api->delete('contribution', 'ContributionController@deleteContribution');
 

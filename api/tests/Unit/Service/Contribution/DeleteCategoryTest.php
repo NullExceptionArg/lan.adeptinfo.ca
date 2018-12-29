@@ -4,11 +4,7 @@ namespace Tests\Unit\Service\Contribution;
 
 use App\Model\Contribution;
 use App\Model\ContributionCategory;
-use App\Model\Permission;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class DeleteCategoryTest extends TestCase
@@ -32,29 +28,18 @@ class DeleteCategoryTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'delete-contribution-category')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'delete-contribution-category'
+        );
 
         $this->be($this->user);
     }
 
     public function testDeleteCategorySimple(): void
     {
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'contribution_category_id' => $this->category->id
-        ]);
-        $result = $this->contributionService->deleteCategory($request);
+        $result = $this->contributionService->deleteCategory($this->category->id);
 
         $this->assertEquals($this->category->id, $result['id']);
     }
@@ -80,12 +65,7 @@ class DeleteCategoryTest extends TestCase
         //Contribution category - Lan
         $this->assertEquals(1, $this->category->Lan()->count());
 
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'contribution_category_id' => $this->category->id
-        ]);
-
-        $this->contributionService->deleteCategory($request);
+        $this->contributionService->deleteCategory($this->category->id);
 
         /// Verify relations have been removed
         // Contribution category
@@ -120,12 +100,7 @@ class DeleteCategoryTest extends TestCase
         //Contribution category - Lan
         $this->assertEquals(1, $this->category->Lan()->count());
 
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'contribution_category_id' => $this->category->id
-        ]);
-
-        $this->contributionService->deleteCategory($request);
+        $this->contributionService->deleteCategory($this->category->id);
 
         /// Verify relations have been removed
         // Contribution category
@@ -133,83 +108,5 @@ class DeleteCategoryTest extends TestCase
 
         // Contribution
         $this->assertEquals(1, Contribution::all()->count());
-    }
-
-    public function testDeleteCategoryLanIdExist(): void
-    {
-        $request = new Request([
-            'lan_id' => -1,
-            'contribution_category_id' => $this->category->id
-        ]);
-        try {
-            $this->contributionService->deleteCategory($request);
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteCategoryPermission(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $this->be($user);
-
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'contribution_category_id' => $this->category->id
-        ]);
-
-        try {
-            $this->contributionService->deleteCategory($request);
-            $this->fail('Expected: REEEEEEEEEE');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
-    }
-
-    public function testDeleteCategoryLanIdInteger(): void
-    {
-        $request = new Request([
-            'lan_id' => '☭',
-            'contribution_category_id' => $this->category->id
-        ]);
-        try {
-            $this->contributionService->deleteCategory($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteCategoryContributionCategoryIdExist(): void
-    {
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'contribution_category_id' => -1
-        ]);
-        try {
-            $this->contributionService->deleteCategory($request);
-            $this->fail('Expected: {"contribution_category_id":["Contribution category with id ' . $badCategoryId . ' doesn\'t exist"]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"contribution_category_id":["The selected contribution category id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteCategoryContributionCategoryIdInteger(): void
-    {
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'contribution_category_id' => '☭'
-        ]);
-        try {
-            $this->contributionService->deleteCategory($request);
-            $this->fail('Expected: {"contribution_category_id":["The contribution category id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"contribution_category_id":["The contribution category id must be an integer."]}', $e->getMessage());
-        }
     }
 }

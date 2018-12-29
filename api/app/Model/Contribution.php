@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string user_full_name
  * @property int user_id
  * @property int contribution_category_id
+ * @property int id
  */
 class Contribution extends Model
 {

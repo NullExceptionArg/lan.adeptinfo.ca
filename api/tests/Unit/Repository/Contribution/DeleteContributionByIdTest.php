@@ -24,7 +24,7 @@ class DeleteContributionByIdTest extends TestCase
         ]);
     }
 
-    public function testDeleteContribution(): void
+    public function testDeleteContributionById(): void
     {
         $this->seeInDatabase('contribution', [
             'id' => $this->contribution->id,

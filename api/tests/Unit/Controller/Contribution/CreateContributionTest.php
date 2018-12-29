@@ -32,18 +32,11 @@ class CreateContributionTest extends TestCase
         $this->requestContent['contribution_category_id'] = $this->category->id;
         $this->requestContent['lan_id'] = $this->lan->id;
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'create-contribution')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'create-contribution'
+        );
     }
 
     public function testCreateContributionUserFullName(): void
@@ -53,8 +46,7 @@ class CreateContributionTest extends TestCase
             ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'user_full_name' => $this->user->getFullName(),
-                'contribution_category_id' => $this->category->id
+                'user_full_name' => $this->user->getFullName()
             ])
             ->assertResponseStatus(201);
     }
@@ -88,8 +80,7 @@ class CreateContributionTest extends TestCase
             ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'user_full_name' => $this->user->getFullName(),
-                'contribution_category_id' => $category->id
+                'user_full_name' => $this->user->getFullName()
             ])
             ->assertResponseStatus(201);
     }
@@ -114,8 +105,7 @@ class CreateContributionTest extends TestCase
             ->json('POST', '/api/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'user_full_name' => $this->user->getFullName(),
-                'contribution_category_id' => $this->category->id
+                'user_full_name' => $this->user->getFullName()
             ])
             ->assertResponseStatus(201);
     }
