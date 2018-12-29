@@ -8,18 +8,18 @@ use App\Model\ContributionCategory;
 use App\Model\Lan;
 use App\Repositories\ContributionRepository;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ContributionRepositoryImpl implements ContributionRepository
 {
 
-    public function createCategory(Lan $lan, string $name): ContributionCategory
+    public function createCategory(int $lanId, string $name): int
     {
-        $category = new ContributionCategory();
-        $category->lan_id = $lan->id;
-        $category->name = $name;
-        $category->save();
-
-        return $category;
+        return DB::table('contribution_category')
+            ->insertGetId([
+                'lan_id' => $lanId,
+                'name' => $name
+            ]);
     }
 
     public function getCategories(Lan $lan): Collection

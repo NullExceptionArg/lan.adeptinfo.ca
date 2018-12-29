@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface ContributionService
 {
-    public function createCategory(Request $request): ContributionCategory;
+    public function createCategory(int $lanId, string $name): ContributionCategory;
 
     public function createContribution(Request $input): Contribution;
 

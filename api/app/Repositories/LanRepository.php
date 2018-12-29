@@ -37,8 +37,6 @@ interface LanRepository
 
     public function setCurrent(string $lanId): void;
 
-    public function getCurrent(): ?Lan;
-
     public function update(
         Lan $lan,
         string $name,

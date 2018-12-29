@@ -75,4 +75,9 @@ class Lan extends Model
     {
         return $this->hasMany(Image::class);
     }
+
+    public static function getCurrentLan(): ?Lan
+    {
+        return Lan::where('is_current', true)->first();
+    }
 }

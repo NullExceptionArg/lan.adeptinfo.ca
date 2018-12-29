@@ -41,32 +41,10 @@ class ContributionServiceImpl implements ContributionService
         $this->userRepository = $userRepository;
     }
 
-    public function createCategory(Request $input): ContributionCategory
+    public function createCategory(int $lanId, string $name): ContributionCategory
     {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
-        }
-
-        $categoryValidator = Validator::make([
-            'lan_id' => $input->input('lan_id'),
-            'name' => $input->input('name'),
-            'permission' => 'create-contribution-category'
-        ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'name' => 'required|string',
-            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
-        ]);
-
-        if ($categoryValidator->fails()) {
-            throw new BadRequestHttpException($categoryValidator->errors());
-        }
-
-        if ($lan == null) {
-            $lan = $this->lanRepository->findById($input->input('lan_id'));
-        }
-        return $this->contributionRepository->createCategory($lan, $input->input('name'));
+        $contributionId = $this->contributionRepository->createCategory($lanId, $name);
+        return $this->contributionRepository->findCategoryById($contributionId);
     }
 
     public function getCategories(Request $input): Collection

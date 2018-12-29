@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Collection;
 
 interface ContributionRepository
 {
-    public function createCategory(Lan $lan, string $name): ContributionCategory;
+    public function createCategory(int $lanId, string $name): int;
 
     public function getCategories(Lan $lan): Collection;
 
