@@ -79,4 +79,6 @@ interface RoleRepository
     public function deleteGlobalRole(int $roleId): void;
 
     public function createDefaultLanRoles(int $lanId): void;
+
+    public function userHasPermission(string $permission, int $userId, int $lanId): bool;
 }

@@ -52,19 +52,6 @@ class AddOrganizerTest extends TestCase
         ]);
     }
 
-    public function testAddOrganizerHasPermission(): void
-    {
-        $admin = factory('App\Model\User')->create();
-        $this->actingAs($admin)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer')
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
-            ])
-            ->assertResponseStatus(403);
-    }
-
     public function testAddOrganizer(): void
     {
         $this->actingAs($this->organizer)
@@ -73,15 +60,12 @@ class AddOrganizerTest extends TestCase
             ])
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
-                'lan_id' => $this->tournament->lan_id,
                 'name' => $this->tournament->name,
-                'price' => $this->tournament->price,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
                 'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'players_to_reach' => $this->tournament->players_to_reach,
                 'teams_to_reach' => $this->tournament->teams_to_reach,
+                'teams_reached' => 0,
                 'state' => 'hidden',
-                'rules' => $this->tournament->rules
             ])
             ->assertResponseStatus(200);
     }
@@ -104,7 +88,7 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddOrganizerOrganizerHasTournament(): void
+    public function testAddOrganizerHasPermissionInLanOrIsTournamentAdminPermissionSuccess(): void
     {
         $user = factory('App\Model\User')->create();
         $role = factory('App\Model\LanRole')->create([
@@ -124,15 +108,53 @@ class AddOrganizerTest extends TestCase
                 'email' => $this->organizer2->email
             ])
             ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'tournament_id' => [
-                        0 => 'The user doesn\'t have any tournaments'
-                    ],
-                ]
+                'id' => $this->tournament->id,
+                'name' => $this->tournament->name,
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
+                'teams_to_reach' => $this->tournament->teams_to_reach,
+                'teams_reached' => 0,
+                'state' => 'hidden',
             ])
-            ->assertResponseStatus(400);
+            ->assertResponseStatus(200);
+    }
+
+    public function testAddOrganizerHasPermissionInLanOrIsTournamentAdminTournamentAdminSuccess(): void
+    {
+        $user = factory('App\Model\User')->create();
+        factory('App\Model\OrganizerTournament')->create([
+            'organizer_id' => $user->id,
+            'tournament_id' => $this->tournament->id
+        ]);
+        $this->actingAs($user)
+            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+                'email' => $this->organizer2->email
+            ])
+            ->seeJsonEquals([
+                'id' => $this->tournament->id,
+                'name' => $this->tournament->name,
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
+                'teams_to_reach' => $this->tournament->teams_to_reach,
+                'teams_reached' => 0,
+                'state' => 'hidden',
+            ])
+            ->assertResponseStatus(200);
+    }
+
+    public function testAddOrganizerHasPermissionInLanOrIsTournamentAdminNoPermission(): void
+    {
+        $admin = factory('App\Model\User')->create();
+        $this->actingAs($admin)
+            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+                'email' => $this->organizer2->email
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testAddOrganizerEmailString(): void

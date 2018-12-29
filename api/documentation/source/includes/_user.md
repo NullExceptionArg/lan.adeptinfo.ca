@@ -450,6 +450,7 @@ lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'adminis
 {
     "first_name": "Karl",
     "last_name": "Marx",
+    "has_tournaments": true,
     "permissions": [
         {
             "id": 39,
@@ -465,6 +466,7 @@ Champ | Description
 --------- | -----------
 first_name | Prénom de l'utilisateur.
 last_name | Nom de l'utilisateur.
+has_tournaments | Si l'utilisateur peut modifier certain tournois.
 permissions | Permissions administratives que possède l'administrateur pour le LAN. Voir Permissions.
 
 #### Permissions

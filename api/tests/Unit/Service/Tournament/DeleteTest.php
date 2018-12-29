@@ -4,9 +4,7 @@ namespace Tests\Unit\Service\Tournament;
 
 use App\Model\Permission;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class DeleteTest extends TestCase
@@ -98,28 +96,5 @@ class DeleteTest extends TestCase
         $this->assertEquals($this->tournament->teams_to_reach, $result->teams_to_reach);
         $this->assertEquals('hidden', $result->state);
         $this->assertEquals($this->tournament->rules, $result->rules);
-    }
-
-    public function testDeleteHasPermission(): void
-    {
-        $user = $this->organizer = factory('App\Model\User')->create();
-        $this->be($user);
-        try {
-            $this->tournamentService->delete($this->tournament->id);
-            $this->fail('Expected: REEEEEEEEEE');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
-    }
-
-    public function testDeleteTournamentIdExit(): void
-    {
-        try {
-            $this->tournamentService->delete(-1);
-            $this->fail('Expected: {"tournament_id":["The selected tournament id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"tournament_id":["The selected tournament id is invalid."]}', $e->getMessage());
-        }
     }
 }

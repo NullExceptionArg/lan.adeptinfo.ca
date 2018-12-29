@@ -85,6 +85,7 @@ class GetAdminSummaryTest extends TestCase
             ->seeJsonEquals([
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
+                'has_tournaments' => false,
                 'permissions' => [
                     [
                         'id' => $permission->id,
@@ -206,6 +207,7 @@ class GetAdminSummaryTest extends TestCase
             ->seeJsonEquals([
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
+                'has_tournaments' => false,
                 'permissions' => [
                     [
                         'id' => $permission->id,

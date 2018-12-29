@@ -6,10 +6,9 @@ use App\Model\TagTeam;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
-class getAllTest extends TestCase
+class GetAllTournamentOrganizerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -35,7 +34,7 @@ class getAllTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    public function testGetAllHidden(): void
+    public function testGetAllTournamentOrganizerHidden(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -51,18 +50,18 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('hidden', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('hidden', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllFinished(): void
+    public function testGetAllTournamentOrganizerFinished(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -79,18 +78,18 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('finished', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('finished', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllFourthcoming(): void
+    public function testGetAllTournamentOrganizerFourthcoming(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -110,18 +109,18 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('fourthcoming', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('fourthcoming', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllLate(): void
+    public function testGetAllTournamentOrganizerLate(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -141,18 +140,18 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('late', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('late', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOutguessed(): void
+    public function testGetAllTournamentOrganizerOutguessed(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -172,18 +171,18 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('outguessed', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('outguessed', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllBehindhand(): void
+    public function testGetAllTournamentOrganizerBehindhand(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -202,18 +201,18 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('behindhand', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('behindhand', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllRunning(): void
+    public function testGetAllTournamentOrganizerRunning(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -233,18 +232,18 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('running', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('running', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTeamsReachedTeamFull(): void
+    public function testGetAllTournamentOrganizerTeamsReachedTeamFull(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -274,18 +273,18 @@ class getAllTest extends TestCase
             $tagTeam->save();
         }
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('hidden', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('hidden', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(1, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTeamsReachedTeamEmpty(): void
+    public function testGetAllTournamentOrganizerTeamsReachedTeamEmpty(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -315,18 +314,18 @@ class getAllTest extends TestCase
             $tagTeam->save();
         }
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('hidden', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('hidden', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllCurrentLan(): void
+    public function testGetAllTournamentOrganizerCurrentLan(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -343,40 +342,14 @@ class getAllTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAll($request);
+        $result = $this->tournamentService->getAllOrganizer($request);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
-        $this->assertEquals(date('F Y', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
-        $this->assertEquals('hidden', $result[0]->jsonSerialize()['current_state']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_start)), $result[0]->jsonSerialize()['tournament_start']);
+        $this->assertEquals(date('Y-m-d H:i:s', strtotime($tournament->tournament_end)), $result[0]->jsonSerialize()['tournament_end']);
+        $this->assertEquals('hidden', $result[0]->jsonSerialize()['state']);
         $this->assertEquals(0, $result[0]->jsonSerialize()['teams_reached']);
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
-    }
-
-    public function testGetAllLanInteger(): void
-    {
-        $this->requestContent['lan_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->tournamentService->getAll($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetAllLanExist(): void
-    {
-        $this->requestContent['lan_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->tournamentService->getAll($request);
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
-        }
     }
 }

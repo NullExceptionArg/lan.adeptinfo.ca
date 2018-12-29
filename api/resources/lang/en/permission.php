@@ -40,8 +40,6 @@ return [
     'description-edit-tournament' => 'Edit the name, the price, the tournament start date, the tournament expected ending date, the amount of players to reach, the amount of teams to reach, and the rules of any tournament.',
     'display-name-delete-tournament' => 'Delete tournament',
     'description-delete-tournament' => 'Delete any tournament.',
-    'display-name-quit-tournament' => 'Quit tournament',
-    'description-quit-tournament' => 'Quit the organization of a tournament.',
 
     'display-name-delete-team' => 'Delete team',
     'description-delete-team' => 'Delete a team.',

@@ -45,6 +45,10 @@ class CreateTest extends TestCase
 
     public function testCreate(): void
     {
+        $this->notSeeInDatabase('tournament', [
+            'name' => $this->requestContent['name']
+        ]);
+
         $result = $this->tournamentRepository->create(
             $this->requestContent['lan'],
             $this->requestContent['name'],
@@ -56,14 +60,10 @@ class CreateTest extends TestCase
             $this->requestContent['price']
         );
 
-        $this->assertEquals(1, $result->id);
-        $this->assertEquals($this->requestContent['lan']->id, $result->lan_id);
-        $this->assertEquals($this->requestContent['name'], $result->name);
-        $this->assertEquals($this->requestContent['tournament_start'], $result->tournament_start);
-        $this->assertEquals($this->requestContent['tournament_end'], $result->tournament_end);
-        $this->assertEquals($this->requestContent['players_to_reach'], $result->players_to_reach);
-        $this->assertEquals($this->requestContent['teams_to_reach'], $result->teams_to_reach);
-        $this->assertEquals($this->requestContent['rules'], $result->rules);
-        $this->assertEquals($this->requestContent['price'], $result->price);
+        $this->seeInDatabase('tournament', [
+            'name' => $this->requestContent['name']
+        ]);
+
+        $this->assertIsInt($result);
     }
 }

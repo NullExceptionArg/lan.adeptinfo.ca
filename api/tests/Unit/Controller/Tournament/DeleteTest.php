@@ -96,15 +96,12 @@ class DeleteTest extends TestCase
             ->json('DELETE', '/api/tournament/' . $this->tournament->id)
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
-                'lan_id' => $this->tournament->lan_id,
                 'name' => $this->tournament->name,
-                'price' => $this->tournament->price,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
                 'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'players_to_reach' => $this->tournament->players_to_reach,
                 'teams_to_reach' => $this->tournament->teams_to_reach,
+                'teams_reached' => 0,
                 'state' => 'hidden',
-                'rules' => $this->tournament->rules
             ])
             ->assertResponseStatus(200);
     }

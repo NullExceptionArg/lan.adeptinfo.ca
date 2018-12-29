@@ -306,4 +306,27 @@ class RoleRepositoryImpl implements RoleRepository
             }
         }
     }
+
+    public function userHasPermission(string $permission, int $userId, int $lanId): bool
+    {
+        $lanPermissions = DB::table('permission')
+            ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
+            ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
+            ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
+            ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
+            ->where('lan_role.lan_id', $lanId)
+            ->where('lan_role_user.user_id', $userId)
+            ->where('permission.name', $permission)
+            ->get();
+
+        $globalPermissions = DB::table('permission')
+            ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
+            ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
+            ->join('global_role_user', 'global_role.id', '=', 'global_role_user.role_id')
+            ->where('global_role_user.user_id', $userId)
+            ->where('permission.name', $permission)
+            ->get();
+
+        return $lanPermissions->merge($globalPermissions)->unique()->count() > 0;
+    }
 }

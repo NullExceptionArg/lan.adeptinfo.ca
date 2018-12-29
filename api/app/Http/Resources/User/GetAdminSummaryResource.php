@@ -10,10 +10,12 @@ use Illuminate\Support\Collection;
 class GetAdminSummaryResource extends Resource
 {
     protected $permissions;
+    protected $hasTournaments;
 
-    public function __construct(Authenticatable $resource, Collection $permissions)
+    public function __construct(Authenticatable $resource, bool $hasTournaments, Collection $permissions)
     {
         $this->permissions = $permissions;
+        $this->hasTournaments = $hasTournaments;
         parent::__construct($resource);
     }
 
@@ -28,6 +30,7 @@ class GetAdminSummaryResource extends Resource
         return [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'has_tournaments' => $this->hasTournaments,
             'permissions' => GetPermissionsResource::collection($this->permissions)
         ];
     }

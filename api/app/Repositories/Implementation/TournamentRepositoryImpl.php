@@ -24,46 +24,18 @@ class TournamentRepositoryImpl implements TournamentRepository
         int $teamsToReach,
         string $rules,
         ?int $price
-    ): Tournament
+    ): int
     {
-        $tournament = new Tournament();
-        $tournament->lan_id = $lan->id;
-        $tournament->name = $name;
-        $tournament->tournament_start = $tournamentStart->format('Y-m-d H:i:s');
-        $tournament->tournament_end = $tournamentEnd->format('Y-m-d H:i:s');
-        $tournament->players_to_reach = $playersToReach;
-        $tournament->teams_to_reach = $teamsToReach;
-        $tournament->rules = $rules;
-        $tournament->price = $price;
-        $tournament->save();
-
-        return $tournament;
-    }
-
-    public function findById(int $id): ?Tournament
-    {
-        return Tournament::find($id);
-    }
-
-    public function associateOrganizerTournament(int $organizerId, int $tournamentId): void
-    {
-        DB::table('organizer_tournament')->insert([
-            'organizer_id' => $organizerId,
-            'tournament_id' => $tournamentId
+        return DB::table('tournament')->insertGetId([
+            'lan_id' => $lan->id,
+            'name' => $name,
+            'tournament_start' => $tournamentStart->format('Y-m-d H:i:s'),
+            'tournament_end' => $tournamentEnd->format('Y-m-d H:i:s'),
+            'players_to_reach' => $playersToReach,
+            'teams_to_reach' => $teamsToReach,
+            'rules' => $rules,
+            'price' => $price
         ]);
-    }
-
-    public function getTournamentForOrganizer(Authenticatable $user, Lan $lan): Collection
-    {
-        $tournamentIds = DB::table('organizer_tournament')
-            ->select('tournament_id')
-            ->where('organizer_id', $user->id)
-            ->pluck('tournament_id')
-            ->toArray();
-
-        return Tournament::where('lan_id', $lan->id)
-            ->whereIn('id', $tournamentIds)
-            ->get();
     }
 
     public function update(
@@ -89,6 +61,37 @@ class TournamentRepositoryImpl implements TournamentRepository
         $tournament->save();
 
         return $tournament;
+    }
+
+    public function findById(int $id): ?Tournament
+    {
+        return Tournament::find($id);
+    }
+
+    public function associateOrganizerTournament(int $organizerId, int $tournamentId): void
+    {
+        DB::table('organizer_tournament')->insert([
+            'organizer_id' => $organizerId,
+            'tournament_id' => $tournamentId
+        ]);
+    }
+
+    public function getTournamentsForOrganizer(Authenticatable $user, Lan $lan): Collection
+    {
+        $tournamentIds = DB::table('organizer_tournament')
+            ->select('tournament_id')
+            ->where('organizer_id', $user->id)
+            ->pluck('tournament_id')
+            ->toArray();
+
+        return Tournament::where('lan_id', $lan->id)
+            ->whereIn('id', $tournamentIds)
+            ->get();
+    }
+
+    public function getAllTournaments(int $lanId): Collection
+    {
+        return Tournament::where('lan_id', $lanId)->get();
     }
 
     public function getReachedTeams(Tournament $tournament): int
@@ -128,5 +131,14 @@ class TournamentRepositoryImpl implements TournamentRepository
     {
         $lanId = Tournament::find($tournamentId);
         return $lanId != null ? $lanId->lan_id : null;
+    }
+
+    public function adminHasTournaments(int $userId, int $lanId): bool
+    {
+        return DB::table('organizer_tournament')
+                ->join('tournament', 'organizer_tournament.tournament_id', '=', 'tournament.id')
+                ->where('organizer_tournament.organizer_id', $userId)
+                ->where('tournament.lan_id', $lanId)
+                ->count() > 0;
     }
 }

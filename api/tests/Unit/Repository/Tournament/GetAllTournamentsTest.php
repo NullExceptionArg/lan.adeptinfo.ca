@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetTournamentForOrganizerTest extends TestCase
+class GetAllTournamentsTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -38,9 +38,9 @@ class GetTournamentForOrganizerTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testGetTournamentForOrganizer(): void
+    public function testGetAllTournaments(): void
     {
-        $result = $this->tournamentRepository->getTournamentsForOrganizer($this->user, $this->lan);
+        $result = $this->tournamentRepository->getAllTournaments($this->lan->id);
 
         $this->assertEquals($this->tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['name']);
