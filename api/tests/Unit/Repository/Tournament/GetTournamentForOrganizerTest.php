@@ -40,7 +40,7 @@ class GetTournamentForOrganizerTest extends TestCase
 
     public function testGetTournamentForOrganizer(): void
     {
-        $result = $this->tournamentRepository->getTournamentForOrganizer($this->user, $this->lan);
+        $result = $this->tournamentRepository->getTournamentsForOrganizer($this->user, $this->lan);
 
         $this->assertEquals($this->tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['name']);
