@@ -5,7 +5,7 @@ namespace Tests\Unit\Controller\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetLanTest extends TestCase
+class GetTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -17,7 +17,7 @@ class GetLanTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetLanSimple(): void
+    public function testGetSimple(): void
     {
         $this->json('GET', '/api/lan', [
             'lan_id' => $this->lan->id
@@ -76,7 +76,7 @@ class GetLanTest extends TestCase
             ->seeStatusCode(200);
     }
 
-    public function testGetLanParameters(): void
+    public function testGetParameters(): void
     {
         $this->json('GET', '/api/lan', [
             'fields' => 'lan_start,lan_end,seat_reservation_start',
@@ -91,7 +91,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanIdExist(): void
+    public function testGetIdExist(): void
     {
 
         $this->json('GET', '/api/lan', [
@@ -109,7 +109,7 @@ class GetLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetLanIdInteger(): void
+    public function testGetIdInteger(): void
     {
         $this->json('GET', '/api/lan', [
             'lan_id' => '☭'

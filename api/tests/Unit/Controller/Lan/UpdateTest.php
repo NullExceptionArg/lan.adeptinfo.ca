@@ -8,7 +8,7 @@ use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class UpdateLanTest extends TestCase
+class UpdateTest extends TestCase
 {
 
     use DatabaseMigrations;
@@ -45,23 +45,16 @@ class UpdateLanTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'edit-lan')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'edit-lan'
+        );
 
         $this->requestContent['lan_id'] = $this->lan->id;
     }
 
-    public function testUpdateLan(): void
+    public function testUpdate(): void
     {
         $this->actingAs($this->user)
             ->json('PUT', '/api/lan', $this->requestContent)
@@ -89,7 +82,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testUpdateLanCurrentLan(): void
+    public function testUpdateCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -135,7 +128,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testUpdateLanHasPermission(): void
+    public function testUpdateHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -148,7 +141,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testUpdateLanPriceDefault(): void
+    public function testUpdatePriceDefault(): void
     {
         $this->requestContent['price'] = '';
         $this->actingAs($this->user)
@@ -178,7 +171,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testUpdateLanNameString(): void
+    public function testUpdateNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
@@ -195,7 +188,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanNameMaxLength(): void
+    public function testUpdateNameMaxLength(): void
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -215,7 +208,7 @@ class UpdateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateLanAfterReservation(): void
+    public function testUpdateAfterReservation(): void
     {
         // Set the lan_start date to one day before reservation
         $newLanStart = (new DateTime($this->requestContent['seat_reservation_start']));
@@ -246,7 +239,7 @@ class UpdateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateLanAfterTournamentStart(): void
+    public function testUpdateAfterTournamentStart(): void
     {
         // Set the lan_start date to one day before tournament start
         $newLanStart = (new DateTime($this->requestContent['tournament_reservation_start']));
@@ -277,7 +270,7 @@ class UpdateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateLanEndAfterLanStart(): void
+    public function testUpdateEndAfterLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanEnd = (new DateTime($this->requestContent['lan_start']));
@@ -301,7 +294,7 @@ class UpdateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateLanSeatReservationBeforeOrEqualLanStart(): void
+    public function testUpdateSeatReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanSeatReservation = (new DateTime($this->requestContent['lan_start']));
@@ -327,7 +320,7 @@ class UpdateLanTest extends TestCase
     /**
      * @throws \Exception
      */
-    public function testUpdateLanTournamentReservationBeforeOrEqualLanStart(): void
+    public function testUpdateTournamentReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
         $newLanTournamentReservation = (new DateTime($this->requestContent['lan_start']));
@@ -350,7 +343,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanEventKeyMaxLength(): void
+    public function testUpdateEventKeyMaxLength(): void
     {
         $this->requestContent['event_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -368,7 +361,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanPublicKeyMaxLength(): void
+    public function testUpdatePublicKeyMaxLength(): void
     {
         $this->requestContent['public_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -385,7 +378,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanSecretKeyMaxLength(): void
+    public function testUpdateSecretKeyMaxLength(): void
     {
         $this->requestContent['secret_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -403,7 +396,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanLatitudeMin(): void
+    public function testUpdateLatitudeMin(): void
     {
         $this->requestContent['latitude'] = -86;
         $this->actingAs($this->user)
@@ -420,7 +413,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanLatitudeMax(): void
+    public function testUpdateLatitudeMax(): void
     {
         $this->requestContent['latitude'] = 86;
         $this->actingAs($this->user)
@@ -437,7 +430,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanLatitudeNumeric(): void
+    public function testUpdateLatitudeNumeric(): void
     {
         $this->requestContent['latitude'] = '☭';
         $this->actingAs($this->user)
@@ -454,7 +447,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanLongitudeMin(): void
+    public function testUpdateLongitudeMin(): void
     {
         $this->requestContent['longitude'] = -181;
         $this->actingAs($this->user)
@@ -471,7 +464,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanLongitudeMax(): void
+    public function testUpdateLongitudeMax(): void
     {
         $this->requestContent['longitude'] = 181;
         $this->actingAs($this->user)
@@ -488,7 +481,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanLongitudeNumeric(): void
+    public function testUpdateLongitudeNumeric(): void
     {
         $this->requestContent['longitude'] = '☭';
         $this->actingAs($this->user)
@@ -505,7 +498,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanPriceMinimum()
+    public function testUpdatePriceMinimum()
     {
         $this->requestContent['price'] = '-1';
         $this->actingAs($this->user)
@@ -522,7 +515,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanPriceInteger(): void
+    public function testUpdatePriceInteger(): void
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
@@ -539,7 +532,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanSecretKey(): void
+    public function testUpdateSecretKey(): void
     {
         $this->requestContent['secret_key'] = '☭';
         $this->actingAs($this->user)
@@ -556,7 +549,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanEventKey(): void
+    public function testUpdateEventKey(): void
     {
         $this->requestContent['event_key'] = '☭';
         $this->actingAs($this->user)
@@ -573,7 +566,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanPlacesMin(): void
+    public function testUpdatePlacesMin(): void
     {
         $this->requestContent['places'] = 0;
         $this->actingAs($this->user)
@@ -590,7 +583,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanPlacesInt(): void
+    public function testUpdatePlacesInt(): void
     {
         $this->requestContent['places'] = '☭';
         $this->actingAs($this->user)
@@ -607,7 +600,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanRulesString(): void
+    public function testUpdateRulesString(): void
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)
@@ -624,7 +617,7 @@ class UpdateLanTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUpdateLanDescriptionString(): void
+    public function testUpdateDescriptionString(): void
     {
         $this->requestContent['description'] = 1;
         $this->actingAs($this->user)

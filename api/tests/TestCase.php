@@ -23,17 +23,31 @@ abstract class TestCase extends BaseTestCase
         $this->artisan('lan:permissions');
     }
 
-    public function addLanPermissionToUser(int $userId, int $lanId, string $permission)
+    public function addLanPermissionToUser(int $userId, int $lanId, string $permissionName)
     {
         $role = factory('App\Model\LanRole')->create([
             'lan_id' => $lanId
         ]);
-        $permission = Permission::where('name', $permission)->first();
+        $permission = Permission::where('name', $permissionName)->first();
         factory('App\Model\PermissionLanRole')->create([
             'role_id' => $role->id,
             'permission_id' => $permission->id
         ]);
         factory('App\Model\LanRoleUser')->create([
+            'role_id' => $role->id,
+            'user_id' => $userId
+        ]);
+    }
+
+    public function addGlobalPermissionToUser(int $userId, string $permissionName)
+    {
+        $role = factory('App\Model\GlobalRole')->create();
+        $permission = Permission::where('name', $permissionName)->first();
+        factory('App\Model\PermissionGlobalRole')->create([
+            'role_id' => $role->id,
+            'permission_id' => $permission->id
+        ]);
+        factory('App\Model\GlobalRoleUser')->create([
             'role_id' => $role->id,
             'user_id' => $userId
         ]);

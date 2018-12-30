@@ -7,7 +7,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class ManyImageIdsExist implements Rule
 {
-
     protected $badImageIds = [];
 
     /**

@@ -1,8 +1,7 @@
 <?php
 
-namespace Tests\Unit\Controller\Image;
+namespace Tests\Unit\Controller\Lan;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -24,18 +23,11 @@ class addImageTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'add-image')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'add-image'
+        );
 
         $this->requestContent['image'] = factory('App\Model\Image')->make([
             'lan_id' => $this->lan->id
@@ -46,11 +38,10 @@ class addImageTest extends TestCase
     public function testAddImage(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/image', $this->requestContent)
+            ->json('POST', '/api/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'image' => $this->requestContent['image'],
-                'lan_id' => $this->lan->id
+                'image' => $this->requestContent['image']
             ])
             ->assertResponseStatus(201);
     }
@@ -61,26 +52,18 @@ class addImageTest extends TestCase
             'is_current' => true
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'add-image')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $lan->id,
+            'add-image'
+        );
 
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/image', $this->requestContent)
+            ->json('POST', '/api/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'image' => $this->requestContent['image'],
-                'lan_id' => $lan->id
+                'image' => $this->requestContent['image']
             ])
             ->assertResponseStatus(201);
     }
@@ -89,7 +72,7 @@ class addImageTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/image', $this->requestContent)
+            ->json('POST', '/api/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -102,7 +85,7 @@ class addImageTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/image', $this->requestContent)
+            ->json('POST', '/api/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -119,7 +102,7 @@ class addImageTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/image', $this->requestContent)
+            ->json('POST', '/api/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -136,7 +119,7 @@ class addImageTest extends TestCase
     {
         $this->requestContent['image'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/image', $this->requestContent)
+            ->json('POST', '/api/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -153,7 +136,7 @@ class addImageTest extends TestCase
     {
         $this->requestContent['image'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/image', $this->requestContent)
+            ->json('POST', '/api/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

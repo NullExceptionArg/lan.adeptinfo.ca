@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repository\Lan;
+namespace Tests\Unit\Service\Lan;
 
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
@@ -10,11 +10,13 @@ class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $lanRepository;
+    protected $lanService;
 
     protected $lan;
+    protected $user;
 
     protected $paramsContent = [
+        'lan_id' => null,
         'name' => "Bolshevik Revolution",
         'lan_start' => "2100-10-11 12:00:00",
         'lan_end' => "2100-10-12 12:00:00",
@@ -24,7 +26,7 @@ class UpdateTest extends TestCase
         "public_key" => "",
         "secret_key" => "",
         "latitude" => -67.5,
-        "longitude" => 64.0333330,
+        "longitude" => 64.033333,
         "places" => 10,
         "price" => 0,
         "rules" => '☭',
@@ -34,20 +36,28 @@ class UpdateTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+        $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
 
         $this->paramsContent['event_key'] = env('EVENT_KEY');
         $this->paramsContent['secret_key'] = env('SECRET_KEY');
         $this->paramsContent['public_key'] = env('PUBLIC_KEY');
 
+        $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'edit-lan'
+        );
+
+        $this->paramsContent['lan_id'] = $this->lan->id;
     }
 
     public function testUpdate(): void
     {
-        $this->lanRepository->update(
-            $this->lan->id,
+        $result = $this->lanService->update(
+            $this->paramsContent['lan_id'],
             $this->paramsContent['name'],
             Carbon::parse($this->paramsContent['lan_start']),
             Carbon::parse($this->paramsContent['lan_end']),
@@ -63,21 +73,20 @@ class UpdateTest extends TestCase
             $this->paramsContent['rules'],
             $this->paramsContent['description']
         );
-        $this->seeInDatabase('lan', [
-            'name' => $this->paramsContent['name'],
-            'lan_start' => $this->paramsContent['lan_start'],
-            'lan_end' => $this->paramsContent['lan_end'],
-            'seat_reservation_start' => $this->paramsContent['seat_reservation_start'],
-            'tournament_reservation_start' => $this->paramsContent['tournament_reservation_start'],
-            'event_key' => $this->paramsContent['event_key'],
-            'public_key' => $this->paramsContent['public_key'],
-            'secret_key' => $this->paramsContent['secret_key'],
-            'latitude' => $this->paramsContent['latitude'],
-            'longitude' => $this->paramsContent['longitude'],
-            'places' => $this->paramsContent['places'],
-            'price' => $this->paramsContent['price'],
-            'rules' => $this->paramsContent['rules'],
-            'description' => $this->paramsContent['description'],
-        ]);
+
+        $this->assertEquals($this->paramsContent['name'], $result->name);
+        $this->assertEquals($this->paramsContent['lan_start'], $result->lan_start);
+        $this->assertEquals($this->paramsContent['lan_end'], $result->lan_end);
+        $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
+        $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
+        $this->assertEquals($this->paramsContent['event_key'], $result->event_key);
+        $this->assertEquals($this->paramsContent['public_key'], $result->public_key);
+        $this->assertEquals($this->paramsContent['secret_key'], $result->secret_key);
+        $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
+        $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
+        $this->assertEquals($this->paramsContent['places'], $result->places);
+        $this->assertEquals($this->paramsContent['price'], $result->price);
+        $this->assertEquals($this->paramsContent['rules'], $result->rules);
+        $this->assertEquals($this->paramsContent['description'], $result->description);
     }
 }

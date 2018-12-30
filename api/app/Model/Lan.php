@@ -43,13 +43,16 @@ class Lan extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at',
+        'created_at', 'updated_at', 'deleted_at'
     ];
 
     protected $casts = [
         'price' => 'integer',
         'places' => 'integer',
-        'id' => 'integer'
+        'id' => 'integer',
+        'is_current' => 'boolean',
+        'latitude' => 'float',
+        'longitude' => 'float'
     ];
 
     protected $fillable = [
@@ -76,7 +79,7 @@ class Lan extends Model
         return $this->hasMany(Image::class);
     }
 
-    public static function getCurrentLan(): ?Lan
+    public static function getCurrent(): ?Lan
     {
         return Lan::where('is_current', true)->first();
     }

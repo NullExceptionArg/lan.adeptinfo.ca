@@ -6,16 +6,35 @@ use App\Model\Lan;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 
+/**
+ * @property mixed id
+ * @property mixed name
+ * @property mixed lan_start
+ * @property mixed lan_end
+ * @property mixed seat_reservation_start
+ * @property mixed tournament_reservation_start
+ * @property mixed secret_key
+ * @property mixed event_key
+ * @property mixed public_key
+ * @property mixed places
+ * @property mixed longitude
+ * @property mixed latitude
+ * @property mixed price
+ * @property mixed rules
+ * @property mixed description
+ */
 class GetResource extends Resource
 {
 
     protected $reservedPlaces;
     protected $images;
+    protected $fields;
 
-    public function __construct(Lan $resource, int $reservedPlaces, Collection $images)
+    public function __construct(Lan $resource, int $reservedPlaces, Collection $images, ?string $fields)
     {
         $this->reservedPlaces = $reservedPlaces;
         $this->images = $images;
+        $this->fields = $fields;
         parent::__construct($resource);
     }
 
@@ -27,8 +46,8 @@ class GetResource extends Resource
      */
     public function toArray($request)
     {
-        $fields = explode(',', $request->input('fields'));
-        if (substr_count($request->input('fields'), ',') == 0) {
+        $fields = explode(',', $this->fields);
+        if (substr_count($this->fields, ',') == 0) {
             return [
                 'id' => $this->id,
                 'name' => $this->name,

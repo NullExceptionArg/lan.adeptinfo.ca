@@ -28,8 +28,6 @@ class CreateCategoryTest extends TestCase
             $this->lan->id,
             'create-contribution-category'
         );
-
-        $this->be($this->user);
     }
 
     public function testCreateCategory(): void

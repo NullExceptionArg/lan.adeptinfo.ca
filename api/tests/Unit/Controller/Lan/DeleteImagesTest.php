@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Controller\Image;
+namespace Tests\Unit\Controller\Lan;
 
 use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
@@ -31,26 +31,19 @@ class DeleteImagesTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'delete-image')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'delete-image'
+        );
     }
 
     public function testDeleteImages(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/image', [
+            ->json('DELETE', '/api/lan/image', [
                 'lan_id' => $this->lan->id,
-                'images_id' => $this->image1->id . ',' . $this->image2->id
+                'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
             ->seeJsonEquals([
                 $this->image1->id,
@@ -63,9 +56,9 @@ class DeleteImagesTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/image', [
+            ->json('DELETE', '/api/lan/image', [
                 'lan_id' => $this->lan->id,
-                'images_id' => $this->image1->id . ',' . $this->image2->id
+                'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -101,8 +94,8 @@ class DeleteImagesTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/image', [
-                'images_id' => $image1->id . ',' . $image2->id
+            ->json('DELETE', '/api/lan/image', [
+                'image_ids' => $image1->id . ',' . $image2->id
             ])
             ->seeJsonEquals([
                 $image1->id,
@@ -114,9 +107,9 @@ class DeleteImagesTest extends TestCase
     public function testDeleteImagesLanIdExists(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/image', [
+            ->json('DELETE', '/api/lan/image', [
                 'lan_id' => -1,
-                'images_id' => $this->image1->id . ',' . $this->image2->id
+                'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -133,9 +126,9 @@ class DeleteImagesTest extends TestCase
     public function testDeleteImagesLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/image', [
+            ->json('DELETE', '/api/lan/image', [
                 'lan_id' => '☭',
-                'images_id' => $this->image1->id . ',' . $this->image2->id
+                'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -152,16 +145,16 @@ class DeleteImagesTest extends TestCase
     public function testDeleteImagesImagesIdString(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/image', [
+            ->json('DELETE', '/api/lan/image', [
                 'lan_id' => $this->lan->id,
-                'images_id' => -1
+                'image_ids' => -1
             ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'images_id' => [
-                        0 => 'The images id must be a string.',
+                    'image_ids' => [
+                        0 => 'The image ids must be a string.',
                     ],
                 ]
             ])

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repository\Image;
+namespace Tests\Unit\Repository\Lan;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -17,7 +17,7 @@ class CreateImageForLanTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->lanRepository = $this->app->make('App\Repositories\Implementation\ImageRepositoryImpl');
+        $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->image = factory('App\Model\Image')->make([
@@ -27,10 +27,9 @@ class CreateImageForLanTest extends TestCase
 
     public function testCreateImageForLan(): void
     {
-        $image = $this->lanRepository->createImageForLan($this->lan->id, $this->image->image);
+        $result = $this->lanRepository->createImageForLan($this->lan->id, $this->image->image);
 
-        $this->assertEquals($this->image->image, $image->image);
-        $this->assertEquals($this->image->lan_id, $image->lan_id);
+        $this->assertEquals(1, $result);
 
         $this->seeInDatabase('image', [
             'image' => $this->image->image,

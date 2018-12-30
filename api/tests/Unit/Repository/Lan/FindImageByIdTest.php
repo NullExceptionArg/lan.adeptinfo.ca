@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repository\Image;
+namespace Tests\Unit\Repository\Lan;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -17,7 +17,7 @@ class FindImageByIdTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->lanRepository = $this->app->make('App\Repositories\Implementation\ImageRepositoryImpl');
+        $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->image = factory('App\Model\Image')->create([

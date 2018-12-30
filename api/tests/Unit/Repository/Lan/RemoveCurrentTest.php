@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class RemoveCurrentLanTest extends TestCase
+class RemoveCurrentTest extends TestCase
 {
     use DatabaseMigrations;
 
