@@ -28,8 +28,6 @@ class DeleteContributionTest extends TestCase
             $this->lan->id,
             'delete-contribution'
         );
-
-        $this->be($this->user);
     }
 
     public function testDeleteContributionUserEmail(): void

@@ -7,30 +7,25 @@ use App\Http\Resources\Contribution\ContributionResource;
 use App\Http\Resources\Contribution\GetContributionsResource;
 use App\Model\ContributionCategory;
 use App\Repositories\Implementation\ContributionRepositoryImpl;
-use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\ContributionService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class ContributionServiceImpl implements ContributionService
 {
-    protected $lanRepository;
     protected $contributionRepository;
     protected $userRepository;
 
     /**
      * LanServiceImpl constructor.
-     * @param LanRepositoryImpl $lanRepositoryImpl
      * @param ContributionRepositoryImpl $contributionRepository
      * @param UserRepositoryImpl $userRepository
      */
     public function __construct(
-        LanRepositoryImpl $lanRepositoryImpl,
         ContributionRepositoryImpl $contributionRepository,
         UserRepositoryImpl $userRepository
     )
     {
-        $this->lanRepository = $lanRepositoryImpl;
         $this->contributionRepository = $contributionRepository;
         $this->userRepository = $userRepository;
     }

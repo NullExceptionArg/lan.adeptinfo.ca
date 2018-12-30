@@ -31,8 +31,6 @@ class CreateContributionTest extends TestCase
             $this->lan->id,
             'create-contribution'
         );
-
-        $this->be($this->user);
     }
 
     public function testCreateContributionUserFullName(): void

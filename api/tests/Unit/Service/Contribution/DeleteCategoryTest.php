@@ -33,8 +33,6 @@ class DeleteCategoryTest extends TestCase
             $this->lan->id,
             'delete-contribution-category'
         );
-
-        $this->be($this->user);
     }
 
     public function testDeleteCategorySimple(): void

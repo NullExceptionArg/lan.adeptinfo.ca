@@ -26,8 +26,8 @@ $api->version('v1', function ($api) {
             $api->get('user/confirm/{confirmation_code}', 'UserController@confirm');
             $api->post('user/google', 'UserController@signInGoogle');
 
-            $api->get('lan', 'LanController@getLan');
-            $api->get('lan/all', 'LanController@getAllLan');
+            $api->get('lan', 'LanController@get');
+            $api->get('lan/all', 'LanController@getAll');
 
             $api->get('contribution/category', 'ContributionController@getCategories');
             $api->get('contribution', 'ContributionController@getContributions');
@@ -69,9 +69,11 @@ $api->version('v1', function ($api) {
                 $api->post('user/details', 'UserController@getUserDetails');
 
                 // Admin
-                $api->post('lan', 'LanController@createLan');
-                $api->post('lan/current', 'LanController@setCurrentLan');
-                $api->put('lan', 'LanController@edit');
+                $api->post('lan', 'LanController@create');
+                $api->post('lan/current', 'LanController@setCurrent');
+                $api->put('lan', 'LanController@update');
+                $api->post('lan/image', 'LanController@addImage');
+                $api->delete('lan/image', 'LanController@deleteImages');
 
                 $api->post('contribution/category', 'ContributionController@createCategory');
                 $api->delete('contribution/category', 'ContributionController@deleteCategory');
@@ -82,9 +84,6 @@ $api->version('v1', function ($api) {
                 $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
                 $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
                 $api->delete('seat/assign/{seat_id}', 'SeatController@unAssignSeat');
-
-                $api->post('image', 'ImageController@addImage');
-                $api->delete('image', 'ImageController@deleteImages');
 
                 $api->post('tournament', 'TournamentController@createTournament');
                 $api->put('tournament/{tournament_id}', 'TournamentController@edit');
