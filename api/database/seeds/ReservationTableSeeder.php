@@ -18,7 +18,7 @@ class ReservationTableSeeder extends Seeder
     {
         $seatsClient = new SeatsioClient(env('SECRET_KEY'));
 
-        $mscdt = new MiscData();
+        $mscdt = include(base_path() . '/database/seats.php');
         $places = $mscdt->getSeatData();
         $users = User::all();
         $lans = Lan::all();

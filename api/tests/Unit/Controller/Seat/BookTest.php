@@ -7,7 +7,7 @@ use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Tests\SeatsTestCase;
 
-class BookSeatTest extends SeatsTestCase
+class BookTest extends SeatsTestCase
 {
     use DatabaseMigrations;
 
@@ -21,7 +21,7 @@ class BookSeatTest extends SeatsTestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testBookSeat(): void
+    public function testBook(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/seat/book/' . env('SEAT_ID'), [
@@ -34,7 +34,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(201);
     }
 
-    public function testBookSeatCurrentLan(): void
+    public function testBookCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -66,7 +66,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatIdExist()
+    public function testBookIdExist()
     {
         $badSeatId = '☭';
         $this->actingAs($this->user)
@@ -85,7 +85,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatAvailable()
+    public function testBookAvailable()
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key);
         $seatsClient->events->book($this->lan->event_key, [env('SEAT_ID')]);
@@ -106,7 +106,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatUniqueUserInLan()
+    public function testBookUniqueUserInLan()
     {
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;
@@ -130,7 +130,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatOnceInLan()
+    public function testBookOnceInLan()
     {
         $otherUser = factory('App\Model\User')->create();
         $reservation = new Reservation();
@@ -155,7 +155,7 @@ class BookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatLanIdInteger()
+    public function testBookLanIdInteger()
     {
         $badLanId = '☭';
         $this->actingAs($this->user)

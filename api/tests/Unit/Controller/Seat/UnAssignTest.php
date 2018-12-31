@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Controller\Seat;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\SeatsTestCase;
 
-class UnAssignSeatTest extends SeatsTestCase
+class UnAssignTest extends SeatsTestCase
 {
     use DatabaseMigrations;
 
@@ -26,21 +25,14 @@ class UnAssignSeatTest extends SeatsTestCase
         $this->admin = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'unassign-seat')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->admin->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->admin->id,
+            $this->lan->id,
+            'unassign-seat'
+        );
     }
 
-    public function testUnAssignSeat(): void
+    public function testUnAssign(): void
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
@@ -58,23 +50,18 @@ class UnAssignSeatTest extends SeatsTestCase
             ->assertResponseStatus(200);
     }
 
-    public function testUnAssignSeatCurrentLan(): void
+    public function testUnAssignCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'unassign-seat')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->admin->id
-        ]);
+
+        $this->addLanPermissionToUser(
+            $this->admin->id,
+            $lan->id,
+            'unassign-seat'
+        );
+
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
             'lan_id' => $lan->id
@@ -90,7 +77,7 @@ class UnAssignSeatTest extends SeatsTestCase
             ->assertResponseStatus(200);
     }
 
-    public function testUnAssignSeatHasPermission(): void
+    public function testUnAssignHasPermission(): void
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
@@ -106,7 +93,7 @@ class UnAssignSeatTest extends SeatsTestCase
             ->assertResponseStatus(403);
     }
 
-    public function testUnAssignSeatLanIdExist()
+    public function testUnAssignLanIdExist()
     {
         $badLanId = -1;
         factory('App\Model\Reservation')->create([
@@ -130,7 +117,7 @@ class UnAssignSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnAssignSeatIdExist()
+    public function testUnAssignIdExist()
     {
         $badSeatId = '☭';
         $this->actingAs($this->admin)
@@ -151,7 +138,7 @@ class UnAssignSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnAssignSeatLanIdInteger()
+    public function testUnAssignLanIdInteger()
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
@@ -174,7 +161,7 @@ class UnAssignSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnAssignSeatEmailExists()
+    public function testUnAssignEmailExists()
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,

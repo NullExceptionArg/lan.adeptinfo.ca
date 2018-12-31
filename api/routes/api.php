@@ -44,8 +44,8 @@ $api->version('v1', function ($api) {
             $api->group(['namespace' => 'App\Http\Controllers'], function ($api) {
 
                 // User
-                $api->post('seat/book/{seat_id}', 'SeatController@bookSeat');
-                $api->delete('seat/book/{seat_id}', 'SeatController@unBookSeat');
+                $api->post('seat/book/{seat_id}', 'SeatController@book');
+                $api->delete('seat/book/{seat_id}', 'SeatController@unBook');
 
                 $api->post('team', 'TeamController@createTeam');
                 $api->post('team/request', 'TeamController@createRequest');
@@ -82,8 +82,8 @@ $api->version('v1', function ($api) {
 
                 $api->post('seat/confirm/{seat_id}', 'SeatController@confirmArrival');
                 $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
-                $api->post('seat/assign/{seat_id}', 'SeatController@assignSeat');
-                $api->delete('seat/assign/{seat_id}', 'SeatController@unAssignSeat');
+                $api->post('seat/assign/{seat_id}', 'SeatController@assign');
+                $api->delete('seat/assign/{seat_id}', 'SeatController@unAssign');
 
                 $api->post('tournament', 'TournamentController@createTournament');
                 $api->put('tournament/{tournament_id}', 'TournamentController@update');

@@ -2,21 +2,19 @@
 
 namespace App\Services;
 
-
 use App\Model\Reservation;
-use Illuminate\Http\Request;
 
 interface SeatService
 {
-    public function book(Request $request, string $seatId): Reservation;
+    public function assign(int $lanId, string $email, string $seatId): Reservation;
 
-    public function confirmArrival(Request $request, string $seatId): Reservation;
+    public function book(int $lanId, string $seatId): Reservation;
 
-    public function unConfirmArrival(Request $request, string $seatId): Reservation;
+    public function confirmArrival(int $lanId, string $seatId): Reservation;
 
-    public function assign(Request $request, string $seatId): Reservation;
+    public function unAssign(int $lanId, string $email, string $seatId): Reservation;
 
-    public function unBook(Request $input, string $seatId): Reservation;
+    public function unBook(int $lanId, string $seatId): Reservation;
 
-    public function unAssign(Request $input, string $seatId): Reservation;
+    public function unConfirmArrival(int $lanId, string $seatId): Reservation;
 }

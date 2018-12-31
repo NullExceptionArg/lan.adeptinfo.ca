@@ -36,7 +36,9 @@ class SetReservationLeftTest extends TestCase
             'seat_id' => $this->reservation->seat_id,
             'left_at' => null
         ]);
-        $this->seatRepository->setReservationLeft($this->reservation);
+
+        $this->seatRepository->setReservationLeft($this->reservation, $this->lan->id);
+
         $this->seeInDatabase('reservation', [
             'lan_id' => $this->reservation->lan_id,
             'user_id' => $this->reservation->user_id,

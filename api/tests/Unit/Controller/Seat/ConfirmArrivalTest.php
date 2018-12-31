@@ -21,18 +21,11 @@ class ConfirmArrivalTest extends SeatsTestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'confirm-arrival')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'confirm-arrival'
+        );
     }
 
     public function testConfirmArrival(): void
@@ -77,19 +70,11 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $lan->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-
-        $permission = Permission::where('name', 'confirm-arrival')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $lan->id,
+            'confirm-arrival'
+        );
 
         $this->actingAs($this->user)
             ->json('POST', '/api/seat/confirm/' . env('SEAT_ID'))

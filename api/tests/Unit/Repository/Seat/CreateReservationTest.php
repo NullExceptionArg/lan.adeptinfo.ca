@@ -14,10 +14,6 @@ class CreateReservationTest extends SeatsTestCase
     protected $user;
     protected $lan;
 
-    protected $paramsContent = [
-        'seat_id' => "A-1"
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -32,7 +28,7 @@ class CreateReservationTest extends SeatsTestCase
         $this->seeInDatabase('reservation', [
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'seat_id' => $this->paramsContent['seat_id']
+            'seat_id' => env('SEAT_ID')
         ]);
     }
 }

@@ -5,7 +5,7 @@ namespace Tests\Unit\Controller\Seat;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\SeatsTestCase;
 
-class UnBookSeatTest extends SeatsTestCase
+class UnBookTest extends SeatsTestCase
 {
     use DatabaseMigrations;
 
@@ -19,7 +19,7 @@ class UnBookSeatTest extends SeatsTestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testUnBookSeat(): void
+    public function testUnBook(): void
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
@@ -36,7 +36,7 @@ class UnBookSeatTest extends SeatsTestCase
             ->assertResponseStatus(200);
     }
 
-    public function testUnBookSeatCurrentLan(): void
+    public function testUnBookCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -76,7 +76,7 @@ class UnBookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnBookSeatIdExist()
+    public function testUnBookIdExist()
     {
         $badSeatId = '☭';
         factory('App\Model\Reservation')->create([
@@ -100,7 +100,7 @@ class UnBookSeatTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnBookSeatLanIdInteger()
+    public function testUnBookLanIdInteger()
     {
         $badLanId = '☭';
         factory('App\Model\Reservation')->create([

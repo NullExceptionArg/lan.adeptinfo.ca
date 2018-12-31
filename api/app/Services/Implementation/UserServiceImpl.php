@@ -186,8 +186,8 @@ class UserServiceImpl implements UserService
             $lan = $this->lanRepository->findById($input->input('lan_id'));
         }
 
-        $currentSeat = $this->seatRepository->getCurrentSeat($user, $lan);
-        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user, $lan);
+        $currentSeat = $this->seatRepository->getCurrentSeat($user->id, $lan->id);
+        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user->id, $lan->id);
 
         return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
     }

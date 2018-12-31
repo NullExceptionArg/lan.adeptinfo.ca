@@ -79,13 +79,13 @@ class getTest extends TestCase
         $this->reservation = new Reservation();
         $this->reservation->user_id = $this->user2->id;
         $this->reservation->lan_id = $this->lan->id;
-        $this->reservation->seat_id = 'A-1';
+        $this->reservation->seat_id = env('SEAT_ID');
         $this->reservation->save();
 
         $this->reservation2 = new Reservation();
         $this->reservation2->user_id = $this->user3->id;
         $this->reservation2->lan_id = $this->lan->id;
-        $this->reservation2->seat_id = 'A-2';
+        $this->reservation2->seat_id = env('SEAT_ID_2');
         $this->reservation2->save();
     }
 

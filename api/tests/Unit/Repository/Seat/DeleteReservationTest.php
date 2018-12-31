@@ -36,7 +36,7 @@ class DeleteReservationTest extends SeatsTestCase
             'seat_id' => $this->reservation->seat_id
         ]);
 
-        $this->seatRepository->deleteReservation($this->reservation);
+        $this->seatRepository->deleteReservation($this->reservation->id);
 
         $reservation = Reservation::onlyTrashed()->first();
         $this->assertEquals($this->reservation->lan_id, $reservation->lan_id);
