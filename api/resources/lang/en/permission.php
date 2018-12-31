@@ -46,8 +46,8 @@ return [
 
     'display-name-create-lan-role' => 'Create a new LAN role',
     'description-create-lan-role' => 'Create a new LAN role.',
-    'display-name-edit-lan-role' => 'Modify a role of a LAN',
-    'description-edit-lan-role' => 'Modify a role of a LAN.',
+    'display-name-update-lan-role' => 'Modify a role of a LAN',
+    'description-update-lan-role' => 'Modify a role of a LAN.',
     'display-name-add-permissions-lan-role' => 'Add permissions to a global role',
     'description-add-permissions-lan-role' => 'Add permissions to a global role.',
     'display-name-delete-permissions-lan-role' => 'Remove a permission from a LAN role',
@@ -65,8 +65,8 @@ return [
 
     'display-name-create-global-role' => 'Create a new global role',
     'description-create-global-role' => 'Create a new global role.',
-    'display-name-edit-global-role' => 'Modify a global role',
-    'description-edit-global-role' => 'Modify a global role.',
+    'display-name-update-global-role' => 'Modify a global role',
+    'description-update-global-role' => 'Modify a global role.',
     'display-name-add-permissions-global-role' => 'Add permissions to a global role',
     'description-add-permissions-global-role' => 'Add permissions to a global role.',
     'display-name-delete-permissions-global-role' => 'Remove a permission from a global role',

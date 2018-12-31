@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Controller\Role;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class EditGlobalRoleTest extends TestCase
+class UpdateGlobalRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -28,22 +27,15 @@ class EditGlobalRoleTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->globalRole = factory('App\Model\GlobalRole')->create();
-
-        $role = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'edit-global-role')->first();
-        factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\GlobalRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addGlobalPermissionToUser(
+            $this->user->id,
+            'update-global-role'
+        );
         
         $this->requestContent['role_id'] = $this->globalRole->id;
     }
 
-    public function testEditGlobalRole(): void
+    public function testUpdateGlobalRole(): void
     {
         $this->actingAs($this->user)
             ->json('PUT', '/api/role/global', $this->requestContent)
@@ -57,7 +49,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testEditGlobalRoleLanHasPermission(): void
+    public function testUpdateGlobalRoleLanHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -70,7 +62,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testEditGlobalRoleRoleIdRequired(): void
+    public function testUpdateGlobalRoleRoleIdRequired(): void
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
@@ -87,7 +79,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleRoleIdExist(): void
+    public function testUpdateGlobalRoleRoleIdExist(): void
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
@@ -104,7 +96,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleNameString(): void
+    public function testUpdateGlobalRoleNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
@@ -121,7 +113,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleNameMaxLength(): void
+    public function testUpdateGlobalRoleNameMaxLength(): void
     {
         $this->requestContent['name'] = str_repeat('☭', 51);
         $this->actingAs($this->user)
@@ -138,7 +130,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleNameUnique(): void
+    public function testUpdateGlobalRoleNameUnique(): void
     {
         factory('App\Model\GlobalRole')->create([
             'name' => $this->requestContent['name']
@@ -157,7 +149,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleEnDisplayNameString(): void
+    public function testUpdateGlobalRoleEnDisplayNameString(): void
     {
         $this->requestContent['en_display_name'] = 1;
         $this->actingAs($this->user)
@@ -174,7 +166,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleEnDisplayNameMaxLength(): void
+    public function testUpdateGlobalRoleEnDisplayNameMaxLength(): void
     {
         $this->requestContent['en_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
@@ -191,7 +183,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleEnDescriptionString(): void
+    public function testUpdateGlobalRoleEnDescriptionString(): void
     {
         $this->requestContent['en_description'] = 1;
         $this->actingAs($this->user)
@@ -208,7 +200,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleEnDescriptionMaxLength(): void
+    public function testUpdateGlobalRoleEnDescriptionMaxLength(): void
     {
         $this->requestContent['en_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
@@ -225,7 +217,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleFrDisplayNameString(): void
+    public function testUpdateGlobalRoleFrDisplayNameString(): void
     {
         $this->requestContent['fr_display_name'] = 1;
         $this->actingAs($this->user)
@@ -242,7 +234,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleFrDisplayNameMaxLength(): void
+    public function testUpdateGlobalRoleFrDisplayNameMaxLength(): void
     {
         $this->requestContent['fr_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
@@ -259,7 +251,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleFrDescriptionString(): void
+    public function testUpdateGlobalRoleFrDescriptionString(): void
     {
         $this->requestContent['fr_description'] = 1;
         $this->actingAs($this->user)
@@ -276,7 +268,7 @@ class EditGlobalRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditGlobalRoleFrDescriptionMaxLength(): void
+    public function testUpdateGlobalRoleFrDescriptionMaxLength(): void
     {
         $this->requestContent['fr_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)

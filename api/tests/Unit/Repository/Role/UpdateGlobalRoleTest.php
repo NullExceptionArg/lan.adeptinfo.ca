@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Role;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class EditGlobalRoleTest extends TestCase
+class UpdateGlobalRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -31,7 +31,7 @@ class EditGlobalRoleTest extends TestCase
         $this->globalRole = factory('App\Model\GlobalRole')->create();
     }
 
-    public function testEditGlobalRole(): void
+    public function testUpdateGlobalRole(): void
     {
         $this->seeInDatabase('global_role', [
             'name' => $this->globalRole->name,
@@ -41,8 +41,8 @@ class EditGlobalRoleTest extends TestCase
             'fr_description' => $this->globalRole->fr_description
         ]);
 
-        $this->roleRepository->editGlobalRole(
-            $this->globalRole,
+        $this->roleRepository->updateGlobalRole(
+            $this->globalRole->id,
             $this->paramsContent['name'],
             $this->paramsContent['en_display_name'],
             $this->paramsContent['en_description'],

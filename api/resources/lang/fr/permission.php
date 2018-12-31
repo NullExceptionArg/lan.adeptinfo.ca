@@ -45,8 +45,8 @@ return [
 
     'display-name-create-lan-role' => 'Créer un nouveau rôle de LAN',
     'description-create-lan-role' => 'Créer un nouveau rôle de LAN.',
-    'display-name-edit-lan-role' => 'Modifier un rôle de LAN',
-    'description-edit-lan-role' => 'Modifier un rôle de LAN.',
+    'display-name-update-lan-role' => 'Modifier un rôle de LAN',
+    'description-update-lan-role' => 'Modifier un rôle de LAN.',
     'display-name-add-permissions-lan-role' => 'Ajouter des permissions à un rôle global',
     'description-add-permissions-lan-role' => 'Ajouter des permissionsà un rôle global.',
     'display-name-delete-permissions-lan-role' => 'Supprimer une permission d\'un rôle de LAN',
@@ -64,8 +64,8 @@ return [
 
     'display-name-create-global-role' => 'Créer un nouveau rôle global',
     'description-create-global-role' => 'Créer un nouveau rôle global.',
-    'display-name-edit-global-role' => 'Modifier un rôle global',
-    'description-edit-global-role' => 'Modifier un rôle global.',
+    'display-name-update-global-role' => 'Modifier un rôle global',
+    'description-update-global-role' => 'Modifier un rôle global.',
     'display-name-add-permissions-global-role' => 'Ajouter des permissions à un rôle global',
     'description-add-permissions-global-role' => 'Ajouter des permissionsà un rôle global.',
     'display-name-delete-permissions-global-role' => 'Supprimer une permission d\'un rôle global',

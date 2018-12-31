@@ -33,16 +33,10 @@ class GetGlobalRolePermissionsTest extends TestCase
             ]);
         }
 
-        $this->accessRole = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'get-global-role-permissions')->first();
-        factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $this->accessRole->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\GlobalRoleUser')->create([
-            'role_id' => $this->accessRole->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addGlobalPermissionToUser(
+            $this->user->id,
+            'get-global-role-permissions'
+        );
     }
 
     public function testGetGlobalRolePermissions(): void

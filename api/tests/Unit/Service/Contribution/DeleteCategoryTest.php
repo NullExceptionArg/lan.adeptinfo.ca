@@ -27,12 +27,6 @@ class DeleteCategoryTest extends TestCase
         $this->category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $this->lan->id
         ]);
-
-        $this->addLanPermissionToUser(
-            $this->user->id,
-            $this->lan->id,
-            'delete-contribution-category'
-        );
     }
 
     public function testDeleteCategorySimple(): void

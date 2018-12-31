@@ -35,7 +35,7 @@ return [
 
     // Lan roles
     ['name' => 'create-lan-role', 'can_be_per_lan' => true],
-    ['name' => 'edit-lan-role', 'can_be_per_lan' => true],
+    ['name' => 'update-lan-role', 'can_be_per_lan' => true],
     ['name' => 'add-permissions-lan-role', 'can_be_per_lan' => true],
     ['name' => 'delete-permissions-lan-role', 'can_be_per_lan' => true],
     ['name' => 'delete-lan-role', 'can_be_per_lan' => true],
@@ -46,7 +46,7 @@ return [
 
     // Global roles
     ['name' => 'create-global-role', 'can_be_per_lan' => false],
-    ['name' => 'edit-global-role', 'can_be_per_lan' => false],
+    ['name' => 'update-global-role', 'can_be_per_lan' => false],
     ['name' => 'add-permissions-global-role', 'can_be_per_lan' => false],
     ['name' => 'delete-permissions-global-role', 'can_be_per_lan' => false],
     ['name' => 'delete-global-role', 'can_be_per_lan' => false],

@@ -22,12 +22,6 @@ class CreateCategoryTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->user = factory('App\Model\User')->create();
-
-        $this->addLanPermissionToUser(
-            $this->user->id,
-            $this->lan->id,
-            'create-contribution-category'
-        );
     }
 
     public function testCreateCategory(): void

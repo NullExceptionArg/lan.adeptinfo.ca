@@ -41,11 +41,6 @@ class CreateTest extends TestCase
         $this->paramsContent['public_key'] = env('PUBLIC_KEY');
 
         $this->user = factory('App\Model\User')->create();
-
-        $this->addGlobalPermissionToUser(
-            $this->user->id,
-            'create-lan'
-        );
     }
 
     public function testCreate(): void

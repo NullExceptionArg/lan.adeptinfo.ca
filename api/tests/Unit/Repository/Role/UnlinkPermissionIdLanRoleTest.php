@@ -15,6 +15,7 @@ class UnlinkPermissionIdLanRoleTest extends TestCase
     protected $user;
     protected $role;
     protected $lan;
+    protected $permissions;
 
     public function setUp(): void
     {
@@ -47,7 +48,7 @@ class UnlinkPermissionIdLanRoleTest extends TestCase
 
         $this->roleRepository->unlinkPermissionIdLanRole(
             $this->permissions[0],
-            $this->role
+            $this->role->id
         );
 
         $this->notSeeInDatabase('permission_lan_role', [

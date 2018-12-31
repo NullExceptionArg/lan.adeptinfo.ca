@@ -36,7 +36,7 @@ class LinkPermissionIdGlobalRoleTest extends TestCase
 
         $this->roleRepository->linkPermissionIdGlobalRole(
             $permission->id,
-            $this->role
+            $this->role->id
         );
 
         $this->seeInDatabase('permission_global_role', [

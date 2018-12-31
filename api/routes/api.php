@@ -86,7 +86,7 @@ $api->version('v1', function ($api) {
                 $api->delete('seat/assign/{seat_id}', 'SeatController@unAssignSeat');
 
                 $api->post('tournament', 'TournamentController@createTournament');
-                $api->put('tournament/{tournament_id}', 'TournamentController@edit');
+                $api->put('tournament/{tournament_id}', 'TournamentController@update');
                 $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
                 $api->post('tournament/{tournament_id}/quit', 'TournamentController@quit');
                 $api->get('tournament/all/organizer', 'TournamentController@getAllTournamentOrganizer');
@@ -95,7 +95,7 @@ $api->version('v1', function ($api) {
                 $api->delete('team/admin', 'TeamController@deleteAdmin');
 
                 $api->post('role/lan', 'RoleController@createLanRole');
-                $api->put('role/lan', 'RoleController@editLanRole');
+                $api->put('role/lan', 'RoleController@updateLanRole');
                 $api->post('role/lan/assign', 'RoleController@assignLanRole');
                 $api->post('role/lan/permissions', 'RoleController@addPermissionsLanRole');
                 $api->delete('role/lan/permissions', 'RoleController@deletePermissionsLanRole');
@@ -105,14 +105,14 @@ $api->version('v1', function ($api) {
                 $api->get('role/lan/users', 'RoleController@getLanUsers');
 
                 $api->post('role/global', 'RoleController@createGlobalRole');
-                $api->put('role/global', 'RoleController@editGlobalRole');
+                $api->put('role/global', 'RoleController@updateGlobalRole');
                 $api->post('role/global/assign', 'RoleController@assignGlobalRole');
                 $api->post('role/global/permissions', 'RoleController@addPermissionsGlobalRole');
                 $api->delete('role/global/permissions', 'RoleController@deletePermissionsGlobalRole');
                 $api->delete('role/global', 'RoleController@deleteGlobalRole');
                 $api->get('role/global', 'RoleController@getGlobalRoles');
                 $api->get('role/global/permissions', 'RoleController@getGlobalRolePermissions');
-                $api->get('role/global/users', 'RoleController@getGlobalUsers');
+                $api->get('role/global/users', 'RoleController@getRoleUsers');
 
                 $api->get('role/permissions', 'RoleController@getPermissions');
 

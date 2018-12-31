@@ -32,12 +32,6 @@ class DeleteImagesTest extends TestCase
         $this->image2 = factory('App\Model\Image')->create([
             'lan_id' => $this->lan->id
         ]);
-
-        $this->addLanPermissionToUser(
-            $this->user->id,
-            $this->lan->id,
-            'delete-image'
-        );
     }
 
     public function testDeleteImages(): void

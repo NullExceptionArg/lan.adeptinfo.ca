@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Service\Role;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateLanRoleTest extends TestCase
+class UpdateLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -14,14 +13,15 @@ class CreateLanRoleTest extends TestCase
 
     protected $user;
     protected $lan;
-    protected $permissions;
+    protected $lanRole;
 
     protected $paramsContent = [
+        'role_id' => null,
         'name' => 'comrade',
         'en_display_name' => 'Comrade',
         'en_description' => 'Our equal',
         'fr_display_name' => 'Camarade',
-        'fr_description' => 'Notre égal.'
+        'fr_description' => 'Notre égal.',
     ];
 
     public function setUp(): void
@@ -31,26 +31,22 @@ class CreateLanRoleTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-        $this->permissions = Permission::inRandomOrder()
-            ->where('can_be_per_lan', true)
-            ->take(5)
-            ->pluck('id')
-            ->toArray();
+        $this->lanRole = factory('App\Model\LanRole')->create([
+            'lan_id' => $this->lan->id
+        ]);
     }
 
-    public function testCreateLanRole(): void
+    public function testUpdateLanRole(): void
     {
-        $result = $this->roleService->createLanRole(
-            $this->lan->id,
+        $result = $this->roleService->updateLanRole(
+            $this->lanRole->id,
             $this->paramsContent['name'],
             $this->paramsContent['en_display_name'],
             $this->paramsContent['en_description'],
             $this->paramsContent['fr_display_name'],
-            $this->paramsContent['fr_description'],
-            $this->permissions
+            $this->paramsContent['fr_description']
         );
 
-        $this->assertEquals($this->lan->id, $result->lan_id);
         $this->assertEquals($this->paramsContent['name'], $result->name);
         $this->assertEquals($this->paramsContent['en_display_name'], $result->en_display_name);
         $this->assertEquals($this->paramsContent['en_description'], $result->en_description);

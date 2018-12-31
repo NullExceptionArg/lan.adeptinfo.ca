@@ -22,12 +22,6 @@ class DeleteContributionTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-
-        $this->addLanPermissionToUser(
-            $this->user->id,
-            $this->lan->id,
-            'delete-contribution'
-        );
     }
 
     public function testDeleteContributionUserEmail(): void

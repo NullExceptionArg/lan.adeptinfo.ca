@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Controller\Role;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -18,16 +17,10 @@ class GetPermissionsTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
 
-        $role = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'get-permissions')->first();
-        factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\GlobalRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addGlobalPermissionToUser(
+            $this->user->id,
+            'get-permissions'
+        );
     }
 
     public function testGetPermissions(): void

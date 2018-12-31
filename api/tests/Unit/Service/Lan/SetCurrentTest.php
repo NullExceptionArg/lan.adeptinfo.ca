@@ -20,11 +20,6 @@ class SetCurrentTest extends TestCase
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
 
         $this->user = factory('App\Model\User')->create();
-
-        $this->addGlobalPermissionToUser(
-            $this->user->id,
-            'set-current-lan'
-        );
     }
 
     public function testSetCurrentNoCurrentLan()

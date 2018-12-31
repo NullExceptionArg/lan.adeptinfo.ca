@@ -2,11 +2,10 @@
 
 namespace Tests\Unit\Controller\Role;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class EditLanRoleTest extends TestCase
+class UpdateLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -33,23 +32,16 @@ class EditLanRoleTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'edit-lan-role')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'update-lan-role'
+        );
 
         $this->requestContent['role_id'] = $this->lanRole->id;
     }
 
-    public function testEditLanRole(): void
+    public function testUpdateLanRole(): void
     {
         $this->actingAs($this->user)
             ->json('PUT', '/api/role/lan', $this->requestContent)
@@ -64,7 +56,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testEditLanRoleLanHasPermission(): void
+    public function testUpdateLanRoleLanHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -77,7 +69,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testEditLanRoleRoleIdRequired(): void
+    public function testUpdateLanRoleRoleIdRequired(): void
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
@@ -94,7 +86,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleRoleIdExist(): void
+    public function testUpdateLanRoleRoleIdExist(): void
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
@@ -111,7 +103,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleNameString(): void
+    public function testUpdateLanRoleNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
@@ -128,7 +120,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleNameMaxLength(): void
+    public function testUpdateLanRoleNameMaxLength(): void
     {
         $this->requestContent['name'] = str_repeat('☭', 51);
         $this->actingAs($this->user)
@@ -145,7 +137,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleNameUnique(): void
+    public function testUpdateLanRoleNameUnique(): void
     {
         factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id,
@@ -165,7 +157,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleEnDisplayNameString(): void
+    public function testUpdateLanRoleEnDisplayNameString(): void
     {
         $this->requestContent['en_display_name'] = 1;
         $this->actingAs($this->user)
@@ -182,7 +174,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleEnDisplayNameMaxLength(): void
+    public function testUpdateLanRoleEnDisplayNameMaxLength(): void
     {
         $this->requestContent['en_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
@@ -199,7 +191,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleEnDescriptionString(): void
+    public function testUpdateLanRoleEnDescriptionString(): void
     {
         $this->requestContent['en_description'] = 1;
         $this->actingAs($this->user)
@@ -216,7 +208,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleEnDescriptionMaxLength(): void
+    public function testUpdateLanRoleEnDescriptionMaxLength(): void
     {
         $this->requestContent['en_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
@@ -233,7 +225,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleFrDisplayNameString(): void
+    public function testUpdateLanRoleFrDisplayNameString(): void
     {
         $this->requestContent['fr_display_name'] = 1;
         $this->actingAs($this->user)
@@ -250,7 +242,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleFrDisplayNameMaxLength(): void
+    public function testUpdateLanRoleFrDisplayNameMaxLength(): void
     {
         $this->requestContent['fr_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
@@ -267,7 +259,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleFrDescriptionString(): void
+    public function testUpdateLanRoleFrDescriptionString(): void
     {
         $this->requestContent['fr_description'] = 1;
         $this->actingAs($this->user)
@@ -284,7 +276,7 @@ class EditLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditLanRoleFrDescriptionMaxLength(): void
+    public function testUpdateLanRoleFrDescriptionMaxLength(): void
     {
         $this->requestContent['fr_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)

@@ -40,7 +40,7 @@ class LinkPermissionIdLanRoleTest extends TestCase
 
         $this->roleRepository->linkPermissionIdLanRole(
             $permission->id,
-            $this->role
+            $this->role->id
         );
 
         $this->seeInDatabase('permission_lan_role', [

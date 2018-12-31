@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Controller\Role;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -25,18 +24,11 @@ class GetLanRolesTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $this->accessRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'get-lan-roles')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $this->accessRole,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $this->accessRole,
-            'user_id' => $this->user->id
-        ]);
+        $this->accessRole = $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'get-lan-roles'
+        );
     }
 
     public function testGetLanRoles(): void

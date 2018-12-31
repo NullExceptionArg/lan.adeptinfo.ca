@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Role;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class EditLanRoleTest extends TestCase
+class UpdateLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -35,7 +35,7 @@ class EditLanRoleTest extends TestCase
         ]);
     }
 
-    public function testEditLanRole(): void
+    public function testUpdateLanRole(): void
     {
         $this->seeInDatabase('lan_role', [
             'name' => $this->lanRole->name,
@@ -46,8 +46,8 @@ class EditLanRoleTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $this->roleRepository->editLanRole(
-            $this->lanRole,
+        $this->roleRepository->updateLanRole(
+            $this->lanRole->id,
             $this->paramsContent['name'],
             $this->paramsContent['en_display_name'],
             $this->paramsContent['en_description'],

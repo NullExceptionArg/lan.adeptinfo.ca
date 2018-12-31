@@ -12,7 +12,6 @@ class GetLanUsersTest extends TestCase
 
     protected $user;
     protected $lan;
-    protected $lanRole;
 
     public function setUp(): void
     {
@@ -21,18 +20,11 @@ class GetLanUsersTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $this->accessRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'get-lan-user-roles')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $this->accessRole,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $this->accessRole,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'get-lan-user-roles'
+        );
     }
 
     public function testGetLanUsers(): void

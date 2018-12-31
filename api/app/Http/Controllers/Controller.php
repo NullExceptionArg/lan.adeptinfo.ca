@@ -13,7 +13,12 @@ class Controller extends BaseController
     public function adjustRequestForLan(Request $request): Request
     {
         if (is_null($request->input('lan_id'))) {
-            $request['lan_id'] = Lan::getCurrent()->id;
+            $lan = Lan::getCurrent();
+            if (is_null($lan)) {
+                return $request;
+            } else {
+                $request['lan_id'] = $lan->id;
+            }
         }
         return $request;
     }

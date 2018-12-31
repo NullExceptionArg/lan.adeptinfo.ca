@@ -6,47 +6,75 @@ namespace App\Services;
 use App\Http\Resources\Role\GetRoleResource;
 use App\Model\GlobalRole;
 use App\Model\LanRole;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Collection;
 
 interface RoleService
 {
-    public function createLanRole(Request $request): LanRole;
+    public function addPermissionsGlobalRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function editLanRole(Request $input): LanRole;
+    public function addPermissionsLanRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function assignLanRole(Request $input): GetRoleResource;
+    public function assignGlobalRole(int $roleId, string $email): GetRoleResource;
 
-    public function addPermissionsLanRole(Request $input): GetRoleResource;
+    public function assignLanRole(int $roleId, string $email): GetRoleResource;
 
-    public function deletePermissionsLanRole(Request $input): GetRoleResource;
+    public function createGlobalRole(
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription,
+        array $permissions
+    ): GlobalRole;
 
-    public function deleteLanRole(Request $input): GetRoleResource;
+    public function createLanRole(
+        int $lanId,
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription,
+        array $permissions
+    ): LanRole;
 
-    public function getLanRoles(Request $input): AnonymousResourceCollection;
+    public function deleteGlobalRole(int $roleId): GetRoleResource;
 
-    public function getLanRolePermissions(Request $input): AnonymousResourceCollection;
+    public function deleteLanRole(int $roleId): GetRoleResource;
 
-    public function getLanUsers(Request $input): Collection;
+    public function deletePermissionsGlobalRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function createGlobalRole(Request $request): GlobalRole;
+    public function deletePermissionsLanRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function editGlobalRole(Request $input): GlobalRole;
+    public function getGlobalRolePermissions(int $roleId): AnonymousResourceCollection;
 
-    public function assignGlobalRole(Request $input): GetRoleResource;
+    public function getGlobalRoles(): AnonymousResourceCollection;
 
-    public function addPermissionsGlobalRole(Request $input): GetRoleResource;
+    public function getLanRolePermissions(int $roleId): AnonymousResourceCollection;
 
-    public function deletePermissionsGlobalRole(Request $input): GetRoleResource;
+    public function getLanRoles(int $lanId): AnonymousResourceCollection;
 
-    public function deleteGlobalRole(Request $input): GetRoleResource;
-
-    public function getGlobalRoles(Request $input): AnonymousResourceCollection;
-
-    public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection;
-
-    public function getGlobalUsers(Request $input): Collection;
+    public function getLanUsers(int $roleId): Collection;
 
     public function getPermissions(): AnonymousResourceCollection;
+
+    public function getRoleUsers(int $roleId): Collection;
+
+    public function updateGlobalRole(
+        int $roleId,
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription
+    ): GlobalRole;
+
+    public function updateLanRole(
+        int $roleId,
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription
+    ): LanRole;
 }

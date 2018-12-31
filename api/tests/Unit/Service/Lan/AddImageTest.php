@@ -25,12 +25,6 @@ class AddImageTest extends TestCase
         $this->image = factory('App\Model\Image')->make([
             'lan_id' => $this->lan->id
         ])->image;
-
-        $this->addLanPermissionToUser(
-            $this->user->id,
-            $this->lan->id,
-            'add-image'
-        );
     }
 
     public function testAddImage(): void

@@ -31,8 +31,8 @@ class LinkGlobalRoleUserTest extends TestCase
         ]);
 
         $this->roleRepository->linkGlobalRoleUser(
-            $this->globalRole,
-            $this->user
+            $this->globalRole->id,
+            $this->user->id
         );
 
         $this->seeInDatabase('global_role_user', [

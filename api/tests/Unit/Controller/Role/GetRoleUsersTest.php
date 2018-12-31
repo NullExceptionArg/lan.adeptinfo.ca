@@ -6,7 +6,7 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetGlobalUsersTest extends TestCase
+class GetRoleUsersTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -18,19 +18,13 @@ class GetGlobalUsersTest extends TestCase
         parent::setUp();
 
         $this->user = factory('App\Model\User')->create();
-        $this->accessRole = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'get-global-user-roles')->first();
-        factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $this->accessRole->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\GlobalRoleUser')->create([
-            'role_id' => $this->accessRole->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addGlobalPermissionToUser(
+            $this->user->id,
+            'get-global-user-roles'
+        );
     }
 
-    public function testGetGlobalUsers(): void
+    public function testGetRoleUsers(): void
     {
         $users = factory('App\Model\User', 4)->create();
         $role = factory('App\Model\GlobalRole')->create();
@@ -70,7 +64,7 @@ class GetGlobalUsersTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetGlobalUsersHasPermission(): void
+    public function testGetRoleUsersHasPermission(): void
     {
         $role = factory('App\Model\GlobalRole')->create();
         $user = factory('App\Model\User')->create();
@@ -84,7 +78,7 @@ class GetGlobalUsersTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testGetGlobalUsersRoleIdRequired(): void
+    public function testGetRoleUsersRoleIdRequired(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/global/users', ['role_id' => null])
@@ -100,7 +94,7 @@ class GetGlobalUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetGlobalUsersRoleIdInteger(): void
+    public function testGetRoleUsersRoleIdInteger(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/global/users', ['role_id' => '☭'])
@@ -116,7 +110,7 @@ class GetGlobalUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetGlobalUsersRoleIdExist(): void
+    public function testGetRoleUsersRoleIdExist(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/global/users', ['role_id' => -1])

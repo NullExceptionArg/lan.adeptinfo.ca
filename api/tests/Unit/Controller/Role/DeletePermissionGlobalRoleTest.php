@@ -26,16 +26,10 @@ class DeletePermissionGlobalRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->globalRole = factory('App\Model\GlobalRole')->create();
 
-        $role = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'delete-permissions-global-role')->first();
-        factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\GlobalRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addGlobalPermissionToUser(
+            $this->user->id,
+            'delete-permissions-global-role'
+        );
 
         $this->permissions = Permission::inRandomOrder()
             ->take(10)
