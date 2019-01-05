@@ -35,7 +35,7 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
 
-        $this->paramsContent['event_key'] = env('EVENT_KEY');
+        $this->paramsContent['event_key'] = env('EVENT_TEST_KEY');
         $this->paramsContent['secret_key'] = env('SECRET_KEY');
         $this->paramsContent['public_key'] = env('PUBLIC_KEY');
 

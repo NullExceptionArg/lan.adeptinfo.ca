@@ -3,12 +3,12 @@
 namespace App\Rules;
 
 
+use Exception;
 use Google_Client;
 use Illuminate\Contracts\Validation\Rule;
 
 class ValidGoogleToken implements Rule
 {
-
     /**
      * Determine if the validation rule passes.
      *
@@ -18,15 +18,13 @@ class ValidGoogleToken implements Rule
      */
     public function passes($attribute, $value)
     {
-        $client = new Google_Client();
-        $client->setApplicationName('LAN de l\'ADEPT');
-        $client->setClientId(env('GOOGLE_CLIENT_ID'));
-        $google_result = $client->verifyIdToken($value);
-        if (!$google_result) {
+        $client = new Google_Client(['client_id' => env('GOOGLE_TEST_CLIENT_ID')]);
+        try {
+            $client->verifyIdToken($value);
+        } catch (Exception $e) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 
     /**

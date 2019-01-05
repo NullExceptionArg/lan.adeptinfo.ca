@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-
 use Illuminate\Contracts\Validation\Rule;
 
 class OneOfTwoFields implements Rule

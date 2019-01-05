@@ -27,9 +27,9 @@ class AssignTest extends SeatsTestCase
 
     public function testAssignSeat(): void
     {
-        $result = $this->seatService->assign($this->lan->id, $this->user->email, env('SEAT_ID'));
+        $result = $this->seatService->assign($this->lan->id, $this->user->email, env('SEAT__TEST_ID'));
 
-        $this->assertEquals(env('SEAT_ID'), $result->seat_id);
+        $this->assertEquals(env('SEAT__TEST_ID'), $result->seat_id);
         $this->assertEquals($this->lan->id, $result->lan_id);
     }
 }

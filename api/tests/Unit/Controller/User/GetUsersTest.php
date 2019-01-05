@@ -332,7 +332,7 @@ class GetUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetUsersItemsPerPageNumeric(): void
+    public function testGetUsersItemsPerPageInteger(): void
     {
         $this->requestContent['items_per_page'] = '☭';
         $this->actingAs($this->users[0])
@@ -342,7 +342,7 @@ class GetUsersTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'items_per_page' => [
-                        0 => 'The items per page must be a number.',
+                        0 => 'The items per page must be an integer.',
                     ],
                 ]
             ])
@@ -383,7 +383,7 @@ class GetUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetUsersCurrentPageNumeric(): void
+    public function testGetUsersCurrentPageInteger(): void
     {
         $this->requestContent['current_page'] = '☭';
         $this->actingAs($this->users[0])
@@ -393,7 +393,7 @@ class GetUsersTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'current_page' => [
-                        0 => 'The current page must be a number.',
+                        0 => 'The current page must be an integer.',
                     ],
                 ]
             ])

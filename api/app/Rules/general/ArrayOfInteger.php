@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-
 use Illuminate\Contracts\Validation\Rule;
 
 class ArrayOfInteger implements Rule

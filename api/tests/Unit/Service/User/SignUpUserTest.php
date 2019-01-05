@@ -2,9 +2,7 @@
 
 namespace Tests\Unit\Service\User;
 
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class SignUpUserTest extends TestCase
@@ -28,159 +26,15 @@ class SignUpUserTest extends TestCase
 
     public function testSignUp(): void
     {
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->signUpUser($request);
+        $result = $this->userService->signUpUser(
+            $this->paramsContent['first_name'],
+            $this->paramsContent['last_name'],
+            $this->paramsContent['email'],
+            $this->paramsContent['password']
+        );
 
         $this->assertEquals($this->paramsContent['first_name'], $result->first_name);
         $this->assertEquals($this->paramsContent['last_name'], $result->last_name);
         $this->assertEquals($this->paramsContent['email'], $result->email);
-    }
-
-    public function testSignUpEmailRequired(): void
-    {
-        $this->paramsContent['email'] = '';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('Expected: {"email":["The email field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The email field is required."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpEmailFormattedEmail(): void
-    {
-        $this->paramsContent['email'] = 'john.doe.com';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"email":["The email must be a valid email address."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The email must be a valid email address."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpPasswordRequired(): void
-    {
-        $this->paramsContent['password'] = '';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"password":["The password field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"password":["The password field is required."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpPasswordMinLength(): void
-    {
-        $this->paramsContent['password'] = str_repeat('☭', 2);
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"password":["The password must be at least 6 characters."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"password":["The password must be at least 6 characters."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpPasswordMaxLength(): void
-    {
-        $this->paramsContent['password'] = str_repeat('☭', 22);
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"password":["The password may not be greater than 20 characters."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"password":["The password may not be greater than 20 characters."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpFirstNameRequired(): void
-    {
-        $this->paramsContent['first_name'] = '';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"first_name":["The first name field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"first_name":["The first name field is required."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpFirstNameMaxLength(): void
-    {
-        $this->paramsContent['first_name'] = str_repeat('☭', 256);
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"first_name":["The first name may not be greater than 255 characters."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"first_name":["The first name may not be greater than 255 characters."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpLastNameRequired(): void
-    {
-        $this->paramsContent['last_name'] = '';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"last_name":["The last name field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"last_name":["The last name field is required."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpLastNameMaxLength(): void
-    {
-        $this->paramsContent['last_name'] = str_repeat('☭', 256);
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"last_name":["The last name may not be greater than 255 characters."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"last_name":["The last name may not be greater than 255 characters."]}', $e->getMessage());
-        }
-    }
-
-    public function testSignUpUniqueEmailSocialLoginReturningFacebook(): void
-    {
-        factory('App\Model\User')->create([
-            'facebook_id' => '12345678',
-            'first_name' => $this->paramsContent['first_name'],
-            'last_name' => $this->paramsContent['last_name'],
-            'email' => $this->paramsContent['email'],
-            'password' => null
-        ]);
-
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->signUpUser($request);
-
-        $this->assertEquals($this->paramsContent['first_name'], $result->first_name);
-        $this->assertEquals($this->paramsContent['last_name'], $result->last_name);
-        $this->assertEquals($this->paramsContent['email'], $result->email);
-    }
-
-    public function testSignUpUniqueEmailSocialLoginAlreadyAwaitingConfirmation(): void
-    {
-        $request = new Request($this->paramsContent);
-        $this->userService->signUpUser($request);
-        try {
-            $this->userService->signUpUser($request);
-            $this->fail('{"email":["The email has already been taken."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The email has already been taken."]}', $e->getMessage());
-        }
     }
 }

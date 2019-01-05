@@ -3,11 +3,9 @@
 namespace App\Repositories\Implementation;
 
 use App\Model\GlobalRole;
-use App\Model\Lan;
 use App\Model\LanRole;
 use App\Model\Permission;
 use App\Repositories\RoleRepository;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -92,15 +90,15 @@ class RoleRepositoryImpl implements RoleRepository
         return LanRole::find($id);
     }
 
-    public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection
+    public function getAdminPermissions(int $lanId, int $userId): Collection
     {
         $lanPermissions = DB::table('permission')
             ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
             ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
             ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
-            ->where('lan_role.lan_id', $lan->id)
-            ->where('lan_role_user.user_id', $user->id)
+            ->where('lan_role.lan_id', $lanId)
+            ->where('lan_role_user.user_id', $userId)
             ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 
@@ -108,7 +106,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
             ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
             ->join('global_role_user', 'global_role.id', '=', 'global_role_user.role_id')
-            ->where('global_role_user.user_id', $user->id)
+            ->where('global_role_user.user_id', $userId)
             ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 

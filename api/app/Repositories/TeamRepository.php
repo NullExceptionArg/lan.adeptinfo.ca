@@ -40,7 +40,7 @@ interface TeamRepository
 
     public function getRequestsForUser(Authenticatable $user, Lan $lan): Collection;
 
-    public function getLeadersRequestTotalCount(Authenticatable $user, Lan $lan): int;
+    public function getLeadersRequestTotalCount(int $userId, int $lanId): int;
 
     public function removeUserFromTeam(Authenticatable $user, Team $team): void;
 

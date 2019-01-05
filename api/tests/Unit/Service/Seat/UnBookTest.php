@@ -29,9 +29,9 @@ class UnBookTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $result = $this->seatService->unBook($this->lan->id, env('SEAT_ID'));
+        $result = $this->seatService->unBook($this->lan->id, env('SEAT__TEST_ID'));
 
-        $this->assertEquals(env('SEAT_ID'), $result->seat_id);
+        $this->assertEquals(env('SEAT__TEST_ID'), $result->seat_id);
         $this->assertEquals($this->lan->id, $result->lan_id);
     }
 }

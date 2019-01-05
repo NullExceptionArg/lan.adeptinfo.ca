@@ -6,7 +6,6 @@ use Illuminate\Http\Resources\Json\Resource;
 
 class GetRoleResource extends Resource
 {
-
     /**
      * Transform the resource into an array.
      *

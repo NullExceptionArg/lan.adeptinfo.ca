@@ -3,9 +3,7 @@
 namespace App\Repositories;
 
 use App\Model\GlobalRole;
-use App\Model\Lan;
 use App\Model\LanRole;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 
 interface RoleRepository
@@ -37,7 +35,7 @@ interface RoleRepository
 
     public function findLanRoleById(int $id): ?LanRole;
 
-    public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection;
+    public function getAdminPermissions(int $lanId, int $userId): Collection;
 
     public function getGlobalRolePermissions(int $roleId): Collection;
 

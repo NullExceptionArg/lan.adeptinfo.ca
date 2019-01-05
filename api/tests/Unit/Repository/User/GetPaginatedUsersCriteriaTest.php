@@ -211,6 +211,4 @@ class GetPaginatedUsersCriteriaTest extends TestCase
         $this->assertEquals(2, $result->currentPage());
         $this->assertEquals(2, $result->lastPage());
     }
-
-
 }

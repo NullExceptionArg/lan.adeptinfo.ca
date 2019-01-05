@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -19,6 +20,14 @@ class Controller extends BaseController
             } else {
                 $request['lan_id'] = $lan->id;
             }
+        }
+        return $request;
+    }
+
+    public function adjustRequestForEmail(Request $request): Request
+    {
+        if (is_null($request->input('email'))) {
+            $request['email'] = Auth::user()->email;
         }
         return $request;
     }

@@ -151,6 +151,7 @@ return [
     'permissions_belong_to_user' => 'L\'une des permissions n\'est pas attribuée à ce rôle.',
     'lan_role_name_once_per_lan' => 'Le nom du role de LAN doit être unique par LAN.',
     'role_once_per_user' => 'L\'utilisateur possède déjà ce rôle.',
+    'positive_integer' => 'Le champ :attribute doit être un entier positif.',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

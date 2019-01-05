@@ -1,9 +1,8 @@
 <?php
 
-
 namespace App\Repositories\Implementation;
 
-
+use App\Model\Tag;
 use App\Model\User;
 use App\Repositories\UserRepository;
 use Illuminate\Pagination\AbstractPaginator;
@@ -13,21 +12,91 @@ use Laravel\Passport\Token;
 
 class UserRepositoryImpl implements UserRepository
 {
+    public function addConfirmationCode(string $email, string $confirmationCode): void
+    {
+        DB::table('user')
+            ->where('email', $email)
+            ->update([
+                'confirmation_code' => $confirmationCode
+            ]);
+    }
+
+    public function addFacebookToUser(string $email, string $facebookId): void
+    {
+        DB::table('user')
+            ->where('email', $email)
+            ->update([
+                'facebook_id' => $facebookId
+            ]);
+    }
+
+    public function addGoogleToUser(string $email, string $googleId): void
+    {
+        DB::table('user')
+            ->where('email', $email)
+            ->update([
+                'google_id' => $googleId
+            ]);
+    }
+
+    public function confirmAccount(string $userId): void
+    {
+        DB::table('user')
+            ->where('id', $userId)
+            ->update([
+                'is_confirmed' => true,
+                'confirmation_code' => null
+            ]);
+    }
+
+    public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): int
+    {
+        return DB::table('user')
+            ->insertGetId([
+                'facebook_id' => $facebookId,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+            ]);
+    }
+
+    public function createGoogleUser(string $googleId, string $firstName, string $lastName, string $email): int
+    {
+        return DB::table('user')
+            ->insertGetId([
+                'google_id' => $googleId,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+            ]);
+    }
+
+    public function createTag(
+        int $userId,
+        string $name
+    ): int
+    {
+        return DB::table('tag')
+            ->insertGetId([
+                'name' => $name,
+                'user_id' => $userId
+            ]);
+    }
+
     public function createUser(
         string $firstName,
         string $lastName,
         string $email, string $password,
-        string $confirmationCode): User
+        string $confirmationCode): int
     {
-        $user = new User();
-        $user->first_name = $firstName;
-        $user->last_name = $lastName;
-        $user->email = $email;
-        $user->password = Hash::make($password);
-        $user->confirmation_code = $confirmationCode;
-        $user->save();
-
-        return $user;
+        return DB::table('user')
+            ->insertGetId([
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $email,
+                'password' => Hash::make($password),
+                'confirmation_code' => $confirmationCode
+            ]);
     }
 
     public function deleteUserById(int $userId): void
@@ -35,18 +104,9 @@ class UserRepositoryImpl implements UserRepository
         User::destroy($userId);
     }
 
-    public function revokeAccessToken(Token $token): void
+    public function findByConfirmationCode(string $confirmationCode): User
     {
-        $token->revoke();
-    }
-
-    public function revokeRefreshToken(Token $token): void
-    {
-        DB::table('oauth_refresh_tokens')
-            ->where('access_token_id', $token->id)
-            ->update([
-                'revoked' => true
-            ]);
+        return User::where('confirmation_code', $confirmationCode)->first();
     }
 
     public function findByEmail(string $userEmail): ?User
@@ -57,6 +117,11 @@ class UserRepositoryImpl implements UserRepository
     public function findById(int $userId): ?User
     {
         return User::find($userId);
+    }
+
+    public function findTagById(int $id): ?Tag
+    {
+        return Tag::find($id);
     }
 
     public function getPaginatedUsersCriteria(
@@ -74,61 +139,12 @@ class UserRepositoryImpl implements UserRepository
             ->paginate($itemsPerPage, ['*'], '', $currentPage);
     }
 
-    public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): User
+    public function revokeRefreshToken(Token $token): void
     {
-        $user = new User();
-        $user->facebook_id = $facebookId;
-        $user->first_name = $firstName;
-        $user->last_name = $lastName;
-        $user->email = $email;
-        $user->save();
-
-        return $user;
-    }
-
-    public function createGoogleUser(string $googleId, string $firstName, string $lastName, string $email): User
-    {
-        $user = new User();
-        $user->google_id = $googleId;
-        $user->first_name = $firstName;
-        $user->last_name = $lastName;
-        $user->email = $email;
-        $user->save();
-
-        return $user;
-    }
-
-    public function addFacebookToUser(User $user, string $facebookId): User
-    {
-        $user->facebook_id = $facebookId;
-        $user->save();
-
-        return $user;
-    }
-
-    public function addGoogleToUser(User $user, string $googleId): User
-    {
-        $user->google_id = $googleId;
-        $user->save();
-
-        return $user;
-    }
-
-    public function findByConfirmationCode(string $confirmationCode): User
-    {
-        return User::where('confirmation_code', $confirmationCode)->first();
-    }
-
-    public function confirmAccount(User $user): void
-    {
-        $user->is_confirmed = true;
-        $user->confirmation_code = null;
-        $user->save();
-    }
-
-    public function addConfirmationCode(User $user, string $confirmationCode): void
-    {
-        $user->confirmation_code = $confirmationCode;
-        $user->save();
+        DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $token->id)
+            ->update([
+                'revoked' => true
+            ]);
     }
 }

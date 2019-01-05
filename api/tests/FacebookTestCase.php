@@ -2,7 +2,8 @@
 
 namespace Tests;
 
-use GuzzleHttp\Client;
+use App\Utils\FacebookUtils;
+use Facebook\Exceptions\FacebookSDKException;
 
 abstract class FacebookTestCase extends TestCase
 {
@@ -18,25 +19,22 @@ abstract class FacebookTestCase extends TestCase
 
     public function tearDown()
     {
-        $client = new Client([
-            'base_uri' => env('FB_GRAPH_HOST'),
-            'timeout' => 10,
-        ]);
+        $accessToken = FacebookUtils::getAccessToken();
+        $fb = FacebookUtils::getFacebook();
+        try {
+            $users = $fb->get(
+                '/' . env('FB_TEST_ID') . '/accounts/test-users',
+                $accessToken->getValue()
+            );
 
-        $accessToken = \GuzzleHttp\json_decode($client->request('GET', 'oauth/access_token', ['query' => [
-            'client_id' => env('FB_ID'),
-            'client_secret' => env('FB_SECRET'),
-            'grant_type' => 'client_credentials'
-        ]])->getBody())->access_token;
-
-        $users = \GuzzleHttp\json_decode($client->request('GET', '/v3.1/' . env('FB_ID') . '/accounts/test-users', [
-            'headers' => ['Authorization' => 'Bearer ' . $accessToken]
-        ])->getBody())->data;
-
-        foreach ($users as $user) {
-            \GuzzleHttp\json_decode($client->request('DELETE', '/v3.1/' . $user->id, [
-                'headers' => ['Authorization' => 'Bearer ' . $accessToken]
-            ])->getBody());
+            foreach ($users->getDecodedBody()['data'] as $user) {
+                $fb->delete(
+                    '/' . $user['id'],
+                    array(),
+                    $accessToken->getValue()
+                );
+            }
+        } catch (FacebookSDKException $e) {
         }
 
         parent::tearDown();

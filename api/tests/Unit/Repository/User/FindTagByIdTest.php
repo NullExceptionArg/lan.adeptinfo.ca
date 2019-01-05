@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\Repository\Tag;
+namespace Tests\Unit\Repository\User;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class FindByIdTest extends TestCase
+class FindTagByIdTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -17,7 +17,7 @@ class FindByIdTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->tagRepository = $this->app->make('App\Repositories\Implementation\TagRepositoryImpl');
+        $this->tagRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
@@ -25,9 +25,9 @@ class FindByIdTest extends TestCase
         ]);
     }
 
-    public function testCreate(): void
+    public function testFindTagById(): void
     {
-        $result = $this->tagRepository->findById(
+        $result = $this->tagRepository->findTagById(
             $this->tag->id
         );
         $this->assertEquals($result->id, $this->tag->id);

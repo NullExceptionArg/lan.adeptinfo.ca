@@ -36,7 +36,7 @@ class GetReservedPlacesTest extends SeatsTestCase
         $reservation = new Reservation();
         $reservation->lan_id = $this->lan->id;
         $reservation->user_id = $user->id;
-        $reservation->seat_id = env('SEAT_ID');
+        $reservation->seat_id = env('SEAT__TEST_ID');
         $reservation->save();
 
         $result = $this->lanRepository->getReservedPlaces($this->lan->id);

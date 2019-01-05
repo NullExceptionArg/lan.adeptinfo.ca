@@ -25,7 +25,7 @@ class GetCurrentSeatTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'seat_id' => env('SEAT_ID')
+            'seat_id' => env('SEAT__TEST_ID')
         ]);
 
         $result = $this->seatRepository->getCurrentSeat($this->user->id, $this->lan->id);

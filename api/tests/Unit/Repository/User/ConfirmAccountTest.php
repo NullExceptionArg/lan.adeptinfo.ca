@@ -32,12 +32,12 @@ class ConfirmAccountTest extends TestCase
             'is_confirmed' => $this->user->is_confirmed
         ]);
 
-        $this->userRepository->confirmAccount($this->user);
+        $this->userRepository->confirmAccount($this->user->id);
 
         $this->seeInDatabase('user', [
             'id' => $this->user->id,
             'confirmation_code' => null,
-            'is_confirmed' => $this->user->is_confirmed
+            'is_confirmed' => true
         ]);
     }
 }

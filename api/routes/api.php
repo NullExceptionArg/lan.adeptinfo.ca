@@ -60,7 +60,7 @@ $api->version('v1', function ($api) {
                 $api->delete('team/request/leader', 'TeamController@deleteRequestLeader');
                 $api->delete('team/request/player', 'TeamController@deleteRequestPlayer');
 
-                $api->post('tag', 'TagController@createTag');
+                $api->post('tag', 'UserController@createTag');
 
                 $api->delete('user', 'UserController@deleteUser');
                 $api->post('user/logout', 'UserController@logOut');

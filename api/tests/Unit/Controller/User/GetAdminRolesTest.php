@@ -23,18 +23,12 @@ class GetAdminRoles extends TestCase
     {
         $userBeingChecked = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'get-admin-roles')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $lan->id,
+            'get-admin-roles'
+        );
 
         $permissions = Permission::inRandomOrder()
             ->where('name', '!=', 'get-admin-roles')
@@ -134,18 +128,12 @@ class GetAdminRoles extends TestCase
     {
         $userBeingChecked = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'get-admin-roles')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $lan->id,
+            'get-admin-roles'
+        );
 
         $permissions = Permission::inRandomOrder()
             ->where('name', '!=', 'get-admin-roles')

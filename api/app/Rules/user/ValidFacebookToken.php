@@ -2,9 +2,8 @@
 
 namespace App\Rules;
 
-
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use App\Utils\FacebookUtils;
+use Facebook\Exceptions\FacebookSDKException;
 use Illuminate\Contracts\Validation\Rule;
 
 class ValidFacebookToken implements Rule
@@ -20,14 +19,11 @@ class ValidFacebookToken implements Rule
     public function passes($attribute, $value)
     {
         try {
-            $client = new Client([
-                'base_uri' => 'https://graph.facebook.com',
-                'timeout' => 2.0]);
-            \GuzzleHttp\json_decode($client->get('/me', ['query' => [
-                'fields' => 'id,first_name,last_name,email',
-                'access_token' => $value
-            ]])->getBody());
-        } catch (RequestException $e) {
+            FacebookUtils::getFacebook()->get(
+                '/me?fields=id,first_name,last_name,email',
+                $value
+            );
+        } catch (FacebookSDKException $e) {
             return false;
         }
         return true;

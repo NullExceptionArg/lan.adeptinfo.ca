@@ -23,6 +23,7 @@ includes:
   - lan_role
   - language
   - errors
+  - tests
 
 search: true
 ---

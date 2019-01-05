@@ -2,9 +2,8 @@
 
 namespace App\Rules;
 
-
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use App\Utils\FacebookUtils;
+use Facebook\Exceptions\FacebookSDKException;
 use Illuminate\Contracts\Validation\Rule;
 
 class FacebookEmailPermission implements Rule
@@ -21,17 +20,14 @@ class FacebookEmailPermission implements Rule
     {
         $response = null;
         try {
-            $client = new Client([
-                'base_uri' => 'https://graph.facebook.com',
-                'timeout' => 2.0]);
-            $response = \GuzzleHttp\json_decode($client->get('/me', ['query' => [
-                'fields' => 'id,first_name,last_name,email',
-                'access_token' => $value
-            ]])->getBody());
-        } catch (RequestException $e) {
+            $response = FacebookUtils::getFacebook()->get(
+                '/me?fields=id,first_name,last_name,email',
+                $value
+            );
+        } catch (FacebookSDKException $e) {
             return true;
         }
-        return $response->email != null;
+        return array_key_exists('email', $response->getDecodedBody());
     }
 
     /**

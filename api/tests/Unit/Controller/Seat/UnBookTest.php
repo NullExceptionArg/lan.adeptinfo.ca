@@ -26,12 +26,12 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_ID'), [
+            ->json('DELETE', '/api/seat/book/' . env('SEAT__TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
                 "lan_id" => $this->lan->id,
-                "seat_id" => env('SEAT_ID')
+                "seat_id" => env('SEAT__TEST_ID')
             ])
             ->assertResponseStatus(200);
     }
@@ -46,10 +46,10 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $lan
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_ID'))
+            ->json('DELETE', '/api/seat/book/' . env('SEAT__TEST_ID'))
             ->seeJsonEquals([
                 "lan_id" => $lan->id,
-                "seat_id" => env('SEAT_ID')
+                "seat_id" => env('SEAT__TEST_ID')
             ])
             ->assertResponseStatus(200);
     }
@@ -61,7 +61,7 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_ID'), [
+            ->json('DELETE', '/api/seat/book/' . env('SEAT__TEST_ID'), [
                 'lan_id' => -1
             ])
             ->seeJsonEquals([
@@ -108,7 +108,7 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_ID'), [
+            ->json('DELETE', '/api/seat/book/' . env('SEAT__TEST_ID'), [
                 'lan_id' => $badLanId
             ])
             ->seeJsonEquals([

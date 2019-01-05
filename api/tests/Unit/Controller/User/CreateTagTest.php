@@ -1,11 +1,11 @@
 <?php
 
-namespace Tests\Unit\Controller\Tag;
+namespace Tests\Unit\Controller\User;
 
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateTest extends TestCase
+class CreateTagTest extends TestCase
 {
     use DatabaseMigrations;
 

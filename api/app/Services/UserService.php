@@ -1,26 +1,44 @@
 <?php
 
-
 namespace App\Services;
 
-
+use App\Http\Resources\User\GetAdminRolesResource;
+use App\Http\Resources\User\GetAdminSummaryResource;
 use App\Http\Resources\User\GetUserCollection;
 use App\Http\Resources\User\GetUserDetailsResource;
+use App\Http\Resources\User\GetUserSummaryResource;
+use App\Model\Tag;
 use App\Model\User;
-use Illuminate\Http\Request;
 
 interface UserService
 {
-    public function signUpUser(Request $input): User;
+    public function confirm(string $confirmationCode): void;
+
+    public function createTag(string $name): Tag;
 
     public function deleteUser(): void;
 
+    public function getAdminRoles(string $email, int $lanId): GetAdminRolesResource;
+
+    public function getAdminSummary(int $lanId): GetAdminSummaryResource;
+
+    public function getUserDetails(int $lanId, string $email): GetUserDetailsResource;
+
+    public function getUsers(
+        ?string $queryString,
+        ?string $orderColumn,
+        ?string $orderDirection,
+        ?int $itemsPerPage,
+        ?int $currentPage
+    ): GetUserCollection;
+
+    public function getUserSummary(int $lanId): GetUserSummaryResource;
+
     public function logOut(): void;
 
-    public function getUsers(Request $request): GetUserCollection;
+    public function signInFacebook(string $accessToken): array;
 
-    public function getUserDetails(Request $request): GetUserDetailsResource;
+    public function signInGoogle(string $accessToken): array;
 
-    public function signInFacebook(Request $input): array;
-
+    public function signUpUser(string $firstName, string $lastName, string $email, string $password): User;
 }

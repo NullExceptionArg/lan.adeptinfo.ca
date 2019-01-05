@@ -176,16 +176,16 @@ class TeamRepositoryImpl implements TeamRepository
             ->get();
     }
 
-    public function getLeadersRequestTotalCount(Authenticatable $user, Lan $lan): int
+    public function getLeadersRequestTotalCount(int $userId, int $lanId): int
     {
         $teamIds = DB::table('tag')
             ->join('tag_team', 'tag.id', '=', 'tag_team.tag_id')
             ->join('team', 'tag_team.team_id', '=', 'team.id')
             ->join('tournament', 'team.tournament_id', '=', 'tournament.id')
             ->select('team.id')
-            ->where('user_id', $user->id)
+            ->where('user_id', $userId)
             ->where('tag_team.is_leader', true)
-            ->where('tournament.lan_id', $lan->id)
+            ->where('tournament.lan_id', $lanId)
             ->pluck('team.id')
             ->toArray();
 

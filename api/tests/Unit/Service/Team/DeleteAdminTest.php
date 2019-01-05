@@ -81,7 +81,7 @@ class DeleteAdminTest extends TestCase
         $this->be($user);
         $request = new Request($this->requestContent);
         try {
-            $this->teamService->deleteAdmin($request, env('SEAT_ID'));
+            $this->teamService->deleteAdmin($request, env('SEAT__TEST_ID'));
             $this->fail('Expected: REEEEEEEEEE');
         } catch (AuthorizationException $e) {
             $this->assertEquals('REEEEEEEEEE', $e->getMessage());

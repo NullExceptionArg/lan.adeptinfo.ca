@@ -2,14 +2,12 @@
 
 namespace App\Rules;
 
-
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 class HasPermission implements Rule
 {
-
     protected $userId;
 
     public function __construct(string $userId)
