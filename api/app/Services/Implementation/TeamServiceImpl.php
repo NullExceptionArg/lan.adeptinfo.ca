@@ -19,7 +19,6 @@ class TeamServiceImpl implements TeamService
 {
     protected $teamRepository;
     protected $tournamentRepository;
-    protected $tagRepository;
     protected $lanRepository;
 
     /**
@@ -53,7 +52,7 @@ class TeamServiceImpl implements TeamService
 
     public function changeLeader(int $tagId, int $teamId): Tag
     {
-        $tag = $this->tagRepository->findById($tagId);
+        $tag = $this->teamRepository->findTagById($tagId);
         $team = $this->teamRepository->findById($teamId);
 
         $this->teamRepository->switchLeader($tag->id, $team->id);

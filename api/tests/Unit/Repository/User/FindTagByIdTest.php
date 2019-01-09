@@ -9,7 +9,7 @@ class FindTagByIdTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $tagRepository;
+    protected $teamRepository;
 
     protected $user;
     protected $tag;
@@ -17,7 +17,7 @@ class FindTagByIdTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->tagRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
+        $this->teamRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
@@ -27,7 +27,7 @@ class FindTagByIdTest extends TestCase
 
     public function testFindTagById(): void
     {
-        $result = $this->tagRepository->findTagById(
+        $result = $this->teamRepository->findTagById(
             $this->tag->id
         );
         $this->assertEquals($result->id, $this->tag->id);

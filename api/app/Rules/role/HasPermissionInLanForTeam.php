@@ -36,7 +36,7 @@ class HasPermissionInLanForTeam implements Rule
             is_null($value) ||
             is_null($this->userId) ||
             is_null($team = Team::find($this->teamId)) ||
-            is_null($tournament = Tournament::find($tournament->id))
+            is_null($tournament = Tournament::find($team->id))
         ) {
             return true;
         }

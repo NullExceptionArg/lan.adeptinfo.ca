@@ -41,7 +41,7 @@ class GetAdminPermissionsTest extends TestCase
             'user_id' => $this->user->id,
             'role_id' => $role->id
         ]);
-        $permissionsResult = $this->roleRepository->getAdminPermissions($lan, $this->user);
+        $permissionsResult = $this->roleRepository->getAdminPermissions($lan->id, $this->user->id);
 
         $this->assertEquals($permissions[0]->id, $permissionsResult[0]->id);
         $this->assertEquals($permissions[0]->name, $permissionsResult[0]->name);

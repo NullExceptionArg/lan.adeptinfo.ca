@@ -152,13 +152,14 @@ class CreateRequestTest extends TestCase
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $this->user->id
         ]);
-        $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
-                'tournament_id' => $this->tournament->id,
-                'user_tag_id' => $tag->id,
-                'name' => 'name',
-                'tag' => 'tag'
-            ]);
+        $team = factory('App\Model\Team')->create([
+            'tournament_id' => $this->tournament->id
+        ]);
+        factory('App\Model\TagTeam')->create([
+            'tag_id' => $tag->id,
+            'team_id' => $team->id
+        ]);
+
         $this->actingAs($this->user)
             ->json('POST', '/api/team/request', $this->requestContent)
             ->seeJsonEquals([

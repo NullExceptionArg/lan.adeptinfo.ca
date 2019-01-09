@@ -202,7 +202,20 @@ class CreateTest extends TestCase
 
     public function testCreateUserTagIdTagBelongsToUser(): void
     {
-        // TODO
+        $user = factory('App\Model\User')->create();
+        $tag = factory('App\Model\Tag')->create([
+            'user_id' => $user->id
+        ]);
+        $this->requestContent['user_tag_id'] = $tag->id;
+
+        $this->actingAs($this->user)
+            ->json('POST', '/api/team', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testCreateNameRequired(): void
@@ -258,17 +271,11 @@ class CreateTest extends TestCase
 
     public function testCreateNameUniqueTeamNamePerTournament(): void
     {
-        $user = factory('App\Model\User')->create();
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
+        factory('App\Model\Team')->create([
+            'tournament_id' => $this->tournament->id,
+            'name' => $this->requestContent['name']
         ]);
-        $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
-                'tournament_id' => $this->tournament->id,
-                'user_tag_id' => $tag->id,
-                'name' => $this->requestContent['name'],
-                'tag' => 'tag'
-            ]);
+
         $this->actingAs($this->user)
             ->json('POST', '/api/team', $this->requestContent)
             ->seeJsonEquals([
@@ -344,17 +351,10 @@ class CreateTest extends TestCase
 
     public function testCreateTagUniqueTeamTagPerTournament(): void
     {
-        $user = factory('App\Model\User')->create();
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
+        factory('App\Model\Team')->create([
+            'tournament_id' => $this->tournament->id,
+            'tag' => $this->requestContent['tag']
         ]);
-        $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
-                'tournament_id' => $this->tournament->id,
-                'user_tag_id' => $tag->id,
-                'name' => 'name',
-                'tag' => $this->requestContent['tag']
-            ]);
         $this->actingAs($this->user)
             ->json('POST', '/api/team', $this->requestContent)
             ->seeJsonEquals([

@@ -9,7 +9,7 @@ class CreateTagTest extends TestCase
 {
     use DatabaseMigrations;
 
-    protected $tagRepository;
+    protected $teamRepository;
 
     protected $user;
 
@@ -20,7 +20,7 @@ class CreateTagTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->tagRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
+        $this->teamRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
 
         $this->user = factory('App\Model\User')->create();
     }
@@ -31,7 +31,7 @@ class CreateTagTest extends TestCase
             'name' => $this->paramsContent['name']
         ]);
 
-        $this->tagRepository->createTag(
+        $this->teamRepository->createTag(
             $this->user->id,
             $this->paramsContent['name']
         );

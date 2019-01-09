@@ -47,7 +47,7 @@ $api->version('v1', function ($api) {
                 $api->post('seat/book/{seat_id}', 'SeatController@book');
                 $api->delete('seat/book/{seat_id}', 'SeatController@unBook');
 
-                $api->post('team', 'TeamController@createTeam');
+                $api->post('team', 'TeamController@create');
                 $api->post('team/request', 'TeamController@createRequest');
                 $api->get('team/request', 'TeamController@getRequests');
                 $api->get('team/user', 'TeamController@getUserTeams');
