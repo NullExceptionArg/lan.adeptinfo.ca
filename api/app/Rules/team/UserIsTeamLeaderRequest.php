@@ -2,6 +2,7 @@
 
 namespace App\Rules\Team;
 
+use App\Model\Request;
 use App\Model\TagTeam;
 use App\Model\Team;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -9,7 +10,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class UserIsTeamLeader implements Rule
+class UserIsTeamLeaderRequest implements Rule
 {
     /**
      * Determine if the validation rule passes.
@@ -21,8 +22,9 @@ class UserIsTeamLeader implements Rule
      */
     public function passes($attribute, $value)
     {
-        $team = Team::find($value);
-        if ($team == null) {
+        $request = null;
+        $team = null;
+        if (is_null($request = Request::find($value)) || is_null($team = Team::find($value))) {
             return true;
         }
 

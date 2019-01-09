@@ -47,7 +47,7 @@ class DeleteUserTest extends TestCase
 
         ///Building relations
         // Lan - Reservation
-        $this->call('POST', '/api/seat/book/' . env('SEAT__TEST_ID'), [
+        $this->call('POST', '/api/seat/book/' . env('SEAT_TEST_ID'), [
             'lan_id' => $lan->id
         ]);
 
@@ -62,7 +62,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(1, $user->Contribution()->count());
 
         // Seats.io
-        $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, env('SEAT__TEST_ID'));
+        $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, env('SEAT_TEST_ID'));
         $this->assertEquals('booked', $status->status);
 
         /// Delete user
@@ -79,7 +79,7 @@ class DeleteUserTest extends TestCase
         $this->assertEquals(0, Contribution::where('user_id', $user->id)->count());
 
         // Seats.io
-        $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, env('SEAT__TEST_ID'));
+        $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, env('SEAT_TEST_ID'));
         $this->assertEquals('free', $status->status);
     }
 }

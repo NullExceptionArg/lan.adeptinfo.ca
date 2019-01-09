@@ -3,10 +3,8 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class DeleteRequestLeaderTest extends TestCase
@@ -78,93 +76,5 @@ class DeleteRequestLeaderTest extends TestCase
 
         $this->assertEquals($this->requestingUsersTag->id, $result->id);
         $this->assertEquals($this->requestingUsersTag->name, $result->name);
-    }
-
-    public function testDeleteRequestLeaderRequestIdInteger(): void
-    {
-        $this->requestContent['request_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteRequestLeader($request);
-            $this->fail('Expected: {"request_id":["The request id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"request_id":["The request id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteRequestLeaderRequestIdExist(): void
-    {
-        $this->requestContent['request_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteRequestLeader($request);
-            $this->fail('Expected: {"request_id":["The selected request id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"request_id":["The selected request id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteRequestLeaderRequestIdRequestBelongsInTeam(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
-        ]);
-        $team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
-        ]);
-        $request = factory('App\Model\Request')->create([
-            'tag_id' => $tag,
-            'team_id' => $team->id
-        ]);
-        $this->requestContent['request_id'] = $request->id;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteRequestLeader($request);
-            $this->fail('Expected: {"request_id":["The request must be for the leaders team."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"request_id":["The request must be for the leaders team."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteRequestLeaderTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteRequestLeader($request);
-            $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The team id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteRequestLeaderTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteRequestLeader($request);
-            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteRequestLeaderTeamIdUserIsTeamLeader(): void
-    {
-        $this->be($this->requestingUser);
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteRequestLeader($request);
-            $this->fail('Expected: REEEEEEEEEE');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
     }
 }

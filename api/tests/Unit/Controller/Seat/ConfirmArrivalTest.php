@@ -35,12 +35,12 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'), [
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
                 "lan_id" => $this->lan->id,
-                "seat_id" => env('SEAT__TEST_ID')
+                "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
     }
@@ -49,7 +49,7 @@ class ConfirmArrivalTest extends SeatsTestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'), [
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -77,10 +77,10 @@ class ConfirmArrivalTest extends SeatsTestCase
         );
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'))
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'))
             ->seeJsonEquals([
                 "lan_id" => $lan->id,
-                "seat_id" => env('SEAT__TEST_ID')
+                "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
     }
@@ -110,13 +110,13 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'))
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'))
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'The relation between seat with id ' . env('SEAT__TEST_ID') . ' and LAN with id ' . $lan->id . ' doesn\'t exist.',
+                        0 => 'The relation between seat with id ' . env('SEAT_TEST_ID') . ' and LAN with id ' . $lan->id . ' doesn\'t exist.',
                     ],
                 ]
             ])
@@ -131,7 +131,7 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'), [
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId
             ])
             ->seeJsonEquals([
@@ -154,7 +154,7 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'), [
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId
             ])
             ->seeJsonEquals([
@@ -192,10 +192,10 @@ class ConfirmArrivalTest extends SeatsTestCase
     public function testConfirmArrivalSeatIdFree(): void
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key);
-        $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT__TEST_ID')], 'free');
+        $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'free');
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'), [
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -204,7 +204,7 @@ class ConfirmArrivalTest extends SeatsTestCase
                 'message' => [
                     'seat_id' => [
                         0 => 'This seat is not associated with a reservation.',
-                        1 => 'The relation between seat with id ' . env('SEAT__TEST_ID') . ' and LAN with id ' . $this->lan->id . ' doesn\'t exist.'
+                        1 => 'The relation between seat with id ' . env('SEAT_TEST_ID') . ' and LAN with id ' . $this->lan->id . ' doesn\'t exist.'
                     ],
                 ]
             ])
@@ -214,10 +214,10 @@ class ConfirmArrivalTest extends SeatsTestCase
     public function testBookSeatIdArrived(): void
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key);
-        $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT__TEST_ID')], 'arrived');
+        $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT__TEST_ID'), [
+            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -226,7 +226,7 @@ class ConfirmArrivalTest extends SeatsTestCase
                 'message' => [
                     'seat_id' => [
                         0 => "This seat is already set to arrived.",
-                        1 => 'The relation between seat with id ' . env('SEAT__TEST_ID') . ' and LAN with id ' . $this->lan->id . ' doesn\'t exist.'
+                        1 => 'The relation between seat with id ' . env('SEAT_TEST_ID') . ' and LAN with id ' . $this->lan->id . ' doesn\'t exist.'
                     ],
                 ]
             ])

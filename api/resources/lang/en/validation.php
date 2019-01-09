@@ -152,6 +152,7 @@ return [
     'lan_role_name_once_per_lan' => 'The name of the LAN role must be unique per LAN.',
     'role_once_per_user' => 'The user already has this role.',
     'positive_integer' => 'The :attribute must be a positive integer.',
+    'request_belongs_to_user' => 'The request must belong to the user.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*

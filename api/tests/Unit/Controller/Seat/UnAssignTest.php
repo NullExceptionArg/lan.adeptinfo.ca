@@ -39,13 +39,13 @@ class UnAssignTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->admin)
-            ->json('DELETE', '/api/seat/assign/' . env('SEAT__TEST_ID'), [
+            ->json('DELETE', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
                 "lan_id" => $this->lan->id,
-                "seat_id" => env('SEAT__TEST_ID')
+                "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
     }
@@ -67,12 +67,12 @@ class UnAssignTest extends SeatsTestCase
             'lan_id' => $lan->id
         ]);
         $this->actingAs($this->admin)
-            ->json('DELETE', '/api/seat/assign/' . env('SEAT__TEST_ID'), [
+            ->json('DELETE', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
                 "lan_id" => $lan->id,
-                "seat_id" => env('SEAT__TEST_ID')
+                "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
     }
@@ -81,7 +81,7 @@ class UnAssignTest extends SeatsTestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('DELETE', '/api/seat/assign/' . env('SEAT__TEST_ID'), [
+            ->json('DELETE', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -101,7 +101,7 @@ class UnAssignTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->admin)
-            ->json('DELETE', '/api/seat/assign/' . env('SEAT__TEST_ID'), [
+            ->json('DELETE', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId,
                 'user_email' => $this->user->email
             ])
@@ -145,7 +145,7 @@ class UnAssignTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->admin)
-            ->json('DELETE', '/api/seat/assign/' . env('SEAT__TEST_ID'), [
+            ->json('DELETE', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => '☭',
                 'user_email' => $this->user->email
             ])
@@ -168,7 +168,7 @@ class UnAssignTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->admin)
-            ->json('DELETE', '/api/seat/assign/' . env('SEAT__TEST_ID'), [
+            ->json('DELETE', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => '☭'
             ])

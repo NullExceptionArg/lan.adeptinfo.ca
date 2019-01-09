@@ -22,4 +22,5 @@ class Request extends Model
         'created_at', 'updated_at'
     ];
 
+    protected $casts = ['tag_id' => 'integer', 'team_id' => 'integer'];
 }

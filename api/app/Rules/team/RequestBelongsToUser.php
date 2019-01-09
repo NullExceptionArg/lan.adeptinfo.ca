@@ -3,18 +3,12 @@
 namespace App\Rules\Team;
 
 use App\Model\Request;
-use App\Model\Team;
+use App\Model\Tag;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 
-class RequestBelongsInTeam implements Rule
+class RequestBelongsToUser implements Rule
 {
-    protected $teamId;
-
-    public function __construct(?string $teamId)
-    {
-        $this->teamId = $teamId;
-    }
-
     /**
      * Determine if the validation rule passes.
      *
@@ -24,13 +18,14 @@ class RequestBelongsInTeam implements Rule
      */
     public function passes($attribute, $value)
     {
-        $request = Request::find($value);
-        $team = Team::find($this->teamId);
-        if ($request == null || $team == null) {
+        $request = null;
+        $tag = null;
+
+        if (is_null($request = Request::find($value)) || is_null($tag = Tag::find($request->tag_id))) {
             return true;
         }
 
-        return $request->team_id == $team->id;
+        return $tag->user_id == Auth::id();
     }
 
     /**
@@ -40,6 +35,6 @@ class RequestBelongsInTeam implements Rule
      */
     public function message()
     {
-        return trans('validation.request_belongs_in_team');
+        return trans('validation.request_belongs_to_user');
     }
 }

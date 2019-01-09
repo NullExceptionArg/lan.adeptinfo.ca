@@ -27,7 +27,8 @@ class TagBelongsInTeam implements Rule
     {
         $tag = Tag::find($value);
         $team = Team::find($this->teamId);
-        if ($tag == null || $team == null) {
+
+        if (is_null($tag) || is_null($team)) {
             return true;
         }
 

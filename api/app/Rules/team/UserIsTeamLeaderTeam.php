@@ -2,38 +2,27 @@
 
 namespace App\Rules\Team;
 
-use App\Model\Tag;
+use App\Model\TagTeam;
 use App\Model\Team;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class UniqueUserPerRequest implements Rule
+class UserIsTeamLeaderTeam implements Rule
 {
-    protected $tagId;
-
-    public function __construct(?int $tagId)
-    {
-        $this->tagId = $tagId;
-    }
-
     /**
      * Determine if the validation rule passes.
      *
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
+     * @throws AuthorizationException
      */
     public function passes($attribute, $value)
     {
-        $tag = Tag::find($this->tagId);
-        if (is_null($tag) || $tag->user_id != Auth::id()) {
-            return true;
-        }
-
-        $team = Team::find($value);
-
-        if (is_null($team)) {
+        $team = null;
+        if (is_null($team = Team::find($value))) {
             return true;
         }
 
@@ -43,10 +32,16 @@ class UniqueUserPerRequest implements Rule
             ->pluck('id')
             ->toArray();
 
-        return DB::table('request')
-                ->whereIn('id', $tagIds)
+        $isInTeam = TagTeam::whereIn('tag_id', $tagIds)
                 ->where('team_id', $team->id)
-                ->count() == 0;
+                ->where('is_leader', true)
+                ->count() > 0;
+
+        if (!$isInTeam) {
+            throw new AuthorizationException(trans('validation.forbidden'));
+        } else {
+            return true;
+        }
     }
 
     /**
@@ -56,6 +51,6 @@ class UniqueUserPerRequest implements Rule
      */
     public function message()
     {
-        return trans('validation.unique_user_per_request');
+        return trans('validation.user_is_team_leader');
     }
 }

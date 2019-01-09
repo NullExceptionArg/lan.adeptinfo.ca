@@ -4,10 +4,8 @@ namespace Tests\Unit\Service\Team;
 
 use App\Model\Permission;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class DeleteAdminTest extends TestCase
@@ -73,70 +71,5 @@ class DeleteAdminTest extends TestCase
         $this->assertEquals($this->team->name, $result->name);
         $this->assertEquals($this->team->tag, $result->tag);
         $this->assertEquals($this->team->tournament_id, $result->tournament_id);
-    }
-
-    public function testDeleteAdminHasPermission(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $this->be($user);
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteAdmin($request, env('SEAT__TEST_ID'));
-            $this->fail('Expected: REEEEEEEEEE');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
-    }
-
-    public function testDeleteAdminTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteAdmin($request);
-            $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The team id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteAdminTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteAdmin($request);
-            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testDeleteAdminTeamIdUserIsTournamentAdmin(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'delete-team')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $user->id
-        ]);
-        $this->be($user);
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->deleteAdmin($request);
-            $this->fail('Expected: {"team_id":["The user doesn\'t have any tournaments"]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The user doesn\'t have any tournaments"]}', $e->getMessage());
-        }
     }
 }

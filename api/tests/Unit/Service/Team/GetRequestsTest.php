@@ -5,7 +5,6 @@ namespace Tests\Unit\Service\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class GetRequestsTest extends TestCase
@@ -157,31 +156,5 @@ class GetRequestsTest extends TestCase
         $this->assertEquals($this->team4->name, $result[2]->team_name);
         $this->assertEquals($this->tournament2->id, $result[2]->tournament_id);
         $this->assertEquals($this->tournament2->name, $result[2]->tournament_name);
-    }
-
-    public function testGetRequestsLanIdInteger(): void
-    {
-        $this->requestContent['lan_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getRequests($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetRequestsLanIdExist(): void
-    {
-        $this->requestContent['lan_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getRequests($request);
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
-        }
     }
 }

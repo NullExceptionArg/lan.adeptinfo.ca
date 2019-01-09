@@ -5,7 +5,6 @@ namespace Tests\Unit\Service\Team;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class LeaveTest extends TestCase
@@ -105,34 +104,5 @@ class LeaveTest extends TestCase
         $this->assertEquals($this->team->tag, $result->tag);
         $this->assertEquals($this->team->name, $result->name);
         $this->assertEquals($this->team->tournament_id, $result->tournament_id);
-    }
-
-    public function testLeaveTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $this->be($this->user);
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->leave($request);
-            $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The team id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testLeaveTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $this->be($this->user);
-        $this->requestContent['team_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->leave($request);
-            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
-        }
     }
 }

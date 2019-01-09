@@ -2,55 +2,52 @@
 
 namespace App\Repositories;
 
-use App\Model\Lan;
 use App\Model\Request;
 use App\Model\Tag;
 use App\Model\Team;
-use App\Model\Tournament;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 
 interface TeamRepository
 {
+    public function createRequest(int $teamId, int $userTagId): int;
+
     public function create(
-        Tournament $tournament,
+        int $tournamentId,
         string $name,
         string $tag
-    ): Team;
+    ): int;
 
-    public function linkTagTeam(Tag $tag, Team $team, bool $isLeader): void;
+    public function deleteRequest(int $requestId): void;
 
-    public function createRequest(int $teamId, $userTagId): Request;
+    public function deleteTagTeam(int $tagId, int $teamId): void;
 
-    public function getUserTeams(Authenticatable $user, Lan $lan): Collection;
+    public function delete(int $teamId): void;
 
     public function findById(int $id): ?Team;
 
-    public function getUsersTeamTags(Team $team): Collection;
-
-    public function userIsLeader(Team $team, Authenticatable $user): bool;
-
-    public function getRequests(Team $team): Collection;
-
-    public function switchLeader(Tag $tag, Team $team): void;
-
     public function findRequestById(int $id): ?Request;
-
-    public function deleteRequest(Request $request): void;
-
-    public function getRequestsForUser(Authenticatable $user, Lan $lan): Collection;
-
-    public function getLeadersRequestTotalCount(int $userId, int $lanId): int;
-
-    public function removeUserFromTeam(Authenticatable $user, Team $team): void;
-
-    public function getTagWithMostSeniorityNotLeader($team): ?Tag;
-
-    public function delete($team): void;
 
     public function findTagById(int $id): ?Tag;
 
-    public function deleteTagTeam(Tag $tag, Team $team): void;
+    public function getLeadersRequestTotalCount(int $userId, int $lanId): int;
+
+    public function getRequestsForUser(int $userId, int $lanId): Collection;
+
+    public function getRequests(int $teamId): Collection;
+
+    public function getTagWithMostSeniorityNotLeader(int $teamId): ?Tag;
 
     public function getTeamsLanId(int $teamId): ?int;
+
+    public function getUsersTeamTags(int $teamId): Collection;
+
+    public function getUserTeams(int $userId, int $lanId): Collection;
+
+    public function linkTagTeam(int $tagId, int $teamId, bool $isLeader): void;
+
+    public function removeUserFromTeam(int $userId, int $teamId): void;
+
+    public function switchLeader(int $tagId, int $teamId): void;
+
+    public function userIsLeader(int $teamId, int $userId): bool;
 }

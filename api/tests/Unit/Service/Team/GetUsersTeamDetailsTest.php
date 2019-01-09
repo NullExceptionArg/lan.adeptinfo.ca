@@ -2,12 +2,9 @@
 
 namespace Tests\Unit\Service\Team;
 
-use App\Model\TagTeam;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class GetUsersTeamDetailsTest extends TestCase
@@ -158,45 +155,5 @@ class GetUsersTeamDetailsTest extends TestCase
         $this->assertEquals($this->user->first_name, $result['user_tags'][0]->jsonSerialize()['first_name']);
         $this->assertEquals($this->user->last_name, $result['user_tags'][0]->jsonSerialize()['last_name']);
         $this->assertEquals(false, $result['user_tags'][0]->jsonSerialize()['is_leader']);
-    }
-
-    public function testGetUsersTeamDetailsTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getUsersTeamDetails($request);
-            $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The team id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersTeamDetailsTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getUsersTeamDetails($request);
-            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersTeamDetailsTeamIdUserBelongsInTeam(): void
-    {
-        TagTeam::where('team_id', $this->team->id)
-            ->where('tag_id', $this->tag->id)
-            ->delete();
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getUsersTeamDetails($request);
-            $this->fail('Expected: {"user_tag_id":["A user can only be once in a tournament."]}');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
     }
 }

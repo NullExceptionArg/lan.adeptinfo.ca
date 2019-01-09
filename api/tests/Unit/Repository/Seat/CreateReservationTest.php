@@ -28,7 +28,7 @@ class CreateReservationTest extends SeatsTestCase
         $this->seeInDatabase('reservation', [
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'seat_id' => env('SEAT__TEST_ID')
+            'seat_id' => env('SEAT_TEST_ID')
         ]);
     }
 }

@@ -166,6 +166,11 @@ class DeleteRequestPlayerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testDeleteRequestPlayerRequestBelongsToUser(): void
+    {
+        // TODO
+    }
+
     public function testDeleteRequestPlayerTeamIdRequestBelongsInTeam(): void
     {
         $user = factory('App\Model\User')->create();

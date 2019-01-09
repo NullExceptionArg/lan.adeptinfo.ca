@@ -6,32 +6,33 @@ use App\Http\Resources\Team\GetUsersTeamDetailsResource;
 use App\Model\Request as TeamRequest;
 use App\Model\Tag;
 use App\Model\Team;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface TeamService
 {
-    public function create(Request $input): Team;
+    public function acceptRequest(int $requestId): Tag;
 
-    public function createRequest(Request $input): TeamRequest;
+    public function changeLeader(int $tagId, int $teamId): Tag;
 
-    public function getUserTeams(Request $input): AnonymousResourceCollection;
+    public function createRequest(int $teamId, int $tagId): TeamRequest;
 
-    public function getUsersTeamDetails(Request $input): GetUsersTeamDetailsResource;
+    public function create(int $tournamentId, string $name, string $tag, int $userTagId): Team;
 
-    public function changeLeader(Request $input): Tag;
+    public function deleteAdmin(int $teamId): Team;
 
-    public function acceptRequest(Request $input): Tag;
+    public function deleteLeader(int $teamId): Team;
 
-    public function getRequests(Request $input): AnonymousResourceCollection;
+    public function deleteRequestLeader(int $requestId): Tag;
 
-    public function leave(Request $input): Team;
+    public function deleteRequestPlayer(int $requestId): Team;
 
-    public function deleteAdmin(Request $input): Team;
+    public function getRequests(int $lanId): AnonymousResourceCollection;
 
-    public function deleteLeader(Request $input): Team;
+    public function getUsersTeamDetails(int $teamId): GetUsersTeamDetailsResource;
 
-    public function deleteRequestLeader(Request $input): Tag;
+    public function getUserTeams(int $lanId): AnonymousResourceCollection;
 
-    public function deleteRequestPlayer(Request $input): Team;
+    public function kick(int $teamId, int $tagId): Tag;
+
+    public function leave(int $teamId): Team;
 }

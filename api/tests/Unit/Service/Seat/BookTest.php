@@ -25,9 +25,9 @@ class BookTest extends SeatsTestCase
 
     public function testBook(): void
     {
-        $result = $this->seatService->book($this->lan->id, env('SEAT__TEST_ID'));
+        $result = $this->seatService->book($this->lan->id, env('SEAT_TEST_ID'));
 
-        $this->assertEquals(env('SEAT__TEST_ID'), $result->seat_id);
+        $this->assertEquals(env('SEAT_TEST_ID'), $result->seat_id);
         $this->assertEquals($this->lan->id, $result->lan_id);
     }
 }

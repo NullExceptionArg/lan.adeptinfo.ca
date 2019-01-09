@@ -20,7 +20,7 @@ class UserIsTournamentAdmin implements Rule
     public function passes($attribute, $value)
     {
         $team = Team::find($value);
-        if ($team == null) {
+        if (is_null($team)) {
             return true;
         }
 
