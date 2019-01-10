@@ -295,6 +295,7 @@ class RoleRepositoryImpl implements RoleRepository
     ): void
     {
         $role = $this->findGlobalRoleById($roleId);
+
         DB::table('lan_role')
             ->where('id', $roleId)
             ->update([

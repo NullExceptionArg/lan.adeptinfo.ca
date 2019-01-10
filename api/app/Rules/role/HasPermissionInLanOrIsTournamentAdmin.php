@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-
 use App\Model\Lan;
 use App\Model\OrganizerTournament;
 use App\Model\Tournament;
@@ -12,14 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class HasPermissionInLanOrIsTournamentAdmin implements Rule
 {
-
-    protected $lanId;
     protected $userId;
     protected $tournamentId;
 
-    public function __construct(?string $lanId, string $userId, ?string $tournamentId)
+    public function __construct(string $userId, ?string $tournamentId)
     {
-        $this->lanId = $lanId;
         $this->userId = $userId;
         $this->tournamentId = $tournamentId;
     }
@@ -34,11 +30,13 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
      */
     public function passes($attribute, $value)
     {
+        $tournament = null;
+        $lan = null;
         if (
             is_null($value) ||
-            is_null(Lan::find($this->lanId)) ||
             is_null($this->userId) ||
-            is_null(Tournament::find($this->tournamentId))
+            is_null($tournament = Tournament::find($this->tournamentId)) ||
+            is_null($lan = Lan::find($tournament->lanId))
         ) {
             return true;
         }
@@ -48,7 +46,7 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
             ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
             ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
-            ->where('lan_role.lan_id', $this->lanId)
+            ->where('lan_role.lan_id', $lan->id)
             ->where('lan_role_user.user_id', $this->userId)
             ->where('permission.name', $value)
             ->get();

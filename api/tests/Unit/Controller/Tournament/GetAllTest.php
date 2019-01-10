@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetAllTournamentTest extends TestCase
+class GetAllTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -28,7 +28,7 @@ class GetAllTournamentTest extends TestCase
         ]);
     }
 
-    public function testGetAllTournamentHidden(): void
+    public function testGetAllHidden(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -57,7 +57,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentFinished(): void
+    public function testGetAllFinished(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -87,7 +87,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentFourthcoming(): void
+    public function testGetAllFourthcoming(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -120,7 +120,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentLate(): void
+    public function testGetAllLate(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -153,7 +153,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentOutguessed(): void
+    public function testGetAllOutguessed(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -186,7 +186,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentBehindhand(): void
+    public function testGetAllBehindhand(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -218,7 +218,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentRunning(): void
+    public function testGetAllRunning(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -251,7 +251,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentTeamsReachedTeamFull(): void
+    public function testGetAllTeamsReachedTeamFull(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -295,7 +295,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentTeamsReachedTeamEmpty(): void
+    public function testGetAllTeamsReachedTeamEmpty(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -339,7 +339,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentCurrentLan(): void
+    public function testGetAllCurrentLan(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -369,7 +369,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetAllTournamentLanInteger(): void
+    public function testGetAllLanInteger(): void
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
@@ -386,7 +386,7 @@ class GetAllTournamentTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetAllTournamentLanExist(): void
+    public function testGetAllLanExist(): void
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)

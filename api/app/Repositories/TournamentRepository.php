@@ -2,16 +2,18 @@
 
 namespace App\Repositories;
 
-use App\Model\Lan;
 use App\Model\Tournament;
 use DateTime;
-use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Collection;
 
 interface TournamentRepository
 {
+    public function adminHasTournaments(int $userId, int $lanId): bool;
+
+    public function associateOrganizerTournament(int $organizerId, int $tournamentId): void;
+
     public function create(
-        Lan $lan,
+        int $lanId,
         string $name,
         DateTime $tournamentStart,
         DateTime $tournamentEnd,
@@ -21,8 +23,24 @@ interface TournamentRepository
         ?int $price
     ): int;
 
+    public function delete(int $tournamentId): void;
+
+    public function deleteTournamentOrganizer(int $tournamentId, int $userId): void;
+
+    public function findById(int $id): ?Tournament;
+
+    public function getAllTournaments(int $lanId): Collection;
+
+    public function getOrganizerCount(int $tournamentId): int;
+
+    public function getReachedTeams(int $tournamentId): int;
+
+    public function getTournamentsForOrganizer(int $userId, int $lanId): Collection;
+
+    public function getTournamentsLanId(int $tournamentId): ?int;
+
     public function update(
-        Tournament $tournament,
+        int $tournamentId,
         ?string $name,
         ?string $state,
         ?DateTime $tournamentStart,
@@ -31,23 +49,5 @@ interface TournamentRepository
         ?int $teamsToReach,
         ?string $rules,
         ?int $price
-    ): Tournament;
-
-    public function findById(int $id): ?Tournament;
-
-    public function associateOrganizerTournament(int $organizerId, int $tournamentId): void;
-
-    public function getAllTournaments(int $lanId): Collection;
-
-    public function getReachedTeams(Tournament $tournament): int;
-
-    public function delete(Tournament $tournament): void;
-
-    public function quit(Tournament $tournament, Authenticatable $user): void;
-
-    public function getOrganizerCount(Tournament $tournament): int;
-
-    public function getTournamentsLanId(int $tournamentId): ?int;
-
-    public function adminHasTournaments(int $userId, int $lanId): bool;
+    ): void;
 }

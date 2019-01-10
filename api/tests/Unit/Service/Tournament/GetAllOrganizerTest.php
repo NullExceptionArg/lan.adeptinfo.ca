@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetAllTournamentOrganizerTest extends TestCase
+class GetAllOrganizerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -34,7 +34,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    public function testGetAllTournamentOrganizerHidden(): void
+    public function testGetAllOrganizerHidden(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -61,7 +61,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerFinished(): void
+    public function testGetAllOrganizerFinished(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -89,7 +89,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerFourthcoming(): void
+    public function testGetAllOrganizerFourthcoming(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -120,7 +120,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerLate(): void
+    public function testGetAllOrganizerLate(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -151,7 +151,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerOutguessed(): void
+    public function testGetAllOrganizerOutguessed(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
@@ -182,7 +182,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerBehindhand(): void
+    public function testGetAllOrganizerBehindhand(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -212,7 +212,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerRunning(): void
+    public function testGetAllOrganizerRunning(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
@@ -243,7 +243,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerTeamsReachedTeamFull(): void
+    public function testGetAllOrganizerTeamsReachedTeamFull(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -284,7 +284,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerTeamsReachedTeamEmpty(): void
+    public function testGetAllOrganizerTeamsReachedTeamEmpty(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -325,7 +325,7 @@ class GetAllTournamentOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllTournamentOrganizerCurrentLan(): void
+    public function testGetAllOrganizerCurrentLan(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'is_current' => true
