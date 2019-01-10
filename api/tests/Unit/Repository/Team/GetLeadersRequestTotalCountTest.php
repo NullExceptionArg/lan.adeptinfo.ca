@@ -22,10 +22,6 @@ class GetLeadersRequestTotalCountTest extends TestCase
     protected $team2;
     protected $team3;
 
-    protected $requestContent = [
-        'lan_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -36,10 +32,6 @@ class GetLeadersRequestTotalCountTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->lan = factory('App\Model\Lan')->create();
-
-        $this->requestContent['lan_id'] = $this->lan->id;
-
-        $this->be($this->user);
     }
 
     public function testGetUserSummary(): void
@@ -124,7 +116,7 @@ class GetLeadersRequestTotalCountTest extends TestCase
             ]);
         }
 
-        $result = $this->userRepository->getLeadersRequestTotalCount($this->user, $this->lan);
+        $result = $this->userRepository->getLeadersRequestTotalCount($this->user->id, $this->lan->id);
         $this->assertEquals(5, $result);
     }
 }

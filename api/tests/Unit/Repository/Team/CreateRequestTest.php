@@ -18,11 +18,6 @@ class CreateRequestTest extends TestCase
     protected $tournament;
     protected $team;
 
-    protected $requestContent = [
-        'team_id' => null,
-        'tag_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -44,31 +39,26 @@ class CreateRequestTest extends TestCase
         $this->team = factory('App\Model\Team')->create([
             'tournament_id' => $this->tournament->id
         ]);
-
-        $this->requestContent['team_id'] = $this->team->id;
-        $this->requestContent['tag_id'] = $this->tag->id;
     }
 
     public function testCreateRequest(): void
     {
         $this->notSeeInDatabase('request', [
             'id' => 1,
-            'team_id' => $this->requestContent['team_id'],
-            'tag_id' => $this->requestContent['tag_id'],
+            'team_id' => $this->team->id,
+            'tag_id' => $this->tag->id
         ]);
 
         $result = $this->teamRepository->createRequest(
-            $this->requestContent['team_id'],
-            $this->requestContent['tag_id']
+            $this->team->id,
+            $this->tag->id
         );
 
-        $this->assertEquals(1, $result->id);
-        $this->assertEquals($this->requestContent['team_id'], $result->team_id);
-        $this->assertEquals($this->requestContent['tag_id'], $result->tag_id);
+        $this->assertEquals(1, $result);
         $this->seeInDatabase('request', [
             'id' => 1,
-            'team_id' => $this->requestContent['team_id'],
-            'tag_id' => $this->requestContent['tag_id']
+            'team_id' => $this->team->id,
+            'tag_id' => $this->tag->id
         ]);
 
     }

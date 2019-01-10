@@ -3,7 +3,6 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -21,11 +20,6 @@ class KickTest extends TestCase
     protected $tournament;
     protected $team;
     protected $userTagTeam;
-
-    protected $requestContent = [
-        'team_id' => null,
-        'tag_id' => null
-    ];
 
     public function setUp(): void
     {
@@ -64,16 +58,14 @@ class KickTest extends TestCase
             'team_id' => $this->team->id,
             'is_leader' => true
         ]);
-
-        $this->requestContent['team_id'] = $this->team->id;
-        $this->requestContent['tag_id'] = $this->userTag->id;
-        $this->be($this->leader);
     }
 
     public function testKick(): void
     {
-        $request = new Request($this->requestContent);
-        $tag = $this->teamService->kick($request);
+        $tag = $this->teamService->kick(
+            $this->team->id,
+            $this->userTag->id
+        );
 
         $this->assertEquals($this->userTag->id, $tag->id);
         $this->assertEquals($this->userTag->name, $tag->name);

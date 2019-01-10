@@ -3,7 +3,6 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -25,10 +24,6 @@ class GetRequestsTest extends TestCase
     protected $request1;
     protected $request2;
     protected $request3;
-
-    protected $requestContent = [
-        'lan_id' => null
-    ];
 
     public function setUp(): void
     {
@@ -83,52 +78,12 @@ class GetRequestsTest extends TestCase
             'team_id' => $this->team4->id
         ]);
 
-        $this->requestContent['lan_id'] = $this->lan->id;
-
         $this->be($this->user);
     }
 
     public function testGetRequests(): void
     {
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getRequests($request);
-
-        $this->assertEquals($this->request1->id, $result[0]->id);
-        $this->assertEquals($this->tag->id, $result[0]->tag_id);
-        $this->assertEquals($this->tag->name, $result[0]->tag_name);
-        $this->assertEquals($this->team1->id, $result[0]->team_id);
-        $this->assertEquals($this->team1->tag, $result[0]->team_tag);
-        $this->assertEquals($this->team1->name, $result[0]->team_name);
-        $this->assertEquals($this->tournament1->id, $result[0]->tournament_id);
-        $this->assertEquals($this->tournament1->name, $result[0]->tournament_name);
-
-        $this->assertEquals($this->request2->id, $result[1]->id);
-        $this->assertEquals($this->tag->id, $result[1]->tag_id);
-        $this->assertEquals($this->tag->name, $result[1]->tag_name);
-        $this->assertEquals($this->team2->id, $result[1]->team_id);
-        $this->assertEquals($this->team2->tag, $result[1]->team_tag);
-        $this->assertEquals($this->team2->name, $result[1]->team_name);
-        $this->assertEquals($this->tournament1->id, $result[1]->tournament_id);
-        $this->assertEquals($this->tournament1->name, $result[1]->tournament_name);
-
-        $this->assertEquals($this->request3->id, $result[2]->id);
-        $this->assertEquals($this->tag->id, $result[2]->tag_id);
-        $this->assertEquals($this->tag->name, $result[2]->tag_name);
-        $this->assertEquals($this->team4->id, $result[2]->team_id);
-        $this->assertEquals($this->team4->tag, $result[2]->team_tag);
-        $this->assertEquals($this->team4->name, $result[2]->team_name);
-        $this->assertEquals($this->tournament2->id, $result[2]->tournament_id);
-        $this->assertEquals($this->tournament2->name, $result[2]->tournament_name);
-    }
-
-    public function testGetRequestsCurrentLan(): void
-    {
-        $this->lan->is_current = true;
-        $this->lan->save();
-        $this->requestContent['lan_id'] = null;
-
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getRequests($request);
+        $result = $this->teamService->getRequests($this->lan->id);
 
         $this->assertEquals($this->request1->id, $result[0]->id);
         $this->assertEquals($this->tag->id, $result[0]->tag_id);

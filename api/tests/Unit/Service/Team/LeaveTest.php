@@ -3,7 +3,6 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -21,10 +20,6 @@ class LeaveTest extends TestCase
     protected $tournament;
     protected $team;
     protected $userTagTeam;
-
-    protected $requestContent = [
-        'team_id' => null
-    ];
 
     public function setUp(): void
     {
@@ -63,15 +58,12 @@ class LeaveTest extends TestCase
             'team_id' => $this->team->id,
             'is_leader' => true
         ]);
-
-        $this->requestContent['team_id'] = $this->team->id;
     }
 
     public function testLeave(): void
     {
         $this->be($this->user);
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->leave($request);
+        $result = $this->teamService->leave($this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);
@@ -82,8 +74,7 @@ class LeaveTest extends TestCase
     public function testLeaveIsLeader(): void
     {
         $this->be($this->leader);
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->leave($request);
+        $result = $this->teamService->leave($this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);
@@ -97,8 +88,7 @@ class LeaveTest extends TestCase
         $this->userTag->delete();
         $this->user->delete();
         $this->be($this->leader);
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->leave($request);
+        $result = $this->teamService->leave($this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);

@@ -45,15 +45,12 @@ class CreateTest extends TestCase
         ]);
 
         $result = $this->teamRepository->create(
-            $this->tournament,
+            $this->tournament->id,
             $this->requestContent['name'],
             $this->requestContent['tag']
         );
 
-        $this->assertEquals(1, $result->id);
-        $this->assertEquals($this->requestContent['name'], $result->name);
-        $this->assertEquals($this->requestContent['tag'], $result->tag);
-        $this->assertEquals($this->tournament->id, $result->tournament_id);
+        $this->assertEquals(1, $result);
         $this->seeInDatabase('team', [
             'id' => 1,
             'name' => $this->requestContent['name'],

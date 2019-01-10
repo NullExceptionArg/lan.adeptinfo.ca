@@ -4,7 +4,6 @@ namespace Tests\Unit\Service\Team;
 
 use App\Model\Permission;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -18,10 +17,6 @@ class DeleteAdminTest extends TestCase
     protected $lan;
     protected $tournament;
     protected $team;
-
-    protected $requestContent = [
-        'team_id' => null
-    ];
 
     public function setUp(): void
     {
@@ -57,15 +52,11 @@ class DeleteAdminTest extends TestCase
             'role_id' => $role->id,
             'user_id' => $this->organizer->id
         ]);
-
-        $this->requestContent['team_id'] = $this->team->id;
-        $this->be($this->organizer);
     }
 
     public function testDeleteAdmin(): void
     {
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->deleteAdmin($request);
+        $result = $this->teamService->deleteAdmin($this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->name, $result->name);

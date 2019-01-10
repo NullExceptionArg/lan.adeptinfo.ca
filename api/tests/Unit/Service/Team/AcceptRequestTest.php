@@ -21,11 +21,6 @@ class AcceptRequestTest extends TestCase
     protected $team;
     protected $request;
 
-    protected $requestContent = [
-        'request_id' => null,
-        'team_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -61,11 +56,6 @@ class AcceptRequestTest extends TestCase
             'tag_id' => $this->requestingUsersTag->id,
             'team_id' => $this->team->id
         ]);
-
-        $this->requestContent['request_id'] = $this->request->id;
-        $this->requestContent['team_id'] = $this->team->id;
-
-        $this->be($this->leader);
     }
 
     public function testAcceptRequest(): void

@@ -53,9 +53,8 @@ class TeamServiceImpl implements TeamService
     public function changeLeader(int $tagId, int $teamId): Tag
     {
         $tag = $this->teamRepository->findTagById($tagId);
-        $team = $this->teamRepository->findById($teamId);
 
-        $this->teamRepository->switchLeader($tag->id, $team->id);
+        $this->teamRepository->switchLeader($tag->id, $teamId);
 
         return $tag;
     }

@@ -51,9 +51,8 @@ class TeamRepositoryImpl implements TeamRepository
 
     public function delete(int $teamId): void
     {
-        DB::table('team')
-            ->where('id', '=', $teamId)
-            ->delete();
+        $team = Team::find($teamId);
+        $team->delete();
     }
 
     public function findById(int $id): ?Team

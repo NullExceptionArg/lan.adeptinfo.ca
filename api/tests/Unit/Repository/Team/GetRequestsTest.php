@@ -49,7 +49,7 @@ class GetRequestsTest extends TestCase
 
     public function testGetRequests(): void
     {
-        $result = $this->teamRepository->getRequests($this->team);
+        $result = $this->teamRepository->getRequests($this->team->id);
 
         $this->assertEquals($this->request->id, $result[0]->id);
         $this->assertEquals($this->tag->id, $result[0]->tag_id);

@@ -3,7 +3,6 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -44,17 +43,14 @@ class GetUserTeamsTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testCreateRequestNotConfirmed(): void
+    public function testGetUserTeamsNotConfirmed(): void
     {
         factory('App\Model\Request')->create([
             'team_id' => $this->team->id,
             'tag_id' => $this->tag->id
         ]);
 
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        $result = $this->teamService->getUserTeams($request);
+        $result = $this->teamService->getUserTeams($this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -66,54 +62,14 @@ class GetUserTeamsTest extends TestCase
         $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['tournament_name']);
     }
 
-    public function testCreateRequestCurrentLan(): void
-    {
-        $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
-        ]);
-        $startTime = new Carbon($lan->lan_start);
-        $endTime = new Carbon($lan->lan_end);
-        $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $lan->id,
-            'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
-        ]);
-        $team = factory('App\Model\Team')->create([
-            'tournament_id' => $tournament->id
-        ]);
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
-        ]);
-        factory('App\Model\Request')->create([
-            'team_id' => $team->id,
-            'tag_id' => $tag->id
-        ]);
-
-        $request = new Request([
-            'lan_id' => null
-        ]);
-        $result = $this->teamService->getUserTeams($request);
-
-        $this->assertEquals(2, $result[0]->jsonSerialize()['id']);
-        $this->assertEquals($team->name, $result[0]->jsonSerialize()['name']);
-        $this->assertEquals('not-confirmed', $result[0]->jsonSerialize()['player_state']);
-        $this->assertEquals($tournament->players_to_reach, $result[0]->jsonSerialize()['players_to_reach']);
-        $this->assertEquals(0, $result[0]->jsonSerialize()['players_reached']);
-        $this->assertEquals(1, $result[0]->jsonSerialize()['requests']);
-        $this->assertEquals($team->tag, $result[0]->jsonSerialize()['tag']);
-        $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['tournament_name']);
-    }
-
-    public function testCreateRequestConfirmed(): void
+    public function testGetUserTeamsConfirmed(): void
     {
         factory('App\Model\TagTeam')->create([
             'team_id' => $this->team->id,
             'tag_id' => $this->tag->id
         ]);
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        $result = $this->teamService->getUserTeams($request);
+
+        $result = $this->teamService->getUserTeams($this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -125,17 +81,15 @@ class GetUserTeamsTest extends TestCase
         $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['tournament_name']);
     }
 
-    public function testCreateRequestLeader(): void
+    public function testGetUserTeamsLeader(): void
     {
         factory('App\Model\TagTeam')->create([
             'team_id' => $this->team->id,
             'tag_id' => $this->tag->id,
             'is_leader' => true
         ]);
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        $result = $this->teamService->getUserTeams($request);
+
+        $result = $this->teamService->getUserTeams($this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -147,7 +101,7 @@ class GetUserTeamsTest extends TestCase
         $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['tournament_name']);
     }
 
-    public function testCreateRequestManyTeams(): void
+    public function testGetUserTeamsManyTeams(): void
     {
         $startTime = new Carbon($this->lan->lan_start);
         $endTime = new Carbon($this->lan->lan_end);
@@ -171,10 +125,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
 
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        $result = $this->teamService->getUserTeams($request);
+        $result = $this->teamService->getUserTeams($this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -195,36 +146,27 @@ class GetUserTeamsTest extends TestCase
         $this->assertEquals($tournament->name, $result[1]->jsonSerialize()['tournament_name']);
     }
 
-    public function testCreateRequestNoTeam(): void
+    public function testGetUserTeamsNoTeam(): void
     {
         $this->team->delete();
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        $result = $this->teamService->getUserTeams($request);
+        $result = $this->teamService->getUserTeams($this->lan->id);
 
         $this->assertEquals([], $result->jsonSerialize());
     }
 
-    public function testCreateRequestNoTournament(): void
+    public function testGetUserTeamsNoTournament(): void
     {
         $this->team->delete();
         $this->tournament->delete();
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        $result = $this->teamService->getUserTeams($request);
+        $result = $this->teamService->getUserTeams($this->lan->id);
 
         $this->assertEquals([], $result->jsonSerialize());
     }
 
-    public function testCreateRequestNoTags(): void
+    public function testGetUserTeamsNoTags(): void
     {
         $this->tag->delete();
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        $result = $this->teamService->getUserTeams($request);
+        $result = $this->teamService->getUserTeams($this->lan->id);
 
         $this->assertEquals([], $result->jsonSerialize());
     }

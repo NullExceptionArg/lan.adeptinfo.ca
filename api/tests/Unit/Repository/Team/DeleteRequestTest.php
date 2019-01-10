@@ -55,7 +55,7 @@ class DeleteRequestTest extends TestCase
             'team_id' => $this->team->id
         ]);
 
-        $this->teamRepository->deleteRequest($this->request);
+        $this->teamRepository->deleteRequest($this->request->id);
 
         $this->notSeeInDatabase('request', [
             'id' => $this->request->id,

@@ -50,8 +50,8 @@ class LinkTagTeamTest extends TestCase
         ]);
 
         $this->teamRepository->linkTagTeam(
-            $this->tag,
-            $this->team,
+            $this->tag->id,
+            $this->team->id,
             $isLeader
         );
 
@@ -72,8 +72,8 @@ class LinkTagTeamTest extends TestCase
         ]);
 
         $this->teamRepository->linkTagTeam(
-            $this->tag,
-            $this->team,
+            $this->tag->id,
+            $this->team->id,
             $isLeader
         );
 

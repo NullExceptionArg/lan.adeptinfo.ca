@@ -50,7 +50,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
 
-        $result = $this->teamRepository->getUserTeams($this->user, $this->lan);
+        $result = $this->teamRepository->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals(1, $result[0]['id']);
         $this->assertEquals($this->team->name, $result[0]['name']);

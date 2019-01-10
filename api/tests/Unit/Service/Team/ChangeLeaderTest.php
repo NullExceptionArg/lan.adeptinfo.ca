@@ -20,11 +20,6 @@ class ChangeLeaderTest extends TestCase
     protected $tournament;
     protected $team;
 
-    protected $requestContent = [
-        'team_id' => null,
-        'tag_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -61,16 +56,14 @@ class ChangeLeaderTest extends TestCase
             'team_id' => $this->team->id,
             'is_leader' => false
         ]);
-
-        $this->requestContent['team_id'] = $this->team->id;
-        $this->requestContent['tag_id'] = $this->toBeLeadersTag->id;
-
-        $this->be($this->leader);
     }
 
     public function testChangeLeader(): void
     {
-        $result = $this->teamService->changeLeader($request);
+        $result = $this->teamService->changeLeader(
+            $this->toBeLeadersTag->id,
+            $this->team->id
+        );
 
         $this->assertEquals($this->toBeLeadersTag->id, $result->id);
         $this->assertEquals($this->toBeLeadersTag->name, $result->name);

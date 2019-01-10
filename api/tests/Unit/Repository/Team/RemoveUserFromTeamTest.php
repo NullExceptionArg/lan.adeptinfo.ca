@@ -71,7 +71,7 @@ class RemoveUserFromTeamTest extends TestCase
             'team_id' => $this->team->id
         ]);
 
-        $this->teamRepository->removeUserFromTeam($this->user, $this->team);
+        $this->teamRepository->removeUserFromTeam($this->user->id, $this->team->id);
 
 
         $this->notSeeInDatabase('tag_team', [

@@ -50,7 +50,7 @@ class UserIsLeaderTest extends TestCase
             'team_id' => $this->team->id,
             'is_leader' => true
         ]);
-        $result = $this->teamRepository->userIsLeader($this->team, $this->user);
+        $result = $this->teamRepository->userIsLeader($this->team->id, $this->user->id);
 
         $this->assertEquals(true, $result);
     }
@@ -62,7 +62,7 @@ class UserIsLeaderTest extends TestCase
             'team_id' => $this->team->id,
             'is_leader' => false
         ]);
-        $result = $this->teamRepository->userIsLeader($this->team, $this->user);
+        $result = $this->teamRepository->userIsLeader($this->team->id, $this->user->id);
 
         $this->assertEquals(false, $result);
     }

@@ -250,7 +250,7 @@ class TeamController extends Controller
             'team_id' => $request->input('team_id'),
             'tag_id' => $request->input('tag_id')
         ], [
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderRequest()],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderTeam],
             'tag_id' => [
                 'integer',
                 'exists:tag,id',

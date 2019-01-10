@@ -57,7 +57,7 @@ class DeleteTagTeamTest extends TestCase
             'team_id' => $this->tagTeam->team_id
         ]);
 
-        $this->teamRepository->deleteTagTeam($this->tag, $this->team);
+        $this->teamRepository->deleteTagTeam($this->tag->id, $this->team->id);
 
         $this->notSeeInDatabase('tag_team', [
             'id' => $this->tagTeam->id,

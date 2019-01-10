@@ -3,7 +3,6 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -12,10 +11,6 @@ class GetUsersTeamDetailsTest extends TestCase
     use DatabaseMigrations;
 
     protected $teamService;
-
-    protected $requestContent = [
-        'team_id' => null
-    ];
 
     protected $user;
     protected $tag;
@@ -76,8 +71,7 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
         $this->be($user);
 
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getUsersTeamDetails($request)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);
@@ -118,8 +112,7 @@ class GetUsersTeamDetailsTest extends TestCase
 
         $this->be($user);
 
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getUsersTeamDetails($request)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);
@@ -142,8 +135,7 @@ class GetUsersTeamDetailsTest extends TestCase
 
     public function testGetUsersTeamDetailsNotAdmin(): void
     {
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getUsersTeamDetails($request)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);

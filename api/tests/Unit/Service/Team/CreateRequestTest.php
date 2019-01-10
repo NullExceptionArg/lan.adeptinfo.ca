@@ -3,7 +3,6 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -45,21 +44,18 @@ class CreateRequestTest extends TestCase
         $this->team = factory('App\Model\Team')->create([
             'tournament_id' => $this->tournament->id
         ]);
-
-        $this->requestContent['team_id'] = $this->team->id;
-        $this->requestContent['tag_id'] = $this->tag->id;
-
-        $this->be($this->user);
     }
 
     public function testCreate(): void
     {
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->createRequest($request);
+        $result = $this->teamService->createRequest(
+            $this->team->id,
+            $this->tag->id
+        );
 
         $this->assertEquals(1, $result->id);
-        $this->assertEquals($this->requestContent['team_id'], $result->team_id);
-        $this->assertEquals($this->requestContent['tag_id'], $result->tag_id);
+        $this->assertEquals($this->team->id, $result->team_id);
+        $this->assertEquals($this->tag->id, $result->tag_id);
     }
 
     public function testCreateRequestUserTagIdUniqueUserPerTournamentSameLan(): void
@@ -71,18 +67,22 @@ class CreateRequestTest extends TestCase
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
-                'tournament_id' => $tournament->id,
-                'user_tag_id' => $this->tag->id,
-                'name' => 'name',
-                'tag' => 'tag'
-            ]);
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->createRequest($request);
+        $this->team = factory('App\Model\Team')->create([
+            'tournament_id' => $tournament->id
+        ]);
+        factory('App\Model\TagTeam')->create([
+            'tag_id' => $this->tag->id,
+            'team_id' => $this->team->id,
+            'is_leader' => true
+        ]);
+
+        $result = $this->teamService->createRequest(
+            $this->team->id,
+            $this->tag->id
+        );
 
         $this->assertEquals(1, $result->id);
-        $this->assertEquals($this->requestContent['team_id'], $result->team_id);
-        $this->assertEquals($this->requestContent['tag_id'], $result->tag_id);
+        $this->assertEquals($this->team->id, $result->team_id);
+        $this->assertEquals($this->tag->id, $result->tag_id);
     }
 }

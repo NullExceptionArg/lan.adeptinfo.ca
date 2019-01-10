@@ -71,7 +71,7 @@ class SwitchLeaderTest extends TestCase
             'is_leader' => true
         ]);
 
-        $this->teamRepository->switchLeader($this->toBeLeadersTag, $this->team);
+        $this->teamRepository->switchLeader($this->toBeLeadersTag->id, $this->team->id);
 
         $this->seeInDatabase('tag_team', [
             'tag_id' => $this->toBeLeadersTag->id,

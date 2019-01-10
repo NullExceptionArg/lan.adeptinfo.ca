@@ -49,7 +49,7 @@ class GetUsersTeamTagsTest extends TestCase
 
     public function testGetUsersTeamTags(): void
     {
-        $result = $this->teamRepository->getUsersTeamTags($this->team);
+        $result = $this->teamRepository->getUsersTeamTags($this->team->id);
 
         $this->assertEquals($this->tagTeam->id, $result[0]->id);
         $this->assertEquals($this->tag->name, $result[0]->tag_name);

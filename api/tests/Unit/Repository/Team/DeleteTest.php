@@ -89,7 +89,7 @@ class DeleteTest extends TestCase
             'team_id' => $this->team->id
         ]);
 
-        $this->teamRepository->delete($this->team);
+        $this->teamRepository->delete($this->team->id);
 
         $this->seeInDatabase('team', [
             'id' => $this->team->id,

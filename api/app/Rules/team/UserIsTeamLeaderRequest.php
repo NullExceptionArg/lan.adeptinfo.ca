@@ -24,7 +24,7 @@ class UserIsTeamLeaderRequest implements Rule
     {
         $request = null;
         $team = null;
-        if (is_null($request = Request::find($value)) || is_null($team = Team::find($value))) {
+        if (is_null($request = Request::find($value)) || is_null($team = Team::find($request->team_id))) {
             return true;
         }
 

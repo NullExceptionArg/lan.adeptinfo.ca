@@ -3,7 +3,6 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -21,11 +20,6 @@ class DeleteRequestLeaderTest extends TestCase
     protected $tournament;
     protected $team;
     protected $request;
-
-    protected $requestContent = [
-        'request_id' => null,
-        'team_id' => null
-    ];
 
     public function setUp(): void
     {
@@ -62,17 +56,11 @@ class DeleteRequestLeaderTest extends TestCase
             'tag_id' => $this->requestingUsersTag->id,
             'team_id' => $this->team->id
         ]);
-
-        $this->requestContent['request_id'] = $this->request->id;
-        $this->requestContent['team_id'] = $this->team->id;
-
-        $this->be($this->leader);
     }
 
     public function testDeleteRequestLeader(): void
     {
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->deleteRequestLeader($request);
+        $result = $this->teamService->deleteRequestLeader($this->request->id);
 
         $this->assertEquals($this->requestingUsersTag->id, $result->id);
         $this->assertEquals($this->requestingUsersTag->name, $result->name);
