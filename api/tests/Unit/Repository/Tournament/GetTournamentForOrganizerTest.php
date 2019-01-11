@@ -35,12 +35,11 @@ class GetTournamentForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $this->tournament->id
         ]);
-        $this->be($this->user);
     }
 
     public function testGetTournamentForOrganizer(): void
     {
-        $result = $this->tournamentRepository->getTournamentsForOrganizer($this->user, $this->lan);
+        $result = $this->tournamentRepository->getTournamentsForOrganizer($this->user->id, $this->lan->id);
 
         $this->assertEquals($this->tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['name']);

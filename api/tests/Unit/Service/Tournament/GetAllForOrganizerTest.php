@@ -4,7 +4,6 @@ namespace Tests\Unit\Service\Tournament;
 
 use App\Model\TagTeam;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -17,10 +16,6 @@ class GetAllForOrganizerTest extends TestCase
     protected $user;
     protected $tag;
     protected $lan;
-
-    protected $requestContent = [
-        'lan_id' => null,
-    ];
 
     public function setUp(): void
     {
@@ -37,7 +32,6 @@ class GetAllForOrganizerTest extends TestCase
     public function testGetAllForOrganizerHidden(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
-        $this->requestContent['lan_id'] = $this->lan->id;
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
@@ -49,8 +43,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -77,8 +71,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -108,8 +102,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -139,8 +133,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -170,8 +164,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -200,8 +194,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -231,8 +225,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -272,8 +266,8 @@ class GetAllForOrganizerTest extends TestCase
             $tagTeam->team_id = $team->id;
             $tagTeam->save();
         }
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -313,8 +307,8 @@ class GetAllForOrganizerTest extends TestCase
             $tagTeam->team_id = $team->id;
             $tagTeam->save();
         }
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);
@@ -341,8 +335,8 @@ class GetAllForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $tournament->id
         ]);
-        $request = new Request($this->requestContent);
-        $result = $this->tournamentService->getAllOrganizer($request);
+
+        $result = $this->tournamentService->getAllForOrganizer($this->lan->id);
 
         $this->assertEquals($tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($tournament->name, $result[0]->jsonSerialize()['name']);

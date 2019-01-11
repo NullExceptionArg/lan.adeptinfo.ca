@@ -4,11 +4,10 @@ namespace Tests\Unit\Service\Tournament;
 
 use App\Model\Permission;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class EditTest extends TestCase
+class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -64,10 +63,19 @@ class EditTest extends TestCase
         $this->be($this->user);
     }
 
-    public function testEdit(): void
+    public function testUpdate(): void
     {
-        $request = new Request($this->paramsContent);
-        $result = $this->tournamentService->edit($request, $this->tournament->id);
+        $result = $this->tournamentService->update(
+            $this->tournament->id,
+            $this->paramsContent['name'],
+            Carbon::parse($this->paramsContent['tournament_start']),
+            Carbon::parse($this->paramsContent['tournament_end']),
+            $this->paramsContent['players_to_reach'],
+            $this->paramsContent['teams_to_reach'],
+            $this->paramsContent['state'],
+            $this->paramsContent['rules'],
+            $this->paramsContent['price']
+        );
 
         $this->assertEquals(1, $result->id);
         $this->assertEquals($this->paramsContent['state'], $result->state);

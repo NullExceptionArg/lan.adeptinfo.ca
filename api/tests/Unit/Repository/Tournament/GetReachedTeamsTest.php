@@ -81,7 +81,7 @@ class GetReachedTeamsTest extends TestCase
 
     public function testGetReachedTeams(): void
     {
-        $result = $this->tournamentRepository->getReachedTeams($this->tournament);
+        $result = $this->tournamentRepository->getReachedTeams($this->tournament->id);
 
         $this->assertEquals(1, $result);
     }

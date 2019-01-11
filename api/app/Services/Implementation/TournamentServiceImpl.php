@@ -85,32 +85,6 @@ class TournamentServiceImpl implements TournamentService
         return new TournamentResource($tournament);
     }
 
-    public function edit(
-        int $tournamentId,
-        ?string $name,
-        ?DateTime $tournamentStart,
-        ?DateTime $tournamentEnd,
-        ?int $playersToReach,
-        ?int $teamsToReach,
-        ?string $state,
-        ?string $rules,
-        ?int $price
-    ): TournamentDetailsResource
-    {
-        $this->tournamentRepository->update(
-            $tournamentId,
-            $name,
-            $state,
-            $tournamentStart,
-            $tournamentEnd,
-            $playersToReach,
-            $teamsToReach,
-            $rules,
-            $price
-        );
-        return new TournamentDetailsResource($this->tournamentRepository->findById($tournamentId));
-    }
-
     public function getAllForOrganizer(int $lanId): AnonymousResourceCollection
     {
         // Si l'utilisateur possède les permissions pour modifier, supprimer, et ajouter un organisateur à un tournoi, tous les LANs s'affichent.
@@ -156,5 +130,31 @@ class TournamentServiceImpl implements TournamentService
         }
 
         return new TournamentResource($tournament);
+    }
+
+    public function update(
+        int $tournamentId,
+        ?string $name,
+        ?DateTime $tournamentStart,
+        ?DateTime $tournamentEnd,
+        ?int $playersToReach,
+        ?int $teamsToReach,
+        ?string $state,
+        ?string $rules,
+        ?int $price
+    ): TournamentDetailsResource
+    {
+        $this->tournamentRepository->update(
+            $tournamentId,
+            $name,
+            $state,
+            $tournamentStart,
+            $tournamentEnd,
+            $playersToReach,
+            $teamsToReach,
+            $rules,
+            $price
+        );
+        return new TournamentDetailsResource($this->tournamentRepository->findById($tournamentId));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repository;
+namespace Tests\Unit\Repository\Tournament;
 
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
@@ -16,7 +16,6 @@ class CreateTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'lan' => null,
         'name' => 'October',
         'tournament_start' => null,
         'tournament_end' => null,
@@ -34,7 +33,6 @@ class CreateTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $this->requestContent['lan'] = $this->lan;
         $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->addHour(1);
         $endTime = Carbon::parse($this->lan->lan_end);
@@ -50,7 +48,7 @@ class CreateTest extends TestCase
         ]);
 
         $result = $this->tournamentRepository->create(
-            $this->requestContent['lan'],
+            $this->lan->id,
             $this->requestContent['name'],
             $this->requestContent['tournament_start'],
             $this->requestContent['tournament_end'],

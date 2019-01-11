@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class EditTest extends TestCase
+class UpdateTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -57,7 +57,7 @@ class EditTest extends TestCase
         ]);
     }
 
-    public function testEdit(): void
+    public function testUpdate(): void
     {
         $this->actingAs($this->user)
             ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
@@ -77,7 +77,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testEditHasPermission(): void
+    public function testUpdateHasPermission(): void
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
@@ -90,7 +90,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testEditTournamentIdInteger(): void
+    public function testUpdateTournamentIdInteger(): void
     {
         $badTournamentId = '☭';
         $this->actingAs($this->user)
@@ -107,7 +107,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditTournamentIdExist(): void
+    public function testUpdateTournamentIdExist(): void
     {
         $badTournamentId = -1;
         $this->actingAs($this->user)
@@ -124,7 +124,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditNameString(): void
+    public function testUpdateNameString(): void
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
@@ -141,7 +141,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditNameMaxLength(): void
+    public function testUpdateNameMaxLength(): void
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
@@ -158,7 +158,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditStateInEnum(): void
+    public function testUpdateStateInEnum(): void
     {
         $this->requestContent['state'] = '☭';
         $this->actingAs($this->user)
@@ -175,7 +175,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditPriceInteger(): void
+    public function testUpdatePriceInteger(): void
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
@@ -192,7 +192,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditPriceMin(): void
+    public function testUpdatePriceMin(): void
     {
         $this->requestContent['price'] = -1;
         $this->actingAs($this->user)
@@ -209,7 +209,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditTournamentStartAfterOrEqualLanStartTime(): void
+    public function testUpdateTournamentStartAfterOrEqualLanStartTime(): void
     {
 
         $startTime = Carbon::parse($this->lan->lan_start);
@@ -228,7 +228,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditTournamentEndBeforeOrEqualLanEndTime(): void
+    public function testUpdateTournamentEndBeforeOrEqualLanEndTime(): void
     {
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->addHour(1)->format('Y-m-d H:i:s');
@@ -246,7 +246,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditPlayersToReachMin(): void
+    public function testUpdatePlayersToReachMin(): void
     {
         $this->requestContent['players_to_reach'] = 0;
         $this->actingAs($this->user)
@@ -263,7 +263,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditPlayersToReachInteger(): void
+    public function testUpdatePlayersToReachInteger(): void
     {
         $this->requestContent['players_to_reach'] = '☭';
         $this->actingAs($this->user)
@@ -280,7 +280,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditPlayersToReachLock(): void
+    public function testUpdatePlayersToReachLock(): void
     {
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $this->user->id
@@ -306,7 +306,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditTeamsToReachMin(): void
+    public function testUpdateTeamsToReachMin(): void
     {
         $this->requestContent['teams_to_reach'] = 0;
         $this->actingAs($this->user)
@@ -323,7 +323,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditTeamsToReachInteger(): void
+    public function testUpdateTeamsToReachInteger(): void
     {
         $this->requestContent['teams_to_reach'] = '☭';
         $this->actingAs($this->user)
@@ -340,7 +340,7 @@ class EditTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testEditRulesString(): void
+    public function testUpdateRulesString(): void
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)

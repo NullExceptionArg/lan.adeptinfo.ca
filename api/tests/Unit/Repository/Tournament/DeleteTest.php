@@ -90,7 +90,7 @@ class DeleteTest extends TestCase
             'tournament_id' => $this->organizerTournament->tournament_id
         ]);
 
-        $this->tournamentRepository->delete($this->tournament);
+        $this->tournamentRepository->delete($this->tournament->id);
 
         $tournament = Tournament::withTrashed()->first();
         $team = Team::withTrashed()->first();

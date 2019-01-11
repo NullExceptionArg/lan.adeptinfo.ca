@@ -44,7 +44,7 @@ class GetOrganizerCountTest extends TestCase
 
     public function testGetOrganizerCount(): void
     {
-        $result = $this->tournamentRepository->getOrganizerCount($this->tournament);
+        $result = $this->tournamentRepository->getOrganizerCount($this->tournament->id);
 
         $this->assertEquals(2, $result);
     }

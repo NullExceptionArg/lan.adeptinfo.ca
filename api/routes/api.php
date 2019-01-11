@@ -33,7 +33,7 @@ $api->version('v1', function ($api) {
             $api->get('contribution', 'ContributionController@getContributions');
 
             $api->get('tournament/details/{tournament_id}', 'TournamentController@get');
-            $api->get('tournament/all', 'TournamentController@getAllTournament');
+            $api->get('tournament/all', 'TournamentController@getAll');
 
         });
 
@@ -85,11 +85,11 @@ $api->version('v1', function ($api) {
                 $api->post('seat/assign/{seat_id}', 'SeatController@assign');
                 $api->delete('seat/assign/{seat_id}', 'SeatController@unAssign');
 
-                $api->post('tournament', 'TournamentController@createTournament');
+                $api->post('tournament', 'TournamentController@create');
                 $api->put('tournament/{tournament_id}', 'TournamentController@update');
                 $api->delete('tournament/{tournament_id}', 'TournamentController@delete');
                 $api->post('tournament/{tournament_id}/quit', 'TournamentController@quit');
-                $api->get('tournament/all/organizer', 'TournamentController@getAllTournamentOrganizer');
+                $api->get('tournament/all/organizer', 'TournamentController@getAllForOrganizer');
                 $api->post('tournament/{tournament_id}/organizer', 'TournamentController@addOrganizer');
 
                 $api->delete('team/admin', 'TeamController@deleteAdmin');

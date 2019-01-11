@@ -126,9 +126,8 @@ class TournamentRepositoryImpl implements TournamentRepository
     ): void
     {
         $tournament = Tournament::find($tournamentId);
-
         DB::table('tournament')
-            ->where('tournament_id', $tournamentId)
+            ->where('id', $tournamentId)
             ->update([
                 'name' => $name != null ? $name : $tournament->name,
                 'state' => $state != null ? $state : $tournament->state,

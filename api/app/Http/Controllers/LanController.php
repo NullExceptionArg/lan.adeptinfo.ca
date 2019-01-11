@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Rules\{Lan\LowerReservedPlace,
+    Lan\ManyImageIdsExist,
     Seat\ValidEventKey,
     Seat\ValidSecretKey,
     User\HasPermission,

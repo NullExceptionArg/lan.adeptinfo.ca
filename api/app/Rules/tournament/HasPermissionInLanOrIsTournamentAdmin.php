@@ -36,7 +36,7 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
             is_null($value) ||
             is_null($this->userId) ||
             is_null($tournament = Tournament::find($this->tournamentId)) ||
-            is_null($lan = Lan::find($tournament->lanId))
+            is_null($lan = Lan::find($tournament->lan_id))
         ) {
             return true;
         }

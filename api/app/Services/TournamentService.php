@@ -24,7 +24,7 @@ interface TournamentService
 
     public function delete(string $tournamentId): TournamentResource;
 
-    public function edit(
+    public function update(
         int $tournamentId,
         ?string $name,
         ?DateTime $tournamentStart,

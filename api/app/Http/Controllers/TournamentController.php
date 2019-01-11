@@ -99,47 +99,6 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->delete($tournamentId), 200);
     }
 
-    public function edit(Request $request, string $tournamentId)
-    {
-        $validator = Validator::make([
-            'tournament_id' => $tournamentId,
-            'name' => $request->input('name'),
-            'state' => $request->input('state'),
-            'price' => $request->input('price'),
-            'tournament_start' => $request->input('tournament_start'),
-            'tournament_end' => $request->input('tournament_end'),
-            'players_to_reach' => $request->input('players_to_reach'),
-            'teams_to_reach' => $request->input('teams_to_reach'),
-            'rules' => $request->input('rules'),
-            'permission' => 'edit-tournament'
-        ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
-            'name' => 'string|max:255',
-            'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
-            'price' => 'integer|min:0',
-            'tournament_start' => [new AfterOrEqualLanStartTime($request->input('lan_id'))],
-            'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($request->input('lan_id'))],
-            'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
-            'teams_to_reach' => 'min:1|integer',
-            'rules' => 'string',
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), $tournamentId)
-        ]);
-
-        $this->checkValidation($validator);
-
-        return response()->json($this->tournamentService->edit(
-            $tournamentId,
-            $request->input('name'),
-            Carbon::parse($request->input('tournament_start')),
-            Carbon::Parse($request->input('tournament_end')),
-            intval($request->input('players_to_reach')),
-            intval($request->input('teams_to_reach')),
-            $request->input('state'),
-            $request->input('rules'),
-            intval($request->input('price'))
-        ), 200);
-    }
-
     public function getAllForOrganizer(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -194,5 +153,46 @@ class TournamentController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->tournamentService->quit($tournamentId), 200);
+    }
+
+    public function update(Request $request, string $tournamentId)
+    {
+        $validator = Validator::make([
+            'tournament_id' => $tournamentId,
+            'name' => $request->input('name'),
+            'state' => $request->input('state'),
+            'price' => $request->input('price'),
+            'tournament_start' => $request->input('tournament_start'),
+            'tournament_end' => $request->input('tournament_end'),
+            'players_to_reach' => $request->input('players_to_reach'),
+            'teams_to_reach' => $request->input('teams_to_reach'),
+            'rules' => $request->input('rules'),
+            'permission' => 'edit-tournament'
+        ], [
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
+            'name' => 'string|max:255',
+            'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
+            'price' => 'integer|min:0',
+            'tournament_start' => [new AfterOrEqualLanStartTime($request->input('lan_id'))],
+            'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($request->input('lan_id'))],
+            'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
+            'teams_to_reach' => 'min:1|integer',
+            'rules' => 'string',
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), $tournamentId)
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->tournamentService->update(
+            $tournamentId,
+            $request->input('name'),
+            Carbon::parse($request->input('tournament_start')),
+            Carbon::Parse($request->input('tournament_end')),
+            intval($request->input('players_to_reach')),
+            intval($request->input('teams_to_reach')),
+            $request->input('state'),
+            $request->input('rules'),
+            intval($request->input('price'))
+        ), 200);
     }
 }
