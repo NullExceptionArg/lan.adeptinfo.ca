@@ -3,9 +3,7 @@
 namespace App\Utils;
 
 use Dingo\Api\Exception\InternalHttpException;
-use Facebook\Authentication\AccessToken;
-use Facebook\Exceptions\FacebookSDKException;
-use Facebook\Facebook;
+use Facebook\{Authentication\AccessToken, Exceptions\FacebookSDKException, Facebook};
 use Illuminate\Http\Response;
 
 class FacebookUtils

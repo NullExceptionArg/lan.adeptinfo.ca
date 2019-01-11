@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Http\Resources\User\GetAdminRolesResource;
-use App\Http\Resources\User\GetAdminSummaryResource;
-use App\Http\Resources\User\GetUserCollection;
-use App\Http\Resources\User\GetUserDetailsResource;
-use App\Http\Resources\User\GetUserSummaryResource;
+use App\Http\Resources\{User\GetAdminRolesResource,
+    User\GetAdminSummaryResource,
+    User\GetUserCollection,
+    User\GetUserDetailsResource,
+    User\GetUserSummaryResource};
 use App\Model\Tag;
 use App\Model\User;
 

@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Controller\Lan;
 
+use Carbon\Carbon;
 use DateInterval;
-use DateTime;
 use Exception;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -219,11 +219,11 @@ class CreateTest extends TestCase
     public function testCreateAfterReservation(): void
     {
         // Set the lan_start date to one day before reservation
-        $newLanStart = (new DateTime($this->requestContent['seat_reservation_start']));
+        $newLanStart = Carbon::parse($this->requestContent['seat_reservation_start']);
         $newLanStart->sub(new DateInterval('P1D'));
         $this->requestContent['lan_start'] = $newLanStart->format('Y-m-d\TH:i:s');
         // Set the tournament_reservation_start to one day before the new lan_start
-        $newTournamentStart = (new DateTime($this->requestContent['lan_start']));
+        $newTournamentStart = Carbon::parse($this->requestContent['lan_start']);
         $newTournamentStart->sub(new DateInterval('P1D'));
         $this->requestContent['tournament_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
@@ -250,11 +250,11 @@ class CreateTest extends TestCase
     public function testCreateAfterTournamentStart(): void
     {
         // Set the lan_start date to one day before tournament start
-        $newLanStart = (new DateTime($this->requestContent['tournament_reservation_start']));
+        $newLanStart = Carbon::parse($this->requestContent['tournament_reservation_start']);
         $newLanStart->sub(new DateInterval('P1D'));
         $this->requestContent['lan_start'] = $newLanStart->format('Y-m-d\TH:i:s');
         // Set the seat_reservation_start to one day before the new lan_start
-        $newTournamentStart = (new DateTime($this->requestContent['lan_start']));
+        $newTournamentStart = Carbon::parse($this->requestContent['lan_start']);
         $newTournamentStart->sub(new DateInterval('P1D'));
         $this->requestContent['seat_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
@@ -301,7 +301,7 @@ class CreateTest extends TestCase
     public function testCreateEndAfterLanStart(): void
     {
         // Set the lan end date to one day before lan start
-        $newLanEnd = (new DateTime($this->requestContent['lan_start']));
+        $newLanEnd = Carbon::parse($this->requestContent['lan_start']);
         $newLanEnd->sub(new DateInterval('P1D'));
         $this->requestContent['lan_end'] = $newLanEnd->format('Y-m-d\TH:i:s');
         // Execute request
@@ -342,7 +342,7 @@ class CreateTest extends TestCase
     public function testCreateSeatReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
-        $newLanSeatReservation = (new DateTime($this->requestContent['lan_start']));
+        $newLanSeatReservation = Carbon::parse($this->requestContent['lan_start']);
         $newLanSeatReservation->add(new DateInterval('P1D'));
         $this->requestContent['seat_reservation_start'] = $newLanSeatReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
@@ -388,7 +388,7 @@ class CreateTest extends TestCase
     public function testCreateTournamentReservationBeforeOrEqualLanStart(): void
     {
         // Set the lan end date to one day before lan start
-        $newLanTournamentReservation = (new DateTime($this->requestContent['lan_start']));
+        $newLanTournamentReservation = Carbon::parse($this->requestContent['lan_start']);
         $newLanTournamentReservation->add(new DateInterval('P1D'));
         $this->requestContent['tournament_reservation_start'] = $newLanTournamentReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)

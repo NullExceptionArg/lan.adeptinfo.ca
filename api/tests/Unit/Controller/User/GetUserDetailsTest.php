@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Controller\User;
 
-use DateTime;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\SeatsTestCase;
 
@@ -66,7 +66,7 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime()
+            'arrived_at' => Carbon::now()
         ]);
         $this->actingAs($this->user)
             ->json('POST', '/api/user/details', [
@@ -93,8 +93,8 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime(),
-            'left_at' => new DateTime()
+            'arrived_at' => Carbon::now(),
+            'left_at' => Carbon::now()
         ]);
         $this->actingAs($this->user)
             ->json('POST', '/api/user/details', [
@@ -121,8 +121,8 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime(),
-            'left_at' => new DateTime(),
+            'arrived_at' => Carbon::now(),
+            'left_at' => Carbon::now(),
         ]);
         $reservation->delete();
         $this->actingAs($this->user)

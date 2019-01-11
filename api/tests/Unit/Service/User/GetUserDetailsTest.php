@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Service;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\SeatsTestCase;
 

@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Repository\Tournament;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

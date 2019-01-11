@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-
 use App\Http\Resources\Role\GetRoleResource;
 use App\Model\GlobalRole;
 use App\Model\LanRole;

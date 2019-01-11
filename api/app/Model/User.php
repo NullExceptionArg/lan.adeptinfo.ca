@@ -5,7 +5,8 @@ namespace App\Model;
 use Illuminate\{Auth\Authenticatable,
     Contracts\Auth\Access\Authorizable as AuthorizableContract,
     Contracts\Auth\Authenticatable as AuthenticatableContract,
-    Database\Eloquent\Model};
+    Database\Eloquent\Model,
+    Support\Facades\DB};
 use Laravel\{Lumen\Auth\Authorizable, Passport\HasApiTokens};
 use Seatsio\SeatsioClient;
 
@@ -82,9 +83,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                 $reservation->delete();
             }
 
-            $contributions = $user->Contribution()->get();
+            $contributions = Contribution::where('user_id', $user->id)->get();
             foreach ($contributions as $contribution) {
-                $contribution->ContributionCategory()->detach();
+                DB::table('contribution_cat_contribution')
+                    ->where('contribution_id', $contribution->id)
+                    ->delete();
                 $contribution->delete();
             }
         });

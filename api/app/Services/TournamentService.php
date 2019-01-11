@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Resources\Tournament\TournamentDetailsResource;
-use App\Http\Resources\Tournament\TournamentResource;
+use App\Http\Resources\{Tournament\TournamentDetailsResource, Tournament\TournamentResource};
 use DateTime;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 

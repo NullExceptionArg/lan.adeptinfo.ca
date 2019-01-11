@@ -3,9 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\Team\GetUsersTeamDetailsResource;
-use App\Model\Request as TeamRequest;
-use App\Model\Tag;
-use App\Model\Team;
+use App\Model\{Request as TeamRequest, Tag, Team};
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface TeamService
