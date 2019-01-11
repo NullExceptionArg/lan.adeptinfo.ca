@@ -32,9 +32,9 @@ class CreateTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
 
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
 
         $role = factory('App\Model\LanRole')->create([
@@ -88,9 +88,9 @@ class CreateTest extends TestCase
             'role_id' => $role->id,
             'user_id' => $this->user->id
         ]);
-        $startTime = new Carbon($lan->lan_start);
+        $startTime = Carbon::parse($lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($lan->lan_end);
+        $endTime = Carbon::parse($lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
@@ -284,7 +284,7 @@ class CreateTest extends TestCase
     public function testCreateTournamentStartAfterOrEqualLanStartTime(): void
     {
 
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->subHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
             ->json('POST', '/api/tournament', $this->requestContent)
@@ -319,7 +319,7 @@ class CreateTest extends TestCase
 
     public function testCreateTournamentEndBeforeOrEqualLanEndTime(): void
     {
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->addHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
             ->json('POST', '/api/tournament', $this->requestContent)

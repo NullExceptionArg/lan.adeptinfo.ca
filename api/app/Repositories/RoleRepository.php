@@ -2,8 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Model\GlobalRole;
-use App\Model\LanRole;
+use App\Model\{GlobalRole, LanRole};
 use Illuminate\Support\Collection;
 
 interface RoleRepository

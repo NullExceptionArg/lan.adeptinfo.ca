@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Tournament;
 
-
 use App\Model\TagTeam;
 use App\Model\Team;
 use Illuminate\Http\Resources\Json\Resource;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Seat;
 
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Team\Rules;
+namespace App\Rules\Team;
 
 use App\Model\OrganizerTournament;
 use App\Model\Team;

@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Role;
 
-use App\Model\LanRole;
+use App\Model\Lan;
+use App\Model\OrganizerTournament;
+use App\Model\Tournament;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
-class HasPermissionInLanForRole implements Rule
+class HasPermissionInLanOrIsTournamentAdmin implements Rule
 {
-
-    protected $roleId;
     protected $userId;
+    protected $tournamentId;
 
-    public function __construct(?string $roleId, string $userId)
+    public function __construct(string $userId, ?string $tournamentId)
     {
-        $this->roleId = $roleId;
         $this->userId = $userId;
+        $this->tournamentId = $tournamentId;
     }
 
     /**
@@ -29,17 +30,23 @@ class HasPermissionInLanForRole implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (is_null($value) || is_null(LanRole::find($this->roleId)) || is_null($this->userId)) {
+        $tournament = null;
+        $lan = null;
+        if (
+            is_null($value) ||
+            is_null($this->userId) ||
+            is_null($tournament = Tournament::find($this->tournamentId)) ||
+            is_null($lan = Lan::find($tournament->lanId))
+        ) {
             return true;
         }
 
-        $lanRole = LanRole::find($this->roleId);
         $lanPermissions = DB::table('permission')
             ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
             ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
             ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
-            ->where('lan_role.lan_id', $lanRole->lan_id)
+            ->where('lan_role.lan_id', $lan->id)
             ->where('lan_role_user.user_id', $this->userId)
             ->where('permission.name', $value)
             ->get();
@@ -53,11 +60,14 @@ class HasPermissionInLanForRole implements Rule
             ->get();
 
         $hasPermission = $lanPermissions->merge($globalPermissions)->unique()->count() > 0;
-        if (!$hasPermission) {
+        $isTournamentAdmin = OrganizerTournament::where('organizer_id', $this->userId)
+                ->where('tournament_id', $this->tournamentId)
+                ->count() > 0;
+        if (!$hasPermission && !$isTournamentAdmin) {
             throw new AuthorizationException(trans('validation.forbidden'));
         }
 
-        return $hasPermission;
+        return true;
     }
 
     /**

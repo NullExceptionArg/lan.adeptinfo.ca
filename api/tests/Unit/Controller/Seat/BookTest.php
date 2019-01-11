@@ -173,5 +173,4 @@ class BookTest extends SeatsTestCase
             ])
             ->assertResponseStatus(400);
     }
-
 }

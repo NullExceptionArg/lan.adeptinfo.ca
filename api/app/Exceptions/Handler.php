@@ -3,16 +3,11 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\{Auth\Access\AuthorizationException,
+    Database\Eloquent\ModelNotFoundException,
+    Validation\ValidationException};
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {

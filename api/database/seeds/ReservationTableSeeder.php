@@ -3,7 +3,6 @@
 use App\Model\Lan;
 use App\Model\Reservation;
 use App\Model\User;
-use Database\MiscData;
 use Illuminate\Database\Seeder;
 use Seatsio\SeatsioClient;
 
@@ -18,12 +17,12 @@ class ReservationTableSeeder extends Seeder
     {
         $seatsClient = new SeatsioClient(env('SECRET_KEY'));
 
-        $mscdt = include(base_path() . '/database/seats.php');
+        $mscdt = include(base_path() . '/database/seat.php');
         $places = $mscdt->getSeatData();
         $users = User::all();
         $lans = Lan::all();
 
-        // Reset seats.io
+        // Reset seat.io
         foreach ($lans as $lan) {
             $seatsClient->events->release($lan->event_key, $places);
         }
@@ -36,7 +35,7 @@ class ReservationTableSeeder extends Seeder
             $lan = $lans[$lanIndex++ % count($lans)];
             $place = $places[$seatIndex++ % count($places)];
 
-            // seats.io
+            // seat.io
             if (rand(0, 9) > 7) { // 20% of users hve arrived to the LAN
                 $seatsClient->events->changeObjectStatus($lan->event_key, [$place], 'arrived');
             } else {

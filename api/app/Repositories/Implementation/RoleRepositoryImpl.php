@@ -2,12 +2,9 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\GlobalRole;
-use App\Model\LanRole;
-use App\Model\Permission;
+use App\Model\{GlobalRole, LanRole, Permission};
 use App\Repositories\RoleRepository;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class RoleRepositoryImpl implements RoleRepository
 {

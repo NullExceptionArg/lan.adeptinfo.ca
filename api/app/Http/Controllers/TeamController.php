@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\HasPermissionInLanForTeam;
-use App\Rules\Team\RequestBelongsToUser;
-use App\Rules\Team\TagBelongsInTeam;
-use App\Rules\Team\TagBelongsToUser;
-use App\Rules\Team\TagNotBelongsLeader;
-use App\Rules\Team\UniqueTeamNamePerTournament;
-use App\Rules\Team\UniqueTeamTagPerTournament;
-use App\Rules\Team\UniqueUserPerRequest;
-use App\Rules\Team\UniqueUserPerTournament;
-use App\Rules\Team\UserBelongsInTeam;
-use App\Rules\Team\UserIsTeamLeaderRequest;
-use App\Rules\Team\UserIsTeamLeaderTeam;
+use App\Rules\{Team\HasPermissionInLan,
+    Team\RequestBelongsToUser,
+    Team\TagBelongsInTeam,
+    Team\TagBelongsToUser,
+    Team\TagNotBelongsLeader,
+    Team\UniqueTeamNamePerTournament,
+    Team\UniqueTeamTagPerTournament,
+    Team\UniqueUserPerRequest,
+    Team\UniqueUserPerTournament,
+    Team\UserBelongsInTeam,
+    Team\UserIsTeamLeaderRequest,
+    Team\UserIsTeamLeaderTeam,
+    Team\UserIsTournamentAdmin};
 use App\Services\Implementation\TeamServiceImpl;
-use App\Team\Rules\UserIsTournamentAdmin;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
 class TeamController extends Controller
 {
@@ -134,7 +132,7 @@ class TeamController extends Controller
             'permission' => 'delete-team'
         ], [
             'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTournamentAdmin],
-            'permission' => new HasPermissionInLanForTeam($request->input('team_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('team_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);

@@ -3,11 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Model\GlobalRole;
-use App\Rules\UniqueEmailSocialLogin;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
+use App\Rules\User\UniqueEmailSocialLogin;
+use Illuminate\{Console\Command, Support\Facades\DB, Support\Facades\Hash, Support\Facades\Validator};
 
 class GenerateGeneralAdmin extends Command
 {

@@ -2,13 +2,9 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\Request;
-use App\Model\Tag;
-use App\Model\TagTeam;
-use App\Model\Team;
+use App\Model\{Request, Tag, TagTeam, Team};
 use App\Repositories\TeamRepository;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class TeamRepositoryImpl implements TeamRepository
 {

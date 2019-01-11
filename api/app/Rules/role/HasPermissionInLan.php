@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Role;
 
-use App\Model\Lan;
+use App\Model\LanRole;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\DB;
@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\DB;
 class HasPermissionInLan implements Rule
 {
 
-    protected $lanId;
+    protected $roleId;
     protected $userId;
 
-    public function __construct(?string $lanId, string $userId)
+    public function __construct(?string $roleId, string $userId)
     {
-        $this->lanId = $lanId;
+        $this->roleId = $roleId;
         $this->userId = $userId;
     }
 
@@ -29,16 +29,17 @@ class HasPermissionInLan implements Rule
      */
     public function passes($attribute, $value)
     {
-        if (is_null($value) || is_null(Lan::find($this->lanId)) || is_null($this->userId)) {
+        if (is_null($value) || is_null(LanRole::find($this->roleId)) || is_null($this->userId)) {
             return true;
         }
 
+        $lanRole = LanRole::find($this->roleId);
         $lanPermissions = DB::table('permission')
             ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
             ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
             ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
-            ->where('lan_role.lan_id', $this->lanId)
+            ->where('lan_role.lan_id', $lanRole->lan_id)
             ->where('lan_role_user.user_id', $this->userId)
             ->where('permission.name', $value)
             ->get();

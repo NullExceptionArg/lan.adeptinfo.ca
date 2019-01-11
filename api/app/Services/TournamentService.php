@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Http\Resources\Tournament\TournamentDetailsResource;
 use App\Http\Resources\Tournament\TournamentResource;
 use DateTime;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 interface TournamentService
@@ -37,9 +36,9 @@ interface TournamentService
         ?int $price
     ): TournamentDetailsResource;
 
-    public function getAllOrganizer(int $lanId): AnonymousResourceCollection;
+    public function getAllForOrganizer(int $lanId): AnonymousResourceCollection;
 
-    public function getAll(Request $input): AnonymousResourceCollection;
+    public function getAll(int $lanId): AnonymousResourceCollection;
 
     public function get(string $tournamentId): TournamentDetailsResource;
 

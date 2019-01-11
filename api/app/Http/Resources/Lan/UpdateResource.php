@@ -3,8 +3,7 @@
 namespace App\Http\Resources\Lan;
 
 use App\Model\Lan;
-use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Collection;
+use Illuminate\{Http\Resources\Json\Resource, Support\Collection};
 
 class UpdateResource extends Resource
 {

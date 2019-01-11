@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\FacebookEmailPermission;
-use App\Rules\HasPermissionInLan;
-use App\Rules\PositiveInteger;
-use App\Rules\UniqueEmailSocialLogin;
-use App\Rules\ValidFacebookToken;
-use App\Rules\ValidGoogleToken;
+use App\Rules\{User\FacebookEmailPermission,
+    User\HasPermissionInLan,
+    User\UniqueEmailSocialLogin,
+    User\ValidFacebookToken,
+    User\ValidGoogleToken};
 use App\Services\Implementation\UserServiceImpl;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
 
 class UserController extends Controller
 {
@@ -194,7 +190,7 @@ class UserController extends Controller
         $validator = Validator::make([
             'access_token' => $request->input('access_token'),
         ], [
-            'access_token' => [new ValidGoogleToken()]
+            'access_token' => [new ValidGoogleToken]
         ]);
 
         $this->checkValidation($validator);

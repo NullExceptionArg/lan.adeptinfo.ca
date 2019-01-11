@@ -3,9 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Role\GetPermissionsResource;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Collection;
+use Illuminate\{Contracts\Auth\Authenticatable, Http\Resources\Json\Resource, Support\Collection};
 
 class GetAdminSummaryResource extends Resource
 {

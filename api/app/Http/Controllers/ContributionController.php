@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\HasPermissionInLan;
-use App\Rules\OneOfTwoFields;
+use App\Rules\{General\OneOfTwoFields, User\HasPermissionInLan};
 use App\Services\Implementation\ContributionServiceImpl;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
 class ContributionController extends Controller
 {

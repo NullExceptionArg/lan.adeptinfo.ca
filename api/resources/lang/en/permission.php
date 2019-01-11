@@ -8,7 +8,7 @@ return [
     'display-name-set-current-lan' => 'Set current LAN',
     'description-set-current-lan' => 'Set the LAN that will be shown on the LAN website. Careful, this permission should not be given to anyone ... ',
     'display-name-edit-lan' => 'Edit LAN',
-    'description-edit-lan' => 'Edit the name, the starting date, the closing date, the date start, the seats.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... ',
+    'description-edit-lan' => 'Edit the name, the starting date, the closing date, the date start, the seat.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... ',
 
     'display-name-create-contribution-category' => 'Create contribution category',
     'description-create-contribution-category' => 'Create new contribution categories.',

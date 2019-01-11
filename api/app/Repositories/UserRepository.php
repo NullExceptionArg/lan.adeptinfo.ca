@@ -2,8 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Model\Tag;
-use App\Model\User;
+use App\Model\{Tag, User};
 use Illuminate\Pagination\AbstractPaginator;
 use Laravel\Passport\Token;
 

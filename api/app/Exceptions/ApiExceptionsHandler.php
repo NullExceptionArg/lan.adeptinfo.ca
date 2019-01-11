@@ -4,13 +4,11 @@ namespace App\Exceptions;
 
 use Dingo\Api\Exception\Handler as DingoHandler;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\{Auth\Access\AuthorizationException, Http\Exceptions\HttpResponseException, Http\Response};
+use Symfony\{Component\HttpKernel\Exception\BadRequestHttpException,
+    Component\HttpKernel\Exception\HttpException,
+    Component\HttpKernel\Exception\MethodNotAllowedHttpException,
+    Component\HttpKernel\Exception\NotFoundHttpException};
 
 class ApiExceptionsHandler extends DingoHandler
 {

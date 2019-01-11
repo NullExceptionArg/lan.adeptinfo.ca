@@ -2,9 +2,7 @@
 
 namespace Tests\Unit\Controller\Contribution;
 
-use App\Model\Contribution;
-use App\Model\ContributionCategory;
-use App\Model\Permission;
+use App\Model\{Contribution, ContributionCategory, Permission};
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

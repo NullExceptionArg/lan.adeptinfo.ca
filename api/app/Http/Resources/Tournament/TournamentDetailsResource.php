@@ -20,6 +20,7 @@ class TournamentDetailsResource extends Resource
         $teams = Team::where('tournament_id', $this->id)
             ->get();
         $teamsReached = 0;
+
         foreach ($teams as $team) {
             $playersReached = TagTeam::where('team_id', $team->id)->count();
             if ($playersReached >= $this->players_to_reach) {
@@ -27,6 +28,7 @@ class TournamentDetailsResource extends Resource
                 break;
             }
         }
+
         $teams->map(function ($team) {
             $team['lan_id'] = $this->lan_id;
             return $team;

@@ -2,12 +2,11 @@
 
 namespace App\Model;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-use Laravel\Passport\HasApiTokens;
+use Illuminate\{Auth\Authenticatable,
+    Contracts\Auth\Access\Authorizable as AuthorizableContract,
+    Contracts\Auth\Authenticatable as AuthenticatableContract,
+    Database\Eloquent\Model};
+use Laravel\{Lumen\Auth\Authorizable, Passport\HasApiTokens};
 use Seatsio\SeatsioClient;
 
 /**

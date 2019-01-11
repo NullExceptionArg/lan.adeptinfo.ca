@@ -33,9 +33,9 @@ class EditTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
@@ -212,7 +212,7 @@ class EditTest extends TestCase
     public function testEditTournamentStartAfterOrEqualLanStartTime(): void
     {
 
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->subHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
             ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
@@ -230,7 +230,7 @@ class EditTest extends TestCase
 
     public function testEditTournamentEndBeforeOrEqualLanEndTime(): void
     {
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->addHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
             ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)

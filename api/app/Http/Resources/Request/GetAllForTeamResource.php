@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Request;
 
-
 use Illuminate\Http\Resources\Json\Resource;
 
 class GetAllForTeamResource extends Resource

@@ -25,7 +25,6 @@ use Illuminate\Support\Collection;
  */
 class GetResource extends Resource
 {
-
     protected $reservedPlaces;
     protected $images;
     protected $fields;

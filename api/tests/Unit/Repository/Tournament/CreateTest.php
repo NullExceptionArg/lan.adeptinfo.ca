@@ -35,9 +35,9 @@ class CreateTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
 
         $this->requestContent['lan'] = $this->lan;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->addHour(1);
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->subHour(1);
 
         $this->be($this->user);

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Team;
 
-
 use App\Http\Resources\Request\GetAllForTeamResource;
 use App\Http\Resources\Tag\GetUserTagsResource;
 use App\Model\Team;

@@ -37,7 +37,7 @@ Cette requête ne nécessite aucuns paramètres.
         "name": "edit-lan",
         "can_be_per_lan": 1,
         "display_name": "Edit LAN",
-        "description": "Edit the name, the starting date, the ending date, the tournament reservation start date, the seat reservation start date, the seats.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone..."
+        "description": seat
     }
 ]
 ```

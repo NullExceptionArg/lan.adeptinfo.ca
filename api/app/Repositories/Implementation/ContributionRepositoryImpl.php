@@ -2,11 +2,9 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\Contribution;
-use App\Model\ContributionCategory;
+use App\Model\{Contribution, ContributionCategory};
 use App\Repositories\ContributionRepository;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class ContributionRepositoryImpl implements ContributionRepository
 {

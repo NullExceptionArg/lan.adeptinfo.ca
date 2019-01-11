@@ -17,7 +17,7 @@ class DeleteTournamentOrganizerTest extends TestCase
         $this->tournamentRepository = $this->app->make('App\Repositories\Implementation\TournamentRepositoryImpl');
     }
 
-    public function testdeleteTournamentOrganizer(): void
+    public function testDeleteTournamentOrganizer(): void
     {
         $result = $this->tournamentRepository->deleteTournamentOrganizer();
     }

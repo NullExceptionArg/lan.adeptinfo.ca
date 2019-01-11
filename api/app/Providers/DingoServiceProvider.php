@@ -1,7 +1,6 @@
 <?php
 namespace App\Providers;
 
-use Dingo\Api\Provider\LaravelServiceProvider;
 use App\Exceptions\ApiExceptionsHandler as ExceptionHandler;
 use Dingo\Api\Provider\LumenServiceProvider;
 

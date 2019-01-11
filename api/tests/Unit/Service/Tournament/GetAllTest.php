@@ -38,8 +38,8 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -65,8 +65,8 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -96,8 +96,8 @@ class getAllTest extends TestCase
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -127,8 +127,8 @@ class getAllTest extends TestCase
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -158,8 +158,8 @@ class getAllTest extends TestCase
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -189,7 +189,7 @@ class getAllTest extends TestCase
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -219,8 +219,8 @@ class getAllTest extends TestCase
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -247,8 +247,8 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -288,8 +288,8 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -330,8 +330,8 @@ class getAllTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),

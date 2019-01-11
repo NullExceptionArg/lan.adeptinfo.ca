@@ -8,7 +8,7 @@ return [
     'display-name-set-current-lan' => 'Changer le LAN courant',
     'description-set-current-lan' => 'Changer le LAN qui va être affiché sur le site du LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',
     'display-name-edit-lan' => 'Modifier un LAN',
-    'description-edit-lan' => 'Modifier le nom, la date de début, la date de fin, la date de réservation des tournois, la date de réservation des places, les clés de seats.io, la position (Lat, Lng), le nombre de places disponibles, le coût d\'entrée, les règles, et la description du LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',
+    'description-edit-lan' => 'Modifier le nom, la date de début, la date de fin, la date de réservation des tournois, la date de réservation des places, les clés de seat.io, la position (Lat, Lng), le nombre de places disponibles, le coût d\'entrée, les règles, et la description du LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',
 
     'display-name-create-contribution-category' => 'Créer une catégorie de contribution',
     'description-create-contribution-category' => 'Create une nouvelle catégorie de contribution.',

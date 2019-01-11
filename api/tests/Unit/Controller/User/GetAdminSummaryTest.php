@@ -312,5 +312,4 @@ class GetAdminSummaryTest extends TestCase
             ])
             ->assertResponseStatus(400);
     }
-
 }

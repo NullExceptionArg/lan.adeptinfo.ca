@@ -2,8 +2,7 @@
 
 namespace Tests\Unit\Service\Contribution;
 
-use App\Model\Contribution;
-use App\Model\ContributionCategory;
+use App\Model\{Contribution, ContributionCategory};
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 

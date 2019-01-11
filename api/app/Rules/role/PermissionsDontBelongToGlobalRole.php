@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Rules;
-
+namespace App\Rules\Role;
 
 use App\Model\GlobalRole;
 use App\Model\PermissionGlobalRole;

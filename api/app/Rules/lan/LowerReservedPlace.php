@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Lan;
 
 use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;

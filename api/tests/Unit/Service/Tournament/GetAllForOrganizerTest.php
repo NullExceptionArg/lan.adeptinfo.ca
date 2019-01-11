@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetAllOrganizerTest extends TestCase
+class GetAllForOrganizerTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -34,12 +34,12 @@ class GetAllOrganizerTest extends TestCase
         $this->actingAs($this->user);
     }
 
-    public function testGetAllOrganizerHidden(): void
+    public function testGetAllForOrganizerHidden(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -61,12 +61,12 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerFinished(): void
+    public function testGetAllForOrganizerFinished(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -89,15 +89,15 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerFourthcoming(): void
+    public function testGetAllForOrganizerFourthcoming(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -120,15 +120,15 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerLate(): void
+    public function testGetAllForOrganizerLate(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -151,15 +151,15 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerOutguessed(): void
+    public function testGetAllForOrganizerOutguessed(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -182,14 +182,14 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerBehindhand(): void
+    public function testGetAllForOrganizerBehindhand(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -212,15 +212,15 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerRunning(): void
+    public function testGetAllForOrganizerRunning(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
             'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -243,12 +243,12 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerTeamsReachedTeamFull(): void
+    public function testGetAllForOrganizerTeamsReachedTeamFull(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -284,12 +284,12 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerTeamsReachedTeamEmpty(): void
+    public function testGetAllForOrganizerTeamsReachedTeamEmpty(): void
     {
         $this->lan = factory('App\Model\Lan')->create();
         $this->requestContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -325,13 +325,13 @@ class GetAllOrganizerTest extends TestCase
         $this->assertEquals($tournament->teams_to_reach, $result[0]->jsonSerialize()['teams_to_reach']);
     }
 
-    public function testGetAllOrganizerCurrentLan(): void
+    public function testGetAllForOrganizerCurrentLan(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),

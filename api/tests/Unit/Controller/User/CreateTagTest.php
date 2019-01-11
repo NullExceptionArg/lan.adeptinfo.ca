@@ -102,5 +102,4 @@ class CreateTagTest extends TestCase
             ])
             ->assertResponseStatus(400);
     }
-
 }

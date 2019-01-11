@@ -2,17 +2,13 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\Image;
-use App\Model\Lan;
-use App\Model\Reservation;
+use App\Model\{Image, Lan, Reservation};
 use App\Repositories\LanRepository;
 use DateTime;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class LanRepositoryImpl implements LanRepository
 {
-
     public function createImageForLan(int $lanId, string $image): int
     {
         return DB::table('image')

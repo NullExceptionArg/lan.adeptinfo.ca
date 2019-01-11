@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\HasPermissionInLan;
-use App\Rules\SeatExistInLanSeatIo;
-use App\Rules\SeatLanRelationExists;
-use App\Rules\SeatNotArrivedSeatIo;
-use App\Rules\SeatNotBookedSeatIo;
-use App\Rules\SeatNotFreeSeatIo;
-use App\Rules\SeatOncePerLan;
-use App\Rules\SeatOncePerLanSeatIo;
-use App\Rules\UserOncePerLan;
+use App\Rules\{Seat\SeatExistInLanSeatIo,
+    Seat\SeatLanRelationExists,
+    Seat\SeatNotArrivedSeatIo,
+    Seat\SeatNotBookedSeatIo,
+    Seat\SeatNotFreeSeatIo,
+    Seat\SeatOncePerLan,
+    Seat\SeatOncePerLanSeatIo,
+    Seat\UserOncePerLan,
+    User\HasPermissionInLan};
 use App\Services\Implementation\SeatServiceImpl;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
 class SeatController extends Controller
 {

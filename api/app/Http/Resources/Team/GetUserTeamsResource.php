@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Team;
 
-
 use App\Model\Request;
 use App\Model\TagTeam;
 use App\Model\Tournament;
@@ -33,6 +32,7 @@ class GetUserTeamsResource extends Resource
             ->where('team_id', $this->id)
             ->first();
         $playersState = null;
+
         if ($tagTeam != null) {
             $playersState = $tagTeam->is_leader ? 'leader' : 'confirmed';
         } else {

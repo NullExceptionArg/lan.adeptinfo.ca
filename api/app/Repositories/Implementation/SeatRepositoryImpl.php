@@ -5,12 +5,10 @@ namespace App\Repositories\Implementation;
 use App\Model\Reservation;
 use App\Repositories\SeatRepository;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class SeatRepositoryImpl implements SeatRepository
 {
-
     public function createReservation(int $userId, int $lanId, string $seatId): int
     {
         return DB::table('reservation')

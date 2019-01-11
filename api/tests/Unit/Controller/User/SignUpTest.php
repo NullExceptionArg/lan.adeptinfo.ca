@@ -205,5 +205,4 @@ class SignUpTest extends TestCase
             ])
             ->assertResponseStatus(400);
     }
-
 }

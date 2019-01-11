@@ -2,8 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Console\Command, Support\Facades\DB};
 
 class GeneratePermissions extends Command
 {

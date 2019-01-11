@@ -2,14 +2,10 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\OrganizerTournament;
-use App\Model\TagTeam;
-use App\Model\Team;
-use App\Model\Tournament;
+use App\Model\{OrganizerTournament, TagTeam, Team, Tournament};
 use App\Repositories\TournamentRepository;
 use DateTime;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class TournamentRepositoryImpl implements TournamentRepository
 {

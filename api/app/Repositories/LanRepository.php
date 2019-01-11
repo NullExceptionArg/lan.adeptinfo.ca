@@ -2,9 +2,7 @@
 
 namespace App\Repositories;
 
-
-use App\Model\Image;
-use App\Model\Lan;
+use App\Model\{Image, Lan};
 use DateTime;
 use Illuminate\Support\Collection;
 

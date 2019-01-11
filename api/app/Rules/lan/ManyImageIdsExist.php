@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Lan;
 
 use App\Model\Image;
 use Illuminate\Contracts\Validation\Rule;

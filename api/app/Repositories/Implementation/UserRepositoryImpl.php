@@ -2,12 +2,9 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\Tag;
-use App\Model\User;
+use App\Model\{Tag, User};
 use App\Repositories\UserRepository;
-use Illuminate\Pagination\AbstractPaginator;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\{Pagination\AbstractPaginator, Support\Facades\DB, Support\Facades\Hash};
 use Laravel\Passport\Token;
 
 class UserRepositoryImpl implements UserRepository

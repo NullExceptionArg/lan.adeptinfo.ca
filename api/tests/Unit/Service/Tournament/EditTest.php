@@ -38,9 +38,9 @@ class EditTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->paramsContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->paramsContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->paramsContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,

@@ -51,7 +51,6 @@ class GetPaginatedUsersCriteriaTest extends TestCase
         ]);
     }
 
-
     public function testGetPaginatedUsersCriteria(): void
     {
         $result = $this->userRepository->getPaginatedUsersCriteria(

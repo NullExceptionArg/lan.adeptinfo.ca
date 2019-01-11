@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Model\Lan;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\{Contracts\Validation\Validator, Http\Request, Support\Facades\Auth};
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 

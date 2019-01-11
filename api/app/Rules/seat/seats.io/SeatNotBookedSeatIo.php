@@ -1,21 +1,17 @@
 <?php
 
-namespace App\Rules;
-
+namespace App\Rules\Seat;
 
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioException;
 
-class SeatOncePerLanSeatIo implements Rule
+class SeatNotBookedSeatIo implements Rule
 {
+
     protected $lanId;
 
-    /**
-     * SeatOncePerLan constructor.
-     * @param string $lanId
-     */
     public function __construct(string $lanId)
     {
         $this->lanId = $lanId;
@@ -37,13 +33,10 @@ class SeatOncePerLanSeatIo implements Rule
         $seatsClient = new SeatsioClient($lan->secret_key);
         try {
             $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, $value);
-            if ($status->status === 'booked' || $status->status === 'arrived') {
-                return false;
-            }
+            return $status->status != 'booked';
         } catch (SeatsioException $exception) {
             return true;
         }
-        return true;
     }
 
     /**
@@ -53,6 +46,6 @@ class SeatOncePerLanSeatIo implements Rule
      */
     public function message()
     {
-        return trans('validation.seat_once_per_lan_seat_io');
+        return trans('validation.seat_not_booked_seat_io');
     }
 }

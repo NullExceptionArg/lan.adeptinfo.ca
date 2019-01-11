@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\User;
 
 use App\Utils\FacebookUtils;
 use Facebook\Exceptions\FacebookSDKException;

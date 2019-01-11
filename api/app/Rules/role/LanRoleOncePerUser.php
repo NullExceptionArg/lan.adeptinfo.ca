@@ -2,7 +2,6 @@
 
 namespace App\Rules;
 
-
 use App\Model\LanRoleUser;
 use App\Model\User;
 use Illuminate\Contracts\Validation\Rule;

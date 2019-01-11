@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Rules;
-
+namespace App\Rules\Tournament;
 use App\Model\Team;
 use App\Model\Tournament;
 use Illuminate\Contracts\Validation\Rule;

@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\AfterOrEqualLanStartTime;
-use App\Rules\BeforeOrEqualLanEndTime;
-use App\Rules\HasPermissionInLan;
-use App\Rules\HasPermissionInLanOrIsTournamentAdmin;
-use App\Rules\PlayersToReachLock;
+use App\Rules\{Role\HasPermissionInLanOrIsTournamentAdmin,
+    Tournament\AfterOrEqualLanStartTime,
+    Tournament\BeforeOrEqualLanEndTime,
+    Tournament\PlayersToReachLock,
+    Tournament\UserIsTournamentAdmin,
+    User\HasPermissionInLan};
 use App\Services\Implementation\TournamentServiceImpl;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
 
 class TournamentController extends Controller
 {
@@ -142,7 +140,7 @@ class TournamentController extends Controller
         ), 200);
     }
 
-    public function getAllOrganizer(Request $request)
+    public function getAllForOrganizer(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
@@ -153,23 +151,48 @@ class TournamentController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->tournamentService->getAllOrganizer(
+        return response()->json($this->tournamentService->getAllForOrganizer(
             $request->input('lan_id')
         ), 200);
     }
 
     public function getAll(Request $request)
     {
-        return response()->json($this->tournamentService->getAll($request), 200);
+        $request = $this->adjustRequestForLan($request);
+        $validator = Validator::make([
+            'lan_id' => $request->input('lan_id')
+        ], [
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->tournamentService->getAll($request->input('lan_id')), 200);
     }
 
     public function get(Request $request, string $tournamentId)
     {
+        $validator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL'
+        ]);
+
+        $this->checkValidation($validator);
+
         return response()->json($this->tournamentService->get($tournamentId), 200);
     }
 
     public function quit(Request $request, string $tournamentId)
     {
+        $validator = Validator::make([
+            'tournament_id' => $tournamentId
+        ], [
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
+        ]);
+
+        $this->checkValidation($validator);
+
         return response()->json($this->tournamentService->quit($tournamentId), 200);
     }
 }

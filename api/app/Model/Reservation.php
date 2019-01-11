@@ -3,8 +3,7 @@
 namespace App\Model;
 
 use DateTime;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
 
 /**
  * @property int user_id

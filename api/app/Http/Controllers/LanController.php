@@ -2,17 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\HasPermission;
-use App\Rules\HasPermissionInLan;
-use App\Rules\LowerReservedPlace;
-use App\Rules\ManyImageIdsExist;
-use App\Rules\ValidEventKey;
-use App\Rules\ValidSecretKey;
+use App\Rules\{Lan\LowerReservedPlace,
+    Seat\ValidEventKey,
+    Seat\ValidSecretKey,
+    User\HasPermission,
+    User\HasPermissionInLan};
 use App\Services\Implementation\LanServiceImpl;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
 class LanController extends Controller
 {

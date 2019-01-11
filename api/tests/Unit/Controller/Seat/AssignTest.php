@@ -2,8 +2,7 @@
 
 namespace Tests\Unit\Controller\Seat;
 
-use App\Model\Permission;
-use App\Model\Reservation;
+use App\Model\{Permission, Reservation};
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Tests\SeatsTestCase;

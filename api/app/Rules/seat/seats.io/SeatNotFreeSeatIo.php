@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Seat;
 
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;
 use Seatsio\SeatsioClient;
 use Seatsio\SeatsioException;
 
-class SeatNotBookedSeatIo implements Rule
+class SeatNotFreeSeatIo implements Rule
 {
 
     protected $lanId;
 
-    public function __construct(string $lanId)
+    public function __construct(?string $lanId)
     {
         $this->lanId = $lanId;
     }
@@ -33,7 +33,7 @@ class SeatNotBookedSeatIo implements Rule
         $seatsClient = new SeatsioClient($lan->secret_key);
         try {
             $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, $value);
-            return $status->status != 'booked';
+            return $status->status != 'free';
         } catch (SeatsioException $exception) {
             return true;
         }
@@ -46,6 +46,6 @@ class SeatNotBookedSeatIo implements Rule
      */
     public function message()
     {
-        return trans('validation.seat_not_booked_seat_io');
+        return trans('validation.seat_not_free_seat_io');
     }
 }

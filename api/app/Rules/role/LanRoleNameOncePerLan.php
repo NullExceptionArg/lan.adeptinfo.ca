@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Rules;
-
+namespace App\Rules\Role;
 
 use App\Model\LanRole;
 use Illuminate\Contracts\Validation\Rule;

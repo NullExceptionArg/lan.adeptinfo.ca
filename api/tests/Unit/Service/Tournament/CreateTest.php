@@ -37,9 +37,9 @@ class CreateTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
 
         $this->paramsContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->paramsContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->paramsContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
 
         $role = factory('App\Model\LanRole')->create([
@@ -91,9 +91,9 @@ class CreateTest extends TestCase
             'role_id' => $role->id,
             'user_id' => $this->user->id
         ]);
-        $startTime = new Carbon($lan->lan_start);
+        $startTime = Carbon::parse($lan->lan_start);
         $this->paramsContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($lan->lan_end);
+        $endTime = Carbon::parse($lan->lan_end);
         $this->paramsContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
         $this->paramsContent['lan_id'] = null;
 

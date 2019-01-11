@@ -2,9 +2,7 @@
 
 namespace Tests;
 
-use App\Model\GlobalRole;
-use App\Model\LanRole;
-use App\Model\Permission;
+use App\Model\{GlobalRole, LanRole, Permission};
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase

@@ -636,5 +636,4 @@ class GetAdminRoles extends TestCase
             ])
             ->assertResponseStatus(400);
     }
-
 }

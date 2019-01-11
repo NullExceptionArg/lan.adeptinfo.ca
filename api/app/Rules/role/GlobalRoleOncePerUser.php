@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Rules;
-
+namespace App\Rules\Role;
 
 use App\Model\GlobalRoleUser;
 use App\Model\User;

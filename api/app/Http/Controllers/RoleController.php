@@ -2,22 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\ArrayOfInteger;
-use App\Rules\ElementsInArrayExistInPermission;
-use App\Rules\GlobalRoleOncePerUser;
-use App\Rules\HasPermission;
-use App\Rules\HasPermissionInLan;
-use App\Rules\HasPermissionInLanForRole;
-use App\Rules\LanRoleNameOncePerLan;
-use App\Rules\LanRoleOncePerUser;
-use App\Rules\PermissionsBelongToRole;
-use App\Rules\PermissionsCanBePerLan;
-use App\Rules\PermissionsDontBelongToGlobalRole;
-use App\Rules\PermissionsDontBelongToLanRole;
+use App\Rules\{General\ArrayOfInteger,
+    LanRoleOncePerUser,
+    Role\ElementsInArrayExistInPermission,
+    Role\GlobalRoleOncePerUser,
+    Role\HasPermissionInLan,
+    Role\LanRoleNameOncePerLan,
+    Role\PermissionsBelongToRole,
+    Role\PermissionsCanBePerLan,
+    Role\PermissionsDontBelongToGlobalRole,
+    Role\PermissionsDontBelongToLanRole,
+    User\HasPermission};
 use App\Services\Implementation\RoleServiceImpl;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
 class RoleController extends Controller
 {
@@ -74,7 +71,7 @@ class RoleController extends Controller
                 new PermissionsCanBePerLan,
                 new PermissionsDontBelongToLanRole($request->input('role_id'))
             ],
-            'permission' => new HasPermissionInLanForRole($request->input('role_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('role_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);
@@ -114,7 +111,7 @@ class RoleController extends Controller
         ], [
             'email' => 'required|exists:user,email',
             'role_id' => ['integer', 'exists:lan_role,id', new LanRoleOncePerUser($request->input('email'))],
-            'permission' => new HasPermissionInLanForRole($request->input('role_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('role_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);
@@ -269,7 +266,7 @@ class RoleController extends Controller
                 new ArrayOfInteger,
                 new PermissionsBelongToRole($request->input('role_id'))
             ],
-            'permission' => new HasPermissionInLanForRole($request->input('role_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('role_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);
@@ -317,7 +314,7 @@ class RoleController extends Controller
             'permission' => 'get-lan-role-permissions',
         ], [
             'role_id' => 'required|integer|exists:lan_role,id',
-            'permission' => new HasPermissionInLanForRole($request->input('role_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('role_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);
@@ -352,7 +349,7 @@ class RoleController extends Controller
             'permission' => 'get-lan-user-roles',
         ], [
             'role_id' => 'required|integer|exists:lan_role,id',
-            'permission' => new HasPermissionInLanForRole($request->input('role_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('role_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);
@@ -441,7 +438,7 @@ class RoleController extends Controller
             'en_description' => 'string|max:1000',
             'fr_display_name' => 'string|max:70',
             'fr_description' => 'string|max:1000',
-            'permission' => new HasPermissionInLanForRole($request->input('role_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('role_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);

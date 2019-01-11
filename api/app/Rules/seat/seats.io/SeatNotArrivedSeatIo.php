@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Seat;
 
 use App\Model\Lan;
-use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
+use Seatsio\SeatsioClient;
+use Seatsio\SeatsioException;
 
-class SeatLanRelationExists implements Rule
+class SeatNotArrivedSeatIo implements Rule
 {
 
     protected $lanId;
-    protected $seatId;
 
     public function __construct(?string $lanId)
     {
@@ -26,12 +26,17 @@ class SeatLanRelationExists implements Rule
      */
     public function passes($attribute, $value)
     {
-        if(Lan::find($this->lanId) == null){
+        $lan = Lan::find($this->lanId);
+        if ($lan == null) {
             return true;
         }
-        $this->seatId = $value;
-        return Reservation::where('lan_id', $this->lanId)
-            ->where('seat_id', $value)->first() != null;
+        $seatsClient = new SeatsioClient($lan->secret_key);
+        try {
+            $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, $value);
+            return $status->status != 'arrived';
+        } catch (SeatsioException $exception) {
+            return true;
+        }
     }
 
     /**
@@ -41,6 +46,6 @@ class SeatLanRelationExists implements Rule
      */
     public function message()
     {
-        return trans('validation.seat_lan_relation_exists', ['seat_id' => $this->seatId, 'lan_id' => $this->lanId]);
+        return trans('validation.seat_not_arrived_seat_io');
     }
 }
