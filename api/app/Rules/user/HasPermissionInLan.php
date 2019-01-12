@@ -20,14 +20,14 @@ class HasPermissionInLan implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
      * @param  mixed $value permissions name
      * @return bool
      * @throws AuthorizationException
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if (is_null($value) || is_null(Lan::find($this->lanId)) || is_null($this->userId)) {
             return true;
@@ -60,11 +60,11 @@ class HasPermissionInLan implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.has_permission');
     }

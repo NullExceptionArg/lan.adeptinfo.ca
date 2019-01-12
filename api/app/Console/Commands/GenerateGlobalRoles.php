@@ -8,7 +8,7 @@ use Illuminate\{Console\Command, Support\Facades\DB};
 class GenerateGlobalRoles extends Command
 {
     /**
-     * The name and signature of the console command.
+     * Nom et signature de la commande.
      *
      * @var string
      */
@@ -19,7 +19,7 @@ class GenerateGlobalRoles extends Command
      *
      * @var string
      */
-    protected $description = 'Generates the default roles for the administration of lans.';
+    protected $description = 'Générer les rôles généraux par défaut.';
 
     public function handle()
     {

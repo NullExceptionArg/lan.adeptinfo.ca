@@ -16,13 +16,13 @@ class OneOfTwoFields implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if($value != null && $this->secondField != null){
             return false;
@@ -32,11 +32,11 @@ class OneOfTwoFields implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.one_of_two_fields', ['value' => ':attribute', 'second_field' => $this->secondFieldName]);
     }

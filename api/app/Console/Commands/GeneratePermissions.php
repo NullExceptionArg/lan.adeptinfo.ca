@@ -7,7 +7,7 @@ use Illuminate\{Console\Command, Support\Facades\DB};
 class GeneratePermissions extends Command
 {
     /**
-     * The name and signature of the console command.
+     * Nom et signature de la commande.
      *
      * @var string
      */

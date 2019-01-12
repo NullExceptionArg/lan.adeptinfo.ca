@@ -18,13 +18,13 @@ class UniqueUserPerRequest implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $tag = Tag::find($this->tagId);
         if (is_null($tag) || $tag->user_id != Auth::id()) {
@@ -50,11 +50,11 @@ class UniqueUserPerRequest implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.unique_user_per_request');
     }

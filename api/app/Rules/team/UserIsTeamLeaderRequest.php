@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\DB;
 class UserIsTeamLeaderRequest implements Rule
 {
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
      * @throws AuthorizationException
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $request = null;
         $team = null;
@@ -47,11 +47,11 @@ class UserIsTeamLeaderRequest implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.user_is_team_leader');
     }

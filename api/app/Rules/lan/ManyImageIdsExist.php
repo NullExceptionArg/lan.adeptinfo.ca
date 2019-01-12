@@ -10,13 +10,13 @@ class ManyImageIdsExist implements Rule
     protected $badImageIds = [];
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         if ($value == null || !is_string($value)) {
             return true;
@@ -32,11 +32,11 @@ class ManyImageIdsExist implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.many_image_ids_exist', [
             'ids' => implode(', ', $this->badImageIds),

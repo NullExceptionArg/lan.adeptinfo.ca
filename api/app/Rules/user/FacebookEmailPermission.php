@@ -10,13 +10,13 @@ class FacebookEmailPermission implements Rule
 {
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $response = null;
         try {
@@ -31,11 +31,11 @@ class FacebookEmailPermission implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.facebook_email_permission');
     }

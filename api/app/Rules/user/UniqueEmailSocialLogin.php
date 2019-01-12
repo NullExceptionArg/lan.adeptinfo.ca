@@ -5,28 +5,43 @@ namespace App\Rules\User;
 use App\Model\User;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Valider que si le courriel est nouveau.
+ * S'il est déjà utilisé, valider qu'il utilise une connexion sociale (Facebook ou Google),
+ * et qu'il n'est pas en attente de confirmation.
+ *
+ * Class UniqueEmailSocialLogin
+ * @package App\Rules\User
+ */
 class UniqueEmailSocialLogin implements Rule
 {
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
      * @param  mixed $value
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $value): bool
     {
         $user = User::where('email', $value)->first();
-        $hasConfirmationCode = $user != null ? $user->confirmation_code != null : false;
-        return ($user == null || ($user->facebook_id != null || $user->google_id != null)) && !$hasConfirmationCode;
+
+        if (is_null($user)) {
+            return true;
+        } else {
+            $hasSocialLogin = !is_null($user->facebook_id) || !is_null($user->google_id);
+            $hasConfirmationCode = !is_null($user->confirmation_code);
+
+            return $hasSocialLogin && !$hasConfirmationCode;
+        }
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.unique_email_social_login');
     }
