@@ -12,8 +12,19 @@ use App\Services\Implementation\TournamentServiceImpl;
 use Carbon\Carbon;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
 
+/**
+ * Validation et application de la logique applicative sur les tournois.
+ *
+ * Class TournamentController
+ * @package App\Http\Controllers
+ */
 class TournamentController extends Controller
 {
+    /**
+     * Service de tournoi.
+     *
+     * @var TournamentServiceImpl
+     */
     protected $tournamentService;
 
     /**

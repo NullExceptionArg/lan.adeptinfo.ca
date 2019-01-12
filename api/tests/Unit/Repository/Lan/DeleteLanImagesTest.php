@@ -2,11 +2,11 @@
 
 namespace Tests\Unit\Repository\Lan;
 
-use App\Model\Image;
+use App\Model\LanImage;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteImagesTest extends TestCase
+class DeleteLanImagesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -22,15 +22,15 @@ class DeleteImagesTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
-        $this->image = factory('App\Model\Image')->create([
+        $this->image = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
-        $this->image2 = factory('App\Model\Image')->create([
+        $this->image2 = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
     }
 
-    public function testDeleteImages(): void
+    public function testDeleteLanImages(): void
     {
         $this->seeInDatabase('image', [
             'image' => $this->image->image,
@@ -42,9 +42,9 @@ class DeleteImagesTest extends TestCase
             $this->image2->id
         ];
 
-        $this->lanRepository->deleteImages($imageIds);
+        $this->lanRepository->deleteLanImages($imageIds);
 
-        $image = Image::withTrashed()->first();
+        $image = LanImage::withTrashed()->first();
         $this->assertEquals($this->image->id, $image->id);
     }
 }

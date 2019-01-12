@@ -6,6 +6,12 @@ use App\Model\GlobalRole;
 use App\Rules\User\UniqueEmailSocialLogin;
 use Illuminate\{Console\Command, Support\Facades\DB, Support\Facades\Hash, Support\Facades\Validator};
 
+/**
+ * Générer un administrateur général, possédant toutes les permissions dans l'application.
+ *
+ * Class GenerateGeneralAdmin
+ * @package App\Console\Commands
+ */
 class GenerateGeneralAdmin extends Command
 {
     /**
@@ -16,7 +22,7 @@ class GenerateGeneralAdmin extends Command
     protected $signature = 'lan:general-admin';
 
     /**
-     * Générer un administrateur général, possédant toutes les permissions dans l'application.
+     * Description de la commande.
      *
      * @var string
      */
@@ -24,10 +30,7 @@ class GenerateGeneralAdmin extends Command
 
     public function handle()
     {
-        if (!$this->preconditions()) {
-            $this->error('Précondition non remplie. Indice: Essayez d\'exécuter la commande "lan:roles".');
-            exit();
-        }
+        $this->preconditions();
 
         $email = null;
         $firstName = null;
@@ -106,10 +109,12 @@ class GenerateGeneralAdmin extends Command
     /**
      * Précondition pour pouvoir utiliser la commande :
      * Le rôle global general-admin doit exister.
-     * @return bool
      */
-    private function preconditions(): bool
+    private function preconditions(): void
     {
-        return GlobalRole::where('name', 'general-admin')->count() > 0;
+        if (GlobalRole::where('name', 'general-admin')->count() < 1) {
+            $this->error('Précondition non remplie. Indice: Essayez d\'exécuter la commande "lan:roles".');
+            exit();
+        }
     }
 }

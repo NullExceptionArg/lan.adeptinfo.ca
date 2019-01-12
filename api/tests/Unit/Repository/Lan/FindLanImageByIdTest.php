@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class FindImageByIdTest extends TestCase
+class FindLanImageByIdTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -20,14 +20,14 @@ class FindImageByIdTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
-        $this->image = factory('App\Model\Image')->create([
+        $this->image = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
     }
 
-    public function testFindImageById(): void
+    public function testFindLanImageById(): void
     {
-        $image = $this->lanRepository->findImageById($this->image->id);
+        $image = $this->lanRepository->findLanImageById($this->image->id);
 
         $this->assertEquals($this->image->id, $image->id);
         $this->assertEquals($this->image->image, $image->image);

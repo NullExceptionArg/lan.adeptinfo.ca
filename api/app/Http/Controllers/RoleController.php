@@ -16,8 +16,19 @@ use App\Rules\{General\ArrayOfInteger,
 use App\Services\Implementation\RoleServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
+/**
+ * Validation et application de la logique applicative sur les rôles.
+ *
+ * Class RoleController
+ * @package App\Http\Controllers
+ */
 class RoleController extends Controller
 {
+    /**
+     * Service de rôle.
+     *
+     * @var RoleServiceImpl
+     */
     protected $roleService;
 
     /**

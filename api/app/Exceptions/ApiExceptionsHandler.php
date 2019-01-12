@@ -9,6 +9,13 @@ use Symfony\{Component\HttpKernel\Exception\BadRequestHttpException,
     Component\HttpKernel\Exception\MethodNotAllowedHttpException,
     Component\HttpKernel\Exception\NotFoundHttpException};
 
+/**
+ * Gestionnaire d'exceptions.
+ * Quand une exception est lancée par l'application, elle est transformée en réponse HTTP ici.
+ *
+ * Class ApiExceptionsHandler
+ * @package App\Exceptions
+ */
 class ApiExceptionsHandler extends DingoHandler
 {
     public function handle(Exception $e)
@@ -33,6 +40,7 @@ class ApiExceptionsHandler extends DingoHandler
                 $message = $e->getMessage();
                 break;
             default:
+                // Détails d'une erreur 500 uniquement si l'application est en mode debug (défini dans .env)
                 $status = Response::HTTP_INTERNAL_SERVER_ERROR;
                 if (env('APP_DEBUG')) {
                     $message = $e->getMessage();

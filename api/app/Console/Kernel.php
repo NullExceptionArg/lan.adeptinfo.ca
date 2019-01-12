@@ -8,7 +8,7 @@ use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
+     * Commandes Artisan de l'application.
      *
      * @var array
      */
@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
     ];
 
     /**
-     * Define the application's command schedule.
+     * Planification des commandes à exécuter.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void

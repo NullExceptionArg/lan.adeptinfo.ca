@@ -6,7 +6,7 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteImagesTest extends TestCase
+class DeleteLanImagesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,13 +21,13 @@ class DeleteImagesTest extends TestCase
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-        $this->image = factory('App\Model\Image')->create([
+        $this->image = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
-        $this->image1 = factory('App\Model\Image')->create([
+        $this->image1 = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
-        $this->image2 = factory('App\Model\Image')->create([
+        $this->image2 = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
 
@@ -38,7 +38,7 @@ class DeleteImagesTest extends TestCase
         );
     }
 
-    public function testDeleteImages(): void
+    public function testDeleteLanImages(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/lan/image', [
@@ -52,7 +52,7 @@ class DeleteImagesTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testDeleteImagesHasPermission(): void
+    public function testDeleteLanImagesHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -68,15 +68,15 @@ class DeleteImagesTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testDeleteImagesCurrentLan(): void
+    public function testDeleteLanImagesCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
-        $image1 = factory('App\Model\Image')->create([
+        $image1 = factory('App\Model\LanImage')->create([
             'lan_id' => $lan->id
         ]);
-        $image2 = factory('App\Model\Image')->create([
+        $image2 = factory('App\Model\LanImage')->create([
             'lan_id' => $lan->id
         ]);
 
@@ -104,7 +104,7 @@ class DeleteImagesTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testDeleteImagesLanIdExists(): void
+    public function testDeleteLanImagesLanIdExists(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/lan/image', [
@@ -123,7 +123,7 @@ class DeleteImagesTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteImagesLanIdInteger(): void
+    public function testDeleteLanImagesLanIdInteger(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/lan/image', [
@@ -142,7 +142,7 @@ class DeleteImagesTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeleteImagesImagesIdString(): void
+    public function testDeleteLanImagesImagesIdString(): void
     {
         $this->actingAs($this->user)
             ->json('DELETE', '/api/lan/image', [

@@ -12,8 +12,19 @@ use App\Services\Implementation\LanServiceImpl;
 use Carbon\Carbon;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
+/**
+ * Validation et application de la logique applicative sur les LANs.
+ *
+ * Class LanController
+ * @package App\Http\Controllers
+ */
 class LanController extends Controller
 {
+    /**
+     * Service de LAN.
+     *
+     * @var LanServiceImpl
+     */
     protected $lanService;
 
     /**
@@ -25,7 +36,7 @@ class LanController extends Controller
         $this->lanService = $lanServiceImpl;
     }
 
-    public function addImage(Request $request)
+    public function addLanImage(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
@@ -40,7 +51,7 @@ class LanController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->lanService->addImage(
+        return response()->json($this->lanService->addLanImage(
             $request->input('lan_id'),
             $request->input('image')
         ), 201);
@@ -102,7 +113,7 @@ class LanController extends Controller
         ), 201);
     }
 
-    public function deleteImages(Request $request)
+    public function deleteLanImages(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
@@ -117,7 +128,7 @@ class LanController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->lanService->deleteImages(
+        return response()->json($this->lanService->deleteLanImages(
             $request->input('image_ids')
         ), 200);
     }

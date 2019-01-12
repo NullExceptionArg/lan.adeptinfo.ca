@@ -18,8 +18,19 @@ use App\Rules\{Team\HasPermissionInLan,
 use App\Services\Implementation\TeamServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
+/**
+ * Validation et application de la logique applicative sur les équipes.
+ *
+ * Class TeamController
+ * @package App\Http\Controllers
+ */
 class TeamController extends Controller
 {
+    /**
+     * Service d'équipe.
+     *
+     * @var TeamServiceImpl
+     */
     protected $teamServiceImpl;
 
     /**

@@ -10,8 +10,19 @@ use App\Rules\{User\FacebookEmailPermission,
 use App\Services\Implementation\UserServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
 
+/**
+ * Validation et application de la logique applicative sur les utilisateurs de l'application.
+ *
+ * Class UserController
+ * @package App\Http\Controllers
+ */
 class UserController extends Controller
 {
+    /**
+     * Service d'utilisateur.
+     *
+     * @var UserServiceImpl
+     */
     protected $userService;
 
     /**
@@ -122,6 +133,8 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
+        // Correction des champs de la requête qui sont utilisés comme integer, puisque '' == 0 est true en PHP...
+
         if ($request->input('items_per_page') === '') {
             $request['items_per_page'] = null;
         }

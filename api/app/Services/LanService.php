@@ -11,7 +11,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 interface LanService
 {
-    public function addImage(int $lanId, string $image): ImageResource;
+    public function addLanImage(int $lanId, string $image): ImageResource;
 
     public function create(
         string $name,
@@ -30,7 +30,7 @@ interface LanService
         ?string $description
     ): Lan;
 
-    public function deleteImages(string $imageIds): array;
+    public function deleteLanImages(string $imageIds): array;
 
     public function getAll(): ResourceCollection;
 

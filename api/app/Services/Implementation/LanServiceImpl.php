@@ -32,10 +32,10 @@ class LanServiceImpl implements LanService
         $this->roleRepository = $roleRepository;
     }
 
-    public function addImage(int $lanId, string $image): ImageResource
+    public function addLanImage(int $lanId, string $image): ImageResource
     {
         $imageId = $this->lanRepository->createImageForLan($lanId, $image);
-        return new ImageResource($this->lanRepository->findImageById($imageId));
+        return new ImageResource($this->lanRepository->findLanImageById($imageId));
     }
 
     public function create(
@@ -80,10 +80,10 @@ class LanServiceImpl implements LanService
         return $this->lanRepository->findById($lanId);
     }
 
-    public function deleteImages(string $imageIds): array
+    public function deleteLanImages(string $imageIds): array
     {
         $imageIdsArray = array_map('intval', explode(',', $imageIds));
-        $this->lanRepository->deleteImages($imageIdsArray);
+        $this->lanRepository->deleteLanImages($imageIdsArray);
 
         return $imageIdsArray;
     }

@@ -14,7 +14,7 @@ class GeneratePermissions extends Command
     protected $signature = 'lan:permissions';
 
     /**
-     * The console command description.
+     * Description de la commande.
      *
      * @var string
      */

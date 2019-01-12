@@ -72,8 +72,8 @@ $api->version('v1', function ($api) {
                 $api->post('lan', 'LanController@create');
                 $api->post('lan/current', 'LanController@setCurrent');
                 $api->put('lan', 'LanController@update');
-                $api->post('lan/image', 'LanController@addImage');
-                $api->delete('lan/image', 'LanController@deleteImages');
+                $api->post('lan/image', 'LanController@addLanImage');
+                $api->delete('lan/image', 'LanController@deleteLanImages');
 
                 $api->post('contribution/category', 'ContributionController@createCategory');
                 $api->delete('contribution/category', 'ContributionController@deleteCategory');

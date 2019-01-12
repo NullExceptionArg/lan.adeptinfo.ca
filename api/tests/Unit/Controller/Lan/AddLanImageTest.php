@@ -29,13 +29,13 @@ class addImageTest extends TestCase
             'add-image'
         );
 
-        $this->requestContent['image'] = factory('App\Model\Image')->make([
+        $this->requestContent['image'] = factory('App\Model\LanImage')->make([
             'lan_id' => $this->lan->id
         ])->image;
         $this->requestContent['lan_id'] = $this->lan->id;
     }
 
-    public function testAddImage(): void
+    public function testAddLanImage(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/lan/image', $this->requestContent)
@@ -46,7 +46,7 @@ class addImageTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testAddImageCurrentLan(): void
+    public function testAddLanImageCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -68,7 +68,7 @@ class addImageTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testAddImageHasPermission(): void
+    public function testAddLanImageHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
@@ -81,7 +81,7 @@ class addImageTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testAddImageLanIdExists(): void
+    public function testAddLanImageLanIdExists(): void
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
@@ -98,7 +98,7 @@ class addImageTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddImageLanIdInteger(): void
+    public function testAddLanImageLanIdInteger(): void
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
@@ -115,7 +115,7 @@ class addImageTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddImageRequired(): void
+    public function testAddLanImageRequired(): void
     {
         $this->requestContent['image'] = null;
         $this->actingAs($this->user)
@@ -132,7 +132,7 @@ class addImageTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddImageString(): void
+    public function testAddLanImageString(): void
     {
         $this->requestContent['image'] = 1;
         $this->actingAs($this->user)

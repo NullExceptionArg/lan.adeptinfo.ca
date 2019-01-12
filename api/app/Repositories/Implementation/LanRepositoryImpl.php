@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{Image, Lan, Reservation};
+use App\Model\{Lan, LanImage, Reservation};
 use App\Repositories\LanRepository;
 use DateTime;
 use Illuminate\{Support\Collection, Support\Facades\DB};
@@ -56,9 +56,9 @@ class LanRepositoryImpl implements LanRepository
             ]);
     }
 
-    public function deleteImages(array $imageIds): void
+    public function deleteLanImages(array $imageIds): void
     {
-        Image::destroy($imageIds);
+        LanImage::destroy($imageIds);
     }
 
     public function findById(int $id): ?Lan
@@ -66,9 +66,9 @@ class LanRepositoryImpl implements LanRepository
         return Lan::find($id);
     }
 
-    public function findImageById(int $imageId): ?Image
+    public function findLanImageById(int $imageId): ?LanImage
     {
-        return Image::find($imageId);
+        return LanImage::find($imageId);
     }
 
     public function getAll(): ?Collection

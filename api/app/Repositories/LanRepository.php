@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Model\{Image, Lan};
+use App\Model\{Lan, LanImage};
 use DateTime;
 use Illuminate\Support\Collection;
 
@@ -28,11 +28,11 @@ interface LanRepository
         ?string $description
     ): int;
 
-    public function deleteImages(array $imageId): void;
+    public function deleteLanImages(array $imageId): void;
 
     public function findById(int $id): ?Lan;
 
-    public function findImageById(int $imageId): ?Image;
+    public function findLanImageById(int $imageId): ?LanImage;
 
     public function getAll(): ?Collection;
 

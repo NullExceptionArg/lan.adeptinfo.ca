@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * Entitée centrale de l'application: événement de jeu en réseau.
+ *
  * @property int id
  * @property string name
  * @property DateTime lan_start
@@ -31,14 +33,14 @@ class Lan extends Model
     protected $table = 'lan';
 
     /**
-     * The attributes that should be mutated to dates.
+     * Les attributs qui doivent être mutés en dates.
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * Champs qui ne sont pas retournés par défaut lorsque l'objet est retourné dans une requête HTTP.
      *
      * @var array
      */
@@ -46,6 +48,11 @@ class Lan extends Model
         'created_at', 'updated_at', 'deleted_at'
     ];
 
+    /**
+     * Champs à transtyper.
+     *
+     * @var array
+     */
     protected $casts = [
         'price' => 'integer',
         'places' => 'integer',
@@ -55,6 +62,11 @@ class Lan extends Model
         'longitude' => 'float'
     ];
 
+    /**
+     * Champs assignables par masses
+     *
+     * @var array
+     */
     protected $fillable = [
         'is_current'
     ];
@@ -72,11 +84,6 @@ class Lan extends Model
     public function contributionCategory()
     {
         return $this->hasMany(ContributionCategory::class);
-    }
-
-    public function Image()
-    {
-        return $this->hasMany(Image::class);
     }
 
     public static function getCurrent(): ?Lan

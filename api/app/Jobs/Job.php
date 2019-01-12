@@ -7,13 +7,13 @@ use Illuminate\{Bus\Queueable, Contracts\Queue\ShouldQueue, Queue\InteractsWithQ
 abstract class Job implements ShouldQueue
 {
     /*
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------------------------------------------------
     | Queueable Jobs
-    |--------------------------------------------------------------------------
+    |-------------------------------------------------------------------------------------------------------------------
     |
-    | This job base class provides a central location to place any logic that
-    | is shared across all of your jobs. The trait included with the class
-    | provides access to the "queueOn" and "delay" queue helper methods.
+    | Cette classe de base fournit un emplacement central pour placer toute logique partagée entre tous vos travaux.
+    | Le trait fourni avec la classe fournit un accès aux méthodes auxiliaires de la file d'attente "queueOn" et
+    | "delay".
     |
     */
 

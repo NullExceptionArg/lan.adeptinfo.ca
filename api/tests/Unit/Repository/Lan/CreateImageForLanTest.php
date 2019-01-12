@@ -20,7 +20,7 @@ class CreateImageForLanTest extends TestCase
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
-        $this->image = factory('App\Model\Image')->make([
+        $this->image = factory('App\Model\LanImage')->make([
             'lan_id' => $this->lan->id
         ]);
     }

@@ -14,8 +14,19 @@ use App\Rules\{Seat\SeatExistInLanSeatIo,
 use App\Services\Implementation\SeatServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
+/**
+ * Validation et application de la logique applicative sur les places.
+ *
+ * Class SeatController
+ * @package App\Http\Controllers
+ */
 class SeatController extends Controller
 {
+    /**
+     * Service de place.
+     *
+     * @var SeatServiceImpl
+     */
     protected $seatService;
 
     /**

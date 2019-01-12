@@ -2,16 +2,39 @@
 
 use Illuminate\{Bus\Queueable, Mail\Mailable, Queue\SerializesModels};
 
+/**
+ * Courriel de confirmation de compte
+ *
+ * Class ConfirmAccount
+ * @package App\Mail
+ */
 class ConfirmAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * Adresse où le courriel sera envoyé.
+     *
+     * @var string
+     */
     protected $email;
+
+    /**
+     * Code de confirmation généré, à placer dans une l'URL.
+     *
+     * @var string
+     */
     protected $code;
+
+    /**
+     * Nom de l'utilisateur à qui l'on envoit le courriel.
+     *
+     * @var string
+     */
     public $name;
 
     /**
-     * Create a new message instance.
+     * Créer une nouvelle instance du message.
      *
      * @param string $email
      * @param string $code

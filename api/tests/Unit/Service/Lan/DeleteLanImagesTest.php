@@ -5,7 +5,7 @@ namespace Tests\Unit\Service\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteImagesTest extends TestCase
+class DeleteLanImagesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -23,20 +23,20 @@ class DeleteImagesTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-        $this->image = factory('App\Model\Image')->create([
+        $this->image = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
-        $this->image1 = factory('App\Model\Image')->create([
+        $this->image1 = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
-        $this->image2 = factory('App\Model\Image')->create([
+        $this->image2 = factory('App\Model\LanImage')->create([
             'lan_id' => $this->lan->id
         ]);
     }
 
-    public function testDeleteImages(): void
+    public function testDeleteLanImages(): void
     {
-        $result = $this->lanService->deleteImages($this->image1->id . ',' . $this->image2->id);
+        $result = $this->lanService->deleteLanImages($this->image1->id . ',' . $this->image2->id);
 
         $this->assertEquals([
             $this->image1->id,

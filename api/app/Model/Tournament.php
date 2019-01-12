@@ -7,6 +7,8 @@ use DateTime;
 use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
 
 /**
+ * Tournoi de jeu organisé dans un LAN.
+ *
  * @property int id
  * @property int lan_id
  * @property string name
@@ -25,14 +27,14 @@ class Tournament extends Model
     protected $table = 'tournament';
 
     /**
-     * The attributes that should be mutated to dates.
+     * Les attributs qui doivent être mutés en dates.
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * Champs qui ne sont pas retournés par défaut lorsque l'objet est retourné dans une requête HTTP.
      *
      * @var array
      */
@@ -40,30 +42,40 @@ class Tournament extends Model
         'created_at', 'updated_at', 'deleted_at',
     ];
 
+    /**
+     * Champs à transtyper.
+     *
+     * @var array
+     */
     protected $casts = [
         'lan_id' => 'integer', 'players_to_reach' => 'integer', 'teams_to_reach' => 'integer', 'price' => 'integer'
     ];
 
+    /**
+     * État courant du tournoi selon son état et le moment courant.
+     *
+     * @return string
+     */
     public function getCurrentState()
     {
         $state = $this->state;
         $now = Carbon::now();
         if ($state == 'hidden') {
-            return 'hidden'; // caché
+            return TournamentState::HIDDEN;
         } else if ($state == 'finished') {
-            return 'finished'; // terminé
+            return TournamentState::FINISHED;
         } else if ($state == 'visible' && $now < $this->tournament_start) {
-            return 'fourthcoming'; // à venir
+            return TournamentState::FOURTHCOMING;
         } else if ($state == 'visible' && $now >= $this->tournament_start) {
-            return 'late'; // en retard
+            return TournamentState::LATE;
         } else if ($state == 'started' && $now < $this->tournament_start) {
-            return 'outguessed'; // devancé
+            return TournamentState::OUTGUESSED;
         } else if ($state == 'started' && $now >= $this->tournament_start && $now <= $this->tournament_end) {
-            return 'running'; // en cours
+            return TournamentState::RUNNING;
         } else if ($state == 'started' && $now > $this->tournament_end) {
-            return 'behindhand'; // en retard sur l'horaire (s'éternise)
+            return TournamentState::BEHINDHAND;
         } else {
-            return 'unknown'; // inconnue
+            return TournamentState::UNKNOWN;
         }
     }
 
@@ -71,16 +83,22 @@ class Tournament extends Model
     {
         parent::boot();
 
+        // Avant la suppression du tournoi
         static::deleting(function ($tournament) {
             $teams = Team::where('tournament_id', $tournament->id)
                 ->get();
+            // Pour chaque équipe inscrite au tournoi
             foreach ($teams as $team) {
+                // Supprimer les liens avec les tag de joueurs
                 TagTeam::where('team_id', $team->id)
                     ->delete();
+                // Supprimer les liens avec les requêtes pour entrer dans l'équipe
                 Request::where('team_id', $team->id)
                     ->delete();
+                // Supprimer l'équipe
                 $team->delete();
             }
+            // Supprimer le les liens avec les organisateurs du tournoi
             OrganizerTournament::where('tournament_id', $tournament->id)
                 ->delete();
         });

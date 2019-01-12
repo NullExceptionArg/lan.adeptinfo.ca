@@ -2,7 +2,7 @@
 
 namespace App\Rules\Lan;
 
-use App\Model\Image;
+use App\Model\LanImage;
 use Illuminate\Contracts\Validation\Rule;
 
 class ManyImageIdsExist implements Rule
@@ -23,7 +23,7 @@ class ManyImageIdsExist implements Rule
         }
         $imageIdArray = array_map('intval', explode(',', $value));
         for ($i = 0; $i < count($imageIdArray); $i++) {
-            $image = Image::find($imageIdArray[$i]);
+            $image = LanImage::find($imageIdArray[$i]);
             if ($image == null) {
                 array_push($this->badImageIds, $imageIdArray[$i]);
             }

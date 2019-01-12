@@ -6,8 +6,19 @@ use App\Rules\{General\OneOfTwoFields, User\HasPermissionInLan};
 use App\Services\Implementation\ContributionServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
+/**
+ * Validation et application de la logique applicative sur les contributions.
+ *
+ * Class ContributionController
+ * @package App\Http\Controllers
+ */
 class ContributionController extends Controller
 {
+    /**
+     * Service de contribution.
+     *
+     * @var ContributionServiceImpl
+     */
     protected $contributionService;
 
     /**
