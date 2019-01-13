@@ -28,24 +28,20 @@ class ContributionRepositoryImpl implements ContributionRepository
             ]);
     }
 
-    public function createContributionUserFullName(string $userFullName): Contribution
+    public function createContributionUserFullName(string $userFullName): int
     {
-        $contribution = new Contribution();
-        $contribution->user_full_name = $userFullName;
-
-        $contribution->save();
-
-        return $contribution;
+        return DB::table('contribution')
+            ->insertGetId([
+                'user_full_name' => $userFullName
+            ]);
     }
 
-    public function createContributionUserId(int $userId): Contribution
+    public function createContributionUserId(int $userId): int
     {
-        $contribution = new Contribution();
-        $contribution->user_id = $userId;
-
-        $contribution->save();
-
-        return $contribution;
+        return DB::table('contribution')
+            ->insertGetId([
+                'user_id' => $userId
+            ]);
     }
 
     public function deleteCategoryById(int $contributionCategoryId): void

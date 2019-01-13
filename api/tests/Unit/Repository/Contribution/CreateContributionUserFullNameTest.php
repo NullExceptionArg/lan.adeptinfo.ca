@@ -23,8 +23,9 @@ class CreateContributionUserFullNameTest extends TestCase
 
     public function testCreateContributionUserFullName(): void
     {
-        $this->contributionRepository->createContributionUserFullName($this->paramsContent['user_full_name']);
+        $result = $this->contributionRepository->createContributionUserFullName($this->paramsContent['user_full_name']);
 
+        $this->assertIsInt($result);
         $this->seeInDatabase('contribution', [
             'id' => 1,
             'user_full_name' => $this->paramsContent['user_full_name'],

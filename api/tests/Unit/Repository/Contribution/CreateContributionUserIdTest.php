@@ -23,8 +23,9 @@ class CreateContributionUserIdTest extends TestCase
 
     public function testCreateContributionUserId(): void
     {
-        $this->contributionRepository->createContributionUserId($this->user->id);
+        $result = $this->contributionRepository->createContributionUserId($this->user->id);
 
+        $this->assertIsInt($result);
         $this->seeInDatabase('contribution', [
             'id' => 1,
             'user_full_name' => null,

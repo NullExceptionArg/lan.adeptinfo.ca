@@ -42,14 +42,15 @@ class ContributionServiceImpl implements ContributionService
         ?string $email
     ): ContributionResource
     {
-        $contribution = null;
+        $contributionId = null;
         if ($userFullName != null) {
-            $contribution = $this->contributionRepository->createContributionUserFullName($userFullName);
+            $contributionId = $this->contributionRepository->createContributionUserFullName($userFullName);
         } else {
             $user = $this->userRepository->findByEmail($email);
-            $contribution = $this->contributionRepository->createContributionUserId($user->id);
+            $contributionId = $this->contributionRepository->createContributionUserId($user->id);
         }
 
+        $contribution = $this->contributionRepository->findContributionById($contributionId);
         $this->contributionRepository->attachContributionCategoryContribution($contribution->id, $contributionCategoryId);
         return new ContributionResource($contribution);
     }
