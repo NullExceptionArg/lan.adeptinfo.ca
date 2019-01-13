@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Repository\Lan;
+namespace Tests\Unit\Repository\Seat;
 
 use App\Model\Reservation;
 use Laravel\Lumen\Testing\DatabaseMigrations;
@@ -10,21 +10,21 @@ class GetReservedPlacesTest extends SeatsTestCase
 {
     use DatabaseMigrations;
 
-    protected $lanRepository;
+    protected $seatRepository;
 
     protected $lan;
 
     public function setUp(): void
     {
         parent::setUp();
-        $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
+        $this->seatRepository = $this->app->make('App\Repositories\Implementation\SeatRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
     }
 
     public function testGetReservedPlacesSimple(): void
     {
-        $result = $this->lanRepository->getReservedPlaces($this->lan->id);
+        $result = $this->seatRepository->getReservedPlaces($this->lan->id);
 
         $this->assertEquals(0, $result);
     }
@@ -39,7 +39,7 @@ class GetReservedPlacesTest extends SeatsTestCase
         $reservation->seat_id = env('SEAT_TEST_ID');
         $reservation->save();
 
-        $result = $this->lanRepository->getReservedPlaces($this->lan->id);
+        $result = $this->seatRepository->getReservedPlaces($this->lan->id);
 
         $this->assertEquals(1, $result);
     }

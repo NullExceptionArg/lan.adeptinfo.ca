@@ -95,7 +95,7 @@ class UserServiceImpl implements UserService
     public function getUserDetails(int $lanId, string $email): GetUserDetailsResource
     {
         $user = $this->userRepository->findByEmail($email);
-        $currentSeat = $this->seatRepository->getCurrentSeat($user->id, $lanId);
+        $currentSeat = $this->seatRepository->findReservationByLanIdAndUserId($user->id, $lanId);
         $seatHistory = $this->seatRepository->getSeatHistoryForUser($user->id, $lanId);
 
         return new GetUserDetailsResource($user, $currentSeat, $seatHistory);

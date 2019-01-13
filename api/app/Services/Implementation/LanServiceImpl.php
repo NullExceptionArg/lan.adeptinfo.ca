@@ -9,6 +9,7 @@ use App\Http\Resources\Lan\UpdateResource;
 use App\Model\Lan;
 use App\Repositories\Implementation\LanRepositoryImpl;
 use App\Repositories\Implementation\RoleRepositoryImpl;
+use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Services\LanService;
 use DateTime;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -17,15 +18,18 @@ class LanServiceImpl implements LanService
 {
     protected $lanRepository;
     protected $roleRepository;
+    protected $seatRepository;
 
     /**
      * LanServiceImpl constructor.
      * @param LanRepositoryImpl $lanRepository
      * @param RoleRepositoryImpl $roleRepository
+     * @param SeatRepositoryImpl $seatRepository
      */
     public function __construct(
         LanRepositoryImpl $lanRepository,
-        RoleRepositoryImpl $roleRepository
+        RoleRepositoryImpl $roleRepository,
+        SeatRepositoryImpl $seatRepository
     )
     {
         $this->lanRepository = $lanRepository;
@@ -34,7 +38,7 @@ class LanServiceImpl implements LanService
 
     public function addLanImage(int $lanId, string $image): ImageResource
     {
-        $imageId = $this->lanRepository->createImageForLan($lanId, $image);
+        $imageId = $this->lanRepository->addLanImage($lanId, $image);
         return new ImageResource($this->lanRepository->findLanImageById($imageId));
     }
 
@@ -76,7 +80,7 @@ class LanServiceImpl implements LanService
             $description
         );
 
-        $this->roleRepository->createDefaultLanRoles($lanId);
+        $this->roleRepository->addDefaultLanRoles($lanId);
         return $this->lanRepository->findById($lanId);
     }
 
@@ -95,7 +99,7 @@ class LanServiceImpl implements LanService
 
     public function get(int $lanId, ?string $fields): GetResource
     {
-        $placeCount = $this->lanRepository->getReservedPlaces($lanId);
+        $placeCount = $this->seatRepository->getReservedPlaces($lanId);
         $images = $this->lanRepository->getImagesForLan($lanId);
         $lan = $this->lanRepository->findById($lanId);
 

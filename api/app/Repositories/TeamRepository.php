@@ -7,6 +7,12 @@ use App\Model\Tag;
 use App\Model\Team;
 use Illuminate\Support\Collection;
 
+/**
+ * Méthodes pour accéder aux tables de base de donnée liées aux équipes.
+ *
+ * Interface TeamRepository
+ * @package App\Repositories
+ */
 interface TeamRepository
 {
     public function createRequest(int $teamId, int $userTagId): int;

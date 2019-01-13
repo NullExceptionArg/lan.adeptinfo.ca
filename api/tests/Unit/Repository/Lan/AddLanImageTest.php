@@ -5,7 +5,7 @@ namespace Tests\Unit\Repository\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateImageForLanTest extends TestCase
+class addLanImageTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -25,9 +25,9 @@ class CreateImageForLanTest extends TestCase
         ]);
     }
 
-    public function testCreateImageForLan(): void
+    public function testAddLanImage(): void
     {
-        $result = $this->lanRepository->createImageForLan($this->lan->id, $this->image->image);
+        $result = $this->lanRepository->addLanImage($this->lan->id, $this->image->image);
 
         $this->assertEquals(1, $result);
 

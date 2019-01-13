@@ -6,6 +6,12 @@ use App\Model\{Tag, User};
 use Illuminate\Pagination\AbstractPaginator;
 use Laravel\Passport\Token;
 
+/**
+ * Méthodes pour accéder aux tables de base de donnée liées aux utilisateurs.
+ *
+ * Interface UserRepository
+ * @package App\Repositories
+ */
 interface UserRepository
 {
     public function addConfirmationCode(string $email, string $confirmationCode): void;

@@ -6,7 +6,7 @@ use App\Model\LanRole;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class CreateDefaultLanRolesTest extends TestCase
+class AddDefaultLanRolesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -21,11 +21,11 @@ class CreateDefaultLanRolesTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testCreateDefaultLanRoles(): void
+    public function testAddDefaultLanRoles(): void
     {
         $this->assertEquals(0, LanRole::all()->count());
 
-        $this->roleRepository->createDefaultLanRoles($this->lan->id);
+        $this->roleRepository->addDefaultLanRoles($this->lan->id);
 
         $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
         $this->assertEquals(count($lanRoles), LanRole::all()->count());

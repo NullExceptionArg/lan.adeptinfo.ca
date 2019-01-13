@@ -8,7 +8,7 @@ use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class RoleRepositoryImpl implements RoleRepository
 {
-    public function createDefaultLanRoles(int $lanId): void
+    public function addDefaultLanRoles(int $lanId): void
     {
         $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
         foreach ($lanRoles as $role) {

@@ -41,12 +41,9 @@ class SeatRepositoryImpl implements SeatRepository
             ->first();
     }
 
-    public function getCurrentSeat(int $userId, int $lanId): ?Reservation
+    public function getReservedPlaces(int $lanId): int
     {
-        return Reservation::where('user_id', $userId)
-            ->where('lan_id', $lanId)
-            ->where('deleted_at', null)
-            ->first();
+        return Reservation::where('lan_id', $lanId)->count();
     }
 
     public function getSeatHistoryForUser(int $userId, int $lanId): ?Collection

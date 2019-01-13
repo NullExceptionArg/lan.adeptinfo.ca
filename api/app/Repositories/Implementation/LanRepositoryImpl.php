@@ -2,14 +2,14 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{Lan, LanImage, Reservation};
+use App\Model\{Lan, LanImage};
 use App\Repositories\LanRepository;
 use DateTime;
 use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class LanRepositoryImpl implements LanRepository
 {
-    public function createImageForLan(int $lanId, string $image): int
+    public function addLanImage(int $lanId, string $image): int
     {
         return DB::table('image')
             ->insertGetId([
@@ -30,7 +30,7 @@ class LanRepositoryImpl implements LanRepository
         float $latitude,
         float $longitude,
         int $places,
-        bool $hasCurrentPlace,
+        bool $isCurrent,
         ?int $price,
         ?string $rules,
         ?string $description
@@ -49,7 +49,7 @@ class LanRepositoryImpl implements LanRepository
                 'latitude' => $latitude,
                 'longitude' => $longitude,
                 'places' => $places,
-                'is_current' => $hasCurrentPlace,
+                'is_current' => $isCurrent,
                 'price' => $price,
                 'rules' => $rules,
                 'description' => $description,
@@ -81,11 +81,6 @@ class LanRepositoryImpl implements LanRepository
         return DB::table('image')
             ->where('lan_id', $lanId)
             ->get();
-    }
-
-    public function getReservedPlaces(int $lanId): int
-    {
-        return Reservation::where('lan_id', $lanId)->count();
     }
 
     public function removeCurrent(): void

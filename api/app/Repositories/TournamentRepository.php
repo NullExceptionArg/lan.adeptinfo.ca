@@ -6,6 +6,12 @@ use App\Model\Tournament;
 use DateTime;
 use Illuminate\Support\Collection;
 
+/**
+ * Méthodes pour accéder aux tables de base de donnée liées aux tournois.
+ *
+ * Interface TournamentRepository
+ * @package App\Repositories
+ */
 interface TournamentRepository
 {
     public function adminHasTournaments(int $userId, int $lanId): bool;
