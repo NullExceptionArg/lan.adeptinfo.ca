@@ -2,37 +2,43 @@
 
 namespace App\Http\Resources\Team;
 
-use App\Model\Request;
-use App\Model\TagTeam;
-use App\Model\Tournament;
-use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Model\{Request, TagTeam, Tournament};
+use Illuminate\{Http\Resources\Json\Resource, Support\Facades\Auth, Support\Facades\DB};
 
 class GetUserTeamsResource extends Resource
 {
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
+        // Obtenir le nombre de joueur atteints
         $playersReached = TagTeam::where('team_id', $this->id)
             ->count();
+
+        // Obtenir le tournoi
         $tournament = Tournament::find($this->tournament_id);
+
+        // Obtenir les requêtes pour entrer dans l'équipe
         $requests = Request::where('team_id', $this->id)->count();
+
+        // Obtenir l'id des tags de l'utilisateur
         $tagIds = DB::table('tag')
             ->select('id')
             ->where('user_id', Auth::id())
             ->pluck('id')
             ->toArray();
+
+        // Obtenir les liens entre les tags et l'équipe
         $tagTeam = TagTeam::whereIn('tag_id', $tagIds)
             ->where('team_id', $this->id)
             ->first();
-        $playersState = null;
 
+        // Donner l'état du joueur dans l'équipe
+        $playersState = null;
         if (!is_null($tagTeam)) {
             $playersState = $tagTeam->is_leader ? 'leader' : 'confirmed';
         } else {

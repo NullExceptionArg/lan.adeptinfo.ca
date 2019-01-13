@@ -21,7 +21,7 @@ class GetUsersTeamDetailsResource extends Resource
     }
 
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array

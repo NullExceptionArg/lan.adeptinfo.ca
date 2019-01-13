@@ -10,14 +10,17 @@ use Illuminate\Support\Facades\DB;
 class GetTournamentDetailsTeamResource extends Resource
 {
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
+        // Nombre de joueurs atteints pour l'équipe
         $playersReached = $playersReached = TagTeam::where('team_id', $this->id)->count();
+
+        // Joueurs faisant parti de l'équipe
         $players = DB::table('tag_team')
             ->join('tag', 'tag_team.tag_id', '=', 'tag.id')
             ->join('user', 'tag.user_id', '=', 'user.id')

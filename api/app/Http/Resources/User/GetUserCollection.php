@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class GetUserCollection extends ResourceCollection
 {
     /**
-     * Transform the resource collection into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array

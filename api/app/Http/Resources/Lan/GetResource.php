@@ -38,13 +38,14 @@ class GetResource extends Resource
     }
 
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
+        // Vérifier si des champs ont été spécifiés, sinon retourner tous les champs
         $fields = explode(',', $this->fields);
         if (substr_count($this->fields, ',') == 0) {
             return [

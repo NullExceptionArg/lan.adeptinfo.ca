@@ -13,14 +13,15 @@ use Illuminate\Http\Resources\Json\Resource;
 class ContributionResource extends Resource
 {
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
-        $userFullName = $this->user_full_name != null ?
+        // Déterminer le type de contribution
+        $userFullName = !is_null($this->user_full_name) ?
             $this->user_full_name :
             User::find($this->user_id)->getFullName();
         return [
