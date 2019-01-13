@@ -68,6 +68,7 @@ class TeamRepositoryImpl implements TeamRepository
 
     public function getLeadersRequestTotalCount(int $userId, int $lanId): int
     {
+        // Obtenir les équipes dirigées par l'utilisateur
         $teamIds = DB::table('tag')
             ->join('tag_team', 'tag.id', '=', 'tag_team.tag_id')
             ->join('team', 'tag_team.team_id', '=', 'team.id')
@@ -79,6 +80,7 @@ class TeamRepositoryImpl implements TeamRepository
             ->pluck('team.id')
             ->toArray();
 
+        // Obtenir les requêtes qui sont faites dans ces équipes, et les compter
         return DB::table('request')
             ->whereIn('team_id', $teamIds)
             ->count();
@@ -123,15 +125,18 @@ class TeamRepositoryImpl implements TeamRepository
 
     public function getTagWithMostSeniorityNotLeader(int $teamId): ?Tag
     {
+        // Obtenir le plus vieux lien entre les tag et l'équipes où le tag n'est pas leader.
         $tagTeam = TagTeam::where('team_id', $teamId)
             ->where('is_leader', false)
             ->oldest()
             ->first();
 
-        if ($tagTeam == null) {
+        // Vérifier si aucun tag de joueur n'a été trouvé
+        if (is_null($tagTeam)) {
             return null;
         }
 
+        // Trouver et retourner le tag de joueur.
         return Tag::find($tagTeam->tag_id);
     }
 
@@ -142,7 +147,7 @@ class TeamRepositoryImpl implements TeamRepository
             ->where('team.id', $teamId)
             ->select('tournament.lan_id')
             ->first();
-        return $lanId != null ? $lanId->lan_id : null;
+        return !is_null($lanId) ? $lanId->lan_id : null;
     }
 
     public function getUsersTeamTags(int $teamId): Collection
@@ -164,30 +169,36 @@ class TeamRepositoryImpl implements TeamRepository
 
     public function getUserTeams(int $userId, int $lanId): Collection
     {
+        // Obtenir les tags de l'utilisateur
         $tagIds = DB::table('tag')
             ->select('id')
             ->where('user_id', $userId)
             ->pluck('id')
             ->toArray();
 
+        // Obtenir les équipes de l'utilisateur
         $teamsIds = DB::table('tag_team')
             ->select('team_id')
             ->whereIn('tag_id', $tagIds)
             ->pluck('team_id')
             ->toArray();
 
+        // Obtenir les requêtes de l'utilisateur
         $teamsIdsRequest = DB::table('request')
             ->select('team_id')
             ->whereIn('tag_id', $tagIds)
             ->pluck('team_id')
             ->toArray();
 
+        // Obtenir les tournois du LAN
         $tournamentIds = DB::table('tournament')
             ->select('id')
             ->where('lan_id', $lanId)
             ->pluck('id')
             ->toArray();
 
+        // Obtenir les équipes dont l'utilisateur fait parti et celle où l'utilisateur à fait des requêtes, dans les
+        // tournois du LAN
         return Team::whereIn('id', $teamsIds)
             ->orWhereIn('id', $teamsIdsRequest)
             ->whereIn('tournament_id', $tournamentIds)
@@ -206,6 +217,7 @@ class TeamRepositoryImpl implements TeamRepository
 
     public function removeUserFromTeam(int $userId, int $teamId): void
     {
+        // Obtenir les liens entre l'équipe et les tags du joueur
         $tagTeamId = DB::table('tag')
             ->join('tag_team', 'tag.id', '=', 'tag_team.tag_id')
             ->where('tag.user_id', $userId)
@@ -214,22 +226,24 @@ class TeamRepositoryImpl implements TeamRepository
             ->pluck('id')
             ->first();
 
+        // Supprimer les liens trouvés
         TagTeam::destroy($tagTeamId);
     }
 
     public function switchLeader(int $tagId, int $teamId): void
     {
-        $currentLeader = TagTeam::where('team_id', $teamId)
-            ->where('is_leader', true)
-            ->first();
-        $currentLeader->is_leader = false;
-        $currentLeader->save();
+        // Mettre à jour l'équipe pour qu'elle n'ait plus de leader
+        TagTeam::where('team_id', $teamId)
+            ->update([
+                'is_leader' => false
+            ]);
 
-        $newLeader = TagTeam::where('team_id', $teamId)
+        // Mettre à jour l'équipe pour que le leader soit celui spécifié
+        TagTeam::where('team_id', $teamId)
             ->where('tag_id', $tagId)
-            ->first();
-        $newLeader->is_leader = true;
-        $newLeader->save();
+            ->update([
+                'is_leader' => true
+            ]);
     }
 
     public function userIsLeader(int $teamId, int $userId): bool

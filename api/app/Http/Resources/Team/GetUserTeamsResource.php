@@ -33,7 +33,7 @@ class GetUserTeamsResource extends Resource
             ->first();
         $playersState = null;
 
-        if ($tagTeam != null) {
+        if (!is_null($tagTeam)) {
             $playersState = $tagTeam->is_leader ? 'leader' : 'confirmed';
         } else {
             $playersState = 'not-confirmed';

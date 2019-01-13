@@ -10,8 +10,11 @@ class RoleRepositoryImpl implements RoleRepository
 {
     public function addDefaultLanRoles(int $lanId): void
     {
+        // Les rôles de LAN par défaut sont définis dans /resources/roles.php, dans l'entrée de tableau nommé lan_roles
         $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
+        // Pour chaque rôle trouvés
         foreach ($lanRoles as $role) {
+            // Créer le rôle
             $roleId = DB::table('lan_role')->insertGetId([
                 'name' => $role['name'],
                 'en_display_name' => $role['en_display_name'],
@@ -20,6 +23,7 @@ class RoleRepositoryImpl implements RoleRepository
                 'fr_description' => $role['fr_description'],
                 'lan_id' => $lanId
             ]);
+            // Ajouter les permissions au rôle
             foreach ($role['permissions'] as $permission) {
                 DB::table('permission_lan_role')->insert([
                     'permission_id' => Permission::where('name', $permission['name'])->first()->id,
@@ -89,6 +93,7 @@ class RoleRepositoryImpl implements RoleRepository
 
     public function getAdminPermissions(int $lanId, int $userId): Collection
     {
+        // Permissions dans les rôles de LAN
         $lanPermissions = DB::table('permission')
             ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
@@ -99,6 +104,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 
+        // Permissions dans les rôles globaux
         $globalPermissions = DB::table('permission')
             ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
             ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
@@ -107,6 +113,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 
+        // Fusion des permissions trouvées
         return $lanPermissions->merge($globalPermissions)->unique();
     }
 
@@ -306,6 +313,7 @@ class RoleRepositoryImpl implements RoleRepository
 
     public function userHasPermission(string $permission, int $userId, int $lanId): bool
     {
+        // Permissions dans les rôles de LAN
         $lanPermissions = DB::table('permission')
             ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
@@ -316,6 +324,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('permission.name', $permission)
             ->get();
 
+        // Permissions dans les rôles globaux
         $globalPermissions = DB::table('permission')
             ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
             ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
@@ -324,6 +333,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('permission.name', $permission)
             ->get();
 
+        // Fusion des permissions trouvées, puis voir si l'une d'elles corresponds à ce qui est recherché
         return $lanPermissions->merge($globalPermissions)->unique()->count() > 0;
     }
 }

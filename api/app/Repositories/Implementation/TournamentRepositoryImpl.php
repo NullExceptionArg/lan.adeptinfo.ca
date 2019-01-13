@@ -80,13 +80,21 @@ class TournamentRepositoryImpl implements TournamentRepository
 
     public function getReachedTeams(int $tournamentId): int
     {
+        // Trouver le tournoi
         $tournament = Tournament::find($tournamentId);
-        $teams = Team::where('tournament_id', $tournamentId)
-            ->get();
+
+        // Trouver les équipes du tournoi
+        $teams = Team::where('tournament_id', $tournamentId)->get();
+
+        // Pour chaque équipe
         $teamsReached = 0;
         foreach ($teams as $team) {
+            // Trouver le nombre de joueur atteints (tags de joueur associés à l'équipe)
             $playersReached = TagTeam::where('team_id', $team->id)->count();
+
+            // Si le nombre de joueur atteints est plus grands que le nombre de joueurs à atteindre
             if ($playersReached >= $tournament->players_to_reach) {
+                // Augmenter le compteur d'équipes complètes
                 $teamsReached++;
                 break;
             }
@@ -96,12 +104,14 @@ class TournamentRepositoryImpl implements TournamentRepository
 
     public function getTournamentsForOrganizer(int $userId, int $lanId): Collection
     {
+        // Trouver l'id des tournois de l'organisateur
         $tournamentIds = DB::table('organizer_tournament')
             ->select('tournament_id')
             ->where('organizer_id', $userId)
             ->pluck('tournament_id')
             ->toArray();
 
+        // Retourner les tournois correspondants aux id trouvés
         return Tournament::where('lan_id', $lanId)
             ->whereIn('id', $tournamentIds)
             ->get();

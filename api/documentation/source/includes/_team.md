@@ -108,7 +108,7 @@ Obtenir les équipes d'un utilisateur.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'utilisateur veut obtenir ses tournois. Si paramètre n'est pas spécifié, on retourne le LAN courant. | Integer.
+lan_id | Id du LAN d'où l'utilisateur veut obtenir ses équipes. Si paramètre n'est pas spécifié, on retourne le LAN courant. | Integer.
 
 ### Format de réponse
 

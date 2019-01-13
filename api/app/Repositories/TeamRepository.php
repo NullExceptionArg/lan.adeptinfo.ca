@@ -94,7 +94,7 @@ interface TeamRepository
     public function getLeadersRequestTotalCount(int $userId, int $lanId): int;
 
     /**
-     * Obtenir les requêtes qu'a fait un utilisateur.
+     * Obtenir les requêtes qu'a fait un utilisateur, avec quel tag de joueur, quelle équipe, et quel tournoi
      *
      * @param int $userId Id de l'utilisateur.
      * @param int $lanId Id du LAN dans duquel l'utilisateur souhaite obtenir ses requêtes.
@@ -103,7 +103,7 @@ interface TeamRepository
     public function getRequestsForUser(int $userId, int $lanId): Collection;
 
     /**
-     * Obtenir les requêtes pour entrer dans une équipe.
+     * Obtenir les requêtes pour entrer dans une équipe, avec le tag et le nom du joueur.
      *
      * @param int $teamId Id de l'équipe.
      * @return Collection  Requêtes trouvées.
@@ -127,7 +127,7 @@ interface TeamRepository
     public function getTeamsLanId(int $teamId): ?int;
 
     /**
-     * Obtenir les tags de joueur et leur identité des joueurs d'une équipe.
+     * Obtenir les tags l'identité des joueurs d'une équipe.
      *
      * @param int $teamId Id de l'équipe.
      * @return Collection Tags et identité des tags trouvés.
