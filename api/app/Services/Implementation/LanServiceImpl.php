@@ -34,6 +34,7 @@ class LanServiceImpl implements LanService
     {
         $this->lanRepository = $lanRepository;
         $this->roleRepository = $roleRepository;
+        $this->seatRepository = $seatRepository;
     }
 
     public function addLanImage(int $lanId, string $image): ImageResource
@@ -149,7 +150,7 @@ class LanServiceImpl implements LanService
             $description
         );
 
-        $placeCount = $this->lanRepository->getReservedPlaces($lanId);
+        $placeCount = $this->seatRepository->getReservedPlaces($lanId);
         $images = $this->lanRepository->getImagesForLan($lanId);
         $lan = $this->lanRepository->findById($lanId);
 
