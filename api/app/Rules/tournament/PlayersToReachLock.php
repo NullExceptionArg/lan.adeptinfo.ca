@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Rules\Tournament;
-use App\Model\Team;
-use App\Model\Tournament;
+
+use App\Model\{Team, Tournament};
 use Illuminate\Contracts\Validation\Rule;
 
 class PlayersToReachLock implements Rule
 {
-
     protected $tournamentId;
 
     public function __construct(?string $tournamentId)
@@ -26,7 +25,7 @@ class PlayersToReachLock implements Rule
     {
         $tournament = Tournament::find($this->tournamentId);
         if ($tournament == null || $value == null) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
         $teamsCount = Team::where('tournament_id', $tournament->id)
             ->count();

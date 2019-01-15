@@ -2,9 +2,7 @@
 
 namespace App\Rules\User;
 
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
 
 class HasPermission implements Rule
 {
@@ -26,7 +24,7 @@ class HasPermission implements Rule
     public function passes($attribute, $value): bool
     {
         if (is_null($value) || is_null($this->userId)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         $globalPermissions = DB::table('permission')

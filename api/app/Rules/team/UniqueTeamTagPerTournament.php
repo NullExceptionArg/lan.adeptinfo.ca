@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class UniqueTeamTagPerTournament implements Rule
 {
-
     protected $tournamentId;
 
     public function __construct(?int $tournamentId)

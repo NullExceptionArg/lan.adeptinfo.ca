@@ -2,17 +2,22 @@
 
 namespace App\Rules;
 
-use App\Model\LanRoleUser;
-use App\Model\User;
+use App\Model\{LanRoleUser, User};
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Un rôle de LAN n'est attribué qu'une seul fois à un utilisateur.
+ *
+ * Class LanRoleOncePerUser
+ * @package App\Rules
+ */
 class LanRoleOncePerUser implements Rule
 {
     protected $email;
 
     /**
      * SeatOncePerLan constructor.
-     * @param string $email
+     * @param string $email Courriel de l'utilisateur
      */
     public function __construct(?string $email)
     {
@@ -23,19 +28,28 @@ class LanRoleOncePerUser implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $roleId Id du rôle
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $roleId): bool
     {
         $user = User::where('email', $this->email)->first();
-        if (is_null($value) || is_null($user)) {
-            return true;
+
+        /*
+         * Condition de garde :
+         * L'id du rôle n'est pas nul
+         * Un utilisateur existe pour le courriel
+         */
+        if (is_null($roleId) || is_null($user)) {
+            return true; // Une autre validation devrait échouer
         }
 
-        $lanRoleUser = LanRoleUser::where('role_id', $value)
+        $lanRoleUser = LanRoleUser::where('role_id', $roleId)
             ->where('user_id', $user->id)->first();
-        return $lanRoleUser == null || $lanRoleUser->count() == 0;
+
+        // Si aucun lien entre le rôle de LAN et l'utilisateur n'a été trouvé
+        // Si le nombre de lien entre le rôle de LAN est l'utilisateur est 0
+        return is_null($lanRoleUser) || $lanRoleUser->count() == 0;
     }
 
     /**

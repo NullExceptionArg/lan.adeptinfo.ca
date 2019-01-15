@@ -7,7 +7,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class AfterOrEqualLanStartTime implements Rule
 {
-
     protected $lanId;
 
     public function __construct(?string $lanId)
@@ -26,7 +25,7 @@ class AfterOrEqualLanStartTime implements Rule
     {
         $lan = Lan::find($this->lanId);
         if ($lan == null) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
         return $value >= $lan->lan_start;
     }

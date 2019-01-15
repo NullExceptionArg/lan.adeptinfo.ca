@@ -8,7 +8,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class FacebookEmailPermission implements Rule
 {
-
     /**
      * Déterminer si la règle de validation passe.
      *

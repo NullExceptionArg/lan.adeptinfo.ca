@@ -4,8 +4,7 @@ namespace App\Rules\Seat;
 
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;
-use Seatsio\SeatsioClient;
-use Seatsio\SeatsioException;
+use Seatsio\{SeatsioClient, SeatsioException};
 
 class SeatOncePerLanSeatIo implements Rule
 {
@@ -31,7 +30,7 @@ class SeatOncePerLanSeatIo implements Rule
     {
         $lan = Lan::find($this->lanId);
         if ($lan == null) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
         $seatsClient = new SeatsioClient($lan->secret_key);
         try {

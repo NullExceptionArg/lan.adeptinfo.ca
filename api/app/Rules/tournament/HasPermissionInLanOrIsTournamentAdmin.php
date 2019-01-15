@@ -2,12 +2,8 @@
 
 namespace App\Rules\Role;
 
-use App\Model\Lan;
-use App\Model\OrganizerTournament;
-use App\Model\Tournament;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use App\Model\{Lan, OrganizerTournament, Tournament};
+use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
 
 class HasPermissionInLanOrIsTournamentAdmin implements Rule
 {
@@ -38,7 +34,7 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
             is_null($tournament = Tournament::find($this->tournamentId)) ||
             is_null($lan = Lan::find($tournament->lan_id))
         ) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         $lanPermissions = DB::table('permission')

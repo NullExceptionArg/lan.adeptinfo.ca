@@ -2,15 +2,11 @@
 
 namespace App\Rules\Team;
 
-use App\Model\Team;
-use App\Model\Tournament;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use App\Model\{Team, Tournament};
+use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
 
 class HasPermissionInLan implements Rule
 {
-
     protected $teamId;
     protected $userId;
 
@@ -38,7 +34,7 @@ class HasPermissionInLan implements Rule
             is_null($team = Team::find($this->teamId)) ||
             is_null($tournament = Tournament::find($team->id))
         ) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         $lanPermissions = DB::table('permission')

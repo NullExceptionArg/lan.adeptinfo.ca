@@ -2,11 +2,8 @@
 
 namespace App\Rules\Team;
 
-use App\Model\Tag;
-use App\Model\Team;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Model\{Tag, Team};
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth, Support\Facades\DB};
 
 class UniqueUserPerRequest implements Rule
 {
@@ -28,7 +25,7 @@ class UniqueUserPerRequest implements Rule
     {
         $tag = Tag::find($this->tagId);
         if (is_null($tag) || $tag->user_id != Auth::id()) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         $team = Team::find($value);

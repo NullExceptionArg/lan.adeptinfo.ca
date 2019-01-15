@@ -4,11 +4,22 @@ namespace App\Rules\General;
 
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Exactement un seul des deux champs passés est non null.
+ *
+ * Class OneOfTwoFields
+ * @package App\Rules\General
+ */
 class OneOfTwoFields implements Rule
 {
     protected $secondField;
     protected $secondFieldName;
 
+    /**
+     * OneOfTwoFields constructor.
+     * @param string|null $secondField Second champ
+     * @param string $secondFieldName Nom du second champ (pour le message d'erreur))
+     */
     public function __construct(?string $secondField, string $secondFieldName)
     {
         $this->secondField = $secondField;
@@ -19,12 +30,12 @@ class OneOfTwoFields implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $field Premier champ
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $field): bool
     {
-        if($value != null && $this->secondField != null){
+        if (!is_null($field) && !is_null($this->secondField)) {
             return false;
         } else {
             return true;

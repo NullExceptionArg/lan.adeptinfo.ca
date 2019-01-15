@@ -8,7 +8,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class ValidFacebookToken implements Rule
 {
-
     /**
      * Déterminer si la règle de validation passe.
      *

@@ -2,13 +2,11 @@
 
 namespace App\Rules\Seat;
 
-use App\Model\Lan;
-use App\Model\Reservation;
+use App\Model\{Lan, Reservation};
 use Illuminate\Contracts\Validation\Rule;
 
 class SeatLanRelationExists implements Rule
 {
-
     protected $lanId;
     protected $seatId;
 
@@ -27,7 +25,7 @@ class SeatLanRelationExists implements Rule
     public function passes($attribute, $value): bool
     {
         if(Lan::find($this->lanId) == null){
-            return true;
+            return true; // Une autre validation devrait échouer
         }
         $this->seatId = $value;
         return Reservation::where('lan_id', $this->lanId)

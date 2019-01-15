@@ -2,10 +2,8 @@
 
 namespace App\Rules\Seat;
 
-use App\Model\Reservation;
-use App\Model\User;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Contracts\Validation\Rule;
+use App\Model\{Reservation, User};
+use Illuminate\{Contracts\Auth\Authenticatable, Contracts\Validation\Rule};
 
 class UserOncePerLan implements Rule
 {
@@ -34,7 +32,7 @@ class UserOncePerLan implements Rule
     {
         if ($this->user == null) {
             if ($this->email == null) {
-                return true;
+                return true; // Une autre validation devrait échouer
             }
             $this->user = User::where('email', $this->email)->first();
             if ($this->user == null) {

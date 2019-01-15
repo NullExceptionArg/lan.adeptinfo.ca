@@ -31,7 +31,7 @@ class PermissionsDontBelongToLanRole implements Rule
         $lanRole = LanRole::find($this->roleId);
 
         if (is_null($value) || !is_array($value) || is_null($lanRole)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         foreach ($value as $permissionId) {

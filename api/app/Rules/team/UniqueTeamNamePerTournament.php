@@ -2,12 +2,10 @@
 
 namespace App\Rules\Team;
 
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
 
 class UniqueTeamNamePerTournament implements Rule
 {
-
     protected $tournamentId;
 
     public function __construct(?int $tournamentId)

@@ -3,13 +3,10 @@
 namespace App\Rules\Team;
 
 use App\Model\Team;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth, Support\Facades\DB};
 
 class UniqueUserPerTournament implements Rule
 {
-
     protected $tournamentId;
     protected $teamId;
 
@@ -31,7 +28,7 @@ class UniqueUserPerTournament implements Rule
         if ($this->tournamentId == null) {
             $team = Team::find($this->teamId);
             if ($team == null) {
-                return true;
+                return true; // Une autre validation devrait échouer
             }
             $this->tournamentId = $team->tournament_id;
         }

@@ -2,10 +2,8 @@
 
 namespace App\Rules\Team;
 
-use App\Model\Request;
-use App\Model\Tag;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use App\Model\{Request, Tag};
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth};
 
 class RequestBelongsToUser implements Rule
 {
@@ -22,7 +20,7 @@ class RequestBelongsToUser implements Rule
         $tag = null;
 
         if (is_null($request = Request::find($value)) || is_null($tag = Tag::find($request->tag_id))) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         return $tag->user_id == Auth::id();

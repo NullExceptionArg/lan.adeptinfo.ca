@@ -3,13 +3,10 @@
 namespace App\Rules\User;
 
 use App\Model\Lan;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
 
 class HasPermissionInLan implements Rule
 {
-
     protected $lanId;
     protected $userId;
 
@@ -30,7 +27,7 @@ class HasPermissionInLan implements Rule
     public function passes($attribute, $value): bool
     {
         if (is_null($value) || is_null(Lan::find($this->lanId)) || is_null($this->userId)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         $lanPermissions = DB::table('permission')

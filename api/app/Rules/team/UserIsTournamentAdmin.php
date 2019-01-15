@@ -2,14 +2,11 @@
 
 namespace App\Rules\Team;
 
-use App\Model\OrganizerTournament;
-use App\Model\Team;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use App\Model\{OrganizerTournament, Team};
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth};
 
 class UserIsTournamentAdmin implements Rule
 {
-
     /**
      * Déterminer si la règle de validation passe.
      *
@@ -21,7 +18,7 @@ class UserIsTournamentAdmin implements Rule
     {
         $team = Team::find($value);
         if (is_null($team)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         return OrganizerTournament::where('organizer_id', Auth::id())

@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class PermissionsCanBePerLan implements Rule
 {
-
     /**
      * Déterminer si la règle de validation passe.
      *
@@ -18,7 +17,7 @@ class PermissionsCanBePerLan implements Rule
     public function passes($attribute, $value): bool
     {
         if ($value == null || !is_array($value)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         foreach ($value as $permissionId) {

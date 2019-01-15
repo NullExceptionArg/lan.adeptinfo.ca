@@ -2,7 +2,6 @@
 
 namespace App\Rules\User;
 
-
 use Exception;
 use Google_Client;
 use Illuminate\Contracts\Validation\Rule;

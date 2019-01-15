@@ -3,9 +3,7 @@
 namespace App\Rules\Team;
 
 use App\Model\Tag;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\Auth};
 
 class TagBelongsToUser implements Rule
 {
@@ -21,7 +19,7 @@ class TagBelongsToUser implements Rule
     {
         $tag = Tag::find($value);
         if (is_null($tag)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
         if ($tag->user_id != Auth::id()) {
             throw new AuthorizationException(trans('validation.forbidden'));

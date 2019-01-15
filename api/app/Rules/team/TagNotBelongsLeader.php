@@ -2,9 +2,7 @@
 
 namespace App\Rules\Team;
 
-use App\Model\Tag;
-use App\Model\TagTeam;
-use App\Model\Team;
+use App\Model\{Tag, TagTeam, Team};
 use Illuminate\Contracts\Validation\Rule;
 
 class TagNotBelongsLeader implements Rule
@@ -28,7 +26,7 @@ class TagNotBelongsLeader implements Rule
         $tag = Tag::find($value);
         $team = Team::find($this->teamId);
         if (is_null($tag) || is_null($team)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         return TagTeam::where('tag_id', $tag->id)

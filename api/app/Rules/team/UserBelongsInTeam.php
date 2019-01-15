@@ -2,12 +2,11 @@
 
 namespace App\Rules\Team;
 
-use App\Model\TagTeam;
-use App\Model\Team;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Model\{TagTeam, Team};
+use Illuminate\{Auth\Access\AuthorizationException,
+    Contracts\Validation\Rule,
+    Support\Facades\Auth,
+    Support\Facades\DB};
 
 class UserBelongsInTeam implements Rule
 {
@@ -23,7 +22,7 @@ class UserBelongsInTeam implements Rule
     {
         $team = Team::find($value);
         if (is_null($team)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         $tagIds = DB::table('tag')

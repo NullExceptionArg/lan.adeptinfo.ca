@@ -2,7 +2,6 @@
 
 namespace App\Rules\Seat;
 
-
 use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
 

@@ -31,7 +31,7 @@ class PermissionsDontBelongToGlobalRole implements Rule
         $globalRole = GlobalRole::find($this->roleId);
 
         if (is_null($value) || !is_array($value) || is_null($this->roleId) || is_null($globalRole)) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         foreach ($value as $permissionId) {

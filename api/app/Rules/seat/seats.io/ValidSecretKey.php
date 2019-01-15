@@ -3,8 +3,7 @@
 namespace App\Rules\Seat;
 
 use Illuminate\Contracts\Validation\Rule;
-use Seatsio\SeatsioClient;
-use Seatsio\SeatsioException;
+use Seatsio\{SeatsioClient, SeatsioException};
 
 class ValidSecretKey implements Rule
 {

@@ -4,12 +4,10 @@ namespace App\Rules\Seat;
 
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;
-use Seatsio\SeatsioClient;
-use Seatsio\SeatsioException;
+use Seatsio\{SeatsioClient, SeatsioException};
 
 class ValidEventKey implements Rule
 {
-
     protected $lanId;
     protected $secretKey;
 
@@ -31,11 +29,11 @@ class ValidEventKey implements Rule
         $seatsClient = null;
         if ($this->secretKey == null) {
             if ($this->lanId == null || $value == null) {
-                return true;
+                return true; // Une autre validation devrait échouer
             }
             $this->secretKey = Lan::find($this->lanId)->secret_key;
             if ($this->secretKey == null) {
-                return true;
+                return true; // Une autre validation devrait échouer
             }
         }
 
