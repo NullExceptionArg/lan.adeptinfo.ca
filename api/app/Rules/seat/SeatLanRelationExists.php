@@ -5,11 +5,21 @@ namespace App\Rules\Seat;
 use App\Model\{Lan, Reservation};
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Une réservation entre un siège et un LAN.
+ *
+ * Class SeatLanRelationExists
+ * @package App\Rules\Seat
+ */
 class SeatLanRelationExists implements Rule
 {
     protected $lanId;
     protected $seatId;
 
+    /**
+     * SeatLanRelationExists constructor.
+     * @param string|null $lanId Id du LAN
+     */
     public function __construct(?string $lanId)
     {
         $this->lanId = $lanId;
@@ -19,17 +29,25 @@ class SeatLanRelationExists implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  string $seatId
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $seatId): bool
     {
-        if(Lan::find($this->lanId) == null){
+        // Mettre l'id du siège dans une variable globale pour
+        $this->seatId = $seatId;
+
+        /*
+         * Condition de garde :
+         * Un LAN correspond à l'id de LAN passé
+        */
+        if (is_null(Lan::find($this->lanId))) {
             return true; // Une autre validation devrait échouer
         }
-        $this->seatId = $value;
+
+        // Rechercher s'il existe une réservation ayant l'id du LAN et l'id du siège
         return Reservation::where('lan_id', $this->lanId)
-            ->where('seat_id', $value)->first() != null;
+                ->where('seat_id', $seatId)->first() != null;
     }
 
     /**

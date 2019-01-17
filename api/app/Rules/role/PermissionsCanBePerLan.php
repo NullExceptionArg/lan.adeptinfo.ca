@@ -2,8 +2,8 @@
 
 namespace App\Rules\Role;
 
+use App\Model\Permission;
 use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 
 class PermissionsCanBePerLan implements Rule
 {
@@ -11,18 +11,34 @@ class PermissionsCanBePerLan implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  array $permissionsIds
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $permissionsIds): bool
     {
-        if ($value == null || !is_array($value)) {
+        /*
+         * Conditions de garde :
+         * Les permissions ne sont pas nulles
+         * Les permissions sont un tableau
+         */
+        if (is_null($permissionsIds) || !is_array($permissionsIds)) {
             return true; // Une autre validation devrait échouer
         }
 
-        foreach ($value as $permissionId) {
-            if (is_null(DB::table('permission')->find($permissionId))) return true;
-            if (!DB::table('permission')->find($permissionId)->can_be_per_lan) return false;
+        $permission = null;
+        // Pour chaque id de permission
+        foreach ($permissionsIds as $permissionId) {
+
+            // Si aucune permission n'est trouvée, quitter la validation, une autre validation devrait échouer
+            if (is_null($permission = Permission::find($permissionId))) {
+                return true;
+            }
+
+            // Si la permission ne peut être par LAN
+            if (!$permission->can_be_per_lan) {
+                // La validation échoue.
+                return false;
+            }
         }
         return true;
     }

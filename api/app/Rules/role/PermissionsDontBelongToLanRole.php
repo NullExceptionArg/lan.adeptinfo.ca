@@ -2,19 +2,24 @@
 
 namespace App\Rules\Role;
 
-use App\Model\LanRole;
-use App\Model\PermissionLanRole;
+use App\Model\{LanRole, PermissionLanRole};
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Des permission ne sont pas liées à un rôle de LAN
+ *
+ * Class PermissionsDontBelongToLanRole
+ * @package App\Rules\Role
+ */
 class PermissionsDontBelongToLanRole implements Rule
 {
     protected $roleId;
 
     /**
-     * PermissionsDontBelongToGlobalRole constructor.
-     * @param $roleId
+     * PermissionsDontBelongToLanRole constructor.
+     * @param string|null $roleId Id du rôle de LAN
      */
-    public function __construct($roleId)
+    public function __construct(?string $roleId)
     {
         $this->roleId = $roleId;
     }
@@ -23,23 +28,39 @@ class PermissionsDontBelongToLanRole implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  array $permissionIds
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $permissionIds): bool
     {
-        $lanRole = LanRole::find($this->roleId);
+        $lanRole = null;
 
-        if (is_null($value) || !is_array($value) || is_null($lanRole)) {
+        /*
+         * Conditions de garde :
+         * Les ids de permission ne sont pas nuls
+         * Les ids de permissions sont un tableau
+         * L'id du rôle de LAN correspond à un rôle de LAN existant
+         */
+        if (
+            is_null($permissionIds) ||
+            !is_array($permissionIds) ||
+            is_null($lanRole = LanRole::find($this->roleId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 
-        foreach ($value as $permissionId) {
+        // Pour chaque id de permission passé
+        foreach ($permissionIds as $permissionId) {
+
+            // Chercher lien entre le rôle et l'id de la permission
             $permission = PermissionLanRole::where('permission_id', $permissionId)
                 ->where('role_id', $lanRole->id)
                 ->get()
                 ->first();
+
+            // Si un lien est trouvé
             if (!is_null($permission)) {
+                // Le test échoue
                 return false;
             }
         }
