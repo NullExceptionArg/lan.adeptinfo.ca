@@ -55,6 +55,15 @@ class ValidEventKey implements Rule
         }
 
         $seatsClient = new SeatsioClient($this->secretKey);
+        // Vérifier que le problème n'est pas avec la clé secrète
+        try {
+            // Tenter d'utiliser n'importe quelle méthode qui ne nécessite par de paramètre
+            $seatsClient->charts->listAllTags();
+        } catch (SeatsioException $exception) {
+            // Une autre validation devrait échouer
+            return true;
+        }
+
         try {
             // Tenter de retrouver l'événement associé à la clé
             $seatsClient->events->retrieve($eventKey);

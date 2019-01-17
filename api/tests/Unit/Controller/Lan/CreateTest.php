@@ -504,11 +504,7 @@ class CreateTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'secret_key' => [
-                        0 => 'The secret key may not be greater than 255 characters.',
-                        1 => 'The secret key is not valid.'
-                    ],
-                    'event_key' => [
-                        0 => 'The event key is not valid.'
+                        0 => 'The secret key may not be greater than 255 characters.'
                     ]
                 ]
             ])
@@ -696,9 +692,6 @@ class CreateTest extends TestCase
                 'message' => [
                     'secret_key' => [
                         0 => 'The secret key is not valid.',
-                    ],
-                    'event_key' => [
-                        0 => 'The event key is not valid.'
                     ]
                 ]
             ])

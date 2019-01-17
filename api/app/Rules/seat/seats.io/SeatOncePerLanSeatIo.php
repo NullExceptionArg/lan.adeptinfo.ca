@@ -50,7 +50,7 @@ class SeatOncePerLanSeatIo implements Rule
             $status = $seatsClient->events->retrieveObjectStatus($lan->event_key, $seatId);
 
             // Vérifier que le statut n'est pas à "booked" ou à "arrived" (Disponible)
-            return !$status->status === 'booked' || !$status->status === 'arrived';
+            return !($status->status === 'booked') && !($status->status === 'arrived');
         } catch (SeatsioException $exception) {
             // Si aucun siège n'est trouvé, l'API retourne une erreur
             // Une autre validation devrait échouer

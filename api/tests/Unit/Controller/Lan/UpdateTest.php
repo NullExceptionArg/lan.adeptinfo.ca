@@ -353,8 +353,7 @@ class UpdateTest extends TestCase
                 'status' => 400,
                 'message' => [
                     'event_key' => [
-                        0 => 'The event key may not be greater than 255 characters.',
-                        1 => 'The event key is not valid.'
+                        0 => 'The event key may not be greater than 255 characters.'
                     ],
                 ]
             ])

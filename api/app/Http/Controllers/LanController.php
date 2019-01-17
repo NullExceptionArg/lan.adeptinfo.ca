@@ -83,7 +83,7 @@ class LanController extends Controller
             'tournament_reservation_start' => 'required|before_or_equal:lan_start',
             'event_key' => ['required', 'string', 'max:255', new ValidEventKey(null, $request->input('secret_key'))],
             'public_key' => 'required|string|max:255',
-            'secret_key' => ['required', 'string', 'max:255', new ValidSecretKey],
+            'secret_key' => ['bail', 'required', 'string', 'max:255', new ValidSecretKey],
             'latitude' => 'required|numeric|min:-85|max:85',
             'longitude' => 'required|numeric|min:-180|max:180',
             'places' => 'required|integer|min:1',
