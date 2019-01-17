@@ -18,7 +18,7 @@ class HasPermissionInLan implements Rule
 
     /**
      * HasPermissionInLan constructor.
-     * @param string|null $roleId Id du rôle global
+     * @param string|null $roleId Id du rôle  global
      * @param string $userId Id de l'utilisateur
      */
     public function __construct(?string $roleId, string $userId)
