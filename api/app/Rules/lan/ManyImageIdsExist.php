@@ -18,9 +18,9 @@ class ManyImageIdsExist implements Rule
 
     /**
      * ManyImageIdsExist constructor.
-     * @param int $lanId Id du LAN
+     * @param string $lanId Id du LAN
      */
-    public function __construct(int $lanId)
+    public function __construct(string $lanId)
     {
         $this->lanId = $lanId;
     }
@@ -40,7 +40,7 @@ class ManyImageIdsExist implements Rule
          * L'élément passé est une chaîne de caractères.
          * L'id du LAN passé est non nul.
          */
-        if (is_null($imageIds) || !is_string($imageIds) || is_null($this->lanId)) {
+        if (is_null($imageIds) || !is_string($imageIds) || is_null($this->lanId) || is_int($this->lanId)) {
             return true; // Une autre validation devrait échouer
         }
 

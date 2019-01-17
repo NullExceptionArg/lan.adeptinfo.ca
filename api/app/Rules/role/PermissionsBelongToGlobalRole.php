@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Rule;
 /**
  * Un lien existe entre des permissions et un rôle global
  *
- * Class PermissionsBelongToLanRole
+ * Class PermissionsBelongToGlobalRole
  * @package App\Rules\Role
  */
 class PermissionsBelongToGlobalRole implements Rule
@@ -17,9 +17,9 @@ class PermissionsBelongToGlobalRole implements Rule
 
     /**
      * PermissionsDontBelongToGlobalRole constructor.
-     * @param int $roleId Id du rôle global
+     * @param string $roleId Id du rôle global
      */
-    public function __construct(int $roleId)
+    public function __construct(?string $roleId)
     {
         $this->roleId = $roleId;
     }
@@ -33,17 +33,21 @@ class PermissionsBelongToGlobalRole implements Rule
      */
     public function passes($attribute, $permissionIds): bool
     {
+        $globalRole = null;
+
         /*
          * Conditions de garde :
          * Les permissions ne sont pas nul
          * Les permissions sont un tableau
-         * L'id du rôle n'est pas nul
+         * L'id du rôle correspond à un rôle qui existe
          */
-        if (is_null($permissionIds) || !is_array($permissionIds) || is_null($this->roleId)) {
+        if (
+            is_null($permissionIds) ||
+            !is_array($permissionIds) ||
+            is_null($globalRole = GlobalRole::find($this->roleId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
-
-        $globalRole = GlobalRole::find($this->roleId);
 
         // Pour chaque id de permission
         foreach ($permissionIds as $permissionId) {

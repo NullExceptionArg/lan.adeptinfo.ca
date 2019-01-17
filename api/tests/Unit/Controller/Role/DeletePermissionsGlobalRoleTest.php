@@ -6,17 +6,15 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeletePermissionLanRoleTest extends TestCase
+class DeletePermissionsGlobalRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
     protected $user;
-    protected $lanRole;
-    protected $lan;
+    protected $globalRole;
     protected $permissions;
 
     protected $requestContent = [
-        'lan_id' => null,
         'role_id' => null,
         'permissions' => null
     ];
@@ -26,53 +24,47 @@ class DeletePermissionLanRoleTest extends TestCase
         parent::setUp();
 
         $this->user = factory('App\Model\User')->create();
-        $this->lan = factory('App\Model\Lan')->create();
-        $this->lanRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
+        $this->globalRole = factory('App\Model\GlobalRole')->create();
 
-        $this->addLanPermissionToUser(
+        $this->addGlobalPermissionToUser(
             $this->user->id,
-            $this->lan->id,
-            'delete-permissions-lan-role'
+            'delete-permissions-global-role'
         );
 
         $this->permissions = Permission::inRandomOrder()
-            ->where('can_be_per_lan', true)
-            ->take(5)
+            ->take(10)
             ->pluck('id')
             ->toArray();
 
         foreach ($this->permissions as $permissionId) {
-            factory('App\Model\PermissionLanRole')->create([
-                'role_id' => $this->lanRole->id,
+            factory('App\Model\PermissionGlobalRole')->create([
+                'role_id' => $this->globalRole->id,
                 'permission_id' => $permissionId
             ]);
         }
 
-        $this->requestContent['role_id'] = $this->lanRole->id;
-        $this->requestContent['lan_id'] = $this->lan->id;
+        $this->requestContent['role_id'] = $this->globalRole->id;
         $this->requestContent['permissions'] = collect($this->permissions)->take(5)->toArray();
     }
 
-    public function testDeletePermissionLanRole(): void
+    public function testDeletePermissionsGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
-                'id' => $this->lanRole->id,
-                'name' => $this->lanRole->name,
-                'display_name' => $this->lanRole->en_display_name,
-                'description' => $this->lanRole->en_description,
+                'id' => $this->globalRole->id,
+                'name' => $this->globalRole->name,
+                'display_name' => $this->globalRole->en_display_name,
+                'description' => $this->globalRole->en_description,
             ])
             ->assertResponseStatus(200);
     }
 
-    public function testDeletePermissionLanRoleLanHasPermission(): void
+    public function testDeletePermissionsGlobalRoleHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -81,11 +73,11 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testDeletePermissionLanRoleIdRequired(): void
+    public function testDeletePermissionsGlobalRoleIdRequired(): void
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -98,11 +90,11 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeletePermissionLanRoleIdInteger(): void
+    public function testDeletePermissionsGlobalRoleIdInteger(): void
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -115,11 +107,11 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeletePermissionLanRoleIdExist(): void
+    public function testDeletePermissionsGlobalRoleIdExist(): void
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -132,11 +124,11 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeletePermissionLanRolePermissionsRequired(): void
+    public function testDeletePermissionsGlobalRolePermissionsRequired(): void
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -149,11 +141,11 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeletePermissionLanRolePermissionsArray(): void
+    public function testDeletePermissionsGlobalRolePermissionsArray(): void
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -166,11 +158,11 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeletePermissionLanRolePermissionsArrayOfInteger(): void
+    public function testDeletePermissionsGlobalRolePermissionsArrayOfInteger(): void
     {
         $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -183,11 +175,16 @@ class DeletePermissionLanRoleTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testDeletePermissionLanRolePermissionsPermissionsDontBelongToRole(): void
+    public function testDeletePermissionsGlobalRolePermissionsPermissionsDontBelongToRole(): void
     {
-        $this->requestContent['permissions'] = collect($this->requestContent['permissions'])->push(-1)->toArray();
+        $permission = factory('App\Model\Permission')->create();
+        $permission->delete();
+        $this->requestContent['permissions'] = collect($this->requestContent['permissions'])
+            ->push($permission->id)
+            ->toArray();
+
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

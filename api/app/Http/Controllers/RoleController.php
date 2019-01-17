@@ -8,6 +8,7 @@ use App\Rules\{General\ArrayOfInteger,
     Role\GlobalRoleOncePerUser,
     Role\HasPermissionInLan,
     Role\LanRoleNameOncePerLan,
+    Role\PermissionsBelongToGlobalRole,
     Role\PermissionsBelongToLanRole,
     Role\PermissionsCanBePerLan,
     Role\PermissionsDontBelongToGlobalRole,
@@ -250,7 +251,7 @@ class RoleController extends Controller
                 'required',
                 'array',
                 new ArrayOfInteger,
-                new PermissionsBelongToLanRole($request->input('role_id'))
+                new PermissionsBelongToGlobalRole($request->input('role_id'))
             ],
             'permission' => new HasPermission(Auth::id())
         ]);

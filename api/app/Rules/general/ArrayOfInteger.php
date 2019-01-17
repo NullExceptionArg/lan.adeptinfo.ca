@@ -31,7 +31,7 @@ class ArrayOfInteger implements Rule
         }
 
         foreach ($array as $v) {
-            if (!is_int($v) || $v < 0) return false;
+            if (!is_int($v) || $v <= 0) return false;
         }
         return true;
     }

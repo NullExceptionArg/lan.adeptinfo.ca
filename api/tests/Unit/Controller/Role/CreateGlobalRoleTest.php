@@ -392,7 +392,12 @@ class CreateGlobalRoleTest extends TestCase
 
     public function testCreateGlobalRolePermissionsElementsInArrayExistInPermission(): void
     {
-        $this->requestContent['permissions'] = [$this->requestContent['permissions'][0], -1];
+        $permission = factory('App\Model\Permission')->create();
+        $permission->delete();
+        $this->requestContent['permissions'] = [
+            $this->requestContent['permissions'][0],
+            $permission->id
+        ];
         $this->actingAs($this->user)
             ->json('POST', '/api/role/global', $this->requestContent)
             ->seeJsonEquals([

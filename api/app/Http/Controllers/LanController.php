@@ -122,7 +122,7 @@ class LanController extends Controller
             'permission' => 'delete-image'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'image_ids' => ['required', 'string', new ManyImageIdsExist],
+            'image_ids' => ['required', 'string', new ManyImageIdsExist($request->input('lan_id'))],
             'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
         ]);
 

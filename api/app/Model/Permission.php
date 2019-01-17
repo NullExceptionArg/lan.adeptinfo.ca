@@ -22,4 +22,11 @@ class Permission extends Model
     protected $casts = [
         'id' => 'integer'
     ];
+
+    /**
+     * Date mise à jour désactivée
+     *
+     * @var bool
+     */
+    public $timestamps = false;
 }
