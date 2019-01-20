@@ -38,15 +38,24 @@ class ValidEventKey implements Rule
     public function passes($attribute, $eventKey): bool
     {
         $lan = null;
+
         /*
          * Conditions de garde :
-         * Si aucune clé secrète de seats.io n'a été passée, et que : (
          * La clé d'événement est non nulle
+         * La longueur de la clé d'événement est plus petite que 255 caractères
+         */
+        if (is_null($eventKey) || strlen($eventKey) > 255) {
+            return true; // Une autre validation devrait échouer
+        }
+
+        /*
+         * Si aucune clé secrète de seats.io n'a été passée, et que : (
          * Un LAN correspond à l'id de LAN passé
          * Une clé secrète existe pour le LAN correspondant à l'id du LAN passé)
          */
-        if (is_null($this->secretKey)) {
-            if (is_null($eventKey) || is_null($lan = Lan::find($this->lanId)) || is_null($lan->secretKey)) {
+        if (is_null($this->secretKey) || strlen($eventKey) > 255) {
+
+            if (is_null($lan = Lan::find($this->lanId)) || is_null($lan->secretKey)) {
                 return true; // Une autre validation devrait échouer
             }
 
