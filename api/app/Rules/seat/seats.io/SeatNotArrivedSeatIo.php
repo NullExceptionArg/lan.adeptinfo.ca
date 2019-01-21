@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Seatsio\{SeatsioClient, SeatsioException};
 
 /**
- * Un siège ne possède pas l'état "arrivé" pour un certain LAN.
+ * Un siège ne possède pas l'état "arrivé" pour un certain LAN, dans l'API seats.io.
  *
  * Class SeatNotArrivedSeatIo
  * @package App\Rules\Seat

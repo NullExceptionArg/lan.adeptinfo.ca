@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Seatsio\{SeatsioClient, SeatsioException};
 
 /**
- * Un siège n'est pas déjà réservé ou occupé par un utilisateur pour un certain LAN.
+ * Un siège n'est pas déjà réservé ou occupé par un utilisateur pour un certain LAN dans l'API de seats.io.
  *
  * Class SeatOncePerLanSeatIo
  * @package App\Rules\Seat
