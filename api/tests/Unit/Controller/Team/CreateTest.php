@@ -124,7 +124,7 @@ class CreateTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateUserTagIdUniqueUserPerTournamentSameTag(): void
+    public function testCreateUserTournamentIdUniqueUserPerTournamentSameTag(): void
     {
         $this->actingAs($this->user)
             ->json('POST', '/api/team', [
@@ -139,7 +139,7 @@ class CreateTest extends TestCase
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'user_tag_id' => [
+                    'tournament_id' => [
                         0 => 'A user can only be once in a tournament.'
                     ],
                 ]
@@ -147,7 +147,7 @@ class CreateTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateUserTagIdUniqueUserPerTournamentSameUser(): void
+    public function testCreateUserTournamentIdUniqueUserPerTournamentSameUser(): void
     {
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $this->user->id
@@ -165,7 +165,7 @@ class CreateTest extends TestCase
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'user_tag_id' => [
+                    'tournament_id' => [
                         0 => 'A user can only be once in a tournament.'
                     ],
                 ]

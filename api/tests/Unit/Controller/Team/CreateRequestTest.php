@@ -147,7 +147,7 @@ class CreateRequestTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateRequestUserTagIdUniqueUserPerTournamentSameUser(): void
+    public function testCreateRequestUserTeamIdUniqueUserPerTournamentSameUser(): void
     {
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $this->user->id
@@ -166,7 +166,7 @@ class CreateRequestTest extends TestCase
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'tag_id' => [
+                    'team_id' => [
                         0 => 'A user can only be once in a tournament.'
                     ],
                 ]
