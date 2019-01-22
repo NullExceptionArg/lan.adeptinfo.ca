@@ -3,43 +3,67 @@
 namespace App\Rules\Team;
 
 use App\Model\{TagTeam, Team};
-use Illuminate\{Auth\Access\AuthorizationException,
+use Illuminate\{Auth\Access\AuthorizationException as AuthorizationExceptionAlias,
     Contracts\Validation\Rule,
-    Support\Facades\Auth,
     Support\Facades\DB};
 
+/**
+ * Un utilisateur fait parti d'une équipe
+ *
+ * Class UserBelongsInTeam
+ * @package App\Rules\Team
+ */
 class UserBelongsInTeam implements Rule
 {
+    protected $userId;
+
+    /**
+     * UserBelongsInTeam constructor.
+     * @param int $userId Id de l'utilisateur
+     */
+    public function __construct(int $userId)
+    {
+        $this->userId = $userId;
+    }
+
+
     /**
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $teamId Id de l'équipe
      * @return bool
-     * @throws AuthorizationException
+     * @throws AuthorizationExceptionAlias
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $teamId): bool
     {
-        $team = Team::find($value);
+        $team = Team::find($teamId);
+
+        /*
+         * L'id de l'équipe correspond à une équipe
+         */
         if (is_null($team)) {
             return true; // Une autre validation devrait échouer
         }
 
+        // Chercher les tags de l'utilisateur courant
         $tagIds = DB::table('tag')
             ->select('id')
-            ->where('user_id', Auth::id())
+            ->where('user_id', $this->userId)
             ->pluck('id')
             ->toArray();
 
+        // Parmi les tags du joueur, chercher si un tag a un lien avec l'équipe
         $isInTeam = TagTeam::whereIn('tag_id', $tagIds)
                 ->where('team_id', $team->id)
                 ->count() > 0;
 
+        // Lancer une exception si aucun lien n'a été trouvé
         if (!$isInTeam) {
-            throw new AuthorizationException(trans('validation.forbidden'));
-        } else {
-            return true;
+            throw new AuthorizationExceptionAlias(trans('validation.forbidden'));
         }
+
+        return $isInTeam;
     }
 
     /**

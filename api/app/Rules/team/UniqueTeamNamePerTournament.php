@@ -4,10 +4,20 @@ namespace App\Rules\Team;
 
 use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
 
+/**
+ * Un nom n'existe pas encore comme nom d'équipe dans un tournoi.
+ *
+ * Class UniqueTeamNamePerTournament
+ * @package App\Rules\Team
+ */
 class UniqueTeamNamePerTournament implements Rule
 {
     protected $tournamentId;
 
+    /**
+     * UniqueTeamNamePerTournament constructor.
+     * @param int|null $tournamentId Id du tournoi
+     */
     public function __construct(?int $tournamentId)
     {
         $this->tournamentId = $tournamentId;
@@ -17,14 +27,15 @@ class UniqueTeamNamePerTournament implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $teamName Nom
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $teamName): bool
     {
+        // Chercher si des équipes portent le nom passé, pour le tournoi
         return DB::table('team')
                 ->where('tournament_id', $this->tournamentId)
-                ->where('name', $value)
+                ->where('name', $teamName)
                 ->count() == 0;
     }
 

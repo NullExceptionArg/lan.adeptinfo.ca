@@ -10,11 +10,12 @@ use App\Rules\{Team\HasPermissionInLan,
     Team\UniqueTeamNamePerTournament,
     Team\UniqueTeamTagPerTournament,
     Team\UniqueUserPerRequest,
-    Team\UniqueUserPerTournament,
+    Team\UniqueUserPerTournament as UniqueUserPerTournamentTeam,
     Team\UserBelongsInTeam,
     Team\UserIsTeamLeaderRequest,
     Team\UserIsTeamLeaderTeam,
-    Team\UserIsTournamentAdmin};
+    Team\UserIsTournamentAdmin,
+    Tournament\UniqueUserPerTournament};
 use App\Services\Implementation\TeamServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
@@ -50,7 +51,7 @@ class TeamController extends Controller
             'request_id' => [
                 'integer',
                 'exists:request,id',
-                new UserIsTeamLeaderRequest
+                new UserIsTeamLeaderRequest(Auth::id())
             ]
         ]);
 
@@ -73,7 +74,7 @@ class TeamController extends Controller
                 new TagBelongsInTeam($request->input('team_id')),
                 new TagNotBelongsLeader($request->input('team_id'))
             ],
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderTeam],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderTeam(Auth::id())],
         ]);
 
         $this->checkValidation($validator);
@@ -90,12 +91,16 @@ class TeamController extends Controller
             'team_id' => $request->input('team_id'),
             'tag_id' => $request->input('tag_id'),
         ], [
-            'team_id' => ['required', 'exists:team,id,deleted_at,NULL', new UniqueUserPerRequest($request->input('tag_id'))],
+            'team_id' => [
+                'required',
+                'exists:team,id,deleted_at,NULL',
+                new UniqueUserPerRequest($request->input('tag_id'), Auth::id()),
+                new UniqueUserPerTournamentTeam(Auth::id()),
+            ],
             'tag_id' => [
                 'required',
                 'exists:tag,id',
-                new UniqueUserPerTournament(null, $request->input('team_id')),
-                new TagBelongsToUser
+                new TagBelongsToUser(Auth::id())
             ],
         ]);
 
@@ -115,12 +120,11 @@ class TeamController extends Controller
             'name' => $request->input('name'),
             'tag' => $request->input('tag')
         ], [
-            'tournament_id' => 'required|exists:tournament,id,deleted_at,NULL',
+            'tournament_id' => ['required', 'exists:tournament,id,deleted_at,NULL', new UniqueUserPerTournament],
             'user_tag_id' => [
                 'required',
                 'exists:tag,id',
-                new UniqueUserPerTournament($request->input('tournament_id'), null),
-                new TagBelongsToUser
+                new TagBelongsToUser(Auth::id())
             ],
             'name' => ['required', 'string', 'max:255', new UniqueTeamNamePerTournament($request->input('tournament_id'))],
             'tag' => ['string', 'max:5', new UniqueTeamTagPerTournament($request->input('tournament_id'))]
@@ -142,7 +146,7 @@ class TeamController extends Controller
             'team_id' => $request->input('team_id'),
             'permission' => 'delete-team'
         ], [
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTournamentAdmin],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTournamentAdmin(Auth::id())],
             'permission' => new HasPermissionInLan($request->input('team_id'), Auth::id())
         ]);
 
@@ -158,7 +162,7 @@ class TeamController extends Controller
         $validator = Validator::make([
             'team_id' => $request->input('team_id')
         ], [
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderTeam],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderTeam(Auth::id())],
         ]);
 
         $this->checkValidation($validator);
@@ -176,7 +180,7 @@ class TeamController extends Controller
             'request_id' => [
                 'integer',
                 'exists:request,id',
-                new UserIsTeamLeaderRequest,
+                new UserIsTeamLeaderRequest(Auth::id()),
             ]
         ]);
 
@@ -195,7 +199,7 @@ class TeamController extends Controller
             'request_id' => [
                 'integer',
                 'exists:request,id',
-                new RequestBelongsToUser
+                new RequestBelongsToUser(Auth::id())
             ]
         ]);
 
@@ -227,7 +231,7 @@ class TeamController extends Controller
         $validator = Validator::make([
             'team_id' => $request->input('team_id')
         ], [
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserBelongsInTeam],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserBelongsInTeam(Auth::id())],
         ]);
 
         $this->checkValidation($validator);
@@ -259,7 +263,7 @@ class TeamController extends Controller
             'team_id' => $request->input('team_id'),
             'tag_id' => $request->input('tag_id')
         ], [
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderTeam],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserIsTeamLeaderTeam(Auth::id())],
             'tag_id' => [
                 'integer',
                 'exists:tag,id',
@@ -281,7 +285,7 @@ class TeamController extends Controller
         $validator = Validator::make([
             'team_id' => $request->input('team_id')
         ], [
-            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserBelongsInTeam],
+            'team_id' => ['integer', 'exists:team,id,deleted_at,NULL', new UserBelongsInTeam(Auth::id())],
         ]);
 
         $this->checkValidation($validator);

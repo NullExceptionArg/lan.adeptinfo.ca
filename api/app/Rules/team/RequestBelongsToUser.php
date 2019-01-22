@@ -3,7 +3,7 @@
 namespace App\Rules\Team;
 
 use App\Model\{Request, Tag};
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth};
+use Illuminate\{Contracts\Validation\Rule};
 
 /**
  * Une requête appartient à un utilisateur.
@@ -13,6 +13,18 @@ use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth};
  */
 class RequestBelongsToUser implements Rule
 {
+    protected $userId;
+
+    /**
+     * RequestBelongsToUser constructor.
+     * @param int $userId Id de l'utilisateur
+     */
+    public function __construct(int $userId)
+    {
+        $this->userId = $userId;
+    }
+
+
     /**
      * Déterminer si la règle de validation passe.
      *
@@ -35,7 +47,7 @@ class RequestBelongsToUser implements Rule
         }
 
         // L'id de l'utilisateur du tag de la requête correspond à l'id de l'utilisateur passé
-        return $tag->user_id == Auth::id();
+        return $tag->user_id == $this->userId;
     }
 
     /**

@@ -3,25 +3,49 @@
 namespace App\Rules\Team;
 
 use App\Model\{OrganizerTournament, Team};
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth};
+use Illuminate\{Contracts\Validation\Rule};
 
+/**
+ * Un utilisateur fait parti de l'éqipe d'administrateur du tournoi d'une équipe.
+ *
+ * Class UserIsTournamentAdmin
+ * @package App\Rules\Team
+ */
 class UserIsTournamentAdmin implements Rule
 {
+    protected $userId;
+
+    /**
+     * UserIsTournamentAdmin constructor.
+     * @param int $userId Id de l'utilisateur
+     */
+    public function __construct(int $userId)
+    {
+        $this->userId = $userId;
+    }
+
+
     /**
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $teamId Id de l'équipe
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $teamId): bool
     {
-        $team = Team::find($value);
+        $team = Team::find($teamId);
+
+        /*
+         * Conditions de garde :
+         * L'id de l'équipe correspond à l'id d'une équipe
+         */
         if (is_null($team)) {
             return true; // Une autre validation devrait échouer
         }
 
-        return OrganizerTournament::where('organizer_id', Auth::id())
+        // Chercher s'il existe un lien entre l'utilisateur courant et le tournoi de l'équipe
+        return OrganizerTournament::where('organizer_id', $this->userId)
                 ->where('tournament_id', $team->tournament_id)
                 ->count() > 0;
     }

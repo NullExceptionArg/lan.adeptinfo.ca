@@ -3,52 +3,69 @@
 namespace App\Rules\Team;
 
 use App\Model\Team;
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth, Support\Facades\DB};
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
 
+/**
+ * Un utilisateur n'est qu'une seule fois dans un tournoi.
+ *
+ * Class UniqueUserPerTournament
+ * @package App\Rules\Team
+ */
 class UniqueUserPerTournament implements Rule
 {
-    protected $tournamentId;
-    protected $teamId;
+    protected $userId;
 
-    public function __construct(?int $tournamentId, ?int $teamId)
+    /**
+     * UniqueUserPerTournament constructor.
+     * @param int $userId Id de l'utilisateur
+     */
+    public function __construct(int $userId)
     {
-        $this->tournamentId = $tournamentId;
-        $this->teamId = $teamId;
+        $this->userId = $userId;
     }
+
 
     /**
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $teamId Id de l'équipe du tournoi
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $teamId): bool
     {
-        if ($this->tournamentId == null) {
-            $team = Team::find($this->teamId);
-            if ($team == null) {
-                return true; // Une autre validation devrait échouer
-            }
-            $this->tournamentId = $team->tournament_id;
+        $team = Team::find($teamId);
+
+        /*
+         * Condition de garde :
+         * L'id du tournoi correspond à un tournoi
+         */
+        if (is_null($team)) {
+            return true; // Une autre validation devrait échouer
         }
 
+        // du tournoi de l'équipe
+        $tournamentId = $team->tournament_id;
+
+        // Chercher les équipes du tournoi de l'équipe
         $teamIds = DB::table('team')
             ->select('id')
-            ->where('tournament_id', $this->tournamentId)
+            ->where('tournament_id', $tournamentId)
             ->pluck('id')
             ->toArray();
 
+        // Chercher les tags de joueur des équipes du tournoi
         $tagIds = DB::table('tag_team')
             ->select('tag_id')
             ->whereIn('team_id', $teamIds)
             ->pluck('tag_id')
             ->toArray();
 
+        // Si l'utilisateur courant fait parti des tags de joueur du tournoi de l'équipe
         return DB::table('tag')
                 ->select('id')
                 ->whereIn('id', $tagIds)
-                ->where('user_id', Auth::id())
+                ->where('user_id', $this->userId)
                 ->count() == 0;
     }
 
