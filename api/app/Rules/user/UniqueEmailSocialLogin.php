@@ -19,21 +19,30 @@ class UniqueEmailSocialLogin implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $courriel Courriel de l'utilisateur
      * @return bool
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $courriel): bool
     {
-        $user = User::where('email', $value)->first();
+        $user = User::where('email', $courriel)->first();
 
+        /*
+         * Condition de garde :
+         * Un utilisateur correspond au courriel
+         */
         if (is_null($user)) {
             return true; // Une autre validation devrait échouer
-        } else {
-            $hasSocialLogin = !is_null($user->facebook_id) || !is_null($user->google_id);
-            $hasConfirmationCode = !is_null($user->confirmation_code);
-
-            return $hasSocialLogin && !$hasConfirmationCode;
         }
+
+        // Si l'utilisateur est inscrit par un réseau social
+        $hasSocialLogin = !is_null($user->facebook_id) || !is_null($user->google_id);
+
+        // Si l'utilisateur est confirmé dans l'application
+        $hasConfirmationCode = !is_null($user->confirmation_code);
+
+        // La validation passe si l'utilisateur est inscrit avec un réseau social
+        // et s'il n'a pas de code de confirmation
+        return $hasSocialLogin && !$hasConfirmationCode;
     }
 
     /**

@@ -35,8 +35,8 @@ class CreateTest extends TestCase
         parent::setUp();
 
         $this->paramsContent['event_key'] = env('EVENT_TEST_KEY');
-        $this->paramsContent['secret_key'] = env('SECRET_KEY');
-        $this->paramsContent['public_key'] = env('PUBLIC_KEY');
+        $this->paramsContent['secret_key'] = env('SECRET_TEST_KEY');
+        $this->paramsContent['public_key'] = env('SECRET_TEST_KEY');
 
         $this->lanRepository = $this->app->make('App\Repositories\Implementation\LanRepositoryImpl');
     }

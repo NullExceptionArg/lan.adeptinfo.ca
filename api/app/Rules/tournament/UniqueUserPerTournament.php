@@ -2,16 +2,28 @@
 
 namespace App\Rules\Tournament;
 
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\Auth, Support\Facades\DB};
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
 
 /**
- * L'utilisateur courant n'est qu'une seule fois dans un tournoi.
+ * Un utilisateur n'est qu'une seule fois dans un tournoi.
  *
  * Class UniqueUserPerTournament
  * @package App\Rules\Team
  */
 class UniqueUserPerTournament implements Rule
 {
+    protected $userId;
+
+    /**
+     * UniqueUserPerTournament constructor.
+     * @param int $userId Id de l'uitilisateur
+     */
+    public function __construct(int $userId)
+    {
+        $this->userId = $userId;
+    }
+
+
     /**
      * Déterminer si la règle de validation passe.
      *
@@ -21,26 +33,33 @@ class UniqueUserPerTournament implements Rule
      */
     public function passes($attribute, $tournamentId): bool
     {
+        /*
+         * Condition de garde :
+         * L'id du tournoi n'est pas nul
+         */
         if (is_null($tournamentId)) {
             return true; // Une autre validation devrait échouer
         }
 
+        // Chercher les équipes du tournoi de l'équipe
         $teamIds = DB::table('team')
             ->select('id')
             ->where('tournament_id', $tournamentId)
             ->pluck('id')
             ->toArray();
 
+        // Chercher les tags de joueur des équipes du tournoi
         $tagIds = DB::table('tag_team')
             ->select('tag_id')
             ->whereIn('team_id', $teamIds)
             ->pluck('tag_id')
             ->toArray();
 
+        // Si l'utilisateur courant fait parti des tags de joueur du tournoi de l'équipe
         return DB::table('tag')
                 ->select('id')
                 ->whereIn('id', $tagIds)
-                ->where('user_id', Auth::id())
+                ->where('user_id', $this->userId)
                 ->count() == 0;
     }
 

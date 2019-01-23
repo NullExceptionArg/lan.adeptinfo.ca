@@ -120,7 +120,11 @@ class TeamController extends Controller
             'name' => $request->input('name'),
             'tag' => $request->input('tag')
         ], [
-            'tournament_id' => ['required', 'exists:tournament,id,deleted_at,NULL', new UniqueUserPerTournament],
+            'tournament_id' => [
+                'required',
+                'exists:tournament,id,deleted_at,NULL',
+                new UniqueUserPerTournament(Auth::id())
+            ],
             'user_tag_id' => [
                 'required',
                 'exists:tag,id',

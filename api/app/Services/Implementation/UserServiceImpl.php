@@ -194,7 +194,7 @@ class UserServiceImpl implements UserService
 
     public function signInGoogle(string $accessToken): array
     {
-        $client = new Google_Client(['client_id' => env('GOOGLE_TEST_CLIENT_ID')]);
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
         $googleResult = $client->verifyIdToken($accessToken);
 
         $user = $this->userRepository->findByEmail($googleResult['email']);

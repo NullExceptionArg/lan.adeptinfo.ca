@@ -12,8 +12,8 @@ class FacebookUtils
     {
         try {
             return new Facebook([
-                'app_id' => env('FB_TEST_ID'),
-                'app_secret' => env('FB_TEST_CLIENT_SECRET'),
+                'app_id' => env('FB_ID'),
+                'app_secret' => env('FB_CLIENT_SECRET'),
                 'default_graph_version' => 'v3.2'
             ]);
         } catch (FacebookSDKException $e) {
@@ -24,6 +24,6 @@ class FacebookUtils
     public static function getAccessToken(): AccessToken
     {
         $expires = time() + 200;
-        return new AccessToken(env('FB_TEST_ID') . '|' . env('FB_TEST_CLIENT_SECRET'), $expires);
+        return new AccessToken(env('FB_ID') . '|' . env('FB_CLIENT_SECRET'), $expires);
     }
 }

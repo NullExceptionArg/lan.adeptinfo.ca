@@ -180,13 +180,13 @@ class TournamentController extends Controller
             'rules' => $request->input('rules'),
             'permission' => 'edit-tournament'
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new PlayersToReachLock],
             'name' => 'string|max:255',
             'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
             'price' => 'integer|min:0',
             'tournament_start' => [new AfterOrEqualLanStartTime($request->input('lan_id'))],
             'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($request->input('lan_id'))],
-            'players_to_reach' => ['min:1', 'integer', new PlayersToReachLock($tournamentId)],
+            'players_to_reach' => ['min:1', 'integer'],
             'teams_to_reach' => 'min:1|integer',
             'rules' => 'string',
             'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), $tournamentId)

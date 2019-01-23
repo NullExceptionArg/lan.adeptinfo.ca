@@ -4,10 +4,20 @@ namespace App\Rules\User;
 
 use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
 
+/**
+ * Un utilisateur possède une permission dans un rôle global.
+ *
+ * Class HasPermission
+ * @package App\Rules\User
+ */
 class HasPermission implements Rule
 {
     protected $userId;
 
+    /**
+     * HasPermission constructor.
+     * @param string $userId Id de l'utilisateur
+     */
     public function __construct(string $userId)
     {
         $this->userId = $userId;
@@ -17,25 +27,34 @@ class HasPermission implements Rule
      * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value permissions name
+     * @param  mixed $permission Nom de la permission
      * @return bool
      * @throws AuthorizationException
      */
-    public function passes($attribute, $value): bool
+    public function passes($attribute, $permission): bool
     {
-        if (is_null($value) || is_null($this->userId)) {
+        /*
+         * Conditions de garde :
+         * Le nom de la permission n'est pas nul
+         * L'id de l'utilisateur n'est pas nul
+         */
+        if (is_null($permission) || is_null($this->userId)) {
             return true; // Une autre validation devrait échouer
         }
 
+        // Chercher si l'utilisateur possède la permission dans un rôle global
         $globalPermissions = DB::table('permission')
             ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
             ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
             ->join('global_role_user', 'global_role.id', '=', 'global_role_user.role_id')
             ->where('global_role_user.user_id', $this->userId)
-            ->where('permission.name', $value)
+            ->where('permission.name', $permission)
             ->get();
 
+        // Compte le nombre de lien entre la permission et l'utilisateur
         $hasPermission = $globalPermissions->unique()->count() > 0;
+
+        // Si aucun lien n'existe, lancer une exception
         if (!$hasPermission) {
             throw new AuthorizationException(trans('validation.forbidden'));
         }

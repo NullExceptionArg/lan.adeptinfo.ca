@@ -36,8 +36,8 @@ class CreateTest extends TestCase
         parent::setUp();
 
         $this->requestContent['event_key'] = env('EVENT_TEST_KEY');
-        $this->requestContent['secret_key'] = env('SECRET_KEY');
-        $this->requestContent['public_key'] = env('PUBLIC_KEY');
+        $this->requestContent['secret_key'] = env('SECRET_TEST_KEY');
+        $this->requestContent['public_key'] = env('SECRET_TEST_KEY');
 
         $this->user = factory('App\Model\User')->create();
 

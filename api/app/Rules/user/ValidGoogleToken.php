@@ -6,6 +6,12 @@ use Exception;
 use Google_Client;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Un token Google est valide.
+ *
+ * Class ValidGoogleToken
+ * @package App\Rules\User
+ */
 class ValidGoogleToken implements Rule
 {
     /**
@@ -17,12 +23,17 @@ class ValidGoogleToken implements Rule
      */
     public function passes($attribute, $value): bool
     {
-        $client = new Google_Client(['client_id' => env('GOOGLE_TEST_CLIENT_ID')]);
+        // Créer client google
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+
         try {
+            // Vérifier le token
             $client->verifyIdToken($value);
         } catch (Exception $e) {
+            // Si le token n'est pas valide, une exception est lancée
             return false;
         }
+
         return true;
     }
 
