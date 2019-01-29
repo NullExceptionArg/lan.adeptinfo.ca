@@ -158,7 +158,11 @@ class TournamentController extends Controller
         $validator = Validator::make([
             'tournament_id' => $tournamentId
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new UserIsTournamentAdmin],
+            'tournament_id' => [
+                'integer',
+                'exists:tournament,id,deleted_at,NULL',
+                new UserIsTournamentAdmin(Auth::id())
+            ],
         ]);
 
         $this->checkValidation($validator);

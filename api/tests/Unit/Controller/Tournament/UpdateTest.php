@@ -298,7 +298,7 @@ class UpdateTest extends TestCase
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'players_to_reach' => [
+                    'tournament_id' => [
                         0 => 'The players to reach can\'t be changed once users have started registering for the tournament.'
                     ],
                 ]
