@@ -7,8 +7,7 @@ use App\Http\Resources\{User\GetAdminRolesResource,
     User\GetUserCollection,
     User\GetUserDetailsResource,
     User\GetUserSummaryResource};
-use App\Model\Tag;
-use App\Model\User;
+use App\Model\{Tag, User};
 
 interface UserService
 {

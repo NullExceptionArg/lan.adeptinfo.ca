@@ -2,16 +2,11 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Role\GetPermissionsResource;
-use App\Http\Resources\Role\GetRoleResource;
-use App\Model\GlobalRole;
-use App\Model\LanRole;
-use App\Repositories\Implementation\LanRepositoryImpl;
-use App\Repositories\Implementation\RoleRepositoryImpl;
-use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Http\Resources\{Role\GetPermissionsResource, Role\GetRoleResource};
+use App\Model\{GlobalRole, LanRole};
+use App\Repositories\Implementation\{LanRepositoryImpl, RoleRepositoryImpl, UserRepositoryImpl};
 use App\Services\RoleService;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Collection;
+use Illuminate\{Http\Resources\Json\AnonymousResourceCollection, Support\Collection};
 
 class RoleServiceImpl implements RoleService
 {
@@ -20,7 +15,7 @@ class RoleServiceImpl implements RoleService
     protected $userRepository;
 
     /**
-     * LanServiceImpl constructor.
+     * RoleServiceImpl constructor.
      * @param RoleRepositoryImpl $roleRepository
      * @param LanRepositoryImpl $lanRepository
      * @param UserRepositoryImpl $userRepository

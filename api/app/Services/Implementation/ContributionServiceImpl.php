@@ -2,12 +2,11 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Contribution\ContributionCategoryResource;
-use App\Http\Resources\Contribution\ContributionResource;
-use App\Http\Resources\Contribution\GetContributionsResource;
+use App\Http\Resources\{Contribution\ContributionCategoryResource,
+    Contribution\ContributionResource,
+    Contribution\GetContributionsResource};
 use App\Model\ContributionCategory;
-use App\Repositories\Implementation\ContributionRepositoryImpl;
-use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Repositories\{Implementation\ContributionRepositoryImpl, Implementation\UserRepositoryImpl};
 use App\Services\ContributionService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -17,7 +16,7 @@ class ContributionServiceImpl implements ContributionService
     protected $userRepository;
 
     /**
-     * LanServiceImpl constructor.
+     * ContributionServiceImpl constructor.
      * @param ContributionRepositoryImpl $contributionRepository
      * @param UserRepositoryImpl $userRepository
      */
@@ -55,16 +54,6 @@ class ContributionServiceImpl implements ContributionService
         return new ContributionResource($contribution);
     }
 
-    public function getCategories(int $lanId): AnonymousResourceCollection
-    {
-        return ContributionCategoryResource::collection($this->contributionRepository->getCategories($lanId));
-    }
-
-    public function getContributions(int $lanId): AnonymousResourceCollection
-    {
-        return GetContributionsResource::collection($this->contributionRepository->getCategories($lanId));
-    }
-
     public function deleteCategory(int $contributionCategoryId): ContributionCategory
     {
         $contributionCategory = $this->contributionRepository->findCategoryById($contributionCategoryId);
@@ -79,5 +68,15 @@ class ContributionServiceImpl implements ContributionService
         $this->contributionRepository->deleteContributionById($contributionId);
 
         return new ContributionResource($contribution);
+    }
+
+    public function getCategories(int $lanId): AnonymousResourceCollection
+    {
+        return ContributionCategoryResource::collection($this->contributionRepository->getCategories($lanId));
+    }
+
+    public function getContributions(int $lanId): AnonymousResourceCollection
+    {
+        return GetContributionsResource::collection($this->contributionRepository->getCategories($lanId));
     }
 }

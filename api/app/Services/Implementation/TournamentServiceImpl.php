@@ -9,8 +9,7 @@ use App\Repositories\Implementation\{LanRepositoryImpl,
     UserRepositoryImpl};
 use App\Services\TournamentService;
 use DateTime;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\{Http\Resources\Json\AnonymousResourceCollection, Support\Facades\Auth};
 
 class TournamentServiceImpl implements TournamentService
 {
@@ -20,7 +19,7 @@ class TournamentServiceImpl implements TournamentService
     protected $roleRepository;
 
     /**
-     * LanServiceImpl constructor.
+     * TournamentServiceImpl constructor.
      * @param LanRepositoryImpl $lanRepository
      * @param TournamentRepositoryImpl $tournamentRepository
      * @param UserRepositoryImpl $userRepository

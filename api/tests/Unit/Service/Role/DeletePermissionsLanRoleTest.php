@@ -6,7 +6,7 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeletePermissionLanRoleTest extends TestCase
+class DeletePermissionsLanRoleTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -42,7 +42,7 @@ class DeletePermissionLanRoleTest extends TestCase
         }
     }
 
-    public function testDeletePermissionLanRole(): void
+    public function testDeletePermissionsLanRole(): void
     {
         $result = $this->roleService->deletePermissionsLanRole($this->lanRole->id, $this->permissions);
 

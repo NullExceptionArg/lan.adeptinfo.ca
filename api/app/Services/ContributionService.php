@@ -16,11 +16,11 @@ interface ContributionService
         ?string $email
     ): ContributionResource;
 
-    public function getCategories(int $lanId): AnonymousResourceCollection;
-
-    public function getContributions(int $lanId): AnonymousResourceCollection;
-
     public function deleteCategory(int $lanId): ContributionCategory;
 
     public function deleteContribution(int $contributionId): ContributionResource;
+
+    public function getCategories(int $lanId): AnonymousResourceCollection;
+
+    public function getContributions(int $lanId): AnonymousResourceCollection;
 }

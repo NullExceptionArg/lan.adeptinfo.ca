@@ -23,6 +23,14 @@ interface TournamentService
 
     public function delete(string $tournamentId): TournamentResource;
 
+    public function getAllForOrganizer(int $lanId): AnonymousResourceCollection;
+
+    public function getAll(int $lanId): AnonymousResourceCollection;
+
+    public function get(string $tournamentId): TournamentDetailsResource;
+
+    public function quit(string $tournamentId): TournamentResource;
+
     public function update(
         int $tournamentId,
         ?string $name,
@@ -34,12 +42,4 @@ interface TournamentService
         ?string $rules,
         ?int $price
     ): TournamentDetailsResource;
-
-    public function getAllForOrganizer(int $lanId): AnonymousResourceCollection;
-
-    public function getAll(int $lanId): AnonymousResourceCollection;
-
-    public function get(string $tournamentId): TournamentDetailsResource;
-
-    public function quit(string $tournamentId): TournamentResource;
 }

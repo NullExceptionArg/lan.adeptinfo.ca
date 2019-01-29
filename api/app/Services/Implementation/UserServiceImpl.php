@@ -2,25 +2,23 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\User\GetAdminRolesResource;
-use App\Http\Resources\User\GetAdminSummaryResource;
-use App\Http\Resources\User\GetUserCollection;
-use App\Http\Resources\User\GetUserDetailsResource;
-use App\Http\Resources\User\GetUserSummaryResource;
+use App\Http\Resources\{User\GetAdminRolesResource,
+    User\GetAdminSummaryResource,
+    User\GetUserCollection,
+    User\GetUserDetailsResource,
+    User\GetUserSummaryResource};
 use App\Mail\ConfirmAccount;
-use App\Model\Tag;
-use App\Model\User;
-use App\Repositories\Implementation\RoleRepositoryImpl;
-use App\Repositories\Implementation\SeatRepositoryImpl;
-use App\Repositories\Implementation\TeamRepositoryImpl;
-use App\Repositories\Implementation\TournamentRepositoryImpl;
-use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Model\{Tag, User};
+use App\Repositories\Implementation\{RoleRepositoryImpl,
+    SeatRepositoryImpl,
+    TeamRepositoryImpl,
+    TournamentRepositoryImpl,
+    UserRepositoryImpl};
 use App\Services\UserService;
 use App\Utils\FacebookUtils;
 use Facebook\Exceptions\FacebookSDKException;
 use Google_Client;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\{Support\Facades\Auth, Support\Facades\Mail};
 
 class UserServiceImpl implements UserService
 {

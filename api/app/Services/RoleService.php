@@ -3,10 +3,8 @@
 namespace App\Services;
 
 use App\Http\Resources\Role\GetRoleResource;
-use App\Model\GlobalRole;
-use App\Model\LanRole;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Collection;
+use App\Model\{GlobalRole, LanRole};
+use Illuminate\{Http\Resources\Json\AnonymousResourceCollection, Support\Collection};
 
 interface RoleService
 {

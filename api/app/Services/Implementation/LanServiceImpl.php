@@ -2,14 +2,9 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\Lan\GetAllResource;
-use App\Http\Resources\Lan\GetResource;
-use App\Http\Resources\Lan\ImageResource;
-use App\Http\Resources\Lan\UpdateResource;
+use App\Http\Resources\{Lan\GetAllResource, Lan\GetResource, Lan\ImageResource, Lan\UpdateResource};
 use App\Model\Lan;
-use App\Repositories\Implementation\LanRepositoryImpl;
-use App\Repositories\Implementation\RoleRepositoryImpl;
-use App\Repositories\Implementation\SeatRepositoryImpl;
+use App\Repositories\Implementation\{LanRepositoryImpl, RoleRepositoryImpl, SeatRepositoryImpl};
 use App\Services\LanService;
 use DateTime;
 use Illuminate\Http\Resources\Json\ResourceCollection;

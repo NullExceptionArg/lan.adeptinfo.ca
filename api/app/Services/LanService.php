@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Http\Resources\Lan\GetResource;
-use App\Http\Resources\Lan\ImageResource;
-use App\Http\Resources\Lan\UpdateResource;
+use App\Http\Resources\{Lan\GetResource, Lan\ImageResource, Lan\UpdateResource};
 use App\Model\Lan;
 use DateTime;
 use Illuminate\Http\Resources\Json\ResourceCollection;

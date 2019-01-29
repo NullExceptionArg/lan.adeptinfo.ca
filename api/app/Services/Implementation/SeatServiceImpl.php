@@ -3,9 +3,7 @@
 namespace App\Services\Implementation;
 
 use App\Model\Reservation;
-use App\Repositories\Implementation\LanRepositoryImpl;
-use App\Repositories\Implementation\SeatRepositoryImpl;
-use App\Repositories\Implementation\UserRepositoryImpl;
+use App\Repositories\Implementation\{LanRepositoryImpl, SeatRepositoryImpl, UserRepositoryImpl};
 use App\Services\SeatService;
 use Illuminate\Support\Facades\Auth;
 use Seatsio\SeatsioClient;
@@ -17,7 +15,7 @@ class SeatServiceImpl implements SeatService
     protected $userRepository;
 
     /**
-     * LanServiceImpl constructor.
+     * SeatServiceImpl constructor.
      * @param LanRepositoryImpl $lanRepositoryImpl
      * @param SeatRepositoryImpl $seatRepositoryImpl
      * @param UserRepositoryImpl $userRepositoryImpl
