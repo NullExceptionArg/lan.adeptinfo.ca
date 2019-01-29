@@ -18,7 +18,7 @@ class SignInFacebookTest extends FacebookTestCase
         $accessToken = null;
         try {
             $accessToken = FacebookUtils::getFacebook()->post(
-                '/' . env('FB_TEST_ID') . '/accounts/test-users?permissions=email',
+                '/' . env('FB_ID') . '/accounts/test-users?permissions=email',
                 array(
                     'installed' => 'true',
                 ),
@@ -40,7 +40,7 @@ class SignInFacebookTest extends FacebookTestCase
         $response = null;
         try {
             $response = FacebookUtils::getFacebook()->post(
-                '/' . env('FB_TEST_ID') . '/accounts/test-users?permissions=email',
+                '/' . env('FB_ID') . '/accounts/test-users?permissions=email',
                 array(
                     'installed' => 'true',
                 ),
@@ -83,7 +83,7 @@ class SignInFacebookTest extends FacebookTestCase
         $accessToken = null;
         try {
             $accessToken = FacebookUtils::getFacebook()->post(
-                '/' . env('FB_TEST_ID') . '/accounts/test-users',
+                '/' . env('FB_ID') . '/accounts/test-users',
                 array(
                     'installed' => 'true',
                 ),
