@@ -192,11 +192,11 @@ class RoleServiceImpl implements RoleService
 
     public function updateGlobalRole(
         int $roleId,
-        string $name,
-        string $enDisplayName,
-        string $enDescription,
-        string $frDisplayName,
-        string $frDescription
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
     ): GlobalRole
     {
         $this->roleRepository->updateGlobalRole(
@@ -213,11 +213,11 @@ class RoleServiceImpl implements RoleService
 
     public function updateLanRole(
         int $roleId,
-        string $name,
-        string $enDisplayName,
-        string $enDescription,
-        string $frDisplayName,
-        string $frDescription
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
     ): LanRole
     {
         $this->roleRepository->updateLanRole(

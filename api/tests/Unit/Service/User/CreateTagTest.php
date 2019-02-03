@@ -23,12 +23,11 @@ class CreateTagTest extends TestCase
         $this->userService = $this->app->make('App\Services\Implementation\UserServiceImpl');
 
         $this->user = factory('App\Model\User')->create();
-        $this->be($this->user);
     }
 
     public function testCreate(): void
     {
-        $result = $this->userService->createTag($this->requestContent['name']);
+        $result = $this->userService->createTag($this->user->id, $this->requestContent['name']);
 
         $this->assertEquals(1, $result->id);
         $this->assertEquals($this->requestContent['name'], $result->name);

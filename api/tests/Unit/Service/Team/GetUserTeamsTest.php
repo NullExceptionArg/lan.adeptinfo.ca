@@ -50,7 +50,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
 
-        $result = $this->teamService->getUserTeams($this->lan->id);
+        $result = $this->teamService->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -69,7 +69,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
 
-        $result = $this->teamService->getUserTeams($this->lan->id);
+        $result = $this->teamService->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -89,7 +89,7 @@ class GetUserTeamsTest extends TestCase
             'is_leader' => true
         ]);
 
-        $result = $this->teamService->getUserTeams($this->lan->id);
+        $result = $this->teamService->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -125,7 +125,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
 
-        $result = $this->teamService->getUserTeams($this->lan->id);
+        $result = $this->teamService->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals(1, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->team->name, $result[0]->jsonSerialize()['name']);
@@ -149,7 +149,7 @@ class GetUserTeamsTest extends TestCase
     public function testGetUserTeamsNoTeam(): void
     {
         $this->team->delete();
-        $result = $this->teamService->getUserTeams($this->lan->id);
+        $result = $this->teamService->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals([], $result->jsonSerialize());
     }
@@ -158,7 +158,7 @@ class GetUserTeamsTest extends TestCase
     {
         $this->team->delete();
         $this->tournament->delete();
-        $result = $this->teamService->getUserTeams($this->lan->id);
+        $result = $this->teamService->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals([], $result->jsonSerialize());
     }
@@ -166,7 +166,7 @@ class GetUserTeamsTest extends TestCase
     public function testGetUserTeamsNoTags(): void
     {
         $this->tag->delete();
-        $result = $this->teamService->getUserTeams($this->lan->id);
+        $result = $this->teamService->getUserTeams($this->user->id, $this->lan->id);
 
         $this->assertEquals([], $result->jsonSerialize());
     }

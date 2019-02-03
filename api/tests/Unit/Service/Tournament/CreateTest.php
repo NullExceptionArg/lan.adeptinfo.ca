@@ -53,14 +53,13 @@ class CreateTest extends TestCase
             'role_id' => $role->id,
             'user_id' => $this->user->id
         ]);
-
-        $this->be($this->user);
     }
 
     public function testCreate(): void
     {
         $result = $this->tournamentService->create(
             $this->lan->id,
+            $this->user->id,
             $this->paramsContent['name'],
             Carbon::parse($this->paramsContent['tournament_start']),
             Carbon::parse($this->paramsContent['tournament_end']),

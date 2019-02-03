@@ -77,13 +77,11 @@ class GetRequestsTest extends TestCase
             'tag_id' => $this->tag->id,
             'team_id' => $this->team4->id
         ]);
-
-        $this->be($this->user);
     }
 
     public function testGetRequests(): void
     {
-        $result = $this->teamService->getRequests($this->lan->id);
+        $result = $this->teamService->getRequests($this->user->id, $this->lan->id);
 
         $this->assertEquals($this->request1->id, $result[0]->id);
         $this->assertEquals($this->tag->id, $result[0]->tag_id);

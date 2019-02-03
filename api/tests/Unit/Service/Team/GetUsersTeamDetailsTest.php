@@ -46,7 +46,6 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
 
         $this->requestContent['team_id'] = $this->team->id;
-        $this->be($this->user);
     }
 
     public function testGetUsersTeamDetailsAdminRequests(): void
@@ -69,9 +68,8 @@ class GetUsersTeamDetailsTest extends TestCase
             'tag_id' => $tag2->id,
             'team_id' => $this->team->id,
         ]);
-        $this->be($user);
 
-        $result = $this->teamService->getUsersTeamDetails($this->team->id)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($user->id, $this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);
@@ -110,9 +108,7 @@ class GetUsersTeamDetailsTest extends TestCase
             'is_leader' => true
         ]);
 
-        $this->be($user);
-
-        $result = $this->teamService->getUsersTeamDetails($this->team->id)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($user->id, $this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);
@@ -135,7 +131,7 @@ class GetUsersTeamDetailsTest extends TestCase
 
     public function testGetUsersTeamDetailsNotAdmin(): void
     {
-        $result = $this->teamService->getUsersTeamDetails($this->team->id)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($this->user->id, $this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);

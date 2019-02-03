@@ -85,6 +85,7 @@ class TournamentController extends Controller
 
         return response()->json($this->tournamentService->create(
             intval($request->input('lan_id')),
+            Auth::id(),
             $request->input('name'),
             Carbon::parse($request->input('tournament_start')),
             Carbon::parse($request->input('tournament_end')),
@@ -122,6 +123,7 @@ class TournamentController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->tournamentService->getAllForOrganizer(
+            Auth::id(),
             $request->input('lan_id')
         ), 200);
     }
@@ -167,7 +169,7 @@ class TournamentController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->tournamentService->quit($tournamentId), 200);
+        return response()->json($this->tournamentService->quit(Auth::id(), $tournamentId), 200);
     }
 
     public function update(Request $request, string $tournamentId)

@@ -156,7 +156,7 @@ class TeamController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->teamServiceImpl->deleteAdmin(
+        return response()->json($this->teamServiceImpl->delete(
             $request->input('team_id')
         ), 200);
     }
@@ -171,7 +171,7 @@ class TeamController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->teamServiceImpl->deleteLeader(
+        return response()->json($this->teamServiceImpl->delete(
             $request->input('team_id')
         ), 200);
     }
@@ -226,6 +226,7 @@ class TeamController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->teamServiceImpl->getRequests(
+            Auth::id(),
             $request->input('lan_id')
         ), 200);
     }
@@ -257,6 +258,7 @@ class TeamController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->teamServiceImpl->getUserTeams(
+            Auth::id(),
             $request->input('lan_id')
         ), 200);
     }
@@ -295,6 +297,7 @@ class TeamController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->teamServiceImpl->leave(
+            Auth::id(),
             $request->input('team_id')
         ), 200);
     }

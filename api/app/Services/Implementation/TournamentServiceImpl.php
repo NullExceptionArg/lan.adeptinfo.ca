@@ -9,7 +9,7 @@ use App\Repositories\Implementation\{LanRepositoryImpl,
     UserRepositoryImpl};
 use App\Services\TournamentService;
 use DateTime;
-use Illuminate\{Http\Resources\Json\AnonymousResourceCollection, Support\Facades\Auth};
+use Illuminate\{Http\Resources\Json\AnonymousResourceCollection};
 
 class TournamentServiceImpl implements TournamentService
 {
@@ -50,6 +50,7 @@ class TournamentServiceImpl implements TournamentService
 
     public function create(
         int $lanId,
+        int $userId,
         string $name,
         DateTime $tournamentStart,
         DateTime $tournamentEnd,
@@ -70,7 +71,7 @@ class TournamentServiceImpl implements TournamentService
             $price
         );
 
-        $this->tournamentRepository->associateOrganizerTournament(Auth::id(), $tournamentId);
+        $this->tournamentRepository->associateOrganizerTournament($userId, $tournamentId);
         $tournament = $this->tournamentRepository->findById($tournamentId);
 
         return new TournamentDetailsResource($tournament);
@@ -84,20 +85,20 @@ class TournamentServiceImpl implements TournamentService
         return new TournamentResource($tournament);
     }
 
-    public function getAllForOrganizer(int $lanId): AnonymousResourceCollection
+    public function getAllForOrganizer(int $userId, int $lanId): AnonymousResourceCollection
     {
         // Si l'utilisateur possède les permissions pour modifier, supprimer, et ajouter un organisateur à un tournoi, tous les LANs s'affichent.
         // Sinon seulement ceux qu'il administre.
         if (
-            $this->roleRepository->userHasPermission('edit-tournament', Auth::id(), $lanId) &&
-            $this->roleRepository->userHasPermission('delete-tournament', Auth::id(), $lanId) &&
-            $this->roleRepository->userHasPermission('add-organizer', Auth::id(), $lanId)
+            $this->roleRepository->userHasPermission('edit-tournament', $userId, $lanId) &&
+            $this->roleRepository->userHasPermission('delete-tournament', $userId, $lanId) &&
+            $this->roleRepository->userHasPermission('add-organizer', $userId, $lanId)
         ) {
             return TournamentResource::collection($this->tournamentRepository->getAllTournaments($lanId));
         } else {
             return TournamentResource::collection(
                 $this->tournamentRepository->getTournamentsForOrganizer(
-                    Auth::id(),
+                    $userId,
                     $lanId
                 )
             );
@@ -118,10 +119,10 @@ class TournamentServiceImpl implements TournamentService
         return new TournamentDetailsResource($tournament);
     }
 
-    public function quit(string $tournamentId): TournamentResource
+    public function quit(int $userId, string $tournamentId): TournamentResource
     {
         $organizerCount = $this->tournamentRepository->getOrganizerCount($tournamentId);
-        $this->tournamentRepository->deleteTournamentOrganizer($tournamentId, Auth::id());
+        $this->tournamentRepository->deleteTournamentOrganizer($tournamentId, $userId);
         $tournament = $this->tournamentRepository->findById($tournamentId);
 
         if ($organizerCount <= 1) {

@@ -57,15 +57,15 @@ class UserServiceImpl implements UserService
         $this->userRepository->confirmAccount($user->id);
     }
 
-    public function createTag(string $name): Tag
+    public function createTag(int $userId, string $name): Tag
     {
-        $tagId = $this->userRepository->createTag(Auth::id(), $name);
+        $tagId = $this->userRepository->createTag($userId, $name);
         return $this->userRepository->findTagById($tagId);
     }
 
-    public function deleteUser(): void
+    public function deleteUser(int $userId): void
     {
-        $this->userRepository->deleteUserById(Auth::id());
+        $this->userRepository->deleteUserById($userId);
     }
 
     public function getAdminRoles(string $email, int $lanId): GetAdminRolesResource
@@ -76,9 +76,9 @@ class UserServiceImpl implements UserService
         return new GetAdminRolesResource($globalRoles, $lanRoles);
     }
 
-    public function getAdminSummary(int $lanId): GetAdminSummaryResource
+    public function getAdminSummary(int $userId, int $lanId): GetAdminSummaryResource
     {
-        $user = Auth::user();
+        $user = $this->userRepository->findById($userId);
         $permissions = $this->roleRepository->getAdminPermissions($lanId, $user->id);
 
         $hasTournaments =
@@ -141,9 +141,9 @@ class UserServiceImpl implements UserService
         ));
     }
 
-    public function getUserSummary(int $lanId): GetUserSummaryResource
+    public function getUserSummary(int $userId, int $lanId): GetUserSummaryResource
     {
-        $user = Auth::user();
+        $user = $this->userRepository->findById($userId);
         return new GetUserSummaryResource($user, $this->teamRepository->getLeadersRequestTotalCount($user->id, $lanId));
     }
 

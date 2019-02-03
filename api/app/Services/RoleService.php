@@ -142,7 +142,7 @@ interface RoleService
     public function getGlobalRoles(): AnonymousResourceCollection;
 
     /**
-     * Obtenir les permissions d'un rôle de LAN
+     * Obtenir les permissions d'un rôle de LAN.
      *
      * @param int $roleId Id du rôle de LAN
      * @return AnonymousResourceCollection Permissions du rôle de LAN
@@ -158,7 +158,7 @@ interface RoleService
     public function getLanRoles(int $lanId): AnonymousResourceCollection;
 
     /**
-     * Obtenir les utilisateurs d'un rôle de LAN
+     * Obtenir les utilisateurs d'un rôle de LAN.
      *
      * @param int $roleId
      * @return Collection
@@ -172,23 +172,53 @@ interface RoleService
      */
     public function getPermissions(): AnonymousResourceCollection;
 
+    /**
+     * Obtenir les utilisateurs d'un rôle global.
+     *
+     * @param int $roleId
+     * @return Collection
+     */
     public function getGlobalRoleUsers(int $roleId): Collection;
 
+    /**
+     * Mettre à jour les informations d'un rôle global.
+     * Si un champ est laissé nul, la valeur initiale du champ sera gardée.
+     *
+     * @param int $roleId Id du rôle global
+     * @param string|null $name Nouveau nom du rôle
+     * @param string|null $enDisplayName Nom d'affichage, en anglais
+     * @param string|null $enDescription Description, en anglais
+     * @param string|null $frDisplayName Nom d'affichage, en français
+     * @param string|null $frDescription Description, en français
+     * @return GlobalRole Rôle global mis à jour
+     */
     public function updateGlobalRole(
         int $roleId,
-        string $name,
-        string $enDisplayName,
-        string $enDescription,
-        string $frDisplayName,
-        string $frDescription
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
     ): GlobalRole;
 
+    /**
+     * Mettre à jour les informations d'un rôle de LAN.
+     * Si un champ est laissé nul, la valeur initiale du champ sera gardée.
+     *
+     * @param int $roleId Id du rôle de LAN
+     * @param string|null $name Nouveau nom du rôle
+     * @param string|null $enDisplayName Nom d'affichage, en anglais
+     * @param string|null $enDescription Description, en anglais
+     * @param string|null $frDisplayName Nom d'affichage, en français
+     * @param string|null $frDescription Description, en français
+     * @return LanRole Rôle de LAN mis à jour
+     */
     public function updateLanRole(
         int $roleId,
-        string $name,
-        string $enDisplayName,
-        string $enDescription,
-        string $frDisplayName,
-        string $frDescription
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
     ): LanRole;
 }

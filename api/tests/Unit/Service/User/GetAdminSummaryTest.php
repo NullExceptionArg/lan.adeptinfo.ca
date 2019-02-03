@@ -20,7 +20,6 @@ class GetAdminSummaryTest extends TestCase
         $this->userService = $this->app->make('App\Services\Implementation\UserServiceImpl');
 
         $this->user = factory('App\Model\User')->create();
-        $this->be($this->user);
     }
 
     public function testGetAdminSummary(): void
@@ -67,7 +66,7 @@ class GetAdminSummaryTest extends TestCase
             'role_id' => $globalRole->id
         ]);
 
-        $result = $this->userService->getAdminSummary($lan->id)->jsonSerialize();
+        $result = $this->userService->getAdminSummary($this->user->id, $lan->id)->jsonSerialize();
         $permissionsResult = $result['permissions']->jsonSerialize();
 
         $this->assertEquals($this->user->first_name, $result['first_name']);

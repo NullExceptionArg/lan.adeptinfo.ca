@@ -6,7 +6,7 @@ use App\Http\Resources\{Team\GetRequestsResource, Team\GetUsersTeamDetailsResour
 use App\Model\{Request as TeamRequest, Tag, Team};
 use App\Repositories\Implementation\{LanRepositoryImpl, TeamRepositoryImpl, TournamentRepositoryImpl};
 use App\Services\TeamService;
-use Illuminate\{Http\Resources\Json\AnonymousResourceCollection, Support\Facades\Auth};
+use Illuminate\{Http\Resources\Json\AnonymousResourceCollection};
 
 class TeamServiceImpl implements TeamService
 {
@@ -71,15 +71,7 @@ class TeamServiceImpl implements TeamService
         return $this->teamRepository->findById($teamId);
     }
 
-    public function deleteAdmin(int $teamId): Team
-    {
-        $team = $this->teamRepository->findById($teamId);
-
-        $this->teamRepository->delete($teamId);
-        return $team;
-    }
-
-    public function deleteLeader(int $teamId): Team
+    public function delete(int $teamId): Team
     {
         $team = $this->teamRepository->findById($teamId);
 
@@ -106,15 +98,15 @@ class TeamServiceImpl implements TeamService
         return $team;
     }
 
-    public function getRequests(int $lanId): AnonymousResourceCollection
+    public function getRequests(int $userId, int $lanId): AnonymousResourceCollection
     {
-        return GetRequestsResource::collection($this->teamRepository->getRequestsForUser(Auth::id(), $lanId));
+        return GetRequestsResource::collection($this->teamRepository->getRequestsForUser($userId, $lanId));
     }
 
-    public function getUsersTeamDetails(int $teamId): GetUsersTeamDetailsResource
+    public function getUsersTeamDetails(int $userId, int $teamId): GetUsersTeamDetailsResource
     {
         $team = $this->teamRepository->findById($teamId);
-        $isLeader = $this->teamRepository->userIsLeader($teamId, Auth::id());
+        $isLeader = $this->teamRepository->userIsLeader($teamId, $userId);
         $tags = $this->teamRepository->getUsersTeamTags($teamId);
         $requests = null;
 
@@ -125,9 +117,9 @@ class TeamServiceImpl implements TeamService
         return new GetUsersTeamDetailsResource($team, $tags, $requests);
     }
 
-    public function getUserTeams(int $lanId): AnonymousResourceCollection
+    public function getUserTeams(int $userId, int $lanId): AnonymousResourceCollection
     {
-        $teams = $this->teamRepository->getUserTeams(Auth::id(), $lanId);
+        $teams = $this->teamRepository->getUserTeams($userId, $lanId);
 
         return GetUserTeamsResource::collection($teams);
     }
@@ -140,11 +132,11 @@ class TeamServiceImpl implements TeamService
         return $tag;
     }
 
-    public function leave(int $teamId): Team
+    public function leave(int $userId, int $teamId): Team
     {
         $team = $this->teamRepository->findById($teamId);
 
-        if ($this->teamRepository->userIsLeader($teamId, Auth::id())) {
+        if ($this->teamRepository->userIsLeader($teamId, $userId)) {
             $tag = $this->teamRepository->getTagWithMostSeniorityNotLeader($teamId);
 
             if (is_null($tag)) {
@@ -153,7 +145,7 @@ class TeamServiceImpl implements TeamService
                 $this->teamRepository->switchLeader($tag->id, $teamId);
             }
         }
-        $this->teamRepository->removeUserFromTeam(Auth::id(), $teamId);
+        $this->teamRepository->removeUserFromTeam($userId, $teamId);
 
         return $team;
     }

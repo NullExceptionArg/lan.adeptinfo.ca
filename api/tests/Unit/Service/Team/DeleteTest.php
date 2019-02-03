@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteAdminTest extends TestCase
+class DeleteTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -54,9 +54,9 @@ class DeleteAdminTest extends TestCase
         ]);
     }
 
-    public function testDeleteAdmin(): void
+    public function testDelete(): void
     {
-        $result = $this->teamService->deleteAdmin($this->team->id);
+        $result = $this->teamService->delete($this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->name, $result->name);

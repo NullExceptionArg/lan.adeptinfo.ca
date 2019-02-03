@@ -62,8 +62,7 @@ class LeaveTest extends TestCase
 
     public function testLeave(): void
     {
-        $this->be($this->user);
-        $result = $this->teamService->leave($this->team->id);
+        $result = $this->teamService->leave($this->user->id, $this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);
@@ -73,8 +72,7 @@ class LeaveTest extends TestCase
 
     public function testLeaveIsLeader(): void
     {
-        $this->be($this->leader);
-        $result = $this->teamService->leave($this->team->id);
+        $result = $this->teamService->leave($this->leader->id, $this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);
@@ -87,8 +85,7 @@ class LeaveTest extends TestCase
         $this->userTagTeam->delete();
         $this->userTag->delete();
         $this->user->delete();
-        $this->be($this->leader);
-        $result = $this->teamService->leave($this->team->id);
+        $result = $this->teamService->leave($this->leader->id, $this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);

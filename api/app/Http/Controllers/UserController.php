@@ -59,13 +59,14 @@ class UserController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->userService->createTag(
+            Auth::id(),
             $request->input('name')
         ), 201);
     }
 
     public function deleteUser()
     {
-        $this->userService->deleteUser();
+        $this->userService->deleteUser(Auth::id());
         return response()->json([], 200);
     }
 
@@ -108,6 +109,7 @@ class UserController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->userService->getAdminSummary(
+            Auth::id(),
             $request->input('lan_id')
         ), 200);
     }
@@ -174,6 +176,7 @@ class UserController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->userService->getUserSummary(
+            Auth::id(),
             $request->input('lan_id')
         ), 200);
     }

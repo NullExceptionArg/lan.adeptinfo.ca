@@ -120,7 +120,7 @@ class GetUserSummaryTest extends TestCase
             ]);
         }
 
-        $result = $this->userService->getUserSummary($this->lan->id)->jsonSerialize();
+        $result = $this->userService->getUserSummary($this->user->id, $this->lan->id)->jsonSerialize();
 
         $this->assertEquals($this->user->first_name, $result['first_name']);
         $this->assertEquals($this->user->last_name, $result['last_name']);
