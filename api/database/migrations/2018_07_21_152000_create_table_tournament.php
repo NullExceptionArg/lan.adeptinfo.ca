@@ -5,7 +5,7 @@ use Illuminate\{Database\Migrations\Migration, Database\Schema\Blueprint, Suppor
 class CreateTableTournament extends Migration
 {
     /**
-     * Run the migrations.
+     * Exécuter les migrations
      *
      * @return void
      */
@@ -31,7 +31,7 @@ class CreateTableTournament extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Inverser les migrations.
      *
      * @return void
      */

@@ -5,7 +5,7 @@ use Illuminate\{Database\Migrations\Migration, Database\Schema\Blueprint, Suppor
 class CreateTableContributionCategoryContribution extends Migration
 {
     /**
-     * Run the migrations.
+     * Exécuter les migrations
      *
      * @return void
      */
@@ -25,7 +25,7 @@ class CreateTableContributionCategoryContribution extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Inverser les migrations.
      *
      * @return void
      */

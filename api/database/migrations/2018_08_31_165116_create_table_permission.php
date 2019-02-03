@@ -5,7 +5,7 @@ use Illuminate\{Database\Migrations\Migration, Database\Schema\Blueprint, Suppor
 class CreateTablePermission extends Migration
 {
     /**
-     * Run the migrations.
+     * Exécuter les migrations
      *
      * @return void
      */
@@ -19,7 +19,7 @@ class CreateTablePermission extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Inverser les migrations.
      *
      * @return void
      */

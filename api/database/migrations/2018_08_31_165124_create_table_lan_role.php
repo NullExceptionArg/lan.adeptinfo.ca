@@ -5,7 +5,7 @@ use Illuminate\{Database\Migrations\Migration, Database\Schema\Blueprint, Suppor
 class CreateTableLanRole extends Migration
 {
     /**
-     * Run the migrations.
+     * Exécuter les migrations
      *
      * @return void
      */
@@ -27,7 +27,7 @@ class CreateTableLanRole extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Inverser les migrations.
      *
      * @return void
      */

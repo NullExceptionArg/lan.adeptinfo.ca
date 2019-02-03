@@ -41,14 +41,13 @@ class QuitTest extends TestCase
 
     public function testQuit(): void
     {
-        $this->be($this->organizer);
         $organizer2 = factory('App\Model\User')->create();
         factory('App\Model\OrganizerTournament')->create([
             'organizer_id' => $organizer2->id,
             'tournament_id' => $this->tournament->id
         ]);
 
-        $result = $this->tournamentService->quit($this->tournament->id);
+        $result = $this->tournamentService->quit($this->organizer->id, $this->tournament->id);
 
         $this->assertEquals($this->tournament->id, $result->id);
         $this->assertEquals($this->tournament->lan_id, $result->lan_id);
@@ -64,8 +63,7 @@ class QuitTest extends TestCase
 
     public function testQuitLastOrganizer(): void
     {
-        $this->be($this->organizer);
-        $result = $this->tournamentService->quit($this->tournament->id);
+        $result = $this->tournamentService->quit($this->organizer->id, $this->tournament->id);
 
         $this->assertEquals($this->tournament->id, $result->id);
         $this->assertEquals($this->tournament->lan_id, $result->lan_id);

@@ -2,10 +2,15 @@
 
 use Illuminate\Database\Seeder;
 
+/**
+ * Créer 1000 utilisateurs.
+ *
+ * Class UserTableSeeder
+ */
 class UserTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Exécuter la génération de données fictives.
      *
      * @return void
      */

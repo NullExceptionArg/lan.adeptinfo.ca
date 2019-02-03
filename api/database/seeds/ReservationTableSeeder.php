@@ -1,15 +1,19 @@
 <?php
 
-use App\Model\Lan;
-use App\Model\Reservation;
-use App\Model\User;
+use App\Model\{Lan, User};
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 use Seatsio\SeatsioClient;
 
+/**
+ * Créer des réservation pour les LANs et les utilisateurs des l'application.
+ *
+ * Class ReservationTableSeeder
+ */
 class ReservationTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Exécuter la génération de données fictives.
      *
      * @return void
      */
@@ -17,37 +21,45 @@ class ReservationTableSeeder extends Seeder
     {
         $seatsClient = new SeatsioClient(env('SECRET_TEST_KEY'));
 
-        $mscdt = include(base_path() . '/database/seat.php');
-        $places = $mscdt->getSeatData();
+        // Obtenir les places par défaut d'un LAN
+        $places = include(base_path() . '/database/seat.php');
+
+        // Obtenir tout les utilisateurs de l'API
         $users = User::all();
+
+        // Obtenir tout les LAN de l'API
         $lans = Lan::all();
 
-        // Reset seat.io
+        // Pour chaque LAN, réinitialiser les places
         foreach ($lans as $lan) {
             $seatsClient->events->release($lan->event_key, $places);
         }
 
-        // Fill database and seat.io
+        // Pour chaque utilisateur
         $seatIndex = 0;
         $lanIndex = 0;
         foreach ($users as $user) {
 
+            // Obtenir un LAN différent à chaque itération
             $lan = $lans[$lanIndex++ % count($lans)];
+
+            // Obtenir une place différente à chaque itération
             $place = $places[$seatIndex++ % count($places)];
 
-            // seat.io
-            if (rand(0, 9) > 7) { // 20% of users hve arrived to the LAN
+            // Environ 20% des utilisateurs sont arrivés au LAN, les autres ont réservés leurs places
+            if (rand(0, 9) > 7) {
                 $seatsClient->events->changeObjectStatus($lan->event_key, [$place], 'arrived');
             } else {
                 $seatsClient->events->book($lan->event_key, [$place]);
             }
 
-            // Database
-            $reservation = new Reservation();
-            $reservation->user_id = $user->id;
-            $reservation->lan_id = $lan->id;
-            $reservation->seat_id = $place;
-            $reservation->save();
+            // Créer la réservation dans la base de donnée
+            DB::table('reservation')
+                ->insert([
+                    'user_id' => $user->id,
+                    'lan_id' => $lan->id,
+                    'seat_id' => $place,
+                ]);
         }
     }
 }

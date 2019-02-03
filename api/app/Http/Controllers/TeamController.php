@@ -242,6 +242,7 @@ class TeamController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->teamServiceImpl->getUsersTeamDetails(
+            Auth::id(),
             $request->input('team_id')
         ), 200);
     }

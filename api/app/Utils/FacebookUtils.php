@@ -8,6 +8,11 @@ use Illuminate\Http\Response;
 
 class FacebookUtils
 {
+    /**
+     * Connection à l'API de Facebook.
+     *
+     * @return Facebook
+     */
     public static function getFacebook(): Facebook
     {
         try {
@@ -21,6 +26,11 @@ class FacebookUtils
         }
     }
 
+    /**
+     * Créer un token d'accès Facebook à partir des variables d'environement de Facebook
+     *
+     * @return AccessToken Token facebook créé
+     */
     public static function getAccessToken(): AccessToken
     {
         $expires = time() + 200;

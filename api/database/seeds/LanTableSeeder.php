@@ -2,10 +2,15 @@
 
 use Illuminate\Database\Seeder;
 
+/**
+ * Créer un LAN avec chacun des clé d'événement de test.
+ *
+ * Class LanTableSeeder
+ */
 class LanTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Exécuter la génération de données fictives.
      *
      * @return void
      */
