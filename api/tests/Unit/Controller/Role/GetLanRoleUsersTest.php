@@ -6,7 +6,7 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetLanUsersTest extends TestCase
+class GetLanRoleUsersTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -27,7 +27,7 @@ class GetLanUsersTest extends TestCase
         );
     }
 
-    public function testGetLanUsers(): void
+    public function testGetLanRoleUsers(): void
     {
         $users = factory('App\Model\User', 4)->create();
         $role = factory('App\Model\LanRole')->create([
@@ -69,7 +69,7 @@ class GetLanUsersTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testGetLanUsersHasPermission(): void
+    public function testGetLanRoleUsersHasPermission(): void
     {
         $role = factory('App\Model\LanRole')->create([
             'lan_id' => $this->lan->id
@@ -85,7 +85,7 @@ class GetLanUsersTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testGetLanUsersRoleIdRequired(): void
+    public function testGetLanRoleUsersRoleIdRequired(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/lan/users', ['role_id' => null])
@@ -101,7 +101,7 @@ class GetLanUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetLanUsersRoleIdInteger(): void
+    public function testGetLanRoleUsersRoleIdInteger(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/lan/users', ['role_id' => '☭'])
@@ -117,7 +117,7 @@ class GetLanUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetLanUsersRoleIdExist(): void
+    public function testGetLanRoleUsersRoleIdExist(): void
     {
         $this->actingAs($this->user)
             ->json('GET', '/api/role/lan/users', ['role_id' => -1])

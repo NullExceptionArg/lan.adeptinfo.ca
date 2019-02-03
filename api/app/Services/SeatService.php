@@ -4,6 +4,12 @@ namespace App\Services;
 
 use App\Model\Reservation;
 
+/**
+ * Méthodes pour exécuter la logique d'affaire des sièges.
+ *
+ * Interface SeatService
+ * @package App\Services<
+ */
 interface SeatService
 {
     public function assign(int $lanId, string $email, string $seatId): Reservation;

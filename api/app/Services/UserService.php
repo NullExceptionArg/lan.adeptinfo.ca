@@ -9,6 +9,12 @@ use App\Http\Resources\{User\GetAdminRolesResource,
     User\GetUserSummaryResource};
 use App\Model\{Tag, User};
 
+/**
+ * Méthodes pour exécuter la logique d'affaire des utilisateurs.
+ *
+ * Interface UserService
+ * @package App\Services
+ */
 interface UserService
 {
     public function confirm(string $confirmationCode): void;

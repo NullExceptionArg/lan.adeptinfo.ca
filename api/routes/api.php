@@ -102,7 +102,7 @@ $api->version('v1', function ($api) {
                 $api->delete('role/lan', 'RoleController@deleteLanRole');
                 $api->get('role/lan', 'RoleController@getLanRoles');
                 $api->get('role/lan/permissions', 'RoleController@getLanRolePermissions');
-                $api->get('role/lan/users', 'RoleController@getLanUsers');
+                $api->get('role/lan/users', 'RoleController@getLanRoleUsers');
 
                 $api->post('role/global', 'RoleController@createGlobalRole');
                 $api->put('role/global', 'RoleController@updateGlobalRole');
@@ -112,7 +112,7 @@ $api->version('v1', function ($api) {
                 $api->delete('role/global', 'RoleController@deleteGlobalRole');
                 $api->get('role/global', 'RoleController@getGlobalRoles');
                 $api->get('role/global/permissions', 'RoleController@getGlobalRolePermissions');
-                $api->get('role/global/users', 'RoleController@getRoleUsers');
+                $api->get('role/global/users', 'RoleController@getGlobalRoleUsers');
 
                 $api->get('role/permissions', 'RoleController@getPermissions');
 

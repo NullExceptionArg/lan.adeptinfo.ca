@@ -6,6 +6,12 @@ use App\Http\Resources\{Tournament\TournamentDetailsResource, Tournament\Tournam
 use DateTime;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * Méthodes pour exécuter la logique d'affaire des tournois.
+ *
+ * Interface TournamentService
+ * @package App\Services
+ */
 interface TournamentService
 {
     public function addOrganizer(string $email, string $tournamentId): TournamentResource;

@@ -165,6 +165,11 @@ class RoleServiceImpl implements RoleService
         return GetRoleResource::Collection($this->roleRepository->getGlobalRoles());
     }
 
+    public function getGlobalRoleUsers(int $roleId): Collection
+    {
+        return $this->roleRepository->getGlobalUserRoles($roleId);
+    }
+
     public function getLanRolePermissions(int $roleId): AnonymousResourceCollection
     {
         return GetPermissionsResource::collection($this->roleRepository->getLanRolePermissions($roleId));
@@ -175,7 +180,7 @@ class RoleServiceImpl implements RoleService
         return GetRoleResource::Collection($this->roleRepository->getLanRoles($lanId));
     }
 
-    public function getLanUsers(int $roleId): Collection
+    public function getLanRoleUsers(int $roleId): Collection
     {
         return $this->roleRepository->getLanUserRoles($roleId);
     }
@@ -183,11 +188,6 @@ class RoleServiceImpl implements RoleService
     public function getPermissions(): AnonymousResourceCollection
     {
         return GetPermissionsResource::collection($this->roleRepository->getPermissions());
-    }
-
-    public function getRoleUsers(int $roleId): Collection
-    {
-        return $this->roleRepository->getGlobalUserRoles($roleId);
     }
 
     public function updateGlobalRole(

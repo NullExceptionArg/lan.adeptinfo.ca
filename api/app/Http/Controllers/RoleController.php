@@ -319,6 +319,23 @@ class RoleController extends Controller
         return response()->json($this->roleService->getGlobalRoles(), 200);
     }
 
+    public function getGlobalRoleUsers(Request $request)
+    {
+        $validator = Validator::make([
+            'role_id' => $request->input('role_id'),
+            'permission' => 'get-global-user-roles',
+        ], [
+            'role_id' => 'required|integer|exists:global_role,id',
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->roleService->getGlobalRoleUsers(
+            $request->input('role_id')
+        ), 200);
+    }
+
     public function getLanRolePermissions(Request $request)
     {
         $validator = Validator::make([
@@ -354,7 +371,7 @@ class RoleController extends Controller
         ), 200);
     }
 
-    public function getLanUsers(Request $request)
+    public function getLanRoleUsers(Request $request)
     {
         $validator = Validator::make([
             'role_id' => $request->input('role_id'),
@@ -366,7 +383,7 @@ class RoleController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->roleService->getLanUsers(
+        return response()->json($this->roleService->getLanRoleUsers(
             $request->input('role_id')
         ), 200);
     }
@@ -382,23 +399,6 @@ class RoleController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->roleService->getPermissions(), 200);
-    }
-
-    public function getRoleUsers(Request $request)
-    {
-        $validator = Validator::make([
-            'role_id' => $request->input('role_id'),
-            'permission' => 'get-global-user-roles',
-        ], [
-            'role_id' => 'required|integer|exists:global_role,id',
-            'permission' => new HasPermission(Auth::id())
-        ]);
-
-        $this->checkValidation($validator);
-
-        return response()->json($this->roleService->getRoleUsers(
-            $request->input('role_id')
-        ), 200);
     }
 
     public function updateGlobalRole(Request $request)

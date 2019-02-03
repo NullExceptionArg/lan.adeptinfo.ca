@@ -6,7 +6,7 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetLanUsersTest extends TestCase
+class GetGlobalRoleUsersTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -22,28 +22,25 @@ class GetLanUsersTest extends TestCase
         $this->roleService = $this->app->make('App\Services\Implementation\RoleServiceImpl');
 
         $this->user = factory('App\Model\User')->create();
-        $this->lan = factory('App\Model\Lan')->create();
     }
 
-    public function testGetLanUsers(): void
+    public function testGetGlobalRoleUsers(): void
     {
         $users = factory('App\Model\User', 4)->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
+        $role = factory('App\Model\GlobalRole')->create();
         $permission = Permission::first();
-        factory('App\Model\PermissionLanRole')->create([
+        factory('App\Model\PermissionGlobalRole')->create([
             'role_id' => $role,
             'permission_id' => $permission->id
         ]);
         foreach ($users as $user) {
-            factory('App\Model\LanRoleUser')->create([
+            factory('App\Model\GlobalRoleUser')->create([
                 'role_id' => $role,
                 'user_id' => $user->id
             ]);
         }
 
-        $result = $this->roleService->getLanUsers($role->id);
+        $result = $this->roleService->getGlobalRoleUsers($role->id);
 
         $this->assertEquals($users[0]['email'], $result[0]->email);
         $this->assertEquals($users[0]['first_name'], $result[0]->first_name);

@@ -6,6 +6,12 @@ use App\Http\Resources\Team\GetUsersTeamDetailsResource;
 use App\Model\{Request as TeamRequest, Tag, Team};
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * Méthodes pour exécuter la logique d'affaire des équipes.
+ *
+ * Interface TeamService
+ * @package App\Services
+ */
 interface TeamService
 {
     public function acceptRequest(int $requestId): Tag;
