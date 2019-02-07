@@ -45,7 +45,7 @@ class TagNotBelongsLeader implements Rule
             return true; // Une autre validation devrait échouer
         }
 
-        // Chercher si un lien existe entre le tag, l'équipe, et le tag est leader
+        // Chercher si un lien existe entre le tag, l'équipe, et le tag est le chef
         return TagTeam::where('tag_id', $tag->id)
                 ->where('team_id', $team->id)
                 ->where('is_leader', true)

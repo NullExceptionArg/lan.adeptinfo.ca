@@ -51,7 +51,7 @@ class UserIsTeamLeaderTeam implements Rule
             ->pluck('id')
             ->toArray();
 
-        // Chercher s'il existe un lien entrer l'un des tags de l'utilisateur courant, l'équipe, et s'il est leader
+        // Chercher s'il existe un lien entrer l'un des tags de l'utilisateur courant, l'équipe, et s'il est le chef
         $isInTeam = TagTeam::whereIn('tag_id', $tagIds)
                 ->where('team_id', $team->id)
                 ->where('is_leader', true)

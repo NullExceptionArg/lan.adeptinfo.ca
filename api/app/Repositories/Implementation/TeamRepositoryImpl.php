@@ -125,7 +125,7 @@ class TeamRepositoryImpl implements TeamRepository
 
     public function getTagWithMostSeniorityNotLeader(int $teamId): ?Tag
     {
-        // Obtenir le plus vieux lien entre les tag et l'équipes où le tag n'est pas leader.
+        // Obtenir le plus vieux lien entre les tag et l'équipes où le tag n'est pas le chef.
         $tagTeam = TagTeam::where('team_id', $teamId)
             ->where('is_leader', false)
             ->oldest()
@@ -238,7 +238,7 @@ class TeamRepositoryImpl implements TeamRepository
                 'is_leader' => false
             ]);
 
-        // Mettre à jour l'équipe pour que le leader soit celui spécifié
+        // Mettre à jour l'équipe pour que le chef soit celui spécifié
         TagTeam::where('team_id', $teamId)
             ->where('tag_id', $tagId)
             ->update([

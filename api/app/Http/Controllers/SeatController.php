@@ -97,6 +97,7 @@ class SeatController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->seatService->book(
+            Auth::id(),
             $request->input('lan_id'),
             $seatId
         ), 201);
@@ -186,6 +187,7 @@ class SeatController extends Controller
         $this->checkValidation($validator);
 
         return response()->json($this->seatService->unBook(
+            Auth::id(),
             $request->input('lan_id'),
             $seatId
         ), 200);

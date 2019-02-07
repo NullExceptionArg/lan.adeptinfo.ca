@@ -54,7 +54,7 @@ class UserIsTeamLeaderRequest implements Rule
             ->toArray();
 
         // Chercher s'il existe un lien entrer l'un des tags de l'utilisateur courant, l'équipe de la requête,
-        // et s'il est leader
+        // et s'il est le chef
         $isLeaderInTeam = TagTeam::whereIn('tag_id', $tagIds)
                 ->where('team_id', $team->id)
                 ->where('is_leader', true)

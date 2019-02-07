@@ -27,9 +27,10 @@ interface SeatService
      *
      * @param int $lanId Id du LAN
      * @param string $seatId Id du siège à réserver
+     * @param int $userId Id de l'utilisateur qui réserve le siège
      * @return Reservation Réservation effectuée
      */
-    public function book(int $lanId, string $seatId): Reservation;
+    public function book(int $lanId, string $seatId, int $userId): Reservation;
 
     /**
      * Confirmer l'arrivée sur place d'un utilisateur, à un LAN.
@@ -55,9 +56,10 @@ interface SeatService
      *
      * @param int $lanId Id du LAN
      * @param string $seatId Id du siège de la réservation
+     * @param int $userId Id de l'utilisateur qui annule sa réservation
      * @return Reservation Réservation annulée
      */
-    public function unBook(int $lanId, string $seatId): Reservation;
+    public function unBook(int $lanId, string $seatId, int $userId): Reservation;
 
     /**
      * Déconfirmer l'arrivée d'un utilisateur à un LAN.
