@@ -20,12 +20,11 @@ class BookTest extends SeatsTestCase
         $this->seatService = $this->app->make('App\Services\Implementation\SeatServiceImpl');
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-        $this->be($this->user);
     }
 
     public function testBook(): void
     {
-        $result = $this->seatService->book($this->lan->id, env('SEAT_TEST_ID'));
+        $result = $this->seatService->book($this->lan->id, env('SEAT_TEST_ID'), $this->user->id);
 
         $this->assertEquals(env('SEAT_TEST_ID'), $result->seat_id);
         $this->assertEquals($this->lan->id, $result->lan_id);

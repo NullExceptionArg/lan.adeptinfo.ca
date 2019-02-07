@@ -5,10 +5,16 @@ namespace Tests;
 use App\Model\{GlobalRole, LanRole, Permission};
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
 
+/**
+ * Contexte de base des tests de l'API
+ *
+ * Class TestCase
+ * @package Tests
+ */
 abstract class TestCase extends BaseTestCase
 {
     /**
-     * Creates the application.
+     * Créer l'application
      *
      * @return \Laravel\Lumen\Application
      */

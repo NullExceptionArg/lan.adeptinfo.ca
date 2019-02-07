@@ -1,7 +1,7 @@
 <?php
 
-// The permission name must absolutely follow the following convention: display-name-*name of permission*
-// The permission description must absolutely follow the following convention: description-*name of permission*
+// Le nom des permissions doivent absolument suivre la convention suivante : display-name-nom-de-la-permission
+// La description de la description doit absolument suivre la convention suivante : description-nom-de-la-permission
 return [
     'display-name-create-lan' => 'Créer un LAN',
     'description-create-lan' => 'Créer un nouveau LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',

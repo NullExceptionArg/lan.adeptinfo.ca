@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Sièges par défaut des événements seats.io des 5 clé d'événement de test.
+ */
 return [
     "A-1",
     "A-2",

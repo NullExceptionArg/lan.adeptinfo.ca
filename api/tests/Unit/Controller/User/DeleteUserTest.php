@@ -23,7 +23,7 @@ class DeleteUserTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    // Should be updated every time the user has a new relation
+    // Devrait être mis à jour à chaque fois que de nouvelles relations sont ajoutées à l'utilisateur
     public function testDeleteUserComplex(): void
     {
         $user = factory('App\Model\User')->create();
@@ -37,7 +37,10 @@ class DeleteUserTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        ///Building relations
+        /**
+         * Construction des relations
+         */
+
         // Lan - Reservation
         $this->call('POST', '/api/seat/book/' . env('SEAT_TEST_ID'), [
             'lan_id' => $lan->id

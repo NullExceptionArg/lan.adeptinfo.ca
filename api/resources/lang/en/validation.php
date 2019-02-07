@@ -3,12 +3,12 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validations anglaises
     |--------------------------------------------------------------------------
     |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages here.
+    | Les lignes suivantes contiennent les messages d'erreur utilisés par la
+    | classe de validation. Certaines de ces règles possèdent plusieurs versions
+    | comme la règles "size".
     |
     */
 
