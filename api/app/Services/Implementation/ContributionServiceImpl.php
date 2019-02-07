@@ -31,7 +31,10 @@ class ContributionServiceImpl implements ContributionService
 
     public function createCategory(int $lanId, string $name): ContributionCategory
     {
+        // Créer la catégorie
         $contributionId = $this->contributionRepository->createCategory($lanId, $name);
+
+        // Retourner la catégorie créée
         return $this->contributionRepository->findCategoryById($contributionId);
     }
 
@@ -42,41 +45,65 @@ class ContributionServiceImpl implements ContributionService
     ): ContributionResource
     {
         $contributionId = null;
-        if ($userFullName != null) {
+
+        // Si c'est le nom complet du contributeur qui est utilisé
+        if (!is_null($userFullName)) {
+            // Créer la contribution avec le nom complet du contributeur
             $contributionId = $this->contributionRepository->createContributionUserFullName($userFullName);
-        } else {
+        } // Si c'est le courriel du contributeur qui est utilisé
+        else {
+            // Trouver l'utilisateur correspondant au courriel
             $user = $this->userRepository->findByEmail($email);
+
+            // Créer la contribution avec l'id de utilisateur du courriel
             $contributionId = $this->contributionRepository->createContributionUserId($user->id);
         }
 
+        // Trouver la contribution créée
         $contribution = $this->contributionRepository->findContributionById($contributionId);
+
+        // Lier la contribution à la catégorie
         $this->contributionRepository->attachContributionCategoryContribution($contribution->id, $contributionCategoryId);
+
+        // Retourner l'id et le nom complet de la contribution
         return new ContributionResource($contribution);
     }
 
     public function deleteCategory(int $contributionCategoryId): ContributionCategory
     {
+        // Trouver la catégorie
         $contributionCategory = $this->contributionRepository->findCategoryById($contributionCategoryId);
+
+        // Supprimer la catégorie
         $this->contributionRepository->deleteCategoryById($contributionCategoryId);
 
+        // Retourner la catégorie supprimée
         return $contributionCategory;
     }
 
     public function deleteContribution(int $contributionId): ContributionResource
     {
+        // Trouver la contribution
         $contribution = $this->contributionRepository->findContributionById($contributionId);
+
+        // Supprimer la contribution
         $this->contributionRepository->deleteContributionById($contributionId);
 
+        // Retourner la contribution supprimée
         return new ContributionResource($contribution);
     }
 
     public function getCategories(int $lanId): AnonymousResourceCollection
     {
-        return ContributionCategoryResource::collection($this->contributionRepository->getCategories($lanId));
+        return ContributionCategoryResource::collection(
+            $this->contributionRepository->getCategories($lanId)
+        );
     }
 
     public function getContributions(int $lanId): AnonymousResourceCollection
     {
-        return GetContributionsResource::collection($this->contributionRepository->getCategories($lanId));
+        return GetContributionsResource::collection(
+            $this->contributionRepository->getCategories($lanId)
+        );
     }
 }

@@ -33,9 +33,16 @@ class SeatServiceImpl implements SeatService
 
     public function assign(int $lanId, string $email, string $seatId): Reservation
     {
+        // Trouver l'utilisateur correpondant au courriel
         $user = $this->userRepository->findByEmail($email);
+
+        // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
+
+        // Créer un client seats.io
         $seatsClient = new SeatsioClient($lan->secret_key);
+
+        // Créer un objet pour la place, au nom de l'utilisateur, avec son courriel et son nom complet
         $seatObject = [[
             'objectId' => $seatId,
             'extraData' => [
@@ -44,9 +51,13 @@ class SeatServiceImpl implements SeatService
             ]
         ]];
 
+        // Effectuer la réservation dans l'API de seats.io
         $seatsClient->events->book($lan->event_key, $seatObject);
+
+        // Créer la réservation
         $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
+        // Trouver et retourner la réservation créée
         return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
     }
 

@@ -34,7 +34,10 @@ class LanServiceImpl implements LanService
 
     public function addLanImage(int $lanId, string $image): ImageResource
     {
+        // Créer l'image de LAN
         $imageId = $this->lanRepository->addLanImage($lanId, $image);
+
+        // Retourner l'image créée
         return new ImageResource($this->lanRepository->findLanImageById($imageId));
     }
 
@@ -55,8 +58,10 @@ class LanServiceImpl implements LanService
         ?string $description
     ): Lan
     {
-        $hasNoCurrentLan = Lan::getCurrent() == null;
+        // Vérifier s'il existe un LAN courant
+        $hasNoCurrentLan = is_null(Lan::getCurrent());
 
+        // Créer le LAN
         $lanId = $this->lanRepository->create
         (
             $name,
@@ -76,15 +81,22 @@ class LanServiceImpl implements LanService
             $description
         );
 
+        // Ajouter les rôles de LAN par défaut au LAN
         $this->roleRepository->addDefaultLanRoles($lanId);
+
+        // Retourner le LAN créé
         return $this->lanRepository->findById($lanId);
     }
 
     public function deleteLanImages(string $imageIds): array
     {
+        // Transformer la chaîne de caractère des images en tableau (Ex de chaîne : "1,6,2")
         $imageIdsArray = array_map('intval', explode(',', $imageIds));
+
+        // Supprimer les images
         $this->lanRepository->deleteLanImages($imageIdsArray);
 
+        // Retourner les ids des images supprimées
         return $imageIdsArray;
     }
 
@@ -95,17 +107,28 @@ class LanServiceImpl implements LanService
 
     public function get(int $lanId, ?string $fields): GetResource
     {
+        // Obtenir le nombre de places occupées
         $placeCount = $this->seatRepository->getReservedPlaces($lanId);
+
+        // Obtenir les images du LAN
         $images = $this->lanRepository->getImagesForLan($lanId);
+
+        // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
 
+        // Retourner les détails du LAN selon les champs spécifiés
         return new GetResource($lan, $placeCount, $images, $fields);
     }
 
     public function setCurrent(int $lanId): Lan
     {
+        // Retirer l'état de courant au LAN courant
         $this->lanRepository->removeCurrent();
+
+        // Rendre le LAN spécifié comme courant
         $this->lanRepository->setCurrent($lanId);
+
+        // Retourner le LAN rendu comme courant
         return $this->lanRepository->findById($lanId);
     }
 
@@ -127,6 +150,7 @@ class LanServiceImpl implements LanService
         ?string $description
     ): UpdateResource
     {
+        // Mettre à jour les détails du LAN
         $this->lanRepository->update(
             $lanId,
             $name,
@@ -145,10 +169,17 @@ class LanServiceImpl implements LanService
             $description
         );
 
+        // Trouver le nombre de places réservées dans le LAN
         $placeCount = $this->seatRepository->getReservedPlaces($lanId);
+
+        // Trouver les images du LAN
         $images = $this->lanRepository->getImagesForLan($lanId);
+
+        // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
 
+
+        // Retourner les détails du LAN mis à jour
         return new UpdateResource($lan, $placeCount, $images);
     }
 }

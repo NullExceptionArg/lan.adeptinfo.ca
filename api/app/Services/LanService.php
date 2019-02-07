@@ -76,7 +76,7 @@ interface LanService
     public function getAll(): ResourceCollection;
 
     /**
-     * Obtenir les détails d'un LAN.
+     * Obtenir les détails d'un LAN. (Détails de l'objet, nombre de places disponibles et images)
      *
      * @param int $lanId Id du LAN
      * @param string|null $fields Champs à afficher

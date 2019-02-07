@@ -33,37 +33,55 @@ class RoleServiceImpl implements RoleService
 
     public function addPermissionsGlobalRole(int $roleId, array $permissions): GetRoleResource
     {
+        // Pour chaque id de permission
         foreach ($permissions as $permissionId) {
+
             $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $roleId);
         }
+
+        // Retourner le rôle, dans la langue spécifiée
         return new GetRoleResource($this->roleRepository->findGlobalRoleById($roleId));
     }
 
     public function addPermissionsLanRole(int $roleId, array $permissions): GetRoleResource
     {
+        // Pour chaque id de permission
         foreach ($permissions as $permissionId) {
+            // Lier la permission au rôle de LAN
             $this->roleRepository->linkPermissionIdLanRole($permissionId, $roleId);
         }
+
+        // Retourner le rôle, dans la langue spécifiée
         return new GetRoleResource($this->roleRepository->findLanRoleById($roleId));
     }
 
     public function assignGlobalRole(int $roleId, string $email): GetRoleResource
     {
+        // Trouver l'utilisateur correspondant au courriel
         $user = $this->userRepository->findByEmail($email);
 
+        // Lier l'utilisateur au rôle
         $this->roleRepository->linkGlobalRoleUser($roleId, $user->id);
+
+        // Trouver le rôle
         $role = $this->roleRepository->findGlobalRoleById($roleId);
 
+        // Retourner le rôle, dans la langue spécifiée
         return new GetRoleResource($role);
     }
 
     public function assignLanRole(int $roleId, string $email): GetRoleResource
     {
+        // Trouver l'utilisateur correspondant au courriel
         $user = $this->userRepository->findByEmail($email);
 
+        // Lier l'utilisateur au rôle
         $this->roleRepository->linkLanRoleUser($roleId, $user->id);
+
+        // Trouver le rôle
         $role = $this->roleRepository->findLanRoleById($roleId);
 
+        // Retourner le rôle, dans la langue spécifiée
         return new GetRoleResource($role);
     }
 
@@ -76,6 +94,7 @@ class RoleServiceImpl implements RoleService
         array $permissions
     ): GlobalRole
     {
+        // Créer le rôle global
         $roleId = $this->roleRepository->createGlobalRole(
             $name,
             $enDisplayName,
@@ -84,10 +103,13 @@ class RoleServiceImpl implements RoleService
             $frDescription
         );
 
+        // Pour chaque id de permission
         foreach ($permissions as $permissionId) {
+            // Lier la permission au rôle créé
             $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $roleId);
         }
 
+        // Retourner le rôle global créé
         return $this->roleRepository->findGlobalRoleById($roleId);
     }
 
@@ -101,6 +123,7 @@ class RoleServiceImpl implements RoleService
         array $permissions
     ): LanRole
     {
+        // Créer le rôle de LAN
         $roleId = $this->roleRepository->createLanRole(
             $lanId,
             $name,
@@ -110,59 +133,82 @@ class RoleServiceImpl implements RoleService
             $frDescription
         );
 
+        // Pour chaque id de permission
         foreach ($permissions as $permissionId) {
+            // Lier la permission au rôle créé
             $this->roleRepository->linkPermissionIdLanRole($permissionId, $roleId);
         }
 
+        // Retourner le rôle global créé
         return $this->roleRepository->findLanRoleById($roleId);
     }
 
     public function deleteGlobalRole(int $roleId): GetRoleResource
     {
+        // Trouver le rôle à supprimer
         $role = $this->roleRepository->findGlobalRoleById($roleId);
+
+        // Supprimer le rôle global
         $this->roleRepository->deleteGlobalRole($roleId);
 
+        // Retourner le rôle supprimé
         return new GetRoleResource($role);
     }
 
     public function deleteLanRole(int $roleId): GetRoleResource
     {
+        // Trouver le rôle à supprimer
         $role = $this->roleRepository->findLanRoleById($roleId);
+
+        // Supprimer le rôle de LAN
         $this->roleRepository->deleteLanRole($roleId);
 
+        // Retourner le rôle supprimé
         return new GetRoleResource($role);
     }
 
     public function deletePermissionsGlobalRole(int $roleId, array $permissions): GetRoleResource
     {
+        // Pour chaque id de permission
         foreach ($permissions as $permissionId) {
+            // Supprimer le lien entre la permission et le rôle global
             $this->roleRepository->unlinkPermissionIdGlobalRole($permissionId, $roleId);
         }
 
+        // Trouver le rôle global
         $role = $this->roleRepository->findGlobalRoleById($roleId);
 
+        // Retourner le rôle global, selon la langue courante
         return new GetRoleResource($role);
     }
 
     public function deletePermissionsLanRole(int $roleId, array $permissions): GetRoleResource
     {
+        // Pour chaque id de permission
         foreach ($permissions as $permissionId) {
+            // Supprimer le lien entre la permission et le rôle de LAN
             $this->roleRepository->unlinkPermissionIdLanRole($permissionId, $roleId);
         }
 
+        // Trouver le rôle de LAN
         $role = $this->roleRepository->findLanRoleById($roleId);
 
+        // Retourner le rôle global, selon la langue courante
         return new GetRoleResource($role);
     }
 
     public function getGlobalRolePermissions(int $roleId): AnonymousResourceCollection
     {
-        return GetPermissionsResource::collection($this->roleRepository->getGlobalRolePermissions($roleId));
+        return GetPermissionsResource::collection(
+            $this->roleRepository->getGlobalRolePermissions($roleId)
+        );
     }
 
     public function getGlobalRoles(): AnonymousResourceCollection
     {
-        return GetRoleResource::Collection($this->roleRepository->getGlobalRoles());
+        return GetRoleResource::Collection(
+            $this->roleRepository->getGlobalRoles()
+        );
     }
 
     public function getGlobalRoleUsers(int $roleId): Collection
@@ -199,6 +245,7 @@ class RoleServiceImpl implements RoleService
         ?string $frDescription
     ): GlobalRole
     {
+        // Mettre à jour le rôle global
         $this->roleRepository->updateGlobalRole(
             $roleId,
             $name,
@@ -208,6 +255,7 @@ class RoleServiceImpl implements RoleService
             $frDescription
         );
 
+        // Trouver et retourner le rôle global mis à jour
         return $this->roleRepository->findGlobalRoleById($roleId);
     }
 
@@ -220,6 +268,7 @@ class RoleServiceImpl implements RoleService
         ?string $frDescription
     ): LanRole
     {
+        // Mettre à jour le rôle de LAN
         $this->roleRepository->updateLanRole(
             $roleId,
             $name,
@@ -229,6 +278,7 @@ class RoleServiceImpl implements RoleService
             $frDescription
         );
 
+        // Trouver et retourner le rôle de LAN mis à jour
         return $this->roleRepository->findLanRoleById($roleId);
     }
 }
