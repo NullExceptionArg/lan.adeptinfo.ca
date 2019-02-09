@@ -25,16 +25,21 @@ class ValidGoogleToken implements Rule
     {
         // Créer client google
         $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+        $token = null;
 
         try {
             // Vérifier le token
-            $client->verifyIdToken($value);
+            $token = $client->verifyIdToken($value);
         } catch (Exception $e) {
             // Si le token n'est pas valide, une exception est lancée
             return false;
         }
 
-        return true;
+        if (is_bool($token)) {
+            return $token;
+        } else {
+            return true;
+        }
     }
 
     /**

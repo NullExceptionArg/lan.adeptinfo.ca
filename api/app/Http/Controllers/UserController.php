@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Model\Lan;
 use App\Rules\{User\FacebookEmailPermission,
     User\HasPermissionInLan,
     User\UniqueEmailSocialLogin,
@@ -136,7 +137,6 @@ class UserController extends Controller
     public function getUsers(Request $request)
     {
         // Correction des champs de la requête qui sont utilisés comme integer, puisque '' == 0 est true en PHP...
-
         if ($request->input('items_per_page') === '') {
             $request['items_per_page'] = null;
         }
@@ -145,12 +145,20 @@ class UserController extends Controller
             $request['current_page'] = null;
         }
 
-        $validator = Validator::make($request->all(), [
+        $validator = Validator::make([
+            'query_string' => $request->input('query_string'),
+            'order_column' => $request->input('order_column'),
+            'order_direction' => $request->input('order_direction'),
+            'items_per_page' => $request->input('items_per_page'),
+            'current_page' => $request->input('current_page'),
+            'permission' => 'get-users'
+        ], [
             'query_string' => 'max:255|string',
             'order_column' => [Rule::in(['first_name', 'last_name', 'email']),],
             'order_direction' => [Rule::in(['asc', 'desc']),],
             'items_per_page' => 'integer|nullable|min:1|max:75',
-            'current_page' => 'integer|nullable|min:1'
+            'current_page' => 'integer|nullable|min:1',
+            'permission' => new HasPermissionInLan(Lan::getCurrent()->id, Auth::id())
         ]);
 
         $this->checkValidation($validator);

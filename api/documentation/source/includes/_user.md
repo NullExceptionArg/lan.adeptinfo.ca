@@ -64,7 +64,6 @@ confirmation_code | Code de confirmation secret qui est communiqué directement 
 
 La réponse est vide, mais retourne un statut 200.
 
-## Créer un compte avec Facebook
 ## Se connecter avec Facebook
 
 Se connecter ou créer un compte utilisateur en se connectant avec Facebook.
