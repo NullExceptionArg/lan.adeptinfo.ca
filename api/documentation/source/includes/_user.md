@@ -1,8 +1,21 @@
 # Utilisateur
 
+Un utilisateur peut réserver une place, faire partie d'équipes pour participer à des tournoi, et consulter les détails du LAN.
+Il peut aussi administrer l'API s'il possède des [permissions](#permission) d'administration.
+
 ## Créer un compte
 
-Se créer un compte utilisateur.
+Créer un compte utilisateur dans l'API. 
+
+Un courriel de confirmation sera envoyé au nouvel utilisateur. Le courriel devrait contenir un lien pour [confirmer le compte](#confirmer-un-compte).
+
+Un compte de l'API peut s'ajouter à un compte qui a été créé avec [Facebook](#se-connecter-avec-facebook) ou [Google](#se-connecter-avec-google). 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Tout est géré par l'API.
+
+<aside class="notice">
+Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de token pour intéragir avec l'API.
+</aside>
 
 ### Requête HTTP
 
@@ -50,7 +63,11 @@ email | Identifiant (courriel) de l'utilisateur créé.
 
 ## Confirmer un compte
 
-Confirmer un compte utilisateur. Devrait être utilisé en envoyant un courriel à l'utilisateur. 
+Confirmation que le courriel utilisé par l'utilisateur lui appartient bel et bien. Devrait être utilisé en envoyant un courriel à l'utilisateur. 
+
+<aside class="notice">
+Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de token pour intéragir avec l'API.
+</aside>
 
 ### Requête HTTP
 
@@ -67,7 +84,8 @@ La réponse est vide, mais retourne un statut 200.
 ## Se connecter avec Facebook
 
 Se connecter ou créer un compte utilisateur en se connectant avec Facebook.
-Il est à noter qu'un compte facebook peut s'ajouter à un compte qui a été créé avec Laravel ou Google. 
+
+Un compte facebook peut s'ajouter à un compte qui a été créé avec l'[API](#creer-un-compte) ou [Google](#se-connecter-avec-google). 
 Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
 Tout est géré par l'API.
 
@@ -107,7 +125,8 @@ token | Token unique à inclure avec toutes les requêtes nécessitant un authen
 ## Se connecter avec Google
 
 Se connecter ou créer un compte utilisateur en se connectant avec Google.
-Il est à noter qu'un compte google peut s'ajouter à un compte qui a été créé avec Laravel ou Facebook. 
+
+Un compte Google peut s'ajouter à un compte qui a été créé avec l'[API](#creer-un-compte) ou [Facebook](#se-connecter-avec-facebook). 
 Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
 Tout est géré par l'API.
 
@@ -145,10 +164,9 @@ Champ | Description
 token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
 
 
-
 ## Connection
 
-S'authentifier dans l'application.
+Permet d'obtenir l'accès aux requêtes qui nécessitent que l'utilisateur soit authentifié.
 
 ### Requête HTTP
 
@@ -200,13 +218,13 @@ refresh_token | Token unique à utiliser pour étendre la durée de la validité
 
 ## Déconnexion
 
-Se déconnecter dans l'application
+Déconnecter l'utilisateur en rendant invalide le token retourné à lors de la connection.
 
 ### Requête HTTP
 
 `POST /api/user/logout`
 
-Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l'utilisateur à partir du token d'authentication.
+Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à partir du token d'authentication.
 
 ### Format de réponse
 
@@ -216,18 +234,18 @@ Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l'util
 []
 ```
 
-La réponse de la suppression de utilisateur est vide.
+La réponse de la déconnection de utilisateur est vide.
 
 
 ## Supprimer
 
-Supprimer un utilisateur authentifié
+Supprimer un utilisateur authentifié, ainsi que tout ses liens aux autres entités du LAN.
 
 ### Requête HTTP
 
 `DELETE /api/user`
 
-Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l'utilisateur à partir du token d'authentication.
+Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à partir du token d'authentication.
 
 ### Format de réponse
 
@@ -242,6 +260,11 @@ La réponse de la suppression de utilisateur est vide.
 ## Lister les utilisateurs
 
 Lister l'ensemble des utilisateurs selon des filtres, un ordre et de la pagination
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>get-users</code>, can_be_per_lan <code>true</code>
+</aside>
+
 
 ### Requête HTTP
 

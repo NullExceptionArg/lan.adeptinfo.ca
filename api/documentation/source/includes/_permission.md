@@ -1,5 +1,8 @@
 # Permission
 
+Les permissions protègent les appels destinées à l'administration. 
+Les permissions sont attribués à des utilisateurs par le biais de rôles globaux ou des LAN.
+
 ## Obtenir les permissions
 
 Obtenir les permissions disponibles dans l'API. 
