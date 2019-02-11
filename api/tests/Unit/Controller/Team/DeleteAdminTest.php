@@ -41,7 +41,7 @@ class DeleteAdminTest extends TestCase
         ]);
 
         $this->addLanPermissionToUser(
-            $this->user->id,
+            $this->organizer->id,
             $this->lan->id,
             'delete-team'
         );
