@@ -41,7 +41,7 @@ permissions | Id des permissions | requis, tableau d'Id des permissions à inté
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut créer un role. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN où l'administrateur veut créer un role. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
 
 ### Format de réponse
 

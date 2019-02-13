@@ -422,9 +422,9 @@ left_at | Moment où l'utilisateur a quitté.
 canceled_at | Moment où l'utilisateur a annulé sa réservation.
 
 
-## Sommaire d'un utilisateur
+## Sommaire de l'utilisateur
 
-Informations sommaires d'un utilisateur.
+Informations sommaires de l'utilisateur courant. (Identité et nombre de requête en attente d'approbation pour les équipes que le joueur dirige)
 
 ### Requête HTTP
 
@@ -434,7 +434,7 @@ Informations sommaires d'un utilisateur.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
 
 ### Format de réponse
 
@@ -454,9 +454,9 @@ first_name | Prénom de l'utilisateur.
 last_name | Nom de l'utilisateur.
 request_count | Demandes cummulées pour entrer dans les équipes d'un utilisateur (qui est chef).
 
-## Sommaire d'un administrateur
+## Sommaire de l'administrateur
 
-Informations sommaires d'un administrateur.
+Informations sommaires de l'administrateur. (Identité, s'il administre un ou des tournois, et les permissions qu'il possède)
 
 ### Requête HTTP
 
@@ -466,7 +466,7 @@ Informations sommaires d'un administrateur.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
 
 ### Format de réponse
 
@@ -480,9 +480,7 @@ lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'adminis
     "permissions": [
         {
             "id": 39,
-            "name": "create-lan",
-            "display_name": "Create a new LAN",
-            "description": "Create a new LAN. Careful, this permission should not be given to anyone..."
+            "name": "create-lan"
         }
     ]
 }
@@ -499,9 +497,7 @@ permissions | Permissions administratives que possède l'administrateur pour le 
 Champ | Description
 --------- | -----------
 id | Id de la permission.
-name | Nom interne de la permission.
-display_name | Nom à afficher de la permission.
-description | Description de la permission.
+name | Nom de la permission.
 
 ## Roles d'un administrateur
 
@@ -516,7 +512,7 @@ Rôles globaux et de LAN d'un administrateur.
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 email | Courriel de l'utilisateur dont on veut connaître les rôles. Si ce paramètre n'est pas spécifié, on retourne les rôles de l'utilisateur qui fait la requête (L'utilisateur n'a pas besoin d'avoir cette permission à ce moment). | string.
-lan_id | Id du LAN pour lequel l'administrateur souhaite connaître ses rôle. Si paramètre n'est pas spécifié, on utilise le LAN courant. | integer.
+lan_id | Id du LAN pour lequel l'administrateur souhaite connaître ses rôle. Si le paramètre n'est pas spécifié, on utilise le LAN courant. | integer.
 
 ### Format de réponse
 

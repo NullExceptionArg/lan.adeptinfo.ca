@@ -170,7 +170,10 @@ class UserServiceImpl implements UserService
         $user = $this->userRepository->findById($userId);
 
         // Trouver et retourner le sommaire de l'utilisateur
-        return new GetUserSummaryResource($user, $this->teamRepository->getLeadersRequestTotalCount($user->id, $lanId));
+        return new GetUserSummaryResource(
+            $user,
+            $this->teamRepository->getLeadersRequestTotalCount($user->id, $lanId)
+        );
     }
 
     public function logOut(): void

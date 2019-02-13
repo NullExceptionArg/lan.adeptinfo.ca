@@ -27,7 +27,7 @@ Créer un nouveau tournoi. L'utilisateur qui créer le tournoi en devient automa
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où le tournoi aura lieu. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN où le tournoi aura lieu. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
 
 ### Paramètres POST
 

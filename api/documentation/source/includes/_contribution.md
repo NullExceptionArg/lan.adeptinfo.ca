@@ -14,7 +14,7 @@ Ajoute une contribution à un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une contribution. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 > Exemple de requête
 
@@ -67,7 +67,7 @@ Liste l'ensemble des contributions, groupées par catégories, pour un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'utilisateur veut lister les contributions. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN d'où l'utilisateur veut lister les contributions. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 
@@ -123,8 +123,8 @@ Supprime une contribution d'un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'administrateur veut supprimer une contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
-contribution_id | Id de la contribution que l'administrateur veut supprimer. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN d'où l'administrateur veut supprimer une contribution. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+contribution_id | Id de la contribution que l'administrateur veut supprimer. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 
@@ -154,7 +154,7 @@ Ajoute une catégorie de contribution à un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 > Exemple de requête
 
@@ -198,7 +198,7 @@ Liste les catégories de contribution d'un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 
@@ -235,7 +235,7 @@ Supprime une catégorie de contribution d'un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'administrateur veut supprimer une catégorie de contribution. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN d'où l'administrateur veut supprimer une catégorie de contribution. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 contribution_category_id | Id de la catégorie de contribution que l'administrateur veut supprimer. | Requis, integer.
 
 ### Format de réponse

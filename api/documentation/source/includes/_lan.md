@@ -109,7 +109,7 @@ Obtenir les informations sur un LAN
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 fields | Liste des champs à obtenir pour le LAN, séparés par des virgules. Si ce paramètre est laissé vide, le LAN au complet sera retourné. Voir champs disponibles | Aucune.
-lan_id | Id du LAN dont l'utilisateur veut obtenir les informations. Si paramètre n'est pas spécifié, on retourne le LAN courant| integer.
+lan_id | Id du LAN dont l'utilisateur veut obtenir les informations. Si le paramètre n'est pas spécifié, on retourne le LAN courant| integer.
 
 #### Champs disponibles
 Champ | Description
@@ -251,7 +251,7 @@ Mettre à jour les attributs d'un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut modifier les règles. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut modifier les règles. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Paramètres POST
 

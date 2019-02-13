@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\User;
 
-use App\Http\Resources\Role\GetPermissionsResource;
+use App\Http\Resources\Role\GetPermissionsSummaryResource;
 use Illuminate\{Contracts\Auth\Authenticatable, Http\Resources\Json\Resource, Support\Collection};
 
 class GetAdminSummaryResource extends Resource
@@ -29,7 +29,7 @@ class GetAdminSummaryResource extends Resource
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'has_tournaments' => $this->hasTournaments,
-            'permissions' => GetPermissionsResource::collection($this->permissions)
+            'permissions' => GetPermissionsSummaryResource::collection($this->permissions)
         ];
     }
 }

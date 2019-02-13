@@ -141,7 +141,7 @@ class GetUsersTest extends TestCase
 
     public function testGetUsersQueryString(): void
     {
-        $this->requestContent['query_string'] = 'ar';
+        $this->requestContent['query_string'] = 'Marx';
         $this->actingAs($this->user)
             ->json('GET', '/api/user', $this->requestContent)
             ->seeJsonEquals([

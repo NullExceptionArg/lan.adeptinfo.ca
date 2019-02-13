@@ -23,7 +23,7 @@ seat_id | Id de la place que l'utilisateur veut réserver. | Requis, string, un 
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut réserver une place. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer, un seul utilisateur par LAN.
+lan_id | Id du LAN où l'utilisateur veut réserver une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -61,7 +61,7 @@ seat_id | Id de la place que l'utilisateur veut annuler. | Requis, string.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut annuler une place. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN où l'utilisateur veut annuler une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
 
 ### Format de réponse
 
@@ -105,7 +105,7 @@ seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, u
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut assigner une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer, un seul utilisateur par LAN.
+lan_id | Id du LAN où l'administrateur veut assigner une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -140,7 +140,7 @@ seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, u
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut annuler l'assignation à une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut annuler l'assignation à une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 user_email | Courriel de l'utilisateur auquel on veut annuler la réservation. | Requis, string.
 
 ### Format de réponse
@@ -180,7 +180,7 @@ seat_id | Id de la place que l'administrateur confirmer. | Requis, integer.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut confirmer une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | string.
+lan_id | Id du LAN où l'administrateur veut confirmer une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | string.
 
 ### Format de réponse
 
@@ -218,7 +218,7 @@ seat_id | Id de la place que l'administrateur déconfirmer. | Requis, integer.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 
 ### Format de réponse
 

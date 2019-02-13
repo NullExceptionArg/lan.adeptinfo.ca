@@ -11,7 +11,7 @@ Ajouter une image pour un LAN.
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une image. Si paramètre n'est pas spécifié, on retourne le LAN courant| integer
+lan_id | Id du LAN où l'administrateur veut ajouter une image. Si le paramètre n'est pas spécifié, on retourne le LAN courant| integer
 
 ### Paramètres POST
 Paramètre | Description | Règles de validation
@@ -49,7 +49,7 @@ Supprimer des images pour un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut supprimer des images. Si paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut supprimer des images. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
 image_ids | Id des images que l'administrateur veut supprimer. | Requis, string.
 
 ### Format de réponse
