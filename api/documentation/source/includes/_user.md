@@ -3,14 +3,14 @@
 Un utilisateur peut réserver une place, faire partie d'équipes pour participer à des tournoi, et consulter les détails du LAN.
 Il peut aussi administrer l'API s'il possède des [permissions](#permission) d'administration.
 
-## Créer un compte
+## Créer un compte utilisateur
 
 Créer un compte utilisateur dans l'API. 
 
 Un courriel de confirmation sera envoyé au nouvel utilisateur. Le courriel devrait contenir un lien pour [confirmer le compte](#confirmer-un-compte).
 
 Un compte de l'API peut s'ajouter à un compte qui a été créé avec [Facebook](#se-connecter-avec-facebook) ou [Google](#se-connecter-avec-google). 
-Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connexion. 
 Tout est géré par l'API.
 
 <aside class="notice">
@@ -81,12 +81,12 @@ confirmation_code | Code de confirmation secret qui est communiqué directement 
 
 La réponse est vide, mais retourne un statut 200.
 
-## Se connecter avec Facebook
+## Connexion avec Facebook
 
-Se connecter ou créer un compte utilisateur en se connectant avec Facebook.
+Connexion ou création d'un compte utilisateur avec Facebook.
 
 Un compte facebook peut s'ajouter à un compte qui a été créé avec l'[API](#creer-un-compte) ou [Google](#se-connecter-avec-google). 
-Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connexion. 
 Tout est géré par l'API.
 
 ### Requête HTTP
@@ -122,12 +122,12 @@ Champ | Description
 --------- | -----------
 token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
 
-## Se connecter avec Google
+## Connexion avec Google
 
-Se connecter ou créer un compte utilisateur en se connectant avec Google.
+Connexion ou création d'un compte utilisateur avec Google.
 
 Un compte Google peut s'ajouter à un compte qui a été créé avec l'[API](#creer-un-compte) ou [Facebook](#se-connecter-avec-facebook). 
-Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connexion. 
 Tout est géré par l'API.
 
 ### Requête HTTP
@@ -164,7 +164,7 @@ Champ | Description
 token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
 
 
-## Connection
+## Connexion
 
 Permet d'obtenir l'accès aux requêtes qui nécessitent que l'utilisateur soit authentifié.
 
@@ -218,7 +218,7 @@ refresh_token | Token unique à utiliser pour étendre la durée de la validité
 
 ## Déconnexion
 
-Déconnecter l'utilisateur en rendant invalide le token retourné à lors de la connection.
+Déconnecter l'utilisateur en rendant invalide le token retourné à lors de la connexion.
 
 ### Requête HTTP
 
@@ -234,7 +234,7 @@ Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à 
 []
 ```
 
-La réponse de la déconnection de utilisateur est vide.
+La réponse de la déconnexion de utilisateur est vide.
 
 
 ## Supprimer
@@ -314,7 +314,7 @@ current_page | Page courante de recherche | Nombre, minimum: 1.
         }
     ],
     "pagination": {
-        "total": 1001,
+        "total": 5,
         "count": 5,
         "per_page": 5,
         "current_page": 4,
@@ -347,7 +347,11 @@ total_pages | Nombre total de pages.
 
 ## Détails d'un utilisateur
 
-Détails d'un utilisateur et son historique pour un LAN.
+Détails d'un utilisateur ainsi que son historique pour un LAN.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>get-user-details</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 

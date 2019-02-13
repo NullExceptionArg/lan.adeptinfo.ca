@@ -90,5 +90,7 @@ return [
     'display-name-admin-summary' => 'Get the summary of an administrator',
     'description-admin-summary' => 'Get the name and permissions of an administrator.',
     'display-name-get-user' => 'Get users',
-    'description-get-users' => 'Get the users registered in the API.'
+    'description-get-users' => 'Get the users registered in the API.',
+    'display-name-get-user-details' => 'Get user details',
+    'description-get-user-details' => 'Get details about a user, for a specific LAN.'
 ];

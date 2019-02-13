@@ -67,7 +67,7 @@ return [
     'display-name-update-global-role' => 'Modifier un rôle global',
     'description-update-global-role' => 'Modifier un rôle global.',
     'display-name-add-permissions-global-role' => 'Ajouter des permissions à un rôle global',
-    'description-add-permissions-global-role' => 'Ajouter des permissionsà un rôle global.',
+    'description-add-permissions-global-role' => 'Ajouter des permissions à un rôle global.',
     'display-name-delete-permissions-global-role' => 'Supprimer une permission d\'un rôle global',
     'description-delete-permissions-global-role' => 'Supprimer une permission d\'un rôle global.',
     'display-name-delete-global-role' => 'Supprimer un rôle global',
@@ -89,5 +89,7 @@ return [
     'display-name-admin-summary' => 'Obtenir le sommaire d\'un administrateur',
     'description-admin-summary' => 'Obtenir le nom et les permissions d\'un administrateur.',
     'display-name-get-user' => 'Obtenir les utilisateurs',
-    'description-get-users' => 'Obtenir les utilisateurs enregistrés dans l\'API.'
+    'description-get-users' => 'Obtenir les utilisateurs enregistrés dans l\'API.',
+    'display-name-get-user-details' => 'Obtenir les détails d\'un utilisateur',
+    'description-get-user-details' => 'Obtenir les détails d\'un utilisateur, pour un LAN en particulier.'
 ];

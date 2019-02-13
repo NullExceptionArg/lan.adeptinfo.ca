@@ -120,10 +120,12 @@ class UserController extends Controller
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
             'lan_id' => $request->input('lan_id'),
-            'email' => $request->input('email')
+            'email' => $request->input('email'),
+            'permission' => 'get-user-details'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'email' => 'required|exists:user,email',
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);

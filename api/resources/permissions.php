@@ -85,5 +85,6 @@ return [
     // User
     ['name' => 'admin-summary', 'can_be_per_lan' => true],
     ['name' => 'get-admin-roles', 'can_be_per_lan' => true],
-    ['name' => 'get-users', 'can_be_per_lan' => false]
+    ['name' => 'get-users', 'can_be_per_lan' => true],
+    ['name' => 'get-user-details', 'can_be_per_lan' => true]
 ];

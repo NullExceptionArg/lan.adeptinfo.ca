@@ -72,7 +72,7 @@ class GenerateGlobalRoles extends Command
     private function preconditions(): void
     {
         $permissions = include(base_path() . '/resources/permissions.php');
-        if (Permission::all()->count() == count($permissions)) {
+        if (Permission::all()->count() != count($permissions)) {
             $this->error('Précondition non remplie. Indice: Essayez d\'exécuter la commande "lan:permissions".');
             exit();
         }

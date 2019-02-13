@@ -18,6 +18,11 @@ class GetUserDetailsTest extends SeatsTestCase
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();
         $this->user = factory('App\Model\User')->create();
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'get-user-details'
+        );
     }
 
     public function testGetUserDetailsHasLanId(): void
@@ -33,6 +38,21 @@ class GetUserDetailsTest extends SeatsTestCase
                 'place_history' => []
             ])
             ->assertResponseStatus(200);
+    }
+
+    public function testGetUserDetailsHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('POST', '/api/user/details', [
+                'email' => $this->user->email,
+                'lan_id' => $this->lan->id
+            ])->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
     }
 
     public function testGetUserDetailsReservedAt(): void
