@@ -24,6 +24,8 @@ return [
     | permissions des rôles par défaut, et dans les contrôleurs pour définir la permission du chemin HTTP. C'est
     | pourquoi il faut que toujours remplacer toutes les occurences du nom (name) dans le code s'il a à être modifié.
     |
+    | Les permissions sont aussi affichées dans la documentation sous chaque point d'accès protégé.
+    |
     */
 
     // LAN

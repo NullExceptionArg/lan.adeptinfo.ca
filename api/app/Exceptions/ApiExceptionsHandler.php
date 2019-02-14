@@ -33,7 +33,7 @@ class ApiExceptionsHandler extends DingoHandler
                 break;
             case $e instanceof NotFoundHttpException:
                 $status = Response::HTTP_NOT_FOUND;
-                $message = $e->getMessage();
+                $message = trans('error.404');
                 break;
             case $e instanceof AuthorizationException:
                 $status = Response::HTTP_FORBIDDEN;

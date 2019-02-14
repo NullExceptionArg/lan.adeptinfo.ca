@@ -67,7 +67,7 @@ class GetResource extends Resource
                 'price' => $this->price,
                 'rules' => $this->rules,
                 'description' => $this->description,
-                'images' => $this->images
+                'images' => ImageResource::collection($this->images)
             ];
         } else {
             return [
@@ -89,7 +89,7 @@ class GetResource extends Resource
                 'price' => $this->when(in_array("price", $fields), $this->price),
                 'rules' => $this->when(in_array("rules", $fields), $this->rules),
                 'description' => $this->when(in_array("description", $fields), $this->description),
-                'images' => $this->when(in_array("images", $fields), $this->images)
+                'images' => $this->when(in_array("images", $fields), ImageResource::collection($this->images))
             ];
         }
     }

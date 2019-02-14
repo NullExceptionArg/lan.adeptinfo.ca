@@ -72,7 +72,7 @@ tournament_end | Date et heure de fin du tournoi créé.
 teams_to_reach | Nombre d'équipes à atteindre pour que le tounoi ait lieu.
 teams_reaches | Nombre d'équipes atteintes du tournoi créé.
 players_to_reach| Nombre de joueur à atteindre par équipe du tournoi créé.
-state| État courrant du tournoi créé. Voir État pour les états possibles.
+state| État courant du tournoi créé. Voir État pour les états possibles.
 teams | Voir Team.
 
 

@@ -503,6 +503,10 @@ name | Nom de la permission.
 
 Rôles globaux et de LAN d'un administrateur.
 
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>get-admin-roles</code>, can_be_per_lan <code>true</code>
+</aside>
+
 ### Requête HTTP
 
 `GET /api/admin/roles`

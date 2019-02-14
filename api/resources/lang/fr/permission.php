@@ -85,7 +85,7 @@ return [
     'description-get-permissions' => 'Obtenir les permissions de l\'application.',
 
     'display-name-get-admin-roles' => 'Obtenir les rôles d\'un utilisateur',
-    'description-get-admin-roles' => 'Obtenir les rôles de globaux et de LAN d\'un utilisateur ou de l\'utilisateur courrant',
+    'description-get-admin-roles' => 'Obtenir les rôles de globaux et de LAN d\'un utilisateur ou de l\'utilisateur courant',
     'display-name-admin-summary' => 'Obtenir le sommaire d\'un administrateur',
     'description-admin-summary' => 'Obtenir le nom et les permissions d\'un administrateur.',
     'display-name-get-user' => 'Obtenir les utilisateurs',
