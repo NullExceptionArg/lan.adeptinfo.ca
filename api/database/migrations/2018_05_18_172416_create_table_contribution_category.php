@@ -30,7 +30,6 @@ class CreateTableContributionCategory extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contribution_cat_contribution');
         Schema::dropIfExists('contribution_category');
     }
 }

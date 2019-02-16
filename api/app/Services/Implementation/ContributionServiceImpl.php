@@ -49,21 +49,18 @@ class ContributionServiceImpl implements ContributionService
         // Si c'est le nom complet du contributeur qui est utilisé
         if (!is_null($userFullName)) {
             // Créer la contribution avec le nom complet du contributeur
-            $contributionId = $this->contributionRepository->createContributionUserFullName($userFullName);
+            $contributionId = $this->contributionRepository->createContributionUserFullName($userFullName, $contributionCategoryId);
         } // Si c'est le courriel du contributeur qui est utilisé
         else {
             // Trouver l'utilisateur correspondant au courriel
             $user = $this->userRepository->findByEmail($email);
 
             // Créer la contribution avec l'id de utilisateur du courriel
-            $contributionId = $this->contributionRepository->createContributionUserId($user->id);
+            $contributionId = $this->contributionRepository->createContributionUserId($user->id, $contributionCategoryId);
         }
 
         // Trouver la contribution créée
         $contribution = $this->contributionRepository->findContributionById($contributionId);
-
-        // Lier la contribution à la catégorie
-        $this->contributionRepository->attachContributionCategoryContribution($contribution->id, $contributionCategoryId);
 
         // Retourner l'id et le nom complet de la contribution
         return new ContributionResource($contribution);

@@ -33,7 +33,7 @@ class Contribution extends Model
      *
      * @var array
      */
-    protected $hidden = ['user_id', 'lan_id', 'pivot', 'deleted_at'];
+    protected $hidden = ['user_id', 'lan_id', 'contribution_category_id', 'deleted_at'];
 
     public function User()
     {
@@ -43,10 +43,5 @@ class Contribution extends Model
     public function Lan()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function ContributionCategory()
-    {
-        return $this->belongsToMany(ContributionCategory::class, 'contribution_cat_contribution');
     }
 }

@@ -25,7 +25,7 @@ class ContributionResource extends Resource
             $this->user_full_name :
             User::find($this->user_id)->getFullName();
         return [
-            'id' => $this->id,
+            'id' => intval($this->id),
             'user_full_name' => $userFullName
         ];
     }

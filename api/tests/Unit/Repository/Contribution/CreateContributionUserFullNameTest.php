@@ -11,6 +11,8 @@ class CreateContributionUserFullNameTest extends TestCase
 
     protected $contributionRepository;
 
+    protected $contributionCategory;
+
     protected $paramsContent = [
         "user_full_name" => 'Karl Marx'
     ];
@@ -18,12 +20,21 @@ class CreateContributionUserFullNameTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
+        $this->contributionRepository = $this->app
+            ->make('App\Repositories\Implementation\ContributionRepositoryImpl');
+
+        $lan = factory('App\Model\Lan')->create();
+        $this->contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $lan->id
+        ]);
     }
 
     public function testCreateContributionUserFullName(): void
     {
-        $result = $this->contributionRepository->createContributionUserFullName($this->paramsContent['user_full_name']);
+        $result = $this->contributionRepository->createContributionUserFullName(
+            $this->paramsContent['user_full_name'],
+            $this->contributionCategory->id
+        );
 
         $this->assertIsInt($result);
         $this->seeInDatabase('contribution', [

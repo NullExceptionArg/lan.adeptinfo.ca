@@ -14,17 +14,6 @@ use Illuminate\Support\Collection;
 interface ContributionRepository
 {
     /**
-     * Lier une contribution à une catégorie de contribution.
-     *
-     * @param int $contributionId Id de la contribution.
-     * @param int $contributionCategoryId Id de la catégorie de contribution.
-     */
-    public function attachContributionCategoryContribution(
-        int $contributionId,
-        int $contributionCategoryId
-    ): void;
-
-    /**
      * Créer une catégorie de contribution.
      *
      * @param int $lanId Id du LAN dans lequel la catégorie existe.
@@ -38,16 +27,18 @@ interface ContributionRepository
      *
      * @param string $userFullName Nom complet du contributeur.
      * @return int Id de la contribution créée.
+     * @param int $contributionCategoryId Id de la catégorie de la contribution
      */
-    public function createContributionUserFullName(string $userFullName): int;
+    public function createContributionUserFullName(string $userFullName, int $contributionCategoryId): int;
 
     /**
      * Créer une contribution à partir d'un utilisateur existant dans l'application.
      *
      * @param int $userId Id du contributeur.
      * @return int Id de la contribution créée.
+     * @param int $contributionCategoryId Id de la catégorie de contribution
      */
-    public function createContributionUserId(int $userId): int;
+    public function createContributionUserId(int $userId, int $contributionCategoryId): int;
 
     /**
      * Supprimer une catégorie de contribution.

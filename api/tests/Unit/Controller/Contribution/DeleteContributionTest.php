@@ -28,8 +28,12 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionUserEmail(): void
     {
+        $contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'contribution_category_id' => $contributionCategory->id
         ]);
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
@@ -45,8 +49,12 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionUserFullName(): void
     {
+        $contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_full_name' => $this->user->getFullName()
+            'user_full_name' => $this->user->getFullName(),
+            'contribution_category_id' => $contributionCategory->id
         ]);
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
@@ -62,8 +70,12 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionCurrentLan(): void
     {
+        $contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_full_name' => $this->user->getFullName()
+            'user_full_name' => $this->user->getFullName(),
+            'contribution_category_id' => $contributionCategory->id
         ]);
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
@@ -96,8 +108,12 @@ class DeleteContributionTest extends TestCase
     public function testDeleteContributionHasPermission(): void
     {
         $user = factory('App\Model\User')->create();
+        $contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
+            'contribution_category_id' => $contributionCategory
         ]);
         $this->actingAs($user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
@@ -114,8 +130,12 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionLanIdExist(): void
     {
+        $contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'contribution_category_id' => $contributionCategory->id
         ]);
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
@@ -136,8 +156,12 @@ class DeleteContributionTest extends TestCase
 
     public function testDeleteContributionLanIdInteger(): void
     {
+        $contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $this->lan->id
+        ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
+            'contribution_category_id' => $contributionCategory->id
         ]);
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [

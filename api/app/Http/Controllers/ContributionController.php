@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\{General\OneOfTwoFields, User\HasPermissionInLan};
+use App\Rules\{Contribution\HasPermissionInLan as HasPermissionInLanContributionCategory,
+    General\OneOfTwoFields,
+    User\HasPermissionInLan};
 use App\Services\Implementation\ContributionServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
@@ -92,13 +94,13 @@ class ContributionController extends Controller
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
             'contribution_category_id' => $request->input('contribution_category_id'),
             'permission' => 'delete-contribution-category'
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLanContributionCategory(
+                $request->input('contribution_category_id'), Auth::id()
+            )
         ]);
 
         $this->checkValidation($validator);

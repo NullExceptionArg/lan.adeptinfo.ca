@@ -41,11 +41,6 @@ class ContributionCategory extends Model
         return $this->belongsTo(Lan::class);
     }
 
-    public function Contribution()
-    {
-        return $this->belongsToMany(Contribution::class, 'contribution_cat_contribution');
-    }
-
     protected static function boot()
     {
         parent::boot();

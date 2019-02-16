@@ -94,17 +94,9 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                 $reservation->delete();
             }
 
-            $contributions = Contribution::where('user_id', $user->id)->get();
-            // Pour chacune de ses contribution
-            foreach ($contributions as $contribution) {
-                // Supprimer le lien avec sa catégorie
-                DB::table('contribution_cat_contribution')
-                    ->where('contribution_id', $contribution->id)
-                    ->delete();
-
-                // Supprimer la contribution
-                $contribution->delete();
-            }
+            DB::table('contribution')
+                ->where('user_id', $user->id)
+                ->delete();
 
             // TODO Supprimer les liens avec les rôles de LAN
             // TODO Supprimer les liens avec les rôles globaux
