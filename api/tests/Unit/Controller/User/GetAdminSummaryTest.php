@@ -52,6 +52,7 @@ class GetAdminSummaryTest extends TestCase
         ]);
         $permissions = Permission::inRandomOrder()
             ->where('name', '!=', 'admin-summary')
+            ->where('name', '!=', 'edit-tournament')
             ->take(8)
             ->get();
         $lanRole = factory('App\Model\LanRole')->create([
