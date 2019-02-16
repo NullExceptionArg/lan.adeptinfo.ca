@@ -37,6 +37,6 @@ class UnAssignTest extends SeatsTestCase
         ]);
         $result = $this->seatService->unAssign($this->lan->id, $this->user->email, env('SEAT_TEST_ID'));
 
-        $this->assertEquals(env('SEAT_TEST_ID'), $result->seat_id);
+        $this->assertEquals(env('SEAT_TEST_ID'), $result);
     }
 }
