@@ -37,16 +37,12 @@ class ContributionRepositoryImpl implements ContributionRepository
 
     public function deleteCategoryById(int $contributionCategoryId): void
     {
-        DB::table('contribution_category')
-            ->where('id', $contributionCategoryId)
-            ->delete();
+        ContributionCategory::destroy($contributionCategoryId);
     }
 
     public function deleteContributionById(int $contributionId): void
     {
-        DB::table('contribution')
-            ->where('id', $contributionId)
-            ->delete();
+        Contribution::destroy($contributionId);
     }
 
     public function findCategoryById(int $categoryId): ?ContributionCategory

@@ -48,7 +48,8 @@ class ContributionCategory extends Model
         // Avant la suppression de la catégorie de contribution
         static::deleting(function ($contributionCategory) {
             // Supprimer les contributions qui n'ont plus de catégorie de contribution
-            $contributions = $contributionCategory->Contribution()->get();
+            $contributions = Contribution::where('contribution_category_id', $contributionCategory)
+                ->get();
             foreach ($contributions as $contribution) {
                 if ($contribution->ContributionCategory()->count() <= 1) {
                     $contribution->delete();

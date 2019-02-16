@@ -29,11 +29,9 @@ class GetContributionsTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_full_name' => $this->user->getFullName()
+            'user_full_name' => $this->user->getFullName(),
+            'contribution_category_id' => $category->id
         ]);
-
-        $category->Contribution()->attach($contribution);
-
 
         $result = $this->contributionService->getContributions($this->lan->id);
         $this->assertEquals($category->id, $result[0]->id);
@@ -41,6 +39,6 @@ class GetContributionsTest extends TestCase
         $this->assertEquals([
             'id' => $contribution->id,
             'user_full_name' => $this->user->getFullName()
-        ], $result[0]->contribution[0]->toArray());
+        ], collect($result[0]->jsonSerialize()['contributions'][0])->toArray());
     }
 }
