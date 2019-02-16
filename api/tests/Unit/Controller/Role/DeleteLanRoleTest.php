@@ -60,7 +60,7 @@ class DeleteLanRoleTest extends TestCase
     public function testDeleteLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->lanRole->id,
                 'name' => $this->lanRole->name,
@@ -74,7 +74,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -87,7 +87,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -104,7 +104,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -121,7 +121,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -138,7 +138,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -155,7 +155,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -172,7 +172,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

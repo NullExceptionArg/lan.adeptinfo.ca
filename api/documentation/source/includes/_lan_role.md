@@ -9,7 +9,7 @@ Créer un rôle de lan.
 
 ### Requête HTTP
 
-`POST /api/role/lan`
+`POST /role/lan`
 
 > Exemple de requête
 
@@ -75,7 +75,7 @@ D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au r
 
 ### Requête HTTP
 
-`PUT /api/role/lan`
+`PUT /role/lan`
 
 > Exemple de requête
 
@@ -132,7 +132,7 @@ Assigner un rôle de LAN à un utilisateur
 
 ### Requête HTTP
 
-`POST /api/role/lan/assign`
+`POST /role/lan/assign`
 
 > Exemple de requête
 
@@ -178,7 +178,7 @@ Ajouter des permissions à un role de LAN
 
 ### Requête HTTP
 
-`POST /api/role/lan/permissions`
+`POST /role/lan/permissions`
 
 > Exemple de requête
 
@@ -227,7 +227,7 @@ Supprimer des permissions d'un rôle de LAN.
 
 ### Requête HTTP
 
-`DELETE /api/role/lan/permissions`
+`DELETE /role/lan/permissions`
 
 > Exemple de requête
 
@@ -277,7 +277,7 @@ Supprimer un rôle de LAN.
 
 ### Requête HTTP
 
-`DELETE /api/role/lan`
+`DELETE /role/lan`
 
 ### Query Params
 
@@ -314,7 +314,7 @@ Obtenir les rôles de LAN.
 
 ### Requête HTTP
 
-`GET /api/role/lan`
+`GET /role/lan`
 
 ### Query Params
 
@@ -367,7 +367,7 @@ Obtenir les permissions d'un rôle de LAN.
 
 ### Requête HTTP
 
-`GET /api/role/lan/permissions`
+`GET /role/lan/permissions`
 
 ### Query Params
 
@@ -427,7 +427,7 @@ Obtenir les utilisateurs possédants un rôle de LAN.
 
 ### Requête HTTP
 
-`GET /api/role/lan/users`
+`GET /role/lan/users`
 
 ### Query Params
 

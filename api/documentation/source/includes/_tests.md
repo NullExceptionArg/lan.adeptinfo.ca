@@ -6,7 +6,7 @@ C'est pourquoi il est recommandé que la personne qui installe l'API teste certa
 
 ## Création de compte
 
-À la création d'un compte, un courriel de confirmation devrait être envoyé au courriel spécifié dans le champs `email` du chemin HTTP `POST /api/user`.
+À la création d'un compte, un courriel de confirmation devrait être envoyé au courriel spécifié dans le champs `email` du chemin HTTP `POST /user`.
 
 1. S'assurer que les informations sur le serveur de courriel sont bien spécifiés dans le fichier .env de l'application.
 2. Créer un utilisateur en utilisant le chemin HTTP suivant: [Créer un compte](/#creer-un-compte).

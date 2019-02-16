@@ -27,7 +27,7 @@ class SignInFacebookTest extends FacebookTestCase
         } catch (FacebookSDKException $e) {
         }
 
-        $this->json('POST', '/api/user/facebook', ['access_token' => $accessToken])
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user/facebook', ['access_token' => $accessToken])
             ->seeJsonStructure([
                 'token'
             ])
@@ -56,7 +56,7 @@ class SignInFacebookTest extends FacebookTestCase
             'email' => $email
         ]);
 
-        $this->json('POST', '/api/user/facebook', ['access_token' => $accessToken])
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user/facebook', ['access_token' => $accessToken])
             ->seeJsonStructure([
                 'token'
             ])
@@ -65,7 +65,7 @@ class SignInFacebookTest extends FacebookTestCase
 
     public function testSignInFacebookValidFacebookToken(): void
     {
-        $this->json('POST', '/api/user/facebook', ['access_token' => '☭'])
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user/facebook', ['access_token' => '☭'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -92,7 +92,7 @@ class SignInFacebookTest extends FacebookTestCase
         } catch (FacebookSDKException $e) {
         }
 
-        $this->json('POST', '/api/user/facebook', ['access_token' => $accessToken])
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user/facebook', ['access_token' => $accessToken])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

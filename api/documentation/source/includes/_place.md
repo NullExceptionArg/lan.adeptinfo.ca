@@ -1,19 +1,24 @@
 # Place
 
+Des places peuvent être occupées par les joueurs qui emmènent leur équipement. 
+
+L'affichage des places est pris en charge par seats.io, qui offre des outil de modélisation de plan de salle très accessibles.
+
+<aside class="notice">
+Le nom complet de l'utilisateur ainsi que son courriel sont stockés dans le champ ExtraData de la place dans l'API seats.io.
+Ces informations deviennent donc accessible à l'affichage du plan.  
+Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https://docs.seats.io/docs/api-extra-data">https://docs.seats.io/docs/api-extra-data</a>.
+</aside>
+
 ## Réserver une place
 
-Réserver une place à un LAN.
-
-Le nom complet de l'utilisateur ainsi que son courriel sont stockés dans le Extra Data.  
-Pour plus de détails sur le Extra Data, consulter la page suivante: [https://docs.seats.io/docs/api-extra-data](https://docs.seats.io/docs/api-extra-data) .
+Un joueur effectue une réservation à un LAN.
 
 ### Requête HTTP
 
-`POST /api/seat/book/{seat_id}`
+`POST /seat/book/{seat_id}`
 
 ### Path Params
-
-L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vide.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -23,7 +28,7 @@ seat_id | Id de la place que l'utilisateur veut réserver. | Requis, string, un 
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut réserver une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer, un seul utilisateur par LAN.
+lan_id | Id du LAN où l'utilisateur veut réserver une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -31,27 +36,23 @@ lan_id | Id du LAN où l'utilisateur veut réserver une place. Si le paramètre 
 
 ```json
 {
-    "lan_id": 1,
     "seat_id": "A-1"
 }
 ```
 
 Champ | Description
 --------- | -----------
-lan_id | Id du LAN où l'utilisateur a réservé une place.
 seat_id | Id de la place que l'utilisateur a réservé.
 
 ## Annuler une réservation
 
-Annule une réservation à un LAN.
+Un joueur annule une réservation qu'il avait fait à un LAN.
 
 ### Requête HTTP
 
-`DELETE /api/seat/book/{seat_id}`
+`DELETE /seat/book/{seat_id}`
 
 ### Path Params
-
-L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vide.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -61,7 +62,7 @@ seat_id | Id de la place que l'utilisateur veut annuler. | Requis, string.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut annuler une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN où l'utilisateur veut annuler une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
 
 ### Format de réponse
 
@@ -69,32 +70,31 @@ lan_id | Id du LAN où l'utilisateur veut annuler une place. Si le paramètre n'
 
 ```json
 {
-    "lan_id": 1,
     "seat_id": "A-1"
 }
 ```
 
 Champ | Description
 --------- | -----------
-lan_id | Id du LAN où l'utilisateur a annulé une place.
 seat_id | Id de la place que l'utilisateur a annulé.
 
 ## Assigner une place
 
-Assigner une place à un un utilisateur pour un LAN.
+Un administrateur assigne une place à un un joueur à un LAN.
 
-Le nom complet de l'utilisateur ainsi que son courriel sont stockés dans le Extra Data.  
-Pour plus de détails sur le Extra Data, consulter la page suivante: [https://docs.seats.io/docs/api-extra-data](https://docs.seats.io/docs/api-extra-data) .
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>assign-seat</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 
-`POST /api/seat/assign/{seat_id}`
+`POST /seat/assign/{seat_id}`
 
 ### Body Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-user_email | Courriel de l'utilisateur auquel on veut assigner une place. | Requis, string.
+user_email | Courriel de l'utilisateur auquel l'administrateur veut assigner une place. | Requis, string.
 
 ### Path Params
 
@@ -105,7 +105,7 @@ seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, u
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut assigner une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer, un seul utilisateur par LAN.
+lan_id | Id du LAN où l'administrateur veut assigner une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -113,23 +113,25 @@ lan_id | Id du LAN où l'administrateur veut assigner une place. Si le paramètr
 
 ```json
 {
-    "lan_id": 1,
     "seat_id": "A-1"
 }
 ```
 
 Champ | Description
 --------- | -----------
-lan_id | Id du LAN où l'administrateur a assigné une place.
 seat_id | Id de la place que l'administrateur a assigné.
 
 ## Annuler une assignation
 
-Annuler l'assignation d'une place à un un utilisateur pour un LAN.
+Un administrateur annule la réservation d'un joueur à un LAN.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>unassign-seat</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 
-`DELETE /api/seat/assign/{seat_id}`
+`DELETE /seat/assign/{seat_id}`
 
 ### Path Params
 
@@ -140,7 +142,7 @@ seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, u
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut annuler l'assignation à une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut annuler l'assignation à une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
 user_email | Courriel de l'utilisateur auquel on veut annuler la réservation. | Requis, string.
 
 ### Format de réponse
@@ -149,28 +151,28 @@ user_email | Courriel de l'utilisateur auquel on veut annuler la réservation. |
 
 ```json
 {
-    "lan_id": 1,
     "seat_id": "A-1"
 }
 ```
 
 Champ | Description
 --------- | -----------
-lan_id | Id du LAN où l'administrateur a annuler l'assignation.
 seat_id | Id de la place dont l'administrateur a annulé l'assignation.
 
 
 ## Confirmer une place
 
-Confirmer l'arrivée d'un joueur au LAN.
+Un administrateur confirmer l'arrivée d'un joueur au LAN.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>confirm-arrival</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 
-`POST /api/seat/confirm/{seat_id}`
+`POST /seat/confirm/{seat_id}`
 
 ### Path Params
-
-L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vide.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -180,7 +182,7 @@ seat_id | Id de la place que l'administrateur confirmer. | Requis, integer.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut confirmer une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | string.
+lan_id | Id du LAN où l'administrateur veut confirmer une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | string.
 
 ### Format de réponse
 
@@ -188,27 +190,27 @@ lan_id | Id du LAN où l'administrateur veut confirmer une place. Si le paramèt
 
 ```json
 {
-    "lan_id": 1,
     "seat_id": "A-1"
 }
 ```
 
 Champ | Description
 --------- | -----------
-lan_id | Id du LAN où l'administrateur a confirmé une place.
 seat_id | Id de la place que l'administrateur a confirmé.
 
 ## Déconfirmer une place
 
-Départ de l'un des joueurs déjà marqué comme arrivé à un LAN.
+Un administrateur marque le départ de l'un des joueurs déjà marqué comme arrivé à un LAN.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>unconfirm-arrival</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 
-`DELETE /api/seat/confirm/{seat_id}`
+`DELETE /seat/confirm/{seat_id}`
 
 ### Path Params
-
-L'ensemble des paramètres sont dans l'URL. Le corps de la requête est donc vide.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
@@ -218,7 +220,7 @@ seat_id | Id de la place que l'administrateur déconfirmer. | Requis, integer.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
 
 ### Format de réponse
 
@@ -226,12 +228,10 @@ lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si le param
 
 ```json
 {
-    "lan_id": 1,
     "seat_id": "A-1"
 }
 ```
 
 Champ | Description
 --------- | -----------
-lan_id | Id du LAN où l'administrateur a déconfirmé une place.
 seat_id | Id de la place que l'administrateur a déconfirmé.

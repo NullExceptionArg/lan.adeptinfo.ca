@@ -38,7 +38,7 @@ class UpdateGlobalRoleTest extends TestCase
     public function testUpdateGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'en_display_name' => $this->requestContent['en_display_name'],
@@ -53,7 +53,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -66,7 +66,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -83,7 +83,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -100,7 +100,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -117,7 +117,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 51);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -136,7 +136,7 @@ class UpdateGlobalRoleTest extends TestCase
             'name' => $this->requestContent['name']
         ]);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -153,7 +153,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -170,7 +170,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -187,7 +187,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -204,7 +204,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -221,7 +221,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -238,7 +238,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -255,7 +255,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -272,7 +272,7 @@ class UpdateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/global', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

@@ -55,7 +55,7 @@ class AddOrganizerTest extends TestCase
     public function testAddOrganizer(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => $this->organizer2->email
             ])
             ->seeJsonEquals([
@@ -73,7 +73,7 @@ class AddOrganizerTest extends TestCase
     public function testAddOrganizerTournamentIdExist(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/' . -1 . '/organizer', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . -1 . '/organizer', [
                 'email' => $this->organizer2->email
             ])
             ->seeJsonEquals([
@@ -104,7 +104,7 @@ class AddOrganizerTest extends TestCase
             'user_id' => $user->id
         ]);
         $this->actingAs($user)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => $this->organizer2->email
             ])
             ->seeJsonEquals([
@@ -127,7 +127,7 @@ class AddOrganizerTest extends TestCase
             'tournament_id' => $this->tournament->id
         ]);
         $this->actingAs($user)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => $this->organizer2->email
             ])
             ->seeJsonEquals([
@@ -146,7 +146,7 @@ class AddOrganizerTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => $this->organizer2->email
             ])
             ->seeJsonEquals([
@@ -160,7 +160,7 @@ class AddOrganizerTest extends TestCase
     public function testAddOrganizerEmailString(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => 0
             ])
             ->seeJsonEquals([
@@ -178,7 +178,7 @@ class AddOrganizerTest extends TestCase
     public function testAddOrganizerEmailExist(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => '☭'
             ])
             ->seeJsonEquals([

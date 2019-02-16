@@ -46,7 +46,7 @@ class CreateTest extends TestCase
     public function testCreate(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'tournament_id' => $this->requestContent['tournament_id'],
@@ -60,7 +60,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tournament_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -77,7 +77,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tournament_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['user_tag_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -111,7 +111,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['user_tag_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -127,14 +127,14 @@ class CreateTest extends TestCase
     public function testCreateUserTournamentIdUniqueUserPerTournamentSameTag(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $this->tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => 'name',
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -153,14 +153,14 @@ class CreateTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $this->tournament->id,
                 'user_tag_id' => $tag->id,
                 'name' => 'name',
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -183,14 +183,14 @@ class CreateTest extends TestCase
             'tournament_end' => $endTime->subHour(1)
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => 'name',
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 2,
                 'tournament_id' => $this->requestContent['tournament_id'],
@@ -209,7 +209,7 @@ class CreateTest extends TestCase
         $this->requestContent['user_tag_id'] = $tag->id;
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -222,7 +222,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -239,7 +239,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -256,7 +256,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -277,7 +277,7 @@ class CreateTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -300,14 +300,14 @@ class CreateTest extends TestCase
             'tournament_end' => $endTime->subHour(1)
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => $this->requestContent['name'],
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 2,
                 'tournament_id' => $this->requestContent['tournament_id'],
@@ -321,7 +321,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tag'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -337,7 +337,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tag'] = str_repeat('☭', 6);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -356,7 +356,7 @@ class CreateTest extends TestCase
             'tag' => $this->requestContent['tag']
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -379,14 +379,14 @@ class CreateTest extends TestCase
             'tournament_end' => $endTime->subHour(1)
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => 'name',
                 'tag' => $this->requestContent['tag']
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 2,
                 'tournament_id' => $this->requestContent['tournament_id'],

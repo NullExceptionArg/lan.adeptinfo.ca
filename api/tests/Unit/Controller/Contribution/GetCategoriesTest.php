@@ -23,7 +23,7 @@ class GetCategoriesTest extends TestCase
 
     public function testGetCategories(): void
     {
-        $this->json('GET', '/api/contribution/category', [
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category', [
             'lan_id' => $this->lan->id
         ])
             ->seeJsonEquals([[
@@ -41,7 +41,7 @@ class GetCategoriesTest extends TestCase
         $category = factory('App\Model\ContributionCategory')->create([
             'lan_id' => $lan->id
         ]);
-        $this->json('GET', '/api/contribution/category')
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category')
             ->seeJsonEquals([[
                 'id' => $category->id,
                 'name' => $category->name
@@ -51,7 +51,7 @@ class GetCategoriesTest extends TestCase
 
     public function testGetLanIdExist(): void
     {
-        $this->json('GET', '/api/contribution/category', [
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category', [
             'lan_id' => -1
         ])
             ->seeJsonEquals([
@@ -68,7 +68,7 @@ class GetCategoriesTest extends TestCase
 
     public function testGetLanIdInteger(): void
     {
-        $this->json('GET', '/api/contribution/category', [
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category', [
             'lan_id' => '☭'
         ])
             ->seeJsonEquals([

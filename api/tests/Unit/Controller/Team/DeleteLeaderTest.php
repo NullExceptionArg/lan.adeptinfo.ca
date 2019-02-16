@@ -50,7 +50,7 @@ class DeleteLeaderTest extends TestCase
     public function testDeleteLeader(): void
     {
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -64,7 +64,7 @@ class DeleteLeaderTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -81,7 +81,7 @@ class DeleteLeaderTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -98,7 +98,7 @@ class DeleteLeaderTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

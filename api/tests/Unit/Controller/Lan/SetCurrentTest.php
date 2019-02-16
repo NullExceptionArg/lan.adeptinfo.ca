@@ -26,7 +26,7 @@ class SetCurrentTest extends TestCase
     {
         $lan = factory('App\Model\Lan')->create();
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/current', ['lan_id' => $lan->id])
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', ['lan_id' => $lan->id])
             ->seeJsonEquals([
                 'name' => $lan->name,
                 'lan_start' => $lan->lan_start,
@@ -53,7 +53,7 @@ class SetCurrentTest extends TestCase
         $lan = factory('App\Model\Lan')->create();
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/lan/current', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', [
                 'lan_id' => $lan->id
             ])
             ->seeJsonEquals([
@@ -70,7 +70,7 @@ class SetCurrentTest extends TestCase
             'is_current' => true
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/current', ['lan_id' => $lan->id])
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', ['lan_id' => $lan->id])
             ->seeJsonEquals([
                 'name' => $lan->name,
                 'lan_start' => $lan->lan_start,
@@ -95,7 +95,7 @@ class SetCurrentTest extends TestCase
     public function testSetCurrentIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/current', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', [
                 'lan_id' => -1
             ])
             ->seeJsonEquals([
@@ -113,7 +113,7 @@ class SetCurrentTest extends TestCase
     public function testSetCurrentIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan/current', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', [
                 'lan_id' => '☭'
             ])
             ->seeJsonEquals([

@@ -53,7 +53,7 @@ class DeleteAdminTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -65,7 +65,7 @@ class DeleteAdminTest extends TestCase
     public function testDeleteAdmin(): void
     {
         $this->actingAs($this->organizer)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -79,7 +79,7 @@ class DeleteAdminTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->organizer)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -101,7 +101,7 @@ class DeleteAdminTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -114,7 +114,7 @@ class DeleteAdminTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->organizer)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -143,7 +143,7 @@ class DeleteAdminTest extends TestCase
             'user_id' => $user->id
         ]);
         $this->actingAs($user)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

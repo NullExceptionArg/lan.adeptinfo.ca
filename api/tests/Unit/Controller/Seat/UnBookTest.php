@@ -26,11 +26,10 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_TEST_ID'), [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
-                "lan_id" => $this->lan->id,
                 "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
@@ -46,9 +45,8 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $lan
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_TEST_ID'))
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'))
             ->seeJsonEquals([
-                "lan_id" => $lan->id,
                 "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
@@ -61,7 +59,7 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_TEST_ID'), [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'), [
                 'lan_id' => -1
             ])
             ->seeJsonEquals([
@@ -84,7 +82,7 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . $badSeatId, [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . $badSeatId, [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -108,7 +106,7 @@ class UnBookTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/seat/book/' . env('SEAT_TEST_ID'), [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId
             ])
             ->seeJsonEquals([

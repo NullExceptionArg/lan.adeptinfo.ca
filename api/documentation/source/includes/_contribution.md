@@ -8,7 +8,7 @@ Ajoute une contribution à un LAN
 
 ### Requête HTTP
 
-`POST /api/contribution`
+`POST /contribution`
 
 ### Query Params
 
@@ -61,7 +61,7 @@ Liste l'ensemble des contributions, groupées par catégories, pour un LAN
 
 ### Requête HTTP
 
-`GET /api/contribution`
+`GET /contribution`
 
 ### Query Params
 
@@ -117,7 +117,7 @@ Supprime une contribution d'un LAN
 
 ### Requête HTTP
 
-`DELETE /api/contribution`
+`DELETE /contribution`
 
 ### Query Params
 
@@ -148,7 +148,7 @@ Ajoute une catégorie de contribution à un LAN
 
 ### Requête HTTP
 
-`POST /api/contribution/category`
+`POST /contribution/category`
 
 ### Query Params
 
@@ -192,7 +192,7 @@ Liste les catégories de contribution d'un LAN
 
 ### Requête HTTP
 
-`GET /api/contribution/category`
+`GET /contribution/category`
 
 ### Query Params
 
@@ -229,7 +229,7 @@ Supprime une catégorie de contribution d'un LAN
 
 ### Requête HTTP
 
-`DELETE /api/contribution/category`
+`DELETE /contribution/category`
 
 ### Query Params
 

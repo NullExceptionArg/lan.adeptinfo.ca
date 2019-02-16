@@ -12,7 +12,7 @@ class SignInGoogleTest extends TestCase
 
     public function testSignInGoogleValidGoogleToken(): void
     {
-        $this->json('POST', '/api/user/google', ['access_token' => '☭'])
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user/google', ['access_token' => '☭'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

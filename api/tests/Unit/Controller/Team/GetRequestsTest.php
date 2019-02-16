@@ -85,7 +85,7 @@ class GetRequestsTest extends TestCase
     public function testGetRequests(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/request', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/request', $this->requestContent)
             ->seeJsonEquals([
                 [
                     'id' => $this->request1->id,
@@ -127,7 +127,7 @@ class GetRequestsTest extends TestCase
         $this->lan->save();
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/request', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/request', $this->requestContent)
             ->seeJsonEquals([
                 [
                     'id' => $this->request1->id,
@@ -167,7 +167,7 @@ class GetRequestsTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/request', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/request', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -184,7 +184,7 @@ class GetRequestsTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/request', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/request', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

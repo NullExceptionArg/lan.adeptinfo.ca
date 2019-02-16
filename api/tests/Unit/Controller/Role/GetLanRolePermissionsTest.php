@@ -49,7 +49,7 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissions(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => $this->lanRole->id
             ])
             ->seeJsonEquals([
@@ -82,7 +82,7 @@ class GetLanRolePermissionsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => $this->lanRole->id
             ])
             ->seeJsonEquals([
@@ -96,7 +96,7 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissionsRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => null
             ])
             ->seeJsonEquals([
@@ -114,7 +114,7 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissionsRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => '☭'
             ])
             ->seeJsonEquals([

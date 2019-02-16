@@ -65,7 +65,7 @@ class AcceptRequestTest extends TestCase
     public function testAcceptRequest(): void
     {
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->requestingUsersTag->id,
                 'name' => $this->requestingUsersTag->name
@@ -77,7 +77,7 @@ class AcceptRequestTest extends TestCase
     {
         $this->requestContent['request_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class AcceptRequestTest extends TestCase
     {
         $this->requestContent['request_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -110,7 +110,7 @@ class AcceptRequestTest extends TestCase
     public function testAcceptRequestTeamIdUserIsTeamLeader(): void
     {
         $this->actingAs($this->requestingUser)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

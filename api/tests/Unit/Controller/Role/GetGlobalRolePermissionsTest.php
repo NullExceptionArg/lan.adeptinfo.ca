@@ -42,7 +42,7 @@ class GetGlobalRolePermissionsTest extends TestCase
     public function testGetGlobalRolePermissions(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
                 'role_id' => $this->globalRole->id
             ])
             ->seeJsonEquals([
@@ -75,7 +75,7 @@ class GetGlobalRolePermissionsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/global/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
                 'role_id' => $this->globalRole->id
             ])
             ->seeJsonEquals([
@@ -89,7 +89,7 @@ class GetGlobalRolePermissionsTest extends TestCase
     public function testGetGlobalRolePermissionsRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
                 'role_id' => null
             ])
             ->seeJsonEquals([
@@ -107,7 +107,7 @@ class GetGlobalRolePermissionsTest extends TestCase
     public function testGetGlobalRolePermissionsRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
                 'role_id' => '☭'
             ])
             ->seeJsonEquals([

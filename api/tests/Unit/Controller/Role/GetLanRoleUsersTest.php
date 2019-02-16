@@ -46,7 +46,7 @@ class GetLanRoleUsersTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/users', ['role_id' => $role->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => $role->id])
             ->seeJsonEquals([
                 [
                     'email' => $users[0]->email,
@@ -76,7 +76,7 @@ class GetLanRoleUsersTest extends TestCase
         ]);
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/lan/users', ['role_id' => $role->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => $role->id])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -88,7 +88,7 @@ class GetLanRoleUsersTest extends TestCase
     public function testGetLanRoleUsersRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/users', ['role_id' => null])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => null])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -104,7 +104,7 @@ class GetLanRoleUsersTest extends TestCase
     public function testGetLanRoleUsersRoleIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/users', ['role_id' => '☭'])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => '☭'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -120,7 +120,7 @@ class GetLanRoleUsersTest extends TestCase
     public function testGetLanRoleUsersRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/users', ['role_id' => -1])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => -1])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

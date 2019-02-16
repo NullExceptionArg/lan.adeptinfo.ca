@@ -19,7 +19,7 @@ class SignUpTest extends TestCase
 
     public function testSignUp(): void
     {
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->requestContent['first_name'],
                 'last_name' => $this->requestContent['last_name'],
@@ -31,7 +31,7 @@ class SignUpTest extends TestCase
     public function testSignUpEmailRequired(): void
     {
         $this->requestContent['email'] = '';
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -47,7 +47,7 @@ class SignUpTest extends TestCase
     public function testSignUpEmailFormattedEmail(): void
     {
         $this->requestContent['email'] = 'john.doe.com';
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -63,7 +63,7 @@ class SignUpTest extends TestCase
     public function testSignUpPasswordRequired(): void
     {
         $this->requestContent['password'] = '';
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -79,7 +79,7 @@ class SignUpTest extends TestCase
     public function testSignUpPasswordMinLength(): void
     {
         $this->requestContent['password'] = str_repeat('☭', 2);
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -95,7 +95,7 @@ class SignUpTest extends TestCase
     public function testSignUpPasswordMaxLength(): void
     {
         $this->requestContent['password'] = str_repeat('☭', 22);
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -111,7 +111,7 @@ class SignUpTest extends TestCase
     public function testSignUpFirstNameRequired(): void
     {
         $this->requestContent['first_name'] = '';
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -127,7 +127,7 @@ class SignUpTest extends TestCase
     public function testSignUpFirstNameMaxLength(): void
     {
         $this->requestContent['first_name'] = str_repeat('☭', 256);
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -143,7 +143,7 @@ class SignUpTest extends TestCase
     public function testSignUpLastNameRequired(): void
     {
         $this->requestContent['last_name'] = '';
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -159,7 +159,7 @@ class SignUpTest extends TestCase
     public function testSignUpLastNameMaxLength(): void
     {
         $this->requestContent['last_name'] = str_repeat('☭', 256);
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -181,7 +181,7 @@ class SignUpTest extends TestCase
             'email' => $this->requestContent['email'],
             'password' => null
         ]);
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->requestContent['first_name'],
                 'last_name' => $this->requestContent['last_name'],
@@ -192,8 +192,8 @@ class SignUpTest extends TestCase
 
     public function testSignUpUniqueEmailSocialLoginAlreadyAwaitingConfirmation(): void
     {
-        $this->call('POST', '/api/user', $this->requestContent);
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->call('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent);
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

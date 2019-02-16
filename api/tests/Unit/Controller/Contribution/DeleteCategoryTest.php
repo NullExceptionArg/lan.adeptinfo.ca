@@ -33,7 +33,7 @@ class DeleteCategoryTest extends TestCase
     public function testDeleteCategorySimple(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => $this->lan->id,
                 'contribution_category_id' => $this->category->id
             ])
@@ -67,7 +67,7 @@ class DeleteCategoryTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'contribution_category_id' => $category->id
             ])
             ->seeJsonEquals([
@@ -99,7 +99,7 @@ class DeleteCategoryTest extends TestCase
         $this->assertEquals(1, $this->category->Lan()->count());
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => $this->lan->id,
                 'contribution_category_id' => $this->category->id
             ])
@@ -120,7 +120,7 @@ class DeleteCategoryTest extends TestCase
     public function testDeleteCategoryPermission(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => $this->lan->id,
                 'contribution_category_id' => $this->category->id
             ])
@@ -157,7 +157,7 @@ class DeleteCategoryTest extends TestCase
         $this->assertEquals(1, $this->category->Lan()->count());
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => $this->lan->id,
                 'contribution_category_id' => $this->category->id
             ])
@@ -178,7 +178,7 @@ class DeleteCategoryTest extends TestCase
     public function testDeleteCategoryTestLanIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => -1,
                 'contribution_category_id' => $this->category->id
             ])
@@ -197,7 +197,7 @@ class DeleteCategoryTest extends TestCase
     public function testDeleteCategoryTestLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => '☭',
                 'contribution_category_id' => $this->category->id
             ])
@@ -216,7 +216,7 @@ class DeleteCategoryTest extends TestCase
     public function testDeleteCategoryTestCategoryIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => $this->lan->id,
                 'contribution_category_id' => -1
             ])
@@ -235,7 +235,7 @@ class DeleteCategoryTest extends TestCase
     public function testDeleteCategoryTestCategoryIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution/category', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution/category', [
                 'lan_id' => $this->lan->id,
                 'contribution_category_id' => '☭'
             ])

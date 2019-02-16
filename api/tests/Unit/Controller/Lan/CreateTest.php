@@ -51,7 +51,7 @@ class CreateTest extends TestCase
     public function testCreate(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
@@ -77,7 +77,7 @@ class CreateTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -88,10 +88,11 @@ class CreateTest extends TestCase
 
     public function testCreateHasCurrentLan(): void
     {
+        factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
         $this->actingAs($this->user)
-            ->call('POST', '/api/lan', $this->requestContent);
-        $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
@@ -117,7 +118,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['price'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'lan_start' => $this->requestContent['lan_start'],
@@ -143,7 +144,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -160,7 +161,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -177,7 +178,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -194,7 +195,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['lan_start'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -228,7 +229,7 @@ class CreateTest extends TestCase
         $this->requestContent['tournament_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -259,7 +260,7 @@ class CreateTest extends TestCase
         $this->requestContent['seat_reservation_start'] = $newTournamentStart->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -282,7 +283,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['lan_end'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -306,7 +307,7 @@ class CreateTest extends TestCase
         $this->requestContent['lan_end'] = $newLanEnd->format('Y-m-d\TH:i:s');
         // Execute request
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -323,7 +324,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['seat_reservation_start'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -346,7 +347,7 @@ class CreateTest extends TestCase
         $newLanSeatReservation->add(new DateInterval('P1D'));
         $this->requestContent['seat_reservation_start'] = $newLanSeatReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -369,7 +370,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tournament_reservation_start'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -392,7 +393,7 @@ class CreateTest extends TestCase
         $newLanTournamentReservation->add(new DateInterval('P1D'));
         $this->requestContent['tournament_reservation_start'] = $newLanTournamentReservation->format('Y-m-d\TH:i:s');
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -412,7 +413,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['event_key'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -429,7 +430,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['event_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -446,7 +447,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['public_key'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -463,7 +464,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['public_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -480,7 +481,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['secret_key'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -497,7 +498,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['secret_key'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -514,7 +515,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['latitude'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -531,7 +532,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['latitude'] = -86;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -548,7 +549,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['latitude'] = 86;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -565,7 +566,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['latitude'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -582,7 +583,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['longitude'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -599,7 +600,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['longitude'] = -181;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -616,7 +617,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['longitude'] = 181;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -633,7 +634,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['longitude'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -650,7 +651,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['price'] = '-1';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -667,7 +668,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -684,7 +685,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['secret_key'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -701,7 +702,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['event_key'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -718,7 +719,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['places'] = '';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -735,7 +736,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['places'] = 0;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -752,7 +753,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['places'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -769,7 +770,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -786,7 +787,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['description'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/lan', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

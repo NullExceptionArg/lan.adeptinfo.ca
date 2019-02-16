@@ -29,7 +29,7 @@ class GetGlobalRolesTest extends TestCase
     public function testGetGlobalRoles(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global')
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global')
             ->seeJsonEquals([
                 [
                     'id' => $this->globalRoles[0]->id,
@@ -63,7 +63,7 @@ class GetGlobalRolesTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/global')
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global')
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

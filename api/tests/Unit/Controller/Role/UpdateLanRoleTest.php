@@ -44,7 +44,7 @@ class UpdateLanRoleTest extends TestCase
     public function testUpdateLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'lan_id' => $this->lan->id,
                 'name' => $this->requestContent['name'],
@@ -60,7 +60,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -73,7 +73,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -90,7 +90,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -107,7 +107,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -124,7 +124,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 51);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -144,7 +144,7 @@ class UpdateLanRoleTest extends TestCase
             'name' => $this->requestContent['name']
         ]);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -161,7 +161,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -178,7 +178,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -195,7 +195,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -212,7 +212,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -229,7 +229,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -246,7 +246,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -263,7 +263,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -280,7 +280,7 @@ class UpdateLanRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/role/lan', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

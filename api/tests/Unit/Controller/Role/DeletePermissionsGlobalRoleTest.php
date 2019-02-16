@@ -50,7 +50,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     public function testDeletePermissionsGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->globalRole->id,
                 'name' => $this->globalRole->name,
@@ -64,7 +64,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -77,7 +77,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -111,7 +111,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -128,7 +128,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -145,7 +145,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -162,7 +162,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -184,7 +184,7 @@ class DeletePermissionsGlobalRoleTest extends TestCase
             ->toArray();
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

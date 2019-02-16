@@ -24,7 +24,7 @@ class GetAdminSummaryTest extends TestCase
         $lan = factory('App\Model\Lan')->create();
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('GET', '/api/admin/summary', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/summary', [
                 'lan_id' => $lan->id
             ])
             ->seeJsonEquals([
@@ -79,7 +79,7 @@ class GetAdminSummaryTest extends TestCase
             'role_id' => $globalRole->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/summary', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/summary', [
                 'lan_id' => $lan->id
             ])
             ->seeJsonEquals([
@@ -174,7 +174,7 @@ class GetAdminSummaryTest extends TestCase
             'role_id' => $globalRole->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/summary', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/summary', [
                 'lan_id' => $lan->id
             ])
             ->seeJsonEquals([
@@ -226,7 +226,7 @@ class GetAdminSummaryTest extends TestCase
     public function testGetAdminSummaryLanIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/summary', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/summary', [
                 'lan_id' => -1
             ])
             ->seeJsonEquals([
@@ -244,7 +244,7 @@ class GetAdminSummaryTest extends TestCase
     public function testGetAdminSummaryLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/summary', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/summary', [
                 'lan_id' => '☭'
             ])
             ->seeJsonEquals([

@@ -63,7 +63,7 @@ class DeleteRequestLeaderTest extends TestCase
     public function testDeleteRequestLeader(): void
     {
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/request/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/request/leader', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->requestingUsersTag->id,
                 'name' => $this->requestingUsersTag->name
@@ -75,7 +75,7 @@ class DeleteRequestLeaderTest extends TestCase
     {
         $this->requestContent['request_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/request/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/request/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -92,7 +92,7 @@ class DeleteRequestLeaderTest extends TestCase
     {
         $this->requestContent['request_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/request/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/request/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -108,7 +108,7 @@ class DeleteRequestLeaderTest extends TestCase
     public function testDeleteRequestLeaderTeamIdUserIsTeamLeader(): void
     {
         $this->actingAs($this->requestingUser)
-            ->json('DELETE', '/api/team/request/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/request/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

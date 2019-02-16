@@ -48,7 +48,7 @@ class AddPermissionsLanRoleTest extends TestCase
     public function testAddPermissionsLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->lanRole->id,
                 'name' => $this->lanRole->name,
@@ -62,7 +62,7 @@ class AddPermissionsLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -75,7 +75,7 @@ class AddPermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -92,7 +92,7 @@ class AddPermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -109,7 +109,7 @@ class AddPermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -126,7 +126,7 @@ class AddPermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -143,7 +143,7 @@ class AddPermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -161,7 +161,7 @@ class AddPermissionsLanRoleTest extends TestCase
         $permission = Permission::where('can_be_per_lan', false)->first();
         $this->requestContent['permissions'] = [intval($permission->id)];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -183,7 +183,7 @@ class AddPermissionsLanRoleTest extends TestCase
             $permission->id
         ];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -203,7 +203,7 @@ class AddPermissionsLanRoleTest extends TestCase
             'permission_id' => $this->requestContent['permissions'][0]
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

@@ -33,7 +33,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -50,7 +50,7 @@ class AssignLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -65,7 +65,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleEmailRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id
             ])
             ->seeJsonEquals([
@@ -83,7 +83,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleEmailExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => '☭'
             ])
@@ -102,7 +102,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => '☭',
                 'email' => $this->user->email
             ])
@@ -125,7 +125,7 @@ class AssignLanRoleTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -144,7 +144,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => -1,
                 'email' => $this->user->email
             ])

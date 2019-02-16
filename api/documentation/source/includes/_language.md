@@ -13,5 +13,5 @@ Défaut (Si aucune langue n'est spécifiée) | La langue par défaut peut être 
 Il suffit d'inclure le query param 'lang' avec le code de la langue dans n'importe laquelle de vos requêtes.
 
 Exemple: 
-`GET /api/lan/1?lang=fr`
+`GET /lan/1?lang=fr`
 

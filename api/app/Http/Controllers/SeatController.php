@@ -65,11 +65,11 @@ class SeatController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->seatService->assign(
+        return response()->json(['seat_id' => $this->seatService->assign(
             $request->input('lan_id'),
             $request->input('user_email'),
             $seatId
-        ), 201);
+        )], 201);
     }
 
     public function book(Request $request, string $seatId)
@@ -96,11 +96,11 @@ class SeatController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->seatService->book(
+        return response()->json(['seat_id' => $this->seatService->book(
             $request->input('lan_id'),
             $seatId,
             Auth::id()
-        ), 201);
+        )], 201);
     }
 
     public function confirmArrival(Request $request, string $seatId)
@@ -125,10 +125,10 @@ class SeatController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->seatService->confirmArrival(
+        return response()->json(['seat_id' => $this->seatService->confirmArrival(
             $request->input('lan_id'),
             $seatId
-        ), 200);
+        )], 200);
     }
 
     public function unAssign(Request $request, string $seatId)
@@ -157,11 +157,11 @@ class SeatController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->seatService->unAssign(
+        return response()->json(['seat_id' => $this->seatService->unAssign(
             $request->input('lan_id'),
             $request->input('user_email'),
             $seatId
-        ), 200);
+        )], 200);
     }
 
     public function unBook(Request $request, string $seatId)
@@ -186,11 +186,11 @@ class SeatController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->seatService->unBook(
+        return response()->json(['seat_id' => $this->seatService->unBook(
             $request->input('lan_id'),
             $seatId,
             Auth::id()
-        ), 200);
+        )], 200);
     }
 
     public function unConfirmArrival(Request $request, string $seatId)
@@ -216,9 +216,9 @@ class SeatController extends Controller
 
         $this->checkValidation($validator);
 
-        return response()->json($this->seatService->unConfirmArrival(
+        return response()->json(['seat_id' => $this->seatService->unConfirmArrival(
             $request->input('lan_id'),
             $seatId
-        ), 200);
+        )], 200);
     }
 }

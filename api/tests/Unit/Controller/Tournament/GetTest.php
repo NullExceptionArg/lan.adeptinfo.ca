@@ -91,7 +91,7 @@ class getTest extends TestCase
 
     public function testGet(): void
     {
-        $this->json('GET', '/api/tournament/details/' . $this->tournament->id)
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/details/' . $this->tournament->id)
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
@@ -154,7 +154,7 @@ class getTest extends TestCase
 
     public function testGetTournamentIdExist(): void
     {
-        $this->json('GET', '/api/tournament/details/' . -1)
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/details/' . -1)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

@@ -25,14 +25,14 @@ class ConfirmTest extends TestCase
 
     public function testConfirm(): void
     {
-        $this->json('GET', '/api/user/confirm/' . $this->requestContent['confirmation_code'])
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/user/confirm/' . $this->requestContent['confirmation_code'])
             ->assertResponseStatus(200);
     }
 
     public function testConfirmConfirmationCodeExist(): void
     {
         $this->requestContent['confirmation_code'] = -1;
-        $this->json('GET', '/api/user/confirm/' . $this->requestContent['confirmation_code'])
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/user/confirm/' . $this->requestContent['confirmation_code'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

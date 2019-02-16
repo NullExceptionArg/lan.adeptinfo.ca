@@ -18,7 +18,7 @@ class DeleteUserTest extends TestCase
         $user = factory('App\Model\User')->create();
         $this->be($user);
 
-        $this->json('DELETE', '/api/user')
+        $this->json('DELETE', 'http://' . env('API_DOMAIN') . '/user')
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }
@@ -42,7 +42,7 @@ class DeleteUserTest extends TestCase
          */
 
         // Lan - Reservation
-        $this->call('POST', '/api/seat/book/' . env('SEAT_TEST_ID'), [
+        $this->call('POST', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'), [
             'lan_id' => $lan->id
         ]);
 
@@ -62,7 +62,7 @@ class DeleteUserTest extends TestCase
 
         /// Delete user
         $this->actingAs($user)
-            ->json('DELETE', '/api/user')
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/user')
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
 

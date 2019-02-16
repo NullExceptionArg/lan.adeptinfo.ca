@@ -32,7 +32,7 @@ class DeleteContributionTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id,
                 'contribution_id' => $contribution->id
             ])
@@ -49,7 +49,7 @@ class DeleteContributionTest extends TestCase
             'user_full_name' => $this->user->getFullName()
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id,
                 'contribution_id' => $contribution->id
             ])
@@ -83,7 +83,7 @@ class DeleteContributionTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'contribution_id' => $contribution->id
             ])
             ->seeJsonEquals([
@@ -100,7 +100,7 @@ class DeleteContributionTest extends TestCase
             'user_id' => $user->id
         ]);
         $this->actingAs($user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id,
                 'contribution_id' => $contribution
             ])
@@ -118,7 +118,7 @@ class DeleteContributionTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => -1,
                 'contribution_id' => $contribution->id
             ])
@@ -140,7 +140,7 @@ class DeleteContributionTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => '☭',
                 'contribution_id' => $contribution->id
             ])
@@ -159,7 +159,7 @@ class DeleteContributionTest extends TestCase
     public function testDeleteContributionCategoryIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id,
                 'contribution_id' => '☭'
             ])
@@ -178,7 +178,7 @@ class DeleteContributionTest extends TestCase
     public function testDeleteContributionCategoryIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/contribution', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id,
                 'contribution_id' => -1
             ])

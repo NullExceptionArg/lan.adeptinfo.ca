@@ -47,7 +47,7 @@ class DeleteTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('DELETE', '/api/tournament/' . $this->tournament->id)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -85,7 +85,7 @@ class DeleteTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/tournament/' . $this->tournament->id)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id)
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
@@ -101,7 +101,7 @@ class DeleteTest extends TestCase
     public function testDeleteTournamentIdExit(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/tournament/' . -1)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . -1)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

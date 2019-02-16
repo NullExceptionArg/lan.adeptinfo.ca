@@ -41,7 +41,7 @@ class DeleteLanImagesTest extends TestCase
     public function testDeleteLanImages(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/image', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
                 'lan_id' => $this->lan->id,
                 'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
@@ -56,7 +56,7 @@ class DeleteLanImagesTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/lan/image', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
                 'lan_id' => $this->lan->id,
                 'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
@@ -94,7 +94,7 @@ class DeleteLanImagesTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/image', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
                 'image_ids' => $image1->id . ',' . $image2->id
             ])
             ->seeJsonEquals([
@@ -107,7 +107,7 @@ class DeleteLanImagesTest extends TestCase
     public function testDeleteLanImagesLanIdExists(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/image', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
                 'lan_id' => -1,
                 'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
@@ -126,7 +126,7 @@ class DeleteLanImagesTest extends TestCase
     public function testDeleteLanImagesLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/image', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
                 'lan_id' => '☭',
                 'image_ids' => $this->image1->id . ',' . $this->image2->id
             ])
@@ -145,7 +145,7 @@ class DeleteLanImagesTest extends TestCase
     public function testDeleteLanImagesImagesIdString(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/lan/image', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
                 'lan_id' => $this->lan->id,
                 'image_ids' => -1
             ])

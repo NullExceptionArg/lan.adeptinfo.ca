@@ -52,7 +52,7 @@ class DeleteGlobalRoleTest extends TestCase
     public function testDeleteGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->globalRole->id,
                 'name' => $this->globalRole->name,
@@ -66,7 +66,7 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/role/global', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -79,7 +79,7 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -96,7 +96,7 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -113,7 +113,7 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/global', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

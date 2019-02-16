@@ -33,7 +33,7 @@ class RevokeRefreshTokenTest extends TestCase
             ->first()
             ->secret;
 
-        $this->call('POST', '/api/oauth/token', [
+        $this->call('POST', 'http://' . env('API_DOMAIN') . '/oauth/token', [
             'grant_type' => 'password',
             'client_id' => 2,
             'client_secret' => $clientSecret,

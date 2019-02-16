@@ -19,7 +19,7 @@ class LogOut extends TestCase
 
     public function testLogOut(): void
     {
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->requestContent['first_name'],
                 'last_name' => $this->requestContent['last_name'],
@@ -31,7 +31,7 @@ class LogOut extends TestCase
     public function testLogOutEmailRequired(): void
     {
         $this->requestContent['email'] = '';
-        $this->json('POST', '/api/user', $this->requestContent)
+        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

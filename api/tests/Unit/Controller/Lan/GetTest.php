@@ -19,7 +19,7 @@ class GetTest extends TestCase
 
     public function testGetSimple(): void
     {
-        $this->json('GET', '/api/lan', [
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
             'lan_id' => $this->lan->id
         ])
             ->seeJsonEquals([
@@ -51,7 +51,7 @@ class GetTest extends TestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
-        $this->json('GET',  '/api/lan')
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan')
             ->seeJsonEquals([
                 'id' => $lan->id,
                 'name' => $lan->name,
@@ -78,7 +78,7 @@ class GetTest extends TestCase
 
     public function testGetParameters(): void
     {
-        $this->json('GET', '/api/lan', [
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
             'fields' => 'lan_start,lan_end,seat_reservation_start',
             'lan_id' => $this->lan->id
         ])
@@ -94,7 +94,7 @@ class GetTest extends TestCase
     public function testGetIdExist(): void
     {
 
-        $this->json('GET', '/api/lan', [
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
             'lan_id' => -1
         ])
             ->seeJsonEquals([
@@ -111,7 +111,7 @@ class GetTest extends TestCase
 
     public function testGetIdInteger(): void
     {
-        $this->json('GET', '/api/lan', [
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
             'lan_id' => '☭'
         ])
             ->seeJsonEquals([

@@ -50,7 +50,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
                     'id' => 1,
@@ -90,7 +90,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $tag->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
                     'id' => 2,
@@ -110,7 +110,7 @@ class GetUserTeamsTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -127,7 +127,7 @@ class GetUserTeamsTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -147,7 +147,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
                     'id' => 1,
@@ -171,7 +171,7 @@ class GetUserTeamsTest extends TestCase
             'is_leader' => true
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
                     'id' => 1,
@@ -211,7 +211,7 @@ class GetUserTeamsTest extends TestCase
             'tag_id' => $this->tag->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
                     'id' => 1,
@@ -241,7 +241,7 @@ class GetUserTeamsTest extends TestCase
     {
         $this->team->delete();
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }
@@ -251,7 +251,7 @@ class GetUserTeamsTest extends TestCase
         $this->team->delete();
         $this->tournament->delete();
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }
@@ -260,7 +260,7 @@ class GetUserTeamsTest extends TestCase
     {
         $this->tag->delete();
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/user', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }

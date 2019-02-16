@@ -54,7 +54,7 @@ class GetContributionsTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -110,7 +110,7 @@ class GetContributionsTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution')
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution')
             ->seeJsonEquals([
                 [
                     'category_id' => $category1->id,
@@ -129,7 +129,7 @@ class GetContributionsTest extends TestCase
     public function testGetContributionsLanIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => -1
             ])
             ->seeJsonEquals([
@@ -147,7 +147,7 @@ class GetContributionsTest extends TestCase
     public function testGetContributionsLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => '☭'
             ])
             ->seeJsonEquals([

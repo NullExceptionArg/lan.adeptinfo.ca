@@ -24,7 +24,7 @@ class CreateTagTest extends TestCase
     public function testCreate(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/tag', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'name' => $this->requestContent['name']
@@ -36,7 +36,7 @@ class CreateTagTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/tag', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -53,7 +53,7 @@ class CreateTagTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/tag', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -70,7 +70,7 @@ class CreateTagTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 6);
         $this->actingAs($this->user)
-            ->json('POST', '/api/tag', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -90,7 +90,7 @@ class CreateTagTest extends TestCase
             'name' => $this->requestContent['name']
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/tag', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

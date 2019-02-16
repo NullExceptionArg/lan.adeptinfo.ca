@@ -28,7 +28,7 @@ class AssignGlobalRoleTest extends TestCase
     public function testAssignGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -45,7 +45,7 @@ class AssignGlobalRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/role/global/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -60,7 +60,7 @@ class AssignGlobalRoleTest extends TestCase
     public function testAssignGlobalRoleEmailRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/assign', [
                 'role_id' => $this->role->id
             ])
             ->seeJsonEquals([
@@ -78,7 +78,7 @@ class AssignGlobalRoleTest extends TestCase
     public function testAssignGlobalRoleEmailExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/assign', [
                 'role_id' => $this->role->id,
                 'email' => '☭'
             ])
@@ -97,7 +97,7 @@ class AssignGlobalRoleTest extends TestCase
     public function testAssignGlobalRoleIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/assign', [
                 'role_id' => '☭',
                 'email' => $this->user->email
             ])
@@ -120,7 +120,7 @@ class AssignGlobalRoleTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -139,7 +139,7 @@ class AssignGlobalRoleTest extends TestCase
     public function testAssignGlobalRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/assign', [
                 'role_id' => -1,
                 'email' => $this->user->email
             ])

@@ -60,7 +60,7 @@ class UpdateTest extends TestCase
     public function testUpdate(): void
     {
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'name' => $this->requestContent['name'],
@@ -81,7 +81,7 @@ class UpdateTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -94,7 +94,7 @@ class UpdateTest extends TestCase
     {
         $badTournamentId = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $badTournamentId, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $badTournamentId, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -111,7 +111,7 @@ class UpdateTest extends TestCase
     {
         $badTournamentId = -1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $badTournamentId, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $badTournamentId, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -128,7 +128,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -145,7 +145,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -162,7 +162,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['state'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -179,7 +179,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -196,7 +196,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['price'] = -1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -215,7 +215,7 @@ class UpdateTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->subHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -233,7 +233,7 @@ class UpdateTest extends TestCase
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->addHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -250,7 +250,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['players_to_reach'] = 0;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -267,7 +267,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['players_to_reach'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -293,7 +293,7 @@ class UpdateTest extends TestCase
             'team_id' => $team->id
         ]);
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -310,7 +310,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['teams_to_reach'] = 0;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -327,7 +327,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['teams_to_reach'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -344,7 +344,7 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', '/api/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

@@ -41,7 +41,7 @@ class CreateGlobalRoleTest extends TestCase
     public function testCreateGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
                 'en_display_name' => $this->requestContent['en_display_name'],
@@ -56,7 +56,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -69,7 +69,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -86,7 +86,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -103,7 +103,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 51);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -122,7 +122,7 @@ class CreateGlobalRoleTest extends TestCase
             'name' => $this->requestContent['name']
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -139,7 +139,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -156,7 +156,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -173,7 +173,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -190,7 +190,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -207,7 +207,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -224,7 +224,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['en_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -241,7 +241,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -258,7 +258,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -275,7 +275,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_display_name'] = str_repeat('☭', 71);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -292,7 +292,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -309,7 +309,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -326,7 +326,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['fr_description'] = str_repeat('☭', 1001);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -343,7 +343,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -360,7 +360,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -377,7 +377,7 @@ class CreateGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -399,7 +399,7 @@ class CreateGlobalRoleTest extends TestCase
             $permission->id
         ];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

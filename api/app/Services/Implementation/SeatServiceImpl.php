@@ -2,7 +2,6 @@
 
 namespace App\Services\Implementation;
 
-use App\Model\Reservation;
 use App\Repositories\Implementation\{LanRepositoryImpl, SeatRepositoryImpl, UserRepositoryImpl};
 use App\Services\SeatService;
 use Seatsio\SeatsioClient;
@@ -30,7 +29,7 @@ class SeatServiceImpl implements SeatService
         $this->userRepository = $userRepositoryImpl;
     }
 
-    public function assign(int $lanId, string $email, string $seatId): Reservation
+    public function assign(int $lanId, string $email, string $seatId): string
     {
         // Trouver l'utilisateur correpondant au courriel
         $user = $this->userRepository->findByEmail($email);
@@ -57,10 +56,10 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
         // Trouver et retourner la réservation créée
-        return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
+        return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id)->seat_id;
     }
 
-    public function book(int $lanId, string $seatId, int $userId): Reservation
+    public function book(int $lanId, string $seatId, int $userId): string
     {
         // Trouver l'utilisateur
         $user = $this->userRepository->findById($userId);
@@ -86,10 +85,10 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository->createReservation($user->id, $lan->id, $seatId);
 
         // Trouver et retourner la réservation créée
-        return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
+        return $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id)->seat_id;
     }
 
-    public function confirmArrival(int $lanId, string $seatId): Reservation
+    public function confirmArrival(int $lanId, string $seatId): string
     {
         // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
@@ -107,10 +106,10 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository->setReservationArrived($reservation->id, $lan->id);
 
         // Retourner la réservation modifiée
-        return $reservation;
+        return $reservation->seat_id;
     }
 
-    public function unAssign(int $lanId, string $email, string $seatId): Reservation
+    public function unAssign(int $lanId, string $email, string $seatId): string
     {
         // Trouver l'utilisateur qui correspond au courriel
         $user = $this->userRepository->findByEmail($email);
@@ -131,10 +130,10 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository->deleteReservation($reservation->id);
 
         // Retourner la réservation supprimée
-        return $reservation;
+        return $reservation->seat_id;
     }
 
-    public function unBook(int $lanId, string $seatId, int $userId): Reservation
+    public function unBook(int $lanId, string $seatId, int $userId): string
     {
         // Trouver l'utilisateur
         $user = $this->userRepository->findById($userId);
@@ -155,10 +154,10 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository->deleteReservation($reservation->id);
 
         // Retourner la réservation supprimée
-        return $reservation;
+        return $reservation->seat_id;
     }
 
-    public function unConfirmArrival(int $lanId, string $seatId): Reservation
+    public function unConfirmArrival(int $lanId, string $seatId): string
     {
         // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
@@ -177,6 +176,6 @@ class SeatServiceImpl implements SeatService
         $this->seatRepository->setReservationLeft($reservation->id, $lan->id);
 
         // Retourner la réservation
-        return $reservation;
+        return $reservation->seat_id;
     }
 }

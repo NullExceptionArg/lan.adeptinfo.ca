@@ -58,7 +58,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     public function testDeletePermissionsLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->lanRole->id,
                 'name' => $this->lanRole->name,
@@ -72,7 +72,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -85,7 +85,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -102,7 +102,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -119,7 +119,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -136,7 +136,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -153,7 +153,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -170,7 +170,7 @@ class DeletePermissionsLanRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -192,7 +192,7 @@ class DeletePermissionsLanRoleTest extends TestCase
             ->toArray();
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan/permissions', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

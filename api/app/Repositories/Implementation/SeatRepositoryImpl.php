@@ -57,7 +57,7 @@ class SeatRepositoryImpl implements SeatRepository
     public function setReservationArrived(string $reservationId, int $lanId): void
     {
         DB::table('reservation')
-            ->where('seat_id', $lanId)
+            ->where('lan_id', $lanId)
             ->where('seat_id', $reservationId)
             ->update([
                 'arrived_at' => Carbon::now()

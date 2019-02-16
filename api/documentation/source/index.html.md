@@ -12,7 +12,6 @@ includes:
   - authentication
   - user
   - lan
-  - image
   - place
   - contribution
   - tournament

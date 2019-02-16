@@ -37,12 +37,11 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeat(): void
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
-                "lan_id" => $this->lan->id,
                 "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(201);
@@ -52,7 +51,7 @@ class AssignTest extends SeatsTestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -82,11 +81,10 @@ class AssignTest extends SeatsTestCase
             'user_id' => $this->admin->id
         ]);
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
-                "lan_id" => $lan->id,
                 "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(201);
@@ -96,7 +94,7 @@ class AssignTest extends SeatsTestCase
     {
         $badLanId = -1;
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId,
                 'user_email' => $this->user->email
             ])
@@ -115,7 +113,7 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatIdExist()
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/'  . '☭', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . '☭', [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -137,7 +135,7 @@ class AssignTest extends SeatsTestCase
         $seatsClient->events->book($this->lan->event_key, [env('SEAT_TEST_ID')]);
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -162,7 +160,7 @@ class AssignTest extends SeatsTestCase
         $reservation->save();
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -188,7 +186,7 @@ class AssignTest extends SeatsTestCase
         $reservation->save();
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -207,7 +205,7 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatLanIdInteger()
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => '☭',
                 'user_email' => $this->user->email
             ])
@@ -226,7 +224,7 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatEmailExists()
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => '☭'
             ])

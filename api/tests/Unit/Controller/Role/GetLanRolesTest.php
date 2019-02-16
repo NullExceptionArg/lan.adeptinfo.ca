@@ -34,7 +34,7 @@ class GetLanRolesTest extends TestCase
     public function testGetLanRoles(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan', ['lan_id' => $this->lan->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => $this->lan->id])
             ->seeJsonEquals([
                 [
                     'id' => $this->lanRoles[0]->id,
@@ -68,7 +68,7 @@ class GetLanRolesTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/lan', ['lan_id' => $this->lan->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => $this->lan->id])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -80,7 +80,7 @@ class GetLanRolesTest extends TestCase
     public function testCreateLanRoleLanIdExists(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan', ['lan_id' => -1])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => -1])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -96,7 +96,7 @@ class GetLanRolesTest extends TestCase
     public function testCreateLanRoleLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan', ['lan_id' => '☭'])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => '☭'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

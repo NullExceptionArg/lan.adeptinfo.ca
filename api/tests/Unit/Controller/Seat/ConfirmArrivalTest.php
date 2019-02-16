@@ -35,11 +35,10 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
-                "lan_id" => $this->lan->id,
                 "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
@@ -49,7 +48,7 @@ class ConfirmArrivalTest extends SeatsTestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -77,9 +76,8 @@ class ConfirmArrivalTest extends SeatsTestCase
         );
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'))
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'))
             ->seeJsonEquals([
-                "lan_id" => $lan->id,
                 "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(200);
@@ -110,7 +108,7 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'))
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'))
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -131,7 +129,7 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId
             ])
             ->seeJsonEquals([
@@ -154,7 +152,7 @@ class ConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $this->lan->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId
             ])
             ->seeJsonEquals([
@@ -173,7 +171,7 @@ class ConfirmArrivalTest extends SeatsTestCase
     {
         $badSeatId = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . $badSeatId, [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . $badSeatId, [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -195,7 +193,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'free');
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -217,7 +215,7 @@ class ConfirmArrivalTest extends SeatsTestCase
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
 
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . env('SEAT_TEST_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
@@ -237,7 +235,7 @@ class ConfirmArrivalTest extends SeatsTestCase
     {
         $badSeatId = "B4D-1D";
         $this->actingAs($this->user)
-            ->json('POST', '/api/seat/confirm/' . $badSeatId, [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . $badSeatId, [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([

@@ -19,7 +19,7 @@ Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de to
 
 ### Requête HTTP
 
-`POST /api/user`
+`POST /user`
 
 ### Paramètres POST
 
@@ -71,7 +71,7 @@ Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de to
 
 ### Requête HTTP
 
-`GET /api/user/confirm/{confirmation_code}`
+`GET /user/confirm/{confirmation_code}`
 
 ### Path Params
 
@@ -91,7 +91,7 @@ Tout est géré par l'API.
 
 ### Requête HTTP
 
-`POST /api/user/facebook`
+`POST /user/facebook`
 
 ### Paramètres POST
 
@@ -132,7 +132,7 @@ Tout est géré par l'API.
 
 ### Requête HTTP
 
-`POST /api/user/google`
+`POST /user/google`
 
 ### Paramètres POST
 
@@ -222,7 +222,7 @@ Déconnecter l'utilisateur en rendant invalide le token retourné à lors de la 
 
 ### Requête HTTP
 
-`POST /api/user/logout`
+`POST /user/logout`
 
 Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à partir du token d'authentication.
 
@@ -243,7 +243,7 @@ Supprimer un utilisateur authentifié, ainsi que tout ses liens aux autres entit
 
 ### Requête HTTP
 
-`DELETE /api/user`
+`DELETE /user`
 
 Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à partir du token d'authentication.
 
@@ -268,7 +268,7 @@ Lister l'ensemble des utilisateurs selon des filtres, un ordre et de la paginati
 
 ### Requête HTTP
 
-`GET /api/user`
+`GET /user`
 
 ### Query Params
 
@@ -355,7 +355,7 @@ Détails d'un utilisateur ainsi que son historique pour un LAN.
 
 ### Requête HTTP
 
-`POST /api/user/details`
+`POST /user/details`
 
 ### Paramètres POST
 
@@ -428,7 +428,7 @@ Informations sommaires de l'utilisateur courant. (Identité et nombre de requêt
 
 ### Requête HTTP
 
-`GET /api/user/summary`
+`GET /user/summary`
 
 ### Query Params
 
@@ -460,7 +460,7 @@ Informations sommaires de l'administrateur. (Identité, s'il administre un ou de
 
 ### Requête HTTP
 
-`GET /api/admin/summary`
+`GET /admin/summary`
 
 ### Query Params
 
@@ -509,7 +509,7 @@ Rôles globaux et de LAN d'un administrateur.
 
 ### Requête HTTP
 
-`GET /api/admin/roles`
+`GET /admin/roles`
 
 ### Query Params
 

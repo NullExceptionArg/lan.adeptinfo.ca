@@ -28,7 +28,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsHasLanId(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -44,7 +44,7 @@ class GetUserDetailsTest extends SeatsTestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -62,7 +62,7 @@ class GetUserDetailsTest extends SeatsTestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -89,7 +89,7 @@ class GetUserDetailsTest extends SeatsTestCase
             'arrived_at' => Carbon::now()
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -117,7 +117,7 @@ class GetUserDetailsTest extends SeatsTestCase
             'left_at' => Carbon::now()
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -146,7 +146,7 @@ class GetUserDetailsTest extends SeatsTestCase
         ]);
         $reservation->delete();
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -168,7 +168,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLanExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => -1
             ])->seeJsonEquals([
@@ -186,7 +186,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => '☭'
             ])->seeJsonEquals([
@@ -204,7 +204,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsEmailRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
                 'success' => false,
@@ -221,7 +221,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsEmailExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => -1,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([

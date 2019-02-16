@@ -6,7 +6,7 @@ Créer un nouveau tag pour un utilisateur.
 
 ### Requête HTTP
 
-`POST /api/tag`
+`POST /tag`
 
 ### Body Params
 

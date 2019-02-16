@@ -13,7 +13,7 @@ class GetAllTest extends TestCase
     {
         $lan1 = factory('App\Model\Lan')->create();
         $lan2 = factory('App\Model\Lan')->create();
-        $this->json('GET', '/api/lan/all')
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan/all')
             ->seeJsonEquals([
                 [
                     'id' => $lan1->id,
@@ -33,7 +33,7 @@ class GetAllTest extends TestCase
 
     public function testGetAllNoLan(): void
     {
-        $this->json('GET', '/api/lan/all')
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan/all')
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }

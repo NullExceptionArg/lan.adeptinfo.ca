@@ -26,7 +26,7 @@ class GetPermissionsTest extends TestCase
     public function testGetPermissions(): void
     {
         $response = $this->actingAs($this->user)
-            ->json('GET', '/api/role/permissions');
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/permissions');
         $response
             ->seeJsonStructure([[
                 'id', 'name', 'can_be_per_lan', 'display_name', 'description'
@@ -40,7 +40,7 @@ class GetPermissionsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/permissions')
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/permissions')
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

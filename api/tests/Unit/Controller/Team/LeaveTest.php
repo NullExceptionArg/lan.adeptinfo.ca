@@ -65,7 +65,7 @@ class LeaveTest extends TestCase
     public function testLeave(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/team/leave', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -78,7 +78,7 @@ class LeaveTest extends TestCase
     public function testLeaveIsLeader(): void
     {
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/leave', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -94,7 +94,7 @@ class LeaveTest extends TestCase
         $this->userTag->delete();
         $this->user->delete();
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/leave', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -108,7 +108,7 @@ class LeaveTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/team/leave', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -125,7 +125,7 @@ class LeaveTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team/leave', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

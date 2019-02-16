@@ -11,7 +11,7 @@ Les administrateur peuvent avoir des permissions par le biais de rôles de LAN o
 
 ### Requête HTTP
 
-`GET /api/role/permissions`
+`GET /role/permissions`
 
 Cette requête ne nécessite aucuns paramètres.
 
@@ -40,7 +40,7 @@ Cette requête ne nécessite aucuns paramètres.
         "name": "edit-lan",
         "can_be_per_lan": 1,
         "display_name": "Edit LAN",
-        "description": seat
+        "description": "seat"
     }
 ]
 ```

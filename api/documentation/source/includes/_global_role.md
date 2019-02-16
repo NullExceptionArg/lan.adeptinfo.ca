@@ -9,7 +9,7 @@ Créer un rôle global.
 
 ### Requête HTTP
 
-`POST /api/role/global`
+`POST /role/global`
 
 > Exemple de requête
 
@@ -67,7 +67,7 @@ D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au r
 
 ### Requête HTTP
 
-`PUT /api/role/global`
+`PUT /role/global`
 
 > Exemple de requête
 
@@ -123,7 +123,7 @@ Assigner un rôle global à un utilisateur
 
 ### Requête HTTP
 
-`POST /api/role/global/assign`
+`POST /role/global/assign`
 
 > Exemple de requête
 
@@ -168,7 +168,7 @@ Ajouter des permissions à un role global
 
 ### Requête HTTP
 
-`POST /api/role/global/permissions`
+`POST /role/global/permissions`
 
 > Exemple de requête
 
@@ -215,7 +215,7 @@ Supprimer des permissions d'un rôle global
 
 ### Requête HTTP
 
-`DELETE /api/role/global/permissions`
+`DELETE /role/global/permissions`
 
 > Exemple de requête
 
@@ -263,7 +263,7 @@ Supprimer un rôle global.
 
 ### Requête HTTP
 
-`DELETE /api/role/global`
+`DELETE /role/global`
 
 > Exemple de requête
 
@@ -306,7 +306,7 @@ Obtenir les rôles globaux.
 
 ### Requête HTTP
 
-`GET /api/role/global`
+`GET /role/global`
 
 Cette requête ne nécessite aucuns paramètres.
 
@@ -340,7 +340,7 @@ Obtenir les permissions d'un rôle global.
 
 ### Requête HTTP
 
-`GET /api/role/role/permissions`
+`GET /role/role/permissions`
 
 ### Query Params
 
@@ -393,7 +393,7 @@ Obtenir les utilisateurs possédants un rôle global.
 
 ### Requête HTTP
 
-`GET /api/role/global/users`
+`GET /role/global/users`
 
 ### Query Params
 

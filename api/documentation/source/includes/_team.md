@@ -6,7 +6,7 @@ Créer une nouvelle équipe pour participer à un tournoi.
 
 ### Requête HTTP
 
-`POST /api/team`
+`POST /team`
 
 ### Body Params
 
@@ -58,7 +58,7 @@ Créer une demande pour joindre une équipe
 
 ### Requête HTTP
 
-`POST /api/team/request`
+`POST /team/request`
 
 ### Body Params
 
@@ -102,7 +102,7 @@ Obtenir les équipes d'un utilisateur.
 
 ### Requête HTTP
 
-`GET /api/team/user`
+`GET /team/user`
 
 ### Query Params
 
@@ -153,7 +153,7 @@ Obtenir les détails d'une équipe.
 
 ### Requête HTTP
 
-`GET /api/team/members`
+`GET /team/members`
 
 ### Query Params
 
@@ -230,7 +230,7 @@ Le chef donne son titre à un autre joueur de l'équipe.
 
 ### Requête HTTP
 
-`PUT /api/team/leader`
+`PUT /team/leader`
 
 ### Query Params
 
@@ -261,7 +261,7 @@ Le chef accepte une requête pour entrer dans l'équipe.
 
 ### Requête HTTP
 
-`POST /api/team/accept`
+`POST /team/accept`
 
 ### Body Params
 
@@ -301,7 +301,7 @@ Un utilisateur consulte la liste des équipes pour lesquelles il a des requêtes
 
 ### Requête HTTP
 
-`GET /api/team/request`
+`GET /team/request`
 
 ### Query Params
 
@@ -368,7 +368,7 @@ Si le chef est le dernier à quitter l'équipe, l'équipe (et les requêtes) son
 
 ### Requête HTTP
 
-`POST /api/team/leave`
+`POST /team/leave`
 
 ### Query Params
 
@@ -402,7 +402,7 @@ Un joueur peut supprimer une de ses requêtes pour entrer dans une équipe.
 
 ### Requête HTTP
 
-`DELETE /api/team/request/player`
+`DELETE /team/request/player`
 
 ### Query Params
 
@@ -438,7 +438,7 @@ Un chef peut supprimer une requête pour entrer dans l'une de ses équipes.
 
 ### Requête HTTP
 
-`DELETE /api/team/request/leader`
+`DELETE /team/request/leader`
 
 ### Query Params
 
@@ -469,7 +469,7 @@ Un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)
 
 ### Requête HTTP
 
-`DELETE /api/team/admin`
+`DELETE /team/admin`
 
 ### Query Params
 
@@ -503,7 +503,7 @@ Un administrateur supprime une de ses équipes équipe et tout ses liens (requê
 
 ### Requête HTTP
 
-`DELETE /api/team/leader`
+`DELETE /team/leader`
 
 ### Query Params
 
@@ -537,7 +537,7 @@ Un chef d'équipe supprime un joueur de son équipe.
 
 ### Requête HTTP
 
-`POST /api/team/kick`
+`POST /team/kick`
 
 ### Query Params
 

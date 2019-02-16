@@ -44,7 +44,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -74,7 +74,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -107,7 +107,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -140,7 +140,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -173,7 +173,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -205,7 +205,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -238,7 +238,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -282,7 +282,7 @@ class GetAllOrganizerTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -326,7 +326,7 @@ class GetAllOrganizerTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -356,7 +356,7 @@ class GetAllOrganizerTest extends TestCase
             'tournament_id' => $tournament->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([[
                 'id' => $tournament->id,
                 'name' => $tournament->name,
@@ -373,7 +373,7 @@ class GetAllOrganizerTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -390,7 +390,7 @@ class GetAllOrganizerTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('GET', '/api/tournament/all/organizer', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/all/organizer', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

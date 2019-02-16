@@ -35,7 +35,7 @@ class CreateCategoryTest extends TestCase
     public function testCreateCategory(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution/category', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'name' => $this->requestContent['name'],
@@ -47,7 +47,7 @@ class CreateCategoryTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/contribution/category', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -60,7 +60,7 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution/category', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -77,7 +77,7 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution/category', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution/category', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -111,7 +111,7 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution/category', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

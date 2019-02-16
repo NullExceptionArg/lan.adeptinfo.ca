@@ -41,7 +41,7 @@ class GetGlobalRoleUsersTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/users', ['role_id' => $role->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/users', ['role_id' => $role->id])
             ->seeJsonEquals([
                 [
                     'email' => $users[0]->email,
@@ -69,7 +69,7 @@ class GetGlobalRoleUsersTest extends TestCase
         $role = factory('App\Model\GlobalRole')->create();
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/global/users', ['role_id' => $role->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/users', ['role_id' => $role->id])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -81,7 +81,7 @@ class GetGlobalRoleUsersTest extends TestCase
     public function testGetGlobalRoleUsersRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/users', ['role_id' => null])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/users', ['role_id' => null])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -97,7 +97,7 @@ class GetGlobalRoleUsersTest extends TestCase
     public function testGetGlobalRoleUsersRoleIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/users', ['role_id' => '☭'])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/users', ['role_id' => '☭'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -113,7 +113,7 @@ class GetGlobalRoleUsersTest extends TestCase
     public function testGetGlobalRoleUsersRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/global/users', ['role_id' => -1])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/users', ['role_id' => -1])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

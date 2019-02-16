@@ -6,7 +6,7 @@ Créer un nouveau tournoi. L'utilisateur qui créer le tournoi en devient automa
 
 ### Requête HTTP
 
-`POST /api/tournament`
+`POST /tournament`
 
 ### Query Params
 
@@ -116,7 +116,7 @@ Les équipes, les requêtes pour entrer dans les équipes du tournois et les lia
 
 ### Requête HTTP
 
-`DELETE /api/tournament/{tournament_id}`
+`DELETE /tournament/{tournament_id}`
 
 ### Path Params
 
@@ -171,7 +171,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l'utilisateur.
 
 ### Requête HTTP
 
-`GET /api/tournament/all/organizer`
+`GET /tournament/all/organizer`
 
 ### Query Params
 
@@ -226,7 +226,7 @@ Obtenir tous les tournois.
 
 ### Requête HTTP
 
-`GET /api/tournament/all`
+`GET /tournament/all`
 
 ### Query Params
 
@@ -280,7 +280,7 @@ Modifier un tournoi.
 
 ### Requête HTTP
 
-`PUT /api/tournament/{tournament_id}`
+`PUT /tournament/{tournament_id}`
 
 ### Path Params
 
@@ -396,7 +396,7 @@ Détails d'un tournoi
 
 ### Requête HTTP
 
-`GET /api/tournament/details/{tournament_id}`
+`GET /tournament/details/{tournament_id}`
 
 ### Path Params
 
@@ -497,7 +497,7 @@ S'il est le dernier à quitter, le tournoi est supprimé.
 
 ### Requête HTTP
 
-`POST /api/tournament/{tournament_id}/quit`
+`POST /tournament/{tournament_id}/quit`
 
 ### Path Params
 
@@ -550,7 +550,7 @@ Un administrateur d'un tournoi peut en ajouter un autre.
 
 ### Requête HTTP
 
-`POST /api/tournament/{tournament_id}/organizer`
+`POST /tournament/{tournament_id}/organizer`
 
 ### Path Params
 
