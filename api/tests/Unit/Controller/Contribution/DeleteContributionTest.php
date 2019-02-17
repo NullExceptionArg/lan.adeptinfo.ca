@@ -118,7 +118,7 @@ class DeleteContributionTest extends TestCase
         $this->actingAs($user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id,
-                'contribution_id' => $contribution
+                'contribution_id' => $contribution->id
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -126,58 +126,6 @@ class DeleteContributionTest extends TestCase
                 'message' => 'REEEEEEEEEE'
             ])
             ->assertResponseStatus(403);
-    }
-
-    public function testDeleteContributionLanIdExist(): void
-    {
-        $contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $this->user->id,
-            'contribution_category_id' => $contributionCategory->id
-        ]);
-        $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
-                'lan_id' => -1,
-                'contribution_id' => $contribution->id
-            ])
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testDeleteContributionLanIdInteger(): void
-    {
-        $contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $this->user->id,
-            'contribution_category_id' => $contributionCategory->id
-        ]);
-        $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/contribution', [
-                'lan_id' => '☭',
-                'contribution_id' => $contribution->id
-            ])
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id must be an integer.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
     }
 
     public function testDeleteContributionCategoryIdInteger(): void

@@ -17,9 +17,9 @@ class PermissionsDontBelongToLanRole implements Rule
 
     /**
      * PermissionsDontBelongToLanRole constructor.
-     * @param string|null $roleId Id du rôle de LAN
+     * @param null $roleId Id du rôle de LAN
      */
-    public function __construct(?string $roleId)
+    public function __construct($roleId)
     {
         $this->roleId = $roleId;
     }
@@ -38,11 +38,13 @@ class PermissionsDontBelongToLanRole implements Rule
         /*
          * Conditions de garde :
          * Les ids de permission ne sont pas nuls
+         * L'id du rôle est un entier positif
          * Les ids de permissions sont un tableau
          * L'id du rôle de LAN correspond à un rôle de LAN existant
          */
         if (
             is_null($permissionIds) ||
+            !is_int($this->roleId) ||
             !is_array($permissionIds) ||
             is_null($lanRole = LanRole::find($this->roleId))
         ) {

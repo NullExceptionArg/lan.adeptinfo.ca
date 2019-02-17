@@ -18,10 +18,10 @@ class HasPermissionInLan implements Rule
 
     /**
      * HasPermissionInLan constructor.
-     * @param string|null $roleId Id du rôle  global
-     * @param string $userId Id de l'utilisateur
+     * @param null $roleId Id du rôle  global
+     * @param null $userId Id de l'utilisateur
      */
-    public function __construct(?string $roleId, string $userId)
+    public function __construct($roleId, $userId)
     {
         $this->roleId = $roleId;
         $this->userId = $userId;
@@ -41,10 +41,18 @@ class HasPermissionInLan implements Rule
         /*
          * Conditions de garde :
          * Le nom de la permission n'est pas nul
+         * L'id de l'utilisateur est un entier positif
+         * L'id du rôle est un entier positif
          * Le rôle de LAN existe
          * L'id de l'utilisateur n'est pas nul
          */
-        if (is_null($permissionName) || is_null($lanRole = LanRole::find($this->roleId)) || is_null($this->userId)) {
+        if (
+            is_null($permissionName) ||
+            !is_int($this->roleId) ||
+            !is_int($this->userId) ||
+            is_null($lanRole = LanRole::find($this->roleId)) ||
+            is_null($this->userId)
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

@@ -2,28 +2,29 @@
 
 namespace App\Rules\Contribution;
 
+use App\Model\Contribution;
 use App\Model\ContributionCategory;
 use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
 
 /**
- * Un utilisateur possède une permission dans un LAN pour une catégorie de contribution.
+ * Un utilisateur possède une permission dans un LAN pour une contribution.
  *
  * Class HasPermissionInLan
  * @package App\Rules\User
  */
 class HasPermissionInLan implements Rule
 {
-    protected $contributionCategory;
+    protected $contributionId;
     protected $userId;
 
     /**
      * HasPermissionInLan constructor.
-     * @param string|null $contributionCategoryId Id de la catégorie.
-     * @param string $userId Id de l'utilisateur
+     * @param null $contributionId Id de la contribution.
+     * @param null $userId Id de l'utilisateur
      */
-    public function __construct(?string $contributionCategoryId, string $userId)
+    public function __construct($contributionId, $userId)
     {
-        $this->contributionCategory = $contributionCategoryId;
+        $this->contributionId = $contributionId;
         $this->userId = $userId;
     }
 
@@ -37,16 +38,21 @@ class HasPermissionInLan implements Rule
      */
     public function passes($attribute, $permission): bool
     {
+        $contribution = null;
         $contributionCategory = null;
         /*
          * Conditions de garde :
          * Le nom de la permission n'est pas nul
+         * L'id de la contribution est un entier positif
+         * Une contribution correspond à l'id de la contribution
          * Un LAN correspond à l'id du LAN
          * Un utilisateur correspond à l'id de l'utilisateur
          */
         if (
             is_null($permission) ||
-            is_null($contributionCategory = ContributionCategory::find($this->contributionCategory)) ||
+            !is_int($this->contributionId) ||
+            is_null($contribution = Contribution::find($this->contributionId)) ||
+            is_null($contributionCategory = ContributionCategory::find($contribution->contribution_category_id)) ||
             is_null($this->userId)
         ) {
             return true; // Une autre validation devrait échouer

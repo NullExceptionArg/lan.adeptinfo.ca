@@ -17,9 +17,9 @@ class LanRoleOncePerUser implements Rule
 
     /**
      * SeatOncePerLan constructor.
-     * @param string $email Courriel de l'utilisateur
+     * @param null $email Courriel de l'utilisateur
      */
-    public function __construct(?string $email)
+    public function __construct($email)
     {
         $this->email = $email;
     }
@@ -33,14 +33,21 @@ class LanRoleOncePerUser implements Rule
      */
     public function passes($attribute, $roleId): bool
     {
-        $user = User::where('email', $this->email)->first();
+        $user = null;
 
         /*
          * Condition de garde :
          * L'id du rôle n'est pas nul
+         * L'id du rôle est un entier positif
+         * Le courriel est une chaîne de caractères
          * Un utilisateur existe pour le courriel
          */
-        if (is_null($roleId) || is_null($user)) {
+        if (
+            is_null($roleId) ||
+            !is_int($roleId) ||
+            !is_string($this->email) ||
+            is_null($user = User::where('email', $this->email)->first())
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

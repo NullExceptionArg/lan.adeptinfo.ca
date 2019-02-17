@@ -17,9 +17,9 @@ class PermissionsDontBelongToGlobalRole implements Rule
 
     /**
      * PermissionsDontBelongToGlobalRole constructor.
-     * @param string|null $roleId Id du rôle global
+     * @param null $roleId Id du rôle global
      */
-    public function __construct(?string $roleId)
+    public function __construct($roleId)
     {
         $this->roleId = $roleId;
     }
@@ -38,11 +38,13 @@ class PermissionsDontBelongToGlobalRole implements Rule
         /*
          * Conditions de garde :
          * Les ids de permission ne sont pas nuls
+         * L'id du rôle est un entier positif
          * Les ids de permissions sont un tableau
          * L'id du rôle global correspond à un rôle global existant
          */
         if (
             is_null($permissionIds) ||
+            !is_int($this->roleId) ||
             !is_array($permissionIds) ||
             is_null($globalRole = GlobalRole::find($this->roleId))
         ) {

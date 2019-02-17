@@ -19,7 +19,7 @@ class LowerReservedPlace implements Rule
      * LowerReservedPlace constructor.
      * @param string $lanId Id du LAN
      */
-    public function __construct(string $lanId)
+    public function __construct($lanId)
     {
         $this->lanId = $lanId;
     }
@@ -33,6 +33,15 @@ class LowerReservedPlace implements Rule
      */
     public function passes($attribute, $places): bool
     {
+        /*
+         * Conditions de garde :
+         * L'id du LAN est un entier positif
+         * Le nombre de places attendues est un entier positif
+         */
+        if (!is_int($this->lanId) || !is_int($places)) {
+            return true;
+        }
+
         $placeCount = Reservation::where('lan_id', $this->lanId)->count();
         return $placeCount <= $places;
     }

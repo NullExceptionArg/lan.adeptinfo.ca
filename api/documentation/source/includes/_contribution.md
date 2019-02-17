@@ -166,7 +166,7 @@ Ajoute une catégorie de contribution à un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
 
 > Exemple de requête
 

@@ -40,7 +40,12 @@ class ManyImageIdsExist implements Rule
          * L'élément passé est une chaîne de caractères.
          * L'id du LAN passé est non nul.
          */
-        if (is_null($imageIds) || !is_string($imageIds) || is_null($this->lanId) || is_int($this->lanId)) {
+        if (
+            is_null($imageIds) ||
+            !is_string($imageIds) ||
+            is_null($this->lanId) ||
+            is_int($this->lanId)
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

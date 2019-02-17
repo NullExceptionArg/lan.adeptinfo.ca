@@ -17,10 +17,10 @@ class OneOfTwoFields implements Rule
 
     /**
      * OneOfTwoFields constructor.
-     * @param string|null $secondField Second champ
-     * @param string $secondFieldName Nom du second champ (pour le message d'erreur))
+     * @param null $secondField Second champ
+     * @param null $secondFieldName Nom du second champ (pour le message d'erreur))
      */
-    public function __construct(?string $secondField, string $secondFieldName)
+    public function __construct($secondField, $secondFieldName)
     {
         $this->secondField = $secondField;
         $this->secondFieldName = $secondFieldName;
@@ -35,6 +35,7 @@ class OneOfTwoFields implements Rule
      */
     public function passes($attribute, $field): bool
     {
+        // Si les 2 champs sont nuls, la validation échoue
         if (!is_null($field) && !is_null($this->secondField)) {
             return false;
         } else {

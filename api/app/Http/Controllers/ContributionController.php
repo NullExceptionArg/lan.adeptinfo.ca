@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\{Contribution\HasPermissionInLan as HasPermissionInLanContributionCategory,
+use App\Rules\{Contribution\HasPermissionInLan as HasPermissionInLanContribution,
+    ContributionCategory\HasPermissionInLan as HasPermissionInLanContributionCategory,
     General\OneOfTwoFields,
     User\HasPermissionInLan};
 use App\Services\Implementation\ContributionServiceImpl;
@@ -92,7 +93,6 @@ class ContributionController extends Controller
 
     public function deleteCategory(Request $request)
     {
-        $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
             'contribution_category_id' => $request->input('contribution_category_id'),
             'permission' => 'delete-contribution-category'
@@ -112,15 +112,13 @@ class ContributionController extends Controller
 
     public function deleteContribution(Request $request)
     {
-        $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
             'contribution_id' => $request->input('contribution_id'),
             'permission' => 'delete-contribution'
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLanContribution($request->input('contribution_id'), Auth::id())
         ]);
 
         $this->checkValidation($validator);

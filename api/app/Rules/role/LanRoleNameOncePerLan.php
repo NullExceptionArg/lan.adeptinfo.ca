@@ -6,7 +6,7 @@ use App\Model\LanRole;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Le nom d'un rôle de LAN n'exsite qu'un fois par LAN.
+ * Le nom d'un rôle de LAN n'existe qu'une fois par LAN.
  *
  * Class LanRoleNameOncePerLan
  * @package App\Rules\Role
@@ -17,9 +17,9 @@ class LanRoleNameOncePerLan implements Rule
 
     /**
      * SeatOncePerLan constructor.
-     * @param string $lanId Id du LAN
+     * @param null $lanId Id du LAN
      */
-    public function __construct(?string $lanId)
+    public function __construct($lanId)
     {
         $this->lanId = $lanId;
     }
@@ -36,8 +36,10 @@ class LanRoleNameOncePerLan implements Rule
         /*
          * Condition de garde :
          * L'id du LAN n'est pas nul
+         * L'id du LAN est un entier positif
+         * Le nom du rôle est une chaîne de caractères
          */
-        if (is_null($this->lanId)) {
+        if (!is_int($this->lanId) || !is_string($roleName) || is_null($this->lanId)) {
             return true; // Une autre validation devrait échouer
         }
 

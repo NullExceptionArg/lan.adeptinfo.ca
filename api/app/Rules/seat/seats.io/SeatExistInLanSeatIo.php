@@ -18,9 +18,9 @@ class SeatExistInLanSeatIo implements Rule
 
     /**
      * SeatOncePerLan constructor.
-     * @param string|null $lanId Id du LAN
+     * @param null $lanId Id du LAN
      */
-    public function __construct(?string $lanId)
+    public function __construct($lanId)
     {
         $this->lanId = $lanId;
     }
@@ -34,13 +34,15 @@ class SeatExistInLanSeatIo implements Rule
      */
     public function passes($attribute, $seatId): bool
     {
-        $lan = Lan::find($this->lanId);
+        $lan = null;
 
         /*
          * Condition de garde :
          * Un LAN correspond à l'id de LAN passé
+         * L'id du LAN est un entier positif
+         * L'id du LAN est un entier positif
          */
-        if (is_null($lan)) {
+        if (!is_string($seatId) || !is_int($this->lanId) || is_null($lan = Lan::find($this->lanId))) {
             return true; // Une autre validation devrait échouer
         }
 

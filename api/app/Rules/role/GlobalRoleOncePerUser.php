@@ -17,9 +17,9 @@ class GlobalRoleOncePerUser implements Rule
 
     /**
      * SeatOncePerLan constructor.
-     * @param string $email Courriel de l'utilisateur
+     * @param null $email Courriel de l'utilisateur
      */
-    public function __construct(?string $email)
+    public function __construct($email)
     {
         $this->email = $email;
     }
@@ -36,10 +36,12 @@ class GlobalRoleOncePerUser implements Rule
         /*
          * Conditions de garde :
          * L'id du rôle global n'est pas nul
+         * L'id du rôle global est un entier positif
+         * Le courriel de l'utilisateur est une chaîne de caractères
          * Un utilisateur existe pour le courriel
          */
         $user = User::where('email', $this->email)->first();
-        if (is_null($globalRoleId) || is_null($user)) {
+        if (is_null($globalRoleId) || !is_int($globalRoleId) || !is_string($this->email) || is_null($user)) {
             return true; // Une autre validation devrait échouer
         }
 

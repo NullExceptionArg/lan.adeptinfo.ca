@@ -13,17 +13,17 @@ use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, S
  */
 class HasPermissionInLan implements Rule
 {
-    protected $contributionCategory;
+    protected $contributionCategoryId;
     protected $userId;
 
     /**
      * HasPermissionInLan constructor.
-     * @param string|null $contributionCategoryId Id de la catégorie.
-     * @param string $userId Id de l'utilisateur
+     * @param null $contributionCategoryId Id de la catégorie.
+     * @param null $userId Id de l'utilisateur
      */
-    public function __construct(?string $contributionCategoryId, string $userId)
+    public function __construct($contributionCategoryId, $userId)
     {
-        $this->contributionCategory = $contributionCategoryId;
+        $this->contributionCategoryId = $contributionCategoryId;
         $this->userId = $userId;
     }
 
@@ -41,12 +41,14 @@ class HasPermissionInLan implements Rule
         /*
          * Conditions de garde :
          * Le nom de la permission n'est pas nul
+         * L'id de la contribution est un entier positif
          * Un LAN correspond à l'id du LAN
          * Un utilisateur correspond à l'id de l'utilisateur
          */
         if (
             is_null($permission) ||
-            is_null($contributionCategory = ContributionCategory::find($this->contributionCategory)) ||
+            !is_int($this->contributionCategoryId) ||
+            is_null($contributionCategory = ContributionCategory::find($this->contributionCategoryId)) ||
             is_null($this->userId)
         ) {
             return true; // Une autre validation devrait échouer
