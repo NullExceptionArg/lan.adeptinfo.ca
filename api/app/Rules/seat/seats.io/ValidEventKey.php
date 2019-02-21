@@ -22,7 +22,7 @@ class ValidEventKey implements Rule
      * @param string|null $lanId Id du LAN
      * @param string|null $secretKey Clé secrète seats.io
      */
-    public function __construct(?string $lanId, ?string $secretKey)
+    public function __construct($lanId, $secretKey)
     {
         $this->lanId = $lanId;
         $this->secretKey = $secretKey;
@@ -43,8 +43,17 @@ class ValidEventKey implements Rule
          * Conditions de garde :
          * La clé d'événement est non nulle
          * La longueur de la clé d'événement est plus petite que 255 caractères
+        * L'id du LAN est un entier positif
+        * La clé d'événement est une chaîne de caractères
+        * La clé secrète est une chaîne de caractères
          */
-        if (is_null($eventKey) || strlen($eventKey) > 255) {
+        if (
+            is_null($eventKey) ||
+            strlen($eventKey) > 255 ||
+            !is_int($this->lanId) ||
+            !is_string($eventKey) ||
+            !is_string($this->secretKey)
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

@@ -21,7 +21,7 @@ class UserOncePerLan implements Rule
      * @param Authenticatable|null $user Utilisateur
      * @param string|null $email Courriel de l'utilisateur
      */
-    public function __construct(?Authenticatable $user, ?string $email)
+    public function __construct(?Authenticatable $user, $email)
     {
         $this->user = $user;
         $this->email = $email;
@@ -36,13 +36,11 @@ class UserOncePerLan implements Rule
      */
     public function passes($attribute, $lanId): bool
     {
-        // Si aucun utilisateur n'a été passé, utiliser le courriel
-        if (is_null($this->user)) {
-
-            // Si le courriel est null, aucun des deux champ n'a été fourni. Une autre validation devrait échouer
-            if (is_null($this->user = User::where('email', $this->email)->first())) {
-                return true;
-            }
+        if (
+            !is_int($lanId) ||
+            (is_null($this->user) && is_null($this->user = User::where('email', $this->email)->first()))
+        ) {
+            return true;
         }
 
         // Chercher une réservation ayant l'id de l'utilisateur et l'id du LAN

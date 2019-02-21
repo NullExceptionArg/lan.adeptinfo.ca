@@ -40,7 +40,7 @@ class SeatExistInLanSeatIo implements Rule
          * Condition de garde :
          * Un LAN correspond à l'id de LAN passé
          * L'id du LAN est un entier positif
-         * L'id du LAN est un entier positif
+         * L'id du siège est une chaîne de caractère
          */
         if (!is_string($seatId) || !is_int($this->lanId) || is_null($lan = Lan::find($this->lanId))) {
             return true; // Une autre validation devrait échouer

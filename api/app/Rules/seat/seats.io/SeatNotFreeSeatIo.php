@@ -20,7 +20,7 @@ class SeatNotFreeSeatIo implements Rule
      * SeatNotFreeSeatIo constructor.
      * @param string|null $lanId Id du LAN
      */
-    public function __construct(?string $lanId)
+    public function __construct($lanId)
     {
         $this->lanId = $lanId;
     }
@@ -39,8 +39,10 @@ class SeatNotFreeSeatIo implements Rule
         /*
          * Condition de garde
          * Un LAN correspond à l'id de LAN passé
+        * L'id du LAN est un entier positif
+        * L'id du siège est une chaîne de caractères
          */
-        if (is_null($lan)) {
+        if (is_null($lan) || !is_int($this->lanId) || !is_string($seatId)) {
             return true; // Une autre validation devrait échouer
         }
 

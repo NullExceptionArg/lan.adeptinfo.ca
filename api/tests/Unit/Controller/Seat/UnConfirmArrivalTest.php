@@ -164,7 +164,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testUnBookSeatIdFree(): void
+    public function testUnConfirmArrivalSeatIdFree(): void
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
@@ -189,7 +189,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatIdArrived(): void
+    public function testUnConfirmArrivalSeatIdArrived(): void
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
@@ -212,7 +212,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             ->assertResponseStatus(400);
     }
 
-    public function testBookSeatIdUnknown(): void
+    public function testUnConfirmArrivalSeatIdUnknown(): void
     {
         $badSeatId = "B4D-1D";
         factory('App\Model\Reservation')->create([

@@ -2,7 +2,8 @@
 
 namespace Tests\Unit\Controller\Seat;
 
-use App\Model\{Permission, Reservation};
+use App\Model\{Permission};
+use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Tests\SeatsTestCase;
@@ -14,11 +15,6 @@ class AssignTest extends SeatsTestCase
     protected $user;
     protected $admin;
     protected $lan;
-
-    protected $requestContent = [
-        'lan_id' => null,
-        'seat_id' => null
-    ];
 
     public function setUp(): void
     {
@@ -153,11 +149,12 @@ class AssignTest extends SeatsTestCase
 
     public function testAssignSeatUniqueUserInLan()
     {
-        $reservation = new Reservation();
-        $reservation->lan_id = $this->lan->id;
-        $reservation->user_id = $this->user->id;
-        $reservation->seat_id = env('SEAT_TEST_ID_2');
-        $reservation->save();
+        DB::table('reservation')
+            ->insert([
+                'lan_id' => $this->lan->id,
+                'user_id' => $this->user->id,
+                'seat_id' => env('SEAT_TEST_ID_2')
+            ]);
 
         $this->actingAs($this->admin)
             ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
@@ -179,11 +176,12 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatOnceInLan()
     {
         $otherUser = factory('App\Model\User')->create();
-        $reservation = new Reservation();
-        $reservation->lan_id = $this->lan->id;
-        $reservation->user_id = $otherUser->id;
-        $reservation->seat_id = env('SEAT_TEST_ID');
-        $reservation->save();
+        DB::table('reservation')
+            ->insert([
+                'lan_id' => $this->lan->id,
+                'user_id' => $otherUser->id,
+                'seat_id' => env('SEAT_TEST_ID')
+            ]);
 
         $this->actingAs($this->admin)
             ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [

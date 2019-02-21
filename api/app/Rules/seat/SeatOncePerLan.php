@@ -19,7 +19,7 @@ class SeatOncePerLan implements Rule
      * SeatOncePerLan constructor.
      * @param string $lanId Id du LAN
      */
-    public function __construct(string $lanId)
+    public function __construct($lanId)
     {
         $this->lanId = $lanId;
     }
@@ -33,6 +33,15 @@ class SeatOncePerLan implements Rule
      */
     public function passes($attribute, $seatId): bool
     {
+        /*
+         * Conditions de garde :
+        * L'id du LAN est un entier positif
+        * L'id du siège est une chaîne de caractères
+         */
+        if (!is_int($this->lanId) || !is_string($seatId)) {
+            return true; // Une autre validation devrait échouer
+        }
+
         // Chercher les réservations ayant l'id du LAN et l'id du siège
         $lanSeatReservation = Reservation::where('lan_id', $this->lanId)
             ->where('seat_id', $seatId)->first();

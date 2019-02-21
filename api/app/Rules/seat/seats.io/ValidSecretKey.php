@@ -22,6 +22,14 @@ class ValidSecretKey implements Rule
      */
     public function passes($attribute, $secretKey): bool
     {
+        /*
+         * Condition de garde :
+         * La clé secrète est une chaîne de caractères
+         */
+        if (!is_string($secretKey)) {
+            return true; // Une autre validation devrait échouer
+        }
+
         $seatsClient = new SeatsioClient($secretKey);
         try {
             // Tenter d'utiliser n'importe quelle méthode qui ne nécessite par de paramètre
