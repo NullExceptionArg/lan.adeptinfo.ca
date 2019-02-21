@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Rule;
 use Seatsio\{SeatsioClient, SeatsioException};
 
 /**
- * Une clé d'événement seats.io est valide pour un certain LAN.
+ * Une clé d'événement seats.io est valide.
  *
  * Class ValidEventKey
  * @package App\Rules\Seat
@@ -19,12 +19,10 @@ class ValidEventKey implements Rule
 
     /**
      * ValidEventKey constructor.
-     * @param string|null $lanId Id du LAN
      * @param string|null $secretKey Clé secrète seats.io
      */
-    public function __construct($lanId, $secretKey)
+    public function __construct($secretKey)
     {
-        $this->lanId = $lanId;
         $this->secretKey = $secretKey;
     }
 
@@ -37,20 +35,15 @@ class ValidEventKey implements Rule
      */
     public function passes($attribute, $eventKey): bool
     {
-        $lan = null;
-
         /*
          * Conditions de garde :
-         * La clé d'événement est non nulle
          * La longueur de la clé d'événement est plus petite que 255 caractères
         * L'id du LAN est un entier positif
         * La clé d'événement est une chaîne de caractères
         * La clé secrète est une chaîne de caractères
          */
         if (
-            is_null($eventKey) ||
             strlen($eventKey) > 255 ||
-            !is_int($this->lanId) ||
             !is_string($eventKey) ||
             !is_string($this->secretKey)
         ) {

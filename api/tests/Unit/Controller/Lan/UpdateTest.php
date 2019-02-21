@@ -155,7 +155,6 @@ class UpdateTest extends TestCase
                 "event_key" => $this->requestContent['event_key'],
                 "public_key" => $this->requestContent['public_key'],
                 "secret_key" => $this->requestContent['secret_key'],
-                "places" => $this->requestContent['places'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
                 "places" => [
