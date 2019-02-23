@@ -41,8 +41,8 @@ class HasPermissionInLan implements Rule
         /*
          * Conditions de garde :
          * Le nom de la permission n'est pas nul
-         * L'id de l'utilisateur est un entier positif
-         * L'id du rôle est un entier positif
+         * L'id de l'utilisateur est un entier
+         * L'id du rôle est un entier
          * Le rôle de LAN existe
          * L'id de l'utilisateur n'est pas nul
          */

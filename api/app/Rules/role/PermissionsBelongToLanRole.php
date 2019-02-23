@@ -38,7 +38,7 @@ class PermissionsBelongToLanRole implements Rule
         /*
          * Conditions de garde :
          * Les permissions ne sont pas nul
-         * L'id du rôle est un entier positif
+         * L'id du rôle est un entier
          * Les permissions sont un tableau
          * L'id du rôle correspond à un rôle qui existe
          */

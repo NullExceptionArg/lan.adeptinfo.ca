@@ -38,7 +38,7 @@ class PermissionsDontBelongToGlobalRole implements Rule
         /*
          * Conditions de garde :
          * Les ids de permission ne sont pas nuls
-         * L'id du rôle est un entier positif
+         * L'id du rôle est un entier
          * Les ids de permissions sont un tableau
          * L'id du rôle global correspond à un rôle global existant
          */

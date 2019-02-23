@@ -39,7 +39,7 @@ class PermissionsBelongToGlobalRole implements Rule
          * Conditions de garde :
          * Les permissions ne sont pas nul
          * Les permissions sont un tableau
-         * L'id du rôle est un entier positif
+         * L'id du rôle est un entier
          * L'id du rôle correspond à un rôle qui existe
          */
         if (

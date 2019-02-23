@@ -35,8 +35,8 @@ class LowerReservedPlace implements Rule
     {
         /*
          * Conditions de garde :
-         * L'id du LAN est un entier positif
-         * Le nombre de places attendues est un entier positif
+         * L'id du LAN est un entier
+         * Le nombre de places attendues est un entier
          */
         if (!is_int($this->lanId) || !is_int($places)) {
             return true;

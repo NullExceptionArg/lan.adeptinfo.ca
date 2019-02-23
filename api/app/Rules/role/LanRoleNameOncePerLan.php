@@ -36,7 +36,7 @@ class LanRoleNameOncePerLan implements Rule
         /*
          * Condition de garde :
          * L'id du LAN n'est pas nul
-         * L'id du LAN est un entier positif
+         * L'id du LAN est un entier
          * Le nom du rôle est une chaîne de caractères
          */
         if (!is_int($this->lanId) || !is_string($roleName) || is_null($this->lanId)) {

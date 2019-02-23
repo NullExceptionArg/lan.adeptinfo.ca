@@ -36,7 +36,7 @@ class GlobalRoleOncePerUser implements Rule
         /*
          * Conditions de garde :
          * L'id du rôle global n'est pas nul
-         * L'id du rôle global est un entier positif
+         * L'id du rôle global est un entier
          * Le courriel de l'utilisateur est une chaîne de caractères
          * Un utilisateur existe pour le courriel
          */

@@ -38,7 +38,7 @@ class LanRoleOncePerUser implements Rule
         /*
          * Condition de garde :
          * L'id du rôle n'est pas nul
-         * L'id du rôle est un entier positif
+         * L'id du rôle est un entier
          * Le courriel est une chaîne de caractères
          * Un utilisateur existe pour le courriel
          */
