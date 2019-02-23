@@ -449,7 +449,6 @@ Supprimer des images de présentation d'un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut supprimer des images. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
 image_ids | Id des images que l'administrateur veut supprimer. | Requis, string.
 
 ### Format de réponse

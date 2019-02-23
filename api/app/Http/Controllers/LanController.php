@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\{Lan\LowerReservedPlace,
+use App\Rules\{Image\HasPermissionInLan as HasPermissionInLanImages,
+    Lan\LowerReservedPlace,
     Lan\ManyImageIdsExist,
     Seat\ValidEventKey,
     Seat\ValidSecretKey,
@@ -117,13 +118,11 @@ class LanController extends Controller
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
             'image_ids' => $request->input('image_ids'),
             'permission' => 'delete-image'
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'image_ids' => ['required', 'string', new ManyImageIdsExist($request->input('lan_id'))],
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLanImages($request->input('image_ids'), Auth::id())
         ]);
 
         $this->checkValidation($validator);

@@ -14,16 +14,6 @@ use Illuminate\Contracts\Validation\Rule;
 class ManyImageIdsExist implements Rule
 {
     protected $badImageIds = [];
-    protected $lanId;
-
-    /**
-     * ManyImageIdsExist constructor.
-     * @param string $lanId Id du LAN
-     */
-    public function __construct(string $lanId)
-    {
-        $this->lanId = $lanId;
-    }
 
     /**
      * Déterminer si la règle de validation passe.
@@ -42,9 +32,7 @@ class ManyImageIdsExist implements Rule
          */
         if (
             is_null($imageIds) ||
-            !is_string($imageIds) ||
-            is_null($this->lanId) ||
-            is_int($this->lanId)
+            !is_string($imageIds)
         ) {
             return true; // Une autre validation devrait échouer
         }
@@ -55,7 +43,7 @@ class ManyImageIdsExist implements Rule
         for ($i = 0; $i < count($imageIdArray); $i++) {
 
             // Chercher une image avec l'id de l'image et l'id du LAN
-            $image = LanImage::where('id', $imageIdArray[$i])->where('lan_id', $this->lanId);
+            $image = LanImage::find($imageIdArray[$i]);
 
             // Si aucune image n'a été trouvée, ajouter l'image à un tableau qui
             // sera retourné pour spécifier les id fautifs

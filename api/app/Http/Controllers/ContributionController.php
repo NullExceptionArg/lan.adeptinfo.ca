@@ -58,13 +58,11 @@ class ContributionController extends Controller
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
             'contribution_category_id' => $request->input('contribution_category_id'),
             'user_full_name' => $request->input('user_full_name'),
             'user_email' => $request->input('user_email'),
             'permission' => 'create-contribution'
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
             'user_full_name' => [
                 'required_without:user_email',
@@ -79,7 +77,9 @@ class ContributionController extends Controller
                 'exists:user,email',
                 new OneOfTwoFields($request->input('user_full_name'), 'user_full_name')
             ],
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLanContributionCategory(
+                $request->input('contribution_category_id'), Auth::id()
+            )
         ]);
 
         $this->checkValidation($validator);
@@ -116,7 +116,6 @@ class ContributionController extends Controller
             'contribution_id' => $request->input('contribution_id'),
             'permission' => 'delete-contribution'
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
             'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL',
             'permission' => new HasPermissionInLanContribution($request->input('contribution_id'), Auth::id())
         ]);

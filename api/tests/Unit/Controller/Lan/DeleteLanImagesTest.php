@@ -68,6 +68,26 @@ class DeleteLanImagesTest extends TestCase
             ->assertResponseStatus(403);
     }
 
+    public function testDeleteLanImagesHasPermissionDifferentLanForImages(): void
+    {
+        $lan = factory('App\Model\Lan')->create();
+        $image = factory('App\Model\LanImage')->create([
+            'lan_id' => $lan->id
+        ]);
+
+        $this->actingAs($this->user)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
+                'lan_id' => $this->lan->id,
+                'image_ids' => $this->image1->id . ',' . $image->id
+            ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
     public function testDeleteLanImagesCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
@@ -102,44 +122,6 @@ class DeleteLanImagesTest extends TestCase
                 $image2->id
             ])
             ->assertResponseStatus(200);
-    }
-
-    public function testDeleteLanImagesLanIdExists(): void
-    {
-        $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
-                'lan_id' => -1,
-                'image_ids' => $this->image1->id . ',' . $this->image2->id
-            ])
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testDeleteLanImagesLanIdInteger(): void
-    {
-        $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/lan/image', [
-                'lan_id' => '☭',
-                'image_ids' => $this->image1->id . ',' . $this->image2->id
-            ])
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id must be an integer.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
     }
 
     public function testDeleteLanImagesImagesIdString(): void

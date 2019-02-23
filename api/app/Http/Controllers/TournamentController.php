@@ -36,16 +36,16 @@ class TournamentController extends Controller
         $this->tournamentService = $tournamentService;
     }
 
-    public function addOrganizer(Request $request, int $tournamentId)
+    public function addOrganizer(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => $tournamentId,
+            'tournament_id' => (int)$tournamentId,
             'email' => $request->input('email'),
             'permission' => 'add-organizer'
         ], [
             'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
             'email' => 'string|exists:user,email',
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), $tournamentId)
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
         ]);
 
         $this->checkValidation($validator);
@@ -96,14 +96,14 @@ class TournamentController extends Controller
         ), 201);
     }
 
-    public function delete(Request $request, int $tournamentId)
+    public function delete(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => $tournamentId,
+            'tournament_id' => (int)$tournamentId,
             'permission' => 'delete-tournament'
         ], [
             'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), $tournamentId)
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
         ]);
 
         $this->checkValidation($validator);
@@ -142,10 +142,10 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->getAll($request->input('lan_id')), 200);
     }
 
-    public function get(Request $request, int $tournamentId)
+    public function get(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => $tournamentId
+            'tournament_id' => (int)$tournamentId
         ], [
             'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL'
         ]);
@@ -155,10 +155,10 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->get($tournamentId), 200);
     }
 
-    public function quit(Request $request, int $tournamentId)
+    public function quit(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => $tournamentId
+            'tournament_id' => (int)$tournamentId
         ], [
             'tournament_id' => [
                 'integer',
@@ -172,10 +172,10 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->quit(Auth::id(), $tournamentId), 200);
     }
 
-    public function update(Request $request, int $tournamentId)
+    public function update(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => $tournamentId,
+            'tournament_id' => (int)$tournamentId,
             'name' => $request->input('name'),
             'state' => $request->input('state'),
             'price' => $request->input('price'),
@@ -195,7 +195,7 @@ class TournamentController extends Controller
             'players_to_reach' => ['min:1', 'integer'],
             'teams_to_reach' => 'min:1|integer',
             'rules' => 'string',
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), $tournamentId)
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
         ]);
 
         $this->checkValidation($validator);

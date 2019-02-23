@@ -90,23 +90,6 @@ class UpdateTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testUpdateTournamentIdInteger(): void
-    {
-        $badTournamentId = '☭';
-        $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $badTournamentId, $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'tournament_id' => [
-                        0 => 'The tournament id must be an integer.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testUpdateTournamentIdExist(): void
     {
         $badTournamentId = -1;

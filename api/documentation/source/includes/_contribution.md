@@ -14,18 +14,11 @@ Un administrateur créer une contribution à un LAN
 
 `POST /contribution`
 
-### Query Params
-
-Paramètre | Description | Règles de validation
---------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
-
 > Exemple de requête
 
 ```json
 {
 	"contribution_category_id": 1,
-	"user_full_name": null,
 	"user_email": "karl.marx@unite.org"
 }
 ```
@@ -48,8 +41,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 ```json
 {
     "id": 1,
-    "user_full_name": "Karl Marx",
-    "contribution_category_id": 1
+    "user_full_name": "Karl Marx"
 }
 ```
 
@@ -57,11 +49,10 @@ Champ | Description
 --------- | -----------
 id | Id de la contribution créée.
 user_full_name | Nom complet du contributeur créé.
-contribution_category_id | Id de la catégorie de contribution du contributeur créé.
 
 ## Lister les contributions
 
-Liste l'ensemble des contributions, groupées par catégories, pour un LAN.
+Lister l'ensemble des contributions, groupées par catégories, pour un LAN.
 
 ### Requête HTTP
 
@@ -131,8 +122,7 @@ Un administrateur supprime une contribution d'un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'administrateur veut supprimer une contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé | integer.
-contribution_id | Id de la contribution que l'administrateur veut supprimer. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+contribution_id | Id de la contribution que l'administrateur veut supprimer. | integer.
 
 ### Format de réponse
 
@@ -150,9 +140,9 @@ Champ | Description
 id | Id de la contribution supprimé.
 user_full_name | Nom complet du contributeur supprimé.
 
-## Ajouter une catégorie de contribution
+## Créer une catégorie de contribution
 
-Ajoute une catégorie de contribution à un LAN
+Un administrateur créer une catégorie de contribution à un LAN.
 
 <aside class="warning">
 <a href="#permission">Permission</a> requise : <code>create-contribution-category</code>, can_be_per_lan <code>true</code>
@@ -200,7 +190,7 @@ name | Nom de la catégorie de contribution créé.
 
 ## Lister les catégories de contribution
 
-Liste les catégories de contribution d'un LAN
+Liste les catégories de contribution d'un LAN.
 
 ### Requête HTTP
 
@@ -210,7 +200,7 @@ Liste les catégories de contribution d'un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, on retourne le LAN courant | integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
 
 ### Format de réponse
 
@@ -237,7 +227,7 @@ name | Nom de la catégorie de contribution listée.
 
 ## Supprimer une catégorie de contribution
 
-Supprime une catégorie de contribution d'un LAN
+Un administrateur supprime une catégorie de contribution d'un LAN.
 
 ### Requête HTTP
 

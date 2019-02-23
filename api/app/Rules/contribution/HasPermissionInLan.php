@@ -45,7 +45,7 @@ class HasPermissionInLan implements Rule
          * Le nom de la permission n'est pas nul
          * L'id de la contribution est un entier
          * Une contribution correspond à l'id de la contribution
-         * Un LAN correspond à l'id du LAN
+         * Une catégorie de contribution existe pour la contribution
          * Un utilisateur correspond à l'id de l'utilisateur
          */
         if (

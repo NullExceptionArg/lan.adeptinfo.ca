@@ -160,7 +160,7 @@ Champ | Description
 seat_id | Id de la place dont l'administrateur a annulé l'assignation.
 
 
-## Confirmer une place
+## Confirmer l'arrivée d'un joueur
 
 Un administrateur confirmer l'arrivée d'un joueur au LAN.
 

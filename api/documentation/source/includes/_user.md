@@ -237,7 +237,7 @@ Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à 
 La réponse de la déconnexion de utilisateur est vide.
 
 
-## Supprimer
+## Supprimer l'utilisateur
 
 Supprimer un utilisateur authentifié, ainsi que tout ses liens aux autres entités du LAN.
 

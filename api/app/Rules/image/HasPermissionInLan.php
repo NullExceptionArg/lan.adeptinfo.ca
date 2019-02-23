@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Rules\ContributionCategory;
+namespace App\Rules\Image;
 
-use App\Model\ContributionCategory;
+use App\Model\LanImage;
 use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
 
 /**
- * Un utilisateur possède une permission dans un LAN pour une catégorie de contribution.
+ * Un utilisateur possède une permission dans un LAN des images.
  *
  * Class HasPermissionInLan
  * @package App\Rules\User
  */
 class HasPermissionInLan implements Rule
 {
-    protected $contributionCategoryId;
+    protected $imageIds;
     protected $userId;
 
     /**
      * HasPermissionInLan constructor.
-     * @param null $contributionCategoryId Id de la catégorie.
+     * @param null $imageIds Id des images de LAN
      * @param null $userId Id de l'utilisateur
      */
-    public function __construct($contributionCategoryId, $userId)
+    public function __construct($imageIds, $userId)
     {
-        $this->contributionCategoryId = $contributionCategoryId;
+        $this->imageIds = $imageIds;
         $this->userId = $userId;
     }
 
@@ -37,21 +37,42 @@ class HasPermissionInLan implements Rule
      */
     public function passes($attribute, $permission): bool
     {
-        $contributionCategory = null;
+
         /*
          * Conditions de garde :
          * Le nom de la permission n'est pas nul
-         * L'id de la contribution est un entier
-         * Une catégorie de contribution correspond à l'id de la catégorie de contribution
+         * Les id d'images sont une chaîne de caractères
          * Un utilisateur correspond à l'id de l'utilisateur
          */
         if (
             is_null($permission) ||
-            !is_int($this->contributionCategoryId) ||
-            is_null($contributionCategory = ContributionCategory::find($this->contributionCategoryId)) ||
+            !is_string($this->imageIds) ||
             is_null($this->userId)
         ) {
             return true; // Une autre validation devrait échouer
+        }
+
+        $lanId = null;
+
+        // Distribuer les id divisés par des virgules dans un tableau
+        $imageIdArray = array_map('intval', explode(',', $this->imageIds));
+
+        // Pour chaque id d'image
+        for ($i = 0; $i < count($imageIdArray); $i++) {
+
+            // Chercher une image avec l'id de l'image et l'id du LAN
+            $image = LanImage::find($imageIdArray[$i]);
+
+            // Si aucune image n'a été trouvée, une autre validation devrait échouer
+            if (is_null($image)) {
+                return true;
+            }
+
+            if (is_null($lanId)) {
+                $lanId = $image->lan_id;
+            } else if ($image->lan_id != $lanId) {
+                throw new AuthorizationException(trans('validation.forbidden'));
+            }
         }
 
         // Rechercher si l'utilisateur possède la permission dans l'un de ses rôles de LAN
@@ -60,7 +81,7 @@ class HasPermissionInLan implements Rule
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
             ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
             ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
-            ->where('lan_role.lan_id', $contributionCategory->lan_id)
+            ->where('lan_role.lan_id', $lanId)
             ->where('lan_role_user.user_id', $this->userId)
             ->where('permission.name', $permission)
             ->get();
