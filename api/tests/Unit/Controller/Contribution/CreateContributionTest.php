@@ -110,42 +110,6 @@ class CreateContributionTest extends TestCase
             ->assertResponseStatus(201);
     }
 
-    public function testCreateContributionLanIdExist(): void
-    {
-        $this->requestContent['user_email'] = $this->user->email;
-        $this->requestContent['lan_id'] = -1;
-        $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateContributionLanIdInteger(): void
-    {
-        $this->requestContent['user_email'] = $this->user->email;
-        $this->requestContent['lan_id'] = '☭';
-        $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id must be an integer.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testCreateContributionCategoryIdRequired(): void
     {
         $this->requestContent['user_email'] = $this->user->email;
