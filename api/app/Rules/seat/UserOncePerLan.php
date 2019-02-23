@@ -2,7 +2,7 @@
 
 namespace App\Rules\Seat;
 
-use App\Model\{Reservation, User};
+use App\Model\{Lan, Reservation, User};
 use Illuminate\{Contracts\Auth\Authenticatable, Contracts\Validation\Rule};
 
 /**
@@ -36,11 +36,25 @@ class UserOncePerLan implements Rule
      */
     public function passes($attribute, $lanId): bool
     {
+        /*
+         * Conditions de garde :
+         * L'id du LAN est un entier
+         * L'id du LAN correspond à un LAN
+         * Si aucun utilisateur n'est fourni, l'adresse courriel est une chaîne de caractères,
+         * et correspond à un utilisateur
+         */
         if (
             !is_int($lanId) ||
-            (is_null($this->user) && is_null($this->user = User::where('email', $this->email)->first()))
+            is_null(Lan::find($lanId)) ||
+            (
+                is_null($this->user) &&
+                (
+                    !is_string($this->email) ||
+                    is_null($this->user = User::where('email', $this->email)->first())
+                )
+            )
         ) {
-            return true;
+            return true; // Une autre validation devrait échouer
         }
 
         // Chercher une réservation ayant l'id de l'utilisateur et l'id du LAN

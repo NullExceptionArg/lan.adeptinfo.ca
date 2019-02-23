@@ -18,10 +18,10 @@ class UniqueUserPerRequest implements Rule
 
     /**
      * UniqueUserPerRequest constructor.
-     * @param int|null $tagId Id du tag de joueur
+     * @param int $tagId Id du tag de joueur
      * @param int $userId
      */
-    public function __construct(?int $tagId, int $userId)
+    public function __construct($tagId, $userId)
     {
         $this->tagId = $tagId;
         $this->userId = $userId;
@@ -36,16 +36,28 @@ class UniqueUserPerRequest implements Rule
      */
     public function passes($attribute, $teamId): bool
     {
-        $tag = Tag::find($this->tagId);
-        $team = Team::find($teamId);
+        $tag = null;
+        $team = null;
 
         /*
          * Conditions de garde :
+         * L'id du tag est un entier
+         * L'id de l'utilisateur est un entier
+         * L'id de l'équipe est un entier
          * L'id du tag correspond à un tag
+         * L'id de l'équipe correspond à une équipe
          * L'id de l'utilisateur du tag correspond à celui de l'utilisateur courant
          * L'id de l'équipe correspond à une équipe
          */
-        if (is_null($tag) || $tag->user_id != $this->userId || is_null($team)) {
+        if (
+            !is_int($this->tagId) ||
+            !is_int($this->userId) ||
+            !is_int($teamId) ||
+            is_null($tag = Tag::find($this->tagId)) ||
+            is_null($team = Team::find($teamId)) ||
+            $tag->user_id != $this->userId ||
+            is_null($team)
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

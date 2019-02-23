@@ -19,7 +19,7 @@ class UniqueUserPerTournament implements Rule
      * UniqueUserPerTournament constructor.
      * @param int $userId Id de l'utilisateur
      */
-    public function __construct(int $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
@@ -34,13 +34,19 @@ class UniqueUserPerTournament implements Rule
      */
     public function passes($attribute, $teamId): bool
     {
-        $team = Team::find($teamId);
+        $team = null;
 
         /*
          * Condition de garde :
+         * L'id de l'équipe correspond à une équipe
+         * L'id de l'utilisateur
          * L'id du tournoi correspond à un tournoi
          */
-        if (is_null($team)) {
+        if (
+            !is_int($teamId) ||
+            !is_int($this->userId) ||
+            is_null($team = Team::find($teamId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

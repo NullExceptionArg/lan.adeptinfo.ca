@@ -19,11 +19,10 @@ class UserIsTournamentAdmin implements Rule
      * UserIsTournamentAdmin constructor.
      * @param int $userId Id de l'utilisateur
      */
-    public function __construct(int $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
-
 
     /**
      * Déterminer si la règle de validation passe.
@@ -34,13 +33,19 @@ class UserIsTournamentAdmin implements Rule
      */
     public function passes($attribute, $teamId): bool
     {
-        $team = Team::find($teamId);
+        $team = null;
 
         /*
          * Conditions de garde :
+         * L'id de l'utilisateur est un entier
+         * L'id de l'équipe est un entier
          * L'id de l'équipe correspond à l'id d'une équipe
          */
-        if (is_null($team)) {
+        if (
+            !is_int($this->userId) ||
+            !is_int($teamId) ||
+            is_null($team = Team::find($teamId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

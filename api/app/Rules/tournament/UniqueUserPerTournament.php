@@ -18,7 +18,7 @@ class UniqueUserPerTournament implements Rule
      * UniqueUserPerTournament constructor.
      * @param int $userId Id de l'uitilisateur
      */
-    public function __construct(int $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
@@ -35,9 +35,15 @@ class UniqueUserPerTournament implements Rule
     {
         /*
          * Condition de garde :
+         * L'id du tournoi est un entier
+         * L'id de l'utilisateur est un entier
          * L'id du tournoi n'est pas nul
          */
-        if (is_null($tournamentId)) {
+        if (
+            !is_int($this->userId) ||
+            !is_int($tournamentId) ||
+            is_null($tournamentId)
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

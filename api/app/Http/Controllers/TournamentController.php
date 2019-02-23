@@ -36,7 +36,7 @@ class TournamentController extends Controller
         $this->tournamentService = $tournamentService;
     }
 
-    public function addOrganizer(Request $request, string $tournamentId)
+    public function addOrganizer(Request $request, int $tournamentId)
     {
         $validator = Validator::make([
             'tournament_id' => $tournamentId,
@@ -96,7 +96,7 @@ class TournamentController extends Controller
         ), 201);
     }
 
-    public function delete(Request $request, string $tournamentId)
+    public function delete(Request $request, int $tournamentId)
     {
         $validator = Validator::make([
             'tournament_id' => $tournamentId,
@@ -142,7 +142,7 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->getAll($request->input('lan_id')), 200);
     }
 
-    public function get(Request $request, string $tournamentId)
+    public function get(Request $request, int $tournamentId)
     {
         $validator = Validator::make([
             'tournament_id' => $tournamentId
@@ -155,7 +155,7 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->get($tournamentId), 200);
     }
 
-    public function quit(Request $request, string $tournamentId)
+    public function quit(Request $request, int $tournamentId)
     {
         $validator = Validator::make([
             'tournament_id' => $tournamentId
@@ -172,7 +172,7 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->quit(Auth::id(), $tournamentId), 200);
     }
 
-    public function update(Request $request, string $tournamentId)
+    public function update(Request $request, int $tournamentId)
     {
         $validator = Validator::make([
             'tournament_id' => $tournamentId,

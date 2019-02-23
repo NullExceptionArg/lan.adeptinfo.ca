@@ -23,6 +23,14 @@ class ValidFacebookToken implements Rule
      */
     public function passes($attribute, $token): bool
     {
+        /*
+         * Condition de garde :
+         * Le token est une chaîne de caractères
+         */
+        if (!is_string($token)) {
+            return true; // Une autre validation devrait échouer
+        }
+
         try {
             // Essayer d'obtenir les informations de l'utilisateur avec le token
             FacebookUtils::getFacebook()->get(

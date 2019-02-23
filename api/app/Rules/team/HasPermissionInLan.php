@@ -18,10 +18,10 @@ class HasPermissionInLan implements Rule
 
     /**
      * HasPermissionInLan constructor.
-     * @param string|null $teamId Id de l'équipe
+     * @param string $teamId Id de l'équipe
      * @param string $userId Id de l'utilisateur
      */
-    public function __construct(?string $teamId, string $userId)
+    public function __construct($teamId, $userId)
     {
         $this->teamId = $teamId;
         $this->userId = $userId;
@@ -42,14 +42,20 @@ class HasPermissionInLan implements Rule
 
         /*
          * Conditions de garde :
+         * Le nom de la permission est une chaîne de caractères
          * Un nom de permission a été fourni
+         * L'id de l'utilisateur est un entier
          * Un id d'utilisateur a été fourni
-         * L'id d'équipem fourni correspond à une équipe
+         * L'id d'équipe est un entier
+         * L'id d'équipe fourni correspond à une équipe
          * Un tournoi existe pour l'équipe trouvée
          */
         if (
+            !is_string($permission) ||
             is_null($permission) ||
+            !is_int($this->userId) ||
             is_null($this->userId) ||
+            !is_int($this->teamId) ||
             is_null($team = Team::find($this->teamId)) ||
             is_null($tournament = Tournament::find($team->id))
         ) {

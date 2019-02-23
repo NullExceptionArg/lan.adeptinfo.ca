@@ -17,9 +17,9 @@ class TagNotBelongsLeader implements Rule
 
     /**
      * TagNotBelongsLeader constructor.
-     * @param string|null $teamId Id de l'équipe
+     * @param string $teamId Id de l'équipe
      */
-    public function __construct(?string $teamId)
+    public function __construct($teamId)
     {
         $this->teamId = $teamId;
     }
@@ -33,15 +33,22 @@ class TagNotBelongsLeader implements Rule
      */
     public function passes($attribute, $tagId): bool
     {
-        $tag = Tag::find($tagId);
-        $team = Team::find($this->teamId);
+        $tag = null;
+        $team = null;
 
         /*
          * Conditions de garde :
+         * L'id du tag de joueur est un entier
+         * L'id de l'équipe est un entier
          * L'id du tag de joueur correspond à un tag de joueur
          * L'id de l'équipe correspond à une équipe
          */
-        if (is_null($tag) || is_null($team)) {
+        if (
+            !is_int($tagId) ||
+            !is_int($this->teamId) ||
+            is_null($tag = Tag::find($tagId)) ||
+            is_null($team = Team::find($this->teamId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

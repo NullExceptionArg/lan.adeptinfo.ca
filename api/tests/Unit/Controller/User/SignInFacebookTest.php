@@ -9,7 +9,6 @@ use Tests\FacebookTestCase;
 
 class SignInFacebookTest extends FacebookTestCase
 {
-
     use DatabaseMigrations;
 
     public function testSignInFacebookNewUser(): void

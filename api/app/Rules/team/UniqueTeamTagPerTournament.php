@@ -17,9 +17,9 @@ class UniqueTeamTagPerTournament implements Rule
 
     /**
      * UniqueTeamTagPerTournament constructor.
-     * @param int|null $tournamentId Id du tournoi
+     * @param int $tournamentId Id du tournoi
      */
-    public function __construct(?int $tournamentId)
+    public function __construct($tournamentId)
     {
         $this->tournamentId = $tournamentId;
     }
@@ -33,6 +33,19 @@ class UniqueTeamTagPerTournament implements Rule
      */
     public function passes($attribute, $name): bool
     {
+        /*
+         * Conditions de validation
+         * L'id du tournoi est un entier
+         * Le nom du tag est une chaîne de caractères
+        */
+
+        if (
+            !is_int($this->tournamentId) ||
+            !is_string($name)
+        ) {
+            return true; // Une autre validation devrait échouer
+        }
+
         // Chercher si des équipes ont le tag du nom spécifié dans le tournoi
         return DB::table('team')
                 ->where('tournament_id', $this->tournamentId)

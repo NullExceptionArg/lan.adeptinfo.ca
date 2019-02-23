@@ -19,9 +19,9 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
     /**
      * HasPermissionInLanOrIsTournamentAdmin constructor.
      * @param string $userId Id de l'utilisateur
-     * @param string|null $tournamentId Id du tournoi
+     * @param string $tournamentId Id du tournoi
      */
-    public function __construct(string $userId, ?string $tournamentId)
+    public function __construct($userId, $tournamentId)
     {
         $this->userId = $userId;
         $this->tournamentId = $tournamentId;
@@ -43,13 +43,19 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
         /*
          * Conditions de garde
          * Le nom de la permission n'est pas nulle
+         * La permission est une chaîne de caractères
          * L'id de l'utilisateur n'est pas nul
+         * L'id de l'utilisateur est un entier
+         * L'id du tournoi est un entier
          * L'id du tournoi correspond à un tournoi
          * L'id du LAN du tournoi correspond à un LAN
          */
         if (
             is_null($permission) ||
+            !is_string($permission) ||
             is_null($this->userId) ||
+            !is_int($this->userId) ||
+            !is_int($this->tournamentId) ||
             is_null($tournament = Tournament::find($this->tournamentId)) ||
             is_null($lan = Lan::find($tournament->lan_id))
         ) {

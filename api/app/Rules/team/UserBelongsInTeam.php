@@ -21,7 +21,7 @@ class UserBelongsInTeam implements Rule
      * UserBelongsInTeam constructor.
      * @param int $userId Id de l'utilisateur
      */
-    public function __construct(int $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
@@ -37,12 +37,18 @@ class UserBelongsInTeam implements Rule
      */
     public function passes($attribute, $teamId): bool
     {
-        $team = Team::find($teamId);
+        $team = null;
 
         /*
+         * L'id de l'équipe est un entier
+         * L'id de l'utilisateur est un entier
          * L'id de l'équipe correspond à une équipe
          */
-        if (is_null($team)) {
+        if (
+            !is_int($teamId) ||
+            !is_int($this->userId) ||
+            is_null($team = Team::find($teamId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

@@ -18,7 +18,7 @@ class HasPermission implements Rule
      * HasPermission constructor.
      * @param string $userId Id de l'utilisateur
      */
-    public function __construct(string $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
@@ -35,10 +35,17 @@ class HasPermission implements Rule
     {
         /*
          * Conditions de garde :
+         * L'id de l'utilisateur est un entier
+         * La permission est une chaîne de caractères
          * Le nom de la permission n'est pas nul
          * L'id de l'utilisateur n'est pas nul
          */
-        if (is_null($permission) || is_null($this->userId)) {
+        if (
+            !is_int($this->userId) ||
+            !is_string($permission) ||
+            is_null($permission) ||
+            is_null($this->userId)
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

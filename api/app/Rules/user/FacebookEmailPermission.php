@@ -23,6 +23,14 @@ class FacebookEmailPermission implements Rule
      */
     public function passes($attribute, $token): bool
     {
+        /*
+         * Condition de garde :
+         * Le token est une chaîne de caractères
+         */
+        if (!is_string($token)) {
+            return true; // Une autre validation devrait échouer
+        }
+
         $response = null;
         try {
             // Tenter d'obtenir les informations (y comprit le courriel) de l'utilisateur à partir de son token

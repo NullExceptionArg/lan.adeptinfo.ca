@@ -19,7 +19,7 @@ class TagBelongsToUser implements Rule
      * TagBelongsToUser constructor.
      * @param int $userId Id de l'utilisateur
      */
-    public function __construct(int $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
@@ -35,13 +35,19 @@ class TagBelongsToUser implements Rule
      */
     public function passes($attribute, $tagId): bool
     {
-        $tag = Tag::find($tagId);
+        $tag = null;
 
         /*
-         * Condition de garde :
+         * Conditions de garde :
+         * L'id du tag est un entier
+         * L'id de l'utilisateur est un entier
          * Un tag de joueur doit correspondre à l'id de tag de joueur
          */
-        if (is_null($tag)) {
+        if (
+            !is_int($tagId) ||
+            !is_int($this->userId) ||
+            is_null($tag = Tag::find($tagId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

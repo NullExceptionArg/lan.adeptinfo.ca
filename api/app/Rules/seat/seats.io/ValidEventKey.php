@@ -38,7 +38,7 @@ class ValidEventKey implements Rule
         /*
          * Conditions de garde :
          * La longueur de la clé d'événement est plus petite que 255 caractères
-        * L'id du LAN est un entier positif
+        * L'id du LAN est un entier
         * La clé d'événement est une chaîne de caractères
         * La clé secrète est une chaîne de caractères
          */

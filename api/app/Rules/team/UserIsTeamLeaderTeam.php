@@ -19,7 +19,7 @@ class UserIsTeamLeaderTeam implements Rule
      * UserIsTeamLeaderTeam constructor.
      * @param int $userId Id de l'utilisateur
      */
-    public function __construct(int $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
@@ -38,9 +38,15 @@ class UserIsTeamLeaderTeam implements Rule
 
         /*
          * Condition de garde :
+         * L'id de l'utilisateur est un entier
+         * L'id de l'équipe est un entier
          * L'id de l'équipe doit correspondre à l'id d'une équipe
          */
-        if (is_null($team = Team::find($teamId))) {
+        if (
+            !is_int($this->userId) ||
+            !is_int($teamId) ||
+            is_null($team = Team::find($teamId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

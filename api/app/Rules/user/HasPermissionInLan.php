@@ -21,7 +21,7 @@ class HasPermissionInLan implements Rule
      * @param string|null $lanId Id du LAN pour les permissions par LAN
      * @param string $userId Id de l'utilisateur
      */
-    public function __construct(?string $lanId, string $userId)
+    public function __construct($lanId, $userId)
     {
         $this->lanId = $lanId;
         $this->userId = $userId;
@@ -39,11 +39,21 @@ class HasPermissionInLan implements Rule
     {
         /*
          * Conditions de garde :
+         * L'id du LAN est un entier
+         * L'id de l'utilisateur
+         * La permission est une chaîne de caractères
          * Le nom de la permission n'est pas nul
          * Un LAN correspond à l'id du LAN
          * Un utilisateur correspond à l'id de l'utilisateur
          */
-        if (is_null($permission) || is_null(Lan::find($this->lanId)) || is_null($this->userId)) {
+        if (
+            !is_int($this->lanId) ||
+            !is_int($this->userId) ||
+            !is_string($permission) ||
+            is_null($permission) ||
+            is_null(Lan::find($this->lanId)) ||
+            is_null($this->userId)
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

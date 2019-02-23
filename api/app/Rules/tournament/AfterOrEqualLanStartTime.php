@@ -17,9 +17,9 @@ class AfterOrEqualLanStartTime implements Rule
 
     /**
      * AfterOrEqualLanStartTime constructor.
-     * @param string|null $lanId Id du LAN
+     * @param string $lanId Id du LAN
      */
-    public function __construct(?string $lanId)
+    public function __construct($lanId)
     {
         $this->lanId = $lanId;
     }
@@ -33,13 +33,19 @@ class AfterOrEqualLanStartTime implements Rule
      */
     public function passes($attribute, $dateTime): bool
     {
-        $lan = Lan::find($this->lanId);
+        $lan = null;
 
         /*
          * Conditions de contribution :
+         * L'id du LAN est un entier
+         * La date est une chaîne de caractères
          * L'id du LAN correspond à un LAN
          */
-        if (is_null($lan)) {
+        if (
+            !is_int($this->lanId) ||
+            !is_string($dateTime) ||
+            is_null($lan = Lan::find($this->lanId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

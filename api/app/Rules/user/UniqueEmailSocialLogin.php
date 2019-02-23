@@ -24,13 +24,14 @@ class UniqueEmailSocialLogin implements Rule
      */
     public function passes($attribute, $courriel): bool
     {
-        $user = User::where('email', $courriel)->first();
+        $user = null;
 
         /*
          * Condition de garde :
          * Un utilisateur correspond au courriel
+         * Le courriel est une chaîne de caractères
          */
-        if (is_null($user)) {
+        if (is_null($user = User::where('email', $courriel)->first()) || !is_string($courriel)) {
             return true; // Une autre validation devrait échouer
         }
 

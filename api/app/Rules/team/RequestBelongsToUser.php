@@ -19,7 +19,7 @@ class RequestBelongsToUser implements Rule
      * RequestBelongsToUser constructor.
      * @param int $userId Id de l'utilisateur
      */
-    public function __construct(int $userId)
+    public function __construct($userId)
     {
         $this->userId = $userId;
     }
@@ -39,10 +39,18 @@ class RequestBelongsToUser implements Rule
 
         /*
          * Conditions de garde :
+         * L'id de l'utilisateur est un entier
+         * L'id de la requête est un entier
          * Une requête existe pour l'id de requête passée
+         * L'id de la requête est un entier
          * Un tag de joueur existe pour la requête passée
          */
-        if (is_null($request = Request::find($requestId)) || is_null($tag = Tag::find($request->tag_id))) {
+        if (
+            !is_int($requestId) ||
+            is_null($request = Request::find($requestId)) ||
+            !is_int($request->tag_id) ||
+            is_null($tag = Tag::find($request->tag_id))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

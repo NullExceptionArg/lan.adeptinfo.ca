@@ -23,13 +23,17 @@ class PlayersToReachLock implements Rule
      */
     public function passes($attribute, $tournamentId): bool
     {
-        $tournament = Tournament::find($tournamentId);
+        $tournament = null;
 
         /*
          * Condition de garde :
+         * L'id du tournoi est un entier
          * L'id du tournoi correspond à un tournoi
          */
-        if (is_null($tournament)) {
+        if (
+            !is_int($tournamentId) ||
+            is_null($tournament = Tournament::find($tournamentId))
+        ) {
             return true; // Une autre validation devrait échouer
         }
 

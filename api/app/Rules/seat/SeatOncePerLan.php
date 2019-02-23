@@ -35,7 +35,7 @@ class SeatOncePerLan implements Rule
     {
         /*
          * Conditions de garde :
-        * L'id du LAN est un entier positif
+        * L'id du LAN est un entier
         * L'id du siège est une chaîne de caractères
          */
         if (!is_int($this->lanId) || !is_string($seatId)) {

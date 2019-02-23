@@ -16,9 +16,9 @@ class UniqueTeamNamePerTournament implements Rule
 
     /**
      * UniqueTeamNamePerTournament constructor.
-     * @param int|null $tournamentId Id du tournoi
+     * @param int $tournamentId Id du tournoi
      */
-    public function __construct(?int $tournamentId)
+    public function __construct($tournamentId)
     {
         $this->tournamentId = $tournamentId;
     }
@@ -32,6 +32,18 @@ class UniqueTeamNamePerTournament implements Rule
      */
     public function passes($attribute, $teamName): bool
     {
+        /*
+         * Conditions de garde :
+         * L'id du tournoi est un entier
+         * Le nom de l'équipe est une chaîne de caractères
+         */
+        if (
+            !is_int($this->tournamentId) ||
+            !is_string($teamName)
+        ) {
+            return true; // Une autre validation devrait échouer
+        }
+
         // Chercher si des équipes portent le nom passé, pour le tournoi
         return DB::table('team')
                 ->where('tournament_id', $this->tournamentId)
