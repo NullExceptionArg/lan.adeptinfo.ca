@@ -32,6 +32,7 @@ Homestead est un environnement de développement fourni par les développeurs de
 
  ### Outils requis avec Homestead
    - PHP 7.2
+      - L'extension fileinfo doit être activée (Ajouter la ligne `extension=php_fileinfo.dll` dans php.ini)
   - [Composer](https://getcomposer.org/)
   - [VirtualBox](https://www.virtualbox.org/wiki/Downloads)
   - [Vagrant](https://www.vagrantup.com/downloads.html)
@@ -41,12 +42,13 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
   - *N'oubliez pas d'activer les technologies de virtualisation dans votre BIOS: vt-x pour Intel, et amd-v pour AMD.*
   - Si vous n'avez pas encore de clé ssh, vous devez en générer une. (Si vous ne savez pas ce que c'est, c'est probablement que vous n'en avez pas)
     - Voici les instructions sous linux (et probablement mac)
-    - Dans un terminal, exécutez `ssh-keygen -t rsa -b 4096 -C "votre_courriel@example.com"
+    - Dans un terminal, exécutez `ssh-keygen -t rsa -b 4096 -C "votre_courriel@example.com"`
     - Exécutez eval `"$(ssh-agent -s)"`
     - Exécutez `ssh-add -k ~/.ssh/id_rsa`
   - Avec un terminal de commande, se placer à la racine du projet API
   - Exécuter `composer install`
-  - Exécuter `php vendor/bin/homestead make`. Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
+  - À la racine du projet, exécuter `php vendor/bin/homestead make` si vous êtes sur linux ou mac, ou `vendor\\bin\\homestead make` si vous êtes sur Windows
+. Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
   - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
   
   ### Déboguer Homestead avec PhpStorm
