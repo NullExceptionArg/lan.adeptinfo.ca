@@ -38,18 +38,19 @@ Homestead est un environnement de développement fourni par les développeurs de
   - [Vagrant](https://www.vagrantup.com/downloads.html)
   
 ### Installation de Homestead
-Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagrantfile` et `after.sh`. Cependant certaines informations doivent être fournies par l'utilisateur.
-  - *N'oubliez pas d'activer les technologies de virtualisation dans votre BIOS: vt-x pour Intel, et amd-v pour AMD.*
+Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagrantfile` et `after.sh`. Cependant certaines informations doivent être fournies par l'utilisateur.  
+:bulb: N'oubliez pas d'activer les technologies de virtualisation dans votre BIOS: vt-x pour Intel, et amd-v pour AMD.*
   - Si vous n'avez pas encore de clé ssh, vous devez en générer une. (Si vous ne savez pas ce que c'est, c'est probablement que vous n'en avez pas)
     - Voici les instructions sous linux (et probablement mac)
-    - Dans un terminal, exécutez `ssh-keygen -t rsa -b 4096 -C "votre_courriel@example.com"`
-    - Exécutez eval `"$(ssh-agent -s)"`
-    - Exécutez `ssh-add -k ~/.ssh/id_rsa`
+    - Dans un terminal, exécuter `ssh-keygen -t rsa -b 4096 -C "votre_courriel@example.com"`
+    - Exécuter `eval "$(ssh-agent -s)"`
+    - Exécuter `ssh-add -k ~/.ssh/id_rsa`
   - Avec un terminal de commande, se placer à la racine du projet API
-  - Exécuter `composer install`
-  - À la racine du projet, exécuter `php vendor/bin/homestead make` si vous êtes sur linux ou mac, ou `vendor\\bin\\homestead make` si vous êtes sur Windows
+  - Exécuter `composer install`, qui installe les dépendances du projet.
+  - Exévuter `vagrant box add laravel/homestead`, qui ajoute Homestead aux machines virtuelles de Vagrant.
+  - À la racine du projet, exécuter `php vendor/bin/homestead make` si vous êtes sur linux ou mac, ou `vendor\\bin\\homestead make` si vous êtes sur Windows.
 . Un fichier nommé Homestead.yaml devrait avoir été généré. Si vous ouvrez ce fichier, vous devriez voir quelques informations sur la configuration de votre projet.
-  - Vous ne devriez pas en avoir besoin, mais si vous désirez accéder à la machine virtuelle créée, simplement taper  `vagrant ssh`.
+  - Si vous désirez accéder à la machine virtuelle créée, simplement exécuter `vagrant ssh`.
   
   ### Déboguer Homestead avec PhpStorm
   - Assurez vous que votre machine virtuelle est allumée. Il est possible de la mettre en marche via les menus de PhpStorm: `Tools/Vagrant/Up`
