@@ -153,6 +153,7 @@ return [
     'role_once_per_user' => 'The user already has this role.',
     'positive_integer' => 'The :attribute must be a positive integer.',
     'request_belongs_to_user' => 'The request must belong to the user.',
+    'email_not_current_user' => 'The email cannot be the same as the one used by the current user.',
     'forbidden' => 'REEEEEEEEEE',
 
     /*

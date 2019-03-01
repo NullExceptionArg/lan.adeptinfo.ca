@@ -7,6 +7,7 @@ use App\Rules\{Role\HasPermissionInLanOrIsTournamentAdmin,
     Tournament\BeforeOrEqualLanEndTime,
     Tournament\PlayersToReachLock,
     Tournament\UserIsTournamentAdmin,
+    User\EmailNotCurrentUser,
     User\HasPermissionInLan};
 use App\Services\Implementation\TournamentServiceImpl;
 use Carbon\Carbon;
@@ -44,7 +45,7 @@ class TournamentController extends Controller
             'permission' => 'add-organizer'
         ], [
             'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
-            'email' => 'string|exists:user,email',
+            'email' => ['string', 'exists:user', new EmailNotCurrentUser(Auth::user()->email)],
             'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
         ]);
 

@@ -157,18 +157,18 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testAddOrganizerEmailString(): void
+    public function testAddOrganizerEmailNotCurrentUser(): void
     {
         $this->actingAs($this->organizer)
             ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => 0
+                'email' => $this->organizer->email
             ])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'email' => [
-                        0 => 'The email must be a string.'
+                        0 => 'The email cannot be the same as the one used by the current user.'
                     ],
                 ]
             ])

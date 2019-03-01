@@ -29,7 +29,7 @@ class ApiExceptionsHandler extends DingoHandler
                 break;
             case $e instanceof MethodNotAllowedHttpException:
                 $status = Response::HTTP_METHOD_NOT_ALLOWED;
-                $message = $e->getMessage();
+                $message = trans('error.405');
                 break;
             case $e instanceof NotFoundHttpException:
                 $status = Response::HTTP_NOT_FOUND;

@@ -153,6 +153,7 @@ return [
     'role_once_per_user' => 'L\'utilisateur possède déjà ce rôle.',
     'positive_integer' => 'Le champ :attribute doit être un entier positif.',
     'request_belongs_to_user' => 'La requête doit appartenir à l\'utilisateur.',
+    'email_not_current_user' => 'Le courriel ne peut être le même que celui qui est utilisé par l\'utilisateur courant.',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

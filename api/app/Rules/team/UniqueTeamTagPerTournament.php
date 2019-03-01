@@ -50,6 +50,7 @@ class UniqueTeamTagPerTournament implements Rule
         return DB::table('team')
                 ->where('tournament_id', $this->tournamentId)
                 ->where('tag', $name)
+                ->whereNull('deleted_at')
                 ->count() == 0;
     }
 

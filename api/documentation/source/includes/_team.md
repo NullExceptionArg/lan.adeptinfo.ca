@@ -1,8 +1,12 @@
 # Équipe
 
+Une équipe est un groupe de tags de joueurs qui participent à un tournoi.
+
 ## Créer une équipe
 
 Créer une nouvelle équipe pour participer à un tournoi.
+L'utilisateur qui créer une équipe en devient le chef automatiquement.
+Le chef est celui qui gère l'équipe. Il peut donc approuver ou refuser les demandes pour joindre l'équipe, ainsi que retirer un joueur.
 
 ### Requête HTTP
 
@@ -21,7 +25,6 @@ Créer une nouvelle équipe pour participer à un tournoi.
 }
 ```
 
-L'utilisateur qui créer une équipe en devient le chef automatiquement.
 
 ### Paramètres POST
 
@@ -30,7 +33,7 @@ Paramètre | Description | Règles de validation
 tournament_id | Id du tournoi dans lequel l'utilisateur veut créer son équipe. | Requis
 user_tag_id | Id du tag sous lequel l'utilisateur souhaite créer et rejoindre l'équipe. | Requis, l'utilisateur peut seulement être dans un tournoi une fois.
 name | Nom de l'équipe. | Requis, string, 255 caractères max, le nom doit être unique pour le tournoi.
-tag | Nom du tag. | String, 5 caractères max, le tag doit être unique pour le tournoi.
+tag | Nom du tag de l'équipe. | String, 5 caractères max, le tag doit être unique pour le tournoi.
 
 ### Format de réponse
 
@@ -47,14 +50,14 @@ tag | Nom du tag. | String, 5 caractères max, le tag doit être unique pour le 
 
 Paramètre | Description
 --------- | -----------
-tournament_id | Id du tournoi dans lequel l'utilisateur a créer son équipe
-user_tag_id | Id du tag sous lequel l'utilisateur a créer et rejoint l'équipe.
+tournament_id | Id du tournoi de l'équipe que l'utilisateur a créé.
+user_tag_id | Id du tag sous lequel l'utilisateur a créé et rejoint l'équipe.
 name | Nom de l'équipe créée.
-tag | Nom du tag créée.
+tag | Nom du tag de l'équipe créée.
 
 ## Créer une demande pour joindre une équipe
 
-Créer une demande pour joindre une équipe
+Un joueur peut demander à joindre une équipe. Le chef  approuvera ou refusera la demande.
 
 ### Requête HTTP
 
@@ -85,7 +88,6 @@ tag_id | Id du tag sous lequel l'utilisateur souhaite rejoindre l'équipe. | Req
 ```json
 {
 	"id": 1,
-	"tournament_id": 1,
 	"name": "WorkersUnite",
 	"tag": "PRO"
 }
@@ -96,9 +98,9 @@ Paramètre | Description
 team_id | Id de l'équipe dans laquelle l'utilisateur a créé sa demande.
 tag_id | Id du tag sous lequel l'utilisateur a créer sa demande.
 
-## Obtenir les équipes d'un utilisateur
+## Obtenir les équipes de l'utilisateur
 
-Obtenir les équipes d'un utilisateur.
+Obtenir les équipes de l'utilisateur courant ainsi que son état dans celles-ci.
 
 ### Requête HTTP
 
@@ -138,7 +140,7 @@ players_reached | Nombre de joueurs dans l'équipe.
 players_to_reach | Nombre de joueurs à atteindre (Propriété du tournoi).
 tournament_name | Nom du tournoi.
 requests | Nombre de demandes pour faire parti de l'équipe.
-player_state | État du joueur dans l'équipe. Voir Player State
+player_state | État du joueur dans l'équipe. Voir possibilités dans Player State
 
 #### Player State
 Paramètre | Description
@@ -147,13 +149,13 @@ leader | Le joueur est le chef de l'équipe.
 confirmed | Le joueur est dans l'équipe.
 not-confirmed | La requête du joueur est en attente de confirmation.
 
-## Obtenir les détails d'une équipe
+## Obtenir les détails d'une équipe de l'utilisateur
 
-Obtenir les détails d'une équipe.
+Obtenir les détails d'une équipe de l'utilisateur courant.
 
 ### Requête HTTP
 
-`GET /team/members`
+`GET /team/details`
 
 ### Query Params
 
@@ -226,7 +228,7 @@ last_name | Nom de famille du joueur qui demande à entrer dans l'équipe.
 
 ## Changer de chef
 
-Le chef donne son titre à un autre joueur de l'équipe.
+L'utilisateur courant, qui est chef d'une équipe, donne son titre à un autre joueur faisant partie de l'équipe.
 
 ### Requête HTTP
 
@@ -257,7 +259,7 @@ name | Nom du tag du nouveau chef.
 
 ## Accepter une requête
 
-Le chef accepte une requête pour entrer dans l'équipe.
+L'utilisateur courant, qui est le chef de l'équipe accepte une requête pour entrer dans son équipe.
 
 ### Requête HTTP
 
@@ -269,15 +271,13 @@ Le chef accepte une requête pour entrer dans l'équipe.
 
 ```json
 {
-	"request_id": 1,
-	"team_id": 1
+	"request_id": 1
 }
 ```
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 request_id | Id de la requête pour joindre l'équipe. | Integer.
-team_id | Id de l'équipe dans laquelle le chef veut accepter la requête. | Integer.
 
 ### Format de réponse
 
@@ -295,9 +295,9 @@ Paramètre | Description
 id | Id du tag du nouveau membre de l'équipe.
 name | Nom du tag du nouveau membre de l'équipe.
 
-## Lister les requêtes d'un utilisateur
+## Lister les requêtes de l'utilisateur
 
-Un utilisateur consulte la liste des équipes pour lesquelles il a des requêtes.
+L'utilisateur courant consulte la liste des équipes pour lesquelles il a des requêtes.
 
 ### Requête HTTP
 
@@ -354,7 +354,7 @@ id | Id de la requête.
 tag_id | Id du tag sous lequel l'utilisateur a fait sa requête.
 tag_name | Nom du tag sous lequel l'utilisateur a fait sa requête.
 team_id | Id de l'équipe pour laquelle l'utilisateur a fait sa requête.
-tag | Tag de l'équipe pour laquelle l'utilisateur a fait sa requête.
+team_tag | Tag de l'équipe pour laquelle l'utilisateur a fait sa requête.
 team_name | Nom de l'équipe pour laquelle l'utilisateur a fait sa requête.
 tournament_id | Id du tournoi de l'équipe pour laquelle l'utilisateur a fait sa requête.
 tournament_name | Nom du tournoi de l'équipe pour laquelle l'utilisateur a fait sa requête.
@@ -364,7 +364,7 @@ tournament_name | Nom du tournoi de l'équipe pour laquelle l'utilisateur a fait
 Un utilisateur qui ne souhaite plus faire parti d'une équipe peut la quitter.
 
 Si c'est le chef qui quitte l'équipe, le rôle revient au joueur avec le plus d'ancienneté.
-Si le chef est le dernier à quitter l'équipe, l'équipe (et les requêtes) sont supprimées.
+Si le chef est le dernier à quitter l'équipe, elle et les requêtes sont supprimées.
 
 ### Requête HTTP
 
@@ -409,7 +409,6 @@ Un joueur peut supprimer une de ses requêtes pour entrer dans une équipe.
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 request_id | Id de la requête pour joindre l'équipe. | Integer.
-team_id | Id de l'équipe dans laquelle le joueur veut supprimer la requête. | Integer.
 
 ### Format de réponse
 
@@ -432,9 +431,9 @@ tag | Nom du du tag de l'équipe pour laquelle la requête a été supprimée.
 tournament_id | Id du tournoi de l'équipe pour laquelle la requête a été supprimée.
 
 
-## Quitter une équipe
+## Supprimer une requête (Chef)
 
-Un chef peut supprimer une requête pour entrer dans l'une de ses équipes.
+Un chef peut supprimer une requête d'un joueur pour entrer dans l'une de ses équipes.
 
 ### Requête HTTP
 
@@ -445,7 +444,6 @@ Un chef peut supprimer une requête pour entrer dans l'une de ses équipes.
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 request_id | Id de la requête pour joindre l'équipe. | Integer.
-team_id | Id de l'équipe dans laquelle le chef veut supprimer la requête. | Integer.
 
 ### Format de réponse
 
@@ -465,7 +463,11 @@ tag | Nom du tag de la requête supprimée.
 
 ## Supprimer une équipe (Administrateur)
 
-Un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)
+L'utilisateur courant, qui est un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>delete-team</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 
@@ -475,7 +477,7 @@ Un administrateur supprime une équipe et tout ses liens (requêtes, tag-team)
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe que l'administrateur souhaite supprimer | Integer.
+team_id | Id de l'équipe que l'administrateur souhaite supprimer. | Integer.
 
 ### Format de réponse
 
@@ -499,7 +501,7 @@ tag | Nom du tag de l'équipe supprimée.
 
 ## Supprimer une équipe (Chef)
 
-Un administrateur supprime une de ses équipes équipe et tout ses liens (requêtes, tag-team)
+L'utilisateur courant, qui est un administrateur supprime une de ses équipes équipe et tout ses liens (requêtes, tag-team)
 
 ### Requête HTTP
 
@@ -533,11 +535,11 @@ tag | Nom du tag de l'équipe supprimée.
 
 ## Supprimer un joueur de son équipe
 
-Un chef d'équipe supprime un joueur de son équipe.
+L'utilisateur courant, qui est chef d'équipe supprime un joueur de son équipe.
 
 ### Requête HTTP
 
-`POST /team/kick`
+`DELETE /team/kick`
 
 ### Query Params
 
@@ -553,11 +555,11 @@ tag_id | Id de du tag que le chef de l'équipe souhaite supprimer de son équipe
 ```json
 {
 	"id": 1,
-	"tag": "PRO"
+	"name": "PRO"
 }
 ```
 
 Paramètre | Description
 --------- | -----------
-id | Id du tag supprimé de l'équipe.
-tag | Nom du tag supprimé de l'équipe.
+id | Id du tag de joueur supprimé de l'équipe.
+name | Nom du tag de joueur supprimé de l'équipe.

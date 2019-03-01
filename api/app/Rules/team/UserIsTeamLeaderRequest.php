@@ -40,12 +40,14 @@ class UserIsTeamLeaderRequest implements Rule
         /*
          * Conditions de garde :
          * L'id de la requête est un entier
+         * La valeur en entier de la variable n'est pas à 0
          * L'id de l'utilisateur est un entier
          * L'id de la requête pour entrer dans l'équipe correspond à une requête pour entrer dans une équipe
          * Une équipe correspond à l'id de l'équipe de la requête
          */
         if (
-            !is_int($requestId) ||
+            !is_int((int)$requestId) ||
+            intval((int)$requestId) == 0 ||
             !is_int($this->userId) ||
             is_null($request = Request::find($requestId)) ||
             is_null($team = Team::find($request->team_id))

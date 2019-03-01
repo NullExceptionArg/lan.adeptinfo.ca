@@ -48,6 +48,7 @@ class UniqueTeamNamePerTournament implements Rule
         return DB::table('team')
                 ->where('tournament_id', $this->tournamentId)
                 ->where('name', $teamName)
+                ->whereNull('deleted_at')
                 ->count() == 0;
     }
 
