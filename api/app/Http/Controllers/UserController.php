@@ -35,6 +35,12 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#confirmer-un-compte
+     * @param Request $request
+     * @param string $confirmationCode
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function confirm(Request $request, string $confirmationCode)
     {
         $validator = Validator::make([
@@ -49,6 +55,11 @@ class UserController extends Controller
         return response()->json([], 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-tag
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createTag(Request $request)
     {
         $validator = Validator::make([
@@ -65,12 +76,21 @@ class UserController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-l-39-utilisateur
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteUser()
     {
         $this->userService->deleteUser(Auth::id());
         return response()->json([], 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#roles-d-39-un-administrateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAdminRoles(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -96,6 +116,11 @@ class UserController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#sommaire-de-l-39-administrateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAdminSummary(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -115,6 +140,11 @@ class UserController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-utilisateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUserDetails(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -136,6 +166,11 @@ class UserController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-utilisateurs
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUsers(Request $request)
     {
         // Correction des champs de la requête qui sont utilisés comme integer, puisque '' == 0 est true en PHP...
@@ -174,6 +209,11 @@ class UserController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#sommaire-de-l-39-utilisateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUserSummary(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -191,12 +231,21 @@ class UserController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#deconnexion
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logOut()
     {
         $this->userService->logOut();
         return response()->json([], 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#connexion-avec-facebook
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function signInFacebook(Request $request)
     {
         $validator = Validator::make([
@@ -211,6 +260,11 @@ class UserController extends Controller
         return response()->json(['token' => $response['token']], $response['is_new'] ? 201 : 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#connexion-avec-google
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function signInGoogle(Request $request)
     {
         $validator = Validator::make([
@@ -225,6 +279,11 @@ class UserController extends Controller
         return response()->json(['token' => $response['token']], $response['is_new'] ? 201 : 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-compte-utilisateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function signUp(Request $request)
     {
         $validator = Validator::make($request->all(), [

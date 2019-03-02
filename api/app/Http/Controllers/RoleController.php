@@ -41,6 +41,11 @@ class RoleController extends Controller
         $this->roleService = $roleService;
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-des-permissions-a-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addPermissionsGlobalRole(Request $request)
     {
         $validator = Validator::make([
@@ -67,6 +72,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-des-permissions-a-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addPermissionsLanRole(Request $request)
     {
         $validator = Validator::make([
@@ -94,6 +104,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#assigner-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function assignGlobalRole(Request $request)
     {
         $validator = Validator::make([
@@ -114,6 +129,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#assigner-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function assignLanRole(Request $request)
     {
         $validator = Validator::make([
@@ -134,6 +154,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createGlobalRole(Request $request)
     {
         $validator = Validator::make([
@@ -166,6 +191,11 @@ class RoleController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createLanRole(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -202,6 +232,11 @@ class RoleController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteGlobalRole(Request $request)
     {
         $validator = Validator::make([
@@ -219,6 +254,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteLanRole(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -239,6 +279,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-des-permissions-a-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deletePermissionsGlobalRole(Request $request)
     {
         $validator = Validator::make([
@@ -264,6 +309,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-des-permissions-a-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deletePermissionsLanRole(Request $request)
     {
         $validator = Validator::make([
@@ -289,6 +339,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-permissions-d-39-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getGlobalRolePermissions(Request $request)
     {
         $validator = Validator::make([
@@ -306,6 +361,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-roles-globaux
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getGlobalRoles(Request $request)
     {
         $validator = Validator::make([
@@ -319,6 +379,11 @@ class RoleController extends Controller
         return response()->json($this->roleService->getGlobalRoles(), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-utilisateurs-possedants-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getGlobalRoleUsers(Request $request)
     {
         $validator = Validator::make([
@@ -336,6 +401,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-permissions-d-39-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getLanRolePermissions(Request $request)
     {
         $validator = Validator::make([
@@ -353,6 +423,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-roles-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getLanRoles(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -371,6 +446,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-utilisateurs-possedants-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getLanRoleUsers(Request $request)
     {
         $validator = Validator::make([
@@ -388,6 +468,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-permissions
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getPermissions(Request $request)
     {
         $validator = Validator::make([
@@ -401,6 +486,11 @@ class RoleController extends Controller
         return response()->json($this->roleService->getPermissions(), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#modifier-un-role-global
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateGlobalRole(Request $request)
     {
         $validator = Validator::make([
@@ -433,6 +523,11 @@ class RoleController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#modifier-un-role-de-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function updateLanRole(Request $request)
     {
         $validator = Validator::make([

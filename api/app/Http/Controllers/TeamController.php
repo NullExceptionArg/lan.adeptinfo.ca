@@ -43,6 +43,11 @@ class TeamController extends Controller
         $this->teamServiceImpl = $teamServiceImpl;
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#accepter-une-requete
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function acceptRequest(Request $request)
     {
         $validator = Validator::make([
@@ -62,6 +67,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#changer-de-chef
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function changeLeader(Request $request)
     {
         $validator = Validator::make([
@@ -85,6 +95,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-une-demande-pour-joindre-une-equipe
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createRequest(Request $request)
     {
         $validator = Validator::make([
@@ -112,6 +127,11 @@ class TeamController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-une-equipe
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $validator = Validator::make([
@@ -144,6 +164,11 @@ class TeamController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-une-equipe-administrateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteAdmin(Request $request)
     {
         $validator = Validator::make([
@@ -161,6 +186,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-une-equipe-chef
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteLeader(Request $request)
     {
         $validator = Validator::make([
@@ -176,6 +206,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-une-requete-chef
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteRequestLeader(Request $request)
     {
         $validator = Validator::make([
@@ -195,6 +230,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#annuler-une-requete
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteRequestPlayer(Request $request)
     {
         $validator = Validator::make([
@@ -214,6 +254,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-requetes-de-l-39-utilisateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getRequests(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -231,6 +276,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-details-d-39-une-equipe-de-l-39-utilisateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUsersTeamDetails(Request $request)
     {
         $validator = Validator::make([
@@ -247,6 +297,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-equipes-de-l-39-utilisateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getUserTeams(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -264,6 +319,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-un-joueur-de-son-equipe
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function kick(Request $request)
     {
         $validator = Validator::make([
@@ -287,6 +347,11 @@ class TeamController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#quitter-une-equipe
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function leave(Request $request)
     {
         $validator = Validator::make([

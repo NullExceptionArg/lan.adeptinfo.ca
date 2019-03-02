@@ -219,7 +219,7 @@ display_name | Nom du rôle où les permissions ont été ajoutées.
 description | Description du rôle où les permissions ont été ajoutées.
 
 
-## Supprimer des permissions d'un rôle de LAN
+## Supprimer des permissions à un rôle de LAN
 
 Supprimer des permissions d'un rôle de LAN.
 

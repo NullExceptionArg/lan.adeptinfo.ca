@@ -33,6 +33,11 @@ class ContributionController extends Controller
         $this->contributionService = $contributionService;
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#contribution
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createCategory(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -54,6 +59,11 @@ class ContributionController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-une-contribution
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function createContribution(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -91,6 +101,11 @@ class ContributionController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-une-categorie-de-contribution
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteCategory(Request $request)
     {
         $validator = Validator::make([
@@ -110,6 +125,11 @@ class ContributionController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-une-contribution
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteContribution(Request $request)
     {
         $validator = Validator::make([
@@ -127,6 +147,11 @@ class ContributionController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-categories-de-contribution
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getCategories(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -143,6 +168,11 @@ class ContributionController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-contributions
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getContributions(Request $request)
     {
         $request = $this->adjustRequestForLan($request);

@@ -38,6 +38,12 @@ class SeatController extends Controller
         $this->seatService = $seatServiceImpl;
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#assigner-une-place
+     * @param Request $request
+     * @param string $seatId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function assign(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
@@ -72,6 +78,12 @@ class SeatController extends Controller
         )], 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#reserver-une-place
+     * @param Request $request
+     * @param string $seatId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function book(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
@@ -103,6 +115,12 @@ class SeatController extends Controller
         )], 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#confirmer-l-39-arrivee-d-39-un-joueur
+     * @param Request $request
+     * @param string $seatId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function confirmArrival(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
@@ -131,6 +149,12 @@ class SeatController extends Controller
         )], 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#annuler-une-assignation
+     * @param Request $request
+     * @param string $seatId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function unAssign(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
@@ -164,6 +188,12 @@ class SeatController extends Controller
         )], 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#annuler-une-reservation
+     * @param Request $request
+     * @param string $seatId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function unBook(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
@@ -193,6 +223,12 @@ class SeatController extends Controller
         )], 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#deconfirmer-une-place
+     * @param Request $request
+     * @param string $seatId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function unConfirmArrival(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);

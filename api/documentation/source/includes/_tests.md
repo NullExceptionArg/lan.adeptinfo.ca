@@ -2,7 +2,7 @@
 
 Les tests programmés assurent une qualité et une standardisation dans les données retournées par l'API.
 Cependant, certaines fonctionnalités sont difficiles, voir impossibles à tester à l'aide de tests programmés. 
-C'est pourquoi il est recommandé que la personne qui installe l'API teste certaines fonctionnalités manuellement, avec Postamn.
+C'est pourquoi il est recommandé que la personne qui installe l'API teste certaines fonctionnalités manuellement, avec Postman.
 
 ## Création de compte
 

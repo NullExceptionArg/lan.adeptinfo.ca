@@ -37,6 +37,11 @@ class LanController extends Controller
         $this->lanService = $lanServiceImpl;
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-une-image
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addLanImage(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -58,6 +63,11 @@ class LanController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $validator = Validator::make([
@@ -114,6 +124,11 @@ class LanController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-des-images
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteLanImages(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -121,7 +136,7 @@ class LanController extends Controller
             'image_ids' => $request->input('image_ids'),
             'permission' => 'delete-image'
         ], [
-            'image_ids' => ['required', 'string', new ManyImageIdsExist($request->input('lan_id'))],
+            'image_ids' => ['required', 'string', new ManyImageIdsExist],
             'permission' => new HasPermissionInLanImages($request->input('image_ids'), Auth::id())
         ]);
 
@@ -132,11 +147,20 @@ class LanController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-lans
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAll()
     {
         return response()->json($this->lanService->getAll(), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -154,6 +178,11 @@ class LanController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#changer-de-lan-courant
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function setCurrent(Request $request)
     {
         $validator = Validator::make([
@@ -171,6 +200,11 @@ class LanController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#mettre-a-jour-un-lan
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request)
     {
         $request = $this->adjustRequestForLan($request);

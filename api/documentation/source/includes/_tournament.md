@@ -232,7 +232,7 @@ unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse
 
 ## Obtenir tous les tournois
 
-Obtenir tous les tournois.
+Obtenir tous les tournois d'un LAN.
 
 ### Requête HTTP
 

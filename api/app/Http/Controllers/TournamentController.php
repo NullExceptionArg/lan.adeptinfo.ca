@@ -37,6 +37,12 @@ class TournamentController extends Controller
         $this->tournamentService = $tournamentService;
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-un-organisateur-a-un-tournoi
+     * @param Request $request
+     * @param string $tournamentId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addOrganizer(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
@@ -57,6 +63,11 @@ class TournamentController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-tournoi
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function create(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -97,6 +108,12 @@ class TournamentController extends Controller
         ), 201);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-un-tournoi
+     * @param Request $request
+     * @param string $tournamentId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function delete(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
@@ -112,6 +129,11 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->delete($tournamentId), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#tournois-d-39-un-organisateur
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAllForOrganizer(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -129,6 +151,11 @@ class TournamentController extends Controller
         ), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-tous-les-tournois
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getAll(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
@@ -143,6 +170,12 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->getAll($request->input('lan_id')), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-tournoi
+     * @param Request $request
+     * @param string $tournamentId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function get(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
@@ -156,6 +189,12 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->get($tournamentId), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#quitter-l-39-organisation-d-39-un-tournoi
+     * @param Request $request
+     * @param string $tournamentId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function quit(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
@@ -173,6 +212,12 @@ class TournamentController extends Controller
         return response()->json($this->tournamentService->quit(Auth::id(), $tournamentId), 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#modifier-un-tournoi
+     * @param Request $request
+     * @param string $tournamentId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(Request $request, string $tournamentId)
     {
         $validator = Validator::make([

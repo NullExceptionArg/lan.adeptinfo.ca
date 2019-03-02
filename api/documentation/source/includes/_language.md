@@ -6,7 +6,7 @@ Langue | Code de langue
 --------- | -----------
 Anglais | en
 Français | fr
-Défaut (Si aucune langue n'est spécifiée) | La langue par défaut peut être changée dans les variables d'environnement (.env).
+Défaut (Si aucune langue n'est spécifiée) | La langue par défaut peut être changée dans les variables d'environnement (.env) de l'API.
 
 ### Changer de langue
 
