@@ -364,6 +364,9 @@
                   <li>
                     <a href="#ajouter-un-organisateur-a-un-tournoi" class="toc-h2 toc-link" data-title="Ajouter un organisateur à un tournoi">Ajouter un organisateur à un tournoi</a>
                   </li>
+                  <li>
+                    <a href="#retirer-un-organisateur-d-39-un-tournoi" class="toc-h2 toc-link" data-title="Retirer un organisateur d'un tournoi">Retirer un organisateur d'un tournoi</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -1652,10 +1655,6 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <td>Images de présentation.</td>
 </tr>
 </tbody></table>
-
-<aside class="notice">
-Pour accéder au champ <code>secret_key</code>, il est nécessaire que l'utilisateur possède la permission <code>edit-lan</code>
-</aside>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
@@ -4173,10 +4172,10 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 </tr>
 </tbody></table>
 <h2 id='ajouter-un-organisateur-a-un-tournoi'>Ajouter un organisateur à un tournoi</h2>
-<p>Un administrateur d&#39;un tournoi peut en ajouter un autre, pour l&#39;aider à l&#39;organisation du tournoi.</p>
+<p>Un administrateur ou un organisateur d&#39;un tournoi peut en ajouter un autre, pour l&#39;aider à l&#39;organisation du tournoi.</p>
 
 <aside class="warning">
-<a href="#permission">Permission</a> requise : <code>delete-team</code>, can_be_per_lan <code>true</code>
+<a href="#permission">Permission</a> requise : <code>add-organizer</code>, can_be_per_lan <code>true</code>
 </aside>
 
 <aside class="notice">
@@ -4194,7 +4193,7 @@ La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
 </thead><tbody>
 <tr>
 <td>tournament_id</td>
-<td>Id du tournoi dont l&#39;organisateur souhaite ajouter un autre organisateur.</td>
+<td>Id du tournoi pour lequel l&#39;organisateur ou l&#39;administrateur souhaite ajouter un autre organisateur.</td>
 <td>entier.</td>
 </tr>
 </tbody></table>
@@ -4262,6 +4261,135 @@ La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
 </tr>
 </tbody></table>
 <h4 id='etat-courant-7'>État courant</h4>
+<table><thead>
+<tr>
+<th>Champ</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>hidden</td>
+<td>Caché, est seulement visible pour les organisateurs.</td>
+</tr>
+<tr>
+<td>finished</td>
+<td>Le tournoi est terminé.</td>
+</tr>
+<tr>
+<td>fourthcoming</td>
+<td>Le tournoi est à venir.</td>
+</tr>
+<tr>
+<td>late</td>
+<td>Le tournoi est en retard.</td>
+</tr>
+<tr>
+<td>outguessed</td>
+<td>Le tournoi est devancé.</td>
+</tr>
+<tr>
+<td>running</td>
+<td>Le tournoi est en cours.</td>
+</tr>
+<tr>
+<td>behindhand</td>
+<td>Le tournoi s&#39;éternise (Après l&#39;heure de fin prévue).</td>
+</tr>
+<tr>
+<td>unknown</td>
+<td>État inconnu. Si jamais vous ou un utilisateur obtient cette réponse, il serait bien de le communiquer à un développeur de l&#39;API.</td>
+</tr>
+</tbody></table>
+<h2 id='retirer-un-organisateur-d-39-un-tournoi'>Retirer un organisateur d&#39;un tournoi</h2>
+<p>Un administrateur ou un organisateur d&#39;un tournoi peut en retirer un autre.</p>
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>remove-organizer</code>, can_be_per_lan <code>true</code>
+</aside>
+
+<aside class="notice">
+La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
+</aside>
+<h3 id='requete-http-9'>Requête HTTP</h3>
+<p><code>POST /tournament/{tournament_id}/organizer</code></p>
+<h3 id='path-params-6'>Path Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>tournament_id</td>
+<td>Id du tournoi pour lequel l&#39;organisateur ou l&#39;administrateur souhaite retirer un organisateur.</td>
+<td>entier.</td>
+</tr>
+</tbody></table>
+<h3 id='query-params-5'>Query Params</h3>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+<th>Règles de validation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>Courriel de l&#39;utilisateur à retirer de l&#39;organisation du tournoi.</td>
+<td>chaîne de caractères.</td>
+</tr>
+</tbody></table>
+<h3 id='format-de-reponse-9'>Format de réponse</h3>
+<blockquote>
+<p>Exemple de réponse</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"October"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tournament_start"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11 14:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tournament_end"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2100-10-11 18:00:00"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"state"</span><span class="p">:</span><span class="w"> </span><span class="s2">"hidden"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"teams_reached"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"teams_to_reach"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<table><thead>
+<tr>
+<th>Paramètre</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>Id du tournoi pour lequel le l&#39;organisateur a été retiré.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>Nom du tournoi pour lequel le l&#39;organisateur a été retiré.</td>
+</tr>
+<tr>
+<td>tournament_start</td>
+<td>Date et heure de début du tournoi pour lequel le l&#39;organisateur a été retiré.</td>
+</tr>
+<tr>
+<td>tournament_end</td>
+<td>Date et heure de fin du tournoi pour lequel le l&#39;organisateur a été retiré.</td>
+</tr>
+<tr>
+<td>state</td>
+<td>État courant du tournoi pour lequel le l&#39;organisateur a été retiré. Voir État Courant.</td>
+</tr>
+<tr>
+<td>teams_reached</td>
+<td>Nombre d&#39;équipes atteintes pour que le tournoi dans lequel le l&#39;organisateur a été retiré ait lieu.</td>
+</tr>
+<tr>
+<td>teams_to_reach</td>
+<td>Nombre d&#39;équipes à atteindre pour que le tournoi dans lequel le l&#39;organisateur a été retiré ait lieu.</td>
+</tr>
+</tbody></table>
+<h4 id='etat-courant-8'>État courant</h4>
 <table><thead>
 <tr>
 <th>Champ</th>
