@@ -39,7 +39,7 @@ class AddOrganizerTest extends TestCase
         ]);
 
         $this->addLanPermissionToUser(
-            $this->user->id,
+            $this->organizer->id,
             $this->lan->id,
             'add-organizer'
         );
