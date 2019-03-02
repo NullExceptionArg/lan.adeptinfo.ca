@@ -2,47 +2,73 @@
 
 namespace App\Rules\Team;
 
-use App\Model\Tag;
-use App\Model\Team;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Model\{Tag, Team};
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
 
+/**
+ * Une requête n'existe qu'une fois par utilisateur.
+ *
+ * Class UniqueUserPerRequest
+ * @package App\Rules\Team
+ */
 class UniqueUserPerRequest implements Rule
 {
     protected $tagId;
+    protected $userId;
 
-    public function __construct(?int $tagId)
+    /**
+     * UniqueUserPerRequest constructor.
+     * @param int $tagId Id du tag de joueur
+     * @param int $userId
+     */
+    public function __construct($tagId, $userId)
     {
         $this->tagId = $tagId;
+        $this->userId = $userId;
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $teamId Id de l'équipe
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $teamId): bool
     {
-        $tag = Tag::find($this->tagId);
-        if ($tag == null || $tag->user_id != Auth::id()) {
-            return true;
+        $tag = null;
+        $team = null;
+
+        /*
+         * Conditions de garde :
+         * L'id du tag est un entier
+         * L'id de l'utilisateur est un entier
+         * L'id de l'équipe est un entier
+         * L'id du tag correspond à un tag
+         * L'id de l'équipe correspond à une équipe
+         * L'id de l'utilisateur du tag correspond à celui de l'utilisateur courant
+         * L'id de l'équipe correspond à une équipe
+         */
+        if (
+            !is_int($this->tagId) ||
+            !is_int($this->userId) ||
+            !is_int($teamId) ||
+            is_null($tag = Tag::find($this->tagId)) ||
+            is_null($team = Team::find($teamId)) ||
+            $tag->user_id != $this->userId ||
+            is_null($team)
+        ) {
+            return true; // Une autre validation devrait échouer
         }
 
-        $team = Team::find($value);
-
-        if ($team == null) {
-            return true;
-        }
-
+        // Chercher les tag de l'utilisateur courant
         $tagIds = DB::table('tag')
             ->select('id')
-            ->where('user_id', Auth::id())
+            ->where('user_id', $this->userId)
             ->pluck('id')
             ->toArray();
 
+        // Chercher si des requêtes ont l'un des id de tag de l'utilisateur pour l'équipe
         return DB::table('request')
                 ->whereIn('id', $tagIds)
                 ->where('team_id', $team->id)
@@ -50,11 +76,11 @@ class UniqueUserPerRequest implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.unique_user_per_request');
     }

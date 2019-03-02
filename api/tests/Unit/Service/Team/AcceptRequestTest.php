@@ -3,10 +3,7 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class AcceptRequestTest extends TestCase
@@ -24,11 +21,6 @@ class AcceptRequestTest extends TestCase
     protected $team;
     protected $request;
 
-    protected $requestContent = [
-        'request_id' => null,
-        'team_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -44,8 +36,8 @@ class AcceptRequestTest extends TestCase
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -64,107 +56,15 @@ class AcceptRequestTest extends TestCase
             'tag_id' => $this->requestingUsersTag->id,
             'team_id' => $this->team->id
         ]);
-
-        $this->requestContent['request_id'] = $this->request->id;
-        $this->requestContent['team_id'] = $this->team->id;
-
-        $this->be($this->leader);
     }
 
     public function testAcceptRequest(): void
     {
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->acceptRequest($request);
+        $result = $this->teamService->acceptRequest(
+            $this->request->id
+        );
 
         $this->assertEquals($this->requestingUsersTag->id, $result->id);
         $this->assertEquals($this->requestingUsersTag->name, $result->name);
-    }
-
-    public function testAcceptRequestRequestIdInteger(): void
-    {
-        $this->requestContent['request_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->acceptRequest($request);
-            $this->fail('Expected: {"request_id":["The request id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"request_id":["The request id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testAcceptRequestRequestIdExist(): void
-    {
-        $this->requestContent['request_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->acceptRequest($request);
-            $this->fail('Expected: {"request_id":["The selected request id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"request_id":["The selected request id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testAcceptRequestRequestIdRequestBelongsInTeam(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
-        ]);
-        $team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
-        ]);
-        $request = factory('App\Model\Request')->create([
-            'tag_id' => $tag,
-            'team_id' => $team->id
-        ]);
-        $this->requestContent['request_id'] = $request->id;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->acceptRequest($request);
-            $this->fail('Expected: {"request_id":["The request must be for the leaders team."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"request_id":["The request must be for the leaders team."]}', $e->getMessage());
-        }
-    }
-
-    public function testAcceptRequestTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->acceptRequest($request);
-            $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The team id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testAcceptRequestTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->acceptRequest($request);
-            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testAcceptRequestTeamIdUserIsTeamLeader(): void
-    {
-        $this->be($this->requestingUser);
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->acceptRequest($request);
-            $this->fail('Expected: REEEEEEEEEE');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
     }
 }

@@ -2,15 +2,17 @@
 
 namespace App\Model;
 
-use Illuminate\Auth\Authenticatable;
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
-use Illuminate\Database\Eloquent\Model;
-use Laravel\Lumen\Auth\Authorizable;
-use Laravel\Passport\HasApiTokens;
+use Illuminate\{Auth\Authenticatable,
+    Contracts\Auth\Access\Authorizable as AuthorizableContract,
+    Contracts\Auth\Authenticatable as AuthenticatableContract,
+    Database\Eloquent\Model,
+    Support\Facades\DB};
+use Laravel\{Lumen\Auth\Authorizable, Passport\HasApiTokens};
 use Seatsio\SeatsioClient;
 
 /**
+ * Utilisateur enregistré dans l'application par courriel, Facebook, ou Google.
+ *
  * @property string first_name
  * @property string last_name
  * @property string email
@@ -37,7 +39,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * Champs qui ne sont pas retournés par défaut lorsque l'objet est retourné dans une requête HTTP.
      *
      * @var array
      */
@@ -45,6 +47,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         'password', 'id', 'created_at', 'updated_at', 'facebook_id', 'google_id', 'confirmation_code', 'is_confirmed'
     ];
 
+    /**
+     * Obtenir le nom complet d'un utilisateur (Prénom et nom)
+     *
+     * @return string
+     */
     public function getFullName(): string
     {
         return $this->first_name . ' ' . $this->last_name;
@@ -72,22 +79,29 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         parent::boot();
 
+        // Avant la suppression de l'utilisateur
         static::deleting(function ($user) {
             $reservations = Reservation::where('user_id', $user->id)->get();
+            // Pour chaque réservation d'un utilisateur
             foreach ($reservations as $reservation) {
                 $lan = Lan::find($reservation->lan_id);
 
+                // Rendre sa place disponible dans l'API Seats.io
                 $seatsClient = new SeatsioClient($lan->secret_key);
                 $seatsClient->events->release($lan->event_key, $reservation->seat_id);
 
+                // Supprimer la réservation
                 $reservation->delete();
             }
 
-            $contributions = $user->Contribution()->get();
-            foreach ($contributions as $contribution) {
-                $contribution->ContributionCategory()->detach();
-                $contribution->delete();
-            }
+            DB::table('contribution')
+                ->where('user_id', $user->id)
+                ->delete();
+
+            // TODO Supprimer les liens avec les rôles de LAN
+            // TODO Supprimer les liens avec les rôles globaux
+            // TODO Supprimer les liens avec les organisations de tournoi
+            // TODO Supprimer les liens avec les tags
         });
     }
 }

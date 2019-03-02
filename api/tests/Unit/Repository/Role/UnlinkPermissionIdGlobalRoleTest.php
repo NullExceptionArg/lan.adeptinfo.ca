@@ -14,6 +14,7 @@ class UnlinkPermissionIdGlobalRoleTest extends TestCase
 
     protected $user;
     protected $role;
+    protected $permissions;
 
     public function setUp(): void
     {
@@ -42,7 +43,7 @@ class UnlinkPermissionIdGlobalRoleTest extends TestCase
 
         $this->roleRepository->unlinkPermissionIdGlobalRole(
             $this->permissions[0],
-            $this->role
+            $this->role->id
         );
 
         $this->notSeeInDatabase('permission_global_role', [

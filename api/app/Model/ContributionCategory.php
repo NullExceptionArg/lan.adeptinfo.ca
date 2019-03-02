@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
+ * Catégorie qui est attribuée à une contribution.
+ *
  * @property int id
  * @property string lan_id
  * @property string name
@@ -19,14 +21,14 @@ class ContributionCategory extends Model
     public $timestamps = false;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Les attributs qui doivent être mutés en dates.
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * Champs qui ne sont pas retournés par défaut lorsque l'objet est retourné dans une requête HTTP.
      *
      * @var array
      */
@@ -39,17 +41,15 @@ class ContributionCategory extends Model
         return $this->belongsTo(Lan::class);
     }
 
-    public function Contribution()
-    {
-        return $this->belongsToMany(Contribution::class, 'contribution_cat_contribution');
-    }
-
     protected static function boot()
     {
         parent::boot();
 
+        // Avant la suppression de la catégorie de contribution
         static::deleting(function ($contributionCategory) {
-            $contributions = $contributionCategory->Contribution()->get();
+            // Supprimer les contributions qui n'ont plus de catégorie de contribution
+            $contributions = Contribution::where('contribution_category_id', $contributionCategory)
+                ->get();
             foreach ($contributions as $contribution) {
                 if ($contribution->ContributionCategory()->count() <= 1) {
                     $contribution->delete();

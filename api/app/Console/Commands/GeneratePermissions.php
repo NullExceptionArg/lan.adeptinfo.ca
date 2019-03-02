@@ -2,20 +2,19 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Console\Command, Support\Facades\DB};
 
 class GeneratePermissions extends Command
 {
     /**
-     * The name and signature of the console command.
+     * Nom et signature de la commande.
      *
      * @var string
      */
     protected $signature = 'lan:permissions';
 
     /**
-     * The console command description.
+     * Description de la commande.
      *
      * @var string
      */

@@ -1,14 +1,14 @@
 <?php
 
-// The permission name must absolutely follow the following convention: display-name-*name of permission*
-// The permission description must absolutely follow the following convention: description-*name of permission*
+// Le nom des permissions doivent absolument suivre la convention suivante : display-name-nom-de-la-permission
+// La description de la description doit absolument suivre la convention suivante : description-nom-de-la-permission
 return [
     'display-name-create-lan' => 'Create a new LAN',
     'description-create-lan' => 'Create a new LAN. Careful, this permission should not be given to anyone ... ',
     'display-name-set-current-lan' => 'Set current LAN',
     'description-set-current-lan' => 'Set the LAN that will be shown on the LAN website. Careful, this permission should not be given to anyone ... ',
     'display-name-edit-lan' => 'Edit LAN',
-    'description-edit-lan' => 'Edit the name, the starting date, the closing date, the date start, the seats.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... ',
+    'description-edit-lan' => 'Edit the name, the starting date, the closing date, the date start, the seat.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... ',
 
     'display-name-create-contribution-category' => 'Create contribution category',
     'description-create-contribution-category' => 'Create new contribution categories.',
@@ -46,8 +46,8 @@ return [
 
     'display-name-create-lan-role' => 'Create a new LAN role',
     'description-create-lan-role' => 'Create a new LAN role.',
-    'display-name-edit-lan-role' => 'Modify a role of a LAN',
-    'description-edit-lan-role' => 'Modify a role of a LAN.',
+    'display-name-update-lan-role' => 'Modify a role of a LAN',
+    'description-update-lan-role' => 'Modify a role of a LAN.',
     'display-name-add-permissions-lan-role' => 'Add permissions to a global role',
     'description-add-permissions-lan-role' => 'Add permissions to a global role.',
     'display-name-delete-permissions-lan-role' => 'Remove a permission from a LAN role',
@@ -65,8 +65,8 @@ return [
 
     'display-name-create-global-role' => 'Create a new global role',
     'description-create-global-role' => 'Create a new global role.',
-    'display-name-edit-global-role' => 'Modify a global role',
-    'description-edit-global-role' => 'Modify a global role.',
+    'display-name-update-global-role' => 'Modify a global role',
+    'description-update-global-role' => 'Modify a global role.',
     'display-name-add-permissions-global-role' => 'Add permissions to a global role',
     'description-add-permissions-global-role' => 'Add permissions to a global role.',
     'display-name-delete-permissions-global-role' => 'Remove a permission from a global role',
@@ -88,5 +88,9 @@ return [
     'display-name-get-admin-roles' => 'Get the roles of a user',
     'description-get-admin-roles' => 'Get the global and LAN roles of a current user or user',
     'display-name-admin-summary' => 'Get the summary of an administrator',
-    'description-admin-summary' => 'Get the name and permissions of an administrator.'
+    'description-admin-summary' => 'Get the name and permissions of an administrator.',
+    'display-name-get-user' => 'Get users',
+    'description-get-users' => 'Get the users registered in the API.',
+    'display-name-get-user-details' => 'Get user details',
+    'description-get-user-details' => 'Get details about a user, for a specific LAN.'
 ];

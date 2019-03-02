@@ -24,8 +24,8 @@ class DeleteAdminTest extends TestCase
     {
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -40,18 +40,11 @@ class DeleteAdminTest extends TestCase
             'tournament_id' => $this->tournament->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'delete-team')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->organizer->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->organizer->id,
+            $this->lan->id,
+            'delete-team'
+        );
 
         $this->requestContent['team_id'] = $this->team->id;
     }
@@ -60,7 +53,7 @@ class DeleteAdminTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -72,7 +65,7 @@ class DeleteAdminTest extends TestCase
     public function testDeleteAdmin(): void
     {
         $this->actingAs($this->organizer)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -86,7 +79,7 @@ class DeleteAdminTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->organizer)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -108,7 +101,7 @@ class DeleteAdminTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -121,7 +114,7 @@ class DeleteAdminTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->organizer)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -150,7 +143,7 @@ class DeleteAdminTest extends TestCase
             'user_id' => $user->id
         ]);
         $this->actingAs($user)
-            ->json('DELETE', '/api/team/admin', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/admin', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

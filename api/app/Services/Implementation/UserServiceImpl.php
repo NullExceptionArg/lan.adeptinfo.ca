@@ -1,42 +1,29 @@
 <?php
 
-
 namespace App\Services\Implementation;
 
-use App\Http\Resources\User\GetAdminRolesResource;
-use App\Http\Resources\User\GetAdminSummaryResource;
-use App\Http\Resources\User\GetUserCollection;
-use App\Http\Resources\User\GetUserDetailsResource;
-use App\Http\Resources\User\GetUserSummaryResource;
+use App\Http\Resources\{User\GetAdminRolesResource,
+    User\GetAdminSummaryResource,
+    User\GetUserCollection,
+    User\GetUserDetailsResource,
+    User\GetUserSummaryResource};
 use App\Mail\ConfirmAccount;
-use App\Model\User;
-use App\Repositories\Implementation\LanRepositoryImpl;
-use App\Repositories\Implementation\RoleRepositoryImpl;
-use App\Repositories\Implementation\SeatRepositoryImpl;
-use App\Repositories\Implementation\TeamRepositoryImpl;
-use App\Repositories\Implementation\TournamentRepositoryImpl;
-use App\Repositories\Implementation\UserRepositoryImpl;
-use App\Rules\FacebookEmailPermission;
-use App\Rules\HasPermission;
-use App\Rules\HasPermissionInLan;
-use App\Rules\UniqueEmailSocialLogin;
-use App\Rules\ValidFacebookToken;
-use App\Rules\ValidGoogleToken;
+use App\Model\{Tag, User};
+use App\Repositories\Implementation\{RoleRepositoryImpl,
+    SeatRepositoryImpl,
+    TeamRepositoryImpl,
+    TournamentRepositoryImpl,
+    UserRepositoryImpl};
 use App\Services\UserService;
+use App\Utils\FacebookUtils;
+use Facebook\Exceptions\FacebookSDKException;
 use Google_Client;
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Illuminate\{Support\Facades\Auth, Support\Facades\Mail};
 
 class UserServiceImpl implements UserService
 {
     protected $userRepository;
     protected $seatRepository;
-    protected $lanRepository;
     protected $teamRepository;
     protected $roleRepository;
     protected $tournamentRepository;
@@ -45,7 +32,6 @@ class UserServiceImpl implements UserService
      * UserServiceImpl constructor.
      * @param UserRepositoryImpl $userRepository
      * @param SeatRepositoryImpl $seatRepository
-     * @param LanRepositoryImpl $lanRepository
      * @param TeamRepositoryImpl $teamRepository
      * @param RoleRepositoryImpl $roleRepository
      * @param TournamentRepositoryImpl $tournamentRepository
@@ -53,7 +39,6 @@ class UserServiceImpl implements UserService
     public function __construct(
         UserRepositoryImpl $userRepository,
         SeatRepositoryImpl $seatRepository,
-        LanRepositoryImpl $lanRepository,
         TeamRepositoryImpl $teamRepository,
         RoleRepositoryImpl $roleRepository,
         TournamentRepositoryImpl $tournamentRepository
@@ -61,330 +46,275 @@ class UserServiceImpl implements UserService
     {
         $this->userRepository = $userRepository;
         $this->seatRepository = $seatRepository;
-        $this->lanRepository = $lanRepository;
         $this->teamRepository = $teamRepository;
         $this->roleRepository = $roleRepository;
         $this->tournamentRepository = $tournamentRepository;
     }
 
-    public function signUpUser(Request $input): User
+    public function confirm(string $confirmationCode): void
     {
-        $userValidator = Validator::make($input->all(), [
-            'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'email' => ['required', 'email', new UniqueEmailSocialLogin],
-            'password' => 'required|min:6|max:20',
-        ]);
+        // Trouver l'utilisateur qui correspond au code de confirmation
+        $user = $this->userRepository->findByConfirmationCode($confirmationCode);
 
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        };
+        // Confirmer le compte de l'utilisateur
+        $this->userRepository->confirmAccount($user->id);
+    }
 
-        $user = $this->userRepository->findByEmail($input->input('email'));
-        $confirmationCode = str_random(30);
+    public function createTag(int $userId, string $name): Tag
+    {
+        // Créer le tag
+        $tagId = $this->userRepository->createTag($userId, $name);
 
-        if ($user != null) {
-            $this->userRepository->addConfirmationCode($user, $confirmationCode);
-        } else {
-            $user = $this->userRepository->createUser(
-                $input->input('first_name'),
-                $input->input('last_name'),
-                $input->input('email'),
-                $input->input('password'),
-                $confirmationCode
-            );
+        // Trouver et retourner le le tag créé
+        return $this->userRepository->findTagById($tagId);
+    }
+
+    public function deleteUser(int $userId): void
+    {
+        // Supprimer l'utilisateur
+        $this->userRepository->deleteUserById($userId);
+    }
+
+    public function getAdminRoles(string $email, int $lanId): GetAdminRolesResource
+    {
+        // Trouver les rôles globaux de l'utilisateur
+        $globalRoles = $this->roleRepository->getUsersGlobalRoles($email);
+
+        // Trouver les rôles de LAN de l'utilisateur
+        $lanRoles = $this->roleRepository->getUsersLanRoles($email, $lanId);
+
+        // Retourner les rôles de l'utilisateur
+        return new GetAdminRolesResource($globalRoles, $lanRoles);
+    }
+
+    public function getAdminSummary(int $userId, int $lanId): GetAdminSummaryResource
+    {
+        // Trouver l'utilisateur
+        $user = $this->userRepository->findById($userId);
+
+        // Trouver les permissions de l'utilisateur
+        $permissions = $this->roleRepository->getAdminPermissions($lanId, $user->id);
+
+        // Déterminer si l'utilisateur possède des tournois
+        $hasTournaments =
+            ($this->roleRepository->userHasPermission('edit-tournament', $user->id, $lanId) &&
+                $this->roleRepository->userHasPermission('delete-tournament', $user->id, $lanId) &&
+                $this->roleRepository->userHasPermission('add-organizer', $user->id, $lanId)) ||
+            $this->tournamentRepository->adminHasTournaments($user->id, $lanId);
+
+        // Retourner les détails de l'administrateur
+        return new GetAdminSummaryResource($user, $hasTournaments, $permissions);
+    }
+
+    public function getUserDetails(int $lanId, string $email): GetUserDetailsResource
+    {
+        // Trouver l'utilisateur qui correspond au courriel
+        $user = $this->userRepository->findByEmail($email);
+
+        // Obtenir le siège courant de l'utilisateur dans le LAN
+        $currentSeat = $this->seatRepository->findReservationByLanIdAndUserId($user->id, $lanId);
+
+        // Obtenir l'historique des places qu'a occupé l'utilisateur dans le LAN
+        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user->id, $lanId);
+
+        // Retourner les détails de l'utilisateur
+        return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
+    }
+
+    public function getUsers(
+        ?string $queryString,
+        ?string $orderColumn,
+        ?string $orderDirection,
+        ?int $itemsPerPage,
+        ?int $currentPage
+    ): GetUserCollection
+    {
+        // Valeur par défaut de la chaine de recherche
+        if (is_null($queryString)) {
+            $queryString = '';
         }
 
-        Mail::send(new ConfirmAccount(
-            $input->input('email'),
-            $confirmationCode,
-            $user->first_name
-        ));
+        // Valeur par défaut de la colonne à utiliser pour ordonner les résultats
+        if (is_null($orderColumn)) {
+            $orderColumn = 'last_name';
+        }
 
-        return $user;
+        // Valeur par défaut de l'ordre ascendant ou descendant du tri des résultats
+        if (is_null($orderDirection)) {
+            $orderDirection = 'asc';
+        }
+
+        // Valeur par défaut du nombre de résultats par page
+        if (is_null($itemsPerPage)) {
+            $itemsPerPage = 15;
+        }
+
+        // Valeur par défaut de la page courante
+        if (is_null($currentPage)) {
+            $currentPage = 1;
+        }
+
+        // Trouver et retourner les résultats de la recherche
+        return new GetUserCollection($this->userRepository->getPaginatedUsersCriteria(
+            $queryString,
+            $orderColumn,
+            $orderDirection,
+            $itemsPerPage,
+            $currentPage
+        ));
+    }
+
+    public function getUserSummary(int $userId, int $lanId): GetUserSummaryResource
+    {
+        // Trouver l'utilisateur
+        $user = $this->userRepository->findById($userId);
+
+        // Trouver et retourner le sommaire de l'utilisateur
+        return new GetUserSummaryResource(
+            $user,
+            $this->teamRepository->getLeadersRequestTotalCount($user->id, $lanId)
+        );
     }
 
     public function logOut(): void
     {
+        // Trouver le token d'accès de l'utilisateur courant
         $accessToken = Auth::user()->token();
 
+        // Révoquer le token de rafraichissement
         $this->userRepository->revokeRefreshToken($accessToken);
-        $this->userRepository->revokeAccessToken($accessToken);
+
+        // Révoquer le token d'accès
+        $accessToken->revoke();
     }
 
-    public function deleteUser(): void
+    public function signInFacebook(string $accessToken): array
     {
-        $user = Auth::user();
-        $this->userRepository->deleteUserById($user->id);
-    }
-
-    public function getUsers(Request $request): GetUserCollection
-    {
-        $userValidator = Validator::make($request->all(), [
-            'query_string' => 'max:255|string',
-            'order_column' => [Rule::in(['first_name', 'last_name', 'email']),],
-            'order_direction' => [Rule::in(['asc', 'desc']),],
-            'items_per_page' => 'numeric|min:1|max:75',
-            'current_page' => 'numeric|min:1'
-        ]);
-
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        }
-
-        // Default order column: last_name
-        if ($request->input('order_column') == null) {
-            $request['order_column'] = 'last_name';
-        }
-
-        // Default order direction: asc
-        if ($request->input('order_direction') == null) {
-            $request['order_direction'] = 'asc';
-        }
-
-        // Default items per page: 15
-        if ($request->input('items_per_page') == null) {
-            $request['items_per_page'] = 15;
-        }
-
-        // Default current page: 1
-        if ($request->input('current_page') == null) {
-            $request['current_page'] = 1;
-        }
-
-        return new GetUserCollection($this->userRepository->getPaginatedUsersCriteria(
-            $request->input('query_string'),
-            $request->input('order_column'),
-            $request->input('order_direction'),
-            $request->input('items_per_page'),
-            $request->input('current_page')
-        ));
-    }
-
-    public function getUserDetails(Request $input): GetUserDetailsResource
-    {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
-        }
-
-        $userValidator = Validator::make([
-            'lan_id' => $input->input('lan_id'),
-            'email' => $input->input('email')
-        ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'email' => 'required|exists:user,email',
-        ]);
-
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        }
-
-        $user = $this->userRepository->findByEmail($input->input('email'));
-        if ($lan == null) {
-            $lan = $this->lanRepository->findById($input->input('lan_id'));
-        }
-
-        $currentSeat = $this->seatRepository->getCurrentSeat($user, $lan);
-        $seatHistory = $this->seatRepository->getSeatHistoryForUser($user, $lan);
-
-        return new GetUserDetailsResource($user, $currentSeat, $seatHistory);
-    }
-
-    public function signInFacebook(Request $input): array
-    {
-        $userValidator = Validator::make([
-            'access_token' => $input->input('access_token'),
-        ], [
-            'access_token' => [new ValidFacebookToken, new FacebookEmailPermission]
-        ]);
-
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        }
-
         $facebookUser = null;
-        $client = new Client([
-            'base_uri' => 'https://graph.facebook.com',
-            'timeout' => 2.0]);
-        $facebookUser = \GuzzleHttp\json_decode($client->get('/me', ['query' => [
-            'fields' => 'id,first_name,last_name,email',
-            'access_token' => $input->input('access_token')
-        ]])->getBody());
+        try {
+            // Obtenir l'utilisateur Facebook à partir du token
+            $facebookUser = FacebookUtils::getFacebook()->get(
+                '/me?fields=id,first_name,last_name,email',
+                $accessToken
+            )->getDecodedBody();
+        } catch (FacebookSDKException $e) {
+            exit(500);
+        }
 
+        // Trouver l'utilisateur (s'il existe) qui correspond au courriel de l'utilisateur Facebook
+        $user = $this->userRepository->findByEmail($facebookUser['email']);
 
-        $user = $this->userRepository->findByEmail($facebookUser->email);
-        $isNew = $user == null;
+        // Déterminer si l'utilisateur est nouveau dans l'API
+        $isNew = is_null($user);
+
+        // Si l'utilisateur est nouveau
         if ($isNew) {
-            $user = $this->userRepository->createFacebookUser(
-                $facebookUser->id,
-                $facebookUser->first_name,
-                $facebookUser->last_name,
-                $facebookUser->email
+            // Créer un utilisateur
+            $userId = $this->userRepository->createFacebookUser(
+                $facebookUser['id'],
+                $facebookUser['first_name'],
+                $facebookUser['last_name'],
+                $facebookUser['email']
             );
+
+            // Trouver l'utilisateur créé
+            $user = $this->userRepository->findById($userId);
         }
 
-        if ($user->facebook_id == null) {
-            $user = $this->userRepository->addFacebookToUser($user, $facebookUser->id);
+        // Si l'utisateur existe, mais qu'il ne s'est jamais connecté avec Facebook
+        if (is_null($user->facebook_id)) {
+            // Ajouter son id d'utilisateur Facebook
+            $this->userRepository->addFacebookToUser($user->email, $facebookUser['id']);
         }
 
+        // Créer un token d'accès à l'API
         $token = $user->createToken('facebook')->accessToken;
+
+        // Retourner le token, et si l'uitilisateur est nouveau dans l'API
         return [
             'token' => $token,
             'is_new' => $isNew
         ];
     }
 
-    public function confirm(string $confirmationCode)
+    public function signInGoogle(string $accessToken): array
     {
-        $confirmationValidator = Validator::make([
-            'confirmation_code' => $confirmationCode,
-        ], [
-            'confirmation_code' => 'exists:user,confirmation_code'
-        ]);
+        // Créer un client Google
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
 
-        if ($confirmationValidator->fails()) {
-            throw new BadRequestHttpException($confirmationValidator->errors());
-        }
+        // Obtenir l'utilisateur Google à partir du token
+        $googleResult = $client->verifyIdToken($accessToken);
 
-        $user = $this->userRepository->findByConfirmationCode($confirmationCode);
-        $this->userRepository->confirmAccount($user);
-    }
-
-    public function signInGoogle(Request $input): array
-    {
-        $userValidator = Validator::make([
-            'access_token' => $input->input('access_token'),
-        ], [
-            'access_token' => [new ValidGoogleToken()]
-        ]);
-
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        }
-
-        $client = new Google_Client();
-        $client->setApplicationName('LAN de l\'ADEPT');
-        $client->setClientId(env('GOOGLE_CLIENT_ID'));
-        $googleResult = $client->verifyIdToken($input->input('access_token'));
-
+        // Trouver l'utilisateur (s'il existe) qui correspond au courriel de l'utilisateur Google
         $user = $this->userRepository->findByEmail($googleResult['email']);
-        $isNew = $user == null;
+
+        // Déterminer si l'utilisateur est nouveau dans l'API
+        $isNew = is_null($user);
+
+        // Si l'utilisateur est nouveau
         if ($isNew) {
-            $user = $this->userRepository->createGoogleUser(
+            // Créer un utilisateur
+            $userId = $this->userRepository->createGoogleUser(
                 $googleResult['sub'],
                 $googleResult['given_name'],
                 $googleResult['family_name'],
                 $googleResult['email']
             );
+
+            // Trouver l'utilisateur créé
+            $user = $this->userRepository->findById($userId);
         }
 
-        if ($user->facebook_id == null) {
-            $user = $this->userRepository->addGoogleToUser($user, $googleResult['sub']);
+        // Si l'utisateur existe, mais qu'il ne s'est jamais connecté avec Google
+        if (is_null($user->google_id)) {
+            // Ajouter son id d'utilisateur Google
+            $this->userRepository->addGoogleToUser($user->email, $googleResult['sub']);
         }
 
+        // Créer un token d'accès à l'API
         $token = $user->createToken('google')->accessToken;
+
+        // Retourner le token, et si l'uitilisateur est nouveau dans l'API
         return [
             'token' => $token,
             'is_new' => $isNew
         ];
     }
 
-    public function getUserSummary(Request $input): GetUserSummaryResource
+    public function signUpUser(string $firstName, string $lastName, string $email, string $password): User
     {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
+        // Trouver l'utilisateur (s'il existe) qui correspond au courriel
+        $user = $this->userRepository->findByEmail($email);
+
+        // Générer un code de confirmation à 30 caractères
+        $confirmationCode = str_random(30);
+
+        // Si un utilisateur a été trouvé
+        if (!is_null($user)) {
+            // Ajouter le code de confirmation à l'utilisateur
+            $this->userRepository->addConfirmationCode($user->email, $confirmationCode);
+        } else {
+            // Créer un utilisateur
+            $userId = $this->userRepository->createUser(
+                $firstName,
+                $lastName,
+                $email,
+                $password,
+                $confirmationCode
+            );
+
+            // Trouver l'utilisateur créé
+            $user = $this->userRepository->findById($userId);
         }
 
-        $userValidator = Validator::make([
-            'lan_id' => $input->input('lan_id')
-        ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
-        ]);
+        // Envoyer un courriel de confirmation à l'utilisateur
+        Mail::send(new ConfirmAccount(
+            $email,
+            $confirmationCode,
+            $user->first_name
+        ));
 
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        }
-
-        if ($lan == null) {
-            $lan = $this->lanRepository->findById($input->input('lan_id'));
-        }
-
-        $user = Auth::user();
-        return new GetUserSummaryResource($user, $this->teamRepository->getLeadersRequestTotalCount($user, $lan));
-    }
-
-    public function getAdminSummary(Request $input): GetAdminSummaryResource
-    {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
-        }
-
-        $userValidator = Validator::make([
-            'lan_id' => $input->input('lan_id'),
-            'permission' => 'admin-summary'
-        ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLan($input->input('lan_id'), Auth::id())
-        ]);
-
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        }
-
-        if ($lan == null) {
-            $lan = $this->lanRepository->findById($input->input('lan_id'));
-        }
-
-        $user = Auth::user();
-        $permissions = $this->roleRepository->getAdminPermissions($lan, $user);
-
-        $hasTournaments =
-            ($this->roleRepository->userHasPermission('edit-tournament', $user->id, $lan->id) &&
-                $this->roleRepository->userHasPermission('delete-tournament', $user->id, $lan->id) &&
-                $this->roleRepository->userHasPermission('add-organizer', $user->id, $lan->id)) ||
-            $this->tournamentRepository->adminHasTournaments($user->id, $lan->id);
-
-        return new GetAdminSummaryResource($user, $hasTournaments, $permissions);
-    }
-
-    public function getAdminRoles(Request $input)
-    {
-        $lan = null;
-        if ($input->input('lan_id') == null) {
-            $lan = $this->lanRepository->getCurrent();
-            $input['lan_id'] = $lan != null ? $lan->id : null;
-        }
-
-        if (is_null($input->input('email'))) {
-            $input['email'] = Auth::user()->email;
-        }
-
-        $userValidator = Validator::make([
-            'email' => $input->input('email'),
-            'lan_id' => $input->input('lan_id'),
-            'permission' => 'get-admin-roles'
-        ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'email' => 'string|exists:user,email'
-        ]);
-
-        $userValidator->sometimes('permission', [new HasPermission(Auth::id())], function ($input) {
-            return Auth::user()->email != $input['email'];
-        });
-
-        if ($userValidator->fails()) {
-            throw new BadRequestHttpException($userValidator->errors());
-        }
-
-        $globalRoles = $this->roleRepository->getUsersGlobalRoles($input['email']);
-        $lanRoles = $this->roleRepository->getUsersLanRoles($input['email'], $input->input('lan_id'));
-
-        return new GetAdminRolesResource($globalRoles, $lanRoles);
+        // Retourner l'utilisateur créé
+        return $user;
     }
 }

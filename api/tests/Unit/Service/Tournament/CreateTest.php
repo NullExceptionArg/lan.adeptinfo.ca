@@ -4,7 +4,6 @@ namespace Tests\Unit\Service\Tournament;
 
 use App\Model\Permission;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -37,9 +36,9 @@ class CreateTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
 
         $this->paramsContent['lan_id'] = $this->lan->id;
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->paramsContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->paramsContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
 
         $role = factory('App\Model\LanRole')->create([
@@ -54,53 +53,24 @@ class CreateTest extends TestCase
             'role_id' => $role->id,
             'user_id' => $this->user->id
         ]);
-
-        $this->be($this->user);
     }
 
     public function testCreate(): void
     {
-        $request = new Request($this->paramsContent);
-        $result = $this->tournamentService->create($request);
+        $result = $this->tournamentService->create(
+            $this->lan->id,
+            $this->user->id,
+            $this->paramsContent['name'],
+            Carbon::parse($this->paramsContent['tournament_start']),
+            Carbon::parse($this->paramsContent['tournament_end']),
+            $this->paramsContent['players_to_reach'],
+            $this->paramsContent['teams_to_reach'],
+            $this->paramsContent['rules'],
+            $this->paramsContent['price']
+        );
 
         $this->assertEquals(1, $result->id);
         $this->assertEquals($this->paramsContent['lan_id'], $result->lan_id);
-        $this->assertEquals($this->paramsContent['name'], $result->name);
-        $this->assertEquals($this->paramsContent['tournament_start'], $result->tournament_start);
-        $this->assertEquals($this->paramsContent['tournament_end'], $result->tournament_end);
-        $this->assertEquals($this->paramsContent['players_to_reach'], $result->players_to_reach);
-        $this->assertEquals($this->paramsContent['teams_to_reach'], $result->teams_to_reach);
-        $this->assertEquals($this->paramsContent['rules'], $result->rules);
-        $this->assertEquals($this->paramsContent['price'], $result->price);
-    }
-
-    public function testCreateCurrentLan(): void
-    {
-        $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
-        ]);
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'create-tournament')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
-        $startTime = new Carbon($lan->lan_start);
-        $this->paramsContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
-        $endTime = new Carbon($lan->lan_end);
-        $this->paramsContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
-        $this->paramsContent['lan_id'] = null;
-
-        $request = new Request($this->paramsContent);
-        $result = $this->tournamentService->create($request);
-
-        $this->assertEquals($lan->id, $result->lan_id);
         $this->assertEquals($this->paramsContent['name'], $result->name);
         $this->assertEquals($this->paramsContent['tournament_start'], $result->tournament_start);
         $this->assertEquals($this->paramsContent['tournament_end'], $result->tournament_end);

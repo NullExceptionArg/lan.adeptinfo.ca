@@ -22,10 +22,6 @@ class GetLeadersRequestTotalCountTest extends TestCase
     protected $team2;
     protected $team3;
 
-    protected $requestContent = [
-        'lan_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -36,30 +32,26 @@ class GetLeadersRequestTotalCountTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->lan = factory('App\Model\Lan')->create();
-
-        $this->requestContent['lan_id'] = $this->lan->id;
-
-        $this->be($this->user);
     }
 
     public function testGetUserSummary(): void
     {
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament1 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament2 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament3 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -124,7 +116,7 @@ class GetLeadersRequestTotalCountTest extends TestCase
             ]);
         }
 
-        $result = $this->userRepository->getLeadersRequestTotalCount($this->user, $this->lan);
+        $result = $this->userRepository->getLeadersRequestTotalCount($this->user->id, $this->lan->id);
         $this->assertEquals(5, $result);
     }
 }

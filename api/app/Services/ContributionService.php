@@ -2,24 +2,70 @@
 
 namespace App\Services;
 
-
-use App\Model\Contribution;
+use App\Http\Resources\Contribution\ContributionResource;
 use App\Model\ContributionCategory;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
+/**
+ * Méthodes pour exécuter la logique d'affaire des contributions.
+ *
+ * Interface ContributionService
+ * @package App\Services
+ */
 interface ContributionService
 {
-    public function createCategory(Request $request): ContributionCategory;
+    /**
+     * Créer une catégorie de contribution.
+     *
+     * @param int $lanId Id du LAN de la catégorie
+     * @param string $name Nom de la catégorie
+     * @return ContributionCategory Catégorie de contribution créée
+     */
+    public function createCategory(int $lanId, string $name): ContributionCategory;
 
-    public function createContribution(Request $input): Contribution;
+    /**
+     * Créer une contribution.
+     *
+     * @param int $contributionCategoryId Id de la catégorie de la contribution
+     * @param string|null $userFullName Nom complet de l'utilisateur de la contribution
+     * @param string|null $email Courriel de l'utilisateur de la contribution
+     * @return ContributionResource Contribution créée
+     */
+    public function createContribution(
+        int $contributionCategoryId,
+        ?string $userFullName,
+        ?string $email
+    ): ContributionResource;
 
-    public function getContributions(Request $input): AnonymousResourceCollection;
+    /**
+     * Supprimer une catégorie de contribution.
+     *
+     * @param int $contributionCategoryId Id de la catégorie
+     * @return ContributionCategory Catégorie supprimée
+     */
+    public function deleteCategory(int $contributionCategoryId): ContributionCategory;
 
-    public function getCategories(Request $input): Collection;
+    /**
+     * Supprimer une contribution.
+     *
+     * @param int $contributionId Id de la contribution
+     * @return ContributionResource Contribution supprimée
+     */
+    public function deleteContribution(int $contributionId): ContributionResource;
 
-    public function deleteCategory(Request $input): ContributionCategory;
+    /**
+     * Obtenir les catégories de contribution d'un LAN.
+     *
+     * @param int $lanId Id du LAN
+     * @return AnonymousResourceCollection Catégories de contribution du LAN
+     */
+    public function getCategories(int $lanId): AnonymousResourceCollection;
 
-    public function deleteContribution(Request $input): Contribution;
+    /**
+     * Obtenir les contributions d'un LAN.
+     *
+     * @param int $lanId Id du LAN
+     * @return AnonymousResourceCollection Contributions du LAN
+     */
+    public function getContributions(int $lanId): AnonymousResourceCollection;
 }

@@ -1,40 +1,61 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\User;
 
-
+use Exception;
 use Google_Client;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Un token Google est valide.
+ *
+ * Class ValidGoogleToken
+ * @package App\Rules\User
+ */
 class ValidGoogleToken implements Rule
 {
-
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $idToken
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $idToken): bool
     {
-        $client = new Google_Client();
-        $client->setApplicationName('LAN de l\'ADEPT');
-        $client->setClientId(env('GOOGLE_CLIENT_ID'));
-        $google_result = $client->verifyIdToken($value);
-        if (!$google_result) {
+        /*
+         * Conditions de garde :
+         * Le token est une chaîne de caractères
+         */
+        if (!is_string($idToken)) {
+            return true; // Une autre validation devrait échouer
+        }
+
+        // Créer client google
+        $client = new Google_Client(['client_id' => env('GOOGLE_CLIENT_ID')]);
+        $token = null;
+
+        try {
+            // Vérifier le token
+            $token = $client->verifyIdToken($idToken);
+        } catch (Exception $e) {
+            // Si le token n'est pas valide, une exception est lancée
             return false;
+        }
+
+        if (is_bool($token)) {
+            return $token;
         } else {
             return true;
         }
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.valid_google_token');
     }

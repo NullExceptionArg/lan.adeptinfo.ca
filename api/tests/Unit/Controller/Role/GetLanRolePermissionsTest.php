@@ -39,24 +39,17 @@ class GetLanRolePermissionsTest extends TestCase
             ]);
         }
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'get-lan-role-permissions')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'get-lan-role-permissions'
+        );
     }
 
     public function testGetLanRolePermissions(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => $this->lanRole->id
             ])
             ->seeJsonEquals([
@@ -89,7 +82,7 @@ class GetLanRolePermissionsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => $this->lanRole->id
             ])
             ->seeJsonEquals([
@@ -103,7 +96,7 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissionsRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => null
             ])
             ->seeJsonEquals([
@@ -121,7 +114,7 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissionsRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan/permissions', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
                 'role_id' => '☭'
             ])
             ->seeJsonEquals([

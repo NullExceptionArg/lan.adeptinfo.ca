@@ -3,8 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Role\GetRoleResource;
-use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Collection;
+use Illuminate\{Http\Resources\Json\Resource, Support\Collection};
 
 class GetAdminRolesResource extends Resource
 {
@@ -17,7 +16,7 @@ class GetAdminRolesResource extends Resource
     }
 
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array

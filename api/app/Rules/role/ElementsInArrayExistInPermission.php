@@ -1,39 +1,51 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Role;
 
+use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
 
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\DB;
-
+/**
+ *
+ *
+ * Class ElementsInArrayExistInPermission
+ * @package App\Rules\Role
+ */
 class ElementsInArrayExistInPermission implements Rule
 {
-
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  array $permissionIds
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $permissionIds): bool
     {
-        if ($value == null || !is_array($value)) {
-            return true;
+        /*
+         * Conditions de garde :
+         * L'élément passé est non nul
+         * L'élément passé est un tableau
+         */
+        if (is_null($permissionIds) || !is_array($permissionIds)) {
+            return true; // Une autre validation devrait échouer
         }
 
-        foreach ($value as $permissionId) {
-            if (is_null(DB::table('permission')->find($permissionId))) return false;
+        // Pour chaque id de permission du tableau
+        foreach ($permissionIds as $permissionId) {
+            // Si une permission est trouvée
+            if (is_null(DB::table('permission')->find($permissionId))) {
+                return false;
+            }
         }
         return true;
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.elements_in_array_exist_in_permission');
     }

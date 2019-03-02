@@ -18,15 +18,19 @@ class FindContributionByIdTest extends TestCase
         parent::setUp();
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
 
+        $lan = factory('App\Model\Lan')->create();
+        $contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $lan->id
+        ]);
         $this->contribution = factory('App\Model\Contribution')->create([
-            'user_full_name' => 'Karl Marx'
+            'user_full_name' => 'Karl Marx',
+            'contribution_category_id' => $contributionCategory->id
         ]);
     }
 
     public function testFindContributionById(): void
     {
         $result = $this->contributionRepository->findContributionById($this->contribution->id);
-
         $this->assertEquals($this->contribution->id, $result->id);
     }
 }

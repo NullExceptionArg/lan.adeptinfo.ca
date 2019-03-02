@@ -2,56 +2,35 @@
 
 namespace App\Repositories\Implementation;
 
-
-use App\Model\GlobalRole;
-use App\Model\Lan;
-use App\Model\LanRole;
-use App\Model\Permission;
+use App\Model\{GlobalRole, LanRole, Permission};
 use App\Repositories\RoleRepository;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class RoleRepositoryImpl implements RoleRepository
 {
-    public function createLanRole(
-        int $lanId,
-        string $name,
-        string $enDisplayName,
-        string $enDescription,
-        string $frDisplayName,
-        string $frDescription
-    ): LanRole
+    public function addDefaultLanRoles(int $lanId): void
     {
-        $role = new LanRole();
-        $role->lan_id = $lanId;
-        $role->name = $name;
-        $role->en_display_name = $enDisplayName;
-        $role->en_description = $enDescription;
-        $role->fr_display_name = $frDisplayName;
-        $role->fr_description = $frDescription;
-        $role->save();
-
-        return $role;
-    }
-
-    public function editLanRole(
-        LanRole $role,
-        ?string $name,
-        ?string $enDisplayName,
-        ?string $enDescription,
-        ?string $frDisplayName,
-        ?string $frDescription
-    ): LanRole
-    {
-        $role->name = $name != null ? $name : $role->name;
-        $role->en_display_name = $enDisplayName != null ? $enDisplayName : $role->en_display_name;
-        $role->en_description = $enDescription != null ? $enDescription : $role->en_description;
-        $role->fr_display_name = $frDisplayName != null ? $frDisplayName : $role->fr_display_name;
-        $role->fr_description = $frDescription != null ? $frDescription : $role->fr_description;
-        $role->save();
-
-        return $role;
+        // Les rôles de LAN par défaut sont définis dans /resources/roles.php, dans l'entrée de tableau nommé lan_roles
+        $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
+        // Pour chaque rôle trouvés
+        foreach ($lanRoles as $role) {
+            // Créer le rôle
+            $roleId = DB::table('lan_role')->insertGetId([
+                'name' => $role['name'],
+                'en_display_name' => $role['en_display_name'],
+                'en_description' => $role['en_description'],
+                'fr_display_name' => $role['fr_display_name'],
+                'fr_description' => $role['fr_description'],
+                'lan_id' => $lanId
+            ]);
+            // Ajouter les permissions au rôle
+            foreach ($role['permissions'] as $permission) {
+                DB::table('permission_lan_role')->insert([
+                    'permission_id' => Permission::where('name', $permission['name'])->first()->id,
+                    'role_id' => $roleId
+                ]);
+            }
+        }
     }
 
     public function createGlobalRole(
@@ -60,77 +39,46 @@ class RoleRepositoryImpl implements RoleRepository
         string $enDescription,
         string $frDisplayName,
         string $frDescription
-    ): GlobalRole
+    ): int
     {
-        $role = new GlobalRole();
-        $role->name = $name;
-        $role->en_display_name = $enDisplayName;
-        $role->en_description = $enDescription;
-        $role->fr_display_name = $frDisplayName;
-        $role->fr_description = $frDescription;
-        $role->save();
-
-        return $role;
+        return DB::table('global_role')
+            ->insertGetId([
+                'name' => $name,
+                'en_display_name' => $enDisplayName,
+                'en_description' => $enDescription,
+                'fr_display_name' => $frDisplayName,
+                'fr_description' => $frDescription
+            ]);
     }
 
-    public function editGlobalRole(
-        GlobalRole $role,
+    public function createLanRole(
+        int $lanId,
         string $name,
         string $enDisplayName,
         string $enDescription,
         string $frDisplayName,
         string $frDescription
-    ): GlobalRole
+    ): int
     {
-        $role->name = $name != null ? $name : $role->name;
-        $role->en_display_name = $enDisplayName != null ? $enDisplayName : $role->en_display_name;
-        $role->en_description = $enDescription != null ? $enDescription : $role->en_description;
-        $role->fr_display_name = $frDisplayName != null ? $frDisplayName : $role->fr_display_name;
-        $role->fr_description = $frDescription != null ? $frDescription : $role->fr_description;
-        $role->save();
-
-        return $role;
-    }
-
-    public function linkPermissionIdLanRole(string $permissionId, LanRole $role): void
-    {
-        DB::table('permission_lan_role')
-            ->insert([
-                'permission_id' => $permissionId,
-                'role_id' => $role->id
+        return DB::table('lan_role')
+            ->insertGetId([
+                'lan_id' => $lanId,
+                'name' => $name,
+                'en_display_name' => $enDisplayName,
+                'en_description' => $enDescription,
+                'fr_display_name' => $frDisplayName,
+                'fr_description' => $frDescription
             ]);
     }
 
-    public function linkLanRoleUser(LanRole $role, Authenticatable $user): void
+    public function deleteGlobalRole(int $roleId): void
     {
-        DB::table('lan_role_user')
-            ->insert([
-                'user_id' => $user->id,
-                'role_id' => $role->id
-            ]);
+        GlobalRole::destroy($roleId);
     }
 
-    public function linkPermissionIdGlobalRole(string $permissionId, GlobalRole $role): void
+    public function deleteLanRole(int $roleId): void
     {
-        DB::table('permission_global_role')
-            ->insert([
-                'permission_id' => $permissionId,
-                'role_id' => $role->id
-            ]);
-    }
-
-    public function linkGlobalRoleUser(GlobalRole $role, Authenticatable $user): void
-    {
-        DB::table('global_role_user')
-            ->insert([
-                'user_id' => $user->id,
-                'role_id' => $role->id
-            ]);
-    }
-
-    public function findLanRoleById(int $id): ?LanRole
-    {
-        return LanRole::find($id);
+        LanRole::destroy($roleId);
     }
 
     public function findGlobalRoleById(int $id): ?GlobalRole
@@ -138,38 +86,35 @@ class RoleRepositoryImpl implements RoleRepository
         return GlobalRole::find($id);
     }
 
-    public function getAdminPermissions(Lan $lan, Authenticatable $user): Collection
+    public function findLanRoleById(int $id): ?LanRole
     {
+        return LanRole::find($id);
+    }
+
+    public function getAdminPermissions(int $lanId, int $userId): Collection
+    {
+        // Permissions dans les rôles de LAN
         $lanPermissions = DB::table('permission')
             ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
             ->join('lan', 'lan_role.lan_id', '=', 'lan.id')
             ->join('lan_role_user', 'lan_role.id', '=', 'lan_role_user.role_id')
-            ->where('lan_role.lan_id', $lan->id)
-            ->where('lan_role_user.user_id', $user->id)
+            ->where('lan_role.lan_id', $lanId)
+            ->where('lan_role_user.user_id', $userId)
             ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 
+        // Permissions dans les rôles globaux
         $globalPermissions = DB::table('permission')
             ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
             ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
             ->join('global_role_user', 'global_role.id', '=', 'global_role_user.role_id')
-            ->where('global_role_user.user_id', $user->id)
+            ->where('global_role_user.user_id', $userId)
             ->select('permission.id', 'permission.name', 'permission.can_be_per_lan')
             ->get();
 
+        // Fusion des permissions trouvées
         return $lanPermissions->merge($globalPermissions)->unique();
-    }
-
-    public function getLanRoles(int $lanId): Collection
-    {
-        return LanRole::where('lan_id', $lanId)
-            ->get();
-    }
-
-    public function getGlobalRoles(): Collection
-    {
-        return GlobalRole::get();
     }
 
     public function getGlobalRolePermissions(int $roleId): Collection
@@ -182,6 +127,20 @@ class RoleRepositoryImpl implements RoleRepository
                 'permission.name',
                 'permission.can_be_per_lan'
             ])
+            ->get();
+    }
+
+    public function getGlobalRoles(): Collection
+    {
+        return GlobalRole::get();
+    }
+
+    public function getGlobalUserRoles(int $roleId): Collection
+    {
+        return DB::table('global_role_user')
+            ->join('user', 'global_role_user.user_id', '=', 'user.id')
+            ->where('global_role_user.role_id', $roleId)
+            ->select('user.email', 'user.first_name', 'user.last_name')
             ->get();
     }
 
@@ -198,9 +157,10 @@ class RoleRepositoryImpl implements RoleRepository
             ->get();
     }
 
-    public function getPermissions(): Collection
+    public function getLanRoles(int $lanId): Collection
     {
-        return Permission::all();
+        return LanRole::where('lan_id', $lanId)
+            ->get();
     }
 
     public function getLanUserRoles(int $roleId): Collection
@@ -212,13 +172,9 @@ class RoleRepositoryImpl implements RoleRepository
             ->get();
     }
 
-    public function getGlobalUserRoles(int $roleId): Collection
+    public function getPermissions(): Collection
     {
-        return DB::table('global_role_user')
-            ->join('user', 'global_role_user.user_id', '=', 'user.id')
-            ->where('global_role_user.role_id', $roleId)
-            ->select('user.email', 'user.first_name', 'user.last_name')
-            ->get();
+        return Permission::all();
     }
 
     public function getUsersGlobalRoles(string $email): Collection
@@ -260,55 +216,104 @@ class RoleRepositoryImpl implements RoleRepository
         return $lanRoles;
     }
 
-    public function unlinkPermissionIdLanRole(int $permissionId, LanRole $role)
+    public function linkGlobalRoleUser(int $roleId, int $userId): void
     {
-        DB::table('permission_lan_role')
-            ->where('permission_id', $permissionId)
-            ->where('role_id', $role->id)
-            ->delete();
+        DB::table('global_role_user')
+            ->insert([
+                'user_id' => $userId,
+                'role_id' => $roleId
+            ]);
     }
 
-    public function unlinkPermissionIdGlobalRole(int $permissionId, GlobalRole $role)
+    public function linkLanRoleUser(int $roleId, int $userId): void
+    {
+        DB::table('lan_role_user')
+            ->insert([
+                'user_id' => $userId,
+                'role_id' => $roleId
+            ]);
+    }
+
+    public function linkPermissionIdGlobalRole(string $permissionId, int $roleId): void
+    {
+        DB::table('permission_global_role')
+            ->insert([
+                'permission_id' => $permissionId,
+                'role_id' => $roleId
+            ]);
+    }
+
+    public function linkPermissionIdLanRole(string $permissionId, int $roleId): void
+    {
+        DB::table('permission_lan_role')
+            ->insert([
+                'permission_id' => $permissionId,
+                'role_id' => $roleId
+            ]);
+    }
+
+    public function unlinkPermissionIdGlobalRole(int $permissionId, int $roleId): void
     {
         DB::table('permission_global_role')
             ->where('permission_id', $permissionId)
-            ->where('role_id', $role->id)
+            ->where('role_id', $roleId)
             ->delete();
     }
 
-    public function deleteLanRole(int $roleId): void
+    public function unlinkPermissionIdLanRole(int $permissionId, int $roleId): void
     {
-        LanRole::destroy($roleId);
+        DB::table('permission_lan_role')
+            ->where('permission_id', $permissionId)
+            ->where('role_id', $roleId)
+            ->delete();
     }
 
-    public function deleteGlobalRole(int $roleId): void
+    public function updateGlobalRole(
+        int $roleId,
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
+    ): void
     {
-        GlobalRole::destroy($roleId);
-    }
-
-    public function createDefaultLanRoles(int $lanId): void
-    {
-        $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
-        foreach ($lanRoles as $role) {
-            $roleId = DB::table('lan_role')->insertGetId([
-                'name' => $role['name'],
-                'en_display_name' => $role['en_display_name'],
-                'en_description' => $role['en_description'],
-                'fr_display_name' => $role['fr_display_name'],
-                'fr_description' => $role['fr_description'],
-                'lan_id' => $lanId
+        $role = $this->findGlobalRoleById($roleId);
+        DB::table('global_role')
+            ->where('id', $roleId)
+            ->update([
+                'name' => $name != null ? $name : $role->name,
+                'en_display_name' => $enDisplayName != null ? $enDisplayName : $role->en_display_name,
+                'en_description' => $enDescription != null ? $enDescription : $role->en_description,
+                'fr_display_name' => $frDisplayName != null ? $frDisplayName : $role->fr_display_name,
+                'fr_description' => $frDescription != null ? $frDescription : $role->fr_description
             ]);
-            foreach ($role['permissions'] as $permission) {
-                DB::table('permission_lan_role')->insert([
-                    'permission_id' => Permission::where('name', $permission['name'])->first()->id,
-                    'role_id' => $roleId
-                ]);
-            }
-        }
+    }
+
+    public function updateLanRole(
+        int $roleId,
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
+    ): void
+    {
+        $role = $this->findGlobalRoleById($roleId);
+
+        DB::table('lan_role')
+            ->where('id', $roleId)
+            ->update([
+                'name' => $name != null ? $name : $role->name,
+                'en_display_name' => $enDisplayName != null ? $enDisplayName : $role->en_display_name,
+                'en_description' => $enDescription != null ? $enDescription : $role->en_description,
+                'fr_display_name' => $frDisplayName != null ? $frDisplayName : $role->fr_display_name,
+                'fr_description' => $frDescription != null ? $frDescription : $role->fr_description
+            ]);
     }
 
     public function userHasPermission(string $permission, int $userId, int $lanId): bool
     {
+        // Permissions dans les rôles de LAN
         $lanPermissions = DB::table('permission')
             ->join('permission_lan_role', 'permission.id', '=', 'permission_lan_role.permission_id')
             ->join('lan_role', 'permission_lan_role.role_id', '=', 'lan_role.id')
@@ -319,6 +324,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('permission.name', $permission)
             ->get();
 
+        // Permissions dans les rôles globaux
         $globalPermissions = DB::table('permission')
             ->join('permission_global_role', 'permission.id', '=', 'permission_global_role.permission_id')
             ->join('global_role', 'permission_global_role.role_id', '=', 'global_role.id')
@@ -327,6 +333,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->where('permission.name', $permission)
             ->get();
 
+        // Fusion des permissions trouvées, puis voir si l'une d'elles corresponds à ce qui est recherché
         return $lanPermissions->merge($globalPermissions)->unique()->count() > 0;
     }
 }

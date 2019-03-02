@@ -51,7 +51,6 @@ class GetPaginatedUsersCriteriaTest extends TestCase
         ]);
     }
 
-
     public function testGetPaginatedUsersCriteria(): void
     {
         $result = $this->userRepository->getPaginatedUsersCriteria(
@@ -211,6 +210,4 @@ class GetPaginatedUsersCriteriaTest extends TestCase
         $this->assertEquals(2, $result->currentPage());
         $this->assertEquals(2, $result->lastPage());
     }
-
-
 }

@@ -24,8 +24,8 @@ class DeleteLeaderTest extends TestCase
     {
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -50,7 +50,7 @@ class DeleteLeaderTest extends TestCase
     public function testDeleteLeader(): void
     {
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -64,7 +64,7 @@ class DeleteLeaderTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -81,7 +81,7 @@ class DeleteLeaderTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -98,7 +98,7 @@ class DeleteLeaderTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/team/leader', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

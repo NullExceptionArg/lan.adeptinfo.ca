@@ -38,8 +38,8 @@ class GetTagWithMostSeniorityNotLeaderTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -63,7 +63,7 @@ class GetTagWithMostSeniorityNotLeaderTest extends TestCase
 
     public function testRemoveUserFromTeamLeader(): void
     {
-        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team);
+        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team->id);
         $this->assertEquals($this->userTag->id, $result->id);
         $this->assertEquals($this->userTag->name, $result->name);
 
@@ -71,13 +71,13 @@ class GetTagWithMostSeniorityNotLeaderTest extends TestCase
         $this->userTag->delete();
         $this->user->delete();
 
-        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team);
+        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team->id);
         $this->assertEquals(null, $result);
     }
 
     public function testRemoveUserFromTeamNotLeader(): void
     {
-        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team);
+        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team->id);
         $this->assertEquals($this->userTag->id, $result->id);
         $this->assertEquals($this->userTag->name, $result->name);
 
@@ -85,7 +85,7 @@ class GetTagWithMostSeniorityNotLeaderTest extends TestCase
         $this->leaderTag->delete();
         $this->leader->delete();
 
-        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team);
+        $result = $this->teamRepository->getTagWithMostSeniorityNotLeader($this->team->id);
         $this->assertEquals($this->userTag->id, $result->id);
         $this->assertEquals($this->userTag->name, $result->name);
     }

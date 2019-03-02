@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Controller\User;
 
-use DateTime;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\SeatsTestCase;
 
@@ -18,12 +18,17 @@ class GetUserDetailsTest extends SeatsTestCase
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();
         $this->user = factory('App\Model\User')->create();
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'get-user-details'
+        );
     }
 
     public function testGetUserDetailsHasLanId(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -35,6 +40,21 @@ class GetUserDetailsTest extends SeatsTestCase
             ->assertResponseStatus(200);
     }
 
+    public function testGetUserDetailsHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
+                'email' => $this->user->email,
+                'lan_id' => $this->lan->id
+            ])->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
     public function testGetUserDetailsReservedAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
@@ -42,7 +62,7 @@ class GetUserDetailsTest extends SeatsTestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -66,10 +86,10 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime()
+            'arrived_at' => Carbon::now()
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -93,11 +113,11 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime(),
-            'left_at' => new DateTime()
+            'arrived_at' => Carbon::now(),
+            'left_at' => Carbon::now()
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -121,12 +141,12 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime(),
-            'left_at' => new DateTime(),
+            'arrived_at' => Carbon::now(),
+            'left_at' => Carbon::now(),
         ]);
         $reservation->delete();
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
@@ -148,7 +168,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLanExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => -1
             ])->seeJsonEquals([
@@ -166,7 +186,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => $this->user->email,
                 'lan_id' => '☭'
             ])->seeJsonEquals([
@@ -184,7 +204,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsEmailRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([
                 'success' => false,
@@ -201,7 +221,7 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsEmailExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/user/details', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
                 'email' => -1,
                 'lan_id' => $this->lan->id
             ])->seeJsonEquals([

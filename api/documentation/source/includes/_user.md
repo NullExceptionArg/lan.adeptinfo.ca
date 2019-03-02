@@ -1,12 +1,25 @@
 # Utilisateur
 
-## Créer un compte
+Un utilisateur peut réserver une place, faire partie d'équipes pour participer à des tournoi, et consulter les détails du LAN.
+Il peut aussi administrer l'API s'il possède des [permissions](#permission) d'administration.
 
-Se créer un compte utilisateur.
+## Créer un compte utilisateur
+
+Créer un compte utilisateur dans l'API. 
+
+Un courriel de confirmation sera envoyé au nouvel utilisateur. Le courriel devrait contenir un lien pour [confirmer le compte](#confirmer-un-compte).
+
+Un compte de l'API peut s'ajouter à un compte qui a été créé avec [Facebook](#se-connecter-avec-facebook) ou [Google](#se-connecter-avec-google). 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connexion. 
+Tout est géré par l'API.
+
+<aside class="notice">
+Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de token pour intéragir avec l'API.
+</aside>
 
 ### Requête HTTP
 
-`POST /api/user`
+`POST /user`
 
 ### Paramètres POST
 
@@ -24,10 +37,10 @@ Se créer un compte utilisateur.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-first_name | Prénom de l'utilisateur à créer. | Requis, 255 caractères max.
-last_name | Nom de l'utilisateur à créer. | Requis, 255 caractères max.
-email | Identifiant (courriel) de l'utilisateur à créer. | Requis, courriel valide.
-password| Mot de passe de l'utilisateur à créer. | Requis, entre 6 et 20 caratères.
+first_name | Prénom de l'utilisateur à créer. |  255 caractères max.
+last_name | Nom de l'utilisateur à créer. |  255 caractères max.
+email | Identifiant (courriel) de l'utilisateur à créer. |  courriel valide.
+password| Mot de passe de l'utilisateur à créer. |  entre 6 et 20 caratères.
 
 ### Format de réponse
 
@@ -50,11 +63,15 @@ email | Identifiant (courriel) de l'utilisateur créé.
 
 ## Confirmer un compte
 
-Confirmer un compte utilisateur. Devrait être utilisé en envoyant un courriel à l'utilisateur. 
+Confirmation que le courriel utilisé par l'utilisateur lui appartient bel et bien. Devrait être utilisé en envoyant un courriel à l'utilisateur. 
+
+<aside class="notice">
+Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de token pour intéragir avec l'API.
+</aside>
 
 ### Requête HTTP
 
-`GET /api/user/confirm/{confirmation_code}`
+`GET /user/confirm/{confirmation_code}`
 
 ### Path Params
 
@@ -64,17 +81,17 @@ confirmation_code | Code de confirmation secret qui est communiqué directement 
 
 La réponse est vide, mais retourne un statut 200.
 
-## Créer un compte avec Facebook
-## Se connecter avec Facebook
+## Connexion avec Facebook
 
-Se connecter ou créer un compte utilisateur en se connectant avec Facebook.
-Il est à noter qu'un compte facebook peut s'ajouter à un compte qui a été créé avec Laravel ou Google. 
-Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Connexion ou création d'un compte utilisateur avec Facebook.
+
+Un compte facebook peut s'ajouter à un compte qui a été créé avec l'[API](#creer-un-compte) ou [Google](#se-connecter-avec-google). 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connexion. 
 Tout est géré par l'API.
 
 ### Requête HTTP
 
-`POST /api/user/facebook`
+`POST /user/facebook`
 
 ### Paramètres POST
 
@@ -89,7 +106,7 @@ Tout est géré par l'API.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-access_token | Token retourné par une authentification côté client, avec Facebook. | Requis.
+access_token | Token retourné par une authentification côté client, avec Facebook. |
 
 ### Format de réponse
 
@@ -105,16 +122,17 @@ Champ | Description
 --------- | -----------
 token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
 
-## Se connecter avec Google
+## Connexion avec Google
 
-Se connecter ou créer un compte utilisateur en se connectant avec Google.
-Il est à noter qu'un compte google peut s'ajouter à un compte qui a été créé avec Laravel ou Facebook. 
-Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connection. 
+Connexion ou création d'un compte utilisateur avec Google.
+
+Un compte Google peut s'ajouter à un compte qui a été créé avec l'[API](#creer-un-compte) ou [Facebook](#se-connecter-avec-facebook). 
+Aucune manipulation supplémentaire n'est nécessaire pour agencer des méthodes de connexion. 
 Tout est géré par l'API.
 
 ### Requête HTTP
 
-`POST /api/user/google`
+`POST /user/google`
 
 ### Paramètres POST
 
@@ -129,7 +147,7 @@ Tout est géré par l'API.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-access_token | Token retourné par une authentification côté client, avec Google. | Requis.
+access_token | Token retourné par une authentification côté client, avec Google. | 
 
 ### Format de réponse
 
@@ -146,10 +164,9 @@ Champ | Description
 token | Token unique à inclure avec toutes les requêtes nécessitant un authentification.
 
 
+## Connexion
 
-## Connection
-
-S'authentifier dans l'application.
+Permet d'obtenir l'accès aux requêtes qui nécessitent que l'utilisateur soit authentifié.
 
 ### Requête HTTP
 
@@ -172,11 +189,11 @@ S'authentifier dans l'application.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-grant_type | Type d'authentification pour oauth2. Nous utilisons "password" pour notre application | Requis
-client_id | Identifiant du client d'authentification oauth2. | Requis
-client_secret | Mot de passe généré du client oauth2. | Requis
-username | Identifiant (courriel) de l'utilisateur. | Requis
-password | Mot de passe de l'utilisateur. | Requis
+grant_type | Type d'authentification pour oauth2. Nous utilisons "password" pour notre application | 
+client_id | Identifiant du client d'authentification oauth2. | 
+client_secret | Mot de passe généré du client oauth2. | 
+username | Identifiant (courriel) de l'utilisateur. | 
+password | Mot de passe de l'utilisateur. | 
 
 ### Format de réponse
 
@@ -201,13 +218,13 @@ refresh_token | Token unique à utiliser pour étendre la durée de la validité
 
 ## Déconnexion
 
-Se déconnecter dans l'application
+Déconnecter l'utilisateur en rendant invalide le token retourné à lors de la connexion.
 
 ### Requête HTTP
 
-`POST /api/user/logout`
+`POST /user/logout`
 
-Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l'utilisateur à partir du token d'authentication.
+Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à partir du token d'authentication.
 
 ### Format de réponse
 
@@ -217,18 +234,18 @@ Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l'util
 []
 ```
 
-La réponse de la suppression de utilisateur est vide.
+La réponse de la déconnexion de utilisateur est vide.
 
 
-## Supprimer
+## Supprimer l'utilisateur
 
-Supprimer un utilisateur authentifié
+Supprimer un utilisateur authentifié, ainsi que tout ses liens aux autres entités du LAN.
 
 ### Requête HTTP
 
-`DELETE /api/user`
+`DELETE /user`
 
-Cette requête ne nécessite aucun paramètre. Nous retrouvons simplement l'utilisateur à partir du token d'authentication.
+Cette requête ne nécessite aucun paramètre. Nous retrouvons l'utilisateur à partir du token d'authentication.
 
 ### Format de réponse
 
@@ -244,15 +261,20 @@ La réponse de la suppression de utilisateur est vide.
 
 Lister l'ensemble des utilisateurs selon des filtres, un ordre et de la pagination
 
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>get-users</code>, can_be_per_lan <code>true</code>
+</aside>
+
+
 ### Requête HTTP
 
-`GET /api/user`
+`GET /user`
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-query_string | Terme à rechercher parmis le nom, le prénom, et le courriel de l'utilisateur | string, 255 caractères max.
+query_string | Terme à rechercher parmis le nom, le prénom, et le courriel de l'utilisateur | chaîne de caractères, 255 caractères max.
 order_column | Colonne selon laquelle les résultats seront ordonnés. Par défaut: last_name | Doit être l'une des entrées suivantes: last_name, first_name, email.
 order_direction | Ordre de classement selon lequel les résultats seront ordonnés, soit en ordre croissant (asc), soit en ordre décroissant (desc). Par défaut asc | Doit être l'une des entrées suivantes: asc, desc.
 items_per_page | Nombre de résultats à inclure par page | Nombre, minimum: 1, maximum: 75.
@@ -292,7 +314,7 @@ current_page | Page courante de recherche | Nombre, minimum: 1.
         }
     ],
     "pagination": {
-        "total": 1001,
+        "total": 5,
         "count": 5,
         "per_page": 5,
         "current_page": 4,
@@ -325,11 +347,15 @@ total_pages | Nombre total de pages.
 
 ## Détails d'un utilisateur
 
-Détails d'un utilisateur et son historique pour un LAN.
+Détails d'un utilisateur ainsi que son historique pour un LAN.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>get-user-details</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 
-`POST /api/user/details`
+`POST /user/details`
 
 ### Paramètres POST
 
@@ -344,8 +370,8 @@ Détails d'un utilisateur et son historique pour un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur à rechercher | string.
-lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courant | requis.
+email | Courriel de l'utilisateur à rechercher | chaîne de caractères.
+lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courant | 
 
 ### Format de réponse
 
@@ -396,19 +422,19 @@ left_at | Moment où l'utilisateur a quitté.
 canceled_at | Moment où l'utilisateur a annulé sa réservation.
 
 
-## Sommaire d'un utilisateur
+## Sommaire de l'utilisateur
 
-Informations sommaires d'un utilisateur.
+Informations sommaires de l'utilisateur courant. (Identité et nombre de requête en attente d'approbation pour les équipes que le joueur dirige)
 
 ### Requête HTTP
 
-`GET /api/user/summary`
+`GET /user/summary`
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -428,19 +454,19 @@ first_name | Prénom de l'utilisateur.
 last_name | Nom de l'utilisateur.
 request_count | Demandes cummulées pour entrer dans les équipes d'un utilisateur (qui est chef).
 
-## Sommaire d'un administrateur
+## Sommaire de l'administrateur
 
-Informations sommaires d'un administrateur.
+Informations sommaires de l'administrateur. (Identité, s'il administre un ou des tournois, et les permissions qu'il possède)
 
 ### Requête HTTP
 
-`GET /api/admin/summary`
+`GET /admin/summary`
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -454,9 +480,7 @@ lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'adminis
     "permissions": [
         {
             "id": 39,
-            "name": "create-lan",
-            "display_name": "Create a new LAN",
-            "description": "Create a new LAN. Careful, this permission should not be given to anyone..."
+            "name": "create-lan"
         }
     ]
 }
@@ -473,24 +497,26 @@ permissions | Permissions administratives que possède l'administrateur pour le 
 Champ | Description
 --------- | -----------
 id | Id de la permission.
-name | Nom interne de la permission.
-display_name | Nom à afficher de la permission.
-description | Description de la permission.
+name | Nom de la permission.
 
 ## Roles d'un administrateur
 
 Rôles globaux et de LAN d'un administrateur.
 
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>get-admin-roles</code>, can_be_per_lan <code>true</code>
+</aside>
+
 ### Requête HTTP
 
-`GET /api/admin/roles`
+`GET /admin/roles`
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur dont on veut connaître les rôles. Si ce paramètre n'est pas spécifié, on retourne les rôles de l'utilisateur qui fait la requête (L'utilisateur n'a pas besoin d'avoir cette permission à ce moment). | string.
-lan_id | Id du LAN pour lequel l'administrateur souhaite connaître ses rôle. Si paramètre n'est pas spécifié, on utilise le LAN courant. | integer.
+email | Courriel de l'utilisateur dont on veut connaître les rôles. Si ce paramètre n'est pas spécifié, on retourne les rôles de l'utilisateur qui fait la requête (L'utilisateur n'a pas besoin d'avoir cette permission à ce moment). | chaîne de caractères.
+lan_id | Id du LAN pour lequel l'administrateur souhaite connaître ses rôle. Si le paramètre n'est pas spécifié, on utilise le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -527,5 +553,5 @@ Champ | Description
 --------- | -----------
 id | Id du rôle.
 name | Nom du rôle.
-display_name | Nom d'affichage du rôle, selon la langue spécifiée.
-description | Description du rôle, selon la langue spécifiée.
+display_name | Nom d'affichage du rôle.
+description | Description du rôle.

@@ -38,8 +38,8 @@ class KickTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -67,7 +67,7 @@ class KickTest extends TestCase
     public function testKick(): void
     {
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->userTag->id,
                 'name' => $this->userTag->name
@@ -79,7 +79,7 @@ class KickTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -96,7 +96,7 @@ class KickTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -112,7 +112,7 @@ class KickTest extends TestCase
     public function testKickTeamIdUserIsTeamLeader(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -125,7 +125,7 @@ class KickTest extends TestCase
     {
         $this->requestContent['tag_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -142,7 +142,7 @@ class KickTest extends TestCase
     {
         $this->requestContent['tag_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -164,7 +164,7 @@ class KickTest extends TestCase
         $this->requestContent['tag_id'] = $tag->id;
 
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -181,7 +181,7 @@ class KickTest extends TestCase
     {
         $this->requestContent['tag_id'] = $this->leaderTag->id;
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/kick', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/team/kick', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

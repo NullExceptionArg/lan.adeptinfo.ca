@@ -43,8 +43,8 @@ class getTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -79,19 +79,19 @@ class getTest extends TestCase
         $this->reservation = new Reservation();
         $this->reservation->user_id = $this->user2->id;
         $this->reservation->lan_id = $this->lan->id;
-        $this->reservation->seat_id = 'A-1';
+        $this->reservation->seat_id = env('SEAT_TEST_ID');
         $this->reservation->save();
 
         $this->reservation2 = new Reservation();
         $this->reservation2->user_id = $this->user3->id;
         $this->reservation2->lan_id = $this->lan->id;
-        $this->reservation2->seat_id = 'A-2';
+        $this->reservation2->seat_id = env('SEAT_TEST_ID_2');
         $this->reservation2->save();
     }
 
     public function testGet(): void
     {
-        $this->json('GET', '/api/tournament/details/' . $this->tournament->id)
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/details/' . $this->tournament->id)
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
@@ -154,7 +154,7 @@ class getTest extends TestCase
 
     public function testGetTournamentIdExist(): void
     {
-        $this->json('GET', '/api/tournament/details/' . -1)
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/tournament/details/' . -1)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

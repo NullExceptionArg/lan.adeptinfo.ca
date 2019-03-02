@@ -36,8 +36,8 @@ class DeleteTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -90,7 +90,7 @@ class DeleteTest extends TestCase
             'tournament_id' => $this->organizerTournament->tournament_id
         ]);
 
-        $this->tournamentRepository->delete($this->tournament);
+        $this->tournamentRepository->delete($this->tournament->id);
 
         $tournament = Tournament::withTrashed()->first();
         $team = Team::withTrashed()->first();

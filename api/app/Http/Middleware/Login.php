@@ -5,10 +5,16 @@ namespace App\Http\Middleware;
 use App\Model\User;
 use Closure;
 
+/**
+ * S'assurer que l'utilisateur qui accède à l'application est confirmé (par courriel)
+ *
+ * Class Login
+ * @package App\Http\Middleware
+ */
 class Login
 {
     /**
-     * Handle an incoming request.
+     * Traiter une demande entrante.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  \Closure $next

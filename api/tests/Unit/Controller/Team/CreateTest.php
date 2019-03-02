@@ -31,8 +31,8 @@ class CreateTest extends TestCase
         ]);
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -46,7 +46,7 @@ class CreateTest extends TestCase
     public function testCreate(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
                 'tournament_id' => $this->requestContent['tournament_id'],
@@ -60,7 +60,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tournament_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -77,7 +77,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tournament_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['user_tag_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -111,7 +111,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['user_tag_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -124,22 +124,22 @@ class CreateTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateUserTagIdUniqueUserPerTournamentSameTag(): void
+    public function testCreateUserTournamentIdUniqueUserPerTournamentSameTag(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $this->tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => 'name',
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'user_tag_id' => [
+                    'tournament_id' => [
                         0 => 'A user can only be once in a tournament.'
                     ],
                 ]
@@ -147,25 +147,25 @@ class CreateTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreateUserTagIdUniqueUserPerTournamentSameUser(): void
+    public function testCreateUserTournamentIdUniqueUserPerTournamentSameUser(): void
     {
         $tag = factory('App\Model\Tag')->create([
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $this->tournament->id,
                 'user_tag_id' => $tag->id,
                 'name' => 'name',
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
-                    'user_tag_id' => [
+                    'tournament_id' => [
                         0 => 'A user can only be once in a tournament.'
                     ],
                 ]
@@ -175,22 +175,22 @@ class CreateTest extends TestCase
 
     public function testCreateUserTagIdUniqueUserPerTournamentSameLan(): void
     {
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => 'name',
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 2,
                 'tournament_id' => $this->requestContent['tournament_id'],
@@ -200,11 +200,29 @@ class CreateTest extends TestCase
             ->assertResponseStatus(201);
     }
 
+    public function testCreateUserTagIdTagBelongsToUser(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $tag = factory('App\Model\Tag')->create([
+            'user_id' => $user->id
+        ]);
+        $this->requestContent['user_tag_id'] = $tag->id;
+
+        $this->actingAs($this->user)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
     public function testCreateNameRequired(): void
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -221,7 +239,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -238,7 +256,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -253,19 +271,13 @@ class CreateTest extends TestCase
 
     public function testCreateNameUniqueTeamNamePerTournament(): void
     {
-        $user = factory('App\Model\User')->create();
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
+        factory('App\Model\Team')->create([
+            'tournament_id' => $this->tournament->id,
+            'name' => $this->requestContent['name']
         ]);
+
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
-                'tournament_id' => $this->tournament->id,
-                'user_tag_id' => $tag->id,
-                'name' => $this->requestContent['name'],
-                'tag' => 'tag'
-            ]);
-        $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -280,22 +292,22 @@ class CreateTest extends TestCase
 
     public function testCreateNameUniqueTeamNamePerTournamentSameLan(): void
     {
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => $this->requestContent['name'],
                 'tag' => 'tag'
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 2,
                 'tournament_id' => $this->requestContent['tournament_id'],
@@ -309,7 +321,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tag'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -325,7 +337,7 @@ class CreateTest extends TestCase
     {
         $this->requestContent['tag'] = str_repeat('☭', 6);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -339,19 +351,12 @@ class CreateTest extends TestCase
 
     public function testCreateTagUniqueTeamTagPerTournament(): void
     {
-        $user = factory('App\Model\User')->create();
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
+        factory('App\Model\Team')->create([
+            'tournament_id' => $this->tournament->id,
+            'tag' => $this->requestContent['tag']
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
-                'tournament_id' => $this->tournament->id,
-                'user_tag_id' => $tag->id,
-                'name' => 'name',
-                'tag' => $this->requestContent['tag']
-            ]);
-        $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -366,22 +371,22 @@ class CreateTest extends TestCase
 
     public function testCreateTagUniqueTeamTagPerTournamentSameLan(): void
     {
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', [
                 'tournament_id' => $tournament->id,
                 'user_tag_id' => $this->tag->id,
                 'name' => 'name',
                 'tag' => $this->requestContent['tag']
             ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/team', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 2,
                 'tournament_id' => $this->requestContent['tournament_id'],

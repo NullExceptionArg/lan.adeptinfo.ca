@@ -10,6 +10,8 @@ class GetUsersTest extends TestCase
     use DatabaseMigrations;
 
     protected $users;
+    protected $user;
+    protected $lan;
 
     protected $requestContent = [
         'query_string' => '',
@@ -22,6 +24,12 @@ class GetUsersTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->lan = factory('App\Model\Lan')->create([
+            'is_current' => true
+        ]);
+
+        $this->user = factory('App\Model\User')->create();
 
         $this->users[0] = factory('App\Model\User')->create([
             'first_name' => 'Karl',
@@ -46,12 +54,19 @@ class GetUsersTest extends TestCase
             'last_name' => 'Stalin',
             'email' => 'joseph.stalin@unite.org',
         ]);
+
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'get-users'
+        );
     }
 
     public function testGetUsers(): void
     {
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->requestContent['query_string'] = '@unite.org';
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'data' => [
                     [
@@ -63,7 +78,7 @@ class GetUsersTest extends TestCase
                         'first_name' => 'Leon',
                         'last_name' => 'Trotsky',
                         'email' => 'leon.trotsky@unite.org',
-                    ],
+                    ]
                 ],
                 'pagination' => [
                     'total' => 4,
@@ -83,8 +98,8 @@ class GetUsersTest extends TestCase
         $this->requestContent['order_direction'] = '';
         $this->requestContent['items_per_page'] = '';
         $this->requestContent['current_page'] = '';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'data' => [
                     [
@@ -106,11 +121,16 @@ class GetUsersTest extends TestCase
                         'first_name' => 'Leon',
                         'last_name' => 'Trotsky',
                         'email' => 'leon.trotsky@unite.org',
+                    ],
+                    [
+                        'first_name' => $this->user->first_name,
+                        'last_name' => $this->user->last_name,
+                        'email' => $this->user->email
                     ]
                 ],
                 'pagination' => [
-                    'total' => 4,
-                    'count' => 4,
+                    'total' => 5,
+                    'count' => 5,
                     'per_page' => 15,
                     'current_page' => 1,
                     'total_pages' => 1
@@ -121,9 +141,9 @@ class GetUsersTest extends TestCase
 
     public function testGetUsersQueryString(): void
     {
-        $this->requestContent['query_string'] = 'ar';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->requestContent['query_string'] = 'Marx';
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'data' => [
                     [
@@ -146,8 +166,9 @@ class GetUsersTest extends TestCase
     public function testGetUsersOrderColumn(): void
     {
         $this->requestContent['order_column'] = 'email';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->requestContent['query_string'] = '@unite.org';
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'data' => [
                     [
@@ -175,8 +196,9 @@ class GetUsersTest extends TestCase
     public function testGetUsersOrderDirection(): void
     {
         $this->requestContent['order_direction'] = 'asc';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->requestContent['query_string'] = '@unite.org';
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'data' => [
                     [
@@ -204,8 +226,9 @@ class GetUsersTest extends TestCase
     public function testGetUsersItemsPerPage(): void
     {
         $this->requestContent['items_per_page'] = 3;
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->requestContent['query_string'] = '@unite.org';
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'data' => [
                     [
@@ -238,8 +261,9 @@ class GetUsersTest extends TestCase
     public function testGetUsersCurrentPage(): void
     {
         $this->requestContent['current_page'] = 2;
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->requestContent['query_string'] = '@unite.org';
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'data' => [
                     [
@@ -267,8 +291,8 @@ class GetUsersTest extends TestCase
     public function testGetUsersQueryStringMaxLength(): void
     {
         $this->requestContent['query_string'] = str_repeat('☭', 256);
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -281,11 +305,74 @@ class GetUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
+    public function testGetUsersHasPermission(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->actingAs($user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
+    public function testGetUsersHasPermissionNotCurrentLan(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->lan = factory('App\Model\Lan')->create();
+        $this->actingAs($user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
+    public function testGetUsersHasPermissionGlobal(): void
+    {
+        $user = factory('App\Model\User')->create();
+
+        $this->addGlobalPermissionToUser(
+            $user->id,
+            'get-users'
+        );
+
+        $this->requestContent['query_string'] = '@unite.org';
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+            ->seeJsonEquals([
+                'data' => [
+                    [
+                        'first_name' => 'Vladimir',
+                        'last_name' => 'Lenin',
+                        'email' => 'vlad.lenin@unite.org',
+                    ],
+                    [
+                        'first_name' => 'Leon',
+                        'last_name' => 'Trotsky',
+                        'email' => 'leon.trotsky@unite.org',
+                    ]
+                ],
+                'pagination' => [
+                    'total' => 4,
+                    'count' => 2,
+                    'per_page' => 2,
+                    'current_page' => 1,
+                    'total_pages' => 2
+                ]
+            ])
+            ->assertResponseStatus(200);
+    }
+
     public function testGetUsersQueryStringString(): void
     {
         $this->requestContent['query_string'] = 1;
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -301,8 +388,8 @@ class GetUsersTest extends TestCase
     public function testGetUsersOrderColumnRuleIn(): void
     {
         $this->requestContent['order_column'] = '☭';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -318,8 +405,8 @@ class GetUsersTest extends TestCase
     public function testGetUsersOrderDirectionRuleIn(): void
     {
         $this->requestContent['order_direction'] = '☭';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -332,17 +419,17 @@ class GetUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetUsersItemsPerPageNumeric(): void
+    public function testGetUsersItemsPerPageInteger(): void
     {
         $this->requestContent['items_per_page'] = '☭';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'items_per_page' => [
-                        0 => 'The items per page must be a number.',
+                        0 => 'The items per page must be an integer.',
                     ],
                 ]
             ])
@@ -352,8 +439,8 @@ class GetUsersTest extends TestCase
     public function testGetUsersItemsPerPageMin(): void
     {
         $this->requestContent['items_per_page'] = 0;
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -369,8 +456,8 @@ class GetUsersTest extends TestCase
     public function testGetUsersItemsPerPageMax(): void
     {
         $this->requestContent['items_per_page'] = 76;
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -383,17 +470,17 @@ class GetUsersTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testGetUsersCurrentPageNumeric(): void
+    public function testGetUsersCurrentPageInteger(): void
     {
         $this->requestContent['current_page'] = '☭';
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
                 'message' => [
                     'current_page' => [
-                        0 => 'The current page must be a number.',
+                        0 => 'The current page must be an integer.',
                     ],
                 ]
             ])
@@ -403,8 +490,8 @@ class GetUsersTest extends TestCase
     public function testGetUsersCurrentPageMin(): void
     {
         $this->requestContent['current_page'] = 0;
-        $this->actingAs($this->users[0])
-            ->json('GET', '/api/user', $this->requestContent)
+        $this->actingAs($this->user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

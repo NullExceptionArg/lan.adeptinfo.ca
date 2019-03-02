@@ -31,8 +31,8 @@ class DeleteRequestTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -55,7 +55,7 @@ class DeleteRequestTest extends TestCase
             'team_id' => $this->team->id
         ]);
 
-        $this->teamRepository->deleteRequest($this->request);
+        $this->teamRepository->deleteRequest($this->request->id);
 
         $this->notSeeInDatabase('request', [
             'id' => $this->request->id,

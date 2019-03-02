@@ -2,73 +2,75 @@
 
 namespace App\Repositories\Implementation;
 
-
-use App\Model\Lan;
 use App\Model\Reservation;
-use App\Model\User;
 use App\Repositories\SeatRepository;
-use DateTime;
-use Illuminate\Support\Collection;
+use Carbon\Carbon;
+use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class SeatRepositoryImpl implements SeatRepository
 {
-
-    public function findReservationByLanIdAndUserId(int $lanId, int $userId): ?Reservation
+    public function createReservation(int $userId, int $lanId, string $seatId): int
     {
-        return Reservation::where('user_id', $userId)
-            ->where('lan_id', $lanId)->first();
+        return DB::table('reservation')
+            ->insertGetId([
+                'user_id' => $userId,
+                'lan_id' => $lanId,
+                'seat_id' => $seatId
+            ]);
+    }
+
+    public function deleteReservation(int $reservationId): void
+    {
+        Reservation::where('id', $reservationId)
+            ->delete();
     }
 
     public function findReservationByLanIdAndSeatId(int $lanId, string $seatId): ?Reservation
     {
         return Reservation::where('lan_id', $lanId)
-            ->where('seat_id', $seatId)->first();
-    }
-
-    public function createReservation(int $userId, int $lanId, string $seatId): Reservation
-    {
-        $reservation = new Reservation();
-        $reservation->user_id = $userId;
-        $reservation->lan_id = $lanId;
-        $reservation->seat_id = $seatId;
-        $reservation->save();
-
-        return $reservation;
-    }
-
-    public function getCurrentSeat(User $user, Lan $lan): ?Reservation
-    {
-        return Reservation::where('user_id', $user->id)
-            ->where('lan_id', $lan->id)
+            ->where('seat_id', $seatId)
             ->where('deleted_at', null)
             ->first();
     }
 
-    public function getSeatHistoryForUser(User $user, Lan $lan): ?Collection
+    public function findReservationByLanIdAndUserId(int $lanId, int $userId): ?Reservation
+    {
+        return Reservation::where('user_id', $userId)
+            ->where('lan_id', $lanId)
+            ->where('deleted_at', null)
+            ->first();
+    }
+
+    public function getReservedPlaces(int $lanId): int
+    {
+        return Reservation::where('lan_id', $lanId)->count();
+    }
+
+    public function getSeatHistoryForUser(int $userId, int $lanId): ?Collection
     {
         return Reservation::withTrashed()
-            ->where('user_id', $user->id)
-            ->where('lan_id', $lan->id)
+            ->where('user_id', $userId)
+            ->where('lan_id', $lanId)
             ->get();
     }
 
-    public function setReservationArrived(Reservation $reservation): void
+    public function setReservationArrived(string $reservationId, int $lanId): void
     {
-        $reservation->arrived_at = new DateTime();
-        $reservation->save();
+        DB::table('reservation')
+            ->where('lan_id', $lanId)
+            ->where('seat_id', $reservationId)
+            ->update([
+                'arrived_at' => Carbon::now()
+            ]);
     }
 
-    public function setReservationLeft(Reservation $reservation): void
+    public function setReservationLeft(string $reservationId, int $lanId): void
     {
-        $reservation->left_at = new DateTime();
-        $reservation->save();
-    }
-
-    public function deleteReservation(Reservation $reservation): void
-    {
-        try {
-            $reservation->delete();
-        } catch (\Exception $e) {
-        }
+        DB::table('reservation')
+            ->where('lan_id', $lanId)
+            ->where('seat_id', $reservationId)
+            ->update([
+                'left_at' => Carbon::now()
+            ]);
     }
 }

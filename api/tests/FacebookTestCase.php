@@ -2,12 +2,19 @@
 
 namespace Tests;
 
-use GuzzleHttp\Client;
+use App\Utils\FacebookUtils;
+use Facebook\Exceptions\FacebookSDKException;
 
+/**
+ * Contexte pour les tests qui manipulent des utilisateurs de test de l'API de Facebook
+ *
+ * Class FacebookTestCase
+ * @package Tests
+ */
 abstract class FacebookTestCase extends TestCase
 {
     /**
-     * Creates the application.
+     * Créer l'application
      *
      * @return \Laravel\Lumen\Application
      */
@@ -18,25 +25,28 @@ abstract class FacebookTestCase extends TestCase
 
     public function tearDown()
     {
-        $client = new Client([
-            'base_uri' => env('FB_GRAPH_HOST'),
-            'timeout' => 10,
-        ]);
+        // Obtenir le token d'accès Facebook de l'application
+        $accessToken = FacebookUtils::getAccessToken();
 
-        $accessToken = \GuzzleHttp\json_decode($client->request('GET', 'oauth/access_token', ['query' => [
-            'client_id' => env('FB_ID'),
-            'client_secret' => env('FB_SECRET'),
-            'grant_type' => 'client_credentials'
-        ]])->getBody())->access_token;
+        // Créer une connection à l'API de facebook
+        $fb = FacebookUtils::getFacebook();
+        try {
+            // Obtenir les utilisateurs de tests de l'API Facebook
+            $users = $fb->get(
+                '/' . env('FB_TEST_ID') . '/accounts/test-users',
+                $accessToken->getValue()
+            );
 
-        $users = \GuzzleHttp\json_decode($client->request('GET', '/v3.1/' . env('FB_ID') . '/accounts/test-users', [
-            'headers' => ['Authorization' => 'Bearer ' . $accessToken]
-        ])->getBody())->data;
-
-        foreach ($users as $user) {
-            \GuzzleHttp\json_decode($client->request('DELETE', '/v3.1/' . $user->id, [
-                'headers' => ['Authorization' => 'Bearer ' . $accessToken]
-            ])->getBody());
+            // Pour chaque utilisateurs de test
+            foreach ($users->getDecodedBody()['data'] as $user) {
+                // Supprimer l'utilisateur
+                $fb->delete(
+                    '/' . $user['id'],
+                    array(),
+                    $accessToken->getValue()
+                );
+            }
+        } catch (FacebookSDKException $e) {
         }
 
         parent::tearDown();

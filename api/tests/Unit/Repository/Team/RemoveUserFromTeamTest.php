@@ -37,8 +37,8 @@ class RemoveUserFromTeamTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -71,7 +71,7 @@ class RemoveUserFromTeamTest extends TestCase
             'team_id' => $this->team->id
         ]);
 
-        $this->teamRepository->removeUserFromTeam($this->user, $this->team);
+        $this->teamRepository->removeUserFromTeam($this->user->id, $this->team->id);
 
 
         $this->notSeeInDatabase('tag_team', [

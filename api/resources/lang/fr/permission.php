@@ -1,14 +1,14 @@
 <?php
 
-// The permission name must absolutely follow the following convention: display-name-*name of permission*
-// The permission description must absolutely follow the following convention: description-*name of permission*
+// Le nom des permissions doivent absolument suivre la convention suivante : display-name-nom-de-la-permission
+// La description de la description doit absolument suivre la convention suivante : description-nom-de-la-permission
 return [
     'display-name-create-lan' => 'Créer un LAN',
     'description-create-lan' => 'Créer un nouveau LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',
     'display-name-set-current-lan' => 'Changer le LAN courant',
     'description-set-current-lan' => 'Changer le LAN qui va être affiché sur le site du LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',
     'display-name-edit-lan' => 'Modifier un LAN',
-    'description-edit-lan' => 'Modifier le nom, la date de début, la date de fin, la date de réservation des tournois, la date de réservation des places, les clés de seats.io, la position (Lat, Lng), le nombre de places disponibles, le coût d\'entrée, les règles, et la description du LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',
+    'description-edit-lan' => 'Modifier le nom, la date de début, la date de fin, la date de réservation des tournois, la date de réservation des places, les clés de seat.io, la position (Lat, Lng), le nombre de places disponibles, le coût d\'entrée, les règles, et la description du LAN. Attention, cette permission ne devrait pas être donnée à n\'importe qui...',
 
     'display-name-create-contribution-category' => 'Créer une catégorie de contribution',
     'description-create-contribution-category' => 'Create une nouvelle catégorie de contribution.',
@@ -45,8 +45,8 @@ return [
 
     'display-name-create-lan-role' => 'Créer un nouveau rôle de LAN',
     'description-create-lan-role' => 'Créer un nouveau rôle de LAN.',
-    'display-name-edit-lan-role' => 'Modifier un rôle de LAN',
-    'description-edit-lan-role' => 'Modifier un rôle de LAN.',
+    'display-name-update-lan-role' => 'Modifier un rôle de LAN',
+    'description-update-lan-role' => 'Modifier un rôle de LAN.',
     'display-name-add-permissions-lan-role' => 'Ajouter des permissions à un rôle global',
     'description-add-permissions-lan-role' => 'Ajouter des permissionsà un rôle global.',
     'display-name-delete-permissions-lan-role' => 'Supprimer une permission d\'un rôle de LAN',
@@ -64,10 +64,10 @@ return [
 
     'display-name-create-global-role' => 'Créer un nouveau rôle global',
     'description-create-global-role' => 'Créer un nouveau rôle global.',
-    'display-name-edit-global-role' => 'Modifier un rôle global',
-    'description-edit-global-role' => 'Modifier un rôle global.',
+    'display-name-update-global-role' => 'Modifier un rôle global',
+    'description-update-global-role' => 'Modifier un rôle global.',
     'display-name-add-permissions-global-role' => 'Ajouter des permissions à un rôle global',
-    'description-add-permissions-global-role' => 'Ajouter des permissionsà un rôle global.',
+    'description-add-permissions-global-role' => 'Ajouter des permissions à un rôle global.',
     'display-name-delete-permissions-global-role' => 'Supprimer une permission d\'un rôle global',
     'description-delete-permissions-global-role' => 'Supprimer une permission d\'un rôle global.',
     'display-name-delete-global-role' => 'Supprimer un rôle global',
@@ -85,7 +85,11 @@ return [
     'description-get-permissions' => 'Obtenir les permissions de l\'application.',
 
     'display-name-get-admin-roles' => 'Obtenir les rôles d\'un utilisateur',
-    'description-get-admin-roles' => 'Obtenir les rôles de globaux et de LAN d\'un utilisateur ou de l\'utilisateur courrant',
+    'description-get-admin-roles' => 'Obtenir les rôles de globaux et de LAN d\'un utilisateur ou de l\'utilisateur courant',
     'display-name-admin-summary' => 'Obtenir le sommaire d\'un administrateur',
-    'description-admin-summary' => 'Obtenir le nom et les permissions d\'un administrateur.'
+    'description-admin-summary' => 'Obtenir le nom et les permissions d\'un administrateur.',
+    'display-name-get-user' => 'Obtenir les utilisateurs',
+    'description-get-users' => 'Obtenir les utilisateurs enregistrés dans l\'API.',
+    'display-name-get-user-details' => 'Obtenir les détails d\'un utilisateur',
+    'description-get-user-details' => 'Obtenir les détails d\'un utilisateur, pour un LAN en particulier.'
 ];

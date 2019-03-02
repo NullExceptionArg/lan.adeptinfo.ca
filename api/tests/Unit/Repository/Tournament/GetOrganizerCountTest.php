@@ -22,8 +22,8 @@ class GetOrganizerCountTest extends TestCase
         $organizer = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($lan->lan_start);
-        $endTime = new Carbon($lan->lan_end);
+        $startTime = Carbon::parse($lan->lan_start);
+        $endTime = Carbon::parse($lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -44,7 +44,7 @@ class GetOrganizerCountTest extends TestCase
 
     public function testGetOrganizerCount(): void
     {
-        $result = $this->tournamentRepository->getOrganizerCount($this->tournament);
+        $result = $this->tournamentRepository->getOrganizerCount($this->tournament->id);
 
         $this->assertEquals(2, $result);
     }

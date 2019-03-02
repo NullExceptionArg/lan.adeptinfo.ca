@@ -5,16 +5,17 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
+ * Requête pour entrer dans une équipe.
+ *
  * @property int team_id
  * @property int tag_id
  */
 class Request extends Model
 {
-
     protected $table = 'request';
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * Champs qui ne sont pas retournés par défaut lorsque l'objet est retourné dans une requête HTTP.
      *
      * @var array
      */
@@ -22,4 +23,10 @@ class Request extends Model
         'created_at', 'updated_at'
     ];
 
+    /**
+     * Champs à transtyper.
+     *
+     * @var array
+     */
+    protected $casts = ['tag_id' => 'integer', 'team_id' => 'integer'];
 }

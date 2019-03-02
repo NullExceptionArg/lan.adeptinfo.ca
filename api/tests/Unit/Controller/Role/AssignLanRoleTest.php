@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Controller\Role;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -24,24 +23,17 @@ class AssignLanRoleTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'assign-lan-role')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'assign-lan-role'
+        );
     }
 
     public function testAssignLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -58,7 +50,7 @@ class AssignLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -73,7 +65,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleEmailRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id
             ])
             ->seeJsonEquals([
@@ -91,7 +83,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleEmailExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => '☭'
             ])
@@ -110,7 +102,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => '☭',
                 'email' => $this->user->email
             ])
@@ -133,7 +125,7 @@ class AssignLanRoleTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => $this->role->id,
                 'email' => $this->user->email
             ])
@@ -152,7 +144,7 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/lan/assign', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
                 'role_id' => -1,
                 'email' => $this->user->email
             ])

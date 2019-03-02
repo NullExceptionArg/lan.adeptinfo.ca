@@ -26,8 +26,8 @@ class CreateTest extends TestCase
         $this->teamRepository = $this->app->make('App\Repositories\Implementation\TeamRepositoryImpl');
 
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -45,15 +45,12 @@ class CreateTest extends TestCase
         ]);
 
         $result = $this->teamRepository->create(
-            $this->tournament,
+            $this->tournament->id,
             $this->requestContent['name'],
             $this->requestContent['tag']
         );
 
-        $this->assertEquals(1, $result->id);
-        $this->assertEquals($this->requestContent['name'], $result->name);
-        $this->assertEquals($this->requestContent['tag'], $result->tag);
-        $this->assertEquals($this->tournament->id, $result->tournament_id);
+        $this->assertEquals(1, $result);
         $this->seeInDatabase('team', [
             'id' => 1,
             'name' => $this->requestContent['name'],

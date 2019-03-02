@@ -4,7 +4,6 @@ namespace Tests\Unit\Service\Tournament;
 
 use App\Model\Permission;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -28,8 +27,8 @@ class AddOrganizerTest extends TestCase
         $this->organizer2 = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -60,8 +59,7 @@ class AddOrganizerTest extends TestCase
 
     public function testAddOrganizer(): void
     {
-        $request = new Request(['email' => $this->organizer2->email]);
-        $result = $this->tournamentService->addOrganizer($request, $this->tournament->id);
+        $result = $this->tournamentService->addOrganizer($this->organizer2->email, $this->tournament->id);
 
         $this->assertEquals($this->tournament->id, $result->id);
         $this->assertEquals($this->tournament->lan_id, $result->lan_id);
@@ -73,5 +71,4 @@ class AddOrganizerTest extends TestCase
         $this->assertEquals($this->tournament->teams_to_reach, $result->teams_to_reach);
         $this->assertEquals($this->tournament->rules, $result->rules);
     }
-
 }

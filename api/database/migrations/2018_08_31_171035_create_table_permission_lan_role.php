@@ -1,13 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\{Database\Migrations\Migration, Database\Schema\Blueprint, Support\Facades\Schema};
 
 class CreateTablePermissionLanRole extends Migration
 {
     /**
-     * Run the migrations.
+     * Exécuter les migrations
      *
      * @return void
      */
@@ -26,7 +24,7 @@ class CreateTablePermissionLanRole extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Inverser les migrations.
      *
      * @return void
      */

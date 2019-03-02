@@ -24,7 +24,8 @@
     "caouecs/laravel-lang": "~3.0",
     "illuminate/mail": "^5.7",
     "google/apiclient": "^2.2",
-    "ext-json": "*"
+    "ext-json": "*",
+    "facebook/graph-sdk": "^5.7"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.8",

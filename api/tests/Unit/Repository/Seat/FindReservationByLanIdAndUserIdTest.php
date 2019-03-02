@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Repository\Seat;
 
-use App\Model\Reservation;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\SeatsTestCase;
 
@@ -15,10 +14,6 @@ class FindReservationByLanIdAndUserIdTest extends SeatsTestCase
     protected $user;
     protected $lan;
 
-    protected $paramsContent = [
-        'seat_id' => "A-1"
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -29,13 +24,13 @@ class FindReservationByLanIdAndUserIdTest extends SeatsTestCase
 
     public function testFindReservationByLanIdAndSeatId(): void
     {
-        $reservation = new Reservation();
-        $reservation->lan_id = $this->lan->id;
-        $reservation->user_id = $this->user->id;
-        $reservation->seat_id = $this->paramsContent['seat_id'];
-        $reservation->save();
+        factory('App\Model\Reservation')->create([
+            'lan_id' => $this->lan->id,
+            'user_id' => $this->user->id,
+            'seat_id' => env('SEAT_TEST_ID')
+        ]);
 
-        $result = $this->seatRepository->findReservationByLanIdAndSeatId($this->user->id, $this->paramsContent['seat_id']);
+        $result = $this->seatRepository->findReservationByLanIdAndSeatId($this->user->id, env('SEAT_TEST_ID'));
         $this->assertEquals($this->lan->id, $result->lan_id);
         $this->assertEquals($this->user->id, $result->user_id);
     }

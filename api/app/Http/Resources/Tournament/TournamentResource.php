@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\Tournament;
 
-
 use App\Model\TagTeam;
 use App\Model\Team;
 use Illuminate\Http\Resources\Json\Resource;
@@ -10,19 +9,26 @@ use Illuminate\Http\Resources\Json\Resource;
 class TournamentResource extends Resource
 {
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
-        $teams = Team::where('tournament_id', $this->id)
-            ->get();
+        // Obtenir les équipes du tournoi
+        $teams = Team::where('tournament_id', $this->id)->get();
+
         $teamsReached = 0;
+
+        // Pour chaque équipe
         foreach ($teams as $team) {
+            // Obtenir le nombre de joueurs atteints
             $playersReached = TagTeam::where('team_id', $team->id)->count();
+
+            // Si le nombre de joueur atteints est plus grand ou égal au nombre de joueurs à atteindre dans le tournoi
             if ($playersReached >= $this->players_to_reach) {
+                // Augmenter le compteur d'équipes complète
                 $teamsReached++;
                 break;
             }

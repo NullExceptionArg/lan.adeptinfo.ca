@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Unit\Repository;
+namespace Tests\Unit\Repository\Tournament;
 
 use Carbon\Carbon;
-use DateTime;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -18,7 +17,6 @@ class UpdateTest extends TestCase
     protected $tournament;
 
     protected $requestContent = [
-        'lan' => null,
         'name' => 'October',
         'state' => 'visible',
         'tournament_start' => null,
@@ -36,42 +34,41 @@ class UpdateTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
+        $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->addHour(1);
-        $endTime = new Carbon($this->lan->lan_end);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->subHour(1);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $this->requestContent['tournament'] = $this->tournament;
-
-        $this->be($this->user);
     }
 
     public function testUpdate(): void
     {
-        $result = $this->tournamentRepository->update(
-            $this->requestContent['tournament'],
+        $this->tournamentRepository->update(
+            $this->tournament->id,
             $this->requestContent['name'],
             $this->requestContent['state'],
-            new DateTime($this->requestContent['tournament_start']),
-            new DateTime($this->requestContent['tournament_end']),
+            Carbon::parse($this->requestContent['tournament_start']),
+            Carbon::parse($this->requestContent['tournament_end']),
             $this->requestContent['players_to_reach'],
             $this->requestContent['teams_to_reach'],
             $this->requestContent['rules'],
             $this->requestContent['price']
         );
 
-        $this->assertEquals(1, $result->id);
-        $this->assertEquals($this->lan->id, $result->lan_id);
-        $this->assertEquals($this->requestContent['name'], $result->name);
-        $this->assertEquals($this->requestContent['tournament_start'], $result->tournament_start);
-        $this->assertEquals($this->requestContent['tournament_end'], $result->tournament_end);
-        $this->assertEquals($this->requestContent['players_to_reach'], $result->players_to_reach);
-        $this->assertEquals($this->requestContent['teams_to_reach'], $result->teams_to_reach);
-        $this->assertEquals($this->requestContent['rules'], $result->rules);
-        $this->assertEquals($this->requestContent['price'], $result->price);
+        $this->seeInDatabase('tournament', [
+            'id' => 1,
+            'name' => $this->requestContent['name'],
+            'state' => $this->requestContent['state'],
+            'tournament_start' => $this->requestContent['tournament_start'],
+            'tournament_end' => $this->requestContent['tournament_end'],
+            'players_to_reach' => $this->requestContent['players_to_reach'],
+            'teams_to_reach' => $this->requestContent['teams_to_reach'],
+            'rules' => $this->requestContent['rules'],
+            'price' => $this->requestContent['price'],
+        ]);
     }
 }

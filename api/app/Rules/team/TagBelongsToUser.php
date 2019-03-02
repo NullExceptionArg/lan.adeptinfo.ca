@@ -3,38 +3,68 @@
 namespace App\Rules\Team;
 
 use App\Model\Tag;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule};
 
+/**
+ * Un tag de joueur appartient à un utilisateur.
+ *
+ * Class TagBelongsToUser
+ * @package App\Rules\Team
+ */
 class TagBelongsToUser implements Rule
 {
+    protected $userId;
+
     /**
-     * Determine if the validation rule passes.
+     * TagBelongsToUser constructor.
+     * @param int $userId Id de l'utilisateur
+     */
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
+
+
+    /**
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $tagId Id du tag
      * @return bool
      * @throws AuthorizationException
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $tagId): bool
     {
-        $tag = Tag::find($value);
-        if ($tag == null) {
-            return true;
+        $tag = null;
+
+        /*
+         * Conditions de garde :
+         * L'id du tag est un entier
+         * L'id de l'utilisateur est un entier
+         * Un tag de joueur doit correspondre à l'id de tag de joueur
+         */
+        if (
+            !is_int($tagId) ||
+            !is_int($this->userId) ||
+            is_null($tag = Tag::find($tagId))
+        ) {
+            return true; // Une autre validation devrait échouer
         }
-        if ($tag->user_id != Auth::id()) {
-            throw new AuthorizationException();
+
+        // L'id d'utilisateur du tag ne correspond pas à celui de l'utilisateur, lancer une exception
+        if ($tag->user_id != $this->userId) {
+            throw new AuthorizationException(trans('validation.forbidden'));
         }
+
         return true;
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.tag_belongs_to_user');
     }

@@ -5,17 +5,24 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
 
+/**
+ * Assurer qu'un utilisateur entrant est authentifié.
+ *
+ * Class Authenticate
+ * @package App\Http\Middleware
+ */
 class Authenticate
 {
     /**
-     * The authentication guard factory instance.
+     *
+     * Instance de fabrique de garde d'authentification.
      *
      * @var \Illuminate\Contracts\Auth\Factory
      */
     protected $auth;
 
     /**
-     * Create a new middleware instance.
+     * Créer une nouvelle instance de middleware.
      *
      * @param  \Illuminate\Contracts\Auth\Factory  $auth
      * @return void
@@ -26,7 +33,7 @@ class Authenticate
     }
 
     /**
-     * Handle an incoming request.
+     * Traiter une demande entrante.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -35,6 +42,7 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
+        // Si l'utilisateur n'est pas authentifié, on retourne une erreur 401.
         if ($this->auth->guard($guard)->guest()) {
             return response('Unauthorized.', 401);
         }

@@ -25,7 +25,7 @@ class DeleteCategoryByIdTest extends TestCase
         ]);
     }
 
-    public function testDeleteCategory(): void
+    public function testDeleteCategoryById(): void
     {
         $this->seeInDatabase('contribution_category', [
             'id' => $this->category->id,

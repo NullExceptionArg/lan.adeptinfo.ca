@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Repository\Tournament;
 
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -24,8 +24,8 @@ class AdminHasTournamentsTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -52,8 +52,8 @@ class AdminHasTournamentsTest extends TestCase
     public function testAdminHasTournamentsFalseOtherLan()
     {
         $lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($lan->lan_start);
-        $endTime = new Carbon($lan->lan_end);
+        $startTime = Carbon::parse($lan->lan_start);
+        $endTime = Carbon::parse($lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $lan->id,
             'tournament_start' => $startTime->addHour(1),

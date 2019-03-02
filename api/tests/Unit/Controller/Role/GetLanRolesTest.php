@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Controller\Role;
 
-use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -25,24 +24,17 @@ class GetLanRolesTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $this->accessRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'get-lan-roles')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $this->accessRole,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $this->accessRole,
-            'user_id' => $this->user->id
-        ]);
+        $this->accessRole = $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'get-lan-roles'
+        );
     }
 
     public function testGetLanRoles(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan', ['lan_id' => $this->lan->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => $this->lan->id])
             ->seeJsonEquals([
                 [
                     'id' => $this->lanRoles[0]->id,
@@ -76,7 +68,7 @@ class GetLanRolesTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', '/api/role/lan', ['lan_id' => $this->lan->id])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => $this->lan->id])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -88,7 +80,7 @@ class GetLanRolesTest extends TestCase
     public function testCreateLanRoleLanIdExists(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan', ['lan_id' => -1])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => -1])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -104,7 +96,7 @@ class GetLanRolesTest extends TestCase
     public function testCreateLanRoleLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/role/lan', ['lan_id' => '☭'])
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan', ['lan_id' => '☭'])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

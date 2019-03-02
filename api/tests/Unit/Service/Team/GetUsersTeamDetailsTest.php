@@ -2,12 +2,8 @@
 
 namespace Tests\Unit\Service\Team;
 
-use App\Model\TagTeam;
 use Carbon\Carbon;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class GetUsersTeamDetailsTest extends TestCase
@@ -15,10 +11,6 @@ class GetUsersTeamDetailsTest extends TestCase
     use DatabaseMigrations;
 
     protected $teamService;
-
-    protected $requestContent = [
-        'team_id' => null
-    ];
 
     protected $user;
     protected $tag;
@@ -38,8 +30,8 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -54,7 +46,6 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
 
         $this->requestContent['team_id'] = $this->team->id;
-        $this->be($this->user);
     }
 
     public function testGetUsersTeamDetailsAdminRequests(): void
@@ -77,10 +68,8 @@ class GetUsersTeamDetailsTest extends TestCase
             'tag_id' => $tag2->id,
             'team_id' => $this->team->id,
         ]);
-        $this->be($user);
 
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getUsersTeamDetails($request)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($user->id, $this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);
@@ -119,10 +108,7 @@ class GetUsersTeamDetailsTest extends TestCase
             'is_leader' => true
         ]);
 
-        $this->be($user);
-
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getUsersTeamDetails($request)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($user->id, $this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);
@@ -145,8 +131,7 @@ class GetUsersTeamDetailsTest extends TestCase
 
     public function testGetUsersTeamDetailsNotAdmin(): void
     {
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->getUsersTeamDetails($request)->jsonSerialize();
+        $result = $this->teamService->getUsersTeamDetails($this->user->id, $this->team->id)->jsonSerialize();
 
         $this->assertEquals(1, $result['id']);
         $this->assertEquals($this->team->name, $result['name']);
@@ -158,45 +143,5 @@ class GetUsersTeamDetailsTest extends TestCase
         $this->assertEquals($this->user->first_name, $result['user_tags'][0]->jsonSerialize()['first_name']);
         $this->assertEquals($this->user->last_name, $result['user_tags'][0]->jsonSerialize()['last_name']);
         $this->assertEquals(false, $result['user_tags'][0]->jsonSerialize()['is_leader']);
-    }
-
-    public function testGetUsersTeamDetailsTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getUsersTeamDetails($request);
-            $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The team id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersTeamDetailsTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getUsersTeamDetails($request);
-            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersTeamDetailsTeamIdUserBelongsInTeam(): void
-    {
-        TagTeam::where('team_id', $this->team->id)
-            ->where('tag_id', $this->tag->id)
-            ->delete();
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->getUsersTeamDetails($request);
-            $this->fail('Expected: {"user_tag_id":["A user can only be once in a tournament."]}');
-        } catch (AuthorizationException $e) {
-            $this->assertEquals('REEEEEEEEEE', $e->getMessage());
-        }
     }
 }

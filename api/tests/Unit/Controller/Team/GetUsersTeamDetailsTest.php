@@ -31,8 +31,8 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -71,7 +71,7 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('GET', '/api/team/details', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -120,7 +120,7 @@ class GetUsersTeamDetailsTest extends TestCase
         ]);
 
         $this->actingAs($user)
-            ->json('GET', '/api/team/details', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -151,7 +151,7 @@ class GetUsersTeamDetailsTest extends TestCase
     public function testGetUsersTeamDetailsNotAdmin(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/details', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->team->id,
                 'name' => $this->team->name,
@@ -174,7 +174,7 @@ class GetUsersTeamDetailsTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/details', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -191,7 +191,7 @@ class GetUsersTeamDetailsTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/details', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -210,7 +210,7 @@ class GetUsersTeamDetailsTest extends TestCase
             ->where('tag_id', $this->tag->id)
             ->delete();
         $this->actingAs($this->user)
-            ->json('GET', '/api/team/details', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/details', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

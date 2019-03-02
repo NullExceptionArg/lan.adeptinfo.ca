@@ -3,8 +3,7 @@
 namespace App\Http\Resources\Lan;
 
 use App\Model\Lan;
-use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Collection;
+use Illuminate\{Http\Resources\Json\Resource, Support\Collection};
 
 class UpdateResource extends Resource
 {
@@ -19,7 +18,7 @@ class UpdateResource extends Resource
     }
 
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array

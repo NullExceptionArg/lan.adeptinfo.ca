@@ -14,10 +14,6 @@ class GetCategoriesTest extends TestCase
     protected $lan;
     protected $category;
 
-    protected $paramsContent = [
-        "name" => 'Programmer'
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -28,11 +24,11 @@ class GetCategoriesTest extends TestCase
         ]);
     }
 
-    public function testGetCategoryForLan(): void
+    public function testGetCategories(): void
     {
-        $result = $this->contributionRepository->getCategories($this->lan);
+        $result = $this->contributionRepository->getCategories($this->lan->id);
 
-        $this->assertEquals($this->category->id, $result[0]['id']);
-        $this->assertEquals($this->category->name, $result[0]['name']);
+        $this->assertEquals($this->category->id, $result[0]->id);
+        $this->assertEquals($this->category->name, $result[0]->name);
     }
 }

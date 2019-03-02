@@ -1,44 +1,55 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\User;
 
-
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
+use App\Utils\FacebookUtils;
+use Facebook\Exceptions\FacebookSDKException;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Un token Facebook est valide.
+ *
+ * Class ValidFacebookToken
+ * @package App\Rules\User
+ */
 class ValidFacebookToken implements Rule
 {
-
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $token Token Facebook
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $token): bool
     {
+        /*
+         * Condition de garde :
+         * Le token est une chaîne de caractères
+         */
+        if (!is_string($token)) {
+            return true; // Une autre validation devrait échouer
+        }
+
         try {
-            $client = new Client([
-                'base_uri' => 'https://graph.facebook.com',
-                'timeout' => 2.0]);
-            \GuzzleHttp\json_decode($client->get('/me', ['query' => [
-                'fields' => 'id,first_name,last_name,email',
-                'access_token' => $value
-            ]])->getBody());
-        } catch (RequestException $e) {
+            // Essayer d'obtenir les informations de l'utilisateur avec le token
+            FacebookUtils::getFacebook()->get(
+                '/me?fields=id,first_name,last_name,email',
+                $token
+            );
+        } catch (FacebookSDKException $e) {
+            // Si une erreur est envoyée, c'est que le token n'est pas valide
             return false;
         }
         return true;
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.valid_facebook_token');
     }

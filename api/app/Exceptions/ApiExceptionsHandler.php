@@ -4,48 +4,53 @@ namespace App\Exceptions;
 
 use Dingo\Api\Exception\Handler as DingoHandler;
 use Exception;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\{Auth\Access\AuthorizationException, Http\Response};
+use Symfony\{Component\HttpKernel\Exception\BadRequestHttpException,
+    Component\HttpKernel\Exception\MethodNotAllowedHttpException,
+    Component\HttpKernel\Exception\NotFoundHttpException};
 
+/**
+ * Gestionnaire d'exceptions.
+ * Quand une exception est lancée par l'application, elle est transformée en réponse HTTP ici.
+ *
+ * Class ApiExceptionsHandler
+ * @package App\Exceptions
+ */
 class ApiExceptionsHandler extends DingoHandler
 {
     public function handle(Exception $e)
     {
-        if (env('APP_DEBUG')) {
-            return parent::handle($e);
+        $message = null;
+        $status = null;
+        switch (true) {
+            case $e instanceof BadRequestHttpException:
+                $status = Response::HTTP_BAD_REQUEST;
+                $message = json_decode($e->getMessage());
+                break;
+            case $e instanceof MethodNotAllowedHttpException:
+                $status = Response::HTTP_METHOD_NOT_ALLOWED;
+                $message = trans('error.405');
+                break;
+            case $e instanceof NotFoundHttpException:
+                $status = Response::HTTP_NOT_FOUND;
+                $message = trans('error.404');
+                break;
+            case $e instanceof AuthorizationException:
+                $status = Response::HTTP_FORBIDDEN;
+                $message = $e->getMessage();
+                break;
+            default:
+                // Détails d'une erreur 500 uniquement si l'application est en mode debug (défini dans .env)
+                $status = Response::HTTP_INTERNAL_SERVER_ERROR;
+                if (env('APP_DEBUG')) {
+                    $message = $e->getMessage();
+                }
         }
-        $success = false;
-        $response = null;
-        $status = Response::HTTP_INTERNAL_SERVER_ERROR;
-        if ($e instanceof BadRequestHttpException) {
-            $status = Response::HTTP_BAD_REQUEST;
-            $e = new BadRequestHttpException($e->getMessage());
-        } elseif ($e instanceof HttpResponseException) {
-            $status = Response::HTTP_INTERNAL_SERVER_ERROR;
-        } elseif ($e instanceof MethodNotAllowedHttpException) {
-            $status = Response::HTTP_METHOD_NOT_ALLOWED;
-            $e = new MethodNotAllowedHttpException([], 'HTTP_METHOD_NOT_ALLOWED', $e);
-        } elseif ($e instanceof NotFoundHttpException) {
-            $status = Response::HTTP_NOT_FOUND;
-            $e = new NotFoundHttpException('HTTP_NOT_FOUND', $e);
-        } elseif ($e instanceof AuthorizationException) {
-            $status = Response::HTTP_FORBIDDEN;
-            $e = new AuthorizationException(trans('validation.forbidden'), $status);
-        } elseif ($e instanceof \Dotenv\Exception\ValidationException && $e->getResponse()) {
-            $status = Response::HTTP_BAD_REQUEST;
-            $e = new \Dotenv\Exception\ValidationException('HTTP_BAD_REQUEST', $status, $e);
-        } elseif ($e) {
-            $e = new HttpException($status, 'HTTP_INTERNAL_SERVER_ERROR');
-        }
+
         return response()->json([
-            'success' => $success,
+            'success' => false,
             'status' => $status,
-            'message' => is_null(json_decode($e->getMessage())) ? $e->getMessage() : json_decode($e->getMessage())
+            'message' => $message
         ], $status);
     }
 }

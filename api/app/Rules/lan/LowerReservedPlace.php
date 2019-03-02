@@ -1,39 +1,57 @@
 <?php
 
-namespace App\Rules;
+namespace App\Rules\Lan;
 
 use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Le nombre de réservations dans un LAN est moins grand que le nombre spécifié.
+ *
+ * Class LowerReservedPlace
+ * @package App\Rules\Lan
+ */
 class LowerReservedPlace implements Rule
 {
-
     protected $lanId;
 
-    public function __construct(string $lanId)
+    /**
+     * LowerReservedPlace constructor.
+     * @param string $lanId Id du LAN
+     */
+    public function __construct($lanId)
     {
         $this->lanId = $lanId;
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  int $places
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $places): bool
     {
+        /*
+         * Conditions de garde :
+         * L'id du LAN est un entier
+         * Le nombre de places attendues est un entier
+         */
+        if (!is_int($this->lanId) || !is_int($places)) {
+            return true;
+        }
+
         $placeCount = Reservation::where('lan_id', $this->lanId)->count();
-        return $placeCount <= $value;
+        return $placeCount <= $places;
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.lower_reserved_place');
     }

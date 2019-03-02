@@ -2,14 +2,16 @@
 
 namespace App\Model;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
 
 /**
+ * Une contribution est une remarque qui permet de dire qu'un utilisateur a participé à l'organisation d'un LAN.
+ *
  * @property int lan_id
  * @property string user_full_name
  * @property int user_id
  * @property int contribution_category_id
+ * @property int id
  */
 class Contribution extends Model
 {
@@ -20,13 +22,18 @@ class Contribution extends Model
     public $timestamps = false;
 
     /**
-     * The attributes that should be mutated to dates.
+     * Les attributs qui doivent être mutés en dates.
      *
      * @var array
      */
     protected $dates = ['deleted_at'];
 
-    protected $hidden = ['user_id', 'lan_id', 'pivot', 'deleted_at'];
+    /**
+     * Champs qui ne sont pas retournés par défaut lorsque l'objet est retourné dans une requête HTTP.
+     *
+     * @var array
+     */
+    protected $hidden = ['user_id', 'lan_id', 'contribution_category_id', 'deleted_at'];
 
     public function User()
     {
@@ -36,10 +43,5 @@ class Contribution extends Model
     public function Lan()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function ContributionCategory()
-    {
-        return $this->belongsToMany(ContributionCategory::class, 'contribution_cat_contribution');
     }
 }

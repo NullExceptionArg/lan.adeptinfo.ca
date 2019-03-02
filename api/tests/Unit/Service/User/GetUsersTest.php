@@ -2,9 +2,7 @@
 
 namespace Tests\Unit\Service\User;
 
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class GetUsersTest extends TestCase
@@ -55,8 +53,13 @@ class GetUsersTest extends TestCase
 
     public function testGetUsers(): void
     {
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->getUsers($request);
+        $result = $this->userService->getUsers(
+            $this->paramsContent['query_string'],
+            $this->paramsContent['order_column'],
+            $this->paramsContent['order_direction'],
+            $this->paramsContent['items_per_page'],
+            $this->paramsContent['current_page']
+        );
 
         $this->assertEquals('Vladimir', $result[0]->first_name);
         $this->assertEquals('Lenin', $result[0]->last_name);
@@ -75,14 +78,19 @@ class GetUsersTest extends TestCase
 
     public function testGetUsersDefaults(): void
     {
-        $this->paramsContent['query_string'] = '';
-        $this->paramsContent['order_column'] = '';
-        $this->paramsContent['order_direction'] = '';
-        $this->paramsContent['items_per_page'] = '';
-        $this->paramsContent['current_page'] = '';
+        $this->paramsContent['query_string'] = null;
+        $this->paramsContent['order_column'] = null;
+        $this->paramsContent['order_direction'] = null;
+        $this->paramsContent['items_per_page'] = null;
+        $this->paramsContent['current_page'] = null;
 
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->getUsers($request);
+        $result = $this->userService->getUsers(
+            $this->paramsContent['query_string'],
+            $this->paramsContent['order_column'],
+            $this->paramsContent['order_direction'],
+            $this->paramsContent['items_per_page'],
+            $this->paramsContent['current_page']
+        );
 
         $this->assertEquals('Vladimir', $result[0]->first_name);
         $this->assertEquals('Lenin', $result[0]->last_name);
@@ -111,8 +119,13 @@ class GetUsersTest extends TestCase
     {
         $this->paramsContent['query_string'] = 'ar';
 
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->getUsers($request);
+        $result = $this->userService->getUsers(
+            $this->paramsContent['query_string'],
+            $this->paramsContent['order_column'],
+            $this->paramsContent['order_direction'],
+            $this->paramsContent['items_per_page'],
+            $this->paramsContent['current_page']
+        );
 
         $this->assertEquals('Karl', $result[0]->first_name);
         $this->assertEquals('Marx', $result[0]->last_name);
@@ -129,8 +142,13 @@ class GetUsersTest extends TestCase
     {
         $this->paramsContent['order_column'] = 'email';
 
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->getUsers($request);
+        $result = $this->userService->getUsers(
+            $this->paramsContent['query_string'],
+            $this->paramsContent['order_column'],
+            $this->paramsContent['order_direction'],
+            $this->paramsContent['items_per_page'],
+            $this->paramsContent['current_page']
+        );
 
         $this->assertEquals('Vladimir', $result[0]->first_name);
         $this->assertEquals('Lenin', $result[0]->last_name);
@@ -151,8 +169,13 @@ class GetUsersTest extends TestCase
     {
         $this->paramsContent['order_direction'] = 'asc';
 
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->getUsers($request);
+        $result = $this->userService->getUsers(
+            $this->paramsContent['query_string'],
+            $this->paramsContent['order_column'],
+            $this->paramsContent['order_direction'],
+            $this->paramsContent['items_per_page'],
+            $this->paramsContent['current_page']
+        );
 
         $this->assertEquals('Joseph', $result[0]->first_name);
         $this->assertEquals('Stalin', $result[0]->last_name);
@@ -173,8 +196,13 @@ class GetUsersTest extends TestCase
     {
         $this->paramsContent['items_per_page'] = 3;
 
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->getUsers($request);
+        $result = $this->userService->getUsers(
+            $this->paramsContent['query_string'],
+            $this->paramsContent['order_column'],
+            $this->paramsContent['order_direction'],
+            $this->paramsContent['items_per_page'],
+            $this->paramsContent['current_page']
+        );
 
         $this->assertEquals('Vladimir', $result[0]->first_name);
         $this->assertEquals('Lenin', $result[0]->last_name);
@@ -199,8 +227,13 @@ class GetUsersTest extends TestCase
     {
         $this->paramsContent['current_page'] = 2;
 
-        $request = new Request($this->paramsContent);
-        $result = $this->userService->getUsers($request);
+        $result = $this->userService->getUsers(
+            $this->paramsContent['query_string'],
+            $this->paramsContent['order_column'],
+            $this->paramsContent['order_direction'],
+            $this->paramsContent['items_per_page'],
+            $this->paramsContent['current_page']
+        );
 
         $this->assertEquals('Karl', $result[0]->first_name);
         $this->assertEquals('Marx', $result[0]->last_name);
@@ -215,122 +248,5 @@ class GetUsersTest extends TestCase
         $this->assertEquals(2, $result->resource->perPage());
         $this->assertEquals(2, $result->resource->currentPage());
         $this->assertEquals(2, $result->resource->lastPage());
-    }
-
-    public function testGetUsersQueryStringMaxLength(): void
-    {
-        $this->paramsContent['query_string'] = str_repeat('☭', 256);
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"query_string":["The query string may not be greater than 255 characters."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"query_string":["The query string may not be greater than 255 characters."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersQueryStringString(): void
-    {
-        $this->paramsContent['query_string'] = 1;
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"query_string":["The query string must be a string."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"query_string":["The query string must be a string."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersOrderColumnRuleIn(): void
-    {
-        $this->paramsContent['order_column'] = '☭';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"order_column":["The selected order column is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"order_column":["The selected order column is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersOrderDirectionRuleIn(): void
-    {
-        $this->paramsContent['order_direction'] = '☭';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"order_direction":["The selected order direction is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"order_direction":["The selected order direction is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersItemsPerPageNumeric(): void
-    {
-        $this->paramsContent['items_per_page'] = '☭';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"items_per_page":["The items per page must be a number."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"items_per_page":["The items per page must be a number."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersItemsPerPageMin(): void
-    {
-        $this->paramsContent['items_per_page'] = 0;
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"items_per_page":["The items per page must be at least 1."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"items_per_page":["The items per page must be at least 1."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersItemsPerPageMax(): void
-    {
-        $this->paramsContent['items_per_page'] = 76;
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"items_per_page":["The items per page may not be greater than 75."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"items_per_page":["The items per page may not be greater than 75."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersCurrentPageNumeric(): void
-    {
-        $this->paramsContent['current_page'] = '☭';
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"current_page":["The current page must be a number."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"current_page":["The current page must be a number."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUsersCurrentPageMin(): void
-    {
-        $this->paramsContent['current_page'] = 0;
-        $request = new Request($this->paramsContent);
-        try {
-            $this->userService->getUsers($request);
-            $this->fail('Expected: {"current_page":["The current page must be at least 1."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"current_page":["The current page must be at least 1."]}', $e->getMessage());
-        }
     }
 }

@@ -23,18 +23,12 @@ class GetAdminRoles extends TestCase
     {
         $userBeingChecked = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'get-admin-roles')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $lan->id,
+            'get-admin-roles'
+        );
 
         $permissions = Permission::inRandomOrder()
             ->where('name', '!=', 'get-admin-roles')
@@ -68,7 +62,7 @@ class GetAdminRoles extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'lan_id' => $lan->id,
                 'email' => $userBeingChecked->email,
                 'lang' => 'fr'
@@ -134,18 +128,12 @@ class GetAdminRoles extends TestCase
     {
         $userBeingChecked = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'get-admin-roles')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $lan->id,
+            'get-admin-roles'
+        );
 
         $permissions = Permission::inRandomOrder()
             ->where('name', '!=', 'get-admin-roles')
@@ -179,7 +167,7 @@ class GetAdminRoles extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'lan_id' => $lan->id,
                 'email' => $userBeingChecked->email,
                 'lang' => 'en'
@@ -276,7 +264,7 @@ class GetAdminRoles extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'lan_id' => $lan->id,
                 'email' => $this->user->email,
                 'lang' => 'en'
@@ -373,7 +361,7 @@ class GetAdminRoles extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'lan_id' => $lan->id,
                 'lang' => 'en'
             ])
@@ -471,7 +459,7 @@ class GetAdminRoles extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'email' => $this->user->email,
                 'lang' => 'en'
             ])
@@ -537,7 +525,7 @@ class GetAdminRoles extends TestCase
         $lan = factory('App\Model\Lan')->create();
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'lan_id' => $lan->id,
                 'email' => $this->user->email
             ])
@@ -552,7 +540,7 @@ class GetAdminRoles extends TestCase
     public function testGetAdminRolesLanIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'lan_id' => -1
             ])
             ->seeJsonEquals([
@@ -570,7 +558,7 @@ class GetAdminRoles extends TestCase
     public function testGetAdminRolesLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'lan_id' => '☭'
             ])
             ->seeJsonEquals([
@@ -601,7 +589,7 @@ class GetAdminRoles extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'email' => '☭',
                 'lan_id' => $lan->id
             ])
@@ -633,7 +621,7 @@ class GetAdminRoles extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->actingAs($this->user)
-            ->json('GET', '/api/admin/roles', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/roles', [
                 'email' => 1,
                 'lan_id' => $lan->id
             ])
@@ -648,5 +636,4 @@ class GetAdminRoles extends TestCase
             ])
             ->assertResponseStatus(400);
     }
-
 }

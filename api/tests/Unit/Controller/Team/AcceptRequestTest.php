@@ -37,8 +37,8 @@ class AcceptRequestTest extends TestCase
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -65,7 +65,7 @@ class AcceptRequestTest extends TestCase
     public function testAcceptRequest(): void
     {
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->requestingUsersTag->id,
                 'name' => $this->requestingUsersTag->name
@@ -77,7 +77,7 @@ class AcceptRequestTest extends TestCase
     {
         $this->requestContent['request_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class AcceptRequestTest extends TestCase
     {
         $this->requestContent['request_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -107,72 +107,10 @@ class AcceptRequestTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAcceptRequestRequestIdRequestBelongsInTeam(): void
-    {
-        $user = factory('App\Model\User')->create();
-        $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
-        ]);
-        $team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
-        ]);
-        $request = factory('App\Model\Request')->create([
-            'tag_id' => $tag,
-            'team_id' => $team->id
-        ]);
-        $this->requestContent['request_id'] = $request->id;
-        $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'request_id' => [
-                        0 => 'The request must be for the leaders team.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testAcceptRequestTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'team_id' => [
-                        0 => 'The team id must be an integer.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testAcceptRequestTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $this->actingAs($this->leader)
-            ->json('POST', '/api/team/accept', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'team_id' => [
-                        0 => 'The selected team id is invalid.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testAcceptRequestTeamIdUserIsTeamLeader(): void
     {
         $this->actingAs($this->requestingUser)
-            ->json('POST', '/api/team/accept', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/accept', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

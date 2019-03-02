@@ -3,12 +3,12 @@
 return [
     /*
     |--------------------------------------------------------------------------
-    | Validation Language Lines
+    | Validations françaises
     |--------------------------------------------------------------------------
     |
-    | The following language lines contain the default error messages used by
-    | the validator class. Some of these rules have multiple versions such
-    | as the size rules. Feel free to tweak each of these messages.
+    | Les lignes suivantes contiennent les messages d'erreur utilisés par la
+    | classe de validation. Certaines de ces règles possèdent plusieurs versions
+    | comme la règles "size".
     |
     */
 
@@ -151,6 +151,9 @@ return [
     'permissions_belong_to_user' => 'L\'une des permissions n\'est pas attribuée à ce rôle.',
     'lan_role_name_once_per_lan' => 'Le nom du role de LAN doit être unique par LAN.',
     'role_once_per_user' => 'L\'utilisateur possède déjà ce rôle.',
+    'positive_integer' => 'Le champ :attribute doit être un entier positif.',
+    'request_belongs_to_user' => 'La requête doit appartenir à l\'utilisateur.',
+    'email_not_current_user' => 'Le courriel ne peut être le même que celui qui est utilisé par l\'utilisateur courant.',
     'forbidden' => 'REEEEEEEEEE',
     /*
     |--------------------------------------------------------------------------

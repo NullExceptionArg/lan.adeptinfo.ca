@@ -1,12 +1,18 @@
 # Tournoi
 
+Des tournois où plusieurs équipes s'affrontent peuvent être organisés dans un LAN. 
+
 ## Créer un tournoi
 
-Créer un nouveau tournoi. L'utilisateur qui créer le tournoi en devient automatiquement l'administrateur.
+Créer un nouveau tournoi pour un LAN. L'administrateur qui créer le tournoi en devient automatiquement l'administrateur.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>create-tournament</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Requête HTTP
 
-`POST /api/tournament`
+`POST /tournament`
 
 ### Query Params
 
@@ -27,19 +33,19 @@ Créer un nouveau tournoi. L'utilisateur qui créer le tournoi en devient automa
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où le tournoi aura lieu. Si paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN où le tournoi aura lieu. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Paramètres POST
 
 Paramètre | Description | Règles de validation | Défaut
 --------- | ----------- | -------------------- | ------
-name | Nom du tournoi. | Requis, string, 255 caractères max. |
+name | Nom du tournoi. |  chaîne de caractères, 255 caractères max. |
 price | Prix d'entrée du tournoi. | int, min: 0. | 0
-tournament_start | Date et heure de début du tournoi. | Requis, après le début du LAN. | 
-tournament_end | Date et heure de fin du tournoi. | Requis, date, avant la fin du LAN., après le début du tournoi. |
-players_to_reach| Nombre de joueur à atteindre par équipe. | Requis, min: 1, int. |
-teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.| Requis, min: 1, int. |
-rules | Règlements du tournoi. | String, requis. |
+tournament_start | Date et heure de début du tournoi. |  après le début du LAN. | 
+tournament_end | Date et heure de fin du tournoi. |  date, avant la fin du LAN., après le début du tournoi. |
+players_to_reach| Nombre de joueur à atteindre par équipe. |  min: 1, int. |
+teams_to_reach |Nombre d'équipes à atteindre pour que le tournoi ait lieu.|  min: 1, int. |
+rules | Règlements du tournoi. | chaîne de caractères |
 
 ### Format de réponse
 
@@ -69,10 +75,10 @@ rules | Règlements du tournoi créé.
 price | Prix d'entrée du tournoi créé.
 tournament_start | Date et heure de début du tournoi créé. 
 tournament_end | Date et heure de fin du tournoi créé.
-teams_to_reach | Nombre d'équipes à atteindre pour que le tounoi ait lieu.
+teams_to_reach | Nombre d'équipes à atteindre pour que le tournoi ait lieu.
 teams_reaches | Nombre d'équipes atteintes du tournoi créé.
 players_to_reach| Nombre de joueur à atteindre par équipe du tournoi créé.
-state| État courrant du tournoi créé. Voir État pour les états possibles.
+state| État courant du tournoi créé. Voir État pour les états possibles.
 teams | Voir Team.
 
 
@@ -116,13 +122,17 @@ Les équipes, les requêtes pour entrer dans les équipes du tournois et les lia
 
 ### Requête HTTP
 
-`DELETE /api/tournament/{tournament_id}`
+`DELETE /tournament/{tournament_id}`
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>delete-tournament</code>, can_be_per_lan <code>true</code>
+</aside>
 
 ### Path Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi que l'administrateur veut supprimer. | integer.
+tournament_id | Id du tournoi que l'administrateur veut supprimer. | entier.
 
 ### Format de réponse
 
@@ -147,8 +157,8 @@ name | Nom du tournoi supprimé.
 tournament_start | Date et heure de début du tournoi supprimé. 
 tournament_end | Date et heure de fin du tournoi supprimé.
 state | État courant du tournoi supprimé. Voir État pour les états possibles.
-teams_reached | Nombre d'équipes atteintes pour que le tounoi supprimé ait lieu.
-teams_to_reach | Nombre d'équipes à atteindre pour que le tounoi supprimé ait lieu.
+teams_reached | Nombre d'équipes atteintes pour que le tournoi supprimé ait lieu.
+teams_to_reach | Nombre d'équipes à atteindre pour que le tournoi supprimé ait lieu.
 
 #### État
 Champ | Description
@@ -171,13 +181,13 @@ Sinon on retourne uniquement les tournois qui sont organisés par l'utilisateur.
 
 ### Requête HTTP
 
-`GET /api/tournament/all/organizer`
+`GET /tournament/all/organizer`
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN dans lequel l'organisateur souhaite trouver ses tournois. | integer.
+lan_id | Id du LAN dans lequel l'organisateur souhaite trouver ses tournois. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 
@@ -222,17 +232,17 @@ unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse
 
 ## Obtenir tous les tournois
 
-Obtenir tous les tournois.
+Obtenir tous les tournois d'un LAN.
 
 ### Requête HTTP
 
-`GET /api/tournament/all`
+`GET /tournament/all`
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN dans lequel on souhaite trouver les tournois. | integer.
+lan_id | Id du LAN dans lequel on souhaite trouver les tournois. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 
@@ -276,17 +286,17 @@ unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse
 
 ## Modifier un tournoi
 
-Modifier un tournoi.
+Modifier les informations d'un tournoi.
 
 ### Requête HTTP
 
-`PUT /api/tournament/{tournament_id}`
+`PUT /tournament/{tournament_id}`
 
 ### Path Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi que l'administrateur veut modifier. | integer.
+tournament_id | Id du tournoi que l'administrateur veut modifier. | entier.
 
 > Exemple de requête
 
@@ -306,14 +316,14 @@ tournament_id | Id du tournoi que l'administrateur veut modifier. | integer.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-name | Nom du tournoi. | Requis, string, 255 caractères max.
+name | Nom du tournoi. |  chaîne de caractères, 255 caractères max.
 price | Prix d'entrée du tournoi. | int, min: 0.
 state | État courant du LAN. Voir État Courant. | hidden, visible, started, ou finished
-tournament_start | Date et heure de début du tournoi. | Requis, après le début du LAN. 
-tournament_end | Date et heure de fin du tournoi. | Requis, date, avant la fin du LAN, après le début du tournoi.
-players_to_reach| Nombre de joueur à atteindre par équipe. | Requis, min: 1, int.
-teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.| Requis, min: 1, int.
-rules | Règlements du tournoi. | String, requis.
+tournament_start | Date et heure de début du tournoi. |  après le début du LAN. 
+tournament_end | Date et heure de fin du tournoi. |  date, avant la fin du LAN, après le début du tournoi.
+players_to_reach| Nombre de joueur à atteindre par équipe. |  min: 1, int.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tournoi ait lieu.|  min: 1, int.
+rules | Règlements du tournoi. | chaîne de caractères
 
 #### État courant
 Champ | Description
@@ -392,17 +402,17 @@ seat_id | Id de la place du joueur, si le joueur a un réservation pour le LAN.
 
 ## Détails d'un tournoi
 
-Détails d'un tournoi
+Détails d'un tournoi. Comprends aussi les équipes ainsi que les tags de joueur qui en font parti.
 
 ### Requête HTTP
 
-`GET /api/tournament/details/{tournament_id}`
+`GET /tournament/details/{tournament_id}`
 
 ### Path Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi que l'on veut consulter. | integer.
+tournament_id | Id du tournoi que l'on veut consulter. | entier.
 
 ### Format de réponse
 
@@ -497,13 +507,13 @@ S'il est le dernier à quitter, le tournoi est supprimé.
 
 ### Requête HTTP
 
-`POST /api/tournament/{tournament_id}/quit`
+`POST /tournament/{tournament_id}/quit`
 
 ### Path Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi l'administrateur veut quitter. | integer.
+tournament_id | Id du tournoi l'administrateur veut quitter. | entier.
 
 ### Format de réponse
 
@@ -529,7 +539,7 @@ tournament_start | Date et heure de début du tournoi.
 tournament_end | Date et heure de fin du tournoi.
 state | État courant du LAN. Voir État Courant. 
 teams_reached |Nombre d'équipes atteintes.
-teams_to_reach |Nombre d'équipes à atteindre pour que le tounoi ait lieu.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tournoi ait lieu.
 
 #### État courant
 Champ | Description
@@ -546,23 +556,31 @@ unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse
 
 ## Ajouter un organisateur à un tournoi
 
-Un administrateur d'un tournoi peut en ajouter un autre.
+Un administrateur d'un tournoi peut en ajouter un autre, pour l'aider à l'organisation du tournoi.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>delete-team</code>, can_be_per_lan <code>true</code>
+</aside>
+
+<aside class="notice">
+La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
+</aside>
 
 ### Requête HTTP
 
-`POST /api/tournament/{tournament_id}/organizer`
+`POST /tournament/{tournament_id}/organizer`
 
 ### Path Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi l'administrateur veut quitter. | integer.
+tournament_id | Id du tournoi dont l'organisateur souhaite ajouter un autre organisateur. | entier.
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur que l'on veut ajouter comme organisateur du tournoi. | string.
+email | Courriel de l'utilisateur à ajouter comme nouvel organisateur du tournoi. | chaîne de caractères.
 
 ### Format de réponse
 
@@ -587,8 +605,8 @@ name | Nom du tournoi dans lequel le l'organisateur a été ajouté.
 tournament_start | Date et heure de début du tournoi dans lequel le l'organisateur a été ajouté.
 tournament_end | Date et heure de fin du tournoi dans lequel le l'organisateur a été ajouté.
 state | État courant du tournoi dans lequel le l'organisateur a été ajouté. Voir État Courant. 
-teams_reached | Nombre d'équipes atteintes pour que le tounoi dans lequel le l'organisateur a été ajouté ait lieu.
-teams_to_reach | Nombre d'équipes à atteindre pour que le tounoi dans lequel le l'organisateur a été ajouté ait lieu.
+teams_reached | Nombre d'équipes atteintes pour que le tournoi dans lequel le l'organisateur a été ajouté ait lieu.
+teams_to_reach | Nombre d'équipes à atteindre pour que le tournoi dans lequel le l'organisateur a été ajouté ait lieu.
 
 #### État courant
 Champ | Description

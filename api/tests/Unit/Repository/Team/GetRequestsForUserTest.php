@@ -37,15 +37,15 @@ class GetRequestsForUserTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament1 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament2 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -81,7 +81,7 @@ class GetRequestsForUserTest extends TestCase
 
     public function testGetRequestsForUser(): void
     {
-        $result = $this->teamRepository->getRequestsForUser($this->user, $this->lan);
+        $result = $this->teamRepository->getRequestsForUser($this->user->id, $this->lan->id);
 
         $this->assertEquals($this->request1->id, $result[0]->id);
         $this->assertEquals($this->tag->id, $result[0]->tag_id);

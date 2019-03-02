@@ -36,8 +36,8 @@ class ChangeLeaderTest extends TestCase
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -65,7 +65,7 @@ class ChangeLeaderTest extends TestCase
     public function testChangeLeader(): void
     {
         $this->actingAs($this->leader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->toBeLeadersTag->id,
                 'name' => $this->toBeLeadersTag->name
@@ -77,7 +77,7 @@ class ChangeLeaderTest extends TestCase
     {
         $this->requestContent['tag_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class ChangeLeaderTest extends TestCase
     {
         $this->requestContent['tag_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -116,7 +116,7 @@ class ChangeLeaderTest extends TestCase
         $this->requestContent['tag_id'] = $tag->id;
 
         $this->actingAs($this->leader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -133,7 +133,7 @@ class ChangeLeaderTest extends TestCase
     {
         $this->requestContent['tag_id'] = $this->leadersTag->id;
         $this->actingAs($this->leader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -151,7 +151,7 @@ class ChangeLeaderTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->leader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -168,7 +168,7 @@ class ChangeLeaderTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->leader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -184,7 +184,7 @@ class ChangeLeaderTest extends TestCase
     public function testChangeLeaderTeamIdUserIsTeamLeader(): void
     {
         $this->actingAs($this->toBeLeader)
-            ->json('PUT', '/api/team/leader', $this->requestContent)
+            ->json('PUT', 'http://' . env('API_DOMAIN') . '/team/leader', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,

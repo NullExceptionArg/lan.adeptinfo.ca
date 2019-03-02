@@ -25,16 +25,10 @@ class AddPermissionsGlobalRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->globalRole = factory('App\Model\GlobalRole')->create();
 
-        $role = factory('App\Model\GlobalRole')->create();
-        $permission = Permission::where('name', 'add-permissions-global-role')->first();
-        factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\GlobalRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addGlobalPermissionToUser(
+            $this->user->id,
+            'add-permissions-global-role'
+        );
 
         $this->requestContent['role_id'] = $this->globalRole->id;
         $this->requestContent['permissions'] = Permission::inRandomOrder()
@@ -46,7 +40,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
     public function testAddPermissionsGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->globalRole->id,
                 'name' => $this->globalRole->name,
@@ -60,7 +54,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -73,7 +67,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -90,7 +84,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -107,7 +101,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -124,7 +118,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -141,7 +135,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
     {
         $this->requestContent['permissions'] = [(string)$this->requestContent['permissions'][0], $this->requestContent['permissions'][1]];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -156,9 +150,14 @@ class AddPermissionsGlobalRoleTest extends TestCase
 
     public function testAddPermissionsGlobalRolePermissionsElementsInArrayExistInPermission(): void
     {
-        $this->requestContent['permissions'] = [$this->requestContent['permissions'][0], -1];
+        $permission = factory('App\Model\Permission')->create();
+        $permission->delete();
+        $this->requestContent['permissions'] = [
+            $this->requestContent['permissions'][0],
+            $permission->id
+        ];
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -178,7 +177,7 @@ class AddPermissionsGlobalRoleTest extends TestCase
             'permission_id' => $this->requestContent['permissions'][0]
         ]);
         $this->actingAs($this->user)
-            ->json('POST', '/api/role/global/permissions', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/global/permissions', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

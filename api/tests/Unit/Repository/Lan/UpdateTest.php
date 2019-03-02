@@ -2,7 +2,7 @@
 
 namespace Tests\Unit\Repository\Lan;
 
-use DateTime;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -35,9 +35,9 @@ class UpdateTest extends TestCase
     {
         parent::setUp();
 
-        $this->paramsContent['event_key'] = env('EVENT_KEY');
-        $this->paramsContent['secret_key'] = env('SECRET_KEY');
-        $this->paramsContent['public_key'] = env('PUBLIC_KEY');
+        $this->paramsContent['event_key'] = env('EVENT_TEST_KEY');
+        $this->paramsContent['secret_key'] = env('SECRET_TEST_KEY');
+        $this->paramsContent['public_key'] = env('SECRET_TEST_KEY');
 
         $this->lan = factory('App\Model\Lan')->create();
 
@@ -47,12 +47,12 @@ class UpdateTest extends TestCase
     public function testUpdate(): void
     {
         $this->lanRepository->update(
-            $this->lan,
+            $this->lan->id,
             $this->paramsContent['name'],
-            new DateTime($this->paramsContent['lan_start']),
-            new DateTime($this->paramsContent['lan_end']),
-            new DateTime($this->paramsContent['seat_reservation_start']),
-            new DateTime($this->paramsContent['tournament_reservation_start']),
+            Carbon::parse($this->paramsContent['lan_start']),
+            Carbon::parse($this->paramsContent['lan_end']),
+            Carbon::parse($this->paramsContent['seat_reservation_start']),
+            Carbon::parse($this->paramsContent['tournament_reservation_start']),
             $this->paramsContent['event_key'],
             $this->paramsContent['public_key'],
             $this->paramsContent['secret_key'],

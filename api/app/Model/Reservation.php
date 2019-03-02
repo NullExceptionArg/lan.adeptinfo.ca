@@ -3,10 +3,11 @@
 namespace App\Model;
 
 use DateTime;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
 
 /**
+ * Réservation d'une place par un utilisateur et son état
+ *
  * @property int user_id
  * @property int lan_id
  * @property string seat_id
@@ -21,7 +22,7 @@ class Reservation extends Model
     protected $table = 'reservation';
 
     /**
-     * The attributes that should be mutated to dates.
+     * Les attributs qui doivent être mutés en dates.
      *
      * @var array
      */
@@ -37,7 +38,7 @@ class Reservation extends Model
     ];
 
     /**
-     * The attributes excluded from the model's JSON form.
+     * Champs qui ne sont pas retournés par défaut lorsque l'objet est retourné dans une requête HTTP.
      *
      * @var array
      */
@@ -45,6 +46,11 @@ class Reservation extends Model
         'id', 'user_id', 'created_at', 'updated_at', 'deleted_at', 'arrived_at', 'left_at',
     ];
 
+    /**
+     * Champs à transtyper.
+     *
+     * @var array
+     */
     protected $casts = ['lan_id' => 'integer'];
 
     public function Lan()

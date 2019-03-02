@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-  "content-hash": "3284e4d69f216588ca1c16ec5338d317",
+  "content-hash": "15e622cd666a54722430cd5a83af9c29",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -845,6 +845,64 @@
           "parser"
         ],
         "time": "2018-03-08T01:11:30+00:00"
+      },
+      {
+        "name": "facebook/graph-sdk",
+        "version": "5.7.0",
+        "source": {
+          "type": "git",
+          "url": "https://github.com/facebook/php-graph-sdk.git",
+          "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b"
+        },
+        "dist": {
+          "type": "zip",
+          "url": "https://api.github.com/repos/facebook/php-graph-sdk/zipball/2d8250638b33d73e7a87add65f47fabf91f8ad9b",
+          "reference": "2d8250638b33d73e7a87add65f47fabf91f8ad9b",
+          "shasum": ""
+        },
+        "require": {
+          "php": "^5.4|^7.0"
+        },
+        "require-dev": {
+          "guzzlehttp/guzzle": "~5.0",
+          "mockery/mockery": "~0.8",
+          "phpunit/phpunit": "~4.0"
+        },
+        "suggest": {
+          "guzzlehttp/guzzle": "Allows for implementation of the Guzzle HTTP client",
+          "paragonie/random_compat": "Provides a better CSPRNG option in PHP 5"
+        },
+        "type": "library",
+        "extra": {
+          "branch-alias": {
+            "dev-master": "5.x-dev"
+          }
+        },
+        "autoload": {
+          "psr-4": {
+            "Facebook\\": "src/Facebook/"
+          },
+          "files": [
+            "src/Facebook/polyfills.php"
+          ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+          "Facebook Platform"
+        ],
+        "authors": [
+          {
+            "name": "Facebook",
+            "homepage": "https://github.com/facebook/php-graph-sdk/contributors"
+          }
+        ],
+        "description": "Facebook SDK for PHP",
+        "homepage": "https://github.com/facebook/php-graph-sdk",
+        "keywords": [
+          "facebook",
+          "sdk"
+        ],
+        "time": "2018-12-11T22:56:31+00:00"
       },
       {
             "name": "firebase/php-jwt",
@@ -2768,7 +2826,7 @@
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
-                  "role": "developer"
+                  "role": "Developer"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
@@ -3133,16 +3191,16 @@
         },
         {
             "name": "nesbot/carbon",
-          "version": "1.36.1",
+          "version": "1.36.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-              "reference": "63da8cdf89d7a5efe43aabc794365f6e7b7b8983"
+              "reference": "cd324b98bc30290f233dd0e75e6ce49f7ab2a6c9"
             },
             "dist": {
                 "type": "zip",
-              "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/63da8cdf89d7a5efe43aabc794365f6e7b7b8983",
-              "reference": "63da8cdf89d7a5efe43aabc794365f6e7b7b8983",
+              "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/cd324b98bc30290f233dd0e75e6ce49f7ab2a6c9",
+              "reference": "cd324b98bc30290f233dd0e75e6ce49f7ab2a6c9",
                 "shasum": ""
             },
             "require": {
@@ -3187,7 +3245,7 @@
                 "datetime",
                 "time"
             ],
-          "time": "2018-11-22T18:23:02+00:00"
+          "time": "2018-12-28T10:07:33+00:00"
         },
         {
             "name": "netresearch/jsonmapper",

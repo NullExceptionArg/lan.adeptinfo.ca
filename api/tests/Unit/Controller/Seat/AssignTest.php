@@ -2,8 +2,8 @@
 
 namespace Tests\Unit\Controller\Seat;
 
-use App\Model\Permission;
-use App\Model\Reservation;
+use App\Model\{Permission};
+use Illuminate\Support\Facades\DB;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Seatsio\SeatsioClient;
 use Tests\SeatsTestCase;
@@ -16,11 +16,6 @@ class AssignTest extends SeatsTestCase
     protected $admin;
     protected $lan;
 
-    protected $requestContent = [
-        'lan_id' => null,
-        'seat_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -28,30 +23,22 @@ class AssignTest extends SeatsTestCase
         $this->admin = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'assign-seat')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->admin->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->admin->id,
+            $this->lan->id,
+            'assign-seat'
+        );
     }
 
     public function testAssignSeat(): void
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
-                "lan_id" => $this->lan->id,
-                "seat_id" => env('SEAT_ID')
+                "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(201);
     }
@@ -60,7 +47,7 @@ class AssignTest extends SeatsTestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -90,12 +77,11 @@ class AssignTest extends SeatsTestCase
             'user_id' => $this->admin->id
         ]);
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'user_email' => $this->user->email
             ])
             ->seeJsonEquals([
-                "lan_id" => $lan->id,
-                "seat_id" => env('SEAT_ID')
+                "seat_id" => env('SEAT_TEST_ID')
             ])
             ->assertResponseStatus(201);
     }
@@ -104,7 +90,7 @@ class AssignTest extends SeatsTestCase
     {
         $badLanId = -1;
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $badLanId,
                 'user_email' => $this->user->email
             ])
@@ -123,7 +109,7 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatIdExist()
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/'  . '☭', [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . '☭', [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -142,10 +128,10 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatAvailable()
     {
         $seatsClient = new SeatsioClient($this->lan->secret_key);
-        $seatsClient->events->book($this->lan->event_key, [env('SEAT_ID')]);
+        $seatsClient->events->book($this->lan->event_key, [env('SEAT_TEST_ID')]);
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -163,14 +149,15 @@ class AssignTest extends SeatsTestCase
 
     public function testAssignSeatUniqueUserInLan()
     {
-        $reservation = new Reservation();
-        $reservation->lan_id = $this->lan->id;
-        $reservation->user_id = $this->user->id;
-        $reservation->seat_id = env('SEAT_ID_2');
-        $reservation->save();
+        DB::table('reservation')
+            ->insert([
+                'lan_id' => $this->lan->id,
+                'user_id' => $this->user->id,
+                'seat_id' => env('SEAT_TEST_ID_2')
+            ]);
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -189,14 +176,15 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatOnceInLan()
     {
         $otherUser = factory('App\Model\User')->create();
-        $reservation = new Reservation();
-        $reservation->lan_id = $this->lan->id;
-        $reservation->user_id = $otherUser->id;
-        $reservation->seat_id = env('SEAT_ID');
-        $reservation->save();
+        DB::table('reservation')
+            ->insert([
+                'lan_id' => $this->lan->id,
+                'user_id' => $otherUser->id,
+                'seat_id' => env('SEAT_TEST_ID')
+            ]);
 
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => $this->user->email
             ])
@@ -215,7 +203,7 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatLanIdInteger()
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => '☭',
                 'user_email' => $this->user->email
             ])
@@ -234,7 +222,7 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatEmailExists()
     {
         $this->actingAs($this->admin)
-            ->json('POST', '/api/seat/assign/' . env('SEAT_ID'), [
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
                 'lan_id' => $this->lan->id,
                 'user_email' => '☭'
             ])

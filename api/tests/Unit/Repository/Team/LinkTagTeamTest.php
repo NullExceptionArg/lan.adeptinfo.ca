@@ -28,8 +28,8 @@ class LinkTagTeamTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -50,8 +50,8 @@ class LinkTagTeamTest extends TestCase
         ]);
 
         $this->teamRepository->linkTagTeam(
-            $this->tag,
-            $this->team,
+            $this->tag->id,
+            $this->team->id,
             $isLeader
         );
 
@@ -72,8 +72,8 @@ class LinkTagTeamTest extends TestCase
         ]);
 
         $this->teamRepository->linkTagTeam(
-            $this->tag,
-            $this->team,
+            $this->tag->id,
+            $this->team->id,
             $isLeader
         );
 

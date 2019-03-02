@@ -2,8 +2,7 @@
 
 namespace App\Http\Resources\User;
 
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\{Contracts\Auth\Authenticatable, Http\Resources\Json\Resource};
 
 class GetUserSummaryResource extends Resource
 {
@@ -16,7 +15,7 @@ class GetUserSummaryResource extends Resource
     }
 
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array

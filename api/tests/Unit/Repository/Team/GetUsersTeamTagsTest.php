@@ -31,8 +31,8 @@ class GetUsersTeamTagsTest extends TestCase
             'user_id' => $this->user->id
         ]);
         $this->lan = factory('App\Model\Lan')->create();
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -49,7 +49,7 @@ class GetUsersTeamTagsTest extends TestCase
 
     public function testGetUsersTeamTags(): void
     {
-        $result = $this->teamRepository->getUsersTeamTags($this->team);
+        $result = $this->teamRepository->getUsersTeamTags($this->team->id);
 
         $this->assertEquals($this->tagTeam->id, $result[0]->id);
         $this->assertEquals($this->tag->name, $result[0]->tag_name);

@@ -21,8 +21,8 @@ class QuitTest extends TestCase
         $this->organizer = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -45,7 +45,7 @@ class QuitTest extends TestCase
         ]);
 
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/quit')
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/quit')
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
@@ -61,7 +61,7 @@ class QuitTest extends TestCase
     public function testQuitLastOrganizer(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/quit')
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/quit')
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
@@ -77,7 +77,7 @@ class QuitTest extends TestCase
     public function testQuitTournamentIdExist(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', '/api/tournament/' . -1 . '/quit')
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . -1 . '/quit')
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -94,7 +94,7 @@ class QuitTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/tournament/' . $this->tournament->id . '/quit')
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/quit')
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

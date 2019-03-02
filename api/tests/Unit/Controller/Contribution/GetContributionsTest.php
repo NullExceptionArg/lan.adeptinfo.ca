@@ -28,45 +28,55 @@ class GetContributionsTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $contributions1 = factory('App\Model\Contribution', 10)->create([
-            'user_id' => $this->user->id
+        $contributions1 = factory('App\Model\Contribution', 3)->create([
+            'user_id' => $this->user->id,
+            'contribution_category_id' => $category1->id
         ]);
-        $contributions2 = factory('App\Model\Contribution', 10)->create([
-            'user_full_name' => $this->user->getFullName()
+        $contributions2 = factory('App\Model\Contribution', 3)->create([
+            'user_full_name' => $this->user->getFullName(),
+            'contribution_category_id' => $category2->id
         ]);
-
-        $expectedContributions1 = null;
-        for ($i = 0; $i < 10; $i++) {
-            $category1->Contribution()->attach($contributions1[$i]);
-            $expectedContributions1[$i] = [
-                "id" => $contributions1[$i]->id,
-                "user_full_name" => $this->user->getFullName(),
-            ];
-        }
-
-        $expectedContributions2 = null;
-        for ($i = 0; $i < 10; $i++) {
-            $category2->Contribution()->attach($contributions2[$i]);
-            $expectedContributions2[$i] = [
-                "id" => $contributions2[$i]->id,
-                "user_full_name" => $this->user->getFullName(),
-            ];
-        }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => $this->lan->id
             ])
             ->seeJsonEquals([
                 [
                     'category_id' => $category1->id,
                     'category_name' => $category1->name,
-                    'contributions' => $expectedContributions1
+                    'contributions' => [
+                        [
+                            'id' => $contributions1[0]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions1[1]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions1[2]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ]
+                    ]
                 ],
                 [
                     'category_id' => $category2->id,
                     'category_name' => $category2->name,
-                    'contributions' => $expectedContributions2
+                    'contributions' => [
+                        [
+                            'id' => $contributions2[0]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions2[1]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions2[2]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ]
+                    ]
                 ]
             ])
             ->assertResponseStatus(200);
@@ -84,43 +94,53 @@ class GetContributionsTest extends TestCase
             'lan_id' => $lan->id
         ]);
 
-        $contributions1 = factory('App\Model\Contribution', 10)->create([
-            'user_id' => $this->user->id
+        $contributions1 = factory('App\Model\Contribution', 3)->create([
+            'user_id' => $this->user->id,
+            'contribution_category_id' => $category1->id
         ]);
-        $contributions2 = factory('App\Model\Contribution', 10)->create([
-            'user_full_name' => $this->user->getFullName()
+        $contributions2 = factory('App\Model\Contribution', 3)->create([
+            'user_full_name' => $this->user->getFullName(),
+            'contribution_category_id' => $category2->id
         ]);
-
-        $expectedContributions1 = null;
-        for ($i = 0; $i < 10; $i++) {
-            $category1->Contribution()->attach($contributions1[$i]);
-            $expectedContributions1[$i] = [
-                "id" => $contributions1[$i]->id,
-                "user_full_name" => $this->user->getFullName(),
-            ];
-        }
-
-        $expectedContributions2 = null;
-        for ($i = 0; $i < 10; $i++) {
-            $category2->Contribution()->attach($contributions2[$i]);
-            $expectedContributions2[$i] = [
-                "id" => $contributions2[$i]->id,
-                "user_full_name" => $this->user->getFullName(),
-            ];
-        }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution')
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution')
             ->seeJsonEquals([
                 [
                     'category_id' => $category1->id,
                     'category_name' => $category1->name,
-                    'contributions' => $expectedContributions1
+                    'contributions' => [
+                        [
+                            'id' => $contributions1[0]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions1[1]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions1[2]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ]
+                    ]
                 ],
                 [
                     'category_id' => $category2->id,
                     'category_name' => $category2->name,
-                    'contributions' => $expectedContributions2
+                    'contributions' => [
+                        [
+                            'id' => $contributions2[0]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions2[1]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ],
+                        [
+                            'id' => $contributions2[2]->id,
+                            'user_full_name' => $this->user->getFullName()
+                        ]
+                    ]
                 ]
             ])
             ->assertResponseStatus(200);
@@ -129,7 +149,7 @@ class GetContributionsTest extends TestCase
     public function testGetContributionsLanIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => -1
             ])
             ->seeJsonEquals([
@@ -147,7 +167,7 @@ class GetContributionsTest extends TestCase
     public function testGetContributionsLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', '/api/contribution', [
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/contribution', [
                 'lan_id' => '☭'
             ])
             ->seeJsonEquals([

@@ -24,8 +24,8 @@ class GetTournamentForOrganizerTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -35,12 +35,11 @@ class GetTournamentForOrganizerTest extends TestCase
             'organizer_id' => $this->user->id,
             'tournament_id' => $this->tournament->id
         ]);
-        $this->be($this->user);
     }
 
     public function testGetTournamentForOrganizer(): void
     {
-        $result = $this->tournamentRepository->getTournamentsForOrganizer($this->user, $this->lan);
+        $result = $this->tournamentRepository->getTournamentsForOrganizer($this->user->id, $this->lan->id);
 
         $this->assertEquals($this->tournament->id, $result[0]->jsonSerialize()['id']);
         $this->assertEquals($this->tournament->name, $result[0]->jsonSerialize()['name']);

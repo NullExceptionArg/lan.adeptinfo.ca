@@ -32,29 +32,21 @@ class CreateContributionTest extends TestCase
         $this->requestContent['contribution_category_id'] = $this->category->id;
         $this->requestContent['lan_id'] = $this->lan->id;
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'create-contribution')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'create-contribution'
+        );
     }
 
     public function testCreateContributionUserFullName(): void
     {
         $this->requestContent['user_full_name'] = $this->user->getFullName();
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'user_full_name' => $this->user->getFullName(),
-                'contribution_category_id' => $this->category->id
+                'user_full_name' => $this->user->getFullName()
             ])
             ->assertResponseStatus(201);
     }
@@ -85,11 +77,10 @@ class CreateContributionTest extends TestCase
         $this->requestContent['lan_id'] = $lan->id;
         $this->requestContent['contribution_category_id'] = $category->id;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'user_full_name' => $this->user->getFullName(),
-                'contribution_category_id' => $category->id
+                'user_full_name' => $this->user->getFullName()
             ])
             ->assertResponseStatus(201);
     }
@@ -98,7 +89,7 @@ class CreateContributionTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -111,49 +102,12 @@ class CreateContributionTest extends TestCase
     {
         $this->requestContent['user_email'] = $this->user->email;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'id' => 1,
-                'user_full_name' => $this->user->getFullName(),
-                'contribution_category_id' => $this->category->id
+                'user_full_name' => $this->user->getFullName()
             ])
             ->assertResponseStatus(201);
-    }
-
-    public function testCreateContributionLanIdExist(): void
-    {
-        $this->requestContent['user_email'] = $this->user->email;
-        $this->requestContent['lan_id'] = -1;
-        $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The selected lan id is invalid.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateContributionLanIdInteger(): void
-    {
-        $this->requestContent['user_email'] = $this->user->email;
-        $this->requestContent['lan_id'] = '☭';
-        $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'lan_id' => [
-                        0 => 'The lan id must be an integer.'
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
     }
 
     public function testCreateContributionCategoryIdRequired(): void
@@ -161,7 +115,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -179,7 +133,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -197,7 +151,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['contribution_category_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -214,7 +168,7 @@ class CreateContributionTest extends TestCase
     {
         $this->requestContent['user_full_name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -231,7 +185,7 @@ class CreateContributionTest extends TestCase
     {
         $this->requestContent['user_email'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -247,7 +201,7 @@ class CreateContributionTest extends TestCase
     public function testCreateContributionUserFullNameOrUserEmailNotNull(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -268,7 +222,7 @@ class CreateContributionTest extends TestCase
         $this->requestContent['user_email'] = $this->user->email;
         $this->requestContent['user_full_name'] = $this->user->getFullName();
         $this->actingAs($this->user)
-            ->json('POST', '/api/contribution', $this->requestContent)
+            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

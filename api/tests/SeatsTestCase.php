@@ -4,10 +4,16 @@ namespace Tests;
 
 use Seatsio\SeatsioClient;
 
+/**
+ * Contexte pour les tests qui utilisent l'API seats.io
+ *
+ * Class SeatsTestCase
+ * @package Tests
+ */
 abstract class SeatsTestCase extends TestCase
 {
     /**
-     * Creates the application.
+     * Créer l'application
      *
      * @return \Laravel\Lumen\Application
      */
@@ -20,14 +26,20 @@ abstract class SeatsTestCase extends TestCase
     {
         parent::setUp();
 
-        $seatsClient = new SeatsioClient(env('SECRET_KEY'));
-        $seatsClient->events->release(env('EVENT_KEY'), env('SEAT_ID'));
+        // Créer un client pour l'API de seats.io
+        $seatsClient = new SeatsioClient(env('SECRET_TEST_KEY'));
+
+        // Rendre le siège de test comme disponible
+        $seatsClient->events->release(env('EVENT_TEST_KEY'), env('SEAT_TEST_ID'));
     }
 
     public function tearDown()
     {
-        $seatsClient = new SeatsioClient(env('SECRET_KEY'));
-        $seatsClient->events->release(env('EVENT_KEY'), env('SEAT_ID'));
+        // Créer un client pour l'API de seats.io
+        $seatsClient = new SeatsioClient(env('SECRET_TEST_KEY'));
+
+        // Rendre le siège de test comme disponible
+        $seatsClient->events->release(env('EVENT_TEST_KEY'), env('SEAT_TEST_ID'));
 
         parent::tearDown();
     }

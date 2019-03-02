@@ -1,31 +1,42 @@
 <?php
 
-namespace App\Rules;
-
+namespace App\Rules\General;
 
 use Illuminate\Contracts\Validation\Rule;
 
+/**
+ * Exactement un seul des deux champs passés est non null.
+ *
+ * Class OneOfTwoFields
+ * @package App\Rules\General
+ */
 class OneOfTwoFields implements Rule
 {
     protected $secondField;
     protected $secondFieldName;
 
-    public function __construct(?string $secondField, string $secondFieldName)
+    /**
+     * OneOfTwoFields constructor.
+     * @param null $secondField Second champ
+     * @param null $secondFieldName Nom du second champ (pour le message d'erreur))
+     */
+    public function __construct($secondField, $secondFieldName)
     {
         $this->secondField = $secondField;
         $this->secondFieldName = $secondFieldName;
     }
 
     /**
-     * Determine if the validation rule passes.
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $field Premier champ
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $field): bool
     {
-        if($value != null && $this->secondField != null){
+        // Si les 2 champs sont nuls, la validation échoue
+        if (!is_null($field) && !is_null($this->secondField)) {
             return false;
         } else {
             return true;
@@ -33,11 +44,11 @@ class OneOfTwoFields implements Rule
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.one_of_two_fields', ['value' => ':attribute', 'second_field' => $this->secondFieldName]);
     }

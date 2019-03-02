@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Controller\Tournament;
 
-use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -29,33 +28,26 @@ class DeleteTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'delete-tournament')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'delete-tournament'
+        );
     }
 
     public function testDeleteHasPermission(): void
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('DELETE', '/api/tournament/' . $this->tournament->id)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -93,7 +85,7 @@ class DeleteTest extends TestCase
         ]);
 
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/tournament/' . $this->tournament->id)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id)
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
@@ -109,7 +101,7 @@ class DeleteTest extends TestCase
     public function testDeleteTournamentIdExit(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/tournament/' . -1)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . -1)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

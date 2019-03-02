@@ -36,7 +36,9 @@ class SetReservationArrivedTest extends SeatsTestCase
             'seat_id' => $this->reservation->seat_id,
             'arrived_at' => null
         ]);
-        $this->seatRepository->setReservationArrived($this->reservation);
+
+        $this->seatRepository->setReservationArrived($this->reservation->id, $this->lan->id);
+
         $this->seeInDatabase('reservation', [
             'lan_id' => $this->reservation->lan_id,
             'user_id' => $this->reservation->user_id,

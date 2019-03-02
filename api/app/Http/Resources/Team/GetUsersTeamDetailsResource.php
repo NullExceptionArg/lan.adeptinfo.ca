@@ -2,12 +2,9 @@
 
 namespace App\Http\Resources\Team;
 
-
-use App\Http\Resources\Request\GetAllForTeamResource;
-use App\Http\Resources\Tag\GetUserTagsResource;
+use App\Http\Resources\{Request\GetAllForTeamResource, Tag\GetUserTagsResource};
 use App\Model\Team;
-use Illuminate\Http\Resources\Json\Resource;
-use Illuminate\Support\Collection;
+use Illuminate\{Http\Resources\Json\Resource, Support\Collection};
 
 class GetUsersTeamDetailsResource extends Resource
 {
@@ -22,7 +19,7 @@ class GetUsersTeamDetailsResource extends Resource
     }
 
     /**
-     * Transform the resource into an array.
+     * Transformer la ressource en tableau.
      *
      * @param  \Illuminate\Http\Request $request
      * @return array

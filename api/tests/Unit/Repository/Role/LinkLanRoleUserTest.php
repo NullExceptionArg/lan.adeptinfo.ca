@@ -35,8 +35,8 @@ class LinkLanRoleUserTest extends TestCase
         ]);
 
         $this->roleRepository->linkLanRoleUser(
-            $this->lanRole,
-            $this->user
+            $this->lanRole->id,
+            $this->user->id
         );
 
         $this->seeInDatabase('lan_role_user', [

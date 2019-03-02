@@ -31,8 +31,8 @@ class DeleteTagTeamTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -57,7 +57,7 @@ class DeleteTagTeamTest extends TestCase
             'team_id' => $this->tagTeam->team_id
         ]);
 
-        $this->teamRepository->deleteTagTeam($this->tag, $this->team);
+        $this->teamRepository->deleteTagTeam($this->tag->id, $this->team->id);
 
         $this->notSeeInDatabase('tag_team', [
             'id' => $this->tagTeam->id,
@@ -65,5 +65,4 @@ class DeleteTagTeamTest extends TestCase
             'team_id' => $this->tagTeam->team_id
         ]);
     }
-
 }

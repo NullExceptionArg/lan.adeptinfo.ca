@@ -3,9 +3,7 @@
 namespace Tests\Unit\Service\Team;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\TestCase;
 
 class LeaveTest extends TestCase
@@ -23,10 +21,6 @@ class LeaveTest extends TestCase
     protected $team;
     protected $userTagTeam;
 
-    protected $requestContent = [
-        'team_id' => null
-    ];
-
     public function setUp(): void
     {
         parent::setUp();
@@ -43,8 +37,8 @@ class LeaveTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -64,15 +58,11 @@ class LeaveTest extends TestCase
             'team_id' => $this->team->id,
             'is_leader' => true
         ]);
-
-        $this->requestContent['team_id'] = $this->team->id;
     }
 
     public function testLeave(): void
     {
-        $this->be($this->user);
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->leave($request);
+        $result = $this->teamService->leave($this->user->id, $this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);
@@ -82,9 +72,7 @@ class LeaveTest extends TestCase
 
     public function testLeaveIsLeader(): void
     {
-        $this->be($this->leader);
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->leave($request);
+        $result = $this->teamService->leave($this->leader->id, $this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);
@@ -97,42 +85,11 @@ class LeaveTest extends TestCase
         $this->userTagTeam->delete();
         $this->userTag->delete();
         $this->user->delete();
-        $this->be($this->leader);
-        $request = new Request($this->requestContent);
-        $result = $this->teamService->leave($request);
+        $result = $this->teamService->leave($this->leader->id, $this->team->id);
 
         $this->assertEquals($this->team->id, $result->id);
         $this->assertEquals($this->team->tag, $result->tag);
         $this->assertEquals($this->team->name, $result->name);
         $this->assertEquals($this->team->tournament_id, $result->tournament_id);
-    }
-
-    public function testLeaveTeamIdInteger(): void
-    {
-        $this->requestContent['team_id'] = '☭';
-        $this->be($this->user);
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->leave($request);
-            $this->fail('Expected: {"team_id":["The team id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The team id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testLeaveTeamIdExist(): void
-    {
-        $this->requestContent['team_id'] = -1;
-        $this->be($this->user);
-        $this->requestContent['team_id'] = -1;
-        $request = new Request($this->requestContent);
-        try {
-            $this->teamService->leave($request);
-            $this->fail('Expected: {"team_id":["The selected team id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"team_id":["The selected team id is invalid."]}', $e->getMessage());
-        }
     }
 }

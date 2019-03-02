@@ -1,13 +1,11 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\{Database\Migrations\Migration, Database\Schema\Blueprint, Support\Facades\Schema};
 
 class CreateTableLan extends Migration
 {
     /**
-     * Run the migrations.
+     * Exécuter les migrations
      *
      * @return void
      */
@@ -20,9 +18,9 @@ class CreateTableLan extends Migration
             $table->dateTime('lan_end');
             $table->dateTime('seat_reservation_start');
             $table->dateTime('tournament_reservation_start');
-            $table->string('event_key'); // seats.io
-            $table->string('public_key'); // seats.io
-            $table->string('secret_key'); // seats.io
+            $table->string('event_key'); // seat.io
+            $table->string('public_key'); // seat.io
+            $table->string('secret_key'); // seat.io
             $table->boolean('is_current')->default(false);
             $table->unsignedInteger('places');
             $table->decimal('longitude', 10, 7);
@@ -36,7 +34,7 @@ class CreateTableLan extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Inverser les migrations.
      *
      * @return void
      */

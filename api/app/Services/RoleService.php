@@ -2,51 +2,223 @@
 
 namespace App\Services;
 
-
 use App\Http\Resources\Role\GetRoleResource;
-use App\Model\GlobalRole;
-use App\Model\LanRole;
-use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Collection;
+use App\Model\{GlobalRole, LanRole};
+use Illuminate\{Http\Resources\Json\AnonymousResourceCollection, Support\Collection};
 
+/**
+ * Méthodes pour exécuter la logique d'affaire des rôles.
+ *
+ * Interface RoleService
+ * @package App\Services
+ */
 interface RoleService
 {
-    public function createLanRole(Request $request): LanRole;
+    /**
+     * Ajouter des permissions à un rôle global.
+     *
+     * @param int $roleId Id du rôle global
+     * @param array $permissions Ids des permissions
+     * @return GetRoleResource Rôle global des permissions ajoutées
+     */
+    public function addPermissionsGlobalRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function editLanRole(Request $input): LanRole;
+    /**
+     * Ajouter des permissions à un rôle de LAN.
+     *
+     * @param int $roleId Id du rôle de LAN
+     * @param array $permissions Ids des permissions
+     * @return GetRoleResource Rôle de LAN des permissions ajoutées
+     */
+    public function addPermissionsLanRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function assignLanRole(Request $input): GetRoleResource;
+    /**
+     * Assigner un rôle global à un utilisateur.
+     *
+     * @param int $roleId Id du rôle global
+     * @param string $email Courriel de l'utilisateur
+     * @return GetRoleResource Rôle global assigné
+     */
+    public function assignGlobalRole(int $roleId, string $email): GetRoleResource;
 
-    public function addPermissionsLanRole(Request $input): GetRoleResource;
+    /**
+     * Assigner un rôle de LAN à un utilisateur.
+     *
+     * @param int $roleId Id du rôle de LAN
+     * @param string $email Courriel de l'utilisateur
+     * @return GetRoleResource Rôle de LAN assigné
+     */
+    public function assignLanRole(int $roleId, string $email): GetRoleResource;
 
-    public function deletePermissionsLanRole(Request $input): GetRoleResource;
+    /**
+     * Créer un rôle global.
+     *
+     * @param string $name Nom du rôle
+     * @param string $enDisplayName Nom d'affichage du rôle, en anglais
+     * @param string $enDescription Description du rôle, en anglais
+     * @param string $frDisplayName Nom d'affichage du rôle, en français
+     * @param string $frDescription Description du rôle, en français
+     * @param array $permissions Permissions à ajouter au rôle
+     * @return GlobalRole Rôle global créé
+     */
+    public function createGlobalRole(
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription,
+        array $permissions
+    ): GlobalRole;
 
-    public function deleteLanRole(Request $input): GetRoleResource;
+    /**
+     * Créer un rôle de LAN.
+     *
+     * @param int $lanId Id du LAN
+     * @param string $name Nom du rôle
+     * @param string $enDisplayName Nom d'affichage du rôle, en anglais
+     * @param string $enDescription Description du rôle, en anglais
+     * @param string $frDisplayName Nom d'affichage du rôle, en français
+     * @param string $frDescription Description du rôle, en français
+     * @param array $permissions Permissions à ajouter au rôle
+     * @return LanRole Rôle de LAN créé
+     */
+    public function createLanRole(
+        int $lanId,
+        string $name,
+        string $enDisplayName,
+        string $enDescription,
+        string $frDisplayName,
+        string $frDescription,
+        array $permissions
+    ): LanRole;
 
-    public function getLanRoles(Request $input): AnonymousResourceCollection;
+    /**
+     * Supprimer un rôle global.
+     *
+     * @param int $roleId Id du rôle global
+     * @return GetRoleResource Rôle global supprimé
+     */
+    public function deleteGlobalRole(int $roleId): GetRoleResource;
 
-    public function getLanRolePermissions(Request $input): AnonymousResourceCollection;
+    /**
+     * Supprimer un rôle de LAN.
+     *
+     * @param int $roleId Id du rôle de LAN
+     * @return GetRoleResource Rôle de LAN supprimé
+     */
+    public function deleteLanRole(int $roleId): GetRoleResource;
 
-    public function getLanUsers(Request $input): Collection;
+    /**
+     * Supprimer des permissions d'un rôle global.
+     *
+     * @param int $roleId Id du rôle global
+     * @param array $permissions Ids des permissions à supprimer
+     * @return GetRoleResource Rôle global des permissions supprimées
+     */
+    public function deletePermissionsGlobalRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function createGlobalRole(Request $request): GlobalRole;
+    /**
+     * Supprimer des permissions d'un rôle de LAN.
+     *
+     * @param int $roleId Id du rôle de LAN
+     * @param array $permissions Ids des permissions à supprimer
+     * @return GetRoleResource Rôle de LAN des permissions supprimées
+     */
+    public function deletePermissionsLanRole(int $roleId, array $permissions): GetRoleResource;
 
-    public function editGlobalRole(Request $input): GlobalRole;
+    /**
+     * Obtenir les permissions d'un rôle global.
+     *
+     * @param int $roleId Id du rôle global
+     * @return AnonymousResourceCollection Permissions du rôle global
+     */
+    public function getGlobalRolePermissions(int $roleId): AnonymousResourceCollection;
 
-    public function assignGlobalRole(Request $input): GetRoleResource;
+    /**
+     * Obtenir les rôles globaux de l'API.
+     *
+     * @return AnonymousResourceCollection Rôles globaux de l'API
+     */
+    public function getGlobalRoles(): AnonymousResourceCollection;
 
-    public function addPermissionsGlobalRole(Request $input): GetRoleResource;
+    /**
+     * Obtenir les permissions d'un rôle de LAN.
+     *
+     * @param int $roleId Id du rôle de LAN
+     * @return AnonymousResourceCollection Permissions du rôle de LAN
+     */
+    public function getLanRolePermissions(int $roleId): AnonymousResourceCollection;
 
-    public function deletePermissionsGlobalRole(Request $input): GetRoleResource;
+    /**
+     * Obtenir les rôles de LAN d'un LAN.
+     *
+     * @param int $lanId Id du LAN
+     * @return AnonymousResourceCollection Rôles de LAN du LAN
+     */
+    public function getLanRoles(int $lanId): AnonymousResourceCollection;
 
-    public function deleteGlobalRole(Request $input): GetRoleResource;
+    /**
+     * Obtenir les utilisateurs d'un rôle de LAN.
+     *
+     * @param int $roleId
+     * @return Collection
+     */
+    public function getLanRoleUsers(int $roleId): Collection;
 
-    public function getGlobalRoles(Request $input): AnonymousResourceCollection;
-
-    public function getGlobalRolePermissions(Request $input): AnonymousResourceCollection;
-
-    public function getGlobalUsers(Request $input): Collection;
-
+    /**
+     * Obtenir les permissions de l'API.
+     *
+     * @return AnonymousResourceCollection Permissions de l'API
+     */
     public function getPermissions(): AnonymousResourceCollection;
+
+    /**
+     * Obtenir les utilisateurs d'un rôle global.
+     *
+     * @param int $roleId
+     * @return Collection
+     */
+    public function getGlobalRoleUsers(int $roleId): Collection;
+
+    /**
+     * Mettre à jour les informations d'un rôle global.
+     * Si un champ est laissé nul, la valeur initiale du champ sera gardée.
+     *
+     * @param int $roleId Id du rôle global
+     * @param string|null $name Nouveau nom du rôle
+     * @param string|null $enDisplayName Nom d'affichage, en anglais
+     * @param string|null $enDescription Description, en anglais
+     * @param string|null $frDisplayName Nom d'affichage, en français
+     * @param string|null $frDescription Description, en français
+     * @return GlobalRole Rôle global mis à jour
+     */
+    public function updateGlobalRole(
+        int $roleId,
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
+    ): GlobalRole;
+
+    /**
+     * Mettre à jour les informations d'un rôle de LAN.
+     * Si un champ est laissé nul, la valeur initiale du champ sera gardée.
+     *
+     * @param int $roleId Id du rôle de LAN
+     * @param string|null $name Nouveau nom du rôle
+     * @param string|null $enDisplayName Nom d'affichage, en anglais
+     * @param string|null $enDescription Description, en anglais
+     * @param string|null $frDisplayName Nom d'affichage, en français
+     * @param string|null $frDescription Description, en français
+     * @return LanRole Rôle de LAN mis à jour
+     */
+    public function updateLanRole(
+        int $roleId,
+        ?string $name,
+        ?string $enDisplayName,
+        ?string $enDescription,
+        ?string $frDisplayName,
+        ?string $frDescription
+    ): LanRole;
 }

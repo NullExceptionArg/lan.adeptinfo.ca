@@ -1,40 +1,66 @@
 <?php
 
-namespace App\Team\Rules;
+namespace App\Rules\Team;
 
-use App\Model\OrganizerTournament;
-use App\Model\Team;
-use Illuminate\Contracts\Validation\Rule;
-use Illuminate\Support\Facades\Auth;
+use App\Model\{OrganizerTournament, Team};
+use Illuminate\{Contracts\Validation\Rule};
 
+/**
+ * Un utilisateur fait parti de l'éqipe d'administrateur du tournoi d'une équipe.
+ *
+ * Class UserIsTournamentAdmin
+ * @package App\Rules\Team
+ */
 class UserIsTournamentAdmin implements Rule
 {
+    protected $userId;
 
     /**
-     * Determine if the validation rule passes.
+     * UserIsTournamentAdmin constructor.
+     * @param int $userId Id de l'utilisateur
+     */
+    public function __construct($userId)
+    {
+        $this->userId = $userId;
+    }
+
+    /**
+     * Déterminer si la règle de validation passe.
      *
      * @param  string $attribute
-     * @param  mixed $value
+     * @param  mixed $teamId Id de l'équipe
      * @return bool
      */
-    public function passes($attribute, $value)
+    public function passes($attribute, $teamId): bool
     {
-        $team = Team::find($value);
-        if ($team == null) {
-            return true;
+        $team = null;
+
+        /*
+         * Conditions de garde :
+         * L'id de l'utilisateur est un entier
+         * L'id de l'équipe est un entier
+         * L'id de l'équipe correspond à l'id d'une équipe
+         */
+        if (
+            !is_int($this->userId) ||
+            !is_int($teamId) ||
+            is_null($team = Team::find($teamId))
+        ) {
+            return true; // Une autre validation devrait échouer
         }
 
-        return OrganizerTournament::where('organizer_id', Auth::id())
+        // Chercher s'il existe un lien entre l'utilisateur courant et le tournoi de l'équipe
+        return OrganizerTournament::where('organizer_id', $this->userId)
                 ->where('tournament_id', $team->tournament_id)
                 ->count() > 0;
     }
 
     /**
-     * Get the validation error message.
+     * Obtenir le message d'erreur.
      *
      * @return string
      */
-    public function message()
+    public function message(): string
     {
         return trans('validation.organizer_has_tournament');
     }

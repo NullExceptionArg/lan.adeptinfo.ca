@@ -12,6 +12,7 @@ class CreateContributionUserIdTest extends TestCase
     protected $contributionRepository;
 
     protected $user;
+    protected $contributionCategory;
 
     public function setUp(): void
     {
@@ -19,12 +20,20 @@ class CreateContributionUserIdTest extends TestCase
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
 
         $this->user = factory('App\Model\User')->create();
+        $lan = factory('App\Model\Lan')->create();
+        $this->contributionCategory = factory('App\Model\ContributionCategory')->create([
+            'lan_id' => $lan->id
+        ]);
     }
 
     public function testCreateContributionUserId(): void
     {
-        $this->contributionRepository->createContributionUserId($this->user->id);
+        $result = $this->contributionRepository->createContributionUserId(
+            $this->user->id,
+            $this->contributionCategory->id
+        );
 
+        $this->assertIsInt($result);
         $this->seeInDatabase('contribution', [
             'id' => 1,
             'user_full_name' => null,

@@ -29,18 +29,11 @@ class DeleteLanRoleTest extends TestCase
             'lan_id' => $this->lan->id
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'delete-lan-role')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $this->lan->id,
+            'delete-lan-role'
+        );
 
         $permissions = Permission::inRandomOrder()
             ->where('can_be_per_lan', true)
@@ -67,7 +60,7 @@ class DeleteLanRoleTest extends TestCase
     public function testDeleteLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'id' => $this->lanRole->id,
                 'name' => $this->lanRole->name,
@@ -81,7 +74,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 403,
@@ -94,7 +87,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -111,7 +104,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -128,7 +121,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -145,7 +138,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -162,7 +155,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -179,7 +172,7 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', '/api/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

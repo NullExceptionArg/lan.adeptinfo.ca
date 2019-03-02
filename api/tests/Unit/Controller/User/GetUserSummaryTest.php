@@ -39,22 +39,22 @@ class GetUserSummaryTest extends TestCase
 
     public function testGetUserSummary(): void
     {
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament1 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament2 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament3 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -120,7 +120,7 @@ class GetUserSummaryTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/user/summary', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user/summary', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
@@ -136,22 +136,22 @@ class GetUserSummaryTest extends TestCase
         ]);
         $this->requestContent['lan_id'] = null;
 
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament1 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament2 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
             'tournament_end' => $endTime->subHour(1)
         ]);
-        $startTime = new Carbon($this->lan->lan_start);
-        $endTime = new Carbon($this->lan->lan_end);
+        $startTime = Carbon::parse($this->lan->lan_start);
+        $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament3 = factory('App\Model\Tournament')->create([
             'lan_id' => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
@@ -217,7 +217,7 @@ class GetUserSummaryTest extends TestCase
         }
 
         $this->actingAs($this->user)
-            ->json('GET', '/api/user/summary', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user/summary', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
@@ -230,7 +230,7 @@ class GetUserSummaryTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('GET', '/api/user/summary', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user/summary', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -247,7 +247,7 @@ class GetUserSummaryTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('GET', '/api/user/summary', $this->requestContent)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/user/summary', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,

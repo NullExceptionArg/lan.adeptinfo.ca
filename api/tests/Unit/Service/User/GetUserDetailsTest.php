@@ -2,10 +2,8 @@
 
 namespace Tests\Unit\Service;
 
-use DateTime;
-use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Tests\SeatsTestCase;
 
 class GetUserDetailsTest extends SeatsTestCase
@@ -28,11 +26,7 @@ class GetUserDetailsTest extends SeatsTestCase
 
     public function testGetUserDetailsHasLanId(): void
     {
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'email' => $this->user->email
-        ]);
-        $result = $this->userService->getUserDetails($request)->jsonSerialize();
+        $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
         $placeHistory = $result['place_history']->jsonSerialize();
 
         $this->assertEquals($this->user->getFullName(), $result['full_name']);
@@ -47,11 +41,7 @@ class GetUserDetailsTest extends SeatsTestCase
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id
         ]);
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'email' => $this->user->email
-        ]);
-        $result = $this->userService->getUserDetails($request)->jsonSerialize();
+        $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
         $placeHistory = $result['place_history']->jsonSerialize();
 
         $this->assertEquals($this->user->getFullName(), $result['full_name']);
@@ -70,13 +60,10 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime()
+            'arrived_at' => Carbon::now()
         ]);
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'email' => $this->user->email
-        ]);
-        $result = $this->userService->getUserDetails($request)->jsonSerialize();
+
+        $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
         $placeHistory = $result['place_history']->jsonSerialize();
 
         $this->assertEquals($this->user->getFullName(), $result['full_name']);
@@ -95,14 +82,11 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime(),
-            'left_at' => new DateTime()
+            'arrived_at' => Carbon::now(),
+            'left_at' => Carbon::now()
         ]);
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'email' => $this->user->email
-        ]);
-        $result = $this->userService->getUserDetails($request)->jsonSerialize();
+
+        $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
         $placeHistory = $result['place_history']->jsonSerialize();
 
         $this->assertEquals($this->user->getFullName(), $result['full_name']);
@@ -121,15 +105,12 @@ class GetUserDetailsTest extends SeatsTestCase
         $reservation = factory('App\Model\Reservation')->create([
             'lan_id' => $this->lan->id,
             'user_id' => $this->user->id,
-            'arrived_at' => new DateTime(),
-            'left_at' => new DateTime(),
+            'arrived_at' => Carbon::now(),
+            'left_at' => Carbon::now(),
         ]);
         $reservation->delete();
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'email' => $this->user->email
-        ]);
-        $result = $this->userService->getUserDetails($request)->jsonSerialize();
+
+        $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
         $placeHistory = $result['place_history']->jsonSerialize();
 
         $this->assertEquals($this->user->getFullName(), $result['full_name']);
@@ -142,65 +123,4 @@ class GetUserDetailsTest extends SeatsTestCase
         $this->assertEquals($reservation->created_at, $placeHistory[0]['reserved_at']);
         $this->assertEquals($reservation->left_at->format('Y-m-d H:i:s'), $placeHistory[0]['left_at']);
     }
-
-    public function testGetUserDetailsLanExist(): void
-    {
-        $request = new Request([
-            'lan_id' => -1,
-            'email' => $this->user->email
-        ]);
-        try {
-            $this->userService->getUserDetails($request);
-            $this->fail('Expected: {"lan_id":["The selected lan id is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The selected lan id is invalid."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUserDetailsLanIdInteger(): void
-    {
-        $request = new Request([
-            'lan_id' => '☭',
-            'email' => $this->user->email
-        ]);
-        try {
-            $this->userService->getUserDetails($request);
-            $this->fail('Expected: {"lan_id":["The lan id must be an integer."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"lan_id":["The lan id must be an integer."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUserDetailsEmailRequired(): void
-    {
-        $request = new Request([
-            'lan_id' => $this->lan->id
-        ]);
-        try {
-            $this->userService->getUserDetails($request);
-            $this->fail('Expected: {"email":["The email field is required."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The email field is required."]}', $e->getMessage());
-        }
-    }
-
-    public function testGetUserDetailsEmailExist(): void
-    {
-        $request = new Request([
-            'lan_id' => $this->lan->id,
-            'email' => '☭'
-        ]);
-        try {
-            $this->userService->getUserDetails($request);
-            $this->fail('Expected: {"email":["The selected email is invalid."]}');
-        } catch (BadRequestHttpException $e) {
-            $this->assertEquals(400, $e->getStatusCode());
-            $this->assertEquals('{"email":["The selected email is invalid."]}', $e->getMessage());
-        }
-    }
-
 }
-
