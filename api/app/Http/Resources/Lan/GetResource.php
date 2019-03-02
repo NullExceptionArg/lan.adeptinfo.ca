@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Lan;
 
 use App\Model\Lan;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 
@@ -28,12 +29,22 @@ class GetResource extends Resource
     protected $reservedPlaces;
     protected $images;
     protected $fields;
+    protected $canSeeSeatsioSecretKey;
 
-    public function __construct(Lan $resource, int $reservedPlaces, Collection $images, ?string $fields)
+    /**
+     * GetResource constructor.
+     * @param Lan $resource LAN à retourner
+     * @param int $reservedPlaces Nombre de places réservées pour le LAN
+     * @param Collection $images Images du LAN
+     * @param string|null $fields Champs à afficher pour le LAN
+     * @param bool $canSeeSeatsioSecretKey Si l'utilisateur peut voir la clé secrète de seats.io
+     */
+    public function __construct(Lan $resource, int $reservedPlaces, Collection $images, ?string $fields, bool $canSeeSeatsioSecretKey)
     {
         $this->reservedPlaces = $reservedPlaces;
         $this->images = $images;
         $this->fields = $fields;
+        $this->canSeeSeatsioSecretKey = $canSeeSeatsioSecretKey;
         parent::__construct($resource);
     }
 
@@ -42,12 +53,13 @@ class GetResource extends Resource
      *
      * @param  \Illuminate\Http\Request $request
      * @return array
+     * @throws AuthorizationException
      */
     public function toArray($request)
     {
         // Vérifier si des champs ont été spécifiés, sinon retourner tous les champs
         $fields = explode(',', $this->fields);
-        if (substr_count($this->fields, ',') == 0) {
+        if (count($fields) == 1 && $fields[0] == "") {
             return [
                 'id' => $this->id,
                 'name' => $this->name,
@@ -57,7 +69,7 @@ class GetResource extends Resource
                 'tournament_reservation_start' => $this->tournament_reservation_start,
                 'longitude' => floatval(number_format($this->longitude, 7)),
                 'latitude' => floatval(number_format($this->latitude, 7)),
-                'secret_key' => $this->secret_key,
+                'secret_key' => $this->when($this->canSeeSeatsioSecretKey, $this->secret_key),
                 'event_key' => $this->event_key,
                 'public_key' => $this->public_key,
                 'places' => [
@@ -70,6 +82,11 @@ class GetResource extends Resource
                 'images' => ImageResource::collection($this->images)
             ];
         } else {
+
+            if (in_array("secret_key", $fields) && !$this->canSeeSeatsioSecretKey) {
+                throw new AuthorizationException(trans('validation.forbidden'));
+            }
+
             return [
                 'id' => $this->id,
                 'name' => $this->when(in_array("name", $fields), $this->name),

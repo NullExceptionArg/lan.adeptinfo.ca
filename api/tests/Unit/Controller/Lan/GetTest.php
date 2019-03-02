@@ -35,7 +35,6 @@ class GetTest extends TestCase
                     'reserved' => 0,
                     'total' => $this->lan->places
                 ],
-                'secret_key' => $this->lan->secret_key,
                 'event_key' => $this->lan->event_key,
                 'public_key' => $this->lan->public_key,
                 'price' => $this->lan->price,
@@ -61,7 +60,6 @@ class GetTest extends TestCase
                 'tournament_reservation_start' => $lan->tournament_reservation_start,
                 'longitude' => $lan->longitude,
                 'latitude' => $lan->latitude,
-                'secret_key' => $lan->secret_key,
                 'event_key' => $lan->event_key,
                 'public_key' => $lan->public_key,
                 'places' => [
@@ -87,6 +85,78 @@ class GetTest extends TestCase
                 'lan_start' => $this->lan->lan_start,
                 'lan_end' => $this->lan->lan_end,
                 'seat_reservation_start' => $this->lan->seat_reservation_start
+            ])
+            ->assertResponseStatus(200);
+    }
+
+    public function testGetParametersSecretKeyUnauthorized(): void
+    {
+        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
+            'fields' => 'secret_key',
+            'lan_id' => $this->lan->id
+        ])
+            ->seeJsonEquals([
+                'success' => false,
+                'status' => 403,
+                'message' => 'REEEEEEEEEE'
+            ])
+            ->assertResponseStatus(403);
+    }
+
+    public function testGetParametersSecretKeyAuthorized(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->addLanPermissionToUser(
+            $user->id,
+            $this->lan->id,
+            'edit-lan'
+        );
+
+        $this->actingAs($user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
+                'fields' => 'secret_key',
+                'lan_id' => $this->lan->id
+            ])
+            ->seeJsonEquals([
+                'id' => $this->lan->id,
+                'secret_key' => $this->lan->secret_key
+            ])
+            ->assertResponseStatus(200);
+    }
+
+    public function testGetSecretKeyAuthorized(): void
+    {
+        $user = factory('App\Model\User')->create();
+        $this->addLanPermissionToUser(
+            $user->id,
+            $this->lan->id,
+            'edit-lan'
+        );
+
+        $this->actingAs($user)
+            ->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
+                'lan_id' => $this->lan->id
+            ])
+            ->seeJsonEquals([
+                'id' => $this->lan->id,
+                'name' => $this->lan->name,
+                'lan_start' => $this->lan->lan_start,
+                'lan_end' => $this->lan->lan_end,
+                'seat_reservation_start' => $this->lan->seat_reservation_start,
+                'tournament_reservation_start' => $this->lan->tournament_reservation_start,
+                'longitude' => $this->lan->longitude,
+                'latitude' => $this->lan->latitude,
+                'event_key' => $this->lan->event_key,
+                'public_key' => $this->lan->public_key,
+                'secret_key' => $this->lan->secret_key,
+                'places' => [
+                    'reserved' => 0,
+                    'total' => $this->lan->places
+                ],
+                'price' => $this->lan->price,
+                'rules' => $this->lan->rules,
+                'description' => $this->lan->description,
+                'images' => []
             ])
             ->assertResponseStatus(200);
     }

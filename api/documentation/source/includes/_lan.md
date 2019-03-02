@@ -136,6 +136,10 @@ rules | Règlements.
 description | Description.
 images | Images de présentation.
 
+<aside class="notice">
+Pour accéder au champ <code>secret_key</code>, il est nécessaire que l'utilisateur possède la permission <code>edit-lan</code>
+</aside>
+
 ### Format de réponse
 
 > Exemple de réponse

@@ -22,7 +22,7 @@ class GetTest extends TestCase
 
     public function testGetSimple(): void
     {
-        $result = $this->lanService->get($this->lan->id, null);
+        $result = $this->lanService->get($this->lan->id, null, null);
 
         $this->assertEquals($this->lan->id, $result['id']);
         $this->assertEquals($this->lan->name, $result['name']);
@@ -44,7 +44,8 @@ class GetTest extends TestCase
     {
         $result = $this->lanService->get(
             $this->lan->id,
-            'lan_start,lan_start,lan_end,seat_reservation_start'
+            'lan_start,lan_start,lan_end,seat_reservation_start',
+            null
         );
 
         $this->assertEquals($this->lan->id, $result['id']);

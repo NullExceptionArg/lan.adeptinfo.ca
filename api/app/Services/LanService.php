@@ -80,9 +80,10 @@ interface LanService
      *
      * @param int $lanId Id du LAN
      * @param string|null $fields Champs à afficher
+     * @param int $userId Id de l'utilisateur courant
      * @return GetResource Détails du LAN
      */
-    public function get(int $lanId, ?string $fields): GetResource;
+    public function get(int $lanId, ?string $fields, ?int $userId): GetResource;
 
     /**
      * Mettre un LAN comme courant.
