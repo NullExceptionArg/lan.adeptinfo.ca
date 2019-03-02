@@ -1652,6 +1652,10 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <td>Images de présentation.</td>
 </tr>
 </tbody></table>
+
+<aside class="notice">
+Pour accéder au champ <code>secret_key</code>, il est nécessaire que l'utilisateur possède la permission <code>edit-lan</code>
+</aside>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
 <blockquote>
 <p>Exemple de réponse</p>
@@ -3465,7 +3469,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 </tr>
 </tbody></table>
 <h2 id='obtenir-tous-les-tournois'>Obtenir tous les tournois</h2>
-<p>Obtenir tous les tournois.</p>
+<p>Obtenir tous les tournois d&#39;un LAN.</p>
 <h3 id='requete-http-4'>Requête HTTP</h3>
 <p><code>GET /tournament/all</code></p>
 <h3 id='query-params-3'>Query Params</h3>
