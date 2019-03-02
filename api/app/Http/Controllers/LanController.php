@@ -174,7 +174,8 @@ class LanController extends Controller
 
         return response()->json($this->lanService->get(
             $request->input('lan_id'),
-            $request->input('fields')
+            $request->input('fields'),
+            Auth::id()
         ), 200);
     }
 

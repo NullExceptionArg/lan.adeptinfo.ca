@@ -105,7 +105,7 @@ class LanServiceImpl implements LanService
         return GetAllResource::collection($this->lanRepository->getAll());
     }
 
-    public function get(int $lanId, ?string $fields): GetResource
+    public function get(int $lanId, ?string $fields, ?int $userId): GetResource
     {
         // Obtenir le nombre de places occupées
         $placeCount = $this->seatRepository->getReservedPlaces($lanId);
@@ -116,8 +116,20 @@ class LanServiceImpl implements LanService
         // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
 
+        // Déterminer si l'utilisateur peut voir la clé secrète de seats.io
+        $canSeeSeatsioSecretKey = null;
+        if (is_null($userId)) {
+            $canSeeSeatsioSecretKey = false;
+        } else {
+            $canSeeSeatsioSecretKey = $this->roleRepository->userHasPermission(
+                'edit-lan',
+                $userId,
+                $lanId
+            );
+        }
+
         // Retourner les détails du LAN selon les champs spécifiés
-        return new GetResource($lan, $placeCount, $images, $fields);
+        return new GetResource($lan, $placeCount, $images, $fields, $canSeeSeatsioSecretKey);
     }
 
     public function setCurrent(int $lanId): Lan
