@@ -88,9 +88,17 @@ interface TournamentService
      *
      * @param int $userId
      * @param string $tournamentId
-     * @return TournamentResource
+     * @return TournamentResource Tournoi que l'organisateur a quitté
      */
     public function quit(int $userId, string $tournamentId): TournamentResource;
+
+    /**
+     * Retirer un organisateur d'un tournoi.
+     * @param string $email Courriel de l'utilisateur à retirer de l'organisation du tournoi
+     * @param string $tournamentId Id du tournoi
+     * @return TournamentResource Tournoi pour lequel l'organisateur a été retiré
+     */
+    public function removeOrganizer(string $email, string $tournamentId): TournamentResource;
 
     /**
      * Mettre à jour les informations d'un tournoi.

@@ -2,7 +2,6 @@
 
 namespace Tests\Unit\Service\Tournament;
 
-use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
@@ -40,19 +39,6 @@ class CreateTest extends TestCase
         $this->paramsContent['tournament_start'] = $startTime->addHour(1)->format('Y-m-d H:i:s');
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->paramsContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
-
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'create-tournament')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
     }
 
     public function testCreate(): void

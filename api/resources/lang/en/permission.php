@@ -38,6 +38,10 @@ return [
     'description-create-tournament' => 'Create a new tournament.',
     'display-name-edit-tournament' => 'Edit tournament',
     'description-edit-tournament' => 'Edit the name, the price, the tournament start date, the tournament expected ending date, the amount of players to reach, the amount of teams to reach, and the rules of any tournament.',
+    'display-name-add-organizer' => 'Add an organiser',
+    'description-add-organizer' => 'Add an organiser to a tournament.',
+    'display-name-remove-organizer' => 'Remove an organiser.',
+    'description-remove-organizer' => 'Remove an organiser from a tournament',
     'display-name-delete-tournament' => 'Delete tournament',
     'description-delete-tournament' => 'Delete any tournament.',
 

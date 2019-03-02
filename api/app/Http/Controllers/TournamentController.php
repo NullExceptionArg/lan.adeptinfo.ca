@@ -213,6 +213,32 @@ class TournamentController extends Controller
     }
 
     /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#retirer-un-organisateur-d-39-un-tournoi
+     * @param Request $request
+     * @param string $tournamentId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeOrganizer(Request $request, string $tournamentId)
+    {
+        $validator = Validator::make([
+            'tournament_id' => (int)$tournamentId,
+            'email' => $request->input('email'),
+            'permission' => 'remove-organizer'
+        ], [
+            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
+            'email' => ['string', 'exists:user', new EmailNotCurrentUser(Auth::user()->email)],
+            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->tournamentService->removeOrganizer(
+            $request->input('email'),
+            $tournamentId
+        ), 200);
+    }
+
+    /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#modifier-un-tournoi
      * @param Request $request
      * @param string $tournamentId

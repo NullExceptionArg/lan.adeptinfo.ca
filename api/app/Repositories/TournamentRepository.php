@@ -63,7 +63,7 @@ interface TournamentRepository
      * @param int $tournamentId Id du tournoi.
      * @param int $userId Id de l'utilisateur.
      */
-    public function deleteTournamentOrganizer(int $tournamentId, int $userId): void;
+    public function dissociateOrganizerTournament(int $tournamentId, int $userId): void;
 
     /**
      * Trouver un tournoi.

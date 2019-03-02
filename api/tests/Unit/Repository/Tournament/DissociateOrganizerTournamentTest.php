@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class DeleteTournamentOrganizerTest extends TestCase
+class dissociateOrganizerTournamentTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -39,14 +39,14 @@ class DeleteTournamentOrganizerTest extends TestCase
         ]);
     }
 
-    public function testDeleteTournamentOrganizer(): void
+    public function testDissociateOrganizerTournament(): void
     {
         $this->seeInDatabase('organizer_tournament', [
             'organizer_id' => $this->organizer->id,
             'tournament_id' => $this->tournament->id
         ]);
 
-        $this->tournamentRepository->deleteTournamentOrganizer(
+        $this->tournamentRepository->dissociateOrganizerTournament(
             $this->organizer->id,
             $this->tournament->id
         );

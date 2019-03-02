@@ -106,6 +106,7 @@ $api->version('v1', function ($api) {
                 $api->post('tournament/{tournament_id}/quit', 'TournamentController@quit');
                 $api->get('tournament/all/organizer', 'TournamentController@getAllForOrganizer');
                 $api->post('tournament/{tournament_id}/organizer', 'TournamentController@addOrganizer');
+                $api->delete('tournament/{tournament_id}/organizer', 'TournamentController@removeOrganizer');
                 $api->delete('team/admin', 'TeamController@deleteAdmin');
 
                 // Rôle de LAN

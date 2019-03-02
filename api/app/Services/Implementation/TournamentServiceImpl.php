@@ -144,7 +144,7 @@ class TournamentServiceImpl implements TournamentService
         $organizerCount = $this->tournamentRepository->getOrganizerCount($tournamentId);
 
         // Supprimer le lien entre l'organisateur et le tournoi
-        $this->tournamentRepository->deleteTournamentOrganizer($tournamentId, $userId);
+        $this->tournamentRepository->dissociateOrganizerTournament($tournamentId, $userId);
 
         // Trouver le tournoi
         $tournament = $this->tournamentRepository->findById($tournamentId);
@@ -156,6 +156,30 @@ class TournamentServiceImpl implements TournamentService
         }
 
         // Retourner le tournoi que l'organisateur a quitté
+        return new TournamentResource($tournament);
+    }
+
+    public function removeOrganizer(string $email, string $tournamentId): TournamentResource
+    {
+        // Trouver le nombre d'organisateurs du tournoi
+        $organizerCount = $this->tournamentRepository->getOrganizerCount($tournamentId);
+
+        // Trouver le tournoi
+        $tournament = $this->tournamentRepository->findById($tournamentId);
+
+        // Trouver l'utilisateur qui correspond au courriel
+        $user = $this->userRepository->findByEmail($email);
+
+        // Supprimer le lien entre l'utilisateur et le tournoi
+        $this->tournamentRepository->dissociateOrganizerTournament($user->id, $tournament->id);
+
+        // Si le nombre d'organisateur avant la suppression du lien est plus petit ou égal à 1
+        if ($organizerCount <= 1) {
+            // Supprimer le tournoi
+            $this->tournamentRepository->delete($tournamentId);
+        }
+
+        // Retourner le tournoi dont l'organisation a été assigné à l'utilisateur
         return new TournamentResource($tournament);
     }
 
