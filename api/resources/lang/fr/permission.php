@@ -37,6 +37,10 @@ return [
     'description-create-tournament' => 'Créer un nouveau tournoi.',
     'display-name-edit-tournament' => 'Modifier un tournoi',
     'description-edit-tournament' => 'Modifier le nom, le coût, la date de début, la date de fin attendue, le nombre de joueurs à atteindre, le nombre d\'équipes à atteindre, et les règles de n\'importe quel tournoi.',
+    'display-name-add-organizer' => 'Ajouter un organisateur',
+    'description-add-organizer' => 'Ajouter un organisateur à un tournoi.',
+    'display-name-remove-organizer' => 'Retirer un organisateur',
+    'description-remove-organizer' => 'Retirer un organisateur d\'un tournoi.',
     'display-name-delete-tournament' => 'Supprimer un tournoi',
     'description-delete-tournament' => 'Supprimer un tournoi existant.',
 

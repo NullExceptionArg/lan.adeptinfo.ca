@@ -2,17 +2,16 @@
 
 namespace Tests\Unit\Controller\Tournament;
 
-use App\Model\Permission;
 use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class AddOrganizerTest extends TestCase
+class RemoveOrganizerTest extends TestCase
 {
     use DatabaseMigrations;
 
+    protected $admin;
     protected $organizer;
-    protected $organizer2;
     protected $lan;
     protected $tournament;
 
@@ -20,8 +19,8 @@ class AddOrganizerTest extends TestCase
     {
         parent::setUp();
 
+        $this->admin = factory('App\Model\User')->create();
         $this->organizer = factory('App\Model\User')->create();
-        $this->organizer2 = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
 
         $startTime = Carbon::parse($this->lan->lan_start);
@@ -39,18 +38,25 @@ class AddOrganizerTest extends TestCase
         ]);
 
         $this->addLanPermissionToUser(
-            $this->user->id,
+            $this->admin->id,
             $this->lan->id,
-            'add-organizer'
+            'remove-organizer'
         );
     }
 
-    public function testAddOrganizer(): void
+    public function testRemoveOrganizer(): void
     {
-        $this->actingAs($this->organizer)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer2->email
-            ])
+        $organizer2 = factory('App\Model\User')->create();
+        factory('App\Model\OrganizerTournament')->create([
+            'organizer_id' => $organizer2->id,
+            'tournament_id' => $this->tournament->id
+        ]);
+
+        $this->actingAs($this->admin)
+            ->json(
+                'DELETE',
+                'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer',
+                ['email' => $this->organizer->email])
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
                 'name' => $this->tournament->name,
@@ -63,12 +69,32 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testAddOrganizerTournamentIdExist(): void
+    public function testRemoveOrganizerLastOrganizer(): void
     {
-        $this->actingAs($this->organizer)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . -1 . '/organizer', [
-                'email' => $this->organizer2->email
+        $this->actingAs($this->admin)
+            ->json(
+                'DELETE',
+                'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer',
+                ['email' => $this->organizer->email])
+            ->seeJsonEquals([
+                'id' => $this->tournament->id,
+                'name' => $this->tournament->name,
+                'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
+                'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
+                'teams_to_reach' => $this->tournament->teams_to_reach,
+                'teams_reached' => 0,
+                'state' => 'hidden',
             ])
+            ->assertResponseStatus(200);
+    }
+
+    public function testRemoveOrganizerTournamentIdExist(): void
+    {
+        $this->actingAs($this->admin)
+            ->json(
+                'DELETE',
+                'http://' . env('API_DOMAIN') . '/tournament/' . -1 . '/organizer',
+                ['email' => $this->organizer->email])
             ->seeJsonEquals([
                 'success' => false,
                 'status' => 400,
@@ -81,24 +107,19 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddOrganizerHasPermissionInLanOrIsTournamentAdminPermissionSuccess(): void
+    public function testRemoveOrganizerHasPermissionInLanOrIsTournamentAdminPermissionSuccess(): void
     {
         $user = factory('App\Model\User')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
-        ]);
-        $permission = Permission::where('name', 'add-organizer')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $user->id
-        ]);
+
+        $this->addLanPermissionToUser(
+            $user->id,
+            $this->lan->id,
+            'remove-organizer'
+        );
+
         $this->actingAs($user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer2->email
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
+                'email' => $this->organizer->email
             ])
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
@@ -112,7 +133,7 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testAddOrganizerHasPermissionInLanOrIsTournamentAdminTournamentAdminSuccess(): void
+    public function testRemoveOrganizerHasPermissionInLanOrIsTournamentAdminTournamentAdminSuccess(): void
     {
         $user = factory('App\Model\User')->create();
         factory('App\Model\OrganizerTournament')->create([
@@ -120,8 +141,8 @@ class AddOrganizerTest extends TestCase
             'tournament_id' => $this->tournament->id
         ]);
         $this->actingAs($user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer2->email
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
+                'email' => $this->organizer->email
             ])
             ->seeJsonEquals([
                 'id' => $this->tournament->id,
@@ -135,12 +156,12 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(200);
     }
 
-    public function testAddOrganizerHasPermissionInLanOrIsTournamentAdminNoPermission(): void
+    public function testRemoveOrganizerHasPermissionInLanOrIsTournamentAdminNoPermission(): void
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer2->email
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
+                'email' => $this->organizer->email
             ])
             ->seeJsonEquals([
                 'success' => false,
@@ -150,10 +171,10 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(403);
     }
 
-    public function testAddOrganizerEmailNotCurrentUser(): void
+    public function testRemoveOrganizerEmailNotCurrentUser(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => $this->organizer->email
             ])
             ->seeJsonEquals([
@@ -168,10 +189,10 @@ class AddOrganizerTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testAddOrganizerEmailExist(): void
+    public function testRemoveOrganizerEmailExist(): void
     {
         $this->actingAs($this->organizer)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
+            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
                 'email' => '☭'
             ])
             ->seeJsonEquals([

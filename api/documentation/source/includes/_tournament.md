@@ -556,10 +556,10 @@ unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse
 
 ## Ajouter un organisateur à un tournoi
 
-Un administrateur d'un tournoi peut en ajouter un autre, pour l'aider à l'organisation du tournoi.
+Un administrateur ou un organisateur d'un tournoi peut en ajouter un autre, pour l'aider à l'organisation du tournoi.
 
 <aside class="warning">
-<a href="#permission">Permission</a> requise : <code>delete-team</code>, can_be_per_lan <code>true</code>
+<a href="#permission">Permission</a> requise : <code>add-organizer</code>, can_be_per_lan <code>true</code>
 </aside>
 
 <aside class="notice">
@@ -574,7 +574,7 @@ La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi dont l'organisateur souhaite ajouter un autre organisateur. | entier.
+tournament_id | Id du tournoi pour lequel l'organisateur ou l'administrateur souhaite ajouter un autre organisateur. | entier.
 
 ### Query Params
 
@@ -620,3 +620,68 @@ running | Le tournoi est en cours.
 behindhand | Le tournoi s'éternise (Après l'heure de fin prévue).
 unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse, il serait bien de le communiquer à un développeur de l'API.
 
+## Retirer un organisateur d'un tournoi
+
+Un administrateur ou un organisateur d'un tournoi peut en retirer un autre.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>remove-organizer</code>, can_be_per_lan <code>true</code>
+</aside>
+
+<aside class="notice">
+La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
+</aside>
+
+### Requête HTTP
+
+`POST /tournament/{tournament_id}/organizer`
+
+### Path Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+tournament_id | Id du tournoi pour lequel l'organisateur ou l'administrateur souhaite retirer un organisateur. | entier.
+
+### Query Params
+
+Paramètre | Description | Règles de validation
+--------- | ----------- | --------------------
+email | Courriel de l'utilisateur à retirer de l'organisation du tournoi. | chaîne de caractères.
+
+### Format de réponse
+
+> Exemple de réponse
+
+```json
+{
+    "id": 3,
+    "name": "October",
+    "tournament_start": "2100-10-11 14:00:00",
+    "tournament_end": "2100-10-11 18:00:00",
+    "state": "hidden",
+    "teams_reached": 0,
+    "teams_to_reach": 6
+}
+```
+
+Paramètre | Description
+--------- | -----------
+id | Id du tournoi pour lequel le l'organisateur a été retiré.
+name | Nom du tournoi pour lequel le l'organisateur a été retiré.
+tournament_start | Date et heure de début du tournoi pour lequel le l'organisateur a été retiré.
+tournament_end | Date et heure de fin du tournoi pour lequel le l'organisateur a été retiré.
+state | État courant du tournoi pour lequel le l'organisateur a été retiré. Voir État Courant. 
+teams_reached | Nombre d'équipes atteintes pour que le tournoi dans lequel le l'organisateur a été retiré ait lieu.
+teams_to_reach | Nombre d'équipes à atteindre pour que le tournoi dans lequel le l'organisateur a été retiré ait lieu.
+
+#### État courant
+Champ | Description
+--------- | -----------
+hidden | Caché, est seulement visible pour les organisateurs.
+finished | Le tournoi est terminé.
+fourthcoming | Le tournoi est à venir.
+late | Le tournoi est en retard.
+outguessed | Le tournoi est devancé.
+running | Le tournoi est en cours.
+behindhand | Le tournoi s'éternise (Après l'heure de fin prévue).
+unknown | État inconnu. Si jamais vous ou un utilisateur obtient cette réponse, il serait bien de le communiquer à un développeur de l'API.

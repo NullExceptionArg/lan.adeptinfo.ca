@@ -54,6 +54,7 @@ return [
     ['name' => 'edit-tournament', 'can_be_per_lan' => true],
     ['name' => 'delete-tournament', 'can_be_per_lan' => true],
     ['name' => 'add-organizer', 'can_be_per_lan' => true],
+    ['name' => 'remove-organizer', 'can_be_per_lan' => true],
     ['name' => 'get-all-tournament-for-organizer', 'can_be_per_lan' => true],
 
     // Team

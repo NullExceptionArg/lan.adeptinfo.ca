@@ -55,7 +55,7 @@ class TournamentRepositoryImpl implements TournamentRepository
         $tournament->delete();
     }
 
-    public function deleteTournamentOrganizer(int $tournamentId, int $userId): void
+    public function dissociateOrganizerTournament(int $tournamentId, int $userId): void
     {
         OrganizerTournament::where('organizer_id', $userId)
             ->where('tournament_id', $tournamentId)
