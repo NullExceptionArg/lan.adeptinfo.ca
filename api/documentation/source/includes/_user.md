@@ -37,10 +37,10 @@ Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de to
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-first_name | Prénom de l'utilisateur à créer. | Requis, 255 caractères max.
-last_name | Nom de l'utilisateur à créer. | Requis, 255 caractères max.
-email | Identifiant (courriel) de l'utilisateur à créer. | Requis, courriel valide.
-password| Mot de passe de l'utilisateur à créer. | Requis, entre 6 et 20 caratères.
+first_name | Prénom de l'utilisateur à créer. |  255 caractères max.
+last_name | Nom de l'utilisateur à créer. |  255 caractères max.
+email | Identifiant (courriel) de l'utilisateur à créer. |  courriel valide.
+password| Mot de passe de l'utilisateur à créer. |  entre 6 et 20 caratères.
 
 ### Format de réponse
 
@@ -106,7 +106,7 @@ Tout est géré par l'API.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-access_token | Token retourné par une authentification côté client, avec Facebook. | Requis.
+access_token | Token retourné par une authentification côté client, avec Facebook. |
 
 ### Format de réponse
 
@@ -147,7 +147,7 @@ Tout est géré par l'API.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-access_token | Token retourné par une authentification côté client, avec Google. | Requis.
+access_token | Token retourné par une authentification côté client, avec Google. | 
 
 ### Format de réponse
 
@@ -189,11 +189,11 @@ Permet d'obtenir l'accès aux requêtes qui nécessitent que l'utilisateur soit 
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-grant_type | Type d'authentification pour oauth2. Nous utilisons "password" pour notre application | Requis
-client_id | Identifiant du client d'authentification oauth2. | Requis
-client_secret | Mot de passe généré du client oauth2. | Requis
-username | Identifiant (courriel) de l'utilisateur. | Requis
-password | Mot de passe de l'utilisateur. | Requis
+grant_type | Type d'authentification pour oauth2. Nous utilisons "password" pour notre application | 
+client_id | Identifiant du client d'authentification oauth2. | 
+client_secret | Mot de passe généré du client oauth2. | 
+username | Identifiant (courriel) de l'utilisateur. | 
+password | Mot de passe de l'utilisateur. | 
 
 ### Format de réponse
 
@@ -274,7 +274,7 @@ Lister l'ensemble des utilisateurs selon des filtres, un ordre et de la paginati
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-query_string | Terme à rechercher parmis le nom, le prénom, et le courriel de l'utilisateur | string, 255 caractères max.
+query_string | Terme à rechercher parmis le nom, le prénom, et le courriel de l'utilisateur | chaîne de caractères, 255 caractères max.
 order_column | Colonne selon laquelle les résultats seront ordonnés. Par défaut: last_name | Doit être l'une des entrées suivantes: last_name, first_name, email.
 order_direction | Ordre de classement selon lequel les résultats seront ordonnés, soit en ordre croissant (asc), soit en ordre décroissant (desc). Par défaut asc | Doit être l'une des entrées suivantes: asc, desc.
 items_per_page | Nombre de résultats à inclure par page | Nombre, minimum: 1, maximum: 75.
@@ -370,8 +370,8 @@ Détails d'un utilisateur ainsi que son historique pour un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur à rechercher | string.
-lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courant | requis.
+email | Courriel de l'utilisateur à rechercher | chaîne de caractères.
+lan_id | Lan dans lequel on souhaite trouver les détails de l'utilisateur. Par défaut: lan courant | 
 
 ### Format de réponse
 
@@ -434,7 +434,7 @@ Informations sommaires de l'utilisateur courant. (Identité et nombre de requêt
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -466,7 +466,7 @@ Informations sommaires de l'administrateur. (Identité, s'il administre un ou de
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'administrateur. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -515,8 +515,8 @@ Rôles globaux et de LAN d'un administrateur.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur dont on veut connaître les rôles. Si ce paramètre n'est pas spécifié, on retourne les rôles de l'utilisateur qui fait la requête (L'utilisateur n'a pas besoin d'avoir cette permission à ce moment). | string.
-lan_id | Id du LAN pour lequel l'administrateur souhaite connaître ses rôle. Si le paramètre n'est pas spécifié, on utilise le LAN courant. | integer.
+email | Courriel de l'utilisateur dont on veut connaître les rôles. Si ce paramètre n'est pas spécifié, on retourne les rôles de l'utilisateur qui fait la requête (L'utilisateur n'a pas besoin d'avoir cette permission à ce moment). | chaîne de caractères.
+lan_id | Id du LAN pour lequel l'administrateur souhaite connaître ses rôle. Si le paramètre n'est pas spécifié, on utilise le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -553,5 +553,5 @@ Champ | Description
 --------- | -----------
 id | Id du rôle.
 name | Nom du rôle.
-display_name | Nom d'affichage du rôle, selon la langue spécifiée.
-description | Description du rôle, selon la langue spécifiée.
+display_name | Nom d'affichage du rôle.
+description | Description du rôle.

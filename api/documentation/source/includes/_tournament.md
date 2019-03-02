@@ -33,19 +33,19 @@ Créer un nouveau tournoi pour un LAN. L'administrateur qui créer le tournoi en
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où le tournoi aura lieu. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN où le tournoi aura lieu. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Paramètres POST
 
 Paramètre | Description | Règles de validation | Défaut
 --------- | ----------- | -------------------- | ------
-name | Nom du tournoi. | Requis, string, 255 caractères max. |
+name | Nom du tournoi. |  chaîne de caractères, 255 caractères max. |
 price | Prix d'entrée du tournoi. | int, min: 0. | 0
-tournament_start | Date et heure de début du tournoi. | Requis, après le début du LAN. | 
-tournament_end | Date et heure de fin du tournoi. | Requis, date, avant la fin du LAN., après le début du tournoi. |
-players_to_reach| Nombre de joueur à atteindre par équipe. | Requis, min: 1, int. |
-teams_to_reach |Nombre d'équipes à atteindre pour que le tournoi ait lieu.| Requis, min: 1, int. |
-rules | Règlements du tournoi. | String, requis. |
+tournament_start | Date et heure de début du tournoi. |  après le début du LAN. | 
+tournament_end | Date et heure de fin du tournoi. |  date, avant la fin du LAN., après le début du tournoi. |
+players_to_reach| Nombre de joueur à atteindre par équipe. |  min: 1, int. |
+teams_to_reach |Nombre d'équipes à atteindre pour que le tournoi ait lieu.|  min: 1, int. |
+rules | Règlements du tournoi. | chaîne de caractères |
 
 ### Format de réponse
 
@@ -132,7 +132,7 @@ Les équipes, les requêtes pour entrer dans les équipes du tournois et les lia
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi que l'administrateur veut supprimer. | integer.
+tournament_id | Id du tournoi que l'administrateur veut supprimer. | entier.
 
 ### Format de réponse
 
@@ -187,7 +187,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l'utilisateur.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN dans lequel l'organisateur souhaite trouver ses tournois. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN dans lequel l'organisateur souhaite trouver ses tournois. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 
@@ -242,7 +242,7 @@ Obtenir tous les tournois.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN dans lequel on souhaite trouver les tournois. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN dans lequel on souhaite trouver les tournois. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 
@@ -296,7 +296,7 @@ Modifier les informations d'un tournoi.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi que l'administrateur veut modifier. | integer.
+tournament_id | Id du tournoi que l'administrateur veut modifier. | entier.
 
 > Exemple de requête
 
@@ -316,14 +316,14 @@ tournament_id | Id du tournoi que l'administrateur veut modifier. | integer.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-name | Nom du tournoi. | Requis, string, 255 caractères max.
+name | Nom du tournoi. |  chaîne de caractères, 255 caractères max.
 price | Prix d'entrée du tournoi. | int, min: 0.
 state | État courant du LAN. Voir État Courant. | hidden, visible, started, ou finished
-tournament_start | Date et heure de début du tournoi. | Requis, après le début du LAN. 
-tournament_end | Date et heure de fin du tournoi. | Requis, date, avant la fin du LAN, après le début du tournoi.
-players_to_reach| Nombre de joueur à atteindre par équipe. | Requis, min: 1, int.
-teams_to_reach |Nombre d'équipes à atteindre pour que le tournoi ait lieu.| Requis, min: 1, int.
-rules | Règlements du tournoi. | String, requis.
+tournament_start | Date et heure de début du tournoi. |  après le début du LAN. 
+tournament_end | Date et heure de fin du tournoi. |  date, avant la fin du LAN, après le début du tournoi.
+players_to_reach| Nombre de joueur à atteindre par équipe. |  min: 1, int.
+teams_to_reach |Nombre d'équipes à atteindre pour que le tournoi ait lieu.|  min: 1, int.
+rules | Règlements du tournoi. | chaîne de caractères
 
 #### État courant
 Champ | Description
@@ -412,7 +412,7 @@ Détails d'un tournoi. Comprends aussi les équipes ainsi que les tags de joueur
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi que l'on veut consulter. | integer.
+tournament_id | Id du tournoi que l'on veut consulter. | entier.
 
 ### Format de réponse
 
@@ -513,7 +513,7 @@ S'il est le dernier à quitter, le tournoi est supprimé.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi l'administrateur veut quitter. | integer.
+tournament_id | Id du tournoi l'administrateur veut quitter. | entier.
 
 ### Format de réponse
 
@@ -574,13 +574,13 @@ La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi dont l'organisateur souhaite ajouter un autre organisateur. | integer.
+tournament_id | Id du tournoi dont l'organisateur souhaite ajouter un autre organisateur. | entier.
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur à ajouter comme nouvel organisateur du tournoi. | string.
+email | Courriel de l'utilisateur à ajouter comme nouvel organisateur du tournoi. | chaîne de caractères.
 
 ### Format de réponse
 

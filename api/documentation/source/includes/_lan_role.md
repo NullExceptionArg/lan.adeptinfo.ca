@@ -1,11 +1,11 @@
 # Rôle de LAN
 
-Les rôles de LAN sont des groupes de permissions qui peuvent être attribués à des utilisateurs.
+Les rôles de LAN sont des groupes de [permissions](#obtenir-les-permissions) qui peuvent être attribués à des utilisateurs.
 Les rôles de LAN sont des rôles qui se sont effectif que sur un LAN spécifique. Ils ne peuvent contenir que des permissions qui ont l'attribut 'can_be_per_lan'.
 
 ## Créer un rôle de LAN
 
-Créer un rôle de lan.
+Créer un rôle de lan, contenant des permissions.
 
 ### Requête HTTP
 
@@ -30,18 +30,18 @@ Créer un rôle de lan.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-name | Nom unique du rôle à créer. | requis, string, max:50, unique.
-en_display_name | Nom du rôle à afficher, en anglais. | requis, string, max:50.
-en_description | Description du rôle à afficher, en anglais. | requis, string, max:1000.
-fr_display_name | Nom du rôle à afficher, en français. | requis, string, max:50.
-fr_description | Description du rôle à afficher, en français. | requis, string, max:1000.
-permissions | Id des permissions | requis, tableau d'Id des permissions à intégrer dans la permission.
+name | Nom unique du rôle à créer. |  chaîne de caractères, max:50, unique.
+en_display_name | Nom du rôle à afficher, en anglais. |  chaîne de caractères, max:50.
+en_description | Description du rôle à afficher, en anglais. |  chaîne de caractères, max:1000.
+fr_display_name | Nom du rôle à afficher, en français. |  chaîne de caractères, max:50.
+fr_description | Description du rôle à afficher, en français. |  chaîne de caractères, max:1000.
+permissions | Id des permissions |  tableau d'Id des permissions à intégrer dans la permission.
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut créer un role. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN où l'administrateur veut créer un role. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -70,7 +70,7 @@ fr_description | Description du rôles créé, en français.
 
 ## Modifier un rôle de LAN
 
-Modifier un rôle de lan.
+Modifier les détails d'un rôle de lan.
 D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au rôle.
 
 ### Requête HTTP
@@ -94,12 +94,12 @@ D'autres appels sont nécessaires pour ajouter ou supprimer des permissions au r
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-role_id | Id du rôle à modifier | requis.
-name | Nom unique du rôle à modifier. | string, max:50, unique.
-en_display_name | Nom du rôle à afficher, en anglais. | string, max:50.
-en_description | Description du rôle à afficher, en anglais. | string, max:1000.
-fr_display_name | Nom du rôle à afficher, en français. | string, max:50.
-fr_description | Description du rôle à afficher, en français. | string, max:1000.
+role_id | Id du rôle à modifier | 
+name | Nom unique du rôle à modifier. | chaîne de caractères, max:50, unique.
+en_display_name | Nom du rôle à afficher, en anglais. | chaîne de caractères, max:50.
+en_description | Description du rôle à afficher, en anglais. | chaîne de caractères, max:1000.
+fr_display_name | Nom du rôle à afficher, en français. | chaîne de caractères, max:50.
+fr_description | Description du rôle à afficher, en français. | chaîne de caractères, max:1000.
 
 ### Format de réponse
 
@@ -118,7 +118,7 @@ fr_description | Description du rôle à afficher, en français. | string, max:1
 
 Champ | Description
 --------- | -----------
-lan_id | Id du LAN sur lequel le rôle a été modifié.
+lan_id | Id du LAN du rôle de LAN modifié.
 name | Nom unique du rôle modifié.
 en_display_name | Nom du rôle modifié, en anglais.
 en_description | Description du rôle modifié, en anglais.
@@ -128,7 +128,7 @@ fr_description | Description du rôles modifié, en français.
 
 ## Assigner un rôle de LAN
 
-Assigner un rôle de LAN à un utilisateur
+Assigner un rôle de LAN à un utilisateur.
 
 ### Requête HTTP
 
@@ -147,8 +147,8 @@ Assigner un rôle de LAN à un utilisateur
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-email | Courriel de l'utilisateur à qui on veut attribuer le rôle. | requis.
-role_id | Id du rôle à attribuer à l'utilisateur | integer.
+email | Courriel de l'utilisateur à qui on veut attribuer le rôle. | 
+role_id | Id du rôle à attribuer à l'utilisateur. | entier.
 
 ### Format de réponse
 
@@ -169,12 +169,10 @@ Champ | Description
 id | Id du rôle.
 lan_id | Id du LAN attribué.
 name | Nom unique du rôle attribué.
-display_name | Nom du rôle attribué, selon la langue spécifiée.
-description | Description du rôle attribué, selon la langue spécifiée.
+display_name | Nom du rôle attribué.
+description | Description du rôle attribué.
 
 ## Ajouter des permissions à un role de LAN
-
-Ajouter des permissions à un role de LAN
 
 ### Requête HTTP
 
@@ -195,8 +193,8 @@ Ajouter des permissions à un role de LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-role_id | Id du rôle où l'on veut ajouter des permissions | integer.
-permissions | Permissions à ajouter au rôle. | requis, liste de integer.
+role_id | Id du rôle pour lequel les permissions seront ajoutées. | entier.
+permissions | Permissions à ajouter au rôle. |  liste de entier.
 
 ### Format de réponse
 
@@ -215,10 +213,10 @@ permissions | Permissions à ajouter au rôle. | requis, liste de integer.
 Champ | Description
 --------- | -----------
 id | Id du rôle.
-lan_id | Id du LAN où les permissions ont été ajoutées.
+lan_id | Id du LAN du rôle de LAN pour lequel les permissions ont été ajoutées.
 name | Nom unique du rôle où les permissions ont été ajoutées.
-display_name | Nom du rôle où les permissions ont été ajoutées, selon la langue spécifiée.
-description | Description du rôle où les permissions ont été ajoutées, selon la langue spécifiée.
+display_name | Nom du rôle où les permissions ont été ajoutées.
+description | Description du rôle où les permissions ont été ajoutées.
 
 
 ## Supprimer des permissions d'un rôle de LAN
@@ -244,8 +242,8 @@ Supprimer des permissions d'un rôle de LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-role_id | Id du rôle où l'on veut supprimer des permissions | integer.
-permissions | Permissions à supprimer au rôle. | requis, liste de integer.
+role_id | Id du rôle pour lequel les permissions seront supprimées. | entier.
+permissions | Permissions à supprimer au rôle. |  liste de entier.
 
 
 ### Format de réponse
@@ -267,13 +265,11 @@ Champ | Description
 id | Id du rôle.
 lan_id | Id du LAN où les permissions ont été supprimées.
 name | Nom unique du rôle où les permissions ont été supprimées.
-display_name | Nom du rôle où les permissions ont été supprimées, selon la langue spécifiée.
-description | Description du rôle où les permissions ont été supprimées, selon la langue spécifiée.
+display_name | Nom du rôle où les permissions ont été supprimées.
+description | Description du rôle où les permissions ont été supprimées.
 
 
 ## Supprimer un rôle de LAN
-
-Supprimer un rôle de LAN.
 
 ### Requête HTTP
 
@@ -283,7 +279,7 @@ Supprimer un rôle de LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-role_id | Id du rôle que l'on veut supprimer. | integer.
+role_id | Id du rôle à supprimer. | entier.
 
 ### Format de réponse
 
@@ -301,16 +297,16 @@ role_id | Id du rôle que l'on veut supprimer. | integer.
 
 Champ | Description
 --------- | -----------
-id | Id du rôle.
-lan_id | Id du LAN où le rôle a été supprimé.
+id | Id du rôle supprimé.
+lan_id | Id du LAN du rôle de LAN pour lequel le rôle a été supprimé.
 name | Nom unique du rôle qui a été supprimé.
-display_name | Nom du rôle qui a été supprimé, selon la langue spécifiée.
-description | Description du rôle qui a été supprimé, selon la langue spécifiée.
+display_name | Nom du rôle qui a été supprimé.
+description | Description du rôle qui a été supprimé.
 
 
 ## Obtenir les rôles de LAN
 
-Obtenir les rôles de LAN.
+Obtenir les rôles de LAN du LAN.
 
 ### Requête HTTP
 
@@ -320,7 +316,7 @@ Obtenir les rôles de LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN duquel on veut obtenir les rôles. | integer.
+lan_id | Id du LAN duquel on veut obtenir les rôles. | entier.
 
 ### Format de réponse
 
@@ -357,13 +353,13 @@ Champ | Description
 id | Id du rôle.
 lan_id | Id du LAN du rôle.
 name | Nom unique rôle.
-display_name | Nom du rôle, selon la langue spécifiée.
-description | Description du rôle, selon la langue spécifiée.
+display_name | Nom du rôle.
+description | Description du rôle.
 
 
 ## Obtenir les permissions d'un rôle de LAN
 
-Obtenir les permissions d'un rôle de LAN.
+Obtenir les permissions contenues dans un rôle de LAN.
 
 ### Requête HTTP
 
@@ -373,7 +369,7 @@ Obtenir les permissions d'un rôle de LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-role_id | Id du rôle duquel on souhaite trouver les permissions. | integer.
+role_id | Id du rôle pour lequel les permissions seront obtenues.  | entier.
 
 ### Format de réponse
 
@@ -400,7 +396,7 @@ role_id | Id du rôle duquel on souhaite trouver les permissions. | integer.
     "name": "edit-lan",
     "can_be_per_lan": true,
     "display_name": "Edit LAN",
-    "description": seat
+    "description": "Edit the name, the starting date, the closing date, the date start, the seat.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... "
   },
   {
     "id": 4,
@@ -417,13 +413,13 @@ Champ | Description
 id | Id de la permission.
 name | Nom unique de la permission.
 can_be_per_lan | Si la permission peut être par LAN.
-display_name | Nom de la permission, selon la langue spécifiée.
-description | Description de la permission, selon la langue spécifiée.
+display_name | Nom de la permission.
+description | Description de la permission.
 
 
 ## Obtenir les utilisateurs possédants un rôle de LAN
 
-Obtenir les utilisateurs possédants un rôle de LAN.
+Obtenir les utilisateurs possédants un certain rôle de LAN.
 
 ### Requête HTTP
 
@@ -433,7 +429,7 @@ Obtenir les utilisateurs possédants un rôle de LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-role_id | Id du rôle duquel on souhaite obtenir les utilisateurs. | integer.
+role_id | Id du rôle pour lequel les utilisateurs seront obtenus. | entier.
 
 ### Format de réponse
 

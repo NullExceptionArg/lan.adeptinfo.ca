@@ -26,9 +26,9 @@ Un administrateur créer une contribution à un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-contribution_category_id | Id de la catégorie de la contribution à créer. | Requis, integer.
-user_full_name | Nom complet du contributeur. | string.
-user_email | Adresse courriel du contributeur. | string.
+contribution_category_id | Id de la catégorie de la contribution à créer. |  entier.
+user_full_name | Nom complet du contributeur. | chaîne de caractères.
+user_email | Adresse courriel du contributeur. | chaîne de caractères.
 
 <aside class="notice">
 Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuvent pas être utilisés en même temps. Il est cependant requis d'envoyer un de ces deux champs.
@@ -62,7 +62,7 @@ Lister l'ensemble des contributions, groupées par catégories, pour un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'utilisateur veut lister les contributions. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN d'où l'utilisateur veut lister les contributions. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 
@@ -122,7 +122,7 @@ Un administrateur supprime une contribution d'un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-contribution_id | Id de la contribution que l'administrateur veut supprimer. | integer.
+contribution_id | Id de la contribution que l'administrateur veut supprimer. | entier.
 
 ### Format de réponse
 
@@ -156,7 +156,7 @@ Un administrateur créer une catégorie de contribution à un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 > Exemple de requête
 
@@ -169,7 +169,7 @@ lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribut
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-name | Nom de la catégorie contribution à créer. | Requis, integer.
+name | Nom de la catégorie contribution à créer. |  entier.
 
 ### Format de réponse
 
@@ -200,7 +200,7 @@ Liste les catégories de contribution d'un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN où l'administrateur veut ajouter une catégorie de contribution. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 
@@ -241,7 +241,7 @@ Un administrateur supprime une catégorie de contribution d'un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-contribution_category_id | Id de la catégorie de contribution que l'administrateur veut supprimer. | Requis, integer.
+contribution_category_id | Id de la catégorie de contribution que l'administrateur veut supprimer. |  entier.
 
 ### Format de réponse
 

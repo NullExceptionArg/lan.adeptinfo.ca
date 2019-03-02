@@ -1,8 +1,10 @@
 # Tag
 
+Un utilisateur peut se créer des tags avec lesquels il peut faire partie d'équipes qui participeront à un tournoi.
+
 ## Créer un tag
 
-Créer un nouveau tag pour un utilisateur.
+L'utilisateur courant se créer un tag.
 
 ### Requête HTTP
 
@@ -22,7 +24,7 @@ Créer un nouveau tag pour un utilisateur.
 
 Paramètre | Description | Règles de validation | Défaut
 --------- | ----------- | -------------------- | ------
-name | Nom du tag. | Requis, string, 5 caractères max, unique. |
+name | Nom du tag de joueur à créer. |  chaîne de caract, 5 caractères max, unique. |
 
 ### Format de réponse
 
@@ -30,11 +32,12 @@ name | Nom du tag. | Requis, string, 5 caractères max, unique. |
 
 ```json
 {
-    "lan_id": 1,
+    "id": 1,
     "name": "PRO"
 }
 ```
 
 Champ | Description
 --------- | -----------
-name | Nom du tournoi. 
+id | Id du tag de joueur créé. 
+name | Nom du tag de joueur créé. 

@@ -43,20 +43,20 @@ La liste peut être trouvée dans le projet sous `api/resources/roles.php`
 
 Paramètre | Description | Règles de validation | Défaut
 --------- | ----------- | -------------------- | ------
-name | Nom du LAN. | Requis, string, 255 caractères max. |
-lan_start | Date et heure de début du LAN. | Requis, après le début des réservations et après le début des inscriptions aux tournois. |
-lan_end | Date et heure de fin du LAN. | Requis, après le début du LAN. | 
-seat_reservation_start | Date et heure du début des réservations des places du LAN. | Requis, avant le début du LAN. |
-tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. | Requis, avant le début du LAN. |
-event_key | Clé de l'événement de seats.io pour le LAN. | Requis, 255 caractères max. |
-public_key | Clé publique de seats.io . | Requis, 255 caractères max. |
-secret_key | Clé secrète de seats.io . | Requis, 255 caractères max. |
-latitude | Latitude de la position où se déroule le LAN. | Requis, entre -85 et 85, nombre. |
-longitude | Longitude de la position où se déroule le LAN. | Requis, entre -180 et 180, nombre. |
-places | Places disponibles pour le LAN. | Requis, int, minimum 1. |
+name | Nom du LAN. |  chaîne de caractères, 255 caractères max. |
+lan_start | Date et heure de début du LAN. |  après le début des réservations et après le début des inscriptions aux tournois. |
+lan_end | Date et heure de fin du LAN. |  après le début du LAN. | 
+seat_reservation_start | Date et heure du début des réservations des places du LAN. |  avant le début du LAN. |
+tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. |  avant le début du LAN. |
+event_key | Clé de l'événement de seats.io pour le LAN. |  255 caractères max. |
+public_key | Clé publique de seats.io . |  255 caractères max. |
+secret_key | Clé secrète de seats.io . |  255 caractères max. |
+latitude | Latitude de la position où se déroule le LAN. |  entre -85 et 85, nombre. |
+longitude | Longitude de la position où se déroule le LAN. |  entre -180 et 180, nombre. |
+places | Places disponibles pour le LAN. |  int, minimum 1. |
 price | Prix du LAN en cent. | Plus grand ou égale à 0. | 0
-rules | Texte des règles du LAN. | String, optionnel. |
-description | Texte des description du LAN. | String, optionnel. |
+rules | Texte des règles du LAN. | chaîne de caractères, optionnel. |
+description | Texte des description du LAN. | chaîne de caractères, optionnel. |
 
 ### Format de réponse
 
@@ -115,7 +115,7 @@ Obtenir les informations sur un LAN
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
 fields | Liste des champs à obtenir pour le LAN, séparés par des virgules. Si ce paramètre est laissé vide, le LAN au complet sera retourné. Voir champs disponibles. | Aucune.
-lan_id | Id du LAN dont l'utilisateur veut obtenir les informations. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | integer.
+lan_id | Id du LAN dont l'utilisateur veut obtenir les informations. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | entier.
 
 #### Champs disponibles
 Champ | Description
@@ -261,13 +261,13 @@ Mettre à jour les attributs d'un LAN
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut modifier les règles. Si le paramètre n'est pas spécifié, le LAN courant est utilisé | integer.
+lan_id | Id du LAN où l'administrateur veut modifier les règles. Si le paramètre n'est pas spécifié, le LAN courant est utilisé | entier.
 
 ### Paramètres POST
 
 Paramètre | Description | Règles de validation | Défaut
 --------- | ----------- | -------------------- | ------
-name | Nom du LAN. | String, 255 caractères max. |
+name | Nom du LAN. | chaîne de caractères, 255 caractères max. |
 lan_start | Date et heure de début du LAN. | Après le début des réservations et après le début des inscriptions aux tournois. |
 lan_end | Date et heure de fin du LAN. | Après le début du LAN. | 
 seat_reservation_start | Date et heure du début des réservations des places du LAN. | Avant le début du LAN. |
@@ -279,8 +279,8 @@ latitude | Latitude de la position où se déroule le LAN. | Entre -85 et 85, no
 longitude | Longitude de la position où se déroule le LAN. | Entre -180 et 180, nombre. |
 places | Places disponibles pour le LAN. | Int, minimum 1, plus grand que le nombre de places réservées. |
 price | Prix du LAN en cent. | Plus grand ou égale à 0. | 0
-rules | Texte des règles du LAN. | String, optionnel. |
-description | Texte des descritpion du LAN. | String, optionnel. |
+rules | Texte des règles du LAN. | chaîne de caractères, optionnel. |
+description | Texte des descritpion du LAN. | chaîne de caractères, optionnel. |
 
 ### Format de réponse
 
@@ -349,7 +349,7 @@ Changer de LAN courant, soit celui qui s'affichera par défaut quand les utilisa
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN que l'administrateur veut modifier comme courant. | Requis, integer.
+lan_id | Id du LAN que l'administrateur veut modifier comme courant. |  entier.
 
 ### Format de réponse
 
@@ -409,12 +409,12 @@ Ajouter une image de présentation à un LAN.
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut ajouter une image. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer
+lan_id | Id du LAN où l'administrateur veut ajouter une image. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier
 
 ### Paramètres POST
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-image | Image à ajouter, encodé en base64. | Requis, string
+image | Image à ajouter, encodé en base64. |  chaîne de caractères
 
 ### Format de réponse
 
@@ -449,7 +449,7 @@ Supprimer des images de présentation d'un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-image_ids | Id des images que l'administrateur veut supprimer. | Requis, string.
+image_ids | Id des images que l'administrateur veut supprimer. |  chaîne de caractères.
 
 ### Format de réponse
 

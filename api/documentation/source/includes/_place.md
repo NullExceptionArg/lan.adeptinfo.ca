@@ -22,13 +22,13 @@ Un joueur effectue une réservation à un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-seat_id | Id de la place que l'utilisateur veut réserver. | Requis, string, un seul Id de place par LAN.
+seat_id | Id de la place que l'utilisateur veut réserver. |  chaîne de caractères, un seul Id de place par LAN.
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut réserver une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer, un seul utilisateur par LAN.
+lan_id | Id du LAN où l'utilisateur veut réserver une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -56,13 +56,13 @@ Un joueur annule une réservation qu'il avait fait à un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-seat_id | Id de la place que l'utilisateur veut annuler. | Requis, string.
+seat_id | Id de la place que l'utilisateur veut annuler. |  chaîne de caractères.
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'utilisateur veut annuler une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN où l'utilisateur veut annuler une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 
@@ -94,18 +94,18 @@ Un administrateur assigne une place à un un joueur à un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-user_email | Courriel de l'utilisateur auquel l'administrateur veut assigner une place. | Requis, string.
+user_email | Courriel de l'utilisateur auquel l'administrateur veut assigner une place. |  chaîne de caractères.
 
 ### Path Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, un seul Id de place par LAN.
+seat_id | Id de la place que l'administrateur veut assigner. |  chaîne de caractères, un seul Id de place par LAN.
 
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut assigner une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer, un seul utilisateur par LAN.
+lan_id | Id du LAN où l'administrateur veut assigner une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier, un seul utilisateur par LAN.
 
 ### Format de réponse
 
@@ -137,13 +137,13 @@ Un administrateur annule la réservation d'un joueur à un LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-seat_id | Id de la place que l'administrateur veut assigner. | Requis, string, un seul Id de place par LAN.
+seat_id | Id de la place que l'administrateur veut assigner. |  chaîne de caractères, un seul Id de place par LAN.
 
 ### Query Params
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut annuler l'assignation à une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
-user_email | Courriel de l'utilisateur auquel on veut annuler la réservation. | Requis, string.
+lan_id | Id du LAN où l'administrateur veut annuler l'assignation à une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
+user_email | Courriel de l'utilisateur auquel on veut annuler la réservation. |  chaîne de caractères.
 
 ### Format de réponse
 
@@ -176,13 +176,13 @@ Un administrateur confirmer l'arrivée d'un joueur au LAN.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-seat_id | Id de la place que l'administrateur confirmer. | Requis, integer.
+seat_id | Id de la place que l'administrateur confirmer. |  entier.
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut confirmer une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | string.
+lan_id | Id du LAN où l'administrateur veut confirmer une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | chaîne de caractères.
 
 ### Format de réponse
 
@@ -214,13 +214,13 @@ Un administrateur marque le départ de l'un des joueurs déjà marqué comme arr
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-seat_id | Id de la place que l'administrateur déconfirmer. | Requis, integer.
+seat_id | Id de la place que l'administrateur déconfirmer. |  entier.
 
 ### Query Params
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | integer.
+lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si le paramètre n'est pas spécifié, le LAN courant est utilisé. | entier.
 
 ### Format de réponse
 

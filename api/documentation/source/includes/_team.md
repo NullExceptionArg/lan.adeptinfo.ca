@@ -30,10 +30,10 @@ Le chef est celui qui gère l'équipe. Il peut donc approuver ou refuser les dem
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-tournament_id | Id du tournoi dans lequel l'utilisateur veut créer son équipe. | Requis
-user_tag_id | Id du tag sous lequel l'utilisateur souhaite créer et rejoindre l'équipe. | Requis, l'utilisateur peut seulement être dans un tournoi une fois.
-name | Nom de l'équipe. | Requis, string, 255 caractères max, le nom doit être unique pour le tournoi.
-tag | Nom du tag de l'équipe. | String, 5 caractères max, le tag doit être unique pour le tournoi.
+tournament_id | Id du tournoi dans lequel l'utilisateur veut créer son équipe. | 
+user_tag_id | Id du tag sous lequel l'utilisateur souhaite créer et rejoindre l'équipe. |  l'utilisateur peut seulement être dans un tournoi une fois.
+name | Nom de l'équipe. |  chaîne de caractères, 255 caractères max, le nom doit être unique pour le tournoi.
+tag | Nom du tag de l'équipe. | chaîne de caractères, 5 caractères max, le tag doit être unique pour le tournoi.
 
 ### Format de réponse
 
@@ -78,8 +78,8 @@ Un joueur peut demander à joindre une équipe. Le chef  approuvera ou refusera 
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe que l'utilisateur souhaite rejoindre | Requis
-tag_id | Id du tag sous lequel l'utilisateur souhaite rejoindre l'équipe. | Requis, l'utilisateur peut seulement être dans un tournoi une fois.
+team_id | Id de l'équipe que l'utilisateur souhaite rejoindre | 
+tag_id | Id du tag sous lequel l'utilisateur souhaite rejoindre l'équipe. |  l'utilisateur peut seulement être dans un tournoi une fois.
 
 ### Format de réponse
 
@@ -110,7 +110,7 @@ Obtenir les équipes de l'utilisateur courant ainsi que son état dans celles-ci
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN d'où l'utilisateur veut obtenir ses équipes. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | Integer.
+lan_id | Id du LAN d'où l'utilisateur veut obtenir ses équipes. Si le paramètre n'est pas spécifié, on retourne le LAN courant. | entier.
 
 ### Format de réponse
 
@@ -161,7 +161,7 @@ Obtenir les détails d'une équipe de l'utilisateur courant.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe dont on cherche les détails. | Integer.
+team_id | Id de l'équipe dont on cherche les détails. | entier.
 
 ### Format de réponse
 
@@ -238,8 +238,8 @@ L'utilisateur courant, qui est chef d'une équipe, donne son titre à un autre j
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe dans laquelle le chef veut donner son titre. | Integer.
-tag_id | Id du tag du joueur à qui le chef veut donner son titre. | Integer.
+team_id | Id de l'équipe dans laquelle le chef veut donner son titre. | entier.
+tag_id | Id du tag du joueur à qui le chef veut donner son titre. | entier.
 
 ### Format de réponse
 
@@ -277,7 +277,7 @@ L'utilisateur courant, qui est le chef de l'équipe accepte une requête pour en
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-request_id | Id de la requête pour joindre l'équipe. | Integer.
+request_id | Id de la requête pour joindre l'équipe. | entier.
 
 ### Format de réponse
 
@@ -307,7 +307,7 @@ L'utilisateur courant consulte la liste des équipes pour lesquelles il a des re
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-lan_id | Id du LAN dans lequel l'utilisateur veut obtenir ses requêtes. | Integer.
+lan_id | Id du LAN dans lequel l'utilisateur veut obtenir ses requêtes. | entier.
 
 ### Format de réponse
 
@@ -374,7 +374,7 @@ Si le chef est le dernier à quitter l'équipe, elle et les requêtes sont suppr
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe que l'utilisateur souhaite quitter. | Integer.
+team_id | Id de l'équipe que l'utilisateur souhaite quitter. | entier.
 
 ### Format de réponse
 
@@ -408,7 +408,7 @@ Un joueur peut supprimer une de ses requêtes pour entrer dans une équipe.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-request_id | Id de la requête pour joindre l'équipe. | Integer.
+request_id | Id de la requête pour joindre l'équipe. | entier.
 
 ### Format de réponse
 
@@ -443,7 +443,7 @@ Un chef peut supprimer une requête d'un joueur pour entrer dans l'une de ses é
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-request_id | Id de la requête pour joindre l'équipe. | Integer.
+request_id | Id de la requête pour joindre l'équipe. | entier.
 
 ### Format de réponse
 
@@ -477,7 +477,7 @@ L'utilisateur courant, qui est un administrateur supprime une équipe et tout se
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe que l'administrateur souhaite supprimer. | Integer.
+team_id | Id de l'équipe que l'administrateur souhaite supprimer. | entier.
 
 ### Format de réponse
 
@@ -511,7 +511,7 @@ L'utilisateur courant, qui est un administrateur supprime une de ses équipes é
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe que le chef souhaite supprimer | Integer.
+team_id | Id de l'équipe que le chef souhaite supprimer | entier.
 
 ### Format de réponse
 
@@ -545,8 +545,8 @@ L'utilisateur courant, qui est chef d'équipe supprime un joueur de son équipe.
 
 Paramètre | Description | Règles de validation
 --------- | ----------- | --------------------
-team_id | Id de l'équipe dans laquelle le chef de l'équipe souhaite supprimer le tag. | Integer.
-tag_id | Id de du tag que le chef de l'équipe souhaite supprimer de son équipe. | Integer.
+team_id | Id de l'équipe dans laquelle le chef de l'équipe souhaite supprimer le tag. | entier.
+tag_id | Id de du tag que le chef de l'équipe souhaite supprimer de son équipe. | entier.
 
 ### Format de réponse
 
