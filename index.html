@@ -442,13 +442,13 @@
                     <a href="#ajouter-des-permissions-a-un-role-global" class="toc-h2 toc-link" data-title="Ajouter des permissions à un role global">Ajouter des permissions à un role global</a>
                   </li>
                   <li>
-                    <a href="#supprimer-des-permissions-d-39-un-role-global" class="toc-h2 toc-link" data-title="Supprimer des permissions d'un rôle global">Supprimer des permissions d'un rôle global</a>
+                    <a href="#supprimer-des-permissions-a-un-role-global" class="toc-h2 toc-link" data-title="Supprimer des permissions à un rôle global">Supprimer des permissions à un rôle global</a>
                   </li>
                   <li>
                     <a href="#supprimer-un-role-global" class="toc-h2 toc-link" data-title="Supprimer un rôle global">Supprimer un rôle global</a>
                   </li>
                   <li>
-                    <a href="#obtenir-les-role-globaux" class="toc-h2 toc-link" data-title="Obtenir les rôle globaux">Obtenir les rôle globaux</a>
+                    <a href="#obtenir-les-roles-globaux" class="toc-h2 toc-link" data-title="Obtenir les rôles globaux">Obtenir les rôles globaux</a>
                   </li>
                   <li>
                     <a href="#obtenir-les-permissions-d-39-un-role-global" class="toc-h2 toc-link" data-title="Obtenir les permissions d'un rôle global">Obtenir les permissions d'un rôle global</a>
@@ -474,7 +474,7 @@
                     <a href="#ajouter-des-permissions-a-un-role-de-lan" class="toc-h2 toc-link" data-title="Ajouter des permissions à un role de LAN">Ajouter des permissions à un role de LAN</a>
                   </li>
                   <li>
-                    <a href="#supprimer-des-permissions-d-39-un-role-de-lan" class="toc-h2 toc-link" data-title="Supprimer des permissions d'un rôle de LAN">Supprimer des permissions d'un rôle de LAN</a>
+                    <a href="#supprimer-des-permissions-a-un-role-de-lan" class="toc-h2 toc-link" data-title="Supprimer des permissions à un rôle de LAN">Supprimer des permissions à un rôle de LAN</a>
                   </li>
                   <li>
                     <a href="#supprimer-un-role-de-lan" class="toc-h2 toc-link" data-title="Supprimer un rôle de LAN">Supprimer un rôle de LAN</a>
@@ -583,22 +583,22 @@ Tant que le compte n'est pas confirmé, l'utilisateur ne peut pas recevoir de to
 <tr>
 <td>first_name</td>
 <td>Prénom de l&#39;utilisateur à créer.</td>
-<td>Requis, 255 caractères max.</td>
+<td>255 caractères max.</td>
 </tr>
 <tr>
 <td>last_name</td>
 <td>Nom de l&#39;utilisateur à créer.</td>
-<td>Requis, 255 caractères max.</td>
+<td>255 caractères max.</td>
 </tr>
 <tr>
 <td>email</td>
 <td>Identifiant (courriel) de l&#39;utilisateur à créer.</td>
-<td>Requis, courriel valide.</td>
+<td>courriel valide.</td>
 </tr>
 <tr>
 <td>password</td>
 <td>Mot de passe de l&#39;utilisateur à créer.</td>
-<td>Requis, entre 6 et 20 caratères.</td>
+<td>entre 6 et 20 caratères.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse'>Format de réponse</h3>
@@ -682,7 +682,7 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>access_token</td>
 <td>Token retourné par une authentification côté client, avec Facebook.</td>
-<td>Requis.</td>
+<td></td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
@@ -731,7 +731,7 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>access_token</td>
 <td>Token retourné par une authentification côté client, avec Google.</td>
-<td>Requis.</td>
+<td></td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
@@ -780,27 +780,27 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>grant_type</td>
 <td>Type d&#39;authentification pour oauth2. Nous utilisons &quot;password&quot; pour notre application</td>
-<td>Requis</td>
+<td></td>
 </tr>
 <tr>
 <td>client_id</td>
 <td>Identifiant du client d&#39;authentification oauth2.</td>
-<td>Requis</td>
+<td></td>
 </tr>
 <tr>
 <td>client_secret</td>
 <td>Mot de passe généré du client oauth2.</td>
-<td>Requis</td>
+<td></td>
 </tr>
 <tr>
 <td>username</td>
 <td>Identifiant (courriel) de l&#39;utilisateur.</td>
-<td>Requis</td>
+<td></td>
 </tr>
 <tr>
 <td>password</td>
 <td>Mot de passe de l&#39;utilisateur.</td>
-<td>Requis</td>
+<td></td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-4'>Format de réponse</h3>
@@ -883,7 +883,7 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>query_string</td>
 <td>Terme à rechercher parmis le nom, le prénom, et le courriel de l&#39;utilisateur</td>
-<td>string, 255 caractères max.</td>
+<td>chaîne de caractères, 255 caractères max.</td>
 </tr>
 <tr>
 <td>order_column</td>
@@ -1038,12 +1038,12 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>email</td>
 <td>Courriel de l&#39;utilisateur à rechercher</td>
-<td>string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 <tr>
 <td>lan_id</td>
 <td>Lan dans lequel on souhaite trouver les détails de l&#39;utilisateur. Par défaut: lan courant</td>
-<td>requis.</td>
+<td></td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-8'>Format de réponse</h3>
@@ -1145,7 +1145,7 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>lan_id</td>
 <td>Id du LAN pour lequel on souhaite obtenir les informations de l&#39;utilisateur. Si le paramètre n&#39;est pas spécifié, on retourne le LAN courant.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-9'>Format de réponse</h3>
@@ -1192,7 +1192,7 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>lan_id</td>
 <td>Id du LAN pour lequel on souhaite obtenir les informations de l&#39;administrateur. Si le paramètre n&#39;est pas spécifié, on retourne le LAN courant.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-10'>Format de réponse</h3>
@@ -1269,12 +1269,12 @@ Tout est géré par l&#39;API.</p>
 <tr>
 <td>email</td>
 <td>Courriel de l&#39;utilisateur dont on veut connaître les rôles. Si ce paramètre n&#39;est pas spécifié, on retourne les rôles de l&#39;utilisateur qui fait la requête (L&#39;utilisateur n&#39;a pas besoin d&#39;avoir cette permission à ce moment).</td>
-<td>string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 <tr>
 <td>lan_id</td>
 <td>Id du LAN pour lequel l&#39;administrateur souhaite connaître ses rôle. Si le paramètre n&#39;est pas spécifié, on utilise le LAN courant.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-11'>Format de réponse</h3>
@@ -1332,11 +1332,11 @@ Tout est géré par l&#39;API.</p>
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom d&#39;affichage du rôle, selon la langue spécifiée.</td>
+<td>Nom d&#39;affichage du rôle.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle, selon la langue spécifiée.</td>
+<td>Description du rôle.</td>
 </tr>
 </tbody></table>
 <h1 id='lan'>LAN</h1>
@@ -1385,67 +1385,67 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>name</td>
 <td>Nom du LAN.</td>
-<td>Requis, string, 255 caractères max.</td>
+<td>chaîne de caractères, 255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
 <td>lan_start</td>
 <td>Date et heure de début du LAN.</td>
-<td>Requis, après le début des réservations et après le début des inscriptions aux tournois.</td>
+<td>après le début des réservations et après le début des inscriptions aux tournois.</td>
 <td></td>
 </tr>
 <tr>
 <td>lan_end</td>
 <td>Date et heure de fin du LAN.</td>
-<td>Requis, après le début du LAN.</td>
+<td>après le début du LAN.</td>
 <td></td>
 </tr>
 <tr>
 <td>seat_reservation_start</td>
 <td>Date et heure du début des réservations des places du LAN.</td>
-<td>Requis, avant le début du LAN.</td>
+<td>avant le début du LAN.</td>
 <td></td>
 </tr>
 <tr>
 <td>tournament_reservation_start</td>
 <td>Date et heure du début des inscriptions aux tournois du LAN.</td>
-<td>Requis, avant le début du LAN.</td>
+<td>avant le début du LAN.</td>
 <td></td>
 </tr>
 <tr>
 <td>event_key</td>
 <td>Clé de l&#39;événement de seats.io pour le LAN.</td>
-<td>Requis, 255 caractères max.</td>
+<td>255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
 <td>public_key</td>
 <td>Clé publique de seats.io .</td>
-<td>Requis, 255 caractères max.</td>
+<td>255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
 <td>secret_key</td>
 <td>Clé secrète de seats.io .</td>
-<td>Requis, 255 caractères max.</td>
+<td>255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
 <td>latitude</td>
 <td>Latitude de la position où se déroule le LAN.</td>
-<td>Requis, entre -85 et 85, nombre.</td>
+<td>entre -85 et 85, nombre.</td>
 <td></td>
 </tr>
 <tr>
 <td>longitude</td>
 <td>Longitude de la position où se déroule le LAN.</td>
-<td>Requis, entre -180 et 180, nombre.</td>
+<td>entre -180 et 180, nombre.</td>
 <td></td>
 </tr>
 <tr>
 <td>places</td>
 <td>Places disponibles pour le LAN.</td>
-<td>Requis, int, minimum 1.</td>
+<td>int, minimum 1.</td>
 <td></td>
 </tr>
 <tr>
@@ -1457,13 +1457,13 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>rules</td>
 <td>Texte des règles du LAN.</td>
-<td>String, optionnel.</td>
+<td>chaîne de caractères, optionnel.</td>
 <td></td>
 </tr>
 <tr>
 <td>description</td>
 <td>Texte des description du LAN.</td>
-<td>String, optionnel.</td>
+<td>chaîne de caractères, optionnel.</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -1581,7 +1581,7 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>lan_id</td>
 <td>Id du LAN dont l&#39;utilisateur veut obtenir les informations. Si le paramètre n&#39;est pas spécifié, on retourne le LAN courant.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h4 id='champs-disponibles'>Champs disponibles</h4>
@@ -1856,7 +1856,7 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut modifier les règles. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='parametres-post-2'>Paramètres POST</h3>
@@ -1871,7 +1871,7 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>name</td>
 <td>Nom du LAN.</td>
-<td>String, 255 caractères max.</td>
+<td>chaîne de caractères, 255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
@@ -1943,13 +1943,13 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>rules</td>
 <td>Texte des règles du LAN.</td>
-<td>String, optionnel.</td>
+<td>chaîne de caractères, optionnel.</td>
 <td></td>
 </tr>
 <tr>
 <td>description</td>
 <td>Texte des descritpion du LAN.</td>
-<td>String, optionnel.</td>
+<td>chaîne de caractères, optionnel.</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -2067,7 +2067,7 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>lan_id</td>
 <td>Id du LAN que l&#39;administrateur veut modifier comme courant.</td>
-<td>Requis, integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-5'>Format de réponse</h3>
@@ -2182,7 +2182,7 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut ajouter une image. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer</td>
+<td>entier</td>
 </tr>
 </tbody></table>
 <h3 id='parametres-post-3'>Paramètres POST</h3>
@@ -2196,7 +2196,7 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>image</td>
 <td>Image à ajouter, encodé en base64.</td>
-<td>Requis, string</td>
+<td>chaîne de caractères</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-6'>Format de réponse</h3>
@@ -2246,7 +2246,7 @@ La liste peut être trouvée dans le projet sous <code>api/resources/roles.php</
 <tr>
 <td>image_ids</td>
 <td>Id des images que l&#39;administrateur veut supprimer.</td>
-<td>Requis, string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-7'>Format de réponse</h3>
@@ -2294,7 +2294,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;utilisateur veut réserver.</td>
-<td>Requis, string, un seul Id de place par LAN.</td>
+<td>chaîne de caractères, un seul Id de place par LAN.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params'>Query Params</h3>
@@ -2308,7 +2308,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;utilisateur veut réserver une place. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer, un seul utilisateur par LAN.</td>
+<td>entier, un seul utilisateur par LAN.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse'>Format de réponse</h3>
@@ -2345,7 +2345,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;utilisateur veut annuler.</td>
-<td>Requis, string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params-2'>Query Params</h3>
@@ -2359,7 +2359,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;utilisateur veut annuler une place. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
@@ -2400,7 +2400,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>user_email</td>
 <td>Courriel de l&#39;utilisateur auquel l&#39;administrateur veut assigner une place.</td>
-<td>Requis, string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 </tbody></table>
 <h3 id='path-params-3'>Path Params</h3>
@@ -2414,7 +2414,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;administrateur veut assigner.</td>
-<td>Requis, string, un seul Id de place par LAN.</td>
+<td>chaîne de caractères, un seul Id de place par LAN.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params-3'>Query Params</h3>
@@ -2428,7 +2428,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut assigner une place. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer, un seul utilisateur par LAN.</td>
+<td>entier, un seul utilisateur par LAN.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
@@ -2469,7 +2469,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;administrateur veut assigner.</td>
-<td>Requis, string, un seul Id de place par LAN.</td>
+<td>chaîne de caractères, un seul Id de place par LAN.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params-4'>Query Params</h3>
@@ -2483,12 +2483,12 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut annuler l&#39;assignation à une place. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>user_email</td>
 <td>Courriel de l&#39;utilisateur auquel on veut annuler la réservation.</td>
-<td>Requis, string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-4'>Format de réponse</h3>
@@ -2529,7 +2529,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;administrateur confirmer.</td>
-<td>Requis, integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params-5'>Query Params</h3>
@@ -2543,7 +2543,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut confirmer une place. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-5'>Format de réponse</h3>
@@ -2584,7 +2584,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>seat_id</td>
 <td>Id de la place que l&#39;administrateur déconfirmer.</td>
-<td>Requis, integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params-6'>Query Params</h3>
@@ -2598,7 +2598,7 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut déconfirmer une place. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-6'>Format de réponse</h3>
@@ -2649,17 +2649,17 @@ Pour plus de détails sur ExtraData, consulter la page suivante: <a href="https:
 <tr>
 <td>contribution_category_id</td>
 <td>Id de la catégorie de la contribution à créer.</td>
-<td>Requis, integer.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>user_full_name</td>
 <td>Nom complet du contributeur.</td>
-<td>string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 <tr>
 <td>user_email</td>
 <td>Adresse courriel du contributeur.</td>
-<td>string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 </tbody></table>
 
@@ -2705,7 +2705,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>lan_id</td>
 <td>Id du LAN d&#39;où l&#39;utilisateur veut lister les contributions. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
@@ -2789,7 +2789,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>contribution_id</td>
 <td>Id de la contribution que l&#39;administrateur veut supprimer.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
@@ -2835,7 +2835,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut ajouter une catégorie de contribution. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 
@@ -2856,7 +2856,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>name</td>
 <td>Nom de la catégorie contribution à créer.</td>
-<td>Requis, integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-4'>Format de réponse</h3>
@@ -2898,7 +2898,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut ajouter une catégorie de contribution. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-5'>Format de réponse</h3>
@@ -2950,7 +2950,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>contribution_category_id</td>
 <td>Id de la catégorie de contribution que l&#39;administrateur veut supprimer.</td>
-<td>Requis, integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-6'>Format de réponse</h3>
@@ -3012,7 +3012,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où le tournoi aura lieu. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='parametres-post'>Paramètres POST</h3>
@@ -3027,7 +3027,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>name</td>
 <td>Nom du tournoi.</td>
-<td>Requis, string, 255 caractères max.</td>
+<td>chaîne de caractères, 255 caractères max.</td>
 <td></td>
 </tr>
 <tr>
@@ -3039,31 +3039,31 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>tournament_start</td>
 <td>Date et heure de début du tournoi.</td>
-<td>Requis, après le début du LAN.</td>
+<td>après le début du LAN.</td>
 <td></td>
 </tr>
 <tr>
 <td>tournament_end</td>
 <td>Date et heure de fin du tournoi.</td>
-<td>Requis, date, avant la fin du LAN., après le début du tournoi.</td>
+<td>date, avant la fin du LAN., après le début du tournoi.</td>
 <td></td>
 </tr>
 <tr>
 <td>players_to_reach</td>
 <td>Nombre de joueur à atteindre par équipe.</td>
-<td>Requis, min: 1, int.</td>
+<td>min: 1, int.</td>
 <td></td>
 </tr>
 <tr>
 <td>teams_to_reach</td>
 <td>Nombre d&#39;équipes à atteindre pour que le tournoi ait lieu.</td>
-<td>Requis, min: 1, int.</td>
+<td>min: 1, int.</td>
 <td></td>
 </tr>
 <tr>
 <td>rules</td>
 <td>Règlements du tournoi.</td>
-<td>String, requis.</td>
+<td>chaîne de caractères</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -3261,7 +3261,7 @@ Les paramètres <code>user_full_name</code> et <code>user_email</code> ne peuven
 <tr>
 <td>tournament_id</td>
 <td>Id du tournoi que l&#39;administrateur veut supprimer.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
@@ -3370,7 +3370,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 <tr>
 <td>lan_id</td>
 <td>Id du LAN dans lequel l&#39;organisateur souhaite trouver ses tournois. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
@@ -3479,7 +3479,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 <tr>
 <td>lan_id</td>
 <td>Id du LAN dans lequel on souhaite trouver les tournois. Si le paramètre n&#39;est pas spécifié, le LAN courant est utilisé.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-4'>Format de réponse</h3>
@@ -3588,7 +3588,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 <tr>
 <td>tournament_id</td>
 <td>Id du tournoi que l&#39;administrateur veut modifier.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 
@@ -3615,7 +3615,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 <tr>
 <td>name</td>
 <td>Nom du tournoi.</td>
-<td>Requis, string, 255 caractères max.</td>
+<td>chaîne de caractères, 255 caractères max.</td>
 </tr>
 <tr>
 <td>price</td>
@@ -3630,27 +3630,27 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 <tr>
 <td>tournament_start</td>
 <td>Date et heure de début du tournoi.</td>
-<td>Requis, après le début du LAN.</td>
+<td>après le début du LAN.</td>
 </tr>
 <tr>
 <td>tournament_end</td>
 <td>Date et heure de fin du tournoi.</td>
-<td>Requis, date, avant la fin du LAN, après le début du tournoi.</td>
+<td>date, avant la fin du LAN, après le début du tournoi.</td>
 </tr>
 <tr>
 <td>players_to_reach</td>
 <td>Nombre de joueur à atteindre par équipe.</td>
-<td>Requis, min: 1, int.</td>
+<td>min: 1, int.</td>
 </tr>
 <tr>
 <td>teams_to_reach</td>
 <td>Nombre d&#39;équipes à atteindre pour que le tournoi ait lieu.</td>
-<td>Requis, min: 1, int.</td>
+<td>min: 1, int.</td>
 </tr>
 <tr>
 <td>rules</td>
 <td>Règlements du tournoi.</td>
-<td>String, requis.</td>
+<td>chaîne de caractères</td>
 </tr>
 </tbody></table>
 <h4 id='etat-courant-3'>État courant</h4>
@@ -3865,7 +3865,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 <tr>
 <td>tournament_id</td>
 <td>Id du tournoi que l&#39;on veut consulter.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-6'>Format de réponse</h3>
@@ -4076,7 +4076,7 @@ Sinon on retourne uniquement les tournois qui sont organisés par l&#39;utilisat
 <tr>
 <td>tournament_id</td>
 <td>Id du tournoi l&#39;administrateur veut quitter.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-7'>Format de réponse</h3>
@@ -4191,7 +4191,7 @@ La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
 <tr>
 <td>tournament_id</td>
 <td>Id du tournoi dont l&#39;organisateur souhaite ajouter un autre organisateur.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params-4'>Query Params</h3>
@@ -4205,7 +4205,7 @@ La permission n'est pas requise si l'utilisateur est organisateur du tournoi.
 <tr>
 <td>email</td>
 <td>Courriel de l&#39;utilisateur à ajouter comme nouvel organisateur du tournoi.</td>
-<td>string.</td>
+<td>chaîne de caractères.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-8'>Format de réponse</h3>
@@ -4326,22 +4326,22 @@ Le chef est celui qui gère l&#39;équipe. Il peut donc approuver ou refuser les
 <tr>
 <td>tournament_id</td>
 <td>Id du tournoi dans lequel l&#39;utilisateur veut créer son équipe.</td>
-<td>Requis</td>
+<td></td>
 </tr>
 <tr>
 <td>user_tag_id</td>
 <td>Id du tag sous lequel l&#39;utilisateur souhaite créer et rejoindre l&#39;équipe.</td>
-<td>Requis, l&#39;utilisateur peut seulement être dans un tournoi une fois.</td>
+<td>l&#39;utilisateur peut seulement être dans un tournoi une fois.</td>
 </tr>
 <tr>
 <td>name</td>
 <td>Nom de l&#39;équipe.</td>
-<td>Requis, string, 255 caractères max, le nom doit être unique pour le tournoi.</td>
+<td>chaîne de caractères, 255 caractères max, le nom doit être unique pour le tournoi.</td>
 </tr>
 <tr>
 <td>tag</td>
 <td>Nom du tag de l&#39;équipe.</td>
-<td>String, 5 caractères max, le tag doit être unique pour le tournoi.</td>
+<td>chaîne de caractères, 5 caractères max, le tag doit être unique pour le tournoi.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse'>Format de réponse</h3>
@@ -4401,12 +4401,12 @@ Le chef est celui qui gère l&#39;équipe. Il peut donc approuver ou refuser les
 <tr>
 <td>team_id</td>
 <td>Id de l&#39;équipe que l&#39;utilisateur souhaite rejoindre</td>
-<td>Requis</td>
+<td></td>
 </tr>
 <tr>
 <td>tag_id</td>
 <td>Id du tag sous lequel l&#39;utilisateur souhaite rejoindre l&#39;équipe.</td>
-<td>Requis, l&#39;utilisateur peut seulement être dans un tournoi une fois.</td>
+<td>l&#39;utilisateur peut seulement être dans un tournoi une fois.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
@@ -4449,7 +4449,7 @@ Le chef est celui qui gère l&#39;équipe. Il peut donc approuver ou refuser les
 <tr>
 <td>lan_id</td>
 <td>Id du LAN d&#39;où l&#39;utilisateur veut obtenir ses équipes. Si le paramètre n&#39;est pas spécifié, on retourne le LAN courant.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
@@ -4543,7 +4543,7 @@ Le chef est celui qui gère l&#39;équipe. Il peut donc approuver ou refuser les
 <tr>
 <td>team_id</td>
 <td>Id de l&#39;équipe dont on cherche les détails.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-4'>Format de réponse</h3>
@@ -4682,12 +4682,12 @@ Le chef est celui qui gère l&#39;équipe. Il peut donc approuver ou refuser les
 <tr>
 <td>team_id</td>
 <td>Id de l&#39;équipe dans laquelle le chef veut donner son titre.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>tag_id</td>
 <td>Id du tag du joueur à qui le chef veut donner son titre.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-5'>Format de réponse</h3>
@@ -4736,7 +4736,7 @@ Le chef est celui qui gère l&#39;équipe. Il peut donc approuver ou refuser les
 <tr>
 <td>request_id</td>
 <td>Id de la requête pour joindre l&#39;équipe.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-6'>Format de réponse</h3>
@@ -4778,7 +4778,7 @@ Le chef est celui qui gère l&#39;équipe. Il peut donc approuver ou refuser les
 <tr>
 <td>lan_id</td>
 <td>Id du LAN dans lequel l&#39;utilisateur veut obtenir ses requêtes.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-7'>Format de réponse</h3>
@@ -4875,7 +4875,7 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <tr>
 <td>team_id</td>
 <td>Id de l&#39;équipe que l&#39;utilisateur souhaite quitter.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-8'>Format de réponse</h3>
@@ -4927,7 +4927,7 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <tr>
 <td>request_id</td>
 <td>Id de la requête pour joindre l&#39;équipe.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-9'>Format de réponse</h3>
@@ -4979,7 +4979,7 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <tr>
 <td>request_id</td>
 <td>Id de la requête pour joindre l&#39;équipe.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-10'>Format de réponse</h3>
@@ -5025,7 +5025,7 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <tr>
 <td>team_id</td>
 <td>Id de l&#39;équipe que l&#39;administrateur souhaite supprimer.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-11'>Format de réponse</h3>
@@ -5077,7 +5077,7 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <tr>
 <td>team_id</td>
 <td>Id de l&#39;équipe que le chef souhaite supprimer</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-12'>Format de réponse</h3>
@@ -5129,12 +5129,12 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <tr>
 <td>team_id</td>
 <td>Id de l&#39;équipe dans laquelle le chef de l&#39;équipe souhaite supprimer le tag.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>tag_id</td>
 <td>Id de du tag que le chef de l&#39;équipe souhaite supprimer de son équipe.</td>
-<td>Integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-13'>Format de réponse</h3>
@@ -5161,8 +5161,10 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <td>Nom du tag de joueur supprimé de l&#39;équipe.</td>
 </tr>
 </tbody></table>
-<h1 id='tag'>Tag</h1><h2 id='creer-un-tag'>Créer un tag</h2>
-<p>Créer un nouveau tag pour un utilisateur.</p>
+<h1 id='tag'>Tag</h1>
+<p>Un utilisateur peut se créer des tags avec lesquels il peut faire partie d&#39;équipes qui participeront à un tournoi.</p>
+<h2 id='creer-un-tag'>Créer un tag</h2>
+<p>L&#39;utilisateur courant se créer un tag.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
 <p><code>POST /tag</code></p>
 <h3 id='body-params'>Body Params</h3>
@@ -5183,8 +5185,8 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 </thead><tbody>
 <tr>
 <td>name</td>
-<td>Nom du tag.</td>
-<td>Requis, string, 5 caractères max, unique.</td>
+<td>Nom du tag de joueur à créer.</td>
+<td>chaîne de caract, 5 caractères max, unique.</td>
 <td></td>
 </tr>
 </tbody></table>
@@ -5193,7 +5195,7 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 <p>Exemple de réponse</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"lan_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PRO"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -5204,16 +5206,20 @@ Si le chef est le dernier à quitter l&#39;équipe, elle et les requêtes sont s
 </tr>
 </thead><tbody>
 <tr>
+<td>id</td>
+<td>Id du tag de joueur créé.</td>
+</tr>
+<tr>
 <td>name</td>
-<td>Nom du tournoi.</td>
+<td>Nom du tag de joueur créé.</td>
 </tr>
 </tbody></table>
 <h1 id='permission'>Permission</h1>
 <p>Les permissions protègent les appels destinées à l&#39;administration. 
-Les permissions sont attribués à des utilisateurs par le biais de rôles globaux ou des LAN.</p>
+Les permissions sont attribués à des utilisateurs par le biais de rôles <a href="#role-global">globaux</a> ou de <a href="#role-de-lan">LAN</a>.</p>
 <h2 id='obtenir-les-permissions'>Obtenir les permissions</h2>
 <p>Obtenir les permissions disponibles dans l&#39;API. 
-Chaque permission est associée à un appel HTTP pour une action administrateur. 
+Chaque permission est associée à un appel HTTP pour une action d&#39;administration. 
 Les administrateur peuvent avoir des permissions par le biais de rôles de LAN ou de rôles globaux.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
 <p><code>GET /role/permissions</code></p>
@@ -5227,23 +5233,23 @@ Les administrateur peuvent avoir des permissions par le biais de rôles de LAN o
     </span><span class="p">{</span><span class="w">
         </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"create-lan"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
         </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create a new LAN"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Create a new LAN. Careful, this permission should not be given to anyone..."</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
         </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"set-current-lan"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
         </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Set current LAN"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Set the LAN that will be shown on the LAN website. Careful, this permission should not be given to anyone..."</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
         </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
         </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"edit-lan"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
         </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit LAN"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"seat"</span><span class="w">
+        </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit the name, the starting date, the closing date, the date start, the seat.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... "</span><span class="w">
     </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
@@ -5275,10 +5281,10 @@ Les administrateur peuvent avoir des permissions par le biais de rôles de LAN o
 </tr>
 </tbody></table>
 <h1 id='role-global'>Rôle global</h1>
-<p>Les rôles globaux sont des groupes de permissions qui peuvent être attribués à des utilisateurs.
+<p>Les rôles globaux sont des groupes de <a href="#obtenir-les-permissions">permissions</a> qui peuvent être attribués à des utilisateurs.
 Les rôles globaux sont des rôles qui se sont effectif que sur l&#39;ensemble de l&#39;application. Ils peuvent contenir n&#39;importe laquelle des permissions disponibles.</p>
 <h2 id='creer-un-role-global'>Créer un rôle global</h2>
-<p>Créer un rôle global.</p>
+<p>Créer un rôle global, contenant des permissions.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
 <p><code>POST /role/global</code></p>
 
@@ -5306,32 +5312,32 @@ Les rôles globaux sont des rôles qui se sont effectif que sur l&#39;ensemble d
 <tr>
 <td>name</td>
 <td>Nom unique du rôle à créer.</td>
-<td>requis, string, max:50, unique.</td>
+<td>chaîne de caractères, max:50, unique.</td>
 </tr>
 <tr>
 <td>en_display_name</td>
 <td>Nom du rôle à créer, en anglais.</td>
-<td>requis, string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>en_description</td>
 <td>Description du rôle à créer, en anglais.</td>
-<td>requis, string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 <tr>
 <td>fr_display_name</td>
 <td>Nom du rôle à créer, en français.</td>
-<td>requis, string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>fr_description</td>
 <td>Description du rôle à créer, en français.</td>
-<td>requis, string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 <tr>
 <td>permissions</td>
-<td>Id des permissions</td>
-<td>requis, tableau d&#39;Id des permissions à intégrer dans la permission.</td>
+<td>Id des permissions.</td>
+<td>tableau d&#39;Id des permissions à intégrer dans la permission.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse'>Format de réponse</h3>
@@ -5374,7 +5380,7 @@ Les rôles globaux sont des rôles qui se sont effectif que sur l&#39;ensemble d
 </tr>
 </tbody></table>
 <h2 id='modifier-un-role-global'>Modifier un rôle global</h2>
-<p>Modifier un rôle global.
+<p>Modifier les détails d&#39;un rôle global.
 D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions au rôle.</p>
 <h3 id='requete-http-2'>Requête HTTP</h3>
 <p><code>PUT /role/global</code></p>
@@ -5400,33 +5406,33 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle à modifier</td>
-<td>requis.</td>
+<td>Id du rôle à modifier.</td>
+<td></td>
 </tr>
 <tr>
 <td>name</td>
 <td>Nom unique du rôle à modifier.</td>
-<td>string, max:50, unique.</td>
+<td>chaîne de caractères, max:50, unique.</td>
 </tr>
 <tr>
 <td>en_display_name</td>
 <td>Nom du rôle à modifier, en anglais.</td>
-<td>string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>en_description</td>
 <td>Description du rôle à modifier, en anglais.</td>
-<td>string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 <tr>
 <td>en_description</td>
 <td>Nom du rôle à modifier, en anglais.</td>
-<td>string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>fr_description</td>
 <td>Description du rôle à modifier, en français.</td>
-<td>string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
@@ -5447,10 +5453,6 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>id</td>
-<td>Id du rôle.</td>
-</tr>
 <tr>
 <td>name</td>
 <td>Nom unique du rôle modifié.</td>
@@ -5473,7 +5475,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </tbody></table>
 <h2 id='assigner-un-role-global'>Assigner un rôle global</h2>
-<p>Assigner un rôle global à un utilisateur</p>
+<p>Assigner un rôle global à un utilisateur.</p>
 <h3 id='requete-http-3'>Requête HTTP</h3>
 <p><code>POST /role/global/assign</code></p>
 
@@ -5495,12 +5497,12 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <tr>
 <td>email</td>
 <td>Courriel de l&#39;utilisateur à qui on veut attribuer le rôle.</td>
-<td>requis.</td>
+<td></td>
 </tr>
 <tr>
 <td>role_id</td>
-<td>Id du rôle à attribuer à l&#39;utilisateur</td>
-<td>integer.</td>
+<td>Id du rôle à attribuer à l&#39;utilisateur.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
@@ -5530,16 +5532,14 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle attribué, selon la langue spécifiée.</td>
+<td>Nom du rôle attribué.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle attribué, selon la langue spécifiée.</td>
+<td>Description du rôle attribué.</td>
 </tr>
 </tbody></table>
-<h2 id='ajouter-des-permissions-a-un-role-global'>Ajouter des permissions à un role global</h2>
-<p>Ajouter des permissions à un role global</p>
-<h3 id='requete-http-4'>Requête HTTP</h3>
+<h2 id='ajouter-des-permissions-a-un-role-global'>Ajouter des permissions à un role global</h2><h3 id='requete-http-4'>Requête HTTP</h3>
 <p><code>POST /role/global/permissions</code></p>
 
 <blockquote>
@@ -5561,13 +5561,13 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle où l&#39;on veut ajouter des permissions</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les permissions seront ajoutées.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>permissions</td>
 <td>Permissions à ajouter au rôle.</td>
-<td>requis, liste de integer.</td>
+<td>liste d&#39;entiers.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-4'>Format de réponse</h3>
@@ -5597,16 +5597,14 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
+<td>Nom du rôle où les permissions ont été ajoutées.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
+<td>Description du rôle où les permissions ont été ajoutées.</td>
 </tr>
 </tbody></table>
-<h2 id='supprimer-des-permissions-d-39-un-role-global'>Supprimer des permissions d&#39;un rôle global</h2>
-<p>Supprimer des permissions d&#39;un rôle global</p>
-<h3 id='requete-http-5'>Requête HTTP</h3>
+<h2 id='supprimer-des-permissions-a-un-role-global'>Supprimer des permissions à un rôle global</h2><h3 id='requete-http-5'>Requête HTTP</h3>
 <p><code>DELETE /role/global/permissions</code></p>
 
 <blockquote>
@@ -5628,13 +5626,13 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle où l&#39;on veut supprimer des permissions</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les permissions seront supprimées.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>permissions</td>
-<td>Permissions à supprimer au rôle.</td>
-<td>requis, liste de integer.</td>
+<td>Id des permissions à supprimer au rôle.</td>
+<td>liste de entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-5'>Format de réponse</h3>
@@ -5664,16 +5662,14 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
+<td>Nom du rôle où les permissions ont été supprimées.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
+<td>Description du rôle où les permissions ont été supprimées.</td>
 </tr>
 </tbody></table>
-<h2 id='supprimer-un-role-global'>Supprimer un rôle global</h2>
-<p>Supprimer un rôle global.</p>
-<h3 id='requete-http-6'>Requête HTTP</h3>
+<h2 id='supprimer-un-role-global'>Supprimer un rôle global</h2><h3 id='requete-http-6'>Requête HTTP</h3>
 <p><code>DELETE /role/global</code></p>
 
 <blockquote>
@@ -5692,8 +5688,8 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle que l&#39;on veut supprimer.</td>
-<td>integer.</td>
+<td>Id du rôle à supprimer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-6'>Format de réponse</h3>
@@ -5715,23 +5711,23 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>Id du rôle.</td>
+<td>Id du rôle supprimé.</td>
 </tr>
 <tr>
 <td>name</td>
-<td>Nom unique du rôle qui a été supprimé.</td>
+<td>Nom unique du rôle supprimé.</td>
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle qui a été supprimé, selon la langue spécifiée.</td>
+<td>Nom du rôle supprimé.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle qui a été supprimé, selon la langue spécifiée.</td>
+<td>Description du rôle supprimé.</td>
 </tr>
 </tbody></table>
-<h2 id='obtenir-les-role-globaux'>Obtenir les rôle globaux</h2>
-<p>Obtenir les rôles globaux.</p>
+<h2 id='obtenir-les-roles-globaux'>Obtenir les rôles globaux</h2>
+<p>Obtenir les rôles globaux de l&#39;application.</p>
 <h3 id='requete-http-7'>Requête HTTP</h3>
 <p><code>GET /role/global</code></p>
 
@@ -5765,15 +5761,15 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle, selon la langue spécifiée.</td>
+<td>Nom du rôle.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle, selon la langue spécifiée.</td>
+<td>Description du rôle.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-permissions-d-39-un-role-global'>Obtenir les permissions d&#39;un rôle global</h2>
-<p>Obtenir les permissions d&#39;un rôle global.</p>
+<p>Obtenir les permissions contenues dans un rôle global.</p>
 <h3 id='requete-http-8'>Requête HTTP</h3>
 <p><code>GET /role/role/permissions</code></p>
 <h3 id='query-params-2'>Query Params</h3>
@@ -5786,8 +5782,8 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle duquel on souhaite trouver les permissions.</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les permissions seront obtenues.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-8'>Format de réponse</h3>
@@ -5800,7 +5796,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"edit-lan"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="err">seat</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit the name, the starting date, the closing date, the date start, the seat.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... "</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
@@ -5838,15 +5834,15 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>can_be_per_lan</td>
-<td>Nom de la permission, selon la langue spécifiée.</td>
+<td>Nom de la permission.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description de la permission, selon la langue spécifiée.</td>
+<td>Description de la permission.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-utilisateurs-possedants-un-role-global'>Obtenir les utilisateurs possédants un rôle global</h2>
-<p>Obtenir les utilisateurs possédants un rôle global.</p>
+<p>Obtenir les utilisateurs possédants un certain rôle global.</p>
 <h3 id='requete-http-9'>Requête HTTP</h3>
 <p><code>GET /role/global/users</code></p>
 <h3 id='query-params-3'>Query Params</h3>
@@ -5859,8 +5855,8 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle duquel on souhaite obtenir les utilisateurs.</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les utilisateurs seront obtenus.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-9'>Format de réponse</h3>
@@ -5895,10 +5891,10 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </tbody></table>
 <h1 id='role-de-lan'>Rôle de LAN</h1>
-<p>Les rôles de LAN sont des groupes de permissions qui peuvent être attribués à des utilisateurs.
+<p>Les rôles de LAN sont des groupes de <a href="#obtenir-les-permissions">permissions</a> qui peuvent être attribués à des utilisateurs.
 Les rôles de LAN sont des rôles qui se sont effectif que sur un LAN spécifique. Ils ne peuvent contenir que des permissions qui ont l&#39;attribut &#39;can_be_per_lan&#39;.</p>
 <h2 id='creer-un-role-de-lan'>Créer un rôle de LAN</h2>
-<p>Créer un rôle de lan.</p>
+<p>Créer un rôle de lan, contenant des permissions.</p>
 <h3 id='requete-http'>Requête HTTP</h3>
 <p><code>POST /role/lan</code></p>
 
@@ -5926,32 +5922,32 @@ Les rôles de LAN sont des rôles qui se sont effectif que sur un LAN spécifiqu
 <tr>
 <td>name</td>
 <td>Nom unique du rôle à créer.</td>
-<td>requis, string, max:50, unique.</td>
+<td>chaîne de caractères, max:50, unique.</td>
 </tr>
 <tr>
 <td>en_display_name</td>
 <td>Nom du rôle à afficher, en anglais.</td>
-<td>requis, string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>en_description</td>
 <td>Description du rôle à afficher, en anglais.</td>
-<td>requis, string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 <tr>
 <td>fr_display_name</td>
 <td>Nom du rôle à afficher, en français.</td>
-<td>requis, string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>fr_description</td>
 <td>Description du rôle à afficher, en français.</td>
-<td>requis, string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 <tr>
 <td>permissions</td>
 <td>Id des permissions</td>
-<td>requis, tableau d&#39;Id des permissions à intégrer dans la permission.</td>
+<td>tableau d&#39;Id des permissions à intégrer dans la permission.</td>
 </tr>
 </tbody></table>
 <h3 id='query-params'>Query Params</h3>
@@ -5965,7 +5961,7 @@ Les rôles de LAN sont des rôles qui se sont effectif que sur un LAN spécifiqu
 <tr>
 <td>lan_id</td>
 <td>Id du LAN où l&#39;administrateur veut créer un role. Si le paramètre n&#39;est pas spécifié, on retourne le LAN courant.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse'>Format de réponse</h3>
@@ -6013,7 +6009,7 @@ Les rôles de LAN sont des rôles qui se sont effectif que sur un LAN spécifiqu
 </tr>
 </tbody></table>
 <h2 id='modifier-un-role-de-lan'>Modifier un rôle de LAN</h2>
-<p>Modifier un rôle de lan.
+<p>Modifier les détails d&#39;un rôle de lan.
 D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions au rôle.</p>
 <h3 id='requete-http-2'>Requête HTTP</h3>
 <p><code>PUT /role/lan</code></p>
@@ -6040,32 +6036,32 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <tr>
 <td>role_id</td>
 <td>Id du rôle à modifier</td>
-<td>requis.</td>
+<td></td>
 </tr>
 <tr>
 <td>name</td>
 <td>Nom unique du rôle à modifier.</td>
-<td>string, max:50, unique.</td>
+<td>chaîne de caractères, max:50, unique.</td>
 </tr>
 <tr>
 <td>en_display_name</td>
 <td>Nom du rôle à afficher, en anglais.</td>
-<td>string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>en_description</td>
 <td>Description du rôle à afficher, en anglais.</td>
-<td>string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 <tr>
 <td>fr_display_name</td>
 <td>Nom du rôle à afficher, en français.</td>
-<td>string, max:50.</td>
+<td>chaîne de caractères, max:50.</td>
 </tr>
 <tr>
 <td>fr_description</td>
 <td>Description du rôle à afficher, en français.</td>
-<td>string, max:1000.</td>
+<td>chaîne de caractères, max:1000.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-2'>Format de réponse</h3>
@@ -6089,7 +6085,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>lan_id</td>
-<td>Id du LAN sur lequel le rôle a été modifié.</td>
+<td>Id du LAN du rôle de LAN modifié.</td>
 </tr>
 <tr>
 <td>name</td>
@@ -6113,7 +6109,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 </tbody></table>
 <h2 id='assigner-un-role-de-lan'>Assigner un rôle de LAN</h2>
-<p>Assigner un rôle de LAN à un utilisateur</p>
+<p>Assigner un rôle de LAN à un utilisateur.</p>
 <h3 id='requete-http-3'>Requête HTTP</h3>
 <p><code>POST /role/lan/assign</code></p>
 
@@ -6135,12 +6131,12 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <tr>
 <td>email</td>
 <td>Courriel de l&#39;utilisateur à qui on veut attribuer le rôle.</td>
-<td>requis.</td>
+<td></td>
 </tr>
 <tr>
 <td>role_id</td>
-<td>Id du rôle à attribuer à l&#39;utilisateur</td>
-<td>integer.</td>
+<td>Id du rôle à attribuer à l&#39;utilisateur.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-3'>Format de réponse</h3>
@@ -6175,16 +6171,14 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle attribué, selon la langue spécifiée.</td>
+<td>Nom du rôle attribué.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle attribué, selon la langue spécifiée.</td>
+<td>Description du rôle attribué.</td>
 </tr>
 </tbody></table>
-<h2 id='ajouter-des-permissions-a-un-role-de-lan'>Ajouter des permissions à un role de LAN</h2>
-<p>Ajouter des permissions à un role de LAN</p>
-<h3 id='requete-http-4'>Requête HTTP</h3>
+<h2 id='ajouter-des-permissions-a-un-role-de-lan'>Ajouter des permissions à un role de LAN</h2><h3 id='requete-http-4'>Requête HTTP</h3>
 <p><code>POST /role/lan/permissions</code></p>
 
 <blockquote>
@@ -6206,13 +6200,13 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle où l&#39;on veut ajouter des permissions</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les permissions seront ajoutées.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>permissions</td>
 <td>Permissions à ajouter au rôle.</td>
-<td>requis, liste de integer.</td>
+<td>liste de entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-4'>Format de réponse</h3>
@@ -6239,7 +6233,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>lan_id</td>
-<td>Id du LAN où les permissions ont été ajoutées.</td>
+<td>Id du LAN du rôle de LAN pour lequel les permissions ont été ajoutées.</td>
 </tr>
 <tr>
 <td>name</td>
@@ -6247,14 +6241,14 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
+<td>Nom du rôle où les permissions ont été ajoutées.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle où les permissions ont été ajoutées, selon la langue spécifiée.</td>
+<td>Description du rôle où les permissions ont été ajoutées.</td>
 </tr>
 </tbody></table>
-<h2 id='supprimer-des-permissions-d-39-un-role-de-lan'>Supprimer des permissions d&#39;un rôle de LAN</h2>
+<h2 id='supprimer-des-permissions-a-un-role-de-lan'>Supprimer des permissions à un rôle de LAN</h2>
 <p>Supprimer des permissions d&#39;un rôle de LAN.</p>
 <h3 id='requete-http-5'>Requête HTTP</h3>
 <p><code>DELETE /role/lan/permissions</code></p>
@@ -6278,13 +6272,13 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle où l&#39;on veut supprimer des permissions</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les permissions seront supprimées.</td>
+<td>entier.</td>
 </tr>
 <tr>
 <td>permissions</td>
 <td>Permissions à supprimer au rôle.</td>
-<td>requis, liste de integer.</td>
+<td>liste de entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-5'>Format de réponse</h3>
@@ -6319,16 +6313,14 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
+<td>Nom du rôle où les permissions ont été supprimées.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle où les permissions ont été supprimées, selon la langue spécifiée.</td>
+<td>Description du rôle où les permissions ont été supprimées.</td>
 </tr>
 </tbody></table>
-<h2 id='supprimer-un-role-de-lan'>Supprimer un rôle de LAN</h2>
-<p>Supprimer un rôle de LAN.</p>
-<h3 id='requete-http-6'>Requête HTTP</h3>
+<h2 id='supprimer-un-role-de-lan'>Supprimer un rôle de LAN</h2><h3 id='requete-http-6'>Requête HTTP</h3>
 <p><code>DELETE /role/lan</code></p>
 <h3 id='query-params-2'>Query Params</h3>
 <table><thead>
@@ -6340,8 +6332,8 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle que l&#39;on veut supprimer.</td>
-<td>integer.</td>
+<td>Id du rôle à supprimer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-6'>Format de réponse</h3>
@@ -6364,11 +6356,11 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>id</td>
-<td>Id du rôle.</td>
+<td>Id du rôle supprimé.</td>
 </tr>
 <tr>
 <td>lan_id</td>
-<td>Id du LAN où le rôle a été supprimé.</td>
+<td>Id du LAN du rôle de LAN pour lequel le rôle a été supprimé.</td>
 </tr>
 <tr>
 <td>name</td>
@@ -6376,15 +6368,15 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle qui a été supprimé, selon la langue spécifiée.</td>
+<td>Nom du rôle qui a été supprimé.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle qui a été supprimé, selon la langue spécifiée.</td>
+<td>Description du rôle qui a été supprimé.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-roles-de-lan'>Obtenir les rôles de LAN</h2>
-<p>Obtenir les rôles de LAN.</p>
+<p>Obtenir les rôles de LAN du LAN.</p>
 <h3 id='requete-http-7'>Requête HTTP</h3>
 <p><code>GET /role/lan</code></p>
 <h3 id='query-params-3'>Query Params</h3>
@@ -6398,7 +6390,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <tr>
 <td>lan_id</td>
 <td>Id du LAN duquel on veut obtenir les rôles.</td>
-<td>integer.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-7'>Format de réponse</h3>
@@ -6449,15 +6441,15 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom du rôle, selon la langue spécifiée.</td>
+<td>Nom du rôle.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description du rôle, selon la langue spécifiée.</td>
+<td>Description du rôle.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-permissions-d-39-un-role-de-lan'>Obtenir les permissions d&#39;un rôle de LAN</h2>
-<p>Obtenir les permissions d&#39;un rôle de LAN.</p>
+<p>Obtenir les permissions contenues dans un rôle de LAN.</p>
 <h3 id='requete-http-8'>Requête HTTP</h3>
 <p><code>GET /role/lan/permissions</code></p>
 <h3 id='query-params-4'>Query Params</h3>
@@ -6470,8 +6462,8 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle duquel on souhaite trouver les permissions.</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les permissions seront obtenues.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-8'>Format de réponse</h3>
@@ -6498,7 +6490,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
     </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"edit-lan"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"can_be_per_lan"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"display_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit LAN"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="err">seat</span><span class="w">
+    </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Edit the name, the starting date, the closing date, the date start, the seat.io keys, the position (Lat, Lng), the number of available places, the price, the rules, and the description of the LAN. Careful, this permission should not be given to anyone ... "</span><span class="w">
   </span><span class="p">},</span><span class="w">
   </span><span class="p">{</span><span class="w">
     </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
@@ -6529,15 +6521,15 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>display_name</td>
-<td>Nom de la permission, selon la langue spécifiée.</td>
+<td>Nom de la permission.</td>
 </tr>
 <tr>
 <td>description</td>
-<td>Description de la permission, selon la langue spécifiée.</td>
+<td>Description de la permission.</td>
 </tr>
 </tbody></table>
 <h2 id='obtenir-les-utilisateurs-possedants-un-role-de-lan'>Obtenir les utilisateurs possédants un rôle de LAN</h2>
-<p>Obtenir les utilisateurs possédants un rôle de LAN.</p>
+<p>Obtenir les utilisateurs possédants un certain rôle de LAN.</p>
 <h3 id='requete-http-9'>Requête HTTP</h3>
 <p><code>GET /role/lan/users</code></p>
 <h3 id='query-params-5'>Query Params</h3>
@@ -6550,8 +6542,8 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </thead><tbody>
 <tr>
 <td>role_id</td>
-<td>Id du rôle duquel on souhaite obtenir les utilisateurs.</td>
-<td>integer.</td>
+<td>Id du rôle pour lequel les utilisateurs seront obtenus.</td>
+<td>entier.</td>
 </tr>
 </tbody></table>
 <h3 id='format-de-reponse-9'>Format de réponse</h3>
@@ -6604,7 +6596,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 </tr>
 <tr>
 <td>Défaut (Si aucune langue n&#39;est spécifiée)</td>
-<td>La langue par défaut peut être changée dans les variables d&#39;environnement (.env).</td>
+<td>La langue par défaut peut être changée dans les variables d&#39;environnement (.env) de l&#39;API.</td>
 </tr>
 </tbody></table>
 <h3 id='changer-de-langue'>Changer de langue</h3>
@@ -6697,7 +6689,7 @@ D&#39;autres appels sont nécessaires pour ajouter ou supprimer des permissions 
 <h1 id='tests-fonctionnels'>Tests fonctionnels</h1>
 <p>Les tests programmés assurent une qualité et une standardisation dans les données retournées par l&#39;API.
 Cependant, certaines fonctionnalités sont difficiles, voir impossibles à tester à l&#39;aide de tests programmés. 
-C&#39;est pourquoi il est recommandé que la personne qui installe l&#39;API teste certaines fonctionnalités manuellement, avec Postamn.</p>
+C&#39;est pourquoi il est recommandé que la personne qui installe l&#39;API teste certaines fonctionnalités manuellement, avec Postman.</p>
 <h2 id='creation-de-compte'>Création de compte</h2>
 <p>À la création d&#39;un compte, un courriel de confirmation devrait être envoyé au courriel spécifié dans le champs <code>email</code> du chemin HTTP <code>POST /user</code>.</p>
 
