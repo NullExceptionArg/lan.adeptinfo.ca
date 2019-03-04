@@ -11,7 +11,7 @@
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
 
-    $api->group(['middleware' => ['language', 'cors']], function ($api) {
+    $api->group(['middleware' => ['language']], function ($api) {
 
         // Connection d'obention du token utilisateur
         $api->group(['namespace' => '\Laravel\Passport\Http\Controllers', 'middleware' => ['login']], function ($api) {
