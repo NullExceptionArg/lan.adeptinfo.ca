@@ -1,0 +1,56 @@
+mat-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+fieldset {
+  border: 0;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+#login-button {
+  width: 100%;
+  margin-bottom: 1.34375em;
+  margin-top: .25em;
+}
+
+.social-login-button {
+  width: 100%;
+  padding: 0;
+  text-align: left;
+}
+
+.social-login-button-text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#google-button {
+  background-color: #4285f4;
+  color: white;
+}
+
+#facebook-button {
+  background-color: #3b66af;
+  color: white;
+}
+
+#facebook-button-image {
+  height: 40px;
+  margin: 3px;
+}
+
+@media only screen and (max-width: 959px) {
+
+  .social-login-button {
+    margin-top: 20px;
+  }
+
+}

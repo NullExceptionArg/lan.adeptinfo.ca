@@ -1,0 +1,47 @@
+<mat-card [style.width]="mobileQuery.matches ? '700px' : '308px'">
+  <mat-card-title>Connexion</mat-card-title>
+  <mat-card-content [fxLayout.gt-sm]="'row'">
+
+    <form fxFlex.gt-sm="47" [formGroup]="authForm" (ngSubmit)="login()">
+      <fieldset [disabled]="isSubmitting">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Courriel</mat-label>
+          <input matInput formControlName="email" placeholder="moi@adeptinfo.ca">
+          <mat-error
+            *ngIf="authForm.controls['email'].invalid || emailServerError != ''">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Mot de Passe</mat-label>
+          <input matInput formControlName="password" type="password" placeholder="Passw0rd!">
+          <mat-error
+            *ngIf="authForm.controls['email'].invalid || passwordServerError != ''">{{getPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" id="login-button">Se connecter</button>
+
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+          <mat-checkbox color="primary">Rester connecté</mat-checkbox>
+          <a mat-button routerLink="." class="no-select">Mot de passe oublié?</a>
+        </div>
+
+      </fieldset>
+    </form>
+
+    <mat-divider fxFlex.gt-sm="3" [vertical]="mobileQuery.matches"></mat-divider>
+    <div fxFlex.gt-sm="3"></div>
+
+    <div fxFlex.gt-sm="47" fxLayout="column" fxLayoutAlign="space-evenly stretch">
+      <button mat-raised-button id="google-button" class="social-login-button" >
+        <img src="assets/social/google-logo.svg" alt="Se connecter avec Google">
+        <span class="social-login-button-text">Se connecter avec Google</span>
+      </button>
+      <button mat-raised-button id="facebook-button" class="social-login-button">
+        <img id="facebook-button-image" src="assets/social/facebook-logo.svg" alt="Se connecter avec Facebook">
+        <span class="social-login-button-text">Se connecter avec Facebook</span>
+      </button>
+    </div>
+
+  </mat-card-content>
+</mat-card>

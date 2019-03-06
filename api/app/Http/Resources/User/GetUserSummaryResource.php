@@ -25,6 +25,7 @@ class GetUserSummaryResource extends Resource
         return [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'email' => $this->email,
             'request_count' => intval($this->requestCount)
         ];
     }

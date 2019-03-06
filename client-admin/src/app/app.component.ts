@@ -1,29 +1,40 @@
-import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {environment} from '../environments/environment';
+import {UserService} from './core/services/user.service';
+import {of} from 'rxjs';
+import {Router} from '@angular/router';
+import {User} from './core/models/user';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent implements OnInit {
 
   mobileQuery: MediaQueryList;
-  version: string;
-  currentDate: Date;
+  currentUser: User;
 
-  private readonly _mobileQueryListener: () => void;
-
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-    this.version = environment.version;
-    this.currentDate = new Date();
+  constructor(private userService: UserService, changeDetectorRef: ChangeDetectorRef, private media: MediaMatcher, private router: Router) {
   }
 
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+  ngOnInit(): void {
+    this.mobileQuery = this.media.matchMedia('(min-width: 600px)');
+    this.userService.populate();
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        // Redirection vers l'écran de connection si aucuns utilisateur n'est connecté
+        if (!authenticated) {
+          this.router.navigateByUrl('/login');
+          return of(null);
+        }
+      }
+    );
+
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
   }
 }

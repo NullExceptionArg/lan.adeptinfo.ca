@@ -24,7 +24,7 @@ class Login
     public function handle($request, Closure $next, $guard = null)
     {
         $user = User::where('email', $request->input('username'))->first();
-        if (!$user->is_confirmed) {
+        if (is_null($user) || !$user->is_confirmed) {
             return response('Unauthorized.', 401);
         }
 

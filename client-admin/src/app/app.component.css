@@ -8,17 +8,8 @@
   right: 0;
 }
 
-.is-mobile mat-toolbar {
-  position: fixed;
-  z-index: 2;
-}
-
 mat-toolbar {
   height: 56px;
-}
-
-mat-nav-list {
-  padding-top: 0;
 }
 
 .menu-item {
@@ -29,8 +20,21 @@ mat-nav-list {
   margin-right: 5px;
 }
 
+.fill-space {
+  flex: 1 1 auto;
+}
+
 button.hamburger {
   z-index: 100;
+}
+
+.is-mobile mat-toolbar {
+  position: fixed;
+  z-index: 2;
+}
+
+mat-nav-list {
+  padding-top: 0;
 }
 
 .app-title-mobile {
@@ -55,27 +59,4 @@ mat-sidenav {
 
 .is-mobile .sidenav-container {
   flex: 1 0 auto;
-}
-
-footer {
-  padding: 12px;
-  font-size: 12px;
-  margin-top: 40px;
-  background: #673ab7;
-  color: white;
-}
-
-footer .items {
-  align-items: center;
-  display: flex;
-  flex-flow: row wrap;
-  padding: 8px;
-}
-
-footer .items .version {
-  text-align: center;
-}
-
-footer .items .license {
-  text-align: center;
 }
