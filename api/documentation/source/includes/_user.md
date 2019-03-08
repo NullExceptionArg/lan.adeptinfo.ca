@@ -444,6 +444,7 @@ lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'utilisa
 {
     "first_name": "Karl",
     "last_name": "Marx",
+    "email": "karl.marx@unite.org",
     "request_count": 5
 }
 ```
@@ -452,6 +453,7 @@ Champ | Description
 --------- | -----------
 first_name | Prénom de l'utilisateur.
 last_name | Nom de l'utilisateur.
+email | Courriel de l'utilisateur.
 request_count | Demandes cummulées pour entrer dans les équipes d'un utilisateur (qui est chef).
 
 ## Sommaire de l'administrateur
@@ -476,6 +478,7 @@ lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'adminis
 {
     "first_name": "Karl",
     "last_name": "Marx",
+    "email": "karl.marx@unite.org",
     "has_tournaments": true,
     "permissions": [
         {
@@ -488,9 +491,10 @@ lan_id | Id du LAN pour lequel on souhaite obtenir les informations de l'adminis
 
 Champ | Description
 --------- | -----------
-first_name | Prénom de l'utilisateur.
-last_name | Nom de l'utilisateur.
-has_tournaments | Si l'utilisateur peut modifier certain tournois.
+first_name | Prénom de l'administrateur.
+last_name | Nom de l'administrateur.
+email | Courriel de l'administrateur.
+has_tournaments | Si l'administrateur peut modifier certain tournois.
 permissions | Permissions administratives que possède l'administrateur pour le LAN. Voir Permissions.
 
 #### Permissions

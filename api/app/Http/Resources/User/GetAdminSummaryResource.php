@@ -28,6 +28,7 @@ class GetAdminSummaryResource extends Resource
         return [
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
+            'email' => $this->email,
             'has_tournaments' => $this->hasTournaments,
             'permissions' => GetPermissionsSummaryResource::collection($this->permissions)
         ];

@@ -5,9 +5,9 @@ namespace App\Rules\User;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Un courriel ne correspond pas à celui de l'utilisateur courant
+ * Un courriel ne correspond pas à celui de l'utilisateur courant.
  *
- * Class FacebookEmailPermission
+ * Class EmailNotCurrentUser
  * @package App\Rules\User
  */
 class EmailNotCurrentUser implements Rule

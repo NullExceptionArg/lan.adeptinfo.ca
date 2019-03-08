@@ -1,29 +1,66 @@
-import {ChangeDetectorRef, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {environment} from '../environments/environment';
+import {UserService} from './core/services/user.service';
+import {of} from 'rxjs';
+import {Router} from '@angular/router';
+import {User} from './core/models/user';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnDestroy {
+/**
+ * Gestion des menus, affichage de l'écran courant, et affichage du pied de page.
+ */
+export class AppComponent implements OnInit {
 
+  // Surveille la largeur courante de l'écran de l'utilisateur
   mobileQuery: MediaQueryList;
-  version: string;
-  currentDate: Date;
 
-  private readonly _mobileQueryListener: () => void;
+  // Utilisateur courant de l'application
+  currentUser: User;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-    this.version = environment.version;
-    this.currentDate = new Date();
+  constructor(private userService: UserService, changeDetectorRef: ChangeDetectorRef, private media: MediaMatcher, private router: Router) {
   }
 
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+  ngOnInit(): void {
+
+    // S'abonner aux changements d'authentification dans l'application
+    this.userService.isAuthenticated.subscribe(
+      (authenticated) => {
+        // Redirection vers l'écran de connection si aucuns utilisateur n'est connecté
+        if (!authenticated) {
+          this.router.navigateByUrl('/login');
+          return of(null);
+        }
+      }
+    );
+
+    // Le changement de mobile à plein écran s'effectue lorsque l'écran fait 600 pixels de large
+    this.mobileQuery = this.media.matchMedia('(min-width: 600px)');
+
+    // Obtenir le sommaire de l'utilisateur
+    this.userService.populate();
+
+    // S'abonner aux changements d'utilisateur courant
+    this.userService.currentUser.subscribe(
+      (userData) => {
+        this.currentUser = userData;
+      }
+    );
+  }
+
+  /**
+   * Déconnexion de l'utilisateur courant.
+   */
+  logout(): void {
+
+    // Déconnexion de l'utilisateur
+    this.userService.logout();
+
+    // Navigation vers l'écran de connexion
+    this.router.navigateByUrl('/login');
+
   }
 }
