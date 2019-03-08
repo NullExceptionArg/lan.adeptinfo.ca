@@ -1,5 +1,21 @@
 @import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
 
+.color-primary-text {
+  color: #673ab7;
+}
+
+.color-accent-text {
+  color: #ffd740;
+}
+
+.color-primary-background {
+  background-color: #673ab7;
+}
+
+.color-accent-background {
+  background-color: #ffd740;
+}
+
 body {
   margin: 0;
 }

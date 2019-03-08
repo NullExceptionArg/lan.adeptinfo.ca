@@ -7,6 +7,7 @@ import {FooterComponent} from './shared/layout/footer.component';
 import {SharedModule} from './shared/shared.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthModule} from './auth/auth.module';
+import {LandingModule} from './landing/landing.module';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import {AuthModule} from './auth/auth.module';
     CoreModule,
     SharedModule,
     AuthModule,
+    LandingModule,
     AppRoutingModule
   ],
   providers: [],
