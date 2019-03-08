@@ -17,8 +17,7 @@ export class NoAuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> {
-
+    // Le module est disponible uniquement si aucun utilisateur n'est connecté
     return this.userService.isAuthenticated.pipe(take(1), map(isAuth => !isAuth));
-
   }
 }

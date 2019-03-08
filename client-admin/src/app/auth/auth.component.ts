@@ -9,6 +9,9 @@ import {MediaMatcher} from '@angular/cdk/layout';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
+/**
+ * Authentification des utilisateurs.
+ */
 export class AuthComponent {
 
   // Champs utilisés pour la connexion
@@ -23,6 +26,7 @@ export class AuthComponent {
   // Si des communications avec le serveur sont en cours
   isSubmitting = false;
 
+  // Surveille la largeur courante de l'écran de l'utilisateur
   mobileQuery: MediaQueryList;
 
   constructor(
@@ -32,26 +36,44 @@ export class AuthComponent {
     private formBuilder: FormBuilder,
     private media: MediaMatcher
   ) {
-    // use FormBuilder to create a form group
+    // Le changement de mobile à plein écran s'effectue lorsque l'écran fait 960 pixels de large
     this.mobileQuery = this.media.matchMedia('(min-width: 960px)');
+
+    // Instanciation des champs
     this.authForm = this.formBuilder.group({
-      'email': ['', Validators.required, Validators.email],
+      // Le champ du courriel doit avoir la forme d'un courriel et est requis
+      'email': ['', [Validators.required, Validators.email]],
+
+      // Le champ du mot de passe et est requis
       'password': ['', Validators.required]
     });
   }
 
   login() {
-    // Si le courriel et le mot de passe sont valides
+    // Si le courriel et le mot de passe sont valides, procéder à l'authentification
     if (this.authForm.valid) {
+
+      // Désactiver les champs lors de l'envoit de la requête d'authentification
       this.isSubmitting = true;
 
-      const credentials = this.authForm.value;
       this.userService
-        .attemptAuth(credentials)
+        .attemptAuth(this.authForm.value)
         .subscribe(
-          data => this.router.navigateByUrl('/'),
-          err => {
+          // Si l'authentification est un succès, naviguer à la page principale
+          () => this.router.navigateByUrl('/'),
+
+          /*
+          * Si l'authentification échoue :
+          * Rendre les champs de connexion disponibles
+          * Afficher les champs de connexion comme incorrects
+          * Assigner le message du serveur
+          * */
+          () => {
             this.isSubmitting = false;
+            this.authForm.controls['email'].setErrors([]);
+            this.authForm.controls['password'].setErrors([]);
+            this.emailServerError = 'Courriel incorrect';
+            this.passwordServerError = 'Mot de passe incorrect';
           }
         );
     }
@@ -59,10 +81,11 @@ export class AuthComponent {
 
   /**
    * Obtenir l'erreur du champ du courriel.
+   * @return Chaîne de caractères de l'erreur courante
    */
-  getEmailErrorMessage() {
-    if (this.passwordServerError !== '') {
-      return this.passwordServerError;
+  getEmailErrorMessage(): string {
+    if (this.emailServerError !== '') {
+      return this.emailServerError;
     } else if (this.authForm.controls['email'].hasError('required')) {
       return 'Le courriel est requis.';
     } else if (this.authForm.controls['email'].hasError('email')) {
@@ -74,11 +97,11 @@ export class AuthComponent {
 
   /**
    * Obtenir l'erreur du champ du mot de passe.
-   * @return Chaîne de caractère de l'erreur courante
+   * @return Chaîne de caractères de l'erreur courante
    */
-  getPasswordErrorMessage() {
-    if (this.emailServerError !== '') {
-      return this.emailServerError;
+  getPasswordErrorMessage(): string {
+    if (this.passwordServerError !== '') {
+      return this.passwordServerError;
     } else if (this.authForm.controls['password'].hasError('required')) {
       return 'Le mot de passe est requis.';
     } else {

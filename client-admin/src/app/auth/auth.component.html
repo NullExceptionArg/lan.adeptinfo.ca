@@ -2,45 +2,51 @@
   <mat-card-title>Connexion</mat-card-title>
   <mat-card-content [fxLayout.gt-sm]="'row'">
 
+    <!-- Section de connexion avec l'API -->
     <form fxFlex.gt-sm="47" [formGroup]="authForm" (ngSubmit)="login()">
       <fieldset [disabled]="isSubmitting">
 
+        <!-- Champ pour le courriel de l'utilisateur -->
         <mat-form-field appearance="outline">
           <mat-label>Courriel</mat-label>
-          <input matInput formControlName="email" placeholder="moi@adeptinfo.ca">
-          <mat-error
-            *ngIf="authForm.controls['email'].invalid || emailServerError != ''">{{getEmailErrorMessage()}}</mat-error>
+          <input matInput formControlName="email" type="text" placeholder="moi@adeptinfo.ca">
+          <mat-error>{{getEmailErrorMessage()}}</mat-error>
         </mat-form-field>
 
+        <!-- Champ pour le mot de passe de l'utlisateur -->
         <mat-form-field appearance="outline">
           <mat-label>Mot de Passe</mat-label>
           <input matInput formControlName="password" type="password" placeholder="Passw0rd!">
-          <mat-error
-            *ngIf="authForm.controls['email'].invalid || passwordServerError != ''">{{getPasswordErrorMessage()}}</mat-error>
+          <mat-error>{{getPasswordErrorMessage()}}</mat-error>
         </mat-form-field>
 
+        <!-- Bouton de connection -->
         <button mat-raised-button color="primary" id="login-button">Se connecter</button>
-
-        <div fxLayout="row" fxLayoutAlign="space-between center">
-          <mat-checkbox color="primary">Rester connecté</mat-checkbox>
-          <a mat-button routerLink="." class="no-select">Mot de passe oublié?</a>
-        </div>
 
       </fieldset>
     </form>
 
+    <!-- Séparateur entre les sections des types de connexion -->
     <mat-divider fxFlex.gt-sm="3" [vertical]="mobileQuery.matches"></mat-divider>
+
+    <!-- Espacement pour que l'espacement du séparateur soit isométrique -->
     <div fxFlex.gt-sm="3"></div>
 
+    <!-- Section de connexion avec les mode d'authemtification sociales -->
     <div fxFlex.gt-sm="47" fxLayout="column" fxLayoutAlign="space-evenly stretch">
-      <button mat-raised-button id="google-button" class="social-login-button" >
-        <img src="assets/social/google-logo.svg" alt="Se connecter avec Google">
+
+      <!-- Bouton de connection avec Google -->
+      <button mat-raised-button id="google-button" class="social-login-button">
+        <img src="assets/images/social/google-logo.svg" alt="Se connecter avec Google">
         <span class="social-login-button-text">Se connecter avec Google</span>
       </button>
+
+      <!-- Bouton de connexion avec Facebook -->
       <button mat-raised-button id="facebook-button" class="social-login-button">
-        <img id="facebook-button-image" src="assets/social/facebook-logo.svg" alt="Se connecter avec Facebook">
+        <img id="facebook-button-image" src="assets/images/social/facebook-logo.svg" alt="Se connecter avec Facebook">
         <span class="social-login-button-text">Se connecter avec Facebook</span>
       </button>
+
     </div>
 
   </mat-card-content>

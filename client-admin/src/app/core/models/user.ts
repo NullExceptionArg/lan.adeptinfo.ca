@@ -1,11 +1,14 @@
+import {Permission} from './permission';
+
 /**
  * Utilisateur de l'application.
  */
 export class User {
 
-  firstName: string;
-  lastName: string;
-  hasTournaments: string;
+  first_name: string;
+  last_name: string;
+  has_tournaments: string;
   email: string;
-  token: string;
+  access_token: string;
+  permissions: Permission[];
 }

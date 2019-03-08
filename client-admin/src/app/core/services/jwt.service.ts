@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 
 @Injectable()
 /**
- * Actions liées aux Jwt (JSON Web Token)
+ * Actions liées aux JWT (JSON Web Token)
  */
 export class JwtService {
 

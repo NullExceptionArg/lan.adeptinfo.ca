@@ -8,13 +8,18 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {LayoutModule} from '@angular/cdk/layout';
 import {
   MatButtonModule,
-  MatCardModule, MatCheckboxModule, MatDividerModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDividerModule,
   MatFormFieldModule,
-  MatIconModule, MatInputModule,
-  MatListModule, MatMenuModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
   MatSidenavModule,
   MatToolbarModule
 } from '@angular/material';
+import {ShowAuthedDirective} from './show-authed.directive';
 
 @NgModule({
   imports: [
@@ -24,9 +29,12 @@ import {
     HttpClientModule,
     RouterModule
   ],
-  declarations: [],
+  declarations: [
+    ShowAuthedDirective
+  ],
   exports: [
     CommonModule,
+    ShowAuthedDirective,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,

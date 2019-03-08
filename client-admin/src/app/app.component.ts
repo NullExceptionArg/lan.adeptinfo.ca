@@ -10,17 +10,23 @@ import {User} from './core/models/user';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+/**
+ * Gestion des menus, affichage de l'écran courant, et affichage du pied de page.
+ */
 export class AppComponent implements OnInit {
 
+  // Surveille la largeur courante de l'écran de l'utilisateur
   mobileQuery: MediaQueryList;
+
+  // Utilisateur courant de l'application
   currentUser: User;
 
   constructor(private userService: UserService, changeDetectorRef: ChangeDetectorRef, private media: MediaMatcher, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.mobileQuery = this.media.matchMedia('(min-width: 600px)');
-    this.userService.populate();
+
+    // S'abonner aux changements d'authentification dans l'application
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         // Redirection vers l'écran de connection si aucuns utilisateur n'est connecté
@@ -31,10 +37,30 @@ export class AppComponent implements OnInit {
       }
     );
 
+    // Le changement de mobile à plein écran s'effectue lorsque l'écran fait 600 pixels de large
+    this.mobileQuery = this.media.matchMedia('(min-width: 600px)');
+
+    // Obtenir le sommaire de l'utilisateur
+    this.userService.populate();
+
+    // S'abonner aux changements d'utilisateur courant
     this.userService.currentUser.subscribe(
       (userData) => {
         this.currentUser = userData;
       }
     );
+  }
+
+  /**
+   * Déconnexion de l'utilisateur courant.
+   */
+  logout(): void {
+
+    // Déconnexion de l'utilisateur
+    this.userService.logout();
+
+    // Navigation vers l'écran de connexion
+    this.router.navigateByUrl('/login');
+
   }
 }

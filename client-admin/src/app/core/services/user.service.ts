@@ -5,13 +5,19 @@ import {distinctUntilChanged, map} from 'rxjs/operators';
 import {User} from '../models/user';
 import {ApiService} from './api.service';
 import {JwtService} from './jwt.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
+/**
+ * Actions liées aux utilisateur et leur authentification dans l'application.
+ */
 export class UserService {
 
+  // Observables de l'utilisateur courant
   private currentUserSubject = new BehaviorSubject<User>({} as User);
   public currentUser = this.currentUserSubject.asObservable().pipe(distinctUntilChanged());
 
+  // Observable de l'état de connexion d'un utilisateur
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
@@ -19,20 +25,23 @@ export class UserService {
     private apiService: ApiService) {
   }
 
-  // Verify JWT in localstorage with server & load user's info.
-  // This runs once on application startup.
-  populate() {
-    // If JWT detected, attempt to get & store user's info
+  /**
+   * Obtenir les détails de l'utilisateur.
+   */
+  populate(): void {
+    // Si un JWT existe dans le localstorage, tenter d'obtenir le sommaire de l'utilisateur
     if (JwtService.getToken()) {
       this.apiService.get('/admin/summary')
         .subscribe(
-          data => this.setAuth(data.user),
-          err => this.purgeAuth()
+          // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
+          data => this.setAuth(data),
+
+          // Si l'appel échoue, supprimer les informations de l'utilisateur pour qu'il s'authentifie à nouveau
+          () => this.purgeAuth()
         );
     } else {
-      // Remove any potential remnants of previous auth states
+      // Retirer ce qui pourait rester dans la mémoire de l'application de l'utilisateur précédent
       this.purgeAuth();
-
     }
   }
 
@@ -40,36 +49,73 @@ export class UserService {
    * Détails de l'authentification.
    * @param user Utilisateur authentifié
    */
-  setAuth(user: User) {
-    // Sauvegarder le JWT renvoyé du serveur dans le localstorage
-    JwtService.saveToken(user.token);
+  setAuth(user: User): void {
     // Rendre les données de l'utilisateur courant observables
     this.currentUserSubject.next(user);
     // Mettre isAuthenticated à true
     this.isAuthenticatedSubject.next(true);
   }
 
-  purgeAuth() {
-    // Remove JWT from localstorage
+  /**
+   * Supprimer toute traces de l'utilisateur dans le localstorage et dans la mémoire.
+   */
+  purgeAuth(): void {
+    // Supprimer le JWT du localstorage
     JwtService.destroyToken();
-    // Set current user to an empty object
+
+    // Retirer l'utilisateur courant
     this.currentUserSubject.next({} as User);
-    // Set auth status to false
+
+    // Mettre le statut d'authentification à false
     this.isAuthenticatedSubject.next(false);
   }
 
   /**
-   * Tentative d'obtention d'un JWT.
+   * Tentative d'obtention d'un JWT à l'API.
    * @param credentials Informations de l'utilisateur qui tente de se connecter
    */
-  attemptAuth(credentials): Observable<User> {
-    return this.apiService.post('/oauth/token', {user: credentials})
+  attemptAuth(credentials): Observable<string> {
+    return this.apiService.post('/oauth/token', {
+
+      // Type d'authentification de l'API
+      grant_type: environment.grantType,
+
+      // Id du client d'authentification de l'API
+      client_id: environment.clientId,
+
+      // Mot de passe du client d'authentification de l'API
+      client_secret: environment.clientSecret,
+
+      // Courriel de l'utilisateur
+      username: credentials.email,
+
+      // Mot de passe de l'utilsateur
+      password: credentials.password
+    })
       .pipe(map(
         data => {
-          this.setAuth(data.user);
-          return data;
+
+          // Sauvegarder le JWT renvoyé du serveur dans le localstorage
+          JwtService.saveToken(data.access_token);
+
+          // Obtenir les informations sommaires de l'utilisateur nouvellement connecté
+          this.populate();
+
+          // Retourner le token d'accès à l'API
+          return data.access_token;
         }
       ));
+  }
+
+  /**
+   * Déconnecter un utilisateur courant de l'application en local et dans l'API.
+   */
+  logout(): void {
+    // Envoyer une requête pour supprimer le token dans l'API
+    this.apiService.post('/user/logout', {});
+
+    // Supprimer toute traces de l'utilisateur en local
+    this.purgeAuth();
   }
 
   /**

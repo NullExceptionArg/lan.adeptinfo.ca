@@ -45,8 +45,22 @@ mat-nav-list {
 }
 
 .app-title mat-icon {
-  margin-bottom: 3px;
-  margin-right: 3px;
+  margin-right: 20px;
+}
+
+.mobile-title {
+  font: 200 15px Roboto,"Helvetica Neue",sans-serif;
+  height: 28px;
+  padding: 20px 16px 0;
+  opacity: 0.6;
+}
+
+.mobile-menu-item {
+  opacity: 0.8;
+}
+
+.mobile-menu-item mat-icon {
+  margin-right: 20px;
 }
 
 mat-sidenav-container {
