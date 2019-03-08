@@ -3,6 +3,7 @@ import {UserService} from '../core/services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';
+import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angularx-social-login';
 
 @Component({
   selector: 'app-auth-page',
@@ -34,7 +35,8 @@ export class AuthComponent {
     private router: Router,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private media: MediaMatcher
+    private media: MediaMatcher,
+    private authService: AuthService
   ) {
     // Le changement de mobile à plein écran s'effectue lorsque l'écran fait 960 pixels de large
     this.mobileQuery = this.media.matchMedia('(min-width: 960px)');
@@ -49,6 +51,9 @@ export class AuthComponent {
     });
   }
 
+  /**
+   * Obtention d'un token de l'API avec les informations de connexion de l'utilisateur.
+   */
   login() {
     // Si le courriel et le mot de passe sont valides, procéder à l'authentification
     if (this.authForm.valid) {
@@ -76,6 +81,65 @@ export class AuthComponent {
             this.passwordServerError = 'Mot de passe incorrect';
           }
         );
+    }
+  }
+
+  /**
+   * Obtention d'un token de l'API avec Facebook.
+   */
+  loginFacebook(): void {
+    // Ne rien faire si une communication est déjà en cours avec le serveur.
+    if (!this.isSubmitting) {
+
+      // Désactiver les champs lors de l'envoit de la requête d'authentification
+      this.isSubmitting = true;
+
+      this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
+        .then(
+          // Si les communications avec Facebook sont un succès, le token Facebook est envoyé à l'API
+          (user) => {
+
+            this.userService
+              .attemptAuthFacebook(user.authToken)
+              .subscribe(
+                // Si l'authentification est un succès, naviguer à la page principale
+                () => this.router.navigateByUrl('/'),
+
+                // En cas d'erreur, rien n'est fait, mais il est de nouveau possible d'intéragir avec l'API
+                () => this.isSubmitting = false
+              );
+          },
+          // En cas d'erreur, rien n'est fait, mais il est de nouveau possible d'intéragir avec l'API
+          () => this.isSubmitting = false);
+    }
+  }
+
+  /**
+   * Obtention d'un token de l'API avec Google.
+   */
+  loginGoogle(): void {
+    // Ne rien faire si une communication est déjà en cours avec le serveur.
+    if (!this.isSubmitting) {
+
+      // Désactiver les champs lors de l'envoit de la requête d'authentification
+      this.isSubmitting = true;
+
+      this.authService.signIn(GoogleLoginProvider.PROVIDER_ID)
+        .then(
+          // Si les communications avec Google sont un succès, le token Facebook est envoyé à l'API
+          (user) => {
+            this.userService
+              .attemptAuthGoogle(user.idToken)
+              .subscribe(
+                // Si l'authentification est un succès, naviguer à la page principale
+                () => this.router.navigateByUrl('/'),
+
+                // En cas d'erreur, rien n'est fait, mais il est de nouveau possible d'intéragir avec l'API
+                () => this.isSubmitting = false
+              );
+          },
+          // En cas d'erreur, rien n'est fait, mais il est de nouveau possible d'intéragir avec l'API
+          () => this.isSubmitting = false);
     }
   }
 

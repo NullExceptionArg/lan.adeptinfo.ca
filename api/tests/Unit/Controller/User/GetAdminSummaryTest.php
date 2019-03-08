@@ -87,6 +87,7 @@ class GetAdminSummaryTest extends TestCase
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
                 'has_tournaments' => false,
+                'email' => $this->user->email,
                 'permissions' => [
                     [
                         'id' => $permission->id,
@@ -182,6 +183,7 @@ class GetAdminSummaryTest extends TestCase
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
                 'has_tournaments' => false,
+                'email' => $this->user->email,
                 'permissions' => [
                     [
                         'id' => $permission->id,

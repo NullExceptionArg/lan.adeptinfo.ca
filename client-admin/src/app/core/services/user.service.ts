@@ -60,6 +60,7 @@ export class UserService {
    * Supprimer toute traces de l'utilisateur dans le localstorage et dans la mémoire.
    */
   purgeAuth(): void {
+
     // Supprimer le JWT du localstorage
     JwtService.destroyToken();
 
@@ -68,6 +69,7 @@ export class UserService {
 
     // Mettre le statut d'authentification à false
     this.isAuthenticatedSubject.next(false);
+
   }
 
   /**
@@ -103,6 +105,56 @@ export class UserService {
 
           // Retourner le token d'accès à l'API
           return data.access_token;
+        }
+      ));
+  }
+
+  /**
+   * Tentative d'obtention d'un JWT à l'API avec un token Facebook.
+   * @param token Token envoyé par Facebook
+   */
+  attemptAuthFacebook(token: string): Observable<string> {
+    return this.apiService.post('/user/facebook', {
+
+      // Token envoyé par Facebook
+      access_token: token
+    })
+      .pipe(map(
+        data => {
+
+          // Sauvegarder le JWT renvoyé du serveur dans le localstorage
+          JwtService.saveToken(data.token);
+
+          // Obtenir les informations sommaires de l'utilisateur nouvellement connecté
+          this.populate();
+
+          // Retourner le token d'accès à l'API
+          return data.token;
+        }
+      ));
+  }
+
+  /**
+   * Tentative d'obtention d'un JWT à l'API avec un token Google.
+   * @param token Token envoyé par Google
+   */
+  attemptAuthGoogle(token: string): Observable<string> {
+    return this.apiService.post('/user/google', {
+
+      // Token envoyé par Google
+      access_token: token
+    })
+      .pipe(map(
+        data => {
+
+          // Sauvegarder le JWT renvoyé du serveur dans le localstorage
+          JwtService.saveToken(data.token);
+
+          // Obtenir les informations sommaires de l'utilisateur nouvellement connecté
+          this.populate();
+
+          // Retourner le token d'accès à l'API
+          return data.token;
         }
       ));
   }

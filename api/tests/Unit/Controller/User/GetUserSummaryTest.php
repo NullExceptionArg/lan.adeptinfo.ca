@@ -124,6 +124,7 @@ class GetUserSummaryTest extends TestCase
             ->seeJsonEquals([
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
+                'email' => $this->user->email,
                 'request_count' => 5
             ])
             ->assertResponseStatus(200);
@@ -221,6 +222,7 @@ class GetUserSummaryTest extends TestCase
             ->seeJsonEquals([
                 'first_name' => $this->user->first_name,
                 'last_name' => $this->user->last_name,
+                'email' => $this->user->email,
                 'request_count' => 5
             ])
             ->assertResponseStatus(200);

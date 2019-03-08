@@ -36,13 +36,13 @@
     <div fxFlex.gt-sm="47" fxLayout="column" fxLayoutAlign="space-evenly stretch">
 
       <!-- Bouton de connection avec Google -->
-      <button mat-raised-button id="google-button" class="social-login-button">
+      <button (click)="loginGoogle()" class="social-login-button" id="google-button" mat-raised-button>
         <img src="assets/images/social/google-logo.svg" alt="Se connecter avec Google">
         <span class="social-login-button-text">Se connecter avec Google</span>
       </button>
 
       <!-- Bouton de connexion avec Facebook -->
-      <button mat-raised-button id="facebook-button" class="social-login-button">
+      <button (click)="loginFacebook()" class="social-login-button" id="facebook-button" mat-raised-button>
         <img id="facebook-button-image" src="assets/images/social/facebook-logo.svg" alt="Se connecter avec Facebook">
         <span class="social-login-button-text">Se connecter avec Facebook</span>
       </button>
