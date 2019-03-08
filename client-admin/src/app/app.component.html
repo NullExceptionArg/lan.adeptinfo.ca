@@ -9,9 +9,9 @@
     </button>
 
     <!-- Titre de l'application -->
-    <div class="no-select" [class.app-title-mobile]="!mobileQuery.matches">
+    <button [class.app-title-mobile]="!mobileQuery.matches" [routerLink]="['']" mat-button>
       Admin LAN ADEPT
-    </div>
+    </button>
 
     <!-- Items de menu de navigation dans l'application -->
     <button mat-button *ngIf="mobileQuery.matches" class="menu-item">
