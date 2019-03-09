@@ -4,6 +4,8 @@ import {UserService} from './core/services/user.service';
 import {of} from 'rxjs';
 import {Router} from '@angular/router';
 import {User} from './core/models/user';
+import {LanService} from './core/services/lan.service';
+import {environment} from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +23,13 @@ export class AppComponent implements OnInit {
   // Utilisateur courant de l'application
   currentUser: User;
 
-  constructor(private userService: UserService, changeDetectorRef: ChangeDetectorRef, private media: MediaMatcher, private router: Router) {
+  constructor(
+    private userService: UserService,
+    private lanService: LanService,
+    changeDetectorRef: ChangeDetectorRef,
+    private media: MediaMatcher,
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
@@ -34,6 +42,14 @@ export class AppComponent implements OnInit {
           this.router.navigateByUrl('/login');
           return of(null);
         }
+      }
+    );
+
+    // S'abonner aux changements de LAN courant pour obtenir les permissions de l'utilisateur
+    this.lanService.currentLan.subscribe(
+      (currentLan) => {
+        // Redirection vers l'écran de connection si aucuns utilisateur n'est connecté
+        this.userService.populate(currentLan.id);
       }
     );
 
@@ -62,5 +78,12 @@ export class AppComponent implements OnInit {
     // Navigation vers l'écran de connexion
     this.router.navigateByUrl('/login');
 
+  }
+
+  /**
+   * Obtenir l'URL du site principal.
+   */
+  getPlayerUrl() {
+    return environment.playerUrl;
   }
 }

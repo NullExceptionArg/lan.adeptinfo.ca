@@ -25,6 +25,7 @@
     "@angular/router": "^7.2.7",
     "angularx-social-login": "^1.2.6",
     "core-js": "^2.6.5",
+    "hammerjs": "^2.0.8",
     "rxjs": "6.4.0",
     "zone.js": "^0.8.29"
   },

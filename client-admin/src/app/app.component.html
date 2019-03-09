@@ -29,6 +29,10 @@
     <!-- Items de menu du compte de l'utilisateur -->
     <mat-menu #userMenu="matMenu">
       <button (click)="logout()" mat-menu-item>Se déconnecter</button>
+      <a href="{{getPlayerUrl()}} " mat-menu-item target="_blank">
+        Site principal
+        <mat-icon>last_page</mat-icon>
+      </a>
     </mat-menu>
 
   </mat-toolbar>

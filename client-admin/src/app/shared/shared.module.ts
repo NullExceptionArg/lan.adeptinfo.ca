@@ -16,8 +16,10 @@ import {
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatSelectModule,
   MatSidenavModule,
-  MatToolbarModule
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 import {ShowAuthedDirective} from './show-authed.directive';
 
@@ -52,7 +54,9 @@ import {ShowAuthedDirective} from './show-authed.directive';
     MatInputModule,
     MatDividerModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule,
+    MatTooltipModule
   ]
 })
 export class SharedModule {

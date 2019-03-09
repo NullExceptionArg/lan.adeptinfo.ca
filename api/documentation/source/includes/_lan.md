@@ -224,11 +224,13 @@ Cette requête ne nécessite aucun paramètres.
     {
         "id": 1,
         "name": "Révolution Bolshevik",
+        "is_current": true,
         "date": "October 1917"
     },
     {
         "id": 2,
         "name": "Publication du manifeste du parti communiste",
+        "is_current": false,
         "date": "February 1848"
     }
 ]

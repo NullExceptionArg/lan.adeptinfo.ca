@@ -19,8 +19,48 @@ h2 {
   margin: 15px 0 25px;
 }
 
-a {
+.select-current-lan-section {
   margin: 60px 0;
+}
+
+.select-current-lan-section > * {
+  display: inline-block;
+}
+
+#select-lan-form {
+  width: 245px;
+}
+
+.select-lan-tooltip-icon {
+  position: absolute;
+  right: 0;
+  top: 17px;
+  font-size: 30px;
+}
+
+mat-form-field {
+  margin-left: 10px;
+}
+
+mat-select-trigger {
+  color: white;
+  font-size: 30px;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+  background-color: rgba(255, 255, 255, .42);
+}
+
+::ng-deep .mat-select-arrow {
+  color: rgba(255, 255, 255, .54);
+}
+
+::ng-deep .mat-option-text {
+  font-size: 30px;
+}
+
+mat-option {
+  height: 4em !important;
 }
 
 @media only screen and (max-width: 768px) {

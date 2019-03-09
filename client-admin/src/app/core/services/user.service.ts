@@ -6,6 +6,7 @@ import {User} from '../models/user';
 import {ApiService} from './api.service';
 import {JwtService} from './jwt.service';
 import {environment} from '../../../environments/environment';
+import {HttpParams} from '@angular/common/http';
 
 @Injectable()
 /**
@@ -28,10 +29,17 @@ export class UserService {
   /**
    * Obtenir les détails de l'utilisateur.
    */
-  populate(): void {
+  populate(lanId?: number): void {
     // Si un JWT existe dans le localstorage, tenter d'obtenir le sommaire de l'utilisateur
     if (JwtService.getToken()) {
-      this.apiService.get('/admin/summary')
+
+      const params = new HttpParams();
+
+      if (lanId != null) {
+        params.append('lan_id', lanId.toString());
+      }
+
+      this.apiService.get('/admin/summary', params)
         .subscribe(
           // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
           data => this.setAuth(data),
@@ -50,10 +58,16 @@ export class UserService {
    * @param user Utilisateur authentifié
    */
   setAuth(user: User): void {
+
     // Rendre les données de l'utilisateur courant observables
     this.currentUserSubject.next(user);
+
+    // Vider la valeur
+    this.isAuthenticatedSubject.next();
+
     // Mettre isAuthenticated à true
     this.isAuthenticatedSubject.next(true);
+
   }
 
   /**
