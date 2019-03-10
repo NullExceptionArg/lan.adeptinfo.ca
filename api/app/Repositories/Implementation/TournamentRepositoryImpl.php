@@ -9,7 +9,7 @@ use Illuminate\{Support\Collection, Support\Facades\DB};
 
 class TournamentRepositoryImpl implements TournamentRepository
 {
-    public function adminHasTournaments(int $userId, int $lanId): bool
+    public function adminHasTournaments(int $userId, ?int $lanId): bool
     {
         return DB::table('organizer_tournament')
                 ->join('tournament', 'organizer_tournament.tournament_id', '=', 'tournament.id')

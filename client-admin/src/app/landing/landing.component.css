@@ -63,6 +63,10 @@ mat-option {
   height: 4em !important;
 }
 
+#select-current-lan-text {
+  margin: 0;
+}
+
 @media only screen and (max-width: 768px) {
 
   h1 {

@@ -3,9 +3,9 @@
   <h2 class="mat-h2 no-select">Ce site est réservé aux administrateurs du LAN de l'ADEPT</h2>
 
   <!-- Sélection du LAN courant -->
-  <div class="select-current-lan-section">
+  <div *ngIf="currentLan != null" class="select-current-lan-section">
     <div class="mat-display-1" id="select-current-lan-text">LAN courant :</div>
-    <mat-form-field *ngIf="lansLoaded" id="select-lan-form">
+    <mat-form-field id="select-lan-form">
       <mat-select (selectionChange)="setCurrentLan()" [(value)]="currentLan.id">
         <mat-option *ngFor="let lan of lans" [value]="lan.id">
           {{lan.date}}
@@ -18,4 +18,11 @@
     </mat-form-field>
   </div>
 
+  <div *ngIf="lansLoaded && currentLan == null && 'create-lan' | HasPermission">
+    <button mat-raised-button>Créer le premier LAN</button>
+  </div>
+
+  <div *ngIf="lansLoaded && currentLan == null && !('create-lan' | HasPermission)">
+    <div class="mat-headline">Il n'existe encore aucun LAN. Demandez à l'administrateur général d'en créer un.</div>
+  </div>
 </div>

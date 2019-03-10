@@ -91,8 +91,6 @@ return [
 
     'display-name-get-admin-roles' => 'Get the roles of a user',
     'description-get-admin-roles' => 'Get the global and LAN roles of a current user or user',
-    'display-name-admin-summary' => 'Get the summary of an administrator',
-    'description-admin-summary' => 'Get the name and permissions of an administrator.',
     'display-name-get-user' => 'Get users',
     'description-get-users' => 'Get the users registered in the API.',
     'display-name-get-user-details' => 'Get user details',

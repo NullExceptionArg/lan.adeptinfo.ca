@@ -25,20 +25,7 @@ class GetAdminSummaryTest extends TestCase
     public function testGetAdminSummary(): void
     {
         $lan = factory('App\Model\Lan')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'admin-summary')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
         $permissions = Permission::inRandomOrder()
-            ->where('name', '!=', 'admin-summary')
             ->take(8)
             ->get();
         $lanRole = factory('App\Model\LanRole')->create([
@@ -72,31 +59,28 @@ class GetAdminSummaryTest extends TestCase
         $this->assertEquals($this->user->first_name, $result['first_name']);
         $this->assertEquals($this->user->last_name, $result['last_name']);
 
-        $this->assertEquals($permission->id, $permissionsResult[0]['id']);
-        $this->assertEquals($permission->name, $permissionsResult[0]['name']);
+        $this->assertEquals($permissions[0]->id, $permissionsResult[0]['id']);
+        $this->assertEquals($permissions[0]->name, $permissionsResult[0]['name']);
 
-        $this->assertEquals($permissions[0]->id, $permissionsResult[1]['id']);
-        $this->assertEquals($permissions[0]->name, $permissionsResult[1]['name']);
+        $this->assertEquals($permissions[1]->id, $permissionsResult[1]['id']);
+        $this->assertEquals($permissions[1]->name, $permissionsResult[1]['name']);
 
-        $this->assertEquals($permissions[1]->id, $permissionsResult[2]['id']);
-        $this->assertEquals($permissions[1]->name, $permissionsResult[2]['name']);
+        $this->assertEquals($permissions[2]->id, $permissionsResult[2]['id']);
+        $this->assertEquals($permissions[2]->name, $permissionsResult[2]['name']);
 
-        $this->assertEquals($permissions[2]->id, $permissionsResult[3]['id']);
-        $this->assertEquals($permissions[2]->name, $permissionsResult[3]['name']);
+        $this->assertEquals($permissions[3]->id, $permissionsResult[3]['id']);
+        $this->assertEquals($permissions[3]->name, $permissionsResult[3]['name']);
 
-        $this->assertEquals($permissions[3]->id, $permissionsResult[4]['id']);
-        $this->assertEquals($permissions[3]->name, $permissionsResult[4]['name']);
+        $this->assertEquals($permissions[4]->id, $permissionsResult[4]['id']);
+        $this->assertEquals($permissions[4]->name, $permissionsResult[4]['name']);
 
-        $this->assertEquals($permissions[4]->id, $permissionsResult[5]['id']);
-        $this->assertEquals($permissions[4]->name, $permissionsResult[5]['name']);
+        $this->assertEquals($permissions[5]->id, $permissionsResult[5]['id']);
+        $this->assertEquals($permissions[5]->name, $permissionsResult[5]['name']);
 
-        $this->assertEquals($permissions[5]->id, $permissionsResult[6]['id']);
-        $this->assertEquals($permissions[5]->name, $permissionsResult[6]['name']);
+        $this->assertEquals($permissions[6]->id, $permissionsResult[6]['id']);
+        $this->assertEquals($permissions[6]->name, $permissionsResult[6]['name']);
 
-        $this->assertEquals($permissions[6]->id, $permissionsResult[7]['id']);
-        $this->assertEquals($permissions[6]->name, $permissionsResult[7]['name']);
-
-        $this->assertEquals($permissions[7]->id, $permissionsResult[8]['id']);
-        $this->assertEquals($permissions[7]->name, $permissionsResult[8]['name']);
+        $this->assertEquals($permissions[7]->id, $permissionsResult[7]['id']);
+        $this->assertEquals($permissions[7]->name, $permissionsResult[7]['name']);
     }
 }

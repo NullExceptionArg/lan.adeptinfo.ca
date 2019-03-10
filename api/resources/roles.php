@@ -59,8 +59,7 @@ return [
                 ['name' => 'confirm-arrival', 'can_be_per_lan' => true],
                 ['name' => 'unconfirm-arrival', 'can_be_per_lan' => true],
                 ['name' => 'assign-seat', 'can_be_per_lan' => true],
-                ['name' => 'unassign-seat', 'can_be_per_lan' => true],
-                ['name' => 'admin-summary', 'can_be_per_lan' => true]
+                ['name' => 'unassign-seat', 'can_be_per_lan' => true]
             ]
         ],
         [
@@ -74,7 +73,6 @@ return [
                 ['name' => 'edit-tournament', 'can_be_per_lan' => true],
                 ['name' => 'delete-tournament', 'can_be_per_lan' => true],
                 ['name' => 'delete-team', 'can_be_per_lan' => true],
-                ['name' => 'admin-summary', 'can_be_per_lan' => true],
                 ['name' => 'add-organizer', 'can_be_per_lan' => true],
                 ['name' => 'remove-organizer', 'can_be_per_lan' => true],
             ]

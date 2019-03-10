@@ -19,39 +19,10 @@ class GetAdminSummaryTest extends TestCase
         $this->user = factory('App\Model\User')->create();
     }
 
-    public function testGetAdminSummaryHasPermission(): void
-    {
-        $lan = factory('App\Model\Lan')->create();
-        $admin = factory('App\Model\User')->create();
-        $this->actingAs($admin)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/admin/summary', [
-                'lan_id' => $lan->id
-            ])
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
-            ])
-            ->assertResponseStatus(403);
-    }
-
     public function testGetAdminSummary(): void
     {
         $lan = factory('App\Model\Lan')->create();
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'admin-summary')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
         $permissions = Permission::inRandomOrder()
-            ->where('name', '!=', 'admin-summary')
             ->where('name', '!=', 'edit-tournament')
             ->take(8)
             ->get();
@@ -89,10 +60,6 @@ class GetAdminSummaryTest extends TestCase
                 'has_tournaments' => false,
                 'email' => $this->user->email,
                 'permissions' => [
-                    [
-                        'id' => $permission->id,
-                        'name' => 'admin-summary'
-                    ],
                     [
                         'id' => $permissions[0]->id,
                         'name' => $permissions[0]->name
@@ -135,20 +102,7 @@ class GetAdminSummaryTest extends TestCase
         $lan = factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'admin-summary')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
         $permissions = Permission::inRandomOrder()
-            ->where('name', '!=', 'admin-summary')
             ->take(8)
             ->get();
         $lanRole = factory('App\Model\LanRole')->create([
@@ -185,10 +139,6 @@ class GetAdminSummaryTest extends TestCase
                 'has_tournaments' => false,
                 'email' => $this->user->email,
                 'permissions' => [
-                    [
-                        'id' => $permission->id,
-                        'name' => 'admin-summary'
-                    ],
                     [
                         'id' => $permissions[0]->id,
                         'name' => $permissions[0]->name

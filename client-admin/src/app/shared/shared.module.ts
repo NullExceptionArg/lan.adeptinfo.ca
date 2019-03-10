@@ -22,6 +22,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import {ShowAuthedDirective} from './show-authed.directive';
+import {HasPermissionPipe} from './has-permission.pipe';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import {ShowAuthedDirective} from './show-authed.directive';
     RouterModule
   ],
   declarations: [
-    ShowAuthedDirective
+    ShowAuthedDirective,
+    HasPermissionPipe
   ],
   exports: [
     CommonModule,
@@ -56,7 +58,8 @@ import {ShowAuthedDirective} from './show-authed.directive';
     MatCheckboxModule,
     MatMenuModule,
     MatSelectModule,
-    MatTooltipModule
+    MatTooltipModule,
+    HasPermissionPipe
   ]
 })
 export class SharedModule {
