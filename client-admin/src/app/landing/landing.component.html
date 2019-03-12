@@ -19,7 +19,7 @@
   </div>
 
   <div *ngIf="lansLoaded && currentLan == null && 'create-lan' | HasPermission">
-    <button mat-raised-button>Créer le premier LAN</button>
+    <button (click)="openCreateLanDialog()" mat-raised-button>Créer le premier LAN</button>
   </div>
 
   <div *ngIf="lansLoaded && currentLan == null && !('create-lan' | HasPermission)">

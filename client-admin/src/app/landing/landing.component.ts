@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Lan} from '../core/models/lan';
 import {UserService} from '../core/services/user.service';
 import {LanService} from '../core/services/lan.service';
+import {MatDialog} from '@angular/material';
+import {CreateLanComponent} from '../lan/create-lan/create-lan.component';
 
 @Component({
   selector: 'app-landing',
@@ -25,6 +27,7 @@ export class LandingComponent implements OnInit {
   constructor(
     private userService: UserService,
     private lanService: LanService,
+    public dialog: MatDialog
   ) {
   }
 
@@ -36,9 +39,24 @@ export class LandingComponent implements OnInit {
         this.lansLoaded = true;
         this.currentLan = lans.find(lan => lan.is_current);
       });
+    // this.openCreateLanDialog();
   }
 
+  /**
+   * Rendre un LAN courant.
+   */
   setCurrentLan() {
     this.lanService.setCurrentLan(this.currentLan);
   }
+
+  openCreateLanDialog() {
+    const dialogRef = this.dialog.open(CreateLanComponent, {
+      width: '1000px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
 }

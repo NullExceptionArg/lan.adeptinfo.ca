@@ -47,11 +47,11 @@ mat-select-trigger {
   font-size: 30px;
 }
 
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
+.select-current-lan-section ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline {
   background-color: rgba(255, 255, 255, .42);
 }
 
-::ng-deep .mat-select-arrow {
+.select-current-lan-section ::ng-deep .mat-select-arrow {
   color: rgba(255, 255, 255, .54);
 }
 

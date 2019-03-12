@@ -4,8 +4,6 @@ Un LAN est une instance de l'événement organisé.
 
 ## Créer un LAN
 
-Créer un LAN.
-
 <aside class="warning">
 <a href="#permission">Permission</a> requise : <code>create-lan</code>, can_be_per_lan <code>false</code>
 </aside>

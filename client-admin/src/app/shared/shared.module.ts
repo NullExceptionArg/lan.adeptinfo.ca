@@ -10,6 +10,8 @@ import {
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
+  MatDatepickerModule,
+  MatDialogModule,
   MatDividerModule,
   MatFormFieldModule,
   MatIconModule,
@@ -18,11 +20,14 @@ import {
   MatMenuModule,
   MatSelectModule,
   MatSidenavModule,
+  MatStepperModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
 import {ShowAuthedDirective} from './show-authed.directive';
 import {HasPermissionPipe} from './has-permission.pipe';
+import {AmazingTimePickerModule} from 'amazing-time-picker';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
 
 @NgModule({
   imports: [
@@ -42,6 +47,8 @@ import {HasPermissionPipe} from './has-permission.pipe';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HasPermissionPipe,
+    AmazingTimePickerModule,
     RouterModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
@@ -59,7 +66,10 @@ import {HasPermissionPipe} from './has-permission.pipe';
     MatMenuModule,
     MatSelectModule,
     MatTooltipModule,
-    HasPermissionPipe
+    MatDialogModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatMomentDateModule
   ]
 })
 export class SharedModule {

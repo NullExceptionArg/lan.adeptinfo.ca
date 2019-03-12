@@ -1,0 +1,8 @@
+<mat-vertical-stepper [linear]="true" [ngClass.sm]="'scrollable-stepper'">
+
+  <mat-step [stepControl]="detailsForm">
+    <ng-template matStepLabel>Détails</ng-template>
+    <app-create-lan-details></app-create-lan-details>
+  </mat-step>
+
+</mat-vertical-stepper>

@@ -1,0 +1,9 @@
+::ng-deep .stepper-button {
+  float: right;
+  margin-top: 10px;
+}
+
+.scrollable-stepper {
+  overflow-y: scroll;
+  height: 600px;
+}

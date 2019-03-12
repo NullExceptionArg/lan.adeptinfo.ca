@@ -37,10 +37,12 @@ export class AppComponent implements OnInit {
     // S'abonner aux changements d'authentification dans l'application
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
-        // Redirection vers l'écran de connection si aucuns utilisateur n'est connecté
+        // Redirection vers l'écran de connexion si aucuns utilisateur n'est connecté
         if (!authenticated) {
           this.router.navigateByUrl('/login');
           return of(null);
+        } else {
+          this.router.navigateByUrl('/');
         }
       }
     );
