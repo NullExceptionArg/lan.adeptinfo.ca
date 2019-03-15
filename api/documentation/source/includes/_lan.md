@@ -28,8 +28,6 @@ La liste peut être trouvée dans le projet sous `api/resources/roles.php`
   "seat_reservation_start": "2100-10-04 12:00:00",
   "tournament_reservation_start": "2100-10-04 00:00:00",
   "event_key":"3b8214f6-b0ae-4ed2-98b0-5d54519ccc64",
-  "public_key":"19aa9acc-c576-465e-bcbf-28738cb997a4",
-  "secret_key": "11cea565-a550-42d4-9b24-3dccd96fc67b",
   "places": 258,
   "latitude": -67.5,
   "longitude": 64.033333,
@@ -47,8 +45,6 @@ lan_end | Date et heure de fin du LAN. |  après le début du LAN. |
 seat_reservation_start | Date et heure du début des réservations des places du LAN. |  avant le début du LAN. |
 tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. |  avant le début du LAN. |
 event_key | Clé de l'événement de seats.io pour le LAN. |  255 caractères max. |
-public_key | Clé publique de seats.io . |  255 caractères max. |
-secret_key | Clé secrète de seats.io . |  255 caractères max. |
 latitude | Latitude de la position où se déroule le LAN. |  entre -85 et 85, nombre. |
 longitude | Longitude de la position où se déroule le LAN. |  entre -180 et 180, nombre. |
 places | Places disponibles pour le LAN. |  int, minimum 1. |
@@ -69,8 +65,6 @@ description | Texte des description du LAN. | chaîne de caractères, optionnel.
     "seat_reservation_start": "2100-10-04 12:00:00",
     "tournament_reservation_start": "2100-10-04 00:00:00",
     "event_key": "3b8214f6-b0ae-4ed2-98b0-5d54519ccc64",
-    "public_key": "19aa9acc-c576-465e-bcbf-28738cb997a4",
-    "secret_key": "11cea565-a550-42d4-9b24-3dccd96fc67b",
     "is_current": false,
     "places": 258,
     "longitude": 64.033333,
@@ -90,8 +84,6 @@ lan_end | Date et heure de fin du LAN créé.
 seat_reservation_start | Date et heure du début des réservations des places du LAN créé.
 tournament_reservation_start | Date et heure du début des inscriptions aux tournois du LAN créé.
 event_key | Clé de l'événement de seats.io pour le LAN pour le LAN créé.
-public_key | Clé publique de seats.io pour le LAN créé.
-secret_key | Clé secrète de seats.io pour le LAN créé.
 is_current | Si le LAN créé est le LAN courant.
 places | Nombre de places disponibles pour le LAN créé.
 longitude | Longitude de la position du LAN créé.
@@ -126,17 +118,11 @@ tournament_reservation_start | Date et heure de début des inscriptions aux tour
 latitude | Latitude de la position.
 longitude | Longitude de la position.
 event_key | Clé de l'événement de seats.io.
-public_key | Clé publique de seats.io.
-secret_key | Clé secrète de seats.io.
 places | Information liée à l'occupation des places.
 price | Prix d'entré.
 rules | Règlements.
 description | Description.
 images | Images de présentation.
-
-<aside class="notice">
-Pour accéder au champ <code>secret_key</code>, il est nécessaire que l'utilisateur possède la permission <code>edit-lan</code>
-</aside>
 
 ### Format de réponse
 
@@ -153,8 +139,6 @@ Pour accéder au champ <code>secret_key</code>, il est nécessaire que l'utilisa
     "latitude": -67.5,
     "longitude": 64.033333,
     "event_key":"12345678-1234-1234-1234-123456789123",
-    "public_key":"12345678-1234-1234-1234-123456789123",
-    "secret_key": "12345678-1234-1234-1234-123456789123",
     "places": {
       "reserved": 178,
       "total": 258
@@ -183,8 +167,6 @@ tournament_reservation_start | Date et heure de début des inscriptions aux tour
 longitude | Longitude de la position.
 latitude | Latitude de la position.
 event_key | Clé de l'événement de seats.io.
-public_key | Clé publique de seats.io.
-secret_key | Clé secrète de seats.io.
 places | Information liée à l'occupation des places. Voir places.
 price | Prix d'entré.
 rules | Règles.
@@ -277,8 +259,6 @@ lan_end | Date et heure de fin du LAN. | Après le début du LAN. |
 seat_reservation_start | Date et heure du début des réservations des places du LAN. | Avant le début du LAN. |
 tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN. | Avant le début du LAN. |
 event_key | Clé de l'événement de seats.io pour le LAN. | 255 caractères max. |
-public_key | Clé publique de seats.io . | 255 caractères max. |
-secret_key | Clé secrète de seats.io . | 255 caractères max. |
 latitude | Latitude de la position où se déroule le LAN. | Entre -85 et 85, nombre. |
 longitude | Longitude de la position où se déroule le LAN. | Entre -180 et 180, nombre. |
 places | Places disponibles pour le LAN. | Int, minimum 1, plus grand que le nombre de places réservées. |
@@ -301,8 +281,6 @@ description | Texte des descritpion du LAN. | chaîne de caractères, optionnel.
     "latitude": -67.5,
     "longitude": 64.033333,
     "event_key":"12345678-1234-1234-1234-123456789123",
-    "public_key":"12345678-1234-1234-1234-123456789123",
-    "secret_key": "12345678-1234-1234-1234-123456789123",
     "places": {
       "reserved": 178,
       "total": 258
@@ -328,8 +306,6 @@ lan_end | Date et heure de fin du LAN mise à jour.
 seat_reservation_start | Date et heure du début des réservations des places du LAN mise à jour.
 tournament_reservation_start| Date et heure du début des inscriptions aux tournois du LAN mise à jour.
 event_key | Clé de l'événement de seats.io pour le LAN mise à jour.
-public_key | Clé publique de seats.io mise à jour.
-secret_key | Clé secrète de seats.io mise à jour.
 latitude | Latitude de la position où se déroule le LAN mis à jour.
 longitude | Longitude de la position où se déroule le LAN mis à jour.
 places | Places disponibles pour le LAN mis à jour.
@@ -368,8 +344,6 @@ lan_id | Id du LAN que l'administrateur veut modifier comme courant. |  entier.
   "seat_reservation_start": "2100-10-04 12:00:00",
   "tournament_reservation_start": "2100-10-04 00:00:00",
   "event_key":"3b8214f6-b0ae-4ed2-98b0-5d54519ccc64",
-  "public_key":"19aa9acc-c576-465e-bcbf-28738cb997a4",
-  "secret_key": "11cea565-a550-42d4-9b24-3dccd96fc67b",
   "places": 258,
   "latitude": -67.5,
   "longitude": 64.033333,
@@ -388,8 +362,6 @@ lan_end | Date et heure de fin du nouveau LAN courant.
 seat_reservation_start | Date et heure du début des réservations des places du nouveau LAN courant
 tournament_reservation_start | Date et heure du début des inscriptions aux tournois du nouveau LAN courant
 event_key | Clé de l'événement de seats.io du nouveau LAN courant.
-public_key | Clé publique de seats.io du nouveau LAN courant.
-secret_key | Clé secrète de seats.io du nouveau LAN courant.
 is_current | Si le LAN courant est le LAN courant (true).
 places | Nombre de places disponibles du nouveau LAN courant.
 longitude | Longitude de la position du nouveau LAN courant.

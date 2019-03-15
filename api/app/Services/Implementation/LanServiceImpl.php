@@ -48,8 +48,6 @@ class LanServiceImpl implements LanService
         DateTime $seatReservationStart,
         DateTime $tournamentReservationStart,
         string $eventKey,
-        string $publicKey,
-        string $secretKey,
         float $latitude,
         float $longitude,
         int $places,
@@ -70,8 +68,6 @@ class LanServiceImpl implements LanService
             $seatReservationStart,
             $tournamentReservationStart,
             $eventKey,
-            $publicKey,
-            $secretKey,
             $latitude,
             $longitude,
             $places,
@@ -116,20 +112,8 @@ class LanServiceImpl implements LanService
         // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
 
-        // Déterminer si l'utilisateur peut voir la clé secrète de seats.io
-        $canSeeSeatsioSecretKey = null;
-        if (is_null($userId)) {
-            $canSeeSeatsioSecretKey = false;
-        } else {
-            $canSeeSeatsioSecretKey = $this->roleRepository->userHasPermission(
-                'edit-lan',
-                $userId,
-                $lanId
-            );
-        }
-
         // Retourner les détails du LAN selon les champs spécifiés
-        return new GetResource($lan, $placeCount, $images, $fields, $canSeeSeatsioSecretKey);
+        return new GetResource($lan, $placeCount, $images, $fields);
     }
 
     public function setCurrent(int $lanId): Lan
@@ -152,8 +136,6 @@ class LanServiceImpl implements LanService
         ?DateTime $seatReservationStart,
         ?DateTime $tournamentReservationStart,
         ?string $eventKey,
-        ?string $publicKey,
-        ?string $secretKey,
         ?float $latitude,
         ?float $longitude,
         ?int $places,
@@ -171,8 +153,6 @@ class LanServiceImpl implements LanService
             $seatReservationStart,
             $tournamentReservationStart,
             $eventKey,
-            $publicKey,
-            $secretKey,
             $latitude,
             $longitude,
             $places,

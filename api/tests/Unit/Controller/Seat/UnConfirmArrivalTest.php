@@ -32,7 +32,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
@@ -76,7 +76,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'lan_id' => $lan,
             'seat_id' => env('SEAT_TEST_ID')
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
@@ -95,7 +95,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
@@ -120,7 +120,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . env('SEAT_TEST_ID'), [
@@ -145,7 +145,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . $badSeatId, [
@@ -170,7 +170,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'free');
 
         $this->actingAs($this->user)
@@ -219,7 +219,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
         $this->actingAs($this->user)
             ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/confirm/' . $badSeatId, [

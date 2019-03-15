@@ -21,8 +21,6 @@ class CreateTest extends TestCase
         'seat_reservation_start' => "2100-10-04 12:00:00",
         'tournament_reservation_start' => "2100-10-07 00:00:00",
         "event_key" => "",
-        "public_key" => "",
-        "secret_key" => "",
         "latitude" => -67.5,
         "longitude" => 64.033333,
         "places" => 10,
@@ -37,8 +35,6 @@ class CreateTest extends TestCase
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
 
         $this->paramsContent['event_key'] = env('EVENT_TEST_KEY');
-        $this->paramsContent['secret_key'] = env('SECRET_TEST_KEY');
-        $this->paramsContent['public_key'] = env('SECRET_TEST_KEY');
 
         $this->user = factory('App\Model\User')->create();
     }
@@ -52,8 +48,6 @@ class CreateTest extends TestCase
             Carbon::parse($this->paramsContent['seat_reservation_start']),
             Carbon::parse($this->paramsContent['tournament_reservation_start']),
             $this->paramsContent['event_key'],
-            $this->paramsContent['public_key'],
-            $this->paramsContent['secret_key'],
             $this->paramsContent['latitude'],
             $this->paramsContent['longitude'],
             $this->paramsContent['places'],
@@ -68,8 +62,6 @@ class CreateTest extends TestCase
         $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
         $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
         $this->assertEquals($this->paramsContent['event_key'], $result->event_key);
-        $this->assertEquals($this->paramsContent['public_key'], $result->public_key);
-        $this->assertEquals($this->paramsContent['secret_key'], $result->secret_key);
         $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
         $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals($this->paramsContent['places'], $result->places);
@@ -88,8 +80,6 @@ class CreateTest extends TestCase
             Carbon::parse($this->paramsContent['seat_reservation_start']),
             Carbon::parse($this->paramsContent['tournament_reservation_start']),
             $this->paramsContent['event_key'],
-            $this->paramsContent['public_key'],
-            $this->paramsContent['secret_key'],
             $this->paramsContent['latitude'],
             $this->paramsContent['longitude'],
             $this->paramsContent['places'],
@@ -105,8 +95,6 @@ class CreateTest extends TestCase
             Carbon::parse($this->paramsContent['seat_reservation_start']),
             Carbon::parse($this->paramsContent['tournament_reservation_start']),
             $this->paramsContent['event_key'],
-            $this->paramsContent['public_key'],
-            $this->paramsContent['secret_key'],
             $this->paramsContent['latitude'],
             $this->paramsContent['longitude'],
             $this->paramsContent['places'],
@@ -121,8 +109,6 @@ class CreateTest extends TestCase
         $this->assertEquals($this->paramsContent['seat_reservation_start'], $result->seat_reservation_start);
         $this->assertEquals($this->paramsContent['tournament_reservation_start'], $result->tournament_reservation_start);
         $this->assertEquals($this->paramsContent['event_key'], $result->event_key);
-        $this->assertEquals($this->paramsContent['public_key'], $result->public_key);
-        $this->assertEquals($this->paramsContent['secret_key'], $result->secret_key);
         $this->assertEquals($this->paramsContent['latitude'], $result->latitude);
         $this->assertEquals($this->paramsContent['longitude'], $result->longitude);
         $this->assertEquals($this->paramsContent['places'], $result->places);

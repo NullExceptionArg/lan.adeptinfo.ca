@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Seatsio\Charts\ChartPage;
+
 /**
  * Méthodes pour exécuter la logique d'affaire des sièges.
  *
@@ -38,6 +40,13 @@ interface SeatService
      * @return string Id du siège de la réservation confirmée
      */
     public function confirmArrival(int $lanId, string $seatId): string;
+
+    /**
+     * Lister les cartes de seats.io ainsi que les événements qui leurs sont rattachés.
+     *
+     * @return ChartPage Liste des cartes de seats.io
+     */
+    public function getSeatCharts(): ChartPage;
 
     /**
      * Déassigner un siège à un utilisateur, dans un LAN.

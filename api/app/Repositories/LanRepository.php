@@ -32,8 +32,6 @@ interface LanRepository
      * @param DateTime $seatReservationStart Date et heure de début de réservation des places.
      * @param DateTime $tournamentReservationStart Date et heure de début d'inscription des tournois.
      * @param string $eventKey Clé d'événement de seats.io.
-     * @param string $publicKey Clé publique de seats.io.
-     * @param string $secretKey Clé secrète de seats.io.
      * @param float $latitude Latitude de l'emplacement où se déroulera le LAN.
      * @param float $longitude Longitude de l'emplacement où se déroulera le LAN.
      * @param int $places Nombre de places disponibles pour le LAN.
@@ -50,8 +48,6 @@ interface LanRepository
         DateTime $seatReservationStart,
         DateTime $tournamentReservationStart,
         string $eventKey,
-        string $publicKey,
-        string $secretKey,
         float $latitude,
         float $longitude,
         int $places,
@@ -121,8 +117,6 @@ interface LanRepository
      * @param DateTime|null $seatReservationStart Nouvelle date et heure de début des réservations du LAN. (Optionnel)
      * @param DateTime|null $tournamentReservationStart Nouvelle date et heure de début des inscriptions aux tournois du LAN. (Optionnel)
      * @param string|null $eventKey Nouvelle clé d'événement de seats.io du LAN. (Optionnel)
-     * @param string|null $publicKey Nouvelle clé publique de seats.io du LAN. (Optionnel)
-     * @param string|null $secretKey Nouvelle clé secrète de de seats.io du LAN. (Optionnel)
      * @param float|null $latitude Nouvelle latitude de l'emplacement du LAN. (Optionnel)
      * @param float|null $longitude Nouvelle longitude de l'emplacement du LAN. (Optionnel)
      * @param int|null $places Nouveau nombre de place maximal du LAN. (Optionnel)
@@ -138,8 +132,6 @@ interface LanRepository
         ?DateTime $seatReservationStart,
         ?DateTime $tournamentReservationStart,
         ?string $eventKey,
-        ?string $publicKey,
-        ?string $secretKey,
         ?float $latitude,
         ?float $longitude,
         ?int $places,

@@ -27,6 +27,8 @@ return [
     'description-assign-seat' => 'Assigner une place à un utilisateur',
     'display-name-unassign-seat' => 'Désassigner une place',
     'description-unassign-seat' => 'Désassigner une place ayant déjà été assignée à une utilisateur.',
+    'display-name-get-seat-charts' => 'Lister les plans',
+    'description-get-seat-charts' => 'Lister les plan de seats.io.',
 
     'display-name-add-image' => 'Ajouter une image',
     'description-add-image' => 'Ajouter une image qui va être mise de l\'avant sur la page principal du site du LAN.',

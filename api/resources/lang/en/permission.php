@@ -23,11 +23,12 @@ return [
     'description-confirm-arrival' => 'Confirm the arrival of a user who had reserved a seat.',
     'display-name-unconfirm-arrival' => 'Unconfirm arrival',
     'description-unconfirm-arrival' => 'Unconfirm the arrival of a user who had already been set to "Arrived".',
-
     'display-name-assign-seat' => 'Assign seat',
     'description-assign-seat' => 'Assign a seat to a user',
     'display-name-unassign-seat' => 'Unassign seat',
     'description-unassign-seat' => 'Unassign a seat that had been assigned to a user.',
+    'display-name-get-seat-charts' => 'Get seat plan',
+    'description-get-seat-charts' => 'Get seats.io plans.',
 
     'display-name-add-image' => 'Add image',
     'description-add-image' => 'Add an image to that is going to be featured on the main page of the LAN.',
