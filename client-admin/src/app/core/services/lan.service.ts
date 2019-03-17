@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {ApiService} from './api.service';
-import {Lan} from '../models/lan';
+import {Lan} from '../models/api/lan';
 
 @Injectable()
 /**

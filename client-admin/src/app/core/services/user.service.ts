@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 
 import {distinctUntilChanged, map} from 'rxjs/operators';
-import {User} from '../models/user';
+import {User} from '../models/api/user';
 import {ApiService} from './api.service';
 import {JwtService} from './jwt.service';
 import {environment} from '../../../environments/environment';

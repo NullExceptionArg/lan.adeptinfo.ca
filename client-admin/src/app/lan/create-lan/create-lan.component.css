@@ -1,5 +1,10 @@
-::ng-deep .stepper-button {
+::ng-deep .stepper-button-next {
   float: right;
+  margin-top: 10px;
+}
+
+::ng-deep .stepper-button-previous {
+  float: left;
   margin-top: 10px;
 }
 

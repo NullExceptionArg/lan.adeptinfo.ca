@@ -27,9 +27,10 @@ export class ApiService {
    * Effectuer une requête GET.
    * @param path Chemin de la requête
    * @param params Paramètres de la requête
+   * @param baseUrl Url de base de la requête
    */
-  get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
-    return this.http.get(`${environment.apiUrl}${path}`, {params})
+  get(path: string, params: HttpParams = new HttpParams(), baseUrl = environment.apiUrl): Observable<any> {
+    return this.http.get(baseUrl + path, {params})
       .pipe(catchError(ApiService.formatErrors));
   }
 
@@ -37,10 +38,11 @@ export class ApiService {
    * Effectuer une requête PUT.
    * @param path Chemin de la requête
    * @param body Paramètres du corps de la requête
+   * @param baseUrl Url de base de la requête
    */
-  put(path: string, body: Object = {}): Observable<any> {
+  put(path: string, body: Object = {}, baseUrl = environment.apiUrl): Observable<any> {
     return this.http.put(
-      `${environment.apiUrl}${path}`,
+      baseUrl + path,
       JSON.stringify(body)
     ).pipe(catchError(ApiService.formatErrors));
   }
@@ -49,10 +51,11 @@ export class ApiService {
    * Effectuer une requête POST.
    * @param path Chemin de la requête
    * @param body Paramètres du corps de la requête
+   * @param baseUrl Url de base de la requête
    */
-  post(path: string, body: Object = {}): Observable<any> {
+  post(path: string, body: Object = {}, baseUrl = environment.apiUrl): Observable<any> {
     return this.http.post(
-      `${environment.apiUrl}${path}`,
+      baseUrl + path,
       JSON.stringify(body)
     ).pipe(catchError(ApiService.formatErrors));
   }
@@ -61,10 +64,11 @@ export class ApiService {
    * Effectuer une requête DELETE.
    * @param path Chemin de la requête
    * @param params Paramètres de la requête
+   * @param baseUrl Url de base de la requête
    */
-  delete(path: string, params: HttpParams = new HttpParams()): Observable<any> {
+  delete(path: string, params: HttpParams = new HttpParams(), baseUrl = environment.apiUrl): Observable<any> {
     return this.http.delete(
-      `${environment.apiUrl}${path}`
+      baseUrl + path
     ).pipe(catchError(ApiService.formatErrors));
   }
 }

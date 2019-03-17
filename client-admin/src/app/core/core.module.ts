@@ -7,6 +7,7 @@ import {JwtService} from './services/jwt.service';
 import {UserService} from './services/user.service';
 import {AuthGuard} from './services/auth-guard.service';
 import {LanService} from './services/lan.service';
+import {SeatService} from './services/seat.service';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {LanService} from './services/lan.service';
     AuthGuard,
     JwtService,
     LanService,
-    UserService
+    UserService,
+    SeatService
   ],
   declarations: []
 })

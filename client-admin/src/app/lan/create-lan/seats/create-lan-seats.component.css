@@ -1,0 +1,23 @@
+::ng-deep .owl-carousel .owl-nav button.owl-next,
+::ng-deep .owl-carousel .owl-nav button.owl-prev,
+::ng-deep .owl-carousel button.owl-dot {
+  outline: none;
+}
+
+mat-card {
+  margin: 10px;
+}
+
+img {
+  display: block;
+  margin: auto;
+  height: auto;
+}
+
+.select-chart-button {
+  width: 100%;
+}
+
+.chart-image-selected {
+  width: 40%;
+}

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Lan} from '../core/models/lan';
+import {Lan} from '../core/models/api/lan';
 import {UserService} from '../core/services/user.service';
 import {LanService} from '../core/services/lan.service';
 import {MatDialog} from '@angular/material';
@@ -39,7 +39,6 @@ export class LandingComponent implements OnInit {
         this.lansLoaded = true;
         this.currentLan = lans.find(lan => lan.is_current);
       });
-    // this.openCreateLanDialog();
   }
 
   /**
@@ -55,7 +54,6 @@ export class LandingComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 

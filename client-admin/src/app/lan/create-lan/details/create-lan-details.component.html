@@ -63,7 +63,7 @@
     </mat-form-field>
 
     <mat-form-field (click)="endDatePicker.open()" gdArea="endDate">
-      <input (dateChange)="checkEndDateTime(true)" [matDatepicker]="endDatePicker" formControlName="endDate" matInput
+      <input (dateChange)="checkEndDateTime()" [matDatepicker]="endDatePicker" formControlName="endDate" matInput
              placeholder="Date de fin"
              readonly>
       <mat-datepicker #endDatePicker disabled="false"></mat-datepicker>
@@ -80,7 +80,7 @@
     </mat-form-field>
 
     <mat-form-field (click)="reservationDatePicker.open()" gdArea="reservationDate">
-      <input (dateChange)="checkReservationDateTime(true)" [matDatepicker]="reservationDatePicker"
+      <input (dateChange)="checkReservationDateTime()" [matDatepicker]="reservationDatePicker"
              formControlName="reservationDate" matInput
              placeholder="Date de réservation" readonly>
       <mat-datepicker #reservationDatePicker disabled="false"></mat-datepicker>
@@ -97,7 +97,7 @@
     </mat-form-field>
 
     <mat-form-field (click)="tournamentDatePicker.open()" gdArea="tournamentDate">
-      <input (dateChange)="checkTournamentDateTime(true)" [matDatepicker]="tournamentDatePicker"
+      <input (dateChange)="checkTournamentDateTime()" [matDatepicker]="tournamentDatePicker"
              formControlName="tournamentDate" matInput
              placeholder="Date des tournois" readonly>
       <mat-datepicker #tournamentDatePicker disabled="false"></mat-datepicker>
@@ -114,5 +114,5 @@
     </mat-form-field>
   </div>
 
-  <button class="stepper-button" color="primary" mat-raised-button matStepperNext>Suivant</button>
+  <button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
 </form>

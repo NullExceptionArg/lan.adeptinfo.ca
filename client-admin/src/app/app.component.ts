@@ -3,7 +3,7 @@ import {MediaMatcher} from '@angular/cdk/layout';
 import {UserService} from './core/services/user.service';
 import {of} from 'rxjs';
 import {Router} from '@angular/router';
-import {User} from './core/models/user';
+import {User} from './core/models/api/user';
 import {LanService} from './core/services/lan.service';
 import {environment} from '../environments/environment';
 

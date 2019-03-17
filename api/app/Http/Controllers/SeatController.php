@@ -150,6 +150,10 @@ class SeatController extends Controller
         )], 200);
     }
 
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-cartes-seats-io
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSeatCharts()
     {
         $validator = Validator::make([

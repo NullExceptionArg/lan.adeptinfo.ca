@@ -14,6 +14,7 @@ import {DateUtils} from '../../../utils/DateUtils';
  */
 export class CreateLanDetailsComponent {
 
+  // Formulaire des détails du LAN
   detailsForm: FormGroup;
 
   // Configuration par défaut de l'interface pour sélectionner une heure
@@ -24,7 +25,6 @@ export class CreateLanDetailsComponent {
   };
 
   constructor(
-    // private formService: CreateLanService,
     private formBuilder: FormBuilder,
     private timePicker: AmazingTimePickerService) {
     // Instantiation du formulaire
@@ -248,7 +248,7 @@ export class CreateLanDetailsComponent {
   /**
    * Valider les champs de date et de temps de la fin du LAN.
    */
-  checkEndDateTime() {
+  checkEndDateTime(): void {
     const dateTimes = this.getDateTimes();
     if (dateTimes.end != null && dateTimes.start != null && dateTimes.end < dateTimes.start) {
       this.setError(['endDate', 'endTime'], {'lan_end_after_lan_start': true});
@@ -261,7 +261,7 @@ export class CreateLanDetailsComponent {
   /**
    * Valider les champs de date et de temps du début de la réservation des places.
    */
-  checkReservationDateTime() {
+  checkReservationDateTime(): void {
     const dateTimes = this.getDateTimes();
     if (dateTimes.reservation != null && dateTimes.start != null && dateTimes.reservation > dateTimes.start) {
       this.setError(['reservationDate', 'reservationTime'], {'lan_start_after_reservation': true});
@@ -273,7 +273,7 @@ export class CreateLanDetailsComponent {
   /**
    * Valider les champs de date et de temps du début de l'inscription aux tournois.
    */
-  checkTournamentDateTime() {
+  checkTournamentDateTime(): void {
     const dateTimes = this.getDateTimes();
     if (dateTimes.tournament != null && dateTimes.start != null && dateTimes.tournament > dateTimes.start) {
       this.setError(['tournamentDate', 'tournamentTime'], {'lan_start_after_tournament': true});
@@ -282,7 +282,12 @@ export class CreateLanDetailsComponent {
     }
   }
 
-  setError(fields: string[], error: any) {
+  /**
+   * Activer une erreur sur un ou plusieurs champs.
+   * @param fields Nom des champ du FormGroup de l'erreur
+   * @param error Texte de l'erreur
+   */
+  setError(fields: string[], error: any): void {
     for (const field of fields) {
       this.detailsForm.controls[field].setErrors(error);
     }

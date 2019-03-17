@@ -2,6 +2,7 @@ import {Component, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {CreateLanDetailsComponent} from './details/create-lan-details.component';
+import {CreateLanSeatsComponent} from './seats/create-lan-seats.component';
 
 @Component({
   selector: 'app-create-lan',
@@ -13,17 +14,22 @@ import {CreateLanDetailsComponent} from './details/create-lan-details.component'
  */
 export class CreateLanComponent {
 
+  // Tout les champs de la création du LAN
   mainForm: Array<string>;
 
-  @ViewChild(CreateLanDetailsComponent) createLanComponent: CreateLanDetailsComponent;
+  // Formulaire des détails du LAN
+  @ViewChild(CreateLanDetailsComponent) createLanDetailsComponent: CreateLanDetailsComponent;
+
+  // Formulaire de seats.io
+  @ViewChild(CreateLanSeatsComponent) createLanSeatsComponent: CreateLanSeatsComponent;
 
   // Surveille la largeur courante de l'écran de l'utilisateur
   mobileQuery: MediaQueryList;
 
   constructor(
-    // public createLanService: CreateLanService,
+    // publicKey createLanService: CreateLanService,
     private formBuilder: FormBuilder,
-    private media: MediaMatcher
+    private media: MediaMatcher,
   ) {
     // Le changement de mobile à plein écran s'effectue lorsque l'écran fait 960 pixels de large
     this.mobileQuery = this.media.matchMedia('(min-width: 960px)');
@@ -33,7 +39,11 @@ export class CreateLanComponent {
   }
 
   get detailsForm() {
-    return this.createLanComponent ? this.createLanComponent.detailsForm : null;
+    return this.createLanDetailsComponent ? this.createLanDetailsComponent.detailsForm : null;
+  }
+
+  get seatsForm() {
+    return this.createLanSeatsComponent ? this.createLanSeatsComponent.seatsForm : null;
   }
 
   keys(): Array<string> {
