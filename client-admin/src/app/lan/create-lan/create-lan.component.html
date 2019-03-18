@@ -10,4 +10,9 @@
     <app-create-lan-seats></app-create-lan-seats>
   </mat-step>
 
+  <mat-step [stepControl]="coordinatesForm">
+    <ng-template matStepLabel>Coordonnées</ng-template>
+    <app-create-lan-coordinates></app-create-lan-coordinates>
+  </mat-step>
+
 </mat-vertical-stepper>

@@ -3,6 +3,7 @@ import {FormBuilder} from '@angular/forms';
 import {MediaMatcher} from '@angular/cdk/layout';
 import {CreateLanDetailsComponent} from './details/create-lan-details.component';
 import {CreateLanSeatsComponent} from './seats/create-lan-seats.component';
+import {CreateLanCoordinatesComponent} from './coordinates/create-lan-coordinates.component';
 
 @Component({
   selector: 'app-create-lan',
@@ -22,6 +23,9 @@ export class CreateLanComponent {
 
   // Formulaire de seats.io
   @ViewChild(CreateLanSeatsComponent) createLanSeatsComponent: CreateLanSeatsComponent;
+
+  // Formulaire de seats.io
+  @ViewChild(CreateLanCoordinatesComponent) createLanCoordinatesComponent: CreateLanCoordinatesComponent;
 
   // Surveille la largeur courante de l'écran de l'utilisateur
   mobileQuery: MediaQueryList;
@@ -44,6 +48,10 @@ export class CreateLanComponent {
 
   get seatsForm() {
     return this.createLanSeatsComponent ? this.createLanSeatsComponent.seatsForm : null;
+  }
+
+  get coordinatesForm() {
+    return this.createLanCoordinatesComponent ? this.createLanCoordinatesComponent.coordinatesForm : null;
   }
 
   keys(): Array<string> {

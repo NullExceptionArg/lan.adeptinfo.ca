@@ -49,7 +49,6 @@ export class CreateLanSeatsComponent implements OnInit {
     // Obtenir cartes seats.io
     this.seatService.getSeatsioEvents()
       .subscribe(charts => {
-        console.log(charts);
         // Filtrer pour n'obtenir que celles qui sont publiées (qui ont des événements)
         this.charts = charts.items.filter(function (item) {
           return item.status === 'PUBLISHED_WITH_DRAFT' ||
