@@ -1,4 +1,4 @@
-<mat-vertical-stepper [linear]="false" [ngClass.lt-md]="'scrollable-stepper'">
+<mat-vertical-stepper [linear]="true" [ngClass.lt-md]="'scrollable-stepper'">
 
   <mat-step [stepControl]="detailsForm">
     <ng-template matStepLabel>Détails</ng-template>
@@ -6,7 +6,7 @@
   </mat-step>
 
   <mat-step [stepControl]="seatsForm">
-    <ng-template matStepLabel>seats.io</ng-template>
+    <ng-template matStepLabel>Places</ng-template>
     <app-create-lan-seats></app-create-lan-seats>
   </mat-step>
 
@@ -23,6 +23,11 @@
   <mat-step [stepControl]="descriptionForm">
     <ng-template matStepLabel>Description</ng-template>
     <app-create-lan-description></app-create-lan-description>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Confirmation</ng-template>
+    <button (click)="createLan()" color="primary" mat-raised-button>Créer le LAN</button>
   </mat-step>
 
 </mat-vertical-stepper>

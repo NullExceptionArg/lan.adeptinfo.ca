@@ -6,6 +6,9 @@ import {CreateLanSeatsComponent} from './seats/create-lan-seats.component';
 import {CreateLanCoordinatesComponent} from './coordinates/create-lan-coordinates.component';
 import {CreateLanRulesComponent} from './rules/create-lan-rules.component';
 import {CreateLanDescriptionComponent} from './description/create-lan-description.component';
+import {LanService} from '../../core/services/lan.service';
+import {Lan} from '../../core/models/api/lan';
+import {DateUtils} from '../../utils/DateUtils';
 
 @Component({
   selector: 'app-create-lan',
@@ -16,9 +19,6 @@ import {CreateLanDescriptionComponent} from './description/create-lan-descriptio
  * Dialogue de création de LAN.
  */
 export class CreateLanComponent {
-
-  // Tout les champs de la création du LAN
-  mainForm: Array<string>;
 
   // Formulaire des détails du LAN
   @ViewChild(CreateLanDetailsComponent) createLanDetailsComponent: CreateLanDetailsComponent;
@@ -39,15 +39,16 @@ export class CreateLanComponent {
   mobileQuery: MediaQueryList;
 
   constructor(
-    // publicKey createLanService: CreateLanService,
     private formBuilder: FormBuilder,
     private media: MediaMatcher,
+    private lanService: LanService
   ) {
     // Le changement de mobile à plein écran s'effectue lorsque l'écran fait 960 pixels de large
     this.mobileQuery = this.media.matchMedia('(min-width: 960px)');
+  }
 
-    // Obtient les valeurs du formulaire de création du LAN
-    // this.mainForm = this.createLanService.mainForm.value;
+  get coordinatesLongitude() {
+    return this.createLanCoordinatesComponent ? this.createLanCoordinatesComponent.longitude : null;
   }
 
   get detailsForm() {
@@ -58,8 +59,54 @@ export class CreateLanComponent {
     return this.createLanSeatsComponent ? this.createLanSeatsComponent.seatsForm : null;
   }
 
+  get coordinatesLatitude() {
+    return this.createLanCoordinatesComponent ? this.createLanCoordinatesComponent.latitude : null;
+  }
+
   get coordinatesForm() {
     return this.createLanCoordinatesComponent ? this.createLanCoordinatesComponent.coordinatesForm : null;
+  }
+
+  /**
+   * Créer un LAN avec les champs qui ont été remplis.
+   */
+  createLan(): void {
+
+    const lan: Lan = new Lan(
+      this.detailsForm.controls['name'].value,
+      DateUtils.getDateFromMomentAndString(
+        this.detailsForm.controls['startDate'].value,
+        this.detailsForm.controls['startTime'].value
+      ),
+      DateUtils.getDateFromMomentAndString(
+        this.detailsForm.controls['endDate'].value,
+        this.detailsForm.controls['endTime'].value
+      ),
+      DateUtils.getDateFromMomentAndString(
+        this.detailsForm.controls['reservationDate'].value,
+        this.detailsForm.controls['reservationTime'].value
+      ),
+      DateUtils.getDateFromMomentAndString(
+        this.detailsForm.controls['tournamentDate'].value,
+        this.detailsForm.controls['tournamentTime'].value
+      ),
+      this.detailsForm.controls['playerCount'].value,
+      this.detailsForm.controls['price'].value,
+      this.seatsForm.controls['eventKey'].value,
+      this.coordinatesLatitude,
+      this.coordinatesLongitude,
+      this.rulesForm.controls['rules'].value,
+      this.descriptionForm.controls['description'].value,
+    );
+
+    this.lanService.createLan(lan).subscribe(
+      (data: Lan) => {
+        console.log(data);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   get rulesForm() {
@@ -68,9 +115,5 @@ export class CreateLanComponent {
 
   get descriptionForm() {
     return this.createLanDescriptionComponent ? this.createLanDescriptionComponent.descriptionForm : null;
-  }
-
-  keys(): Array<string> {
-    return Object.keys(this.mainForm);
   }
 }

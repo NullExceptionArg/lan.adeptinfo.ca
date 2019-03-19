@@ -13,7 +13,7 @@ import {Chart} from '../../../core/models/api/seats/chart';
  */
 export class CreateLanSeatsComponent implements OnInit {
 
-  // Formulaire des détails du LAN
+  // Formulaire des places
   seatsForm: FormGroup;
 
   // Cartes de seats.io disponibles

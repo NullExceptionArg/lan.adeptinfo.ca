@@ -90,7 +90,7 @@ export class UserService {
    * Tentative d'obtention d'un JWT à l'API.
    * @param credentials Informations de l'utilisateur qui tente de se connecter
    */
-  attemptAuth(credentials): Observable<string> {
+  attemptAuth(credentials: any): Observable<string> {
     return this.apiService.post('/oauth/token', {
 
       // Type d'authentification de l'API
