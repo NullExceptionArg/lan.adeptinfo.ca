@@ -8,6 +8,9 @@ import {OwlModule} from 'ngx-owl-carousel';
 import {CreateLanCoordinatesComponent} from './coordinates/create-lan-coordinates.component';
 import {AgmCoreModule} from '@agm/core';
 import {environment} from '../../../environments/environment';
+import {CreateLanRulesComponent} from './rules/create-lan-rules.component';
+import {CreateLanDescriptionComponent} from './description/create-lan-description.component';
+import {CovalentTextEditorModule} from '@covalent/text-editor';
 
 @NgModule({
   imports: [
@@ -17,13 +20,16 @@ import {environment} from '../../../environments/environment';
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsApiKey,
       libraries: ['places']
-    })
+    }),
+    CovalentTextEditorModule
   ],
   declarations: [
     CreateLanComponent,
     CreateLanDetailsComponent,
     CreateLanSeatsComponent,
-    CreateLanCoordinatesComponent
+    CreateLanCoordinatesComponent,
+    CreateLanRulesComponent,
+    CreateLanDescriptionComponent
   ]
 })
 export class CreateLanModule {

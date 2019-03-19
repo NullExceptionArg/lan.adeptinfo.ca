@@ -15,4 +15,14 @@
     <app-create-lan-coordinates></app-create-lan-coordinates>
   </mat-step>
 
+  <mat-step [stepControl]="rulesForm">
+    <ng-template matStepLabel>Règlements</ng-template>
+    <app-create-lan-rules></app-create-lan-rules>
+  </mat-step>
+
+  <mat-step [stepControl]="descriptionForm">
+    <ng-template matStepLabel>Description</ng-template>
+    <app-create-lan-description></app-create-lan-description>
+  </mat-step>
+
 </mat-vertical-stepper>
