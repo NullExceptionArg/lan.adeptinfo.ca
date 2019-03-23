@@ -3,9 +3,9 @@ import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {User} from '../models/api/user';
-import {ApiService} from './api.service';
+import {ApiService} from './api.service.example';
 import {JwtService} from './jwt.service';
-import {environment} from '../../../environments/environment';
+import {parameters} from '../params';
 import {HttpParams} from '@angular/common/http';
 
 @Injectable()
@@ -94,13 +94,13 @@ export class UserService {
     return this.apiService.post('/oauth/token', {
 
       // Type d'authentification de l'API
-      grant_type: environment.grantType,
+      grant_type: parameters.grantType,
 
       // Id du client d'authentification de l'API
-      client_id: environment.clientId,
+      client_id: parameters.clientId,
 
       // Mot de passe du client d'authentification de l'API
-      client_secret: environment.clientSecret,
+      client_secret: parameters.clientSecret,
 
       // Courriel de l'utilisateur
       username: credentials.email,

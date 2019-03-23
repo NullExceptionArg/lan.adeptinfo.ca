@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Lan} from '../core/models/api/lan';
-import {UserService} from '../core/services/user.service';
-import {LanService} from '../core/services/lan.service';
+import {Lan} from 'lan-core';
+import {UserService} from 'lan-core';
+import {LanService} from 'lan-core';
 import {MatDialog} from '@angular/material';
 import {CreateLanComponent} from '../lan/create-lan/create-lan.component';
 

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UserService} from '../core/services/user.service';
+import {UserService} from 'lan-core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {MediaMatcher} from '@angular/cdk/layout';

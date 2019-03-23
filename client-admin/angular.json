@@ -126,6 +126,46 @@
           }
         }
       }
+    },
+    "lan-core": {
+      "root": "projects/lan-core",
+      "sourceRoot": "projects/lan-core/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/lan-core/tsconfig.lib.json",
+            "project": "projects/lan-core/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "project": "projects/lan-core/ng-package.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/lan-core/src/test.ts",
+            "tsConfig": "projects/lan-core/tsconfig.spec.json",
+            "karmaConfig": "projects/lan-core/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/lan-core/tsconfig.lib.json",
+              "projects/lan-core/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "client-admin"

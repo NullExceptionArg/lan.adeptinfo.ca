@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {UserService} from '../core/services/user.service';
+import {UserService} from 'lan-core';
 
 @Pipe({name: 'HasPermission'})
 /**

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
-import {ApiService} from './api.service';
+import {ApiService} from './api.service.example';
 import {Lan} from '../models/api/lan';
 import {map} from 'rxjs/operators';
 

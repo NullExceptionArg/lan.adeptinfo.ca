@@ -6,8 +6,8 @@ import {CreateLanSeatsComponent} from './seats/create-lan-seats.component';
 import {CreateLanCoordinatesComponent} from './coordinates/create-lan-coordinates.component';
 import {CreateLanRulesComponent} from './rules/create-lan-rules.component';
 import {CreateLanDescriptionComponent} from './description/create-lan-description.component';
-import {LanService} from '../../core/services/lan.service';
-import {Lan} from '../../core/models/api/lan';
+import {LanService} from 'lan-core';
+import {Lan} from 'lan-core';
 import {DateUtils} from '../../utils/DateUtils';
 
 @Component({

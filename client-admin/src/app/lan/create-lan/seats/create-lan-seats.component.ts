@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SeatService} from '../../../core/services/seat.service';
-import {Chart} from '../../../core/models/api/seats/chart';
+import {SeatService} from 'lan-core';
+import {Chart} from 'lan-core';
 
 @Component({
   selector: 'app-create-lan-seats',

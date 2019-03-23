@@ -1,10 +1,10 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {UserService} from './core/services/user.service';
+import {UserService} from 'lan-core';
 import {of} from 'rxjs';
 import {Router} from '@angular/router';
-import {User} from './core/models/api/user';
-import {LanService} from './core/services/lan.service';
+import {User} from 'lan-core';
+import {LanService} from 'lan-core';
 import {environment} from '../environments/environment';
 
 @Component({

@@ -1,5 +1,5 @@
 import {Directive, Input, OnInit, TemplateRef, ViewContainerRef} from '@angular/core';
-import {UserService} from '../core/services/user.service';
+import {UserService} from 'lan-core';
 
 @Directive({selector: '[appShowAuthed]'})
 /**

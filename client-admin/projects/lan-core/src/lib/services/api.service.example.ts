@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {environment} from '../../../environments/environment';
+import {parameters} from '../params';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
@@ -29,7 +29,7 @@ export class ApiService {
    * @param params Paramètres de la requête
    * @param baseUrl Url de base de la requête
    */
-  get(path: string, params: HttpParams = new HttpParams(), baseUrl = environment.apiUrl): Observable<any> {
+  get(path: string, params: HttpParams = new HttpParams(), baseUrl = parameters.apiUrl): Observable<any> {
     return this.http.get(baseUrl + path, {params})
       .pipe(catchError(ApiService.formatErrors));
   }
@@ -40,7 +40,7 @@ export class ApiService {
    * @param body Paramètres du corps de la requête
    * @param baseUrl Url de base de la requête
    */
-  put(path: string, body: Object = {}, baseUrl = environment.apiUrl): Observable<any> {
+  put(path: string, body: Object = {}, baseUrl = parameters.apiUrl): Observable<any> {
     return this.http.put(
       baseUrl + path,
       JSON.stringify(body)
@@ -53,7 +53,7 @@ export class ApiService {
    * @param body Paramètres du corps de la requête
    * @param baseUrl Url de base de la requête
    */
-  post(path: string, body: Object = {}, baseUrl = environment.apiUrl): Observable<any> {
+  post(path: string, body: Object = {}, baseUrl = parameters.apiUrl): Observable<any> {
     return this.http.post(
       baseUrl + path,
       JSON.stringify(body)
@@ -66,7 +66,7 @@ export class ApiService {
    * @param params Paramètres de la requête
    * @param baseUrl Url de base de la requête
    */
-  delete(path: string, params: HttpParams = new HttpParams(), baseUrl = environment.apiUrl): Observable<any> {
+  delete(path: string, params: HttpParams = new HttpParams(), baseUrl = parameters.apiUrl): Observable<any> {
     return this.http.delete(
       baseUrl + path
     ).pipe(catchError(ApiService.formatErrors));
