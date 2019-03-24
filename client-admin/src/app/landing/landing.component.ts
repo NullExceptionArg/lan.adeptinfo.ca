@@ -32,13 +32,7 @@ export class LandingComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Obtenir les LANs de l'application
-    this.lanService.getAll()
-      .subscribe(lans => {
-        this.lans = lans;
-        this.lansLoaded = true;
-        this.currentLan = lans.find(lan => lan.is_current);
-      });
+    this.getLans();
   }
 
   /**
@@ -48,12 +42,24 @@ export class LandingComponent implements OnInit {
     this.lanService.setCurrentLan(this.currentLan);
   }
 
+  getLans(): void {
+    // Obtenir les LANs de l'application
+    this.lanService.getAll()
+      .subscribe(lans => {
+        this.lans = lans;
+        this.lansLoaded = true;
+        this.currentLan = lans.find(lan => lan.is_current);
+      });
+  }
+
   openCreateLanDialog() {
     const dialogRef = this.dialog.open(CreateLanComponent, {
       width: '1000px',
+      maxWidth: '90vw'
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(() => {
+      this.getLans();
     });
   }
 

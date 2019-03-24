@@ -22,8 +22,7 @@
   <mat-card-header>
     <mat-card-title>{{selectedChart.name}}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image src="{{selectedChart.publishedVersionThumbnailUrl}}" alt="Cartes"
-       ngStyle.gt-sm="width: 40%" ngStyle.lt-md="width: 100%"/>
+  <img mat-card-image src="{{selectedChart.publishedVersionThumbnailUrl}}" alt="Cartes"/>
   <mat-card-actions
     gdAreas.gt-sm="return select-event"
     gdAreas.lt-md="select-event | return"
@@ -35,8 +34,8 @@
     </button>
     <mat-form-field [formGroup]="seatsForm" gdArea="select-event">
       <mat-select placeholder="Sélectionnez un événement" formControlName="eventKey">
-        <mat-option *ngFor="let chartEvent of selectedChart.events" [value]="chartEvent.chartKey">
-          {{chartEvent.chartKey}}
+        <mat-option *ngFor="let chartEvent of selectedChart.events" [value]="chartEvent.key">
+          {{chartEvent.key}}
         </mat-option>
       </mat-select>
       <mat-error>{{getEventKeyError()}}</mat-error>

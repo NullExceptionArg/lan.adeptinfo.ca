@@ -8,7 +8,32 @@
   margin-top: 10px;
 }
 
+::ng-deep .mat-vertical-content {
+  padding: 0 10px 24px 10px !important;
+}
+
+::ng-deep .mat-dialog-container {
+  padding: 5px !important;
+}
+
+::ng-deep .mat-expansion-panel-header-title {
+  flex-grow: 10 !important;
+}
+
+::ng-deep .mat-expansion-panel-header-title,
+::ng-deep .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
 .scrollable-stepper {
   overflow-y: scroll;
   height: 600px;
+}
+
+#lan-creation-errors {
+  margin-top: 10px;
+}
+
+.lan-creation-errors-icon {
+  margin-left: 5px;
 }

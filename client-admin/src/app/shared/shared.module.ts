@@ -13,11 +13,13 @@ import {
   MatDatepickerModule,
   MatDialogModule,
   MatDividerModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatProgressSpinnerModule,
   MatSelectModule,
   MatSidenavModule,
   MatStepperModule,
@@ -28,6 +30,7 @@ import {ShowAuthedDirective} from './show-authed.directive';
 import {HasPermissionPipe} from './has-permission.pipe';
 import {AmazingTimePickerModule} from 'amazing-time-picker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   imports: [
@@ -35,7 +38,8 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    SweetAlert2Module.forRoot()
   ],
   declarations: [
     ShowAuthedDirective,
@@ -69,7 +73,10 @@ import {MatMomentDateModule} from '@angular/material-moment-adapter';
     MatDialogModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatMomentDateModule
+    MatMomentDateModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    SweetAlert2Module
   ]
 })
 export class SharedModule {

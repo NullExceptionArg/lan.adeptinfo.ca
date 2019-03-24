@@ -27,6 +27,7 @@
     "@angular/router": "^7.2.7",
     "@covalent/text-editor": "^2.0.0",
     "@seatsio/seatsio-angular": "^6.0.0",
+    "@sweetalert2/ngx-sweetalert2": "^5.0.1",
     "@types/codemirror": "0.0.72",
     "amazing-time-picker": "^1.8.0",
     "angularx-social-login": "^1.2.6",
@@ -37,6 +38,7 @@
     "ngx-owl-carousel": "^2.0.7",
     "owl.carousel": "^2.3.4",
     "rxjs": "6.4.0",
+    "sweetalert2": "^8.6.0",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {

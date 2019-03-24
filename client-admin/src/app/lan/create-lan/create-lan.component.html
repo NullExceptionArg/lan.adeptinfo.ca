@@ -1,4 +1,6 @@
-<mat-vertical-stepper [linear]="true" [ngClass.lt-md]="'scrollable-stepper'">
+<mat-vertical-stepper (selectionChange)="currentIndex = $event.selectedIndex" [linear]="false"
+                      [ngClass.lt-md]="'scrollable-stepper'"
+                      [selectedIndex]="currentIndex">
 
   <mat-step [stepControl]="detailsForm">
     <ng-template matStepLabel>Détails</ng-template>
@@ -27,7 +29,40 @@
 
   <mat-step>
     <ng-template matStepLabel>Confirmation</ng-template>
-    <button (click)="createLan()" color="primary" mat-raised-button>Créer le LAN</button>
+    <mat-spinner *ngIf="isCreatingLan"></mat-spinner>
+    <button (click)="createLan()" *ngIf="!isCreatingLan" color="primary"
+            mat-raised-button>Créer le LAN
+    </button>
+
+    <!-- Message qui confirme la création du LAN -->
+    <swal
+      #createLanSuccessSwal
+      [showCancelButton]="false"
+      text="'Le LAN a bien été créé!'"
+      title="C'est réussi!"
+      type="success">
+    </swal>
+
+    <!-- Affichage des erreurs du serveur si elles existent -->
+    <div *ngIf="errors" id="lan-creation-errors">
+      <span class="mat-headline" id="lan-creation-errors-title">Erreurs</span>
+      <mat-accordion>
+        <mat-expansion-panel *ngFor="let error of errors.message | keyvalue">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ getErrorTitle(error.key)}}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{error.value.length}} erreur{{error.value.length > 1 ? 's' : ''}}.
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <button (click)="gotoError(error.key)" *ngFor="let e of error.value" mat-button>
+            <span>{{e}}</span>
+            <mat-icon class="lan-creation-errors-icon">edit</mat-icon>
+          </button>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
   </mat-step>
 
 </mat-vertical-stepper>

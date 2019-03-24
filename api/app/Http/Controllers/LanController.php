@@ -94,8 +94,8 @@ class LanController extends Controller
             'longitude' => 'required|numeric|min:-180|max:180',
             'places' => 'required|integer|min:1',
             'price' => 'integer|min:0',
-            'rules' => 'string',
-            'description' => 'string',
+            'rules' => 'nullable|string',
+            'description' => 'nullable|string',
             'permission' => new HasPermission(Auth::id())
         ]);
 

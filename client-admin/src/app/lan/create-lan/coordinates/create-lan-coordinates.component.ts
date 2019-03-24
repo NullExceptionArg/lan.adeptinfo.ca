@@ -1,8 +1,7 @@
+/// <reference types="@types/googlemaps" />
 import {Component, ElementRef, NgZone, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MapsAPILoader} from '@agm/core';
-// @ts-ignore
-import {Map} from 'googlemaps';
 
 @Component({
   selector: 'app-create-lan-coordinates',
@@ -60,7 +59,7 @@ export class CreateLanCoordinatesComponent implements OnInit {
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
           // Obtenir les informations de la place
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
 
           // Vérifier les résultats
           if (place.geometry === undefined || place.geometry === null) {
