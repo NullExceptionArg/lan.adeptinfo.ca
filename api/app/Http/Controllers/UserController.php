@@ -124,16 +124,6 @@ class UserController extends Controller
     public function getAdminSummary(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
-        $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'permission' => 'admin-summary'
-        ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
-        ]);
-
-        $this->checkValidation($validator);
-
         return response()->json($this->userService->getAdminSummary(
             Auth::id(),
             $request->input('lan_id')

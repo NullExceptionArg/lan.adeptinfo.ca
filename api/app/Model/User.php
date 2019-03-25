@@ -87,7 +87,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
                 $lan = Lan::find($reservation->lan_id);
 
                 // Rendre sa place disponible dans l'API Seats.io
-                $seatsClient = new SeatsioClient($lan->secret_key);
+                $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
                 $seatsClient->events->release($lan->event_key, $reservation->seat_id);
 
                 // Supprimer la réservation

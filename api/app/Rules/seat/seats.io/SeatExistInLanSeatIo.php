@@ -46,7 +46,7 @@ class SeatExistInLanSeatIo implements Rule
             return true; // Une autre validation devrait échouer
         }
 
-        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         try {
             // Demander à l'API de retrouver le siège pour l'événement du LAN, pour l'id du siège
             $seatsClient->events->retrieveObjectStatus($lan->event_key, $seatId);

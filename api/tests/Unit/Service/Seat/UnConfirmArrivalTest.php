@@ -31,7 +31,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
             'user_id' => $this->user->id,
             'lan_id' => $this->lan->id
         ]);
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
 
         $result = $this->seatService->unConfirmArrival($this->lan->id, env('SEAT_TEST_ID'));

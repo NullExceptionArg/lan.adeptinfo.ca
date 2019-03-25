@@ -18,12 +18,14 @@ class GetAllTest extends TestCase
                 [
                     'id' => $lan1->id,
                     'name' => $lan1->name,
+                    'is_current' => false,
                     'date' => date('F Y', strtotime($lan1->lan_start)),
 
                 ],
                 [
                     'id' => $lan2->id,
                     'name' => $lan2->name,
+                    'is_current' => false,
                     'date' => date('F Y', strtotime($lan2->lan_start)),
 
                 ]

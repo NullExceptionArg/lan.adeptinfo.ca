@@ -1,0 +1,47 @@
+<!-- Caroussel qui affiche les options de cartes seats.io. Ne s'affiche que si les cartes ont été chargées,
+     et qu'il n'y a pas de carte courament sélectionnée. -->
+<owl-carousel *ngIf="charts && !selectedChart" [carouselClasses]="['owl-theme', 'sliding']" [options]="carouselOptions">
+  <div *ngFor="let chart of charts" class="item">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>{{chart.name}}</mat-card-title>
+      </mat-card-header>
+      <img alt="Cartes" mat-card-image src="{{chart.publishedVersionThumbnailUrl}}"/>
+      <mat-card-actions>
+        <button (click)="selectChart(chart)" class="select-chart-button" color="primary" mat-raised-button>
+          Sélectionner
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</owl-carousel>
+
+<!-- Carte courament sélectionnée pour que l'événement puisse être sélectionné. Ne s'affiche que si une carte est
+     est courament sélectionnée. -->
+<mat-card *ngIf="selectedChart">
+  <mat-card-header>
+    <mat-card-title>{{selectedChart.name}}</mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src="{{selectedChart.publishedVersionThumbnailUrl}}" alt="Cartes"/>
+  <mat-card-actions
+    gdAreas.gt-sm="return select-event"
+    gdAreas.lt-md="select-event | return"
+    gdColumns.gt-sm="17% 80%"
+    gdColumns.lt-md="100%"
+    gdGap="3%">
+    <button gdArea="return" mat-raised-button color="primary" (click)="unselectChart()">
+      Retour
+    </button>
+    <mat-form-field [formGroup]="seatsForm" gdArea="select-event">
+      <mat-select placeholder="Sélectionnez un événement" formControlName="eventKey">
+        <mat-option *ngFor="let chartEvent of selectedChart.events" [value]="chartEvent.key">
+          {{chartEvent.key}}
+        </mat-option>
+      </mat-select>
+      <mat-error>{{getEventKeyError()}}</mat-error>
+    </mat-form-field>
+  </mat-card-actions>
+</mat-card>
+
+<button class="stepper-button-previous" color="primary" mat-raised-button matStepperPrevious>Précédent</button>
+<button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>

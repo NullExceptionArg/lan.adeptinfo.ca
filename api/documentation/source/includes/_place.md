@@ -235,3 +235,23 @@ lan_id | Id du LAN où l'administrateur veut déconfirmer une place. Si le param
 Champ | Description
 --------- | -----------
 seat_id | Id de la place que l'administrateur a déconfirmé.
+
+## Lister les cartes seats.io
+
+Obtenir les cartes seats.io ainsi que les événements qui leur sont rattachés.
+
+<aside class="warning">
+<a href="#permission">Permission</a> requise : <code>get-seat-charts</code>, can_be_per_lan <code>false</code>
+</aside>
+
+### Requête HTTP
+
+`GET /seat/charts`
+
+Cette requête ne nécessite aucun paramètres.
+
+Consultez la documentation officielle de seats.io pour obtenir les détails sur le type format de réponses.
+
+<aside class="info">
+Le contenu la requête est le même que sur la documentation officielle de seats.io, disponible <a target="_blank" href="https://docs.seats.io/docs/api-list-all-charts">ici</a>.
+</aside>

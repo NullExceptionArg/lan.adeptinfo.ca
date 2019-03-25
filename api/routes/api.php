@@ -98,6 +98,7 @@ $api->version('v1', function ($api) {
                 $api->delete('seat/confirm/{seat_id}', 'SeatController@unConfirmArrival');
                 $api->post('seat/assign/{seat_id}', 'SeatController@assign');
                 $api->delete('seat/assign/{seat_id}', 'SeatController@unAssign');
+                $api->get('seat/charts', 'SeatController@getSeatCharts');
 
                 // Tournoi
                 $api->post('tournament', 'TournamentController@create');

@@ -21,8 +21,6 @@ class CreateTest extends TestCase
         'seat_reservation_start' => "2100-10-04 12:00:00",
         'tournament_reservation_start' => "2100-10-07 00:00:00",
         "event_key" => "",
-        "public_key" => "",
-        "secret_key" => "",
         "latitude" => -67.5,
         "longitude" => 64.033333,
         "places" => 10,
@@ -36,8 +34,6 @@ class CreateTest extends TestCase
         parent::setUp();
 
         $this->requestContent['event_key'] = env('EVENT_TEST_KEY');
-        $this->requestContent['secret_key'] = env('SECRET_TEST_KEY');
-        $this->requestContent['public_key'] = env('SECRET_TEST_KEY');
 
         $this->user = factory('App\Model\User')->create();
 
@@ -59,8 +55,6 @@ class CreateTest extends TestCase
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
                 'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
                 "event_key" => $this->requestContent['event_key'],
-                "public_key" => $this->requestContent['public_key'],
-                "secret_key" => $this->requestContent['secret_key'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
                 "places" => $this->requestContent['places'],
@@ -100,8 +94,6 @@ class CreateTest extends TestCase
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
                 'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
                 "event_key" => $this->requestContent['event_key'],
-                "public_key" => $this->requestContent['public_key'],
-                "secret_key" => $this->requestContent['secret_key'],
                 "latitude" => $this->requestContent['latitude'],
                 "longitude" => $this->requestContent['longitude'],
                 "places" => $this->requestContent['places'],
@@ -126,8 +118,6 @@ class CreateTest extends TestCase
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
                 'tournament_reservation_start' => $this->requestContent['tournament_reservation_start'],
                 "event_key" => $this->requestContent['event_key'],
-                "public_key" => $this->requestContent['public_key'],
-                "secret_key" => $this->requestContent['secret_key'],
                 "places" => $this->requestContent['places'],
                 'is_current' => true,
                 "latitude" => $this->requestContent['latitude'],
@@ -443,74 +433,6 @@ class CreateTest extends TestCase
             ->assertResponseStatus(400);
     }
 
-    public function testCreatePublicKeyRequired(): void
-    {
-        $this->requestContent['public_key'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'public_key' => [
-                        0 => 'The public key field is required.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreatePublicKeyMaxLength(): void
-    {
-        $this->requestContent['public_key'] = str_repeat('☭', 256);
-        $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'public_key' => [
-                        0 => 'The public key may not be greater than 255 characters.',
-                    ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateSecretKeyRequired(): void
-    {
-        $this->requestContent['secret_key'] = '';
-        $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'secret_key' => [
-                        0 => 'The secret key field is required.',
-                    ]
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateSecretKeyMaxLength(): void
-    {
-        $this->requestContent['secret_key'] = str_repeat('☭', 256);
-        $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'secret_key' => [
-                        0 => 'The secret key may not be greater than 255 characters.'
-                    ]
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
     public function testCreateLatitudeRequired(): void
     {
         $this->requestContent['latitude'] = '';
@@ -676,23 +598,6 @@ class CreateTest extends TestCase
                     'price' => [
                         0 => 'The price must be an integer.',
                     ],
-                ]
-            ])
-            ->assertResponseStatus(400);
-    }
-
-    public function testCreateSecretKey(): void
-    {
-        $this->requestContent['secret_key'] = '☭';
-        $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
-            ->seeJsonEquals([
-                'success' => false,
-                'status' => 400,
-                'message' => [
-                    'secret_key' => [
-                        0 => 'The secret key is not valid.',
-                    ]
                 ]
             ])
             ->assertResponseStatus(400);

@@ -10,16 +10,27 @@ import {
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
+  MatDatepickerModule,
+  MatDialogModule,
   MatDividerModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
   MatMenuModule,
+  MatProgressSpinnerModule,
+  MatSelectModule,
   MatSidenavModule,
-  MatToolbarModule
+  MatStepperModule,
+  MatToolbarModule,
+  MatTooltipModule
 } from '@angular/material';
 import {ShowAuthedDirective} from './show-authed.directive';
+import {HasPermissionPipe} from './has-permission.pipe';
+import {AmazingTimePickerModule} from 'amazing-time-picker';
+import {MatMomentDateModule} from '@angular/material-moment-adapter';
+import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
   imports: [
@@ -27,10 +38,12 @@ import {ShowAuthedDirective} from './show-authed.directive';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    SweetAlert2Module.forRoot()
   ],
   declarations: [
-    ShowAuthedDirective
+    ShowAuthedDirective,
+    HasPermissionPipe
   ],
   exports: [
     CommonModule,
@@ -38,6 +51,8 @@ import {ShowAuthedDirective} from './show-authed.directive';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    HasPermissionPipe,
+    AmazingTimePickerModule,
     RouterModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
@@ -52,7 +67,16 @@ import {ShowAuthedDirective} from './show-authed.directive';
     MatInputModule,
     MatDividerModule,
     MatCheckboxModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatDialogModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    MatProgressSpinnerModule,
+    MatExpansionModule,
+    SweetAlert2Module
   ]
 })
 export class SharedModule {

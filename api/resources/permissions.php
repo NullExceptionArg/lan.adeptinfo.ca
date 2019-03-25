@@ -44,6 +44,7 @@ return [
     ['name' => 'unconfirm-arrival', 'can_be_per_lan' => true],
     ['name' => 'assign-seat', 'can_be_per_lan' => true],
     ['name' => 'unassign-seat', 'can_be_per_lan' => true],
+    ['name' => 'get-seat-charts', 'can_be_per_lan' => false],
 
     // LanImage
     ['name' => 'add-image', 'can_be_per_lan' => true],
@@ -86,7 +87,6 @@ return [
     ['name' => 'get-permissions', 'can_be_per_lan' => true],
 
     // User
-    ['name' => 'admin-summary', 'can_be_per_lan' => true],
     ['name' => 'get-admin-roles', 'can_be_per_lan' => true],
     ['name' => 'get-users', 'can_be_per_lan' => true],
     ['name' => 'get-user-details', 'can_be_per_lan' => true]

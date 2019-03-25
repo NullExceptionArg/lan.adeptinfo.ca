@@ -33,7 +33,7 @@ abstract class FacebookTestCase extends TestCase
         try {
             // Obtenir les utilisateurs de tests de l'API Facebook
             $users = $fb->get(
-                '/' . env('FB_TEST_ID') . '/accounts/test-users',
+                '/' . env('FB_ID') . '/accounts/test-users',
                 $accessToken->getValue()
             );
 
@@ -47,6 +47,7 @@ abstract class FacebookTestCase extends TestCase
                 );
             }
         } catch (FacebookSDKException $e) {
+            $this->fail('There was a problem in the FacebookTestCase while contacting the Facebook API.');
         }
 
         parent::tearDown();

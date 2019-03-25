@@ -27,7 +27,7 @@ abstract class SeatsTestCase extends TestCase
         parent::setUp();
 
         // Créer un client pour l'API de seats.io
-        $seatsClient = new SeatsioClient(env('SECRET_TEST_KEY'));
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Rendre le siège de test comme disponible
         $seatsClient->events->release(env('EVENT_TEST_KEY'), env('SEAT_TEST_ID'));
@@ -36,7 +36,7 @@ abstract class SeatsTestCase extends TestCase
     public function tearDown()
     {
         // Créer un client pour l'API de seats.io
-        $seatsClient = new SeatsioClient(env('SECRET_TEST_KEY'));
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Rendre le siège de test comme disponible
         $seatsClient->events->release(env('EVENT_TEST_KEY'), env('SEAT_TEST_ID'));

@@ -1,0 +1,118 @@
+<form [formGroup]="detailsForm">
+
+  <div gdAreas.gt-sm="name name price playerCount |
+                      startDate startTime endDate endTime |
+                      reservationDate reservationTime tournamentDate tournamentTime"
+       gdAreas.sm="name name price playerCount |
+                      startDate startDate startTime startTime |
+                      endDate endDate endTime endTime |
+                      reservationDate reservationDate reservationTime reservationTime |
+                      tournamentDate tournamentDate tournamentTime tournamentTime"
+       gdAreas.xs="name |
+                   price |
+                   playerCount |
+                   startDate |
+                   startTime |
+                   endDate |
+                   endTime |
+                   reservationDate |
+                   reservationTime |
+                   tournamentDate |
+                   tournamentTime"
+       gdColumns.gt-xs="22% 22% 22% 22%"
+       gdColumns.xs="100%"
+       gdGap="20px">
+
+    <mat-form-field gdArea="name" hintLabel="255 caractères maximum">
+      <mat-label>Nom du LAN</mat-label>
+      <input formControlName="name" matInput maxlength="255" placeholder="Entrez le nom du LAN">
+      <mat-hint align="end">{{detailsForm.controls['name'].value?.length || 0}}/255</mat-hint>
+      <mat-icon matSuffix>contact_support</mat-icon>
+      <mat-error>{{getNameError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy" gdArea="price">
+      <mat-label>Prix d'entrée</mat-label>
+      <input formControlName="price" matInput min="0" placeholder="Entrez le prix du LAN" step=".01" type="number">
+      <mat-icon matSuffix>attach_money</mat-icon>
+      <mat-error>{{getPriceError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="legacy" gdArea="playerCount">
+      <mat-label>Nombre de joueurs</mat-label>
+      <input formControlName="playerCount" matInput min="1" placeholder="Entrez le nombre de joueurs">
+      <mat-icon matSuffix>people</mat-icon>
+      <mat-error>{{getPlayerCountError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="startDatePicker.open()" gdArea="startDate">
+      <input (dateChange)="checkEndDateTime(); checkReservationDateTime(); checkTournamentDateTime()"
+             [matDatepicker]="startDatePicker" formControlName="startDate" matInput placeholder="Date de début"
+             readonly>
+      <mat-datepicker #startDatePicker disabled="false"></mat-datepicker>
+      <mat-icon matSuffix>calendar_today</mat-icon>
+      <mat-error>{{getStartDateError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="openStartTime()" gdArea="startTime">
+      <input [value]="detailsForm.controls['startTime'].value" formControlName="startTime" matInput
+             placeholder="Heure de début" readonly
+             type="time">
+      <mat-icon matSuffix>access_time</mat-icon>
+      <mat-error>{{getStartTimeError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="endDatePicker.open()" gdArea="endDate">
+      <input (dateChange)="checkEndDateTime()" [matDatepicker]="endDatePicker" formControlName="endDate" matInput
+             placeholder="Date de fin"
+             readonly>
+      <mat-datepicker #endDatePicker disabled="false"></mat-datepicker>
+      <mat-icon matSuffix>calendar_today</mat-icon>
+      <mat-error>{{getEndDateError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="openEndTime()" gdArea="endTime">
+      <input [value]="detailsForm.controls['endTime'].value" formControlName="endTime" matInput
+             placeholder="Heure de fin"
+             readonly>
+      <mat-icon matSuffix>access_time</mat-icon>
+      <mat-error>{{getEndTimeError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="reservationDatePicker.open()" gdArea="reservationDate">
+      <input (dateChange)="checkReservationDateTime()" [matDatepicker]="reservationDatePicker"
+             formControlName="reservationDate" matInput
+             placeholder="Date de réservation" readonly>
+      <mat-datepicker #reservationDatePicker disabled="false"></mat-datepicker>
+      <mat-icon matSuffix>calendar_today</mat-icon>
+      <mat-error>{{getReservationDateError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="openReservationTime()" gdArea="reservationTime">
+      <input [value]="detailsForm.controls['reservationTime'].value" formControlName="reservationTime" matInput
+             placeholder="Heure de réservation"
+             readonly>
+      <mat-icon matSuffix>access_time</mat-icon>
+      <mat-error>{{getReservationTimeError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="tournamentDatePicker.open()" gdArea="tournamentDate">
+      <input (dateChange)="checkTournamentDateTime()" [matDatepicker]="tournamentDatePicker"
+             formControlName="tournamentDate" matInput
+             placeholder="Date des tournois" readonly>
+      <mat-datepicker #tournamentDatePicker disabled="false"></mat-datepicker>
+      <mat-icon matSuffix>calendar_today</mat-icon>
+      <mat-error>{{getTournamentDateError()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field (click)="openTournamentTime()" gdArea="tournamentTime">
+      <input [value]="detailsForm.controls['tournamentTime'].value" formControlName="tournamentTime" matInput
+             placeholder="Heure des tournois"
+             readonly>
+      <mat-icon matSuffix>access_time</mat-icon>
+      <mat-error>{{getTournamentTimeError()}}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
+</form>

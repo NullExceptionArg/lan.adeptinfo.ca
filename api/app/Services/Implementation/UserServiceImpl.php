@@ -87,7 +87,7 @@ class UserServiceImpl implements UserService
         return new GetAdminRolesResource($globalRoles, $lanRoles);
     }
 
-    public function getAdminSummary(int $userId, int $lanId): GetAdminSummaryResource
+    public function getAdminSummary(int $userId, ?int $lanId): GetAdminSummaryResource
     {
         // Trouver l'utilisateur
         $user = $this->userRepository->findById($userId);

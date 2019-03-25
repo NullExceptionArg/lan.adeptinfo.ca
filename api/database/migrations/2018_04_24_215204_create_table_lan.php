@@ -19,8 +19,6 @@ class CreateTableLan extends Migration
             $table->dateTime('seat_reservation_start');
             $table->dateTime('tournament_reservation_start');
             $table->string('event_key'); // seat.io
-            $table->string('public_key'); // seat.io
-            $table->string('secret_key'); // seat.io
             $table->boolean('is_current')->default(false);
             $table->unsignedInteger('places');
             $table->decimal('longitude', 10, 7);

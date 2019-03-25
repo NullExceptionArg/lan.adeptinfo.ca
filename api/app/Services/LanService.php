@@ -33,8 +33,6 @@ interface LanService
      * @param DateTime $seatReservationStart Date et heure de début de la réservation des places
      * @param DateTime $tournamentReservationStart Date et heure de début de l'inscription aux tournois
      * @param string $eventKey Clé d'événement seats.io
-     * @param string $publicKey Clé publique seats.io
-     * @param string $secretKey Clé secrète seats.io
      * @param float $latitude Latitude des coordonnées géographiques du LAN
      * @param float $longitude Longitude des coordonnées géographiques du LAN
      * @param int $places Nombre de place disponibles pour le LAN
@@ -50,8 +48,6 @@ interface LanService
         DateTime $seatReservationStart,
         DateTime $tournamentReservationStart,
         string $eventKey,
-        string $publicKey,
-        string $secretKey,
         float $latitude,
         float $longitude,
         int $places,
@@ -104,8 +100,6 @@ interface LanService
      * @param DateTime|null $seatReservationStart Nouvelle date et heure du début de la réservation des sièges
      * @param DateTime|null $tournamentReservationStart Nouvelle date et heure de début d'inscription aux tournois
      * @param string|null $eventKey Nouvelle clé d'événement seats.io
-     * @param string|null $publicKey Nouvelle clé publique seats.io
-     * @param string|null $secretKey Nouvelle Nouvelle clé secrète seats.io
      * @param float|null $latitude Nouvelle latitude des coordonnées
      * @param float|null $longitude Nouvelle longitude des coordonnées
      * @param int|null $places Nouveau nombre de places disponibles pour le LAN
@@ -122,8 +116,6 @@ interface LanService
         ?DateTime $seatReservationStart,
         ?DateTime $tournamentReservationStart,
         ?string $eventKey,
-        ?string $publicKey,
-        ?string $secretKey,
         ?float $latitude,
         ?float $longitude,
         ?int $places,

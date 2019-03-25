@@ -19,7 +19,7 @@ class ReservationTableSeeder extends Seeder
      */
     public function run()
     {
-        $seatsClient = new SeatsioClient(env('SECRET_TEST_KEY'));
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Obtenir les places par défaut d'un LAN
         $places = include(base_path() . '/database/seat.php');

@@ -1,0 +1,15 @@
+<!-- Champ de suggestion d'addresses -->
+<mat-form-field [formGroup]="coordinatesForm" class="map-form">
+  <input #search (blur)="checkAddress()" autocapitalize="off" formControlName="address" matInput
+         placeholder="Entrez l'adresse du LAN" spellcheck="false" type="text">
+  <mat-error>{{getAddressError()}}</mat-error>
+</mat-form-field>
+
+<!-- Carte qui affiche l'addresse courament sélectionnée -->
+<agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoomControl]="false"
+         [streetViewControl]="false" [mapDraggable]="false" [zoom]="zoom" class="no-select">
+  <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+</agm-map>
+
+<button class="stepper-button-previous" color="primary" mat-raised-button matStepperPrevious>Précédent</button>
+<button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>

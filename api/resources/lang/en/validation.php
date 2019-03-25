@@ -121,7 +121,6 @@ return [
     'seat_once_per_lan_seat_io' => 'This seat is already taken for this event.',
     'user_once_per_lan' => 'The user already has a seat at this event.',
     'valid_event_key' => 'The event key is not valid.',
-    'valid_secret_key' => 'The secret key is not valid.',
     'one_of_two_fields' => 'Field :value can\'t be used if the field :second_field is used too.',
     'many_image_ids_exist' => 'The ids :ids on the field :attribute don\'t exist.',
     'seat_lan_relation_exists' => 'The relation between seat with id :seat_id and LAN with id :lan_id doesn\'t exist.',

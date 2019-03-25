@@ -1,8 +1,28 @@
 <div class="color-primary-background" id="welcome-statement">
   <h1 class="mat-h1 no-select">Console d'administration du LAN de l'ADEPT</h1>
   <h2 class="mat-h2 no-select">Ce site est réservé aux administrateurs du LAN de l'ADEPT</h2>
-  <a href="{{getPlayerUrl()}}" mat-raised-button
-     target="_blank">Site principal
-    <mat-icon>last_page</mat-icon>
-  </a>
+
+  <!-- Sélection du LAN courant -->
+  <div *ngIf="currentLan != null" class="select-current-lan-section">
+    <div class="mat-display-1" id="select-current-lan-text">LAN courant :</div>
+    <mat-form-field id="select-lan-form">
+      <mat-select (selectionChange)="setCurrentLan()" [(value)]="currentLan.id">
+        <mat-option *ngFor="let lan of lans" [value]="lan.id">
+          {{lan.date}}
+          <mat-icon [matTooltip]="lan.name" class="select-lan-tooltip-icon" matTooltipPosition="below">help</mat-icon>
+        </mat-option>
+        <mat-select-trigger>
+          {{currentLan.date}}
+        </mat-select-trigger>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="lansLoaded && currentLan == null && 'create-lan' | HasPermission">
+    <button (click)="openCreateLanDialog()" mat-raised-button>Créer le premier LAN</button>
+  </div>
+
+  <div *ngIf="lansLoaded && currentLan == null && !('create-lan' | HasPermission)">
+    <div class="mat-headline">Il n'existe encore aucun LAN. Demandez à l'administrateur général d'en créer un.</div>
+  </div>
 </div>

@@ -10,6 +10,7 @@ use App\Rules\{Seat\SeatExistInLanSeatIo,
     Seat\SeatOncePerLan,
     Seat\SeatOncePerLanSeatIo,
     Seat\UserOncePerLan,
+    User\HasPermission,
     User\HasPermissionInLan};
 use App\Services\Implementation\SeatServiceImpl;
 use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
@@ -147,6 +148,23 @@ class SeatController extends Controller
             $request->input('lan_id'),
             $seatId
         )], 200);
+    }
+
+    /**
+     * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-cartes-seats-io
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getSeatCharts()
+    {
+        $validator = Validator::make([
+            'permission' => 'get-seat-charts'
+        ], [
+            'permission' => new HasPermission(Auth::id())
+        ]);
+
+        $this->checkValidation($validator);
+
+        return response()->json($this->seatService->getSeatCharts(), 200);
     }
 
     /**

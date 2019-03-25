@@ -189,7 +189,7 @@ class ConfirmArrivalTest extends SeatsTestCase
 
     public function testConfirmArrivalSeatIdFree(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'free');
 
         $this->actingAs($this->user)
@@ -211,7 +211,7 @@ class ConfirmArrivalTest extends SeatsTestCase
 
     public function testBookSeatIdArrived(): void
     {
-        $seatsClient = new SeatsioClient($this->lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');
 
         $this->actingAs($this->user)

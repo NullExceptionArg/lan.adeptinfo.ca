@@ -91,7 +91,7 @@ class RoleRepositoryImpl implements RoleRepository
         return LanRole::find($id);
     }
 
-    public function getAdminPermissions(int $lanId, int $userId): Collection
+    public function getAdminPermissions(?int $lanId, int $userId): Collection
     {
         // Permissions dans les rôles de LAN
         $lanPermissions = DB::table('permission')
@@ -311,7 +311,7 @@ class RoleRepositoryImpl implements RoleRepository
             ]);
     }
 
-    public function userHasPermission(string $permission, int $userId, int $lanId): bool
+    public function userHasPermission(string $permission, int $userId, ?int $lanId): bool
     {
         // Permissions dans les rôles de LAN
         $lanPermissions = DB::table('permission')

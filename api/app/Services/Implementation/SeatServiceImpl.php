@@ -4,6 +4,8 @@ namespace App\Services\Implementation;
 
 use App\Repositories\Implementation\{LanRepositoryImpl, SeatRepositoryImpl, UserRepositoryImpl};
 use App\Services\SeatService;
+use Seatsio\Charts\ChartListParams;
+use Seatsio\Charts\ChartPage;
 use Seatsio\SeatsioClient;
 
 class SeatServiceImpl implements SeatService
@@ -38,7 +40,7 @@ class SeatServiceImpl implements SeatService
         $lan = $this->lanRepository->findById($lanId);
 
         // Créer un client seats.io
-        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Créer un objet pour la place, au nom de l'utilisateur, avec son courriel et son nom complet
         $seatObject = [[
@@ -68,7 +70,7 @@ class SeatServiceImpl implements SeatService
         $lan = $this->lanRepository->findById($lanId);
 
         // Créer un client seats.io
-        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Créer un objet pour la place, au nom de l'utilisateur, avec son courriel et son nom complet
         $seatObject = [[
@@ -94,7 +96,7 @@ class SeatServiceImpl implements SeatService
         $lan = $this->lanRepository->findById($lanId);
 
         // Créer un client seats.io
-        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Trouver la réservation qui correspond au siège et au LAN
         $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
@@ -109,6 +111,15 @@ class SeatServiceImpl implements SeatService
         return $reservation->seat_id;
     }
 
+    public function getSeatCharts(): ChartPage
+    {
+        // Créer un client seats.io
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
+
+        // Obtenir les cartes ainsi que les événements qui leur sont liés
+        return $seatsClient->charts->listFirstPage((new ChartListParams())->withExpandEvents(true));
+    }
+
     public function unAssign(int $lanId, string $email, string $seatId): string
     {
         // Trouver l'utilisateur qui correspond au courriel
@@ -118,7 +129,7 @@ class SeatServiceImpl implements SeatService
         $lan = $this->lanRepository->findById($lanId);
 
         // Créer un client seats.io
-        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Trouver la réservation qui correspond au siège et au LAN
         $reservation = $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
@@ -142,7 +153,7 @@ class SeatServiceImpl implements SeatService
         $lan = $this->lanRepository->findById($lanId);
 
         // Créer un client seats.io
-        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Trouver la réservation qui correspond au siège et au LAN
         $reservation = $this->seatRepository->findReservationByLanIdAndUserId($lan->id, $user->id);
@@ -163,7 +174,7 @@ class SeatServiceImpl implements SeatService
         $lan = $this->lanRepository->findById($lanId);
 
         // Créer un client seats.io
-        $seatsClient = new SeatsioClient($lan->secret_key);
+        $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Trouver la réservation qui correspond au siège et au LAN
         $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
