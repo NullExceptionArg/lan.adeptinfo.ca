@@ -18,12 +18,11 @@
       "dom"
     ],
     "paths": {
-      
-      "lan-core": [
-        "dist/lan-core"
+      "core": [
+        "dist/core"
       ],
-      "lan-core/*": [
-        "dist/lan-core/*"
+      "core/*": [
+        "dist/core/*"
       ]
     }
   }

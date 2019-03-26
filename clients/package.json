@@ -1,6 +1,6 @@
 {
-  "name": "client-admin",
-  "version": "0.0.0",
+  "name": "lanadept-clients",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -34,10 +34,10 @@
     "core-js": "^2.6.5",
     "hammerjs": "^2.0.8",
     "jquery": "^3.3.1",
-    "lan-core": "file:dist/lan-core",
     "moment": "^2.24.0",
     "ngx-owl-carousel": "^2.0.7",
     "owl.carousel": "^2.3.4",
+    "core": "file:dist/core",
     "rxjs": "6.4.0",
     "sweetalert2": "^8.6.0",
     "zone.js": "^0.8.29"

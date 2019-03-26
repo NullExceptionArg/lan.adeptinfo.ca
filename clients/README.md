@@ -1,9 +1,9 @@
 # Clients LAN de l'ADEPT
 
 Ce workspace Angular contient 3 projets.
-1. **client-user** - L'application de gestion du site web pour les adminisateurs de l'évennement
-2. **client-admin** - L'application pour les utilisateurs standards
-3. **lan-core** - La librairie principale, contenant les services et les modèles utilisés par les deux clients et qui communique avec l'API.
+1. **user** - L'application de gestion du site web pour les adminisateurs de l'évennement
+2. **admin** - L'application pour les utilisateurs standards
+3. **core** - La librairie principale, contenant les services et les modèles utilisés par les deux clients et qui communique avec l'API.
 
 # Table des matières
   1. [Information générale](#information-générale)        
@@ -31,20 +31,22 @@ Ce workspace Angular contient 3 projets.
 
 ### Exécuter pour la première fois
 
- - Avec un terminal de commande, se placer à la racine du dossier `clients`
+ - Avec un terminal de commande, se placer à la racine du dossier **core** : `cd clients/projects/core`
  - Exécuter `npm install` (prend un certain temps)
- - Remplacer le fichier `client-admin/src/environments/environment.example.ts` par `environment.example.ts` et le fichier `lan-core/src/lib/params.example.ts` par `params.ts`
+ - Exécuter `ng build core` pour compiler la librairie principale
+ - Retourner à la racine du dossier **clients** `cd ../..` :
+ - Exécuter un second `npm install` (prend un certain temps)
+ - Remplacer le fichier `projects/admin/src/environments/environment.example.ts` par `environment.example.ts` et le fichier `projects/core/src/lib/params.example.ts` par `params.ts`
     - Veuillez contacter un administrateur du projet pour avoir les configurations d'environnement préremplie.
- - Exécuter `ng build lan-core` pour compiler la librairie principale
 
- > :bulb: IMPORTANT: Il faut faire un `ng build lan-core` à chaque modification de la librairie pour que les changements soient pris en compte.
+ > :bulb: IMPORTANT: Il faut faire un `ng build core` à chaque modification de la librairie pour que les changements soient pris en compte dans les clients.
 
- - Lancer la commande `ng serve <nom du projet>` en remplaçant `<nom du projet>` par `client-admin` ou `client-user` pour démmarer l'application de votre choix
+ - Lancer la commande `ng serve <nom du projet>` en remplaçant `<nom du projet>` par `admin` ou `user` pour démmarer l'application de votre choix.
 
  - Ouvrir un navigateur à l'URL suivante: [http://localhost:4200](http://localhost:4200)
 
 ### Exécuter
-- Exécuter `ng build lan-core` pour compiler la librairie core
-- Lancer la commande `ng serve <nom du projet>` en remplaçant `<nom du projet>` par `client-admin` ou `client-user` pour démmarer l'application de votre choix
+- Exécuter `ng build core` pour compiler la librairie core
+- Lancer la commande `ng serve <nom du projet>` en remplaçant `<nom du projet>` par `admin` ou `user` pour démmarer l'application de votre choix
 
 - Ouvrir un navigateur à l'URL suivante: [http://localhost:4200](http://localhost:4200)
