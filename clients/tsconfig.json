@@ -2,7 +2,6 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "allowJs": true,
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -19,12 +18,7 @@
       "dom"
     ],
     "paths": {
-      "LanCore": [
-        "dist/lan-core"
-      ],
-      "LanCore/*": [
-        "dist/lan-core/*"
-      ],
+      
       "lan-core": [
         "dist/lan-core"
       ],
