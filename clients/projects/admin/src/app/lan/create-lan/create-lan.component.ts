@@ -85,7 +85,7 @@ export class CreateLanComponent {
    * Créer un LAN avec les champs qui ont été remplis.
    */
   createLan(): void {
-
+    this.isCreatingLan = true;
     const lan: Lan = new Lan(
       this.detailsForm.controls['name'].value,
       DateUtils.getDateFromMomentAndString(
