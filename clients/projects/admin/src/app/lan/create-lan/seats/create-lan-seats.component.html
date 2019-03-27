@@ -22,7 +22,7 @@
   <mat-card-header>
     <mat-card-title>{{selectedChart.name}}</mat-card-title>
   </mat-card-header>
-  <img mat-card-image src="{{selectedChart.publishedVersionThumbnailUrl}}" alt="Cartes"/>
+  <img mat-card-image [src]="selectedChart.publishedVersionThumbnailUrl" alt="Cartes"/>
   <mat-card-actions
     gdAreas.gt-sm="return select-event"
     gdAreas.lt-md="select-event | return"
@@ -42,6 +42,3 @@
     </mat-form-field>
   </mat-card-actions>
 </mat-card>
-
-<button class="stepper-button-previous" color="primary" mat-raised-button matStepperPrevious>Précédent</button>
-<button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
