@@ -2,6 +2,8 @@
 
 namespace App\Model;
 
+use App\Utils\DateUtils;
+use Carbon\Carbon;
 use DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -68,6 +70,26 @@ class Lan extends Model
     protected $fillable = [
         'is_current'
     ];
+
+    /**
+     * Champ à ajouter aux réponses json par défaut
+     *
+     * @var array
+     */
+    protected $appends = [
+        'date'
+    ];
+
+    /**
+     * Obtention du nom raccourci de l'événement composé du mois et de l'année de l'événement.
+     *
+     * @return string
+     */
+    public function getDateAttribute()
+    {
+        $date = Carbon::parse($this->lan_start);
+        return DateUtils::getLocalizedMonth($date->month, app('translator')->getLocale()) . ' ' . $date->year;
+    }
 
     public function reservation()
     {

@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Model\{GlobalRole, LanRole, Permission};
+use Laravel\Lumen\Application;
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
 
 /**
@@ -16,7 +17,7 @@ abstract class TestCase extends BaseTestCase
     /**
      * Créer l'application
      *
-     * @return \Laravel\Lumen\Application
+     * @return Application
      */
     public function createApplication()
     {
@@ -29,6 +30,14 @@ abstract class TestCase extends BaseTestCase
         $this->artisan('lan:permissions');
     }
 
+    /**
+     * Ajouter une permission de LAN à un utilisateur.
+     *
+     * @param int $userId Id de l'utilisateur
+     * @param int $lanId Id du LAN
+     * @param string $permissionName Nom unique de la permission
+     * @return LanRole Rôle de LAN créé
+     */
     public function addLanPermissionToUser(int $userId, int $lanId, string $permissionName): LanRole
     {
         $role = factory('App\Model\LanRole')->create([
@@ -48,6 +57,13 @@ abstract class TestCase extends BaseTestCase
         return $role;
     }
 
+    /**
+     * Ajouter une permission globale à un utilisateur.
+     *
+     * @param int $userId Id de l'utilisateur
+     * @param string $permissionName Nom unique de la permission
+     * @return GlobalRole Rôle global créé
+     */
     public function addGlobalPermissionToUser(int $userId, string $permissionName): GlobalRole
     {
         $role = factory('App\Model\GlobalRole')->create();

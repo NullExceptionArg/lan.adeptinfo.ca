@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Controller\Lan;
 
+use App\Utils\DateUtils;
 use Carbon\Carbon;
 use DateInterval;
 use Exception;
@@ -46,10 +47,13 @@ class CreateTest extends TestCase
 
     public function testCreate(): void
     {
+        $date = Carbon::parse($this->requestContent['lan_start']);
+        $shortDate = DateUtils::getLocalizedMonth($date->month, app('translator')->getLocale()) . ' ' . $date->year;
         $this->actingAs($this->user)
             ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
+                'date' => $shortDate,
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -85,10 +89,15 @@ class CreateTest extends TestCase
         factory('App\Model\Lan')->create([
             'is_current' => true
         ]);
+
+        $date = Carbon::parse($this->requestContent['lan_start']);
+        $shortDate = DateUtils::getLocalizedMonth($date->month, app('translator')->getLocale()) . ' ' . $date->year;
+
         $this->actingAs($this->user)
             ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
+                'date' => $shortDate,
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -109,10 +118,15 @@ class CreateTest extends TestCase
     public function testCreatePriceDefault(): void
     {
         $this->requestContent['price'] = '';
+
+        $date = Carbon::parse($this->requestContent['lan_start']);
+        $shortDate = DateUtils::getLocalizedMonth($date->month, app('translator')->getLocale()) . ' ' . $date->year;
+
         $this->actingAs($this->user)
             ->json('POST', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
+                'date' => $shortDate,
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -267,7 +281,7 @@ class CreateTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testCreateEndRequired(): void
     {
@@ -354,7 +368,7 @@ class CreateTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testCreateTournamentStartRequired(): void
     {

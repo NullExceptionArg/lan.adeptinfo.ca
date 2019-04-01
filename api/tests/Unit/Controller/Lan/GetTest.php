@@ -24,6 +24,7 @@ class GetTest extends TestCase
         ])
             ->seeJsonEquals([
                 'id' => $this->lan->id,
+                'date' => $this->lan->getDateAttribute(),
                 'name' => $this->lan->name,
                 'lan_start' => $this->lan->lan_start,
                 'lan_end' => $this->lan->lan_end,
@@ -53,6 +54,7 @@ class GetTest extends TestCase
             ->seeJsonEquals([
                 'id' => $lan->id,
                 'name' => $lan->name,
+                'date' => $this->lan->getDateAttribute(),
                 'lan_start' => $lan->lan_start,
                 'lan_end' => $lan->lan_end,
                 'seat_reservation_start' => $lan->seat_reservation_start,

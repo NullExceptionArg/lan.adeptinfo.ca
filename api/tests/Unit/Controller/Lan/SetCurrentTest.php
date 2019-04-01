@@ -29,6 +29,7 @@ class SetCurrentTest extends TestCase
             ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', ['lan_id' => $lan->id])
             ->seeJsonEquals([
                 'name' => $lan->name,
+                'date' => $lan->getDateAttribute(),
                 'lan_start' => $lan->lan_start,
                 'lan_end' => $lan->lan_end,
                 'seat_reservation_start' => $lan->seat_reservation_start,
@@ -71,6 +72,7 @@ class SetCurrentTest extends TestCase
             ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', ['lan_id' => $lan->id])
             ->seeJsonEquals([
                 'name' => $lan->name,
+                'date' => $lan->getDateAttribute(),
                 'lan_start' => $lan->lan_start,
                 'lan_end' => $lan->lan_end,
                 'seat_reservation_start' => $lan->seat_reservation_start,

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Lan;
 
 use App\Model\Lan;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Collection;
 
@@ -45,7 +46,7 @@ class GetResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -56,6 +57,7 @@ class GetResource extends Resource
             return [
                 'id' => $this->id,
                 'name' => $this->name,
+                'date' => $this->getDateAttribute(),
                 'lan_start' => $this->lan_start,
                 'lan_end' => $this->lan_end,
                 'seat_reservation_start' => $this->seat_reservation_start,
@@ -75,6 +77,7 @@ class GetResource extends Resource
         } else {
             return [
                 'id' => $this->id,
+                'date' => $this->when(in_array("date", $fields), $this->getDateAttribute()),
                 'name' => $this->when(in_array("name", $fields), $this->name),
                 'lan_start' => $this->when(in_array("lan_start", $fields), $this->lan_start),
                 'lan_end' => $this->when(in_array("lan_end", $fields), $this->lan_end),

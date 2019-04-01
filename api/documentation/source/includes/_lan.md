@@ -60,6 +60,7 @@ description | Texte des description du LAN. | chaîne de caractères, optionnel.
 {
     "id": 5,
     "name": "Révolution Bolshevik",
+    "date": "Octobre 2100",
     "lan_start": "2100-10-11 12:00:00",
     "lan_end": "2100-10-12 12:00:00",
     "seat_reservation_start": "2100-10-04 12:00:00",
@@ -79,6 +80,7 @@ Champ | Description
 --------- | -----------
 id | Id du LAN créé.
 name | Nom du LAN créé.
+date | Mois et année du LAN.
 lan_start | Date et heure de début du LAN créé.
 lan_end | Date et heure de fin du LAN créé.
 seat_reservation_start | Date et heure du début des réservations des places du LAN créé.
@@ -111,6 +113,7 @@ lan_id | Id du LAN dont l'utilisateur veut obtenir les informations. Si le param
 Champ | Description
 --------- | -----------
 name | Nom.
+date | Mois et année du LAN.
 lan_start | Date et heure de début.
 lan_end | Date et heure de fin.
 seat_reservation_start | Date et heure de début des réservation de places.
@@ -131,6 +134,7 @@ images | Images de présentation.
 ```json
 {
     "id": 1,
+    "date": "Octobre 2100",
     "name": "Bolshevik Revolution",
     "lan_start": "2100-10-11 12:00:00",
     "lan_end": "2100-10-12 12:00:00",
@@ -160,6 +164,7 @@ Champ | Description
 --------- | -----------
 id | Id.
 name | Nom.
+date | Mois et année du LAN..
 lan_start | Date et heure de début.
 lan_end | Date et heure de fin.
 seat_reservation_start | Date et heure de début des réservation de places.
@@ -274,6 +279,7 @@ description | Texte des descritpion du LAN. | chaîne de caractères, optionnel.
 {
     "id": 1,
     "name": "Bolshevik Revolution",
+    "date": "Octobre 2100",
     "lan_start": "2100-10-11 12:00:00",
     "lan_end": "2100-10-12 12:00:00",
     "seat_reservation_start": "2100-10-04 12:00:00",
@@ -301,6 +307,7 @@ description | Texte des descritpion du LAN. | chaîne de caractères, optionnel.
 Champ | Description
 --------- | -----------
 name | Nom du LAN mis à jour.
+date | Mois et année du LAN.
 lan_start | Date et heure de début du LAN mis à jour.
 lan_end | Date et heure de fin du LAN mise à jour.
 seat_reservation_start | Date et heure du début des réservations des places du LAN mise à jour.
@@ -339,6 +346,7 @@ lan_id | Id du LAN que l'administrateur veut modifier comme courant. |  entier.
 {
   "id": 2,
   "name": "Révolution Bolshevik",
+  "date": "Octobre 2100",
   "lan_start": "2100-10-11 12:00:00",
   "lan_end": "2100-10-12 12:00:00",
   "seat_reservation_start": "2100-10-04 12:00:00",
@@ -357,6 +365,7 @@ Champ | Description
 --------- | -----------
 id | Id du nouveau LAN courant.
 name | Nom du nouveau LAN courant.
+date | Mois et année du LAN.
 lan_start | Date et heure de début du nouveau LAN courant.
 lan_end | Date et heure de fin du nouveau LAN courant.
 seat_reservation_start | Date et heure du début des réservations des places du nouveau LAN courant

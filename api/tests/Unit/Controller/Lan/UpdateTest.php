@@ -2,9 +2,10 @@
 
 namespace Tests\Unit\Controller\Lan;
 
-use App\Model\Permission;
+use App\Utils\DateUtils;
 use Carbon\Carbon;
 use DateInterval;
+use Exception;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
@@ -52,10 +53,13 @@ class UpdateTest extends TestCase
 
     public function testUpdate(): void
     {
+        $date = Carbon::parse($this->requestContent['lan_start']);
+        $shortDate = DateUtils::getLocalizedMonth($date->month, app('translator')->getLocale()) . ' ' . $date->year;
         $this->actingAs($this->user)
             ->json('PUT', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
+                'date' => $shortDate,
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -82,24 +86,21 @@ class UpdateTest extends TestCase
             'is_current' => true
         ]);
 
-        $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
-        ]);
-        $permission = Permission::where('name', 'edit-lan')->first();
-        factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
-        ]);
-        factory('App\Model\LanRoleUser')->create([
-            'role_id' => $role->id,
-            'user_id' => $this->user->id
-        ]);
+        $this->addLanPermissionToUser(
+            $this->user->id,
+            $lan->id,
+            'edit-lan'
+        );
+
+        $date = Carbon::parse($this->requestContent['lan_start']);
+        $shortDate = DateUtils::getLocalizedMonth($date->month, app('translator')->getLocale()) . ' ' . $date->year;
 
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
             ->json('PUT', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
+                'date' => $shortDate,
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -136,10 +137,15 @@ class UpdateTest extends TestCase
     public function testUpdatePriceDefault(): void
     {
         $this->requestContent['price'] = '';
+
+        $date = Carbon::parse($this->requestContent['lan_start']);
+        $shortDate = DateUtils::getLocalizedMonth($date->month, app('translator')->getLocale()) . ' ' . $date->year;
+
         $this->actingAs($this->user)
             ->json('PUT', 'http://' . env('API_DOMAIN') . '/lan', $this->requestContent)
             ->seeJsonEquals([
                 'name' => $this->requestContent['name'],
+                'date' => $shortDate,
                 'lan_start' => $this->requestContent['lan_start'],
                 'lan_end' => $this->requestContent['lan_end'],
                 'seat_reservation_start' => $this->requestContent['seat_reservation_start'],
@@ -195,7 +201,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testUpdateAfterReservation(): void
     {
@@ -226,7 +232,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testUpdateAfterTournamentStart(): void
     {
@@ -257,7 +263,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testUpdateEndAfterLanStart(): void
     {
@@ -281,7 +287,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testUpdateSeatReservationBeforeOrEqualLanStart(): void
     {
@@ -307,7 +313,7 @@ class UpdateTest extends TestCase
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testUpdateTournamentReservationBeforeOrEqualLanStart(): void
     {

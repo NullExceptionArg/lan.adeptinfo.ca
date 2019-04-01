@@ -3,7 +3,7 @@
 namespace App\Http\Resources\Lan;
 
 use App\Model\Lan;
-use Illuminate\{Http\Resources\Json\Resource, Support\Collection};
+use Illuminate\{Http\Request, Http\Resources\Json\Resource, Support\Collection};
 
 class UpdateResource extends Resource
 {
@@ -20,7 +20,7 @@ class UpdateResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param Request $request
      * @return array
      */
     public function toArray($request)
@@ -28,6 +28,7 @@ class UpdateResource extends Resource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'date' => $this->getDateAttribute(),
             'lan_start' => $this->lan_start,
             'lan_end' => $this->lan_end,
             'seat_reservation_start' => $this->seat_reservation_start,

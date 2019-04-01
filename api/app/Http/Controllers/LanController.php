@@ -10,7 +10,7 @@ use App\Rules\{Image\HasPermissionInLan as HasPermissionInLanImages,
     User\HasPermissionInLan};
 use App\Services\Implementation\LanServiceImpl;
 use Carbon\Carbon;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
+use Illuminate\{Http\JsonResponse, Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
 /**
  * Validation et application de la logique applicative sur les LANs.
@@ -39,7 +39,7 @@ class LanController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-une-image
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function addLanImage(Request $request)
     {
@@ -65,7 +65,7 @@ class LanController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function create(Request $request)
     {
@@ -120,7 +120,7 @@ class LanController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-des-images
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function deleteLanImages(Request $request)
     {
@@ -142,7 +142,7 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-lans
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getAll()
     {
@@ -152,7 +152,7 @@ class LanController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function get(Request $request)
     {
@@ -175,7 +175,7 @@ class LanController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#changer-de-lan-courant
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function setCurrent(Request $request)
     {
@@ -197,7 +197,7 @@ class LanController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#mettre-a-jour-un-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function update(Request $request)
     {
