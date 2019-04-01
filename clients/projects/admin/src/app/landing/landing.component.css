@@ -42,7 +42,7 @@ mat-form-field {
   margin-left: 10px;
 }
 
-mat-select-trigger {
+mat-select-trigger, mat-select-trigger:active {
   color: white;
   font-size: 30px;
 }

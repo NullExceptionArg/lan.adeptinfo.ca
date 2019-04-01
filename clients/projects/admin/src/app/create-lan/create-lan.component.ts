@@ -1,15 +1,15 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {CreateLanDetailsComponent} from './details/create-lan-details.component';
-import {CreateLanSeatsComponent} from './seats/create-lan-seats.component';
-import {CreateLanCoordinatesComponent} from './coordinates/create-lan-coordinates.component';
-import {CreateLanRulesComponent} from './rules/create-lan-rules.component';
-import {CreateLanDescriptionComponent} from './description/create-lan-description.component';
+import {CreateLanDetailsComponent} from '../shared/lan/details/create-lan-details.component';
+import {CreateLanSeatsComponent} from '../shared/lan/seats/create-lan-seats.component';
+import {CreateLanCoordinatesComponent} from '../shared/lan/coordinates/create-lan-coordinates.component';
+import {CreateLanRulesComponent} from '../shared/lan/rules/create-lan-rules.component';
+import {CreateLanDescriptionComponent} from '../shared/lan/description/create-lan-description.component';
 import {Errors, Lan, LanService} from 'core';
 import {SwalComponent} from '@sweetalert2/ngx-sweetalert2';
 import {Router} from '@angular/router';
-import {DateUtils} from '../../utils/DateUtils';
+import {DateUtils} from '../utils/DateUtils';
 
 @Component({
   selector: 'app-create-lan',

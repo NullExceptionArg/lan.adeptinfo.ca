@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Lan} from 'core';
-import {UserService} from 'core';
-import {LanService} from 'core';
+import {Lan, LanService, UserService} from 'core';
 import {MatDialog} from '@angular/material';
-import {CreateLanComponent} from '../lan/create-lan/create-lan.component';
+import {CreateLanComponent} from '../create-lan/create-lan.component';
 
 @Component({
   selector: 'app-landing',
@@ -24,6 +22,9 @@ export class LandingComponent implements OnInit {
   // LAN courant
   currentLan: Lan;
 
+  // Si le LAN courant est en cours de changement
+  isChangingCurrentLan = false;
+
   constructor(
     private userService: UserService,
     private lanService: LanService,
@@ -38,8 +39,14 @@ export class LandingComponent implements OnInit {
   /**
    * Rendre un LAN courant.
    */
-  setCurrentLan() {
-    this.lanService.setCurrentLan(this.currentLan);
+  setCurrentLan(lan: Lan) {
+    if (lan.id !== this.currentLan.id) {
+      this.isChangingCurrentLan = true;
+      this.lanService.setCurrentLan(lan).subscribe((data: Lan) => {
+        this.isChangingCurrentLan = false;
+        this.currentLan = data;
+      });
+    }
   }
 
   getLans(): void {

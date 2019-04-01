@@ -29,9 +29,16 @@ export class LanService {
    * Rendre un LAN courant.
    * @param lan LAN à rendre courant
    */
-  setCurrentLan(lan: Lan): void {
-    // Rendre un LAN observable
-    this.currentLanSubject.next(lan);
+  setCurrentLan(lan: Lan): Observable<Lan> {
+    return this.apiService.post('/lan/current', {
+      lan_id: lan.id
+    })
+      .pipe(
+        map((data: Lan) => {
+          this.currentLanSubject.next(lan);
+          return data;
+        })
+      );
   }
 
   /**
@@ -52,8 +59,7 @@ export class LanService {
       longitude: lan.longitude,
       rules: lan.rules,
       description: lan.description
-    })
-      .pipe(map(data => data));
+    });
   }
 
 }

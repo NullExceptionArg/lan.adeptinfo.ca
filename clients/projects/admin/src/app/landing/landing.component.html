@@ -6,8 +6,9 @@
   <div *ngIf="currentLan != null" class="select-current-lan-section">
     <div class="mat-display-1" id="select-current-lan-text">LAN courant :</div>
     <mat-form-field id="select-lan-form">
-      <mat-select (selectionChange)="setCurrentLan()" [(value)]="currentLan.id">
-        <mat-option *ngFor="let lan of lans" [value]="lan.id">
+      <mat-select [disabled]="!('set-current-lan' | HasPermission) || isChangingCurrentLan"
+                  [value]="currentLan.id">
+        <mat-option (click)="setCurrentLan(lan)" *ngFor="let lan of lans" [value]="lan.id">
           {{lan.date}}
           <mat-icon [matTooltip]="lan.name" class="select-lan-tooltip-icon" matTooltipPosition="below">help</mat-icon>
         </mat-option>

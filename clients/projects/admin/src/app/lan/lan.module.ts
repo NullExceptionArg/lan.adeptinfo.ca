@@ -1,21 +1,21 @@
 import {NgModule} from '@angular/core';
 import {SharedModule} from '../shared/shared.module';
-import {LandingComponent} from './landing.component';
-import {LandingRoutingModule} from './landing-routing.module';
+import {LanRoutingModule} from './lan-routing.module';
 import {CreateLanComponent} from '../create-lan/create-lan.component';
 import {SharedLanModule} from '../shared/lan/shared-lan.module';
+import {LanComponent} from './lan.component';
 
 @NgModule({
   imports: [
     SharedModule,
-    LandingRoutingModule,
+    LanRoutingModule,
     SharedLanModule
   ],
   declarations: [
-    LandingComponent
+    LanComponent
   ], entryComponents: [
     CreateLanComponent
   ]
 })
-export class LandingModule {
+export class LanModule {
 }

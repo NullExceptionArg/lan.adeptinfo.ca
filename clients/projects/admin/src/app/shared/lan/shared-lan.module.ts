@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
-import {SharedModule} from '../../shared/shared.module';
-import {CreateLanComponent} from './create-lan.component';
+import {SharedModule} from '../shared.module';
 import {CreateLanDetailsComponent} from './details/create-lan-details.component';
 import {CreateLanSeatsComponent} from './seats/create-lan-seats.component';
 import {SeatsioAngularModule} from '@seatsio/seatsio-angular';
@@ -24,7 +23,13 @@ import {CovalentTextEditorModule} from '@covalent/text-editor';
     CovalentTextEditorModule
   ],
   declarations: [
-    CreateLanComponent,
+    CreateLanDetailsComponent,
+    CreateLanSeatsComponent,
+    CreateLanCoordinatesComponent,
+    CreateLanRulesComponent,
+    CreateLanDescriptionComponent
+  ],
+  exports: [
     CreateLanDetailsComponent,
     CreateLanSeatsComponent,
     CreateLanCoordinatesComponent,
@@ -32,5 +37,5 @@ import {CovalentTextEditorModule} from '@covalent/text-editor';
     CreateLanDescriptionComponent
   ]
 })
-export class CreateLanModule {
+export class SharedLanModule {
 }

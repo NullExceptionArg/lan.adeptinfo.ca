@@ -16,7 +16,7 @@
     <!-- Items de menu de navigation dans l'application -->
     <button mat-button *ngIf="mobileQuery.matches" class="menu-item">
       <mat-icon>developer_board</mat-icon>
-      Accueil
+      LAN
     </button>
 
     <!-- Remplir l'espace entre les items de menu de l'application et les items de menu du  compte de l'utilisateur -->
@@ -29,7 +29,7 @@
     <!-- Items de menu du compte de l'utilisateur -->
     <mat-menu #userMenu="matMenu">
       <button (click)="logout()" mat-menu-item>Se déconnecter</button>
-      <a href="{{getPlayerUrl()}} " mat-menu-item target="_blank">
+      <a [href]="getPlayerUrl() " mat-menu-item target="_blank">
         Site principal
         <mat-icon>last_page</mat-icon>
       </a>

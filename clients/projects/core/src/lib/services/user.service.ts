@@ -48,7 +48,7 @@ export class UserService {
           () => this.purgeAuth()
         );
     } else {
-      // Retirer ce qui pourait rester dans la mémoire de l'application de l'utilisateur précédent
+      // Retirer ce qui pourrait rester dans la mémoire de l'application de l'utilisateur précédent
       this.purgeAuth();
     }
   }
