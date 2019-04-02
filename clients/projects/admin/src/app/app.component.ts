@@ -1,10 +1,8 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {UserService} from 'core';
+import {LanService, User, UserService} from 'core';
 import {of} from 'rxjs';
 import {Router} from '@angular/router';
-import {User} from 'core';
-import {LanService} from 'core';
 import {environment} from '../environments/environment';
 
 @Component({
@@ -41,8 +39,6 @@ export class AppComponent implements OnInit {
         if (!authenticated) {
           this.router.navigateByUrl('/login');
           return of(null);
-        } else {
-          this.router.navigateByUrl('/');
         }
       }
     );

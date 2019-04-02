@@ -7,11 +7,12 @@ import {SharedModule} from './shared/shared.module';
 import {AppRoutingModule} from './app-routing.module';
 import {AuthModule} from './auth/auth.module';
 import {LandingModule} from './landing/landing.module';
-import {CoreModule} from '../../../core/src/lib/core.module';
+import {CoreModule} from 'core';
 import {CreateLanModule} from './create-lan/create-lan.module';
 import {LanModule} from './lan/lan.module';
 import {UserService} from '../../../core/src/lib/services/user.service';
 
+// noinspection AngularInvalidImportedOrDeclaredSymbol
 @NgModule({
   declarations: [
     AppComponent,
