@@ -12,7 +12,6 @@ import {CreateLanModule} from './create-lan/create-lan.module';
 import {LanModule} from './lan/lan.module';
 import {UserService} from '../../../core/src/lib/services/user.service';
 
-// noinspection AngularInvalidImportedOrDeclaredSymbol
 @NgModule({
   declarations: [
     AppComponent,

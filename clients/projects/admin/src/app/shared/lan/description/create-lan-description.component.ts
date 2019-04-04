@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
-  selector: 'app-create-lan-description',
+  selector: 'app-lan-description',
   templateUrl: './create-lan-description.component.html',
   styleUrls: ['./create-lan-description.component.css']
 })

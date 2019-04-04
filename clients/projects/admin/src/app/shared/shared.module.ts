@@ -22,7 +22,7 @@ import {
   MatProgressSpinnerModule,
   MatSelectModule,
   MatSidenavModule,
-  MatStepperModule,
+  MatStepperModule, MatTabsModule,
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
@@ -76,6 +76,7 @@ import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
     MatMomentDateModule,
     MatProgressSpinnerModule,
     MatExpansionModule,
+    MatTabsModule,
     SweetAlert2Module
   ]
 })

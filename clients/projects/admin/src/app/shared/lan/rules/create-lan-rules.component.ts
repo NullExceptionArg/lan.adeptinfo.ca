@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {TdTextEditorComponent} from '@covalent/text-editor';
 
 @Component({
-  selector: 'app-create-lan-rules',
+  selector: 'app-lan-rules',
   templateUrl: './create-lan-rules.component.html',
   styleUrls: ['./create-lan-rules.component.css']
 })

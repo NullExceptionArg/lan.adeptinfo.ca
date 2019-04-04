@@ -5,7 +5,7 @@ import {TimePickerConfig} from 'amazing-time-picker/src/app/atp-library/definiti
 import {DateUtils} from '../../../utils/DateUtils';
 
 @Component({
-  selector: 'app-create-lan-details',
+  selector: 'app-lan-details',
   templateUrl: './create-lan-details.component.html',
   styleUrls: ['./create-lan-details.component.css']
 })

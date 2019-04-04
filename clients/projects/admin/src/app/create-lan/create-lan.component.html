@@ -4,34 +4,34 @@
 
   <mat-step [stepControl]="detailsForm">
     <ng-template matStepLabel>Détails</ng-template>
-    <app-create-lan-details></app-create-lan-details>
+    <app-lan-details></app-lan-details>
     <button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
   </mat-step>
 
   <mat-step [stepControl]="seatsForm">
     <ng-template matStepLabel>Places</ng-template>
-    <app-create-lan-seats></app-create-lan-seats>
+    <app-lan-seats></app-lan-seats>
     <button class="stepper-button-previous" color="primary" mat-raised-button matStepperPrevious>Précédent</button>
     <button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
   </mat-step>
 
   <mat-step [stepControl]="coordinatesForm">
     <ng-template matStepLabel>Coordonnées</ng-template>
-    <app-create-lan-coordinates></app-create-lan-coordinates>
+    <app-lan-coordinates></app-lan-coordinates>
     <button class="stepper-button-previous" color="primary" mat-raised-button matStepperPrevious>Précédent</button>
     <button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
   </mat-step>
 
   <mat-step [stepControl]="rulesForm">
     <ng-template matStepLabel>Règlements</ng-template>
-    <app-create-lan-rules></app-create-lan-rules>
+    <app-lan-rules></app-lan-rules>
     <button class="stepper-button-previous" color="primary" mat-raised-button matStepperPrevious>Précédent</button>
     <button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
   </mat-step>
 
   <mat-step [stepControl]="descriptionForm">
     <ng-template matStepLabel>Description</ng-template>
-    <app-create-lan-description></app-create-lan-description>
+    <app-lan-description></app-lan-description>
     <button class="stepper-button-previous" color="primary" mat-raised-button matStepperPrevious>Précédent</button>
     <button class="stepper-button-next" color="primary" mat-raised-button matStepperNext>Suivant</button>
   </mat-step>

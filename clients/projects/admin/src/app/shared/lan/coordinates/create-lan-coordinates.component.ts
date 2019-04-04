@@ -4,7 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MapsAPILoader} from '@agm/core';
 
 @Component({
-  selector: 'app-create-lan-coordinates',
+  selector: 'app-lan-coordinates',
   templateUrl: './create-lan-coordinates.component.html',
   styleUrls: ['./create-lan-coordinates.component.css']
 })

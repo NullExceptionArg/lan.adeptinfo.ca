@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Chart, SeatService} from 'core';
 
 @Component({
-  selector: 'app-create-lan-seats',
+  selector: 'app-lan-seats',
   templateUrl: './create-lan-seats.component.html',
   styleUrls: ['./create-lan-seats.component.css']
 })
