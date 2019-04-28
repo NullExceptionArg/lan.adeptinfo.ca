@@ -1,15 +1,16 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormBuilder} from '@angular/forms';
 import {MediaMatcher} from '@angular/cdk/layout';
-import {CreateLanDetailsComponent} from '../shared/lan/details/create-lan-details.component';
-import {CreateLanSeatsComponent} from '../shared/lan/seats/create-lan-seats.component';
-import {CreateLanCoordinatesComponent} from '../shared/lan/coordinates/create-lan-coordinates.component';
-import {CreateLanRulesComponent} from '../shared/lan/rules/create-lan-rules.component';
-import {CreateLanDescriptionComponent} from '../shared/lan/description/create-lan-description.component';
-import {Errors, Lan, LanService} from 'core';
+import {LanDetailsComponent} from '../shared/lan/details/lan-details.component';
+import {LanSeatsComponent} from '../shared/lan/seats/lan-seats.component';
+import {LanCoordinatesComponent} from '../shared/lan/coordinates/lan-coordinates.component';
+import {LanRulesComponent} from '../shared/lan/rules/lan-rules.component';
+import {LanDescriptionComponent} from '../shared/lan/description/lan-description.component';
+import {Errors, LanService, Lan} from 'core';
 import {SwalComponent} from '@sweetalert2/ngx-sweetalert2';
 import {Router} from '@angular/router';
 import {DateUtils} from '../utils/DateUtils';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-create-lan',
@@ -22,19 +23,19 @@ import {DateUtils} from '../utils/DateUtils';
 export class CreateLanComponent {
 
   // Formulaire des détails du LAN
-  @ViewChild(CreateLanDetailsComponent) createLanDetailsComponent: CreateLanDetailsComponent;
+  @ViewChild(LanDetailsComponent) createLanDetailsComponent: LanDetailsComponent;
 
   // Formulaire de seats.io
-  @ViewChild(CreateLanSeatsComponent) createLanSeatsComponent: CreateLanSeatsComponent;
+  @ViewChild(LanSeatsComponent) createLanSeatsComponent: LanSeatsComponent;
 
   // Formulaire des coordonnées
-  @ViewChild(CreateLanCoordinatesComponent) createLanCoordinatesComponent: CreateLanCoordinatesComponent;
+  @ViewChild(LanCoordinatesComponent) createLanCoordinatesComponent: LanCoordinatesComponent;
 
   // Formulaire des règlements
-  @ViewChild(CreateLanRulesComponent) createLanRulesComponent: CreateLanRulesComponent;
+  @ViewChild(LanRulesComponent) createLanRulesComponent: LanRulesComponent;
 
   // Formulaire de description
-  @ViewChild(CreateLanDescriptionComponent) createLanDescriptionComponent: CreateLanDescriptionComponent;
+  @ViewChild(LanDescriptionComponent) createLanDescriptionComponent: LanDescriptionComponent;
 
   // Les communications avec le serveur sont en cours, l'interface est donc désactivée pendant ce temps
   isCreatingLan = false;
@@ -55,7 +56,8 @@ export class CreateLanComponent {
     private formBuilder: FormBuilder,
     private media: MediaMatcher,
     private lanService: LanService,
-    private router: Router
+    private router: Router,
+    private dialogRef: MatDialogRef<CreateLanComponent>
   ) {
     // Le changement de mobile à plein écran s'effectue lorsque l'écran fait 960 pixels de large
     this.mobileQuery = this.media.matchMedia('(min-width: 960px)');
@@ -86,38 +88,37 @@ export class CreateLanComponent {
    */
   createLan(): void {
     this.isCreatingLan = true;
-    const lan: Lan = new Lan(
-      this.detailsForm.controls['name'].value,
-      DateUtils.getDateFromMomentAndString(
+    const lan: Lan = new Lan();
+      lan.name = this.detailsForm.controls['name'].value;
+      lan.lanStart = DateUtils.getDateFromMomentAndString(
         this.detailsForm.controls['startDate'].value,
         this.detailsForm.controls['startTime'].value
-      ),
-      DateUtils.getDateFromMomentAndString(
+      );
+      lan.lanEnd = DateUtils.getDateFromMomentAndString(
         this.detailsForm.controls['endDate'].value,
         this.detailsForm.controls['endTime'].value
-      ),
-      DateUtils.getDateFromMomentAndString(
+      );
+      lan.seatReservationStart = DateUtils.getDateFromMomentAndString(
         this.detailsForm.controls['reservationDate'].value,
         this.detailsForm.controls['reservationTime'].value
-      ),
-      DateUtils.getDateFromMomentAndString(
+      );
+      lan.tournamentReservationStart = DateUtils.getDateFromMomentAndString(
         this.detailsForm.controls['tournamentDate'].value,
         this.detailsForm.controls['tournamentTime'].value
-      ),
-      this.detailsForm.controls['playerCount'].value,
-      this.detailsForm.controls['price'].value,
-      this.seatsForm.controls['eventKey'].value,
-      this.coordinatesLatitude,
-      this.coordinatesLongitude,
-      this.rulesForm.controls['rules'].value,
-      this.descriptionForm.controls['description'].value,
-    );
+      );
+      lan.places = this.detailsForm.controls['playerCount'].value;
+      lan.price = this.detailsForm.controls['price'].value;
+      lan.eventKey = this.seatsForm.controls['eventKey'].value;
+      lan.latitude = this.coordinatesLatitude;
+      lan.longitude = this.coordinatesLongitude;
+      lan. rules = this.rulesForm.controls['rules'].value;
+      lan.description = this.descriptionForm.controls['description'].value;
 
     this.lanService.createLan(lan).subscribe(
-      (data: Lan) => {
+      () => {
         this.errors = null;
         this.isCreatingLan = false;
-        this.createLanSuccessSwal.show().then(() => this.router.navigateByUrl('/'));
+        this.createLanSuccessSwal.show().then(() => this.dialogRef.close());
       },
       (err: Errors) => {
         this.errors = err;
@@ -130,15 +131,15 @@ export class CreateLanComponent {
     switch (errorName) {
       case 'name':
         return 'Nom du LAN';
-      case 'lan_start':
+      case 'lanStart':
         return 'Date et heure de début';
-      case 'lan_end':
+      case 'lanEnd':
         return 'Date et heure de fin';
-      case 'seat_reservation_start':
+      case 'seatReservationStart':
         return 'Date et heure de réservation';
-      case 'tournament_reservation_start':
+      case 'tournamentReservationStart':
         return 'Date et heure des tournois';
-      case 'event_key':
+      case 'eventKey':
         return 'Places';
       case 'latitude':
       case 'longitude':
@@ -159,15 +160,15 @@ export class CreateLanComponent {
   gotoError(error: string): void {
     switch (error) {
       case 'name':
-      case 'lan_start':
-      case 'lan_end':
-      case 'seat_reservation_start':
-      case 'tournament_reservation_start':
+      case 'lanStart':
+      case 'lanEnd':
+      case 'seatReservationStart':
+      case 'tournamentReservationStart':
       case 'places':
       case 'price':
         this.currentIndex = 0;
         break;
-      case 'event_key':
+      case 'eventKey':
         this.currentIndex = 1;
         break;
       case 'latitude':

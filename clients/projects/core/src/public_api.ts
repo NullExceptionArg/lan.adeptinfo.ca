@@ -10,12 +10,12 @@ export * from './lib/services/seat.service';
 export * from './lib/services/user.service';
 
 // Models
-export * from './lib/models/api/lan';
-export * from './lib/models/api/permission';
-export * from './lib/models/api/user';
-export * from './lib/models/api/seats/chart';
-export * from './lib/models/api/seats/event';
-export * from './lib/models/api/errors';
+export * from './lib/models/lan';
+export * from './lib/models/permission';
+export * from './lib/models/user';
+export * from './lib/models/seats/chart';
+export * from './lib/models/seats/event';
+export * from './lib/models/errors';
 
 // Interceptors
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Lan, LanService, UserService} from 'core';
+import {LanService, UserService, Lan} from 'core';
 import {MatDialog} from '@angular/material';
 import {CreateLanComponent} from '../create-lan/create-lan.component';
 
@@ -39,10 +39,10 @@ export class LandingComponent implements OnInit {
   /**
    * Rendre un LAN courant.
    */
-  setCurrentLan(lan: Lan) {
-    if (lan.id !== this.currentLan.id) {
+  setCurrentLan(lanId: number) {
+    if (lanId !== this.currentLan.id) {
       this.isChangingCurrentLan = true;
-      this.lanService.setCurrentLan(lan).subscribe((data: Lan) => {
+      this.lanService.setCurrentLan(lanId).subscribe((data: Lan) => {
         this.isChangingCurrentLan = false;
         this.currentLan = data;
       });
@@ -55,7 +55,7 @@ export class LandingComponent implements OnInit {
       .subscribe(lans => {
         this.lans = lans;
         this.lansLoaded = true;
-        this.currentLan = lans.find(lan => lan.is_current);
+        this.currentLan = lans.find(lan => lan.isCurrent);
       });
   }
 
@@ -67,6 +67,7 @@ export class LandingComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(() => {
       this.getLans();
+      this.lanService.getLan().subscribe();
     });
   }
 

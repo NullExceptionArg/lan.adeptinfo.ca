@@ -1,18 +1,23 @@
 import {Injectable} from '@angular/core';
 import {Observable, ReplaySubject} from 'rxjs';
 import {ApiService} from './api.service';
-import {Lan} from '../models/api/lan';
 import {map} from 'rxjs/operators';
+import {HttpParams} from '@angular/common/http';
+import {Lan} from '../models/lan';
 
 @Injectable()
 /**
- * Actions liées LANs.
+ * Actions liées aux LANs.
  */
 export class LanService {
 
-  // Observables de l'utilisateur courant
+  // Observables du LAN courant
   private currentLanSubject = new ReplaySubject<Lan>(1);
   public currentLan = this.currentLanSubject.asObservable();
+
+  // Observable du LAN courant existant
+  private currentLanReplaySubject = new ReplaySubject<Lan>(1);
+  public currentLanReplay = this.currentLanReplaySubject.asObservable();
 
   constructor(
     private apiService: ApiService) {
@@ -27,16 +32,54 @@ export class LanService {
 
   /**
    * Rendre un LAN courant.
-   * @param lan LAN à rendre courant
+   * @param lanId LAN à rendre courant
    */
-  setCurrentLan(lan: Lan): Observable<Lan> {
+  setCurrentLan(lanId: number): Observable<Lan> {
     return this.apiService.post('/lan/current', {
-      lan_id: lan.id
-    })
+      lan_id: lanId
+    });
+  }
+
+  /**
+   * Obtenir les détails d'un LAN.
+   * @param lanId Id du LAN à obtenir. Si nulle, demander le LAN courant.
+   */
+  getLan(lanId?: number): Observable<Lan> {
+
+    const params = new HttpParams();
+
+    if (lanId != null) {
+      params.append('lan_id', lanId.toString());
+    }
+
+    return this.apiService.get('/lan', params)
       .pipe(
-        map((data: Lan) => {
+        map((data: any) => {
+          let lan;
+          if (data.length !== 0) {
+            lan = new Lan();
+            lan.id = data.id;
+            lan.name = data.name;
+            lan.price = data.price;
+            lan.places = data.places.total;
+            lan.reserved = data.places.reserved;
+            lan.lanStart = new Date(data.lan_start);
+            lan.lanEnd = new Date(data.lan_end);
+            lan.seatReservationStart = new Date(data.seat_reservation_start);
+            lan.tournamentReservationStart = new Date(data.tournament_reservation_start);
+            lan.eventKey = data.event_key;
+            lan.latitude = data.latitude;
+            lan.longitude = data.longitude;
+            lan.rules = data.rules;
+            lan.description = data.description;
+            lan.isCurrent = data.is_current;
+            lan.date = data.date;
+          } else {
+            lan = null;
+          }
           this.currentLanSubject.next(lan);
-          return data;
+          this.currentLanReplaySubject.next(lan);
+          return lan;
         })
       );
   }
@@ -48,13 +91,13 @@ export class LanService {
   createLan(lan: Lan): Observable<Lan> {
     return this.apiService.post('/lan', {
       name: lan.name,
-      lan_start: lan.lan_start,
-      lan_end: lan.lan_end,
-      seat_reservation_start: lan.seat_reservation_start,
-      tournament_reservation_start: lan.tournament_reservation_start,
+      lan_start: lan.lanStart,
+      lan_end: lan.lanEnd,
+      seat_reservation_start: lan.seatReservationStart,
+      tournament_reservation_start: lan.tournamentReservationStart,
       places: lan.places,
       price: lan.price,
-      event_key: lan.event_key,
+      event_key: lan.eventKey,
       latitude: lan.latitude,
       longitude: lan.longitude,
       rules: lan.rules,

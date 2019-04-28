@@ -21,6 +21,7 @@ use Illuminate\Support\Collection;
  * @property mixed price
  * @property mixed rules
  * @property mixed description
+ * @method getDateAttribute()
  */
 class GetResource extends Resource
 {

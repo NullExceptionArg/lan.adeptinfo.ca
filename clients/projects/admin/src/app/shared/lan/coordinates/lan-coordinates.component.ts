@@ -5,13 +5,13 @@ import {MapsAPILoader} from '@agm/core';
 
 @Component({
   selector: 'app-lan-coordinates',
-  templateUrl: './create-lan-coordinates.component.html',
-  styleUrls: ['./create-lan-coordinates.component.css']
+  templateUrl: './lan-coordinates.component.html',
+  styleUrls: ['./lan-coordinates.component.css']
 })
 /**
  * Dialogue pour choisir les coordonnées du LAN.
  */
-export class CreateLanCoordinatesComponent implements OnInit {
+export class LanCoordinatesComponent implements OnInit {
 
   // Formulaire des détails du LAN
   coordinatesForm: FormGroup;

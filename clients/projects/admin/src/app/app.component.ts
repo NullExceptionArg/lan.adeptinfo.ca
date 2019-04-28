@@ -32,7 +32,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // S'abonner aux changements d'authentification dans l'application
     this.userService.isAuthenticated.subscribe(
       (authenticated) => {
         // Redirection vers l'écran de connexion si aucuns utilisateur n'est connecté
@@ -47,7 +46,11 @@ export class AppComponent implements OnInit {
     this.lanService.currentLan.subscribe(
       (currentLan) => {
         // Redirection vers l'écran de connection si aucuns utilisateur n'est connecté
-        this.userService.populate(currentLan.id);
+        if (currentLan != null) {
+          this.userService.populate(currentLan.id);
+        } else {
+          this.userService.populate(null);
+        }
       }
     );
 
@@ -63,6 +66,8 @@ export class AppComponent implements OnInit {
         this.currentUser = userData;
       }
     );
+
+    this.lanService.getLan().subscribe();
   }
 
   /**

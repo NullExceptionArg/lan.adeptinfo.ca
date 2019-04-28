@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Observable, ReplaySubject} from 'rxjs';
 
 import {distinctUntilChanged, map} from 'rxjs/operators';
-import {User} from '../models/api/user';
+import {User} from '../models/user';
 import {ApiService} from './api.service';
 import {JwtService} from './jwt.service';
 import {parameters} from '../params';
@@ -112,13 +112,13 @@ export class UserService {
         data => {
 
           // Sauvegarder le JWT renvoyé du serveur dans le localstorage
-          JwtService.saveToken(data.access_token);
+          JwtService.saveToken(data.accessToken);
 
           // Obtenir les informations sommaires de l'utilisateur nouvellement connecté
           this.populate();
 
           // Retourner le token d'accès à l'API
-          return data.access_token;
+          return data.accessToken;
         }
       ));
   }

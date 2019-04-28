@@ -4,13 +4,13 @@ import {TdTextEditorComponent} from '@covalent/text-editor';
 
 @Component({
   selector: 'app-lan-rules',
-  templateUrl: './create-lan-rules.component.html',
-  styleUrls: ['./create-lan-rules.component.css']
+  templateUrl: './lan-rules.component.html',
+  styleUrls: ['./lan-rules.component.css']
 })
 /**
  * Dialogue pour entrer les règles du LAN.
  */
-export class CreateLanRulesComponent implements AfterViewInit {
+export class LanRulesComponent implements AfterViewInit {
 
   // Formulaire des règles du LAN
   rulesForm: FormGroup;

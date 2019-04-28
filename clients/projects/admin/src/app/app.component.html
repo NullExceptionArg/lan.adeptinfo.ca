@@ -44,9 +44,13 @@
       <mat-nav-list>
 
         <!-- Items de menu de navigation dans l'application -->
-        <a mat-list-item (click)="snav.toggle()" routerLink="." class="mobile-menu-item">
-          <mat-icon>developer_board</mat-icon>
+        <a mat-list-item (click)="snav.toggle()" routerLink="" class="mobile-menu-item">
+          <mat-icon>home</mat-icon>
           Accueil
+        </a>
+        <a mat-list-item (click)="snav.toggle()" routerLink="lan" class="mobile-menu-item">
+          <mat-icon>developer_board</mat-icon>
+          LAN
         </a>
         <mat-divider></mat-divider>
 

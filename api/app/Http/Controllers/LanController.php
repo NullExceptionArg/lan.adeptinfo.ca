@@ -160,10 +160,14 @@ class LanController extends Controller
         $validator = Validator::make([
             'lan_id' => $request->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'nullable|integer|exists:lan,id,deleted_at,NULL'
         ]);
 
         $this->checkValidation($validator);
+
+        if(is_null($request->input('lan_id'))){
+            return response()->json(null, 200);
+        }
 
         return response()->json($this->lanService->get(
             $request->input('lan_id'),

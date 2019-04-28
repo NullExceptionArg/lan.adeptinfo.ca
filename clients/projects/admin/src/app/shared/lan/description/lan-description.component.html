@@ -1,4 +1,4 @@
-<mat-form-field [formGroup]="descriptionForm">
+<mat-form-field [formGroup]="descriptionForm" [appearance]="'outline'">
   <textarea formControlName="description" matInput maxlength="5000" placeholder="Description du LAN"
             rows="8"></textarea>
   <mat-hint align="end">{{descriptionForm.controls['description'].value?.length || 0}} / 5000</mat-hint>

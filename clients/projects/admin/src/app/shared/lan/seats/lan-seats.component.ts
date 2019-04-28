@@ -4,13 +4,13 @@ import {Chart, SeatService} from 'core';
 
 @Component({
   selector: 'app-lan-seats',
-  templateUrl: './create-lan-seats.component.html',
-  styleUrls: ['./create-lan-seats.component.css']
+  templateUrl: './lan-seats.component.html',
+  styleUrls: ['./lan-seats.component.css']
 })
 /**
  * Dialogue d'entrée de l'événement seats.io seats.io
  */
-export class CreateLanSeatsComponent implements OnInit {
+export class LanSeatsComponent implements OnInit {
 
   // Formulaire des places
   seatsForm: FormGroup;

@@ -3,13 +3,13 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-lan-description',
-  templateUrl: './create-lan-description.component.html',
-  styleUrls: ['./create-lan-description.component.css']
+  templateUrl: './lan-description.component.html',
+  styleUrls: ['./lan-description.component.css']
 })
 /**
  * Dialogue pour entrer la description du LAN.
  */
-export class CreateLanDescriptionComponent {
+export class LanDescriptionComponent {
 
   // Formulaire de description du LAN
   descriptionForm: FormGroup;

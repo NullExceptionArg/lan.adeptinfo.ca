@@ -5,10 +5,10 @@ import {Permission} from './permission';
  */
 export class User {
 
-  first_name: string;
-  last_name: string;
-  has_tournaments: string;
+  firstName: string;
+  lastName: string;
+  hasTournaments: string;
   email: string;
-  access_token: string;
+  accessToken: string;
   permissions: Permission[];
 }

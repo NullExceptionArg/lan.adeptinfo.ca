@@ -1,18 +1,21 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AmazingTimePickerService} from 'amazing-time-picker';
 import {TimePickerConfig} from 'amazing-time-picker/src/app/atp-library/definitions';
 import {DateUtils} from '../../../utils/DateUtils';
+import {Lan, LanService} from 'core';
+import * as moment from 'moment';
+import {formatDate} from '@angular/common';
 
 @Component({
   selector: 'app-lan-details',
-  templateUrl: './create-lan-details.component.html',
-  styleUrls: ['./create-lan-details.component.css']
+  templateUrl: './lan-details.component.html',
+  styleUrls: ['./lan-details.component.css']
 })
 /**
  * Dialogue de création de LAN.
  */
-export class CreateLanDetailsComponent {
+export class LanDetailsComponent implements OnInit {
 
   // Formulaire des détails du LAN
   detailsForm: FormGroup;
@@ -26,7 +29,8 @@ export class CreateLanDetailsComponent {
 
   constructor(
     private formBuilder: FormBuilder,
-    private timePicker: AmazingTimePickerService) {
+    private timePicker: AmazingTimePickerService,
+    public lanService: LanService) {
     // Instantiation du formulaire
     this.detailsForm = this.formBuilder.group({
       name: ['LAN de l\'ADEPT - ', [Validators.required, Validators.max(255)]],
@@ -41,6 +45,29 @@ export class CreateLanDetailsComponent {
       tournamentDate: ['', Validators.required],
       tournamentTime: ['', Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    this.lanService.currentLanReplay.subscribe(
+      (currentLan: Lan) => {
+        // Remplir les champs avec le LAN courant
+
+        if (currentLan !== null) {
+          console.log(formatDate(currentLan.lanStart, 'HH:mm', 'fr-FR' , '+0430'));
+          this.detailsForm.controls['name'].setValue(currentLan.name);
+          this.detailsForm.controls['price'].setValue(currentLan.price);
+          this.detailsForm.controls['playerCount'].setValue(currentLan.places);
+          this.detailsForm.controls['startDate'].setValue(currentLan.lanStart);
+          this.detailsForm.controls['startTime'].setValue(currentLan.lanStart);
+          this.detailsForm.controls['endDate'].setValue(currentLan.lanEnd);
+          this.detailsForm.controls['endTime'].setValue(currentLan.lanEnd.toLocaleTimeString());
+          this.detailsForm.controls['reservationDate'].setValue(currentLan.seatReservationStart);
+          this.detailsForm.controls['reservationTime'].setValue(currentLan.seatReservationStart.toLocaleTimeString());
+          this.detailsForm.controls['tournamentDate'].setValue(currentLan.tournamentReservationStart);
+          this.detailsForm.controls['tournamentTime'].setValue(currentLan.tournamentReservationStart.toLocaleTimeString());
+        }
+      }
+    );
   }
 
   /**
@@ -245,6 +272,7 @@ export class CreateLanDetailsComponent {
     }
   }
 
+
   /**
    * Valider les champs de date et de temps de la fin du LAN.
    */
@@ -256,7 +284,6 @@ export class CreateLanDetailsComponent {
       this.setError(['reservationDate', 'reservationTime'], null);
     }
   }
-
 
   /**
    * Valider les champs de date et de temps du début de la réservation des places.

@@ -15,7 +15,7 @@ use App\Rules\{General\ArrayOfInteger,
     Role\PermissionsDontBelongToLanRole,
     User\HasPermission};
 use App\Services\Implementation\RoleServiceImpl;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
+use Illuminate\{Http\JsonResponse, Http\Request, Support\Facades\Auth, Support\Facades\Validator};
 
 /**
  * Validation et application de la logique applicative sur les rôles.
@@ -44,7 +44,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-des-permissions-a-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function addPermissionsGlobalRole(Request $request)
     {
@@ -75,7 +75,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-des-permissions-a-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function addPermissionsLanRole(Request $request)
     {
@@ -107,7 +107,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#assigner-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function assignGlobalRole(Request $request)
     {
@@ -132,7 +132,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#assigner-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function assignLanRole(Request $request)
     {
@@ -157,7 +157,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function createGlobalRole(Request $request)
     {
@@ -194,7 +194,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function createLanRole(Request $request)
     {
@@ -235,7 +235,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function deleteGlobalRole(Request $request)
     {
@@ -257,7 +257,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function deleteLanRole(Request $request)
     {
@@ -282,7 +282,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-des-permissions-a-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function deletePermissionsGlobalRole(Request $request)
     {
@@ -312,7 +312,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-des-permissions-a-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function deletePermissionsLanRole(Request $request)
     {
@@ -342,7 +342,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-permissions-d-39-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getGlobalRolePermissions(Request $request)
     {
@@ -364,7 +364,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-roles-globaux
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getGlobalRoles(Request $request)
     {
@@ -382,7 +382,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-utilisateurs-possedants-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getGlobalRoleUsers(Request $request)
     {
@@ -404,7 +404,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-permissions-d-39-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getLanRolePermissions(Request $request)
     {
@@ -426,7 +426,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-roles-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getLanRoles(Request $request)
     {
@@ -449,7 +449,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-utilisateurs-possedants-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getLanRoleUsers(Request $request)
     {
@@ -471,7 +471,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-les-permissions
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getPermissions(Request $request)
     {
@@ -489,7 +489,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#modifier-un-role-global
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function updateGlobalRole(Request $request)
     {
@@ -526,7 +526,7 @@ class RoleController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#modifier-un-role-de-lan
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function updateLanRole(Request $request)
     {

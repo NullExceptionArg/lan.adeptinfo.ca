@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Model\User;
 use Closure;
+use Illuminate\Http\Request;
 
 /**
  * S'assurer que l'utilisateur qui accède à l'application est confirmé (par courriel)
@@ -16,8 +17,8 @@ class Login
     /**
      * Traiter une demande entrante.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param  Request $request
+     * @param Closure $next
      * @param  string|null $guard
      * @return mixed
      */
