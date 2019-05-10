@@ -11,7 +11,7 @@ class SetCurrentTest extends TestCase
 
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create();

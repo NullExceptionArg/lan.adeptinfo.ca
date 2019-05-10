@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Model\{GlobalRole, LanRole, Permission};
+use Laravel\Lumen\Application;
 use Laravel\Lumen\Testing\TestCase as BaseTestCase;
 
 /**
@@ -16,14 +17,14 @@ abstract class TestCase extends BaseTestCase
     /**
      * Créer l'application
      *
-     * @return \Laravel\Lumen\Application
+     * @return Application
      */
     public function createApplication()
     {
         return require __DIR__ . '/../bootstrap/app.php';
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->artisan('lan:permissions');

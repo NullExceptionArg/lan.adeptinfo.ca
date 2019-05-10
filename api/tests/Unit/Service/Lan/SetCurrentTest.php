@@ -14,7 +14,7 @@ class SetCurrentTest extends TestCase
     protected $user;
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lanService = $this->app->make('App\Services\Implementation\LanServiceImpl');
