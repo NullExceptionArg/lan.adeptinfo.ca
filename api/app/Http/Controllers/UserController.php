@@ -9,7 +9,7 @@ use App\Rules\{User\FacebookEmailPermission,
     User\ValidFacebookToken,
     User\ValidGoogleToken};
 use App\Services\Implementation\UserServiceImpl;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
+use Illuminate\{Http\JsonResponse, Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
 
 /**
  * Validation et application de la logique applicative sur les utilisateurs de l'application.
@@ -39,7 +39,7 @@ class UserController extends Controller
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#confirmer-un-compte
      * @param Request $request
      * @param string $confirmationCode
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function confirm(Request $request, string $confirmationCode)
     {
@@ -58,7 +58,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-tag
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function createTag(Request $request)
     {
@@ -78,7 +78,7 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-l-39-utilisateur
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function deleteUser()
     {
@@ -89,7 +89,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#roles-d-39-un-administrateur
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getAdminRoles(Request $request)
     {
@@ -119,7 +119,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#sommaire-de-l-39-administrateur
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getAdminSummary(Request $request)
     {
@@ -133,7 +133,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-utilisateur
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getUserDetails(Request $request)
     {
@@ -159,7 +159,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-utilisateurs
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getUsers(Request $request)
     {
@@ -172,6 +172,10 @@ class UserController extends Controller
             $request['current_page'] = null;
         }
 
+        if ($request->input('order_direction') === '') {
+            $request['order_direction'] = null;
+        }
+
         $validator = Validator::make([
             'query_string' => $request->input('query_string'),
             'order_column' => $request->input('order_column'),
@@ -182,7 +186,7 @@ class UserController extends Controller
         ], [
             'query_string' => 'max:255|string',
             'order_column' => [Rule::in(['first_name', 'last_name', 'email']),],
-            'order_direction' => [Rule::in(['asc', 'desc']),],
+            'order_direction' => ['nullable', Rule::in(['asc', 'desc']),],
             'items_per_page' => 'integer|nullable|min:1|max:75',
             'current_page' => 'integer|nullable|min:1',
             'permission' => new HasPermissionInLan(Lan::getCurrent()->id, Auth::id())
@@ -202,7 +206,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#sommaire-de-l-39-utilisateur
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getUserSummary(Request $request)
     {
@@ -223,7 +227,7 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#deconnexion
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logOut()
     {
@@ -234,7 +238,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#connexion-avec-facebook
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function signInFacebook(Request $request)
     {
@@ -253,7 +257,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#connexion-avec-google
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function signInGoogle(Request $request)
     {
@@ -272,7 +276,7 @@ class UserController extends Controller
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-compte-utilisateur
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function signUp(Request $request)
     {
