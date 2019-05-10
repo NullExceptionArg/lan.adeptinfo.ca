@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Laravel\Lumen\Application;
 use Seatsio\SeatsioClient;
 
 /**
@@ -15,14 +16,14 @@ abstract class SeatsTestCase extends TestCase
     /**
      * Créer l'application
      *
-     * @return \Laravel\Lumen\Application
+     * @return Application
      */
     public function createApplication()
     {
         return require __DIR__.'/../bootstrap/app.php';
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -33,7 +34,7 @@ abstract class SeatsTestCase extends TestCase
         $seatsClient->events->release(env('EVENT_TEST_KEY'), env('SEAT_TEST_ID'));
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // Créer un client pour l'API de seats.io
         $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));

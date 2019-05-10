@@ -11,7 +11,7 @@ class GetTest extends TestCase
 
     protected $lan;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();

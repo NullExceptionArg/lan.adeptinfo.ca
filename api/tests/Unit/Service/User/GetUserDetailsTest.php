@@ -15,7 +15,7 @@ class GetUserDetailsTest extends SeatsTestCase
     protected $lan;
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->userService = $this->app->make('App\Services\Implementation\UserServiceImpl');

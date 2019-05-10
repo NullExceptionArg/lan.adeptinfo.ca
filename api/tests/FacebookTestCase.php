@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Utils\FacebookUtils;
 use Facebook\Exceptions\FacebookSDKException;
+use Laravel\Lumen\Application;
 
 /**
  * Contexte pour les tests qui manipulent des utilisateurs de test de l'API de Facebook
@@ -16,14 +17,14 @@ abstract class FacebookTestCase extends TestCase
     /**
      * Créer l'application
      *
-     * @return \Laravel\Lumen\Application
+     * @return Application
      */
     public function createApplication()
     {
         return require __DIR__ . '/../bootstrap/app.php';
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         // Obtenir le token d'accès Facebook de l'application
         $accessToken = FacebookUtils::getAccessToken();

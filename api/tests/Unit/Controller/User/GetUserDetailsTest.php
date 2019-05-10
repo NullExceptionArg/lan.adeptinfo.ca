@@ -13,7 +13,7 @@ class GetUserDetailsTest extends SeatsTestCase
     protected $lan;
     protected $user;
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();
