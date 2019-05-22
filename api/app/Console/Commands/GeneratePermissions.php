@@ -2,7 +2,8 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\{Console\Command, Support\Facades\DB};
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class GeneratePermissions extends Command
 {
@@ -23,7 +24,7 @@ class GeneratePermissions extends Command
     public function handle()
     {
         $this->comment('Generating permissions');
-        DB::table('permission')->insert(include(base_path() . '/resources/permissions.php'));
+        DB::table('permission')->insert(include(base_path().'/resources/permissions.php'));
         $this->info('Permissions generated');
 
         $headers = ['id', 'name'];

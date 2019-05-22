@@ -16,13 +16,13 @@ class CreateTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'name' => 'October',
+        'name'             => 'October',
         'tournament_start' => null,
-        'tournament_end' => null,
+        'tournament_end'   => null,
         'players_to_reach' => 5,
-        'teams_to_reach' => 6,
-        'rules' => 'The Bolsheviks seize control of Petrograd.',
-        'price' => 0,
+        'teams_to_reach'   => 6,
+        'rules'            => 'The Bolsheviks seize control of Petrograd.',
+        'price'            => 0,
     ];
 
     public function setUp(): void
@@ -44,7 +44,7 @@ class CreateTest extends TestCase
     public function testCreate(): void
     {
         $this->notSeeInDatabase('tournament', [
-            'name' => $this->requestContent['name']
+            'name' => $this->requestContent['name'],
         ]);
 
         $result = $this->tournamentRepository->create(
@@ -59,7 +59,7 @@ class CreateTest extends TestCase
         );
 
         $this->seeInDatabase('tournament', [
-            'name' => $this->requestContent['name']
+            'name' => $this->requestContent['name'],
         ]);
 
         $this->assertIsInt($result);

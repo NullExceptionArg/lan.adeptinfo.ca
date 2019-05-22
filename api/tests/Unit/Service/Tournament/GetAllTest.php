@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class getAllTest extends TestCase
+class GetAllTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -24,7 +24,7 @@ class getAllTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->actingAs($this->user);
     }
@@ -36,13 +36,13 @@ class getAllTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);
@@ -63,14 +63,14 @@ class getAllTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'state' => 'finished'
+            'tournament_end'   => $endTime->subHour(1),
+            'state'            => 'finished',
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);
@@ -88,20 +88,20 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
-            'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
+            'lan_end'   => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'state' => 'visible'
+            'tournament_end'   => $endTime->subHour(1),
+            'state'            => 'visible',
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);
@@ -119,20 +119,20 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
-            'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
+            'lan_end'   => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'state' => 'visible'
+            'tournament_end'   => $endTime->subHour(1),
+            'state'            => 'visible',
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);
@@ -150,20 +150,20 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(1)->format('Y-m-d H:i:s'),
-            'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
+            'lan_end'   => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'state' => 'started'
+            'tournament_end'   => $endTime->subHour(1),
+            'state'            => 'started',
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);
@@ -181,19 +181,19 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
-            'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
+            'lan_end'   => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
         $startTime = Carbon::parse($this->lan->lan_start);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $startTime->addHour(2),
-            'state' => 'started'
+            'tournament_end'   => $startTime->addHour(2),
+            'state'            => 'started',
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);
@@ -211,20 +211,20 @@ class getAllTest extends TestCase
     {
         $this->lan = factory('App\Model\Lan')->create([
             'lan_start' => Carbon::now()->addDays(-1)->format('Y-m-d H:i:s'),
-            'lan_end' => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
+            'lan_end'   => Carbon::now()->addDays(2)->format('Y-m-d H:i:s'),
         ]);
         $this->requestContent['lan_id'] = $this->lan->id;
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'state' => 'started'
+            'tournament_end'   => $endTime->subHour(1),
+            'state'            => 'started',
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);
@@ -245,22 +245,22 @@ class getAllTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $users = factory('App\Model\User', $tournament->players_to_reach)->create();
         $team = factory('App\Model\Team')->create([
-            'tournament_id' => $tournament->id
+            'tournament_id' => $tournament->id,
         ]);
         foreach ($users as $user) {
             $tag = factory('App\Model\Tag')->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
             $tagTeam = new TagTeam();
             $tagTeam->tag_id = $tag->id;
@@ -286,22 +286,22 @@ class getAllTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $users = factory('App\Model\User', $tournament->players_to_reach - 1)->create();
         $team = factory('App\Model\Team')->create([
-            'tournament_id' => $tournament->id
+            'tournament_id' => $tournament->id,
         ]);
         foreach ($users as $user) {
             $tag = factory('App\Model\Tag')->create([
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
             $tagTeam = new TagTeam();
             $tagTeam->tag_id = $tag->id;
@@ -323,18 +323,18 @@ class getAllTest extends TestCase
     public function testGetAllCurrentLan(): void
     {
         $this->lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
-            'tournament_id' => $tournament->id
+            'organizer_id'  => $this->user->id,
+            'tournament_id' => $tournament->id,
         ]);
 
         $result = $this->tournamentService->getAll($this->lan->id);

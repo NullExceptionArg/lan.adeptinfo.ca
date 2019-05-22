@@ -25,20 +25,20 @@ class RevokeRefreshTokenTest extends TestCase
         $this->artisan('passport:install');
         $password = 'Passw0rd!';
         $user = factory('App\Model\User')->create([
-            'password' => Hash::make($password),
-            'is_confirmed' => true
+            'password'     => Hash::make($password),
+            'is_confirmed' => true,
         ]);
         $clientSecret = DB::table('oauth_clients')
             ->where('id', 2)
             ->first()
             ->secret;
 
-        $this->call('POST', 'http://' . env('API_DOMAIN') . '/oauth/token', [
-            'grant_type' => 'password',
-            'client_id' => 2,
+        $this->call('POST', 'http://'.env('API_DOMAIN').'/oauth/token', [
+            'grant_type'    => 'password',
+            'client_id'     => 2,
             'client_secret' => $clientSecret,
-            'username' => $user->email,
-            'password' => $password
+            'username'      => $user->email,
+            'password'      => $password,
         ]);
 
         $refreshToken = $clientSecret = DB::table('oauth_refresh_tokens')
@@ -46,14 +46,14 @@ class RevokeRefreshTokenTest extends TestCase
             ->id;
 
         $this->seeInDatabase('oauth_refresh_tokens', [
-            'id' => $refreshToken,
+            'id'      => $refreshToken,
             'revoked' => false,
         ]);
 
         $this->userRepository->revokeRefreshToken(Passport::token()->first());
 
         $this->seeInDatabase('oauth_refresh_tokens', [
-            'id' => $refreshToken,
+            'id'      => $refreshToken,
             'revoked' => true,
         ]);
     }

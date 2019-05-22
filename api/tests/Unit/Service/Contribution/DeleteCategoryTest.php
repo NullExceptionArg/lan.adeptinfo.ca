@@ -23,7 +23,7 @@ class DeleteCategoryTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

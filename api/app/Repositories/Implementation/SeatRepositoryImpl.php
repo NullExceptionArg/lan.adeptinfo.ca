@@ -5,7 +5,8 @@ namespace App\Repositories\Implementation;
 use App\Model\Reservation;
 use App\Repositories\SeatRepository;
 use Carbon\Carbon;
-use Illuminate\{Support\Collection, Support\Facades\DB};
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class SeatRepositoryImpl implements SeatRepository
 {
@@ -14,8 +15,8 @@ class SeatRepositoryImpl implements SeatRepository
         return DB::table('reservation')
             ->insertGetId([
                 'user_id' => $userId,
-                'lan_id' => $lanId,
-                'seat_id' => $seatId
+                'lan_id'  => $lanId,
+                'seat_id' => $seatId,
             ]);
     }
 
@@ -60,7 +61,7 @@ class SeatRepositoryImpl implements SeatRepository
             ->where('lan_id', $lanId)
             ->where('seat_id', $reservationId)
             ->update([
-                'arrived_at' => Carbon::now()
+                'arrived_at' => Carbon::now(),
             ]);
     }
 
@@ -70,7 +71,7 @@ class SeatRepositoryImpl implements SeatRepository
             ->where('lan_id', $lanId)
             ->where('seat_id', $reservationId)
             ->update([
-                'left_at' => Carbon::now()
+                'left_at' => Carbon::now(),
             ]);
     }
 }

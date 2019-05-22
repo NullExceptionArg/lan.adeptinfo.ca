@@ -17,7 +17,7 @@ class CreateTest extends TestCase
 
     protected $requestContent = [
         'name' => 'WorkersUnite',
-        'tag' => 'PRO'
+        'tag'  => 'PRO',
     ];
 
     public function setUp(): void
@@ -29,19 +29,19 @@ class CreateTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
     }
 
     public function testCreate(): void
     {
         $this->notSeeInDatabase('team', [
-            'id' => 1,
-            'name' => $this->requestContent['name'],
-            'tag' => $this->requestContent['tag'],
-            'tournament_id' => $this->tournament->id
+            'id'            => 1,
+            'name'          => $this->requestContent['name'],
+            'tag'           => $this->requestContent['tag'],
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $result = $this->teamRepository->create(
@@ -52,10 +52,10 @@ class CreateTest extends TestCase
 
         $this->assertEquals(1, $result);
         $this->seeInDatabase('team', [
-            'id' => 1,
-            'name' => $this->requestContent['name'],
-            'tag' => $this->requestContent['tag'],
-            'tournament_id' => $this->tournament->id
+            'id'            => 1,
+            'name'          => $this->requestContent['name'],
+            'tag'           => $this->requestContent['tag'],
+            'tournament_id' => $this->tournament->id,
         ]);
     }
 }

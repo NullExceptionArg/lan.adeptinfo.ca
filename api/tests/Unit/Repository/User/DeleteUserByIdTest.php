@@ -24,19 +24,19 @@ class DeleteUserByIdTest extends TestCase
     public function testDeleteUserById(): void
     {
         $this->seeInDatabase('user', [
-            'id' => $this->user->id,
+            'id'         => $this->user->id,
             'first_name' => $this->user->first_name,
-            'last_name' => $this->user->last_name,
-            'email' => $this->user->email,
+            'last_name'  => $this->user->last_name,
+            'email'      => $this->user->email,
         ]);
 
         $this->userRepository->deleteUserById($this->user->id);
 
         $this->notSeeInDatabase('user', [
-            'id' => $this->user->id,
+            'id'         => $this->user->id,
             'first_name' => $this->user->first_name,
-            'last_name' => $this->user->last_name,
-            'email' => $this->user->email,
+            'last_name'  => $this->user->last_name,
+            'email'      => $this->user->email,
         ]);
     }
 }

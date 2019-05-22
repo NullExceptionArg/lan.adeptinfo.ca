@@ -14,7 +14,7 @@ class DeleteGlobalRoleTest extends TestCase
     protected $globalRole;
 
     protected $requestContent = [
-        'role_id' => null
+        'role_id' => null,
     ];
 
     public function setUp(): void
@@ -36,14 +36,14 @@ class DeleteGlobalRoleTest extends TestCase
 
         foreach ($permissions as $permissionId) {
             factory('App\Model\PermissionGlobalRole')->create([
-                'role_id' => $this->globalRole->id,
-                'permission_id' => $permissionId
+                'role_id'       => $this->globalRole->id,
+                'permission_id' => $permissionId,
             ]);
         }
 
         factory('App\Model\GlobalRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $this->globalRole->id
+            'role_id' => $this->globalRole->id,
         ]);
 
         $this->requestContent['role_id'] = $this->globalRole->id;
@@ -52,12 +52,12 @@ class DeleteGlobalRoleTest extends TestCase
     public function testDeleteGlobalRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/global', $this->requestContent)
             ->seeJsonEquals([
-                'id' => $this->globalRole->id,
-                'name' => $this->globalRole->name,
+                'id'           => $this->globalRole->id,
+                'name'         => $this->globalRole->name,
                 'display_name' => $this->globalRole->en_display_name,
-                'description' => $this->globalRole->en_description,
+                'description'  => $this->globalRole->en_description,
             ])
             ->assertResponseStatus(200);
     }
@@ -66,11 +66,11 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -79,15 +79,15 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -96,15 +96,15 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -113,15 +113,15 @@ class DeleteGlobalRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/global', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/global', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The selected role id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

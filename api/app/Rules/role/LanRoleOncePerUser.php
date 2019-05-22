@@ -2,14 +2,14 @@
 
 namespace App\Rules;
 
-use App\Model\{LanRoleUser, User};
+use App\Model\LanRoleUser;
+use App\Model\User;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Un rôle de LAN n'est attribué qu'une seul fois à un utilisateur.
  *
  * Class LanRoleOncePerUser
- * @package App\Rules
  */
 class LanRoleOncePerUser implements Rule
 {
@@ -17,6 +17,7 @@ class LanRoleOncePerUser implements Rule
 
     /**
      * SeatOncePerLan constructor.
+     *
      * @param null $email Courriel de l'utilisateur
      */
     public function __construct($email)
@@ -27,8 +28,9 @@ class LanRoleOncePerUser implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $roleId Id du rôle
+     * @param string $attribute
+     * @param mixed  $roleId    Id du rôle
+     *
      * @return bool
      */
     public function passes($attribute, $roleId): bool

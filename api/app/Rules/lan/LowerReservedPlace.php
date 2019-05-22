@@ -9,7 +9,6 @@ use Illuminate\Contracts\Validation\Rule;
  * Le nombre de réservations dans un LAN est moins grand que le nombre spécifié.
  *
  * Class LowerReservedPlace
- * @package App\Rules\Lan
  */
 class LowerReservedPlace implements Rule
 {
@@ -17,6 +16,7 @@ class LowerReservedPlace implements Rule
 
     /**
      * LowerReservedPlace constructor.
+     *
      * @param string $lanId Id du LAN
      */
     public function __construct($lanId)
@@ -27,8 +27,9 @@ class LowerReservedPlace implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  int $places
+     * @param string $attribute
+     * @param int    $places
+     *
      * @return bool
      */
     public function passes($attribute, $places): bool
@@ -43,6 +44,7 @@ class LowerReservedPlace implements Rule
         }
 
         $placeCount = Reservation::where('lan_id', $this->lanId)->count();
+
         return $placeCount <= $places;
     }
 

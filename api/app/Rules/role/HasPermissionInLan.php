@@ -3,13 +3,14 @@
 namespace App\Rules\Role;
 
 use App\Model\LanRole;
-use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
- * Un utilisateur possède une permission
+ * Un utilisateur possède une permission.
  *
  * Class HasPermissionInLan
- * @package App\Rules\Role
  */
 class HasPermissionInLan implements Rule
 {
@@ -18,6 +19,7 @@ class HasPermissionInLan implements Rule
 
     /**
      * HasPermissionInLan constructor.
+     *
      * @param null $roleId Id du rôle  global
      * @param null $userId Id de l'utilisateur
      */
@@ -30,10 +32,12 @@ class HasPermissionInLan implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  string $permissionName Nom de la permission
-     * @return bool
+     * @param string $attribute
+     * @param string $permissionName Nom de la permission
+     *
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function passes($attribute, $permissionName): bool
     {

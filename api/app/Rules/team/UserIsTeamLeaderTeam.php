@@ -2,14 +2,16 @@
 
 namespace App\Rules\Team;
 
-use App\Model\{TagTeam, Team};
-use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
+use App\Model\TagTeam;
+use App\Model\Team;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
- * Un utilisateur est le chef d'une équipe
+ * Un utilisateur est le chef d'une équipe.
  *
  * Class UserIsTeamLeaderTeam
- * @package App\Rules\Team
  */
 class UserIsTeamLeaderTeam implements Rule
 {
@@ -17,6 +19,7 @@ class UserIsTeamLeaderTeam implements Rule
 
     /**
      * UserIsTeamLeaderTeam constructor.
+     *
      * @param int $userId Id de l'utilisateur
      */
     public function __construct($userId)
@@ -27,10 +30,12 @@ class UserIsTeamLeaderTeam implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $teamId
-     * @return bool
+     * @param string $attribute
+     * @param mixed  $teamId
+     *
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function passes($attribute, $teamId): bool
     {

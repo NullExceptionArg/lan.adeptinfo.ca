@@ -21,7 +21,7 @@ class FindLanRoleByIdTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->lanRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class dissociateOrganizerTournamentTest extends TestCase
+class DissociateOrganizerTournamentTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -26,24 +26,24 @@ class dissociateOrganizerTournamentTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'teams_to_reach' => 10,
-            'players_to_reach' => 10
+            'tournament_end'   => $endTime->subHour(1),
+            'teams_to_reach'   => 10,
+            'players_to_reach' => 10,
         ]);
         $this->organizer = factory('App\Model\User')->create();
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->organizer->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $this->organizer->id,
+            'tournament_id' => $this->tournament->id,
         ]);
     }
 
     public function testDissociateOrganizerTournament(): void
     {
         $this->seeInDatabase('organizer_tournament', [
-            'organizer_id' => $this->organizer->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $this->organizer->id,
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $this->tournamentRepository->dissociateOrganizerTournament(
@@ -52,8 +52,8 @@ class dissociateOrganizerTournamentTest extends TestCase
         );
 
         $this->notSeeInDatabase('organizer_tournament', [
-            'organizer_id' => $this->organizer->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $this->organizer->id,
+            'tournament_id' => $this->tournament->id,
         ]);
     }
 }

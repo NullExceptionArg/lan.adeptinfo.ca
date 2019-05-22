@@ -28,11 +28,11 @@ class KickTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->userTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->leader = factory('App\Model\User')->create();
         $this->leaderTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->leader->id
+            'user_id' => $this->leader->id,
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
@@ -40,23 +40,23 @@ class KickTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
 
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $this->userTagTeam = factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->userTag->id,
-            'team_id' => $this->team->id
+            'tag_id'  => $this->userTag->id,
+            'team_id' => $this->team->id,
         ]);
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->leaderTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $this->leaderTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
     }
 

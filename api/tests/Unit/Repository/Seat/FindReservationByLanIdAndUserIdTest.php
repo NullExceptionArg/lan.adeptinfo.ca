@@ -25,9 +25,9 @@ class FindReservationByLanIdAndUserIdTest extends SeatsTestCase
     public function testFindReservationByLanIdAndSeatId(): void
     {
         factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'  => $this->lan->id,
             'user_id' => $this->user->id,
-            'seat_id' => env('SEAT_TEST_ID')
+            'seat_id' => env('SEAT_TEST_ID'),
         ]);
 
         $result = $this->seatRepository->findReservationByLanIdAndSeatId($this->user->id, env('SEAT_TEST_ID'));

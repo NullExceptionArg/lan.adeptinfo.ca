@@ -43,7 +43,7 @@ class Lan extends Model
      * @var array
      */
     protected $hidden = [
-        'created_at', 'updated_at', 'deleted_at'
+        'created_at', 'updated_at', 'deleted_at',
     ];
 
     /**
@@ -52,21 +52,21 @@ class Lan extends Model
      * @var array
      */
     protected $casts = [
-        'price' => 'integer',
-        'places' => 'integer',
-        'id' => 'integer',
+        'price'      => 'integer',
+        'places'     => 'integer',
+        'id'         => 'integer',
         'is_current' => 'boolean',
-        'latitude' => 'float',
-        'longitude' => 'float'
+        'latitude'   => 'float',
+        'longitude'  => 'float',
     ];
 
     /**
-     * Champs assignables par masses
+     * Champs assignables par masses.
      *
      * @var array
      */
     protected $fillable = [
-        'is_current'
+        'is_current',
     ];
 
     public function reservation()
@@ -84,8 +84,8 @@ class Lan extends Model
         return $this->hasMany(ContributionCategory::class);
     }
 
-    public static function getCurrent(): ?Lan
+    public static function getCurrent(): ?self
     {
-        return Lan::where('is_current', true)->first();
+        return self::where('is_current', true)->first();
     }
 }

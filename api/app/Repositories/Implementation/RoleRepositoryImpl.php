@@ -2,32 +2,35 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{GlobalRole, LanRole, Permission};
+use App\Model\GlobalRole;
+use App\Model\LanRole;
+use App\Model\Permission;
 use App\Repositories\RoleRepository;
-use Illuminate\{Support\Collection, Support\Facades\DB};
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class RoleRepositoryImpl implements RoleRepository
 {
     public function addDefaultLanRoles(int $lanId): void
     {
         // Les rôles de LAN par défaut sont définis dans /resources/roles.php, dans l'entrée de tableau nommé lan_roles
-        $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
+        $lanRoles = (include(base_path().'/resources/roles.php'))['lan_roles'];
         // Pour chaque rôle trouvés
         foreach ($lanRoles as $role) {
             // Créer le rôle
             $roleId = DB::table('lan_role')->insertGetId([
-                'name' => $role['name'],
+                'name'            => $role['name'],
                 'en_display_name' => $role['en_display_name'],
-                'en_description' => $role['en_description'],
+                'en_description'  => $role['en_description'],
                 'fr_display_name' => $role['fr_display_name'],
-                'fr_description' => $role['fr_description'],
-                'lan_id' => $lanId
+                'fr_description'  => $role['fr_description'],
+                'lan_id'          => $lanId,
             ]);
             // Ajouter les permissions au rôle
             foreach ($role['permissions'] as $permission) {
                 DB::table('permission_lan_role')->insert([
                     'permission_id' => Permission::where('name', $permission['name'])->first()->id,
-                    'role_id' => $roleId
+                    'role_id'       => $roleId,
                 ]);
             }
         }
@@ -39,15 +42,14 @@ class RoleRepositoryImpl implements RoleRepository
         string $enDescription,
         string $frDisplayName,
         string $frDescription
-    ): int
-    {
+    ): int {
         return DB::table('global_role')
             ->insertGetId([
-                'name' => $name,
+                'name'            => $name,
                 'en_display_name' => $enDisplayName,
-                'en_description' => $enDescription,
+                'en_description'  => $enDescription,
                 'fr_display_name' => $frDisplayName,
-                'fr_description' => $frDescription
+                'fr_description'  => $frDescription,
             ]);
     }
 
@@ -58,16 +60,15 @@ class RoleRepositoryImpl implements RoleRepository
         string $enDescription,
         string $frDisplayName,
         string $frDescription
-    ): int
-    {
+    ): int {
         return DB::table('lan_role')
             ->insertGetId([
-                'lan_id' => $lanId,
-                'name' => $name,
+                'lan_id'          => $lanId,
+                'name'            => $name,
                 'en_display_name' => $enDisplayName,
-                'en_description' => $enDescription,
+                'en_description'  => $enDescription,
                 'fr_display_name' => $frDisplayName,
-                'fr_description' => $frDescription
+                'fr_description'  => $frDescription,
             ]);
     }
 
@@ -125,7 +126,7 @@ class RoleRepositoryImpl implements RoleRepository
             ->select([
                 'permission.id',
                 'permission.name',
-                'permission.can_be_per_lan'
+                'permission.can_be_per_lan',
             ])
             ->get();
     }
@@ -221,7 +222,7 @@ class RoleRepositoryImpl implements RoleRepository
         DB::table('global_role_user')
             ->insert([
                 'user_id' => $userId,
-                'role_id' => $roleId
+                'role_id' => $roleId,
             ]);
     }
 
@@ -230,7 +231,7 @@ class RoleRepositoryImpl implements RoleRepository
         DB::table('lan_role_user')
             ->insert([
                 'user_id' => $userId,
-                'role_id' => $roleId
+                'role_id' => $roleId,
             ]);
     }
 
@@ -239,7 +240,7 @@ class RoleRepositoryImpl implements RoleRepository
         DB::table('permission_global_role')
             ->insert([
                 'permission_id' => $permissionId,
-                'role_id' => $roleId
+                'role_id'       => $roleId,
             ]);
     }
 
@@ -248,7 +249,7 @@ class RoleRepositoryImpl implements RoleRepository
         DB::table('permission_lan_role')
             ->insert([
                 'permission_id' => $permissionId,
-                'role_id' => $roleId
+                'role_id'       => $roleId,
             ]);
     }
 
@@ -275,17 +276,16 @@ class RoleRepositoryImpl implements RoleRepository
         ?string $enDescription,
         ?string $frDisplayName,
         ?string $frDescription
-    ): void
-    {
+    ): void {
         $role = $this->findGlobalRoleById($roleId);
         DB::table('global_role')
             ->where('id', $roleId)
             ->update([
-                'name' => $name != null ? $name : $role->name,
+                'name'            => $name != null ? $name : $role->name,
                 'en_display_name' => $enDisplayName != null ? $enDisplayName : $role->en_display_name,
-                'en_description' => $enDescription != null ? $enDescription : $role->en_description,
+                'en_description'  => $enDescription != null ? $enDescription : $role->en_description,
                 'fr_display_name' => $frDisplayName != null ? $frDisplayName : $role->fr_display_name,
-                'fr_description' => $frDescription != null ? $frDescription : $role->fr_description
+                'fr_description'  => $frDescription != null ? $frDescription : $role->fr_description,
             ]);
     }
 
@@ -296,18 +296,17 @@ class RoleRepositoryImpl implements RoleRepository
         ?string $enDescription,
         ?string $frDisplayName,
         ?string $frDescription
-    ): void
-    {
+    ): void {
         $role = $this->findGlobalRoleById($roleId);
 
         DB::table('lan_role')
             ->where('id', $roleId)
             ->update([
-                'name' => $name != null ? $name : $role->name,
+                'name'            => $name != null ? $name : $role->name,
                 'en_display_name' => $enDisplayName != null ? $enDisplayName : $role->en_display_name,
-                'en_description' => $enDescription != null ? $enDescription : $role->en_description,
+                'en_description'  => $enDescription != null ? $enDescription : $role->en_description,
                 'fr_display_name' => $frDisplayName != null ? $frDisplayName : $role->fr_display_name,
-                'fr_description' => $frDescription != null ? $frDescription : $role->fr_description
+                'fr_description'  => $frDescription != null ? $frDescription : $role->fr_description,
             ]);
     }
 

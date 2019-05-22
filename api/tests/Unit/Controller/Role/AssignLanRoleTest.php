@@ -20,7 +20,7 @@ class AssignLanRoleTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
         $this->user = factory('App\Model\User')->create();
         $this->role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
 
         $this->addLanPermissionToUser(
@@ -33,15 +33,15 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
+            ->json('POST', 'http://'.env('API_DOMAIN').'/role/lan/assign', [
                 'role_id' => $this->role->id,
-                'email' => $this->user->email
+                'email'   => $this->user->email,
             ])
             ->seeJsonEquals([
-                'id' => $this->role->id,
-                'name' => $this->role->name,
+                'id'           => $this->role->id,
+                'name'         => $this->role->name,
                 'display_name' => $this->role->en_display_name,
-                'description' => $this->role->en_description,
+                'description'  => $this->role->en_description,
             ])
             ->assertResponseStatus(200);
     }
@@ -50,14 +50,14 @@ class AssignLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
+            ->json('POST', 'http://'.env('API_DOMAIN').'/role/lan/assign', [
                 'role_id' => $this->role->id,
-                'email' => $this->user->email
+                'email'   => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -65,17 +65,17 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleEmailRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
-                'role_id' => $this->role->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/role/lan/assign', [
+                'role_id' => $this->role->id,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The email field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -83,18 +83,18 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleEmailExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
+            ->json('POST', 'http://'.env('API_DOMAIN').'/role/lan/assign', [
                 'role_id' => $this->role->id,
-                'email' => '☭'
+                'email'   => '☭',
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The selected email is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -102,18 +102,18 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
+            ->json('POST', 'http://'.env('API_DOMAIN').'/role/lan/assign', [
                 'role_id' => '☭',
-                'email' => $this->user->email
+                'email'   => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -122,21 +122,21 @@ class AssignLanRoleTest extends TestCase
     {
         factory('App\Model\LanRoleUser')->create([
             'role_id' => $this->role->id,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
+            ->json('POST', 'http://'.env('API_DOMAIN').'/role/lan/assign', [
                 'role_id' => $this->role->id,
-                'email' => $this->user->email
+                'email'   => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The user already has this role.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -144,18 +144,18 @@ class AssignLanRoleTest extends TestCase
     public function testAssignLanRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/role/lan/assign', [
+            ->json('POST', 'http://'.env('API_DOMAIN').'/role/lan/assign', [
                 'role_id' => -1,
-                'email' => $this->user->email
+                'email'   => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The selected role id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

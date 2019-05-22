@@ -26,11 +26,11 @@ class DeleteContributionTest extends TestCase
     public function testDeleteContributionUserEmail(): void
     {
         $contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $this->user->id
+            'lan_id' => $this->user->id,
         ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_id' => $this->user->id,
-            'contribution_category_id' => $contributionCategory->id
+            'user_id'                  => $this->user->id,
+            'contribution_category_id' => $contributionCategory->id,
         ]);
 
         $result = $this->contributorService->deleteContribution($contribution->id);
@@ -43,11 +43,11 @@ class DeleteContributionTest extends TestCase
     public function testDeleteContributionUserFullName(): void
     {
         $contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $this->user->id
+            'lan_id' => $this->user->id,
         ]);
         $contribution = factory('App\Model\Contribution')->create([
-            'user_full_name' => $this->user->getFullName(),
-            'contribution_category_id' => $contributionCategory->id
+            'user_full_name'           => $this->user->getFullName(),
+            'contribution_category_id' => $contributionCategory->id,
         ]);
 
         $result = $this->contributorService->deleteContribution($contribution->id);

@@ -5,7 +5,7 @@ namespace App\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Lien entre un tag et une équipe
+ * Lien entre un tag et une équipe.
  *
  * @property mixed tag_id
  * @property int team_id

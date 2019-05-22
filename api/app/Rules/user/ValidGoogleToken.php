@@ -10,15 +10,15 @@ use Illuminate\Contracts\Validation\Rule;
  * Un token Google est valide.
  *
  * Class ValidGoogleToken
- * @package App\Rules\User
  */
 class ValidGoogleToken implements Rule
 {
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $idToken
+     * @param string $attribute
+     * @param mixed  $idToken
+     *
      * @return bool
      */
     public function passes($attribute, $idToken): bool

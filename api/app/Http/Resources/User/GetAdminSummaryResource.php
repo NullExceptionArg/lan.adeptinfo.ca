@@ -3,7 +3,9 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Role\GetPermissionsSummaryResource;
-use Illuminate\{Contracts\Auth\Authenticatable, Http\Resources\Json\Resource, Support\Collection};
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Collection;
 
 class GetAdminSummaryResource extends Resource
 {
@@ -20,17 +22,18 @@ class GetAdminSummaryResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         return [
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'email' => $this->email,
+            'first_name'      => $this->first_name,
+            'last_name'       => $this->last_name,
+            'email'           => $this->email,
             'has_tournaments' => $this->hasTournaments,
-            'permissions' => GetPermissionsSummaryResource::collection($this->permissions)
+            'permissions'     => GetPermissionsSummaryResource::collection($this->permissions),
         ];
     }
 }

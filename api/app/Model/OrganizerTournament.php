@@ -29,6 +29,6 @@ class OrganizerTournament extends Model
      * @var array
      */
     protected $casts = [
-        'tournament_id' => 'integer', 'organizer_id' => 'integer'
+        'tournament_id' => 'integer', 'organizer_id' => 'integer',
     ];
 }

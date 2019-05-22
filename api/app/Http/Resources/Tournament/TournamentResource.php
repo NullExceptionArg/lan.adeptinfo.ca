@@ -11,7 +11,8 @@ class TournamentResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -33,14 +34,15 @@ class TournamentResource extends Resource
                 break;
             }
         }
+
         return [
-            'id' => $this->id,
-            'name' => $this->name,
+            'id'               => $this->id,
+            'name'             => $this->name,
             'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament_start)),
-            'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament_end)),
-            'state' => $this->getCurrentState(),
-            'teams_reached' => intval($teamsReached),
-            'teams_to_reach' => intval($this->teams_to_reach)
+            'tournament_end'   => date('Y-m-d H:i:s', strtotime($this->tournament_end)),
+            'state'            => $this->getCurrentState(),
+            'teams_reached'    => intval($teamsReached),
+            'teams_to_reach'   => intval($this->teams_to_reach),
         ];
     }
 }

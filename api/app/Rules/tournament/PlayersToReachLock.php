@@ -2,23 +2,23 @@
 
 namespace App\Rules\Tournament;
 
-use App\Model\{Team, Tournament};
+use App\Model\Team;
+use App\Model\Tournament;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Des équipes n'on pas déjà commencées à s'inscrire à un tournoi.
  *
  * Class PlayersToReachLock
- * @package App\Rules\Tournament
  */
 class PlayersToReachLock implements Rule
 {
-
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $tournamentId Id du tournoi
+     * @param string $attribute
+     * @param mixed  $tournamentId Id du tournoi
+     *
      * @return bool
      */
     public function passes($attribute, $tournamentId): bool

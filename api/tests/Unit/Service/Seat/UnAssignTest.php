@@ -15,8 +15,8 @@ class UnAssignTest extends SeatsTestCase
     protected $seatService;
 
     protected $requestContent = [
-        'lan_id' => null,
-        'seat_id' => null
+        'lan_id'  => null,
+        'seat_id' => null,
     ];
 
     public function setUp(): void
@@ -33,7 +33,7 @@ class UnAssignTest extends SeatsTestCase
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
         $result = $this->seatService->unAssign($this->lan->id, $this->user->email, env('SEAT_TEST_ID'));
 

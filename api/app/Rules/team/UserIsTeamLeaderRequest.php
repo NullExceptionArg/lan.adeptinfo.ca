@@ -2,14 +2,17 @@
 
 namespace App\Rules\Team;
 
-use App\Model\{Request, TagTeam, Team};
-use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
+use App\Model\Request;
+use App\Model\TagTeam;
+use App\Model\Team;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Un utilisateur est le chef de l'équipe d'une requête.
  *
  * Class UserIsTeamLeaderRequest
- * @package App\Rules\Team
  */
 class UserIsTeamLeaderRequest implements Rule
 {
@@ -17,6 +20,7 @@ class UserIsTeamLeaderRequest implements Rule
 
     /**
      * UserIsTeamLeaderRequest constructor.
+     *
      * @param int $userId Id de l'utilisateur
      */
     public function __construct($userId)
@@ -27,10 +31,12 @@ class UserIsTeamLeaderRequest implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $requestId Id de la requête pour entrer dans l'équipe
-     * @return bool
+     * @param string $attribute
+     * @param mixed  $requestId Id de la requête pour entrer dans l'équipe
+     *
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function passes($attribute, $requestId): bool
     {
@@ -46,8 +52,8 @@ class UserIsTeamLeaderRequest implements Rule
          * Une équipe correspond à l'id de l'équipe de la requête
          */
         if (
-            !is_int((int)$requestId) ||
-            intval((int)$requestId) == 0 ||
+            !is_int((int) $requestId) ||
+            intval((int) $requestId) == 0 ||
             !is_int($this->userId) ||
             is_null($request = Request::find($requestId)) ||
             is_null($team = Team::find($request->team_id))

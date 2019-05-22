@@ -19,27 +19,27 @@ class GetTest extends TestCase
 
     public function testGetSimple(): void
     {
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
-            'lan_id' => $this->lan->id
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/lan', [
+            'lan_id' => $this->lan->id,
         ])
             ->seeJsonEquals([
-                'id' => $this->lan->id,
-                'name' => $this->lan->name,
-                'lan_start' => $this->lan->lan_start,
-                'lan_end' => $this->lan->lan_end,
-                'seat_reservation_start' => $this->lan->seat_reservation_start,
+                'id'                           => $this->lan->id,
+                'name'                         => $this->lan->name,
+                'lan_start'                    => $this->lan->lan_start,
+                'lan_end'                      => $this->lan->lan_end,
+                'seat_reservation_start'       => $this->lan->seat_reservation_start,
                 'tournament_reservation_start' => $this->lan->tournament_reservation_start,
-                'longitude' => $this->lan->longitude,
-                'latitude' => $this->lan->latitude,
-                'places' => [
+                'longitude'                    => $this->lan->longitude,
+                'latitude'                     => $this->lan->latitude,
+                'places'                       => [
                     'reserved' => 0,
-                    'total' => $this->lan->places
+                    'total'    => $this->lan->places,
                 ],
-                'event_key' => $this->lan->event_key,
-                'price' => $this->lan->price,
-                'rules' => $this->lan->rules,
+                'event_key'   => $this->lan->event_key,
+                'price'       => $this->lan->price,
+                'rules'       => $this->lan->rules,
                 'description' => $this->lan->description,
-                'images' => []
+                'images'      => [],
             ])
             ->assertResponseStatus(200);
     }
@@ -47,77 +47,76 @@ class GetTest extends TestCase
     public function testGetCurrentLanCurrentLan()
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan')
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/lan')
             ->seeJsonEquals([
-                'id' => $lan->id,
-                'name' => $lan->name,
-                'lan_start' => $lan->lan_start,
-                'lan_end' => $lan->lan_end,
-                'seat_reservation_start' => $lan->seat_reservation_start,
+                'id'                           => $lan->id,
+                'name'                         => $lan->name,
+                'lan_start'                    => $lan->lan_start,
+                'lan_end'                      => $lan->lan_end,
+                'seat_reservation_start'       => $lan->seat_reservation_start,
                 'tournament_reservation_start' => $lan->tournament_reservation_start,
-                'longitude' => $lan->longitude,
-                'latitude' => $lan->latitude,
-                'event_key' => $lan->event_key,
-                'places' => [
+                'longitude'                    => $lan->longitude,
+                'latitude'                     => $lan->latitude,
+                'event_key'                    => $lan->event_key,
+                'places'                       => [
                     'reserved' => 0,
-                    'total' => $lan->places
+                    'total'    => $lan->places,
                 ],
-                'price' => $lan->price,
-                'rules' => $lan->rules,
+                'price'       => $lan->price,
+                'rules'       => $lan->rules,
                 'description' => $lan->description,
-                'images' => []
+                'images'      => [],
             ])
             ->seeStatusCode(200);
     }
 
     public function testGetParameters(): void
     {
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/lan', [
             'fields' => 'lan_start,lan_end,seat_reservation_start',
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ])
             ->seeJsonEquals([
-                'id' => $this->lan->id,
-                'lan_start' => $this->lan->lan_start,
-                'lan_end' => $this->lan->lan_end,
-                'seat_reservation_start' => $this->lan->seat_reservation_start
+                'id'                     => $this->lan->id,
+                'lan_start'              => $this->lan->lan_start,
+                'lan_end'                => $this->lan->lan_end,
+                'seat_reservation_start' => $this->lan->seat_reservation_start,
             ])
             ->assertResponseStatus(200);
     }
 
     public function testGetIdExist(): void
     {
-
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
-            'lan_id' => -1
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/lan', [
+            'lan_id' => -1,
         ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
 
     public function testGetIdInteger(): void
     {
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/lan', [
-            'lan_id' => '☭'
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/lan', [
+            'lan_id' => '☭',
         ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The lan id must be an integer.'
+                        0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

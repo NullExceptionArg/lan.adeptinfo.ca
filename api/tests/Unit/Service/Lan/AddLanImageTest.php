@@ -23,7 +23,7 @@ class AddLanImageTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
         $this->user = factory('App\Model\User')->create();
         $this->image = factory('App\Model\LanImage')->make([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ])->image;
     }
 

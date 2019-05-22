@@ -2,13 +2,13 @@
 
 namespace App\Rules\Team;
 
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Un nom n'existe pas encore comme nom d'équipe dans un tournoi.
  *
  * Class UniqueTeamNamePerTournament
- * @package App\Rules\Team
  */
 class UniqueTeamNamePerTournament implements Rule
 {
@@ -16,6 +16,7 @@ class UniqueTeamNamePerTournament implements Rule
 
     /**
      * UniqueTeamNamePerTournament constructor.
+     *
      * @param int $tournamentId Id du tournoi
      */
     public function __construct($tournamentId)
@@ -26,8 +27,9 @@ class UniqueTeamNamePerTournament implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $teamName Nom
+     * @param string $attribute
+     * @param mixed  $teamName  Nom
+     *
      * @return bool
      */
     public function passes($attribute, $teamName): bool

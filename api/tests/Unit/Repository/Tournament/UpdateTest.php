@@ -17,14 +17,14 @@ class UpdateTest extends TestCase
     protected $tournament;
 
     protected $requestContent = [
-        'name' => 'October',
-        'state' => 'visible',
+        'name'             => 'October',
+        'state'            => 'visible',
         'tournament_start' => null,
-        'tournament_end' => null,
+        'tournament_end'   => null,
         'players_to_reach' => 5,
-        'teams_to_reach' => 6,
-        'rules' => 'The Bolsheviks seize control of Petrograd.',
-        'price' => 0,
+        'teams_to_reach'   => 6,
+        'rules'            => 'The Bolsheviks seize control of Petrograd.',
+        'price'            => 0,
     ];
 
     public function setUp(): void
@@ -39,9 +39,9 @@ class UpdateTest extends TestCase
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->subHour(1);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
     }
 
@@ -60,15 +60,15 @@ class UpdateTest extends TestCase
         );
 
         $this->seeInDatabase('tournament', [
-            'id' => 1,
-            'name' => $this->requestContent['name'],
-            'state' => $this->requestContent['state'],
+            'id'               => 1,
+            'name'             => $this->requestContent['name'],
+            'state'            => $this->requestContent['state'],
             'tournament_start' => $this->requestContent['tournament_start'],
-            'tournament_end' => $this->requestContent['tournament_end'],
+            'tournament_end'   => $this->requestContent['tournament_end'],
             'players_to_reach' => $this->requestContent['players_to_reach'],
-            'teams_to_reach' => $this->requestContent['teams_to_reach'],
-            'rules' => $this->requestContent['rules'],
-            'price' => $this->requestContent['price'],
+            'teams_to_reach'   => $this->requestContent['teams_to_reach'],
+            'rules'            => $this->requestContent['rules'],
+            'price'            => $this->requestContent['price'],
         ]);
     }
 }

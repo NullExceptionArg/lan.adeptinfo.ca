@@ -13,8 +13,8 @@ class CreateCategoryTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'name' => "Programmer",
-        'lan_id' => null
+        'name'   => 'Programmer',
+        'lan_id' => null,
     ];
 
     public function setUp(): void
@@ -35,9 +35,9 @@ class CreateCategoryTest extends TestCase
     public function testCreateCategory(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/contribution/category', $this->requestContent)
             ->seeJsonEquals([
-                'id' => 1,
+                'id'   => 1,
                 'name' => $this->requestContent['name'],
             ])
             ->assertResponseStatus(201);
@@ -47,11 +47,11 @@ class CreateCategoryTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -60,15 +60,15 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -77,15 +77,15 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The lan id must be an integer.'
+                        0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -94,15 +94,15 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name field is required.'
+                        0 => 'The name field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -111,15 +111,15 @@ class CreateCategoryTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/contribution/category', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/contribution/category', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name must be a string.'
+                        0 => 'The name must be a string.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

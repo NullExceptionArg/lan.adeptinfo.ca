@@ -33,12 +33,12 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeat(): void
     {
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $this->lan->id,
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => $this->lan->id,
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
-                "seat_id" => env('SEAT_TEST_ID')
+                'seat_id' => env('SEAT_TEST_ID'),
             ])
             ->assertResponseStatus(201);
     }
@@ -47,14 +47,14 @@ class AssignTest extends SeatsTestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $this->lan->id,
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => $this->lan->id,
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -62,26 +62,26 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         $permission = Permission::where('name', 'assign-seat')->first();
         factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
+            'role_id'       => $role->id,
+            'permission_id' => $permission->id,
         ]);
         factory('App\Model\LanRoleUser')->create([
             'role_id' => $role->id,
-            'user_id' => $this->admin->id
+            'user_id' => $this->admin->id,
         ]);
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
-                "seat_id" => env('SEAT_TEST_ID')
+                'seat_id' => env('SEAT_TEST_ID'),
             ])
             ->assertResponseStatus(201);
     }
@@ -90,18 +90,18 @@ class AssignTest extends SeatsTestCase
     {
         $badLanId = -1;
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $badLanId,
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => $badLanId,
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -109,18 +109,18 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatIdExist()
     {
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . '☭', [
-                'lan_id' => $this->lan->id,
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.'☭', [
+                'lan_id'     => $this->lan->id,
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'The selected seat id is invalid.'
+                        0 => 'The selected seat id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -131,18 +131,18 @@ class AssignTest extends SeatsTestCase
         $seatsClient->events->book($this->lan->event_key, [env('SEAT_TEST_ID')]);
 
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $this->lan->id,
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => $this->lan->id,
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'This seat is already taken for this event.'
+                        0 => 'This seat is already taken for this event.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -151,24 +151,24 @@ class AssignTest extends SeatsTestCase
     {
         DB::table('reservation')
             ->insert([
-                'lan_id' => $this->lan->id,
+                'lan_id'  => $this->lan->id,
                 'user_id' => $this->user->id,
-                'seat_id' => env('SEAT_TEST_ID_2')
+                'seat_id' => env('SEAT_TEST_ID_2'),
             ]);
 
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $this->lan->id,
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => $this->lan->id,
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The user already has a seat at this event.'
+                        0 => 'The user already has a seat at this event.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -178,24 +178,24 @@ class AssignTest extends SeatsTestCase
         $otherUser = factory('App\Model\User')->create();
         DB::table('reservation')
             ->insert([
-                'lan_id' => $this->lan->id,
+                'lan_id'  => $this->lan->id,
                 'user_id' => $otherUser->id,
-                'seat_id' => env('SEAT_TEST_ID')
+                'seat_id' => env('SEAT_TEST_ID'),
             ]);
 
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $this->lan->id,
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => $this->lan->id,
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'seat_id' => [
-                        0 => 'This seat is already taken for this event.'
+                        0 => 'This seat is already taken for this event.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -203,18 +203,18 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatLanIdInteger()
     {
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => '☭',
-                'user_email' => $this->user->email
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => '☭',
+                'user_email' => $this->user->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The lan id must be an integer.'
+                        0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -222,18 +222,18 @@ class AssignTest extends SeatsTestCase
     public function testAssignSeatEmailExists()
     {
         $this->actingAs($this->admin)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/seat/assign/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $this->lan->id,
-                'user_email' => '☭'
+            ->json('POST', 'http://'.env('API_DOMAIN').'/seat/assign/'.env('SEAT_TEST_ID'), [
+                'lan_id'     => $this->lan->id,
+                'user_email' => '☭',
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'user_email' => [
-                        0 => 'The selected user email is invalid.'
+                        0 => 'The selected user email is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

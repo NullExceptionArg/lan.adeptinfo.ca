@@ -29,8 +29,8 @@ class UnlinkPermissionIdGlobalRoleTest extends TestCase
             ->toArray();
 
         factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $this->role->id,
-            'permission_id' => $this->permissions[0]
+            'role_id'       => $this->role->id,
+            'permission_id' => $this->permissions[0],
         ]);
     }
 
@@ -38,7 +38,7 @@ class UnlinkPermissionIdGlobalRoleTest extends TestCase
     {
         $this->seeInDatabase('permission_global_role', [
             'permission_id' => $this->permissions[0],
-            'role_id' => $this->role->id
+            'role_id'       => $this->role->id,
         ]);
 
         $this->roleRepository->unlinkPermissionIdGlobalRole(
@@ -48,7 +48,7 @@ class UnlinkPermissionIdGlobalRoleTest extends TestCase
 
         $this->notSeeInDatabase('permission_global_role', [
             'permission_id' => $this->permissions[0],
-            'role_id' => $this->role->id
+            'role_id'       => $this->role->id,
         ]);
     }
 }

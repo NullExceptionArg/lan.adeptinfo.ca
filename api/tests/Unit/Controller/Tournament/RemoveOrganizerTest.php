@@ -26,15 +26,15 @@ class RemoveOrganizerTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'teams_to_reach' => 10,
-            'players_to_reach' => 10
+            'tournament_end'   => $endTime->subHour(1),
+            'teams_to_reach'   => 10,
+            'players_to_reach' => 10,
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->organizer->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $this->organizer->id,
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $this->addLanPermissionToUser(
@@ -48,23 +48,23 @@ class RemoveOrganizerTest extends TestCase
     {
         $organizer2 = factory('App\Model\User')->create();
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $organizer2->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $organizer2->id,
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $this->actingAs($this->admin)
             ->json(
                 'DELETE',
-                'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer',
+                'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id.'/organizer',
                 ['email' => $this->organizer->email])
             ->seeJsonEquals([
-                'id' => $this->tournament->id,
-                'name' => $this->tournament->name,
+                'id'               => $this->tournament->id,
+                'name'             => $this->tournament->name,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
-                'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'teams_to_reach' => $this->tournament->teams_to_reach,
-                'teams_reached' => 0,
-                'state' => 'hidden',
+                'tournament_end'   => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
+                'teams_to_reach'   => $this->tournament->teams_to_reach,
+                'teams_reached'    => 0,
+                'state'            => 'hidden',
             ])
             ->assertResponseStatus(200);
     }
@@ -74,16 +74,16 @@ class RemoveOrganizerTest extends TestCase
         $this->actingAs($this->admin)
             ->json(
                 'DELETE',
-                'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer',
+                'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id.'/organizer',
                 ['email' => $this->organizer->email])
             ->seeJsonEquals([
-                'id' => $this->tournament->id,
-                'name' => $this->tournament->name,
+                'id'               => $this->tournament->id,
+                'name'             => $this->tournament->name,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
-                'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'teams_to_reach' => $this->tournament->teams_to_reach,
-                'teams_reached' => 0,
-                'state' => 'hidden',
+                'tournament_end'   => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
+                'teams_to_reach'   => $this->tournament->teams_to_reach,
+                'teams_reached'    => 0,
+                'state'            => 'hidden',
             ])
             ->assertResponseStatus(200);
     }
@@ -93,16 +93,16 @@ class RemoveOrganizerTest extends TestCase
         $this->actingAs($this->admin)
             ->json(
                 'DELETE',
-                'http://' . env('API_DOMAIN') . '/tournament/' . -1 . '/organizer',
+                'http://'.env('API_DOMAIN').'/tournament/'.-1 .'/organizer',
                 ['email' => $this->organizer->email])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'tournament_id' => [
-                        0 => 'The selected tournament id is invalid.'
+                        0 => 'The selected tournament id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -118,17 +118,17 @@ class RemoveOrganizerTest extends TestCase
         );
 
         $this->actingAs($user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer->email
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id.'/organizer', [
+                'email' => $this->organizer->email,
             ])
             ->seeJsonEquals([
-                'id' => $this->tournament->id,
-                'name' => $this->tournament->name,
+                'id'               => $this->tournament->id,
+                'name'             => $this->tournament->name,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
-                'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'teams_to_reach' => $this->tournament->teams_to_reach,
-                'teams_reached' => 0,
-                'state' => 'hidden',
+                'tournament_end'   => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
+                'teams_to_reach'   => $this->tournament->teams_to_reach,
+                'teams_reached'    => 0,
+                'state'            => 'hidden',
             ])
             ->assertResponseStatus(200);
     }
@@ -137,21 +137,21 @@ class RemoveOrganizerTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $user->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $user->id,
+            'tournament_id' => $this->tournament->id,
         ]);
         $this->actingAs($user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer->email
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id.'/organizer', [
+                'email' => $this->organizer->email,
             ])
             ->seeJsonEquals([
-                'id' => $this->tournament->id,
-                'name' => $this->tournament->name,
+                'id'               => $this->tournament->id,
+                'name'             => $this->tournament->name,
                 'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_start)),
-                'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
-                'teams_to_reach' => $this->tournament->teams_to_reach,
-                'teams_reached' => 0,
-                'state' => 'hidden',
+                'tournament_end'   => date('Y-m-d H:i:s', strtotime($this->tournament->tournament_end)),
+                'teams_to_reach'   => $this->tournament->teams_to_reach,
+                'teams_reached'    => 0,
+                'state'            => 'hidden',
             ])
             ->assertResponseStatus(200);
     }
@@ -160,13 +160,13 @@ class RemoveOrganizerTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer->email
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id.'/organizer', [
+                'email' => $this->organizer->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -174,17 +174,17 @@ class RemoveOrganizerTest extends TestCase
     public function testRemoveOrganizerEmailNotCurrentUser(): void
     {
         $this->actingAs($this->organizer)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => $this->organizer->email
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id.'/organizer', [
+                'email' => $this->organizer->email,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
-                        0 => 'The email cannot be the same as the one used by the current user.'
+                        0 => 'The email cannot be the same as the one used by the current user.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -192,17 +192,17 @@ class RemoveOrganizerTest extends TestCase
     public function testRemoveOrganizerEmailExist(): void
     {
         $this->actingAs($this->organizer)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id . '/organizer', [
-                'email' => '☭'
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id.'/organizer', [
+                'email' => '☭',
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
-                        0 => 'The selected email is invalid.'
+                        0 => 'The selected email is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

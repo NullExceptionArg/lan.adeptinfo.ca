@@ -15,18 +15,18 @@ class CreateTest extends TestCase
     protected $user;
 
     protected $paramsContent = [
-        'name' => "Bolshevik Revolution",
-        'lan_start' => "2100-10-11 12:00:00",
-        'lan_end' => "2100-10-12 12:00:00",
-        'seat_reservation_start' => "2100-10-04 12:00:00",
-        'tournament_reservation_start' => "2100-10-07 00:00:00",
-        "event_key" => "",
-        "latitude" => -67.5,
-        "longitude" => 64.033333,
-        "places" => 10,
-        "price" => 0,
-        "rules" => '☭',
-        "description" => '☭'
+        'name'                         => 'Bolshevik Revolution',
+        'lan_start'                    => '2100-10-11 12:00:00',
+        'lan_end'                      => '2100-10-12 12:00:00',
+        'seat_reservation_start'       => '2100-10-04 12:00:00',
+        'tournament_reservation_start' => '2100-10-07 00:00:00',
+        'event_key'                    => '',
+        'latitude'                     => -67.5,
+        'longitude'                    => 64.033333,
+        'places'                       => 10,
+        'price'                        => 0,
+        'rules'                        => '☭',
+        'description'                  => '☭',
     ];
 
     public function setUp(): void

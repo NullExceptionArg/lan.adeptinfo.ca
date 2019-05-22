@@ -28,8 +28,8 @@ class GetGlobalRolePermissionsTest extends TestCase
 
         foreach ($this->permissions as $permission) {
             factory('App\Model\PermissionGlobalRole')->create([
-                'role_id' => $this->globalRole->id,
-                'permission_id' => $permission->id
+                'role_id'       => $this->globalRole->id,
+                'permission_id' => $permission->id,
             ]);
         }
 
@@ -42,31 +42,31 @@ class GetGlobalRolePermissionsTest extends TestCase
     public function testGetGlobalRolePermissions(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
-                'role_id' => $this->globalRole->id
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/global/permissions', [
+                'role_id' => $this->globalRole->id,
             ])
             ->seeJsonEquals([
                 [
-                    'id' => $this->permissions[0]['id'],
-                    'name' => $this->permissions[0]['name'],
-                    'can_be_per_lan' => (boolean)$this->permissions[0]['can_be_per_lan'],
-                    'display_name' => trans('permission.display-name-' . $this->permissions[0]->name),
-                    'description' => trans('permission.description-' . $this->permissions[0]->name)
+                    'id'             => $this->permissions[0]['id'],
+                    'name'           => $this->permissions[0]['name'],
+                    'can_be_per_lan' => (bool) $this->permissions[0]['can_be_per_lan'],
+                    'display_name'   => trans('permission.display-name-'.$this->permissions[0]->name),
+                    'description'    => trans('permission.description-'.$this->permissions[0]->name),
                 ],
                 [
-                    'id' => $this->permissions[1]['id'],
-                    'name' => $this->permissions[1]['name'],
-                    'can_be_per_lan' => (boolean)$this->permissions[1]['can_be_per_lan'],
-                    'display_name' => trans('permission.display-name-' . $this->permissions[1]->name),
-                    'description' => trans('permission.description-' . $this->permissions[1]->name)
+                    'id'             => $this->permissions[1]['id'],
+                    'name'           => $this->permissions[1]['name'],
+                    'can_be_per_lan' => (bool) $this->permissions[1]['can_be_per_lan'],
+                    'display_name'   => trans('permission.display-name-'.$this->permissions[1]->name),
+                    'description'    => trans('permission.description-'.$this->permissions[1]->name),
                 ],
                 [
-                    'id' => $this->permissions[2]['id'],
-                    'name' => $this->permissions[2]['name'],
-                    'can_be_per_lan' => (boolean)$this->permissions[2]['can_be_per_lan'],
-                    'display_name' => trans('permission.display-name-' . $this->permissions[2]->name),
-                    'description' => trans('permission.description-' . $this->permissions[2]->name)
-                ]
+                    'id'             => $this->permissions[2]['id'],
+                    'name'           => $this->permissions[2]['name'],
+                    'can_be_per_lan' => (bool) $this->permissions[2]['can_be_per_lan'],
+                    'display_name'   => trans('permission.display-name-'.$this->permissions[2]->name),
+                    'description'    => trans('permission.description-'.$this->permissions[2]->name),
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -75,13 +75,13 @@ class GetGlobalRolePermissionsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
-                'role_id' => $this->globalRole->id
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/global/permissions', [
+                'role_id' => $this->globalRole->id,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -89,17 +89,17 @@ class GetGlobalRolePermissionsTest extends TestCase
     public function testGetGlobalRolePermissionsRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
-                'role_id' => null
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/global/permissions', [
+                'role_id' => null,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -107,17 +107,17 @@ class GetGlobalRolePermissionsTest extends TestCase
     public function testGetGlobalRolePermissionsRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global/permissions', [
-                'role_id' => '☭'
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/global/permissions', [
+                'role_id' => '☭',
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

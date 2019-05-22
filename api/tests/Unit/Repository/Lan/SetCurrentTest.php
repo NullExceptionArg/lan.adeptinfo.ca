@@ -23,15 +23,15 @@ class SetCurrentTest extends TestCase
         factory('App\Model\Lan')->create();
 
         $this->seeInDatabase('lan', [
-            'id' => $lan->id,
-            'is_current' => false
+            'id'         => $lan->id,
+            'is_current' => false,
         ]);
 
         $this->lanRepository->setCurrent($lan->id);
 
         $this->seeInDatabase('lan', [
-            'id' => $lan->id,
-            'is_current' => true
+            'id'         => $lan->id,
+            'is_current' => true,
         ]);
     }
 }

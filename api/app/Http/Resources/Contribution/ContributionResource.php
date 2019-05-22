@@ -15,7 +15,8 @@ class ContributionResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -24,9 +25,10 @@ class ContributionResource extends Resource
         $userFullName = !is_null($this->user_full_name) ?
             $this->user_full_name :
             User::find($this->user_id)->getFullName();
+
         return [
-            'id' => intval($this->id),
-            'user_full_name' => $userFullName
+            'id'             => intval($this->id),
+            'user_full_name' => $userFullName,
         ];
     }
 }

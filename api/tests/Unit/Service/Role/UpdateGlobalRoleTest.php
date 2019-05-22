@@ -15,11 +15,11 @@ class UpdateGlobalRoleTest extends TestCase
     protected $globalRole;
 
     protected $paramsContent = [
-        'name' => 'comrade',
+        'name'            => 'comrade',
         'en_display_name' => 'Comrade',
-        'en_description' => 'Our equal',
+        'en_description'  => 'Our equal',
         'fr_display_name' => 'Camarade',
-        'fr_description' => 'Notre égal.'
+        'fr_description'  => 'Notre égal.',
     ];
 
     public function setUp(): void

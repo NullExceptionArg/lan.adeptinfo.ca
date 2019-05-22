@@ -5,19 +5,19 @@ namespace App\Http\Middleware;
 use Closure;
 
 /**
- * Changer la langue des réponses
+ * Changer la langue des réponses.
  *
  * Class Language
- * @package App\Http\Middleware
  */
 class Language
 {
     /**
      * Traiter une demande entrante.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param  string|null $guard
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     * @param string|null              $guard
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)

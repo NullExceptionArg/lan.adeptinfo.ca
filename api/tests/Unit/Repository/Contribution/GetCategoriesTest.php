@@ -20,7 +20,7 @@ class GetCategoriesTest extends TestCase
         $this->contributionRepository = $this->app->make('App\Repositories\Implementation\ContributionRepositoryImpl');
         $this->lan = factory('App\Model\Lan')->create();
         $this->category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

@@ -29,32 +29,32 @@ class GetGlobalRolesTest extends TestCase
     public function testGetGlobalRoles(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global')
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/global')
             ->seeJsonEquals([
                 [
-                    'id' => $this->globalRoles[0]->id,
-                    'name' => $this->globalRoles[0]->name,
+                    'id'           => $this->globalRoles[0]->id,
+                    'name'         => $this->globalRoles[0]->name,
                     'display_name' => $this->globalRoles[0]->en_display_name,
-                    'description' => $this->globalRoles[0]->en_description,
+                    'description'  => $this->globalRoles[0]->en_description,
                 ],
                 [
-                    'id' => $this->globalRoles[1]->id,
-                    'name' => $this->globalRoles[1]->name,
+                    'id'           => $this->globalRoles[1]->id,
+                    'name'         => $this->globalRoles[1]->name,
                     'display_name' => $this->globalRoles[1]->en_display_name,
-                    'description' => $this->globalRoles[1]->en_description,
+                    'description'  => $this->globalRoles[1]->en_description,
                 ],
                 [
-                    'id' => $this->globalRoles[2]->id,
-                    'name' => $this->globalRoles[2]->name,
+                    'id'           => $this->globalRoles[2]->id,
+                    'name'         => $this->globalRoles[2]->name,
                     'display_name' => $this->globalRoles[2]->en_display_name,
-                    'description' => $this->globalRoles[2]->en_description,
+                    'description'  => $this->globalRoles[2]->en_description,
                 ],
                 [
-                    'id' => $this->accessRole->id,
-                    'name' => $this->accessRole->name,
+                    'id'           => $this->accessRole->id,
+                    'name'         => $this->accessRole->name,
                     'display_name' => $this->accessRole->en_display_name,
-                    'description' => $this->accessRole->en_description,
-                ]
+                    'description'  => $this->accessRole->en_description,
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -63,11 +63,11 @@ class GetGlobalRolesTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/global')
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/global')
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }

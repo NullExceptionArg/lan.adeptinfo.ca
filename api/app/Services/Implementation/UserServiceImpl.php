@@ -2,23 +2,25 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\{User\GetAdminRolesResource,
-    User\GetAdminSummaryResource,
-    User\GetUserCollection,
-    User\GetUserDetailsResource,
-    User\GetUserSummaryResource};
+use App\Http\Resources\User\GetAdminRolesResource;
+use App\Http\Resources\User\GetAdminSummaryResource;
+use App\Http\Resources\User\GetUserCollection;
+use App\Http\Resources\User\GetUserDetailsResource;
+use App\Http\Resources\User\GetUserSummaryResource;
 use App\Mail\ConfirmAccount;
-use App\Model\{Tag, User};
-use App\Repositories\Implementation\{RoleRepositoryImpl,
-    SeatRepositoryImpl,
-    TeamRepositoryImpl,
-    TournamentRepositoryImpl,
-    UserRepositoryImpl};
+use App\Model\Tag;
+use App\Model\User;
+use App\Repositories\Implementation\RoleRepositoryImpl;
+use App\Repositories\Implementation\SeatRepositoryImpl;
+use App\Repositories\Implementation\TeamRepositoryImpl;
+use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\UserService;
 use App\Utils\FacebookUtils;
 use Facebook\Exceptions\FacebookSDKException;
 use Google_Client;
-use Illuminate\{Support\Facades\Auth, Support\Facades\Mail};
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserServiceImpl implements UserService
 {
@@ -30,10 +32,11 @@ class UserServiceImpl implements UserService
 
     /**
      * UserServiceImpl constructor.
-     * @param UserRepositoryImpl $userRepository
-     * @param SeatRepositoryImpl $seatRepository
-     * @param TeamRepositoryImpl $teamRepository
-     * @param RoleRepositoryImpl $roleRepository
+     *
+     * @param UserRepositoryImpl       $userRepository
+     * @param SeatRepositoryImpl       $seatRepository
+     * @param TeamRepositoryImpl       $teamRepository
+     * @param RoleRepositoryImpl       $roleRepository
      * @param TournamentRepositoryImpl $tournamentRepository
      */
     public function __construct(
@@ -42,8 +45,7 @@ class UserServiceImpl implements UserService
         TeamRepositoryImpl $teamRepository,
         RoleRepositoryImpl $roleRepository,
         TournamentRepositoryImpl $tournamentRepository
-    )
-    {
+    ) {
         $this->userRepository = $userRepository;
         $this->seatRepository = $seatRepository;
         $this->teamRepository = $teamRepository;
@@ -127,8 +129,7 @@ class UserServiceImpl implements UserService
         ?string $orderDirection,
         ?int $itemsPerPage,
         ?int $currentPage
-    ): GetUserCollection
-    {
+    ): GetUserCollection {
         // Valeur par défaut de la chaine de recherche
         if (is_null($queryString)) {
             $queryString = '';
@@ -191,6 +192,7 @@ class UserServiceImpl implements UserService
     public function signInFacebook(string $accessToken): array
     {
         $facebookUser = null;
+
         try {
             // Obtenir l'utilisateur Facebook à partir du token
             $facebookUser = FacebookUtils::getFacebook()->get(
@@ -232,8 +234,8 @@ class UserServiceImpl implements UserService
 
         // Retourner le token, et si l'uitilisateur est nouveau dans l'API
         return [
-            'token' => $token,
-            'is_new' => $isNew
+            'token'  => $token,
+            'is_new' => $isNew,
         ];
     }
 
@@ -276,8 +278,8 @@ class UserServiceImpl implements UserService
 
         // Retourner le token, et si l'uitilisateur est nouveau dans l'API
         return [
-            'token' => $token,
-            'is_new' => $isNew
+            'token'  => $token,
+            'is_new' => $isNew,
         ];
     }
 

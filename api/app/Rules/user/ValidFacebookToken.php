@@ -10,15 +10,15 @@ use Illuminate\Contracts\Validation\Rule;
  * Un token Facebook est valide.
  *
  * Class ValidFacebookToken
- * @package App\Rules\User
  */
 class ValidFacebookToken implements Rule
 {
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $token Token Facebook
+     * @param string $attribute
+     * @param mixed  $token     Token Facebook
+     *
      * @return bool
      */
     public function passes($attribute, $token): bool
@@ -41,6 +41,7 @@ class ValidFacebookToken implements Rule
             // Si une erreur est envoyée, c'est que le token n'est pas valide
             return false;
         }
+
         return true;
     }
 

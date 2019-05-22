@@ -3,13 +3,14 @@
 namespace App\Rules\Image;
 
 use App\Model\LanImage;
-use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Un utilisateur possède une permission dans un LAN des images.
  *
  * Class HasPermissionInLan
- * @package App\Rules\User
  */
 class HasPermissionInLan implements Rule
 {
@@ -18,8 +19,9 @@ class HasPermissionInLan implements Rule
 
     /**
      * HasPermissionInLan constructor.
+     *
      * @param null $imageIds Id des images de LAN
-     * @param null $userId Id de l'utilisateur
+     * @param null $userId   Id de l'utilisateur
      */
     public function __construct($imageIds, $userId)
     {
@@ -30,10 +32,12 @@ class HasPermissionInLan implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $permission Nom de la permission
-     * @return bool
+     * @param string $attribute
+     * @param mixed  $permission Nom de la permission
+     *
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function passes($attribute, $permission): bool
     {
@@ -70,7 +74,7 @@ class HasPermissionInLan implements Rule
 
             if (is_null($lanId)) {
                 $lanId = $image->lan_id;
-            } else if ($image->lan_id != $lanId) {
+            } elseif ($image->lan_id != $lanId) {
                 throw new AuthorizationException(trans('validation.forbidden'));
             }
         }

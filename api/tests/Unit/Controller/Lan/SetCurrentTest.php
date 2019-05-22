@@ -26,22 +26,22 @@ class SetCurrentTest extends TestCase
     {
         $lan = factory('App\Model\Lan')->create();
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', ['lan_id' => $lan->id])
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/current', ['lan_id' => $lan->id])
             ->seeJsonEquals([
-                'name' => $lan->name,
-                'lan_start' => $lan->lan_start,
-                'lan_end' => $lan->lan_end,
-                'seat_reservation_start' => $lan->seat_reservation_start,
+                'name'                         => $lan->name,
+                'lan_start'                    => $lan->lan_start,
+                'lan_end'                      => $lan->lan_end,
+                'seat_reservation_start'       => $lan->seat_reservation_start,
                 'tournament_reservation_start' => $lan->tournament_reservation_start,
-                "event_key" => $lan->event_key,
-                "latitude" => $lan->latitude,
-                "longitude" => $lan->longitude,
-                "places" => $lan->places,
-                "price" => $lan->price,
-                "rules" => $lan->rules,
-                "description" => $lan->description,
-                'is_current' => true,
-                "id" => 1
+                'event_key'                    => $lan->event_key,
+                'latitude'                     => $lan->latitude,
+                'longitude'                    => $lan->longitude,
+                'places'                       => $lan->places,
+                'price'                        => $lan->price,
+                'rules'                        => $lan->rules,
+                'description'                  => $lan->description,
+                'is_current'                   => true,
+                'id'                           => 1,
             ])
             ->assertResponseStatus(200);
     }
@@ -51,13 +51,13 @@ class SetCurrentTest extends TestCase
         $lan = factory('App\Model\Lan')->create();
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', [
-                'lan_id' => $lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/current', [
+                'lan_id' => $lan->id,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -65,25 +65,25 @@ class SetCurrentTest extends TestCase
     public function testSetCurrentHasCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', ['lan_id' => $lan->id])
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/current', ['lan_id' => $lan->id])
             ->seeJsonEquals([
-                'name' => $lan->name,
-                'lan_start' => $lan->lan_start,
-                'lan_end' => $lan->lan_end,
-                'seat_reservation_start' => $lan->seat_reservation_start,
+                'name'                         => $lan->name,
+                'lan_start'                    => $lan->lan_start,
+                'lan_end'                      => $lan->lan_end,
+                'seat_reservation_start'       => $lan->seat_reservation_start,
                 'tournament_reservation_start' => $lan->tournament_reservation_start,
-                "event_key" => $lan->event_key,
-                "latitude" => $lan->latitude,
-                "longitude" => $lan->longitude,
-                "places" => $lan->places,
-                "price" => $lan->price,
-                "rules" => $lan->rules,
-                "description" => $lan->description,
-                'is_current' => true,
-                "id" => 1
+                'event_key'                    => $lan->event_key,
+                'latitude'                     => $lan->latitude,
+                'longitude'                    => $lan->longitude,
+                'places'                       => $lan->places,
+                'price'                        => $lan->price,
+                'rules'                        => $lan->rules,
+                'description'                  => $lan->description,
+                'is_current'                   => true,
+                'id'                           => 1,
             ])
             ->assertResponseStatus(200);
     }
@@ -91,17 +91,17 @@ class SetCurrentTest extends TestCase
     public function testSetCurrentIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', [
-                'lan_id' => -1
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/current', [
+                'lan_id' => -1,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -109,17 +109,17 @@ class SetCurrentTest extends TestCase
     public function testSetCurrentIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/current', [
-                'lan_id' => '☭'
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/current', [
+                'lan_id' => '☭',
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The lan id must be an integer.'
+                        0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

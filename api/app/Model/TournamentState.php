@@ -6,31 +6,30 @@ namespace App\Model;
  * Énumération des états possibles pour un tournoi.
  *
  * Class TournamentState
- * @package App\Model
  */
 class TournamentState
 {
     // Le tournoi est caché, et est uniquement visible par les administrateurs
-    const HIDDEN = "hidden";
+    const HIDDEN = 'hidden';
 
     // Le tournoi est terminé
-    const FINISHED = "finished";
+    const FINISHED = 'finished';
 
     // Le tournoi est à venir
-    const FOURTHCOMING = "fourthcoming";
+    const FOURTHCOMING = 'fourthcoming';
 
     // Le tournoi est retard
-    const LATE = "late";
+    const LATE = 'late';
 
     // Le tournoi est devancé, et est en cours
-    const OUTGUESSED = "outguessed";
+    const OUTGUESSED = 'outguessed';
 
     // Le tournoi est en cours
-    const RUNNING = "running";
+    const RUNNING = 'running';
 
     // Le tournoi est en retard sur l'horaire (s'éternise)
-    const BEHINDHAND = "behindhand";
+    const BEHINDHAND = 'behindhand';
 
     // État inconnu
-    const UNKNOWN = "unknown";
+    const UNKNOWN = 'unknown';
 }

@@ -3,22 +3,22 @@
 namespace App\Rules\Seat;
 
 use Illuminate\Contracts\Validation\Rule;
-use Seatsio\{SeatsioClient, SeatsioException};
+use Seatsio\SeatsioClient;
+use Seatsio\SeatsioException;
 
 /**
  * Une clé d'événement seats.io est valide.
  *
  * Class ValidEventKey
- * @package App\Rules\Seat
  */
 class ValidEventKey implements Rule
 {
-
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  string $eventKey
+     * @param string $attribute
+     * @param string $eventKey
+     *
      * @return bool
      */
     public function passes($attribute, $eventKey): bool
@@ -38,6 +38,7 @@ class ValidEventKey implements Rule
         }
 
         $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
+
         try {
             // Tenter de retrouver l'événement associé à la clé
             $seatsClient->events->retrieve($eventKey);
@@ -45,6 +46,7 @@ class ValidEventKey implements Rule
             // Si aucun événement n'a été trouvé, une erreur est lancée
             return false;
         }
+
         return true;
     }
 

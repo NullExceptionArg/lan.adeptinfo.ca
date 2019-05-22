@@ -22,10 +22,10 @@ class GetImagesForLanTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->image1 = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $this->image2 = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

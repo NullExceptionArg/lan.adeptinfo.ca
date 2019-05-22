@@ -23,9 +23,9 @@ class GetSeatHistoryForUserTest extends SeatsTestCase
     public function testGetSeatHistoryForUser(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'  => $this->lan->id,
             'user_id' => $this->user->id,
-            'seat_id' => env('SEAT_TEST_ID')
+            'seat_id' => env('SEAT_TEST_ID'),
         ]);
 
         $result = $this->seatRepository->getSeatHistoryForUser($this->user->id, $this->lan->id);

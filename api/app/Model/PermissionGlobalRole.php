@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Model;
  * Lien entre une permission et un rôle global.
  *
  * Class PermissionGlobalRole
- * @package App\Model
  */
 class PermissionGlobalRole extends Model
 {

@@ -2,14 +2,16 @@
 
 namespace App\Rules\Seat;
 
-use App\Model\{Lan, Reservation, User};
-use Illuminate\{Contracts\Auth\Authenticatable, Contracts\Validation\Rule};
+use App\Model\Lan;
+use App\Model\Reservation;
+use App\Model\User;
+use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Un utilisateur ne possède une réservation qu'une fois dans un LAN.
  *
  * Class UserOncePerLan
- * @package App\Rules\Seat
  */
 class UserOncePerLan implements Rule
 {
@@ -18,8 +20,9 @@ class UserOncePerLan implements Rule
 
     /**
      * UserOncePerLan constructor.
-     * @param Authenticatable|null $user Utilisateur
-     * @param string|null $email Courriel de l'utilisateur
+     *
+     * @param Authenticatable|null $user  Utilisateur
+     * @param string|null          $email Courriel de l'utilisateur
      */
     public function __construct(?Authenticatable $user, $email)
     {
@@ -30,8 +33,9 @@ class UserOncePerLan implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $lanId Id du LAN
+     * @param string $attribute
+     * @param mixed  $lanId     Id du LAN
+     *
      * @return bool
      */
     public function passes($attribute, $lanId): bool
@@ -67,6 +71,7 @@ class UserOncePerLan implements Rule
             // La validation échoue
             return false;
         }
+
         return true;
     }
 

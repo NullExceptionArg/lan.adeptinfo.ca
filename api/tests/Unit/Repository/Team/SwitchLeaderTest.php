@@ -27,61 +27,61 @@ class SwitchLeaderTest extends TestCase
 
         $this->leader = factory('App\Model\User')->create();
         $this->leadersTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->leader->id
+            'user_id' => $this->leader->id,
         ]);
         $this->toBeLeader = factory('App\Model\User')->create();
         $this->toBeLeadersTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->toBeLeader->id
+            'user_id' => $this->toBeLeader->id,
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
 
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->leadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $this->leadersTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->toBeLeadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => false
+            'tag_id'    => $this->toBeLeadersTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => false,
         ]);
     }
 
     public function testChangeLeader(): void
     {
         $this->seeInDatabase('tag_team', [
-            'tag_id' => $this->toBeLeadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => false
+            'tag_id'    => $this->toBeLeadersTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => false,
         ]);
         $this->seeInDatabase('tag_team', [
-            'tag_id' => $this->leadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $this->leadersTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
 
         $this->teamRepository->switchLeader($this->toBeLeadersTag->id, $this->team->id);
 
         $this->seeInDatabase('tag_team', [
-            'tag_id' => $this->toBeLeadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $this->toBeLeadersTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
         $this->seeInDatabase('tag_team', [
-            'tag_id' => $this->leadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => false
+            'tag_id'    => $this->leadersTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => false,
         ]);
     }
 }

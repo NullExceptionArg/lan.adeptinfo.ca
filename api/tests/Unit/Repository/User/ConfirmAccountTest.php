@@ -20,24 +20,24 @@ class ConfirmAccountTest extends TestCase
 
         $this->user = factory('App\Model\User')->create([
             'confirmation_code' => '☭',
-            'is_confirmed' => false
+            'is_confirmed'      => false,
         ]);
     }
 
     public function testFindUserById(): void
     {
         $this->seeInDatabase('user', [
-            'id' => $this->user->id,
+            'id'                => $this->user->id,
             'confirmation_code' => $this->user->confirmation_code,
-            'is_confirmed' => $this->user->is_confirmed
+            'is_confirmed'      => $this->user->is_confirmed,
         ]);
 
         $this->userRepository->confirmAccount($this->user->id);
 
         $this->seeInDatabase('user', [
-            'id' => $this->user->id,
+            'id'                => $this->user->id,
             'confirmation_code' => null,
-            'is_confirmed' => true
+            'is_confirmed'      => true,
         ]);
     }
 }

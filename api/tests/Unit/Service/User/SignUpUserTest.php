@@ -13,9 +13,9 @@ class SignUpUserTest extends TestCase
 
     protected $paramsContent = [
         'first_name' => 'John',
-        'last_name' => 'Doe',
-        'email' => 'john@doe.com',
-        'password' => 'Passw0rd!'
+        'last_name'  => 'Doe',
+        'email'      => 'john@doe.com',
+        'password'   => 'Passw0rd!',
     ];
 
     public function setUp(): void

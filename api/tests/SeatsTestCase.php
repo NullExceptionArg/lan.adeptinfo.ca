@@ -6,15 +6,14 @@ use Laravel\Lumen\Application;
 use Seatsio\SeatsioClient;
 
 /**
- * Contexte pour les tests qui utilisent l'API seats.io
+ * Contexte pour les tests qui utilisent l'API seats.io.
  *
  * Class SeatsTestCase
- * @package Tests
  */
 abstract class SeatsTestCase extends TestCase
 {
     /**
-     * Créer l'application
+     * Créer l'application.
      *
      * @return Application
      */

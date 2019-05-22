@@ -1,4 +1,6 @@
-<?php /** @noinspection ALL */
+<?php
+
+/** @noinspection ALL */
 
 /*
 |--------------------------------------------------------------------------
@@ -10,7 +12,6 @@
 */
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
-
     $api->group(['middleware' => ['language']], function ($api) {
 
         // Connection d'obention du token utilisateur
@@ -38,9 +39,7 @@ $api->version('v1', function ($api) {
             // Tournoi
             $api->get('tournament/details/{tournament_id}', 'TournamentController@get');
             $api->get('tournament/all', 'TournamentController@getAll');
-
         });
-
 
         // Requêtes nécessitants d'être authentifié
         $api->group(['middleware' => ['auth:api']], function ($api) {

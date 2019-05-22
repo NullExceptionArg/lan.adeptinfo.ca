@@ -2,9 +2,15 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\{Team\GetRequestsResource, Team\GetUsersTeamDetailsResource, Team\GetUserTeamsResource};
-use App\Model\{Request as TeamRequest, Tag, Team};
-use App\Repositories\Implementation\{LanRepositoryImpl, TeamRepositoryImpl, TournamentRepositoryImpl};
+use App\Http\Resources\Team\GetRequestsResource;
+use App\Http\Resources\Team\GetUsersTeamDetailsResource;
+use App\Http\Resources\Team\GetUserTeamsResource;
+use App\Model\Request as TeamRequest;
+use App\Model\Tag;
+use App\Model\Team;
+use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\TeamRepositoryImpl;
+use App\Repositories\Implementation\TournamentRepositoryImpl;
 use App\Services\TeamService;
 use Illuminate\{Http\Resources\Json\AnonymousResourceCollection};
 
@@ -16,16 +22,16 @@ class TeamServiceImpl implements TeamService
 
     /**
      * TeamServiceImpl constructor.
-     * @param TeamRepositoryImpl $teamRepositoryImpl
+     *
+     * @param TeamRepositoryImpl       $teamRepositoryImpl
      * @param TournamentRepositoryImpl $tournamentRepositoryImpl
-     * @param LanRepositoryImpl $lanRepositoryImpl
+     * @param LanRepositoryImpl        $lanRepositoryImpl
      */
     public function __construct(
         TeamRepositoryImpl $teamRepositoryImpl,
         TournamentRepositoryImpl $tournamentRepositoryImpl,
         LanRepositoryImpl $lanRepositoryImpl
-    )
-    {
+    ) {
         $this->teamRepository = $teamRepositoryImpl;
         $this->tournamentRepository = $tournamentRepositoryImpl;
         $this->lanRepository = $lanRepositoryImpl;

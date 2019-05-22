@@ -2,7 +2,8 @@
 
 namespace App\Model;
 
-use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Équipe de joueurs (tag) qui participent à un tournoi.

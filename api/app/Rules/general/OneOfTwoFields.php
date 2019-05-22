@@ -8,7 +8,6 @@ use Illuminate\Contracts\Validation\Rule;
  * Exactement un seul des deux champs passés est non null.
  *
  * Class OneOfTwoFields
- * @package App\Rules\General
  */
 class OneOfTwoFields implements Rule
 {
@@ -17,7 +16,8 @@ class OneOfTwoFields implements Rule
 
     /**
      * OneOfTwoFields constructor.
-     * @param null $secondField Second champ
+     *
+     * @param null $secondField     Second champ
      * @param null $secondFieldName Nom du second champ (pour le message d'erreur))
      */
     public function __construct($secondField, $secondFieldName)
@@ -29,8 +29,9 @@ class OneOfTwoFields implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $field Premier champ
+     * @param string $attribute
+     * @param mixed  $field     Premier champ
+     *
      * @return bool
      */
     public function passes($attribute, $field): bool

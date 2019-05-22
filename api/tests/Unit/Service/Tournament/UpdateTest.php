@@ -17,15 +17,15 @@ class UpdateTest extends TestCase
     protected $tournament;
 
     protected $paramsContent = [
-        'tournament_id' => null,
-        'name' => 'October',
-        'state' => 'visible',
+        'tournament_id'    => null,
+        'name'             => 'October',
+        'state'            => 'visible',
         'tournament_start' => null,
-        'tournament_end' => null,
+        'tournament_end'   => null,
         'players_to_reach' => 5,
-        'teams_to_reach' => 6,
-        'rules' => 'The Bolsheviks seize control of Petrograd.',
-        'price' => 0,
+        'teams_to_reach'   => 6,
+        'rules'            => 'The Bolsheviks seize control of Petrograd.',
+        'price'            => 0,
     ];
 
     public function setUp(): void
@@ -41,9 +41,9 @@ class UpdateTest extends TestCase
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->paramsContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
     }
 

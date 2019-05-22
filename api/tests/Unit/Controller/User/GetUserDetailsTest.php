@@ -28,14 +28,14 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsHasLanId(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
-                'full_name' => $this->user->getFullName(),
-                'email' => $this->user->email,
+                'full_name'     => $this->user->getFullName(),
+                'email'         => $this->user->email,
                 'current_place' => null,
-                'place_history' => []
+                'place_history' => [],
             ])
             ->assertResponseStatus(200);
     }
@@ -44,13 +44,13 @@ class GetUserDetailsTest extends SeatsTestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -58,25 +58,25 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsReservedAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id
+            'lan_id'  => $this->lan->id,
+            'user_id' => $this->user->id,
         ]);
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
-                'full_name' => $this->user->getFullName(),
-                'email' => $this->user->email,
+                'full_name'     => $this->user->getFullName(),
+                'email'         => $this->user->email,
                 'current_place' => $reservation->seat_id,
                 'place_history' => [[
-                    'lan' => $this->lan->name,
-                    'seat_id' => $reservation->seat_id,
-                    'arrived_at' => null,
+                    'lan'         => $this->lan->name,
+                    'seat_id'     => $reservation->seat_id,
+                    'arrived_at'  => null,
                     'canceled_at' => null,
-                    'left_at' => null,
-                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s')
-                ]]
+                    'left_at'     => null,
+                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s'),
+                ]],
             ])
             ->assertResponseStatus(200);
     }
@@ -84,26 +84,26 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsArrivedAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id,
-            'arrived_at' => Carbon::now()
+            'lan_id'     => $this->lan->id,
+            'user_id'    => $this->user->id,
+            'arrived_at' => Carbon::now(),
         ]);
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
-                'full_name' => $this->user->getFullName(),
-                'email' => $this->user->email,
+                'full_name'     => $this->user->getFullName(),
+                'email'         => $this->user->email,
                 'current_place' => $reservation->seat_id,
                 'place_history' => [[
-                    'lan' => $this->lan->name,
-                    'seat_id' => $reservation->seat_id,
-                    'arrived_at' => $reservation->arrived_at->format('Y-m-d H:i:s'),
+                    'lan'         => $this->lan->name,
+                    'seat_id'     => $reservation->seat_id,
+                    'arrived_at'  => $reservation->arrived_at->format('Y-m-d H:i:s'),
                     'canceled_at' => null,
-                    'left_at' => null,
-                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s')
-                ]]
+                    'left_at'     => null,
+                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s'),
+                ]],
             ])
             ->assertResponseStatus(200);
     }
@@ -111,27 +111,27 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLeftAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id,
+            'lan_id'     => $this->lan->id,
+            'user_id'    => $this->user->id,
             'arrived_at' => Carbon::now(),
-            'left_at' => Carbon::now()
+            'left_at'    => Carbon::now(),
         ]);
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
-                'full_name' => $this->user->getFullName(),
-                'email' => $this->user->email,
+                'full_name'     => $this->user->getFullName(),
+                'email'         => $this->user->email,
                 'current_place' => $reservation->seat_id,
                 'place_history' => [[
-                    'lan' => $this->lan->name,
-                    'seat_id' => $reservation->seat_id,
-                    'arrived_at' => $reservation->arrived_at->format('Y-m-d H:i:s'),
+                    'lan'         => $this->lan->name,
+                    'seat_id'     => $reservation->seat_id,
+                    'arrived_at'  => $reservation->arrived_at->format('Y-m-d H:i:s'),
                     'canceled_at' => null,
-                    'left_at' => $reservation->left_at->format('Y-m-d H:i:s'),
-                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s')
-                ]]
+                    'left_at'     => $reservation->left_at->format('Y-m-d H:i:s'),
+                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s'),
+                ]],
             ])
             ->assertResponseStatus(200);
     }
@@ -139,28 +139,28 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsCanceledAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id,
+            'lan_id'     => $this->lan->id,
+            'user_id'    => $this->user->id,
             'arrived_at' => Carbon::now(),
-            'left_at' => Carbon::now(),
+            'left_at'    => Carbon::now(),
         ]);
         $reservation->delete();
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
-                'full_name' => $this->user->getFullName(),
-                'email' => $this->user->email,
+                'full_name'     => $this->user->getFullName(),
+                'email'         => $this->user->email,
                 'current_place' => null,
                 'place_history' => [[
-                    'lan' => $this->lan->name,
-                    'seat_id' => $reservation->seat_id,
-                    'arrived_at' => $reservation->arrived_at->format('Y-m-d H:i:s'),
+                    'lan'         => $this->lan->name,
+                    'seat_id'     => $reservation->seat_id,
+                    'arrived_at'  => $reservation->arrived_at->format('Y-m-d H:i:s'),
                     'canceled_at' => $reservation->deleted_at->format('Y-m-d H:i:s'),
-                    'left_at' => $reservation->left_at->format('Y-m-d H:i:s'),
-                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s')
-                ]]
+                    'left_at'     => $reservation->left_at->format('Y-m-d H:i:s'),
+                    'reserved_at' => $reservation->created_at->format('Y-m-d H:i:s'),
+                ]],
             ])
             ->assertResponseStatus(200);
     }
@@ -168,17 +168,17 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLanExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => -1
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => -1,
             ])->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -186,17 +186,17 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLanIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => $this->user->email,
-                'lan_id' => '☭'
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => $this->user->email,
+                'lan_id' => '☭',
             ])->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -204,16 +204,16 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsEmailRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The email field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -221,17 +221,17 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsEmailExist(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/user/details', [
-                'email' => -1,
-                'lan_id' => $this->lan->id
+            ->json('POST', 'http://'.env('API_DOMAIN').'/user/details', [
+                'email'  => -1,
+                'lan_id' => $this->lan->id,
             ])->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The selected email is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

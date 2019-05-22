@@ -19,7 +19,7 @@ class FindByConfirmationCodeTest extends TestCase
         $this->userRepository = $this->app->make('App\Repositories\Implementation\UserRepositoryImpl');
 
         $this->user = factory('App\Model\User')->create([
-            'confirmation_code' => '☭'
+            'confirmation_code' => '☭',
         ]);
     }
 

@@ -1,6 +1,7 @@
 <?php
 
-use App\Model\{Lan, User};
+use App\Model\Lan;
+use App\Model\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Seatsio\SeatsioClient;
@@ -22,7 +23,7 @@ class ReservationTableSeeder extends Seeder
         $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
 
         // Obtenir les places par défaut d'un LAN
-        $places = include(base_path() . '/database/seat.php');
+        $places = include base_path().'/database/seat.php';
 
         // Obtenir tout les utilisateurs de l'API
         $users = User::all();
@@ -57,7 +58,7 @@ class ReservationTableSeeder extends Seeder
             DB::table('reservation')
                 ->insert([
                     'user_id' => $user->id,
-                    'lan_id' => $lan->id,
+                    'lan_id'  => $lan->id,
                     'seat_id' => $place,
                 ]);
         }

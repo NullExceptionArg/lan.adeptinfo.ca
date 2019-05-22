@@ -15,8 +15,8 @@ class DeleteLanRoleTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'lan_id' => null,
-        'role_id' => null
+        'lan_id'  => null,
+        'role_id' => null,
     ];
 
     public function setUp(): void
@@ -26,7 +26,7 @@ class DeleteLanRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->lanRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
 
         $this->addLanPermissionToUser(
@@ -43,14 +43,14 @@ class DeleteLanRoleTest extends TestCase
 
         foreach ($permissions as $permissionId) {
             factory('App\Model\PermissionLanRole')->create([
-                'role_id' => $this->lanRole->id,
-                'permission_id' => $permissionId
+                'role_id'       => $this->lanRole->id,
+                'permission_id' => $permissionId,
             ]);
         }
 
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $this->lanRole->id
+            'role_id' => $this->lanRole->id,
         ]);
 
         $this->requestContent['role_id'] = $this->lanRole->id;
@@ -60,12 +60,12 @@ class DeleteLanRoleTest extends TestCase
     public function testDeleteLanRole(): void
     {
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
-                'id' => $this->lanRole->id,
-                'name' => $this->lanRole->name,
+                'id'           => $this->lanRole->id,
+                'name'         => $this->lanRole->name,
                 'display_name' => $this->lanRole->en_display_name,
-                'description' => $this->lanRole->en_description,
+                'description'  => $this->lanRole->en_description,
             ])
             ->assertResponseStatus(200);
     }
@@ -74,11 +74,11 @@ class DeleteLanRoleTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -87,15 +87,15 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -104,15 +104,15 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -121,15 +121,15 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The lan id field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -138,15 +138,15 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = null;
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -155,15 +155,15 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -172,15 +172,15 @@ class DeleteLanRoleTest extends TestCase
     {
         $this->requestContent['role_id'] = -1;
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/role/lan', $this->requestContent)
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/role/lan', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The selected role id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

@@ -2,14 +2,14 @@
 
 namespace App\Rules\Role;
 
-use App\Model\{GlobalRole, PermissionGlobalRole};
+use App\Model\GlobalRole;
+use App\Model\PermissionGlobalRole;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Des permissions ne sont pas liées à un rôle global.
  *
  * Class PermissionsDontBelongToGlobalRole
- * @package App\Rules\Role
  */
 class PermissionsDontBelongToGlobalRole implements Rule
 {
@@ -17,6 +17,7 @@ class PermissionsDontBelongToGlobalRole implements Rule
 
     /**
      * PermissionsDontBelongToGlobalRole constructor.
+     *
      * @param null $roleId Id du rôle global
      */
     public function __construct($roleId)
@@ -27,8 +28,9 @@ class PermissionsDontBelongToGlobalRole implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  array $permissionIds
+     * @param string $attribute
+     * @param array  $permissionIds
+     *
      * @return bool
      */
     public function passes($attribute, $permissionIds): bool

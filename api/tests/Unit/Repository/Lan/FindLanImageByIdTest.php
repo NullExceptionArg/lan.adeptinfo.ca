@@ -21,7 +21,7 @@ class FindLanImageByIdTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->image = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

@@ -31,7 +31,7 @@ class LinkPermissionIdGlobalRoleTest extends TestCase
 
         $this->notSeeInDatabase('permission_global_role', [
             'permission_id' => $permission->id,
-            'role_id' => $this->role->id
+            'role_id'       => $this->role->id,
         ]);
 
         $this->roleRepository->linkPermissionIdGlobalRole(
@@ -41,7 +41,7 @@ class LinkPermissionIdGlobalRoleTest extends TestCase
 
         $this->seeInDatabase('permission_global_role', [
             'permission_id' => $permission->id,
-            'role_id' => $this->role->id
+            'role_id'       => $this->role->id,
         ]);
     }
 }

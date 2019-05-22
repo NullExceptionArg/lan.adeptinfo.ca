@@ -1,12 +1,15 @@
-<?php namespace App\Mail;
+<?php
 
-use Illuminate\{Bus\Queueable, Mail\Mailable, Queue\SerializesModels};
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
 
 /**
- * Courriel de confirmation de compte
+ * Courriel de confirmation de compte.
  *
  * Class ConfirmAccount
- * @package App\Mail
  */
 class ConfirmAccount extends Mailable
 {
@@ -60,7 +63,7 @@ class ConfirmAccount extends Mailable
             ->view('emails.confirm-account')
             ->with([
                 'code' => $this->code,
-                'name' => $this->name
+                'name' => $this->name,
             ]);
     }
 }

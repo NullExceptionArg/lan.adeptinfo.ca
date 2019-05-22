@@ -16,14 +16,14 @@ class CreateTest extends TestCase
     protected $lan;
 
     protected $paramsContent = [
-        'lan_id' => null,
-        'name' => 'October',
+        'lan_id'           => null,
+        'name'             => 'October',
         'tournament_start' => null,
-        'tournament_end' => null,
+        'tournament_end'   => null,
         'players_to_reach' => 5,
-        'teams_to_reach' => 6,
-        'rules' => 'The Bolsheviks seize control of Petrograd.',
-        'price' => 0,
+        'teams_to_reach'   => 6,
+        'rules'            => 'The Bolsheviks seize control of Petrograd.',
+        'price'            => 0,
     ];
 
     public function setUp(): void

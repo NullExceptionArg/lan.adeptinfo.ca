@@ -2,14 +2,14 @@
 
 namespace App\Rules\Role;
 
-use App\Model\{LanRole, PermissionLanRole};
+use App\Model\LanRole;
+use App\Model\PermissionLanRole;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Un lien existe entre des permissions et un rôle de LAN
+ * Un lien existe entre des permissions et un rôle de LAN.
  *
  * Class PermissionsBelongToLanRole
- * @package App\Rules\Role
  */
 class PermissionsBelongToLanRole implements Rule
 {
@@ -17,6 +17,7 @@ class PermissionsBelongToLanRole implements Rule
 
     /**
      * PermissionsDontBelongToGlobalRole constructor.
+     *
      * @param null $roleId Id du rôle
      */
     public function __construct($roleId)
@@ -27,8 +28,9 @@ class PermissionsBelongToLanRole implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  array $permissionIds Id des permissions
+     * @param string $attribute
+     * @param array  $permissionIds Id des permissions
+     *
      * @return bool
      */
     public function passes($attribute, $permissionIds): bool

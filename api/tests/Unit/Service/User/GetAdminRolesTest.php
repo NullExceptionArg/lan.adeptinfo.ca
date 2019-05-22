@@ -6,7 +6,7 @@ use App\Model\Permission;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class GetAdminRoles extends TestCase
+class GetAdminRolesTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -26,7 +26,7 @@ class GetAdminRoles extends TestCase
     public function testGetAdminRolesCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         $permissions = Permission::inRandomOrder()
             ->where('name', '!=', 'get-admin-roles')
@@ -34,16 +34,16 @@ class GetAdminRoles extends TestCase
             ->get();
 
         $lanRoles = factory('App\Model\LanRole', 4)->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         for ($i = 0; $i <= 3; $i++) {
             factory('App\Model\PermissionLanRole')->create([
                 'permission_id' => $permissions[$i]->id,
-                'role_id' => $lanRoles[$i]->id
+                'role_id'       => $lanRoles[$i]->id,
             ]);
             factory('App\Model\LanRoleUser')->create([
                 'user_id' => $this->user->id,
-                'role_id' => $lanRoles[$i]->id
+                'role_id' => $lanRoles[$i]->id,
             ]);
         }
 
@@ -51,11 +51,11 @@ class GetAdminRoles extends TestCase
         for ($i = 4; $i <= 7; $i++) {
             factory('App\Model\PermissionGlobalRole')->create([
                 'permission_id' => $permissions[$i]->id,
-                'role_id' => $globalRoles[$i - 4]->id
+                'role_id'       => $globalRoles[$i - 4]->id,
             ]);
             factory('App\Model\GlobalRoleUser')->create([
                 'user_id' => $this->user->id,
-                'role_id' => $globalRoles[$i - 4]->id
+                'role_id' => $globalRoles[$i - 4]->id,
             ]);
         }
 

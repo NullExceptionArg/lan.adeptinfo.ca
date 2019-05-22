@@ -12,7 +12,8 @@ class GetTournamentDetailsTeamResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -43,11 +44,11 @@ class GetTournamentDetailsTeamResource extends Resource
             ->get();
 
         return [
-            'id' => intval($this->id),
-            'name' => $this->name,
-            'tag' => $this->tag,
+            'id'              => intval($this->id),
+            'name'            => $this->name,
+            'tag'             => $this->tag,
             'players_reached' => intval($playersReached),
-            'players' => GetTournamentDetailsTagResource::collection($players)
+            'players'         => GetTournamentDetailsTagResource::collection($players),
         ];
     }
 }

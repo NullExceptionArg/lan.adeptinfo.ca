@@ -16,15 +16,15 @@ class UpdateTest extends TestCase
     protected $tournament;
 
     protected $requestContent = [
-        'tournament_id' => null,
-        'name' => 'October',
-        'state' => 'visible',
+        'tournament_id'    => null,
+        'name'             => 'October',
+        'state'            => 'visible',
         'tournament_start' => null,
-        'tournament_end' => null,
+        'tournament_end'   => null,
         'players_to_reach' => 5,
-        'teams_to_reach' => 6,
-        'rules' => 'The Bolsheviks seize control of Petrograd.',
-        'price' => 0,
+        'teams_to_reach'   => 6,
+        'rules'            => 'The Bolsheviks seize control of Petrograd.',
+        'price'            => 0,
     ];
 
     public function setUp(): void
@@ -38,41 +38,41 @@ class UpdateTest extends TestCase
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->subHour(1)->format('Y-m-d H:i:s');
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
 
         $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $permission = Permission::where('name', 'edit-tournament')->first();
         factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
+            'role_id'       => $role->id,
+            'permission_id' => $permission->id,
         ]);
         factory('App\Model\LanRoleUser')->create([
             'role_id' => $role->id,
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
     }
 
     public function testUpdate(): void
     {
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
-                'id' => 1,
-                'name' => $this->requestContent['name'],
-                'state' => 'fourthcoming',
+                'id'               => 1,
+                'name'             => $this->requestContent['name'],
+                'state'            => 'fourthcoming',
                 'tournament_start' => $this->requestContent['tournament_start'],
-                'tournament_end' => $this->requestContent['tournament_end'],
+                'tournament_end'   => $this->requestContent['tournament_end'],
                 'players_to_reach' => $this->requestContent['players_to_reach'],
-                'teams_to_reach' => $this->requestContent['teams_to_reach'],
-                'teams_reached' => 0,
-                'teams' => [],
-                'rules' => $this->requestContent['rules'],
-                'price' => $this->requestContent['price']
+                'teams_to_reach'   => $this->requestContent['teams_to_reach'],
+                'teams_reached'    => 0,
+                'teams'            => [],
+                'rules'            => $this->requestContent['rules'],
+                'price'            => $this->requestContent['price'],
             ])
             ->assertResponseStatus(200);
     }
@@ -81,11 +81,11 @@ class UpdateTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -94,15 +94,15 @@ class UpdateTest extends TestCase
     {
         $badTournamentId = -1;
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $badTournamentId, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$badTournamentId, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'tournament_id' => [
-                        0 => 'The selected tournament id is invalid.'
+                        0 => 'The selected tournament id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -111,15 +111,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name must be a string.'
+                        0 => 'The name must be a string.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -128,15 +128,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 256);
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name may not be greater than 255 characters.'
+                        0 => 'The name may not be greater than 255 characters.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -145,15 +145,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['state'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'state' => [
-                        0 => 'The selected state is invalid.'
+                        0 => 'The selected state is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -162,15 +162,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['price'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'price' => [
-                        0 => 'The price must be an integer.'
+                        0 => 'The price must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -179,34 +179,33 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['price'] = -1;
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'price' => [
-                        0 => 'The price must be at least 0.'
+                        0 => 'The price must be at least 0.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
 
     public function testUpdateTournamentStartAfterOrEqualLanStartTime(): void
     {
-
         $startTime = Carbon::parse($this->lan->lan_start);
         $this->requestContent['tournament_start'] = $startTime->subHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'tournament_start' => [
-                        0 => 'The tournament start time must be after or equal the lan start time.'
+                        0 => 'The tournament start time must be after or equal the lan start time.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -216,15 +215,15 @@ class UpdateTest extends TestCase
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->requestContent['tournament_end'] = $endTime->addHour(1)->format('Y-m-d H:i:s');
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'tournament_end' => [
-                        0 => 'The tournament end time must be before or equal the lan end time.'
+                        0 => 'The tournament end time must be before or equal the lan end time.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -233,15 +232,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['players_to_reach'] = 0;
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'players_to_reach' => [
-                        0 => 'The players to reach must be at least 1.'
+                        0 => 'The players to reach must be at least 1.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -250,15 +249,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['players_to_reach'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'players_to_reach' => [
-                        0 => 'The players to reach must be an integer.'
+                        0 => 'The players to reach must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -266,25 +265,25 @@ class UpdateTest extends TestCase
     public function testUpdatePlayersToReachLock(): void
     {
         $tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $tag->id,
-            'team_id' => $team->id
+            'tag_id'  => $tag->id,
+            'team_id' => $team->id,
         ]);
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'tournament_id' => [
-                        0 => 'The players to reach can\'t be changed once users have started registering for the tournament.'
+                        0 => 'The players to reach can\'t be changed once users have started registering for the tournament.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -293,15 +292,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['teams_to_reach'] = 0;
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'teams_to_reach' => [
-                        0 => 'The teams to reach must be at least 1.'
+                        0 => 'The teams to reach must be at least 1.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -310,15 +309,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['teams_to_reach'] = '☭';
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'teams_to_reach' => [
-                        0 => 'The teams to reach must be an integer.'
+                        0 => 'The teams to reach must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -327,15 +326,15 @@ class UpdateTest extends TestCase
     {
         $this->requestContent['rules'] = 1;
         $this->actingAs($this->user)
-            ->json('PUT', 'http://' . env('API_DOMAIN') . '/tournament/' . $this->tournament->id, $this->requestContent)
+            ->json('PUT', 'http://'.env('API_DOMAIN').'/tournament/'.$this->tournament->id, $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'rules' => [
-                        0 => 'The rules must be a string.'
+                        0 => 'The rules must be a string.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

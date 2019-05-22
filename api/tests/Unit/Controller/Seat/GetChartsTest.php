@@ -27,9 +27,9 @@ class GetChartsTest extends TestCase
     public function testGetSeatCharts(): void
     {
         $this->actingAs($this->admin)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/seat/charts')
+            ->json('GET', 'http://'.env('API_DOMAIN').'/seat/charts')
             ->seeJsonStructure([
-                'items'
+                'items',
             ])
             ->assertResponseStatus(200);
     }
@@ -38,11 +38,11 @@ class GetChartsTest extends TestCase
     {
         $admin = factory('App\Model\User')->create();
         $this->actingAs($admin)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/seat/charts')
+            ->json('GET', 'http://'.env('API_DOMAIN').'/seat/charts')
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }

@@ -23,15 +23,15 @@ class AddConfirmationCodeTest extends TestCase
         $confirmationCode = '☭';
 
         $this->notSeeInDatabase('user', [
-            'id' => $user->id,
-            'confirmation_code' => $confirmationCode
+            'id'                => $user->id,
+            'confirmation_code' => $confirmationCode,
         ]);
 
         $this->userRepository->addConfirmationCode($user->email, $confirmationCode);
 
         $this->seeInDatabase('user', [
-            'id' => $user->id,
-            'confirmation_code' => $confirmationCode
+            'id'                => $user->id,
+            'confirmation_code' => $confirmationCode,
         ]);
     }
 }

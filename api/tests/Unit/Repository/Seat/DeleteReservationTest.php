@@ -24,16 +24,16 @@ class DeleteReservationTest extends SeatsTestCase
         $this->lan = factory('App\Model\Lan')->create();
         $this->reservation = factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
     }
 
     public function testFindReservationByLanIdAndUserId(): void
     {
         $this->seeInDatabase('reservation', [
-            'lan_id' => $this->reservation->lan_id,
+            'lan_id'  => $this->reservation->lan_id,
             'user_id' => $this->reservation->user_id,
-            'seat_id' => $this->reservation->seat_id
+            'seat_id' => $this->reservation->seat_id,
         ]);
 
         $this->seatRepository->deleteReservation($this->reservation->id);

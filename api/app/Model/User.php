@@ -2,12 +2,13 @@
 
 namespace App\Model;
 
-use Illuminate\{Auth\Authenticatable,
-    Contracts\Auth\Access\Authorizable as AuthorizableContract,
-    Contracts\Auth\Authenticatable as AuthenticatableContract,
-    Database\Eloquent\Model,
-    Support\Facades\DB};
-use Laravel\{Lumen\Auth\Authorizable, Passport\HasApiTokens};
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+use Laravel\Lumen\Auth\Authorizable;
+use Laravel\Passport\HasApiTokens;
 use Seatsio\SeatsioClient;
 
 /**
@@ -35,7 +36,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $fillable = [
-        'first_name', 'last_name', 'email', 'password'
+        'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -44,17 +45,17 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var array
      */
     protected $hidden = [
-        'password', 'id', 'created_at', 'updated_at', 'facebook_id', 'google_id', 'confirmation_code', 'is_confirmed'
+        'password', 'id', 'created_at', 'updated_at', 'facebook_id', 'google_id', 'confirmation_code', 'is_confirmed',
     ];
 
     /**
-     * Obtenir le nom complet d'un utilisateur (Prénom et nom)
+     * Obtenir le nom complet d'un utilisateur (Prénom et nom).
      *
      * @return string
      */
     public function getFullName(): string
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 
     public function reservation()

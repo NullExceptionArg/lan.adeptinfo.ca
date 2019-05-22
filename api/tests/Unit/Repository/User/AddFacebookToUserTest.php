@@ -23,15 +23,15 @@ class AddFacebookToUserTest extends TestCase
         $facebookId = '☭';
 
         $this->notSeeInDatabase('user', [
-            'id' => $user->id,
-            'facebook_id' => $facebookId
+            'id'          => $user->id,
+            'facebook_id' => $facebookId,
         ]);
 
         $this->userRepository->addFacebookToUser($user->email, $facebookId);
 
         $this->seeInDatabase('user', [
-            'id' => $user->id,
-            'facebook_id' => $facebookId
+            'id'          => $user->id,
+            'facebook_id' => $facebookId,
         ]);
     }
 }

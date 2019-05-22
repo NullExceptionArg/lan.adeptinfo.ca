@@ -23,23 +23,23 @@ class DeleteLanImagesTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->image = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $this->image2 = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 
     public function testDeleteLanImages(): void
     {
         $this->seeInDatabase('image', [
-            'image' => $this->image->image,
-            'lan_id' => $this->image->lan_id
+            'image'  => $this->image->image,
+            'lan_id' => $this->image->lan_id,
         ]);
 
         $imageIds = [
             $this->image->id,
-            $this->image2->id
+            $this->image2->id,
         ];
 
         $this->lanRepository->deleteLanImages($imageIds);

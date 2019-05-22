@@ -12,7 +12,7 @@ class ConfirmTest extends TestCase
     protected $userService;
 
     protected $paramsContent = [
-        'confirmation_code' => '123456789'
+        'confirmation_code' => '123456789',
     ];
 
     protected $user;
@@ -23,23 +23,23 @@ class ConfirmTest extends TestCase
         $this->userService = $this->app->make('App\Services\Implementation\UserServiceImpl');
 
         $this->user = factory('App\Model\User')->create([
-            'confirmation_code' => $this->paramsContent['confirmation_code']
+            'confirmation_code' => $this->paramsContent['confirmation_code'],
         ]);
     }
 
     public function testConfirm(): void
     {
         $this->seeInDatabase('user', [
-            'id' => $this->user->id,
-            'is_confirmed' => false
+            'id'           => $this->user->id,
+            'is_confirmed' => false,
         ]);
 
         $this->userService->confirm($this->paramsContent['confirmation_code']);
 
         $this->seeInDatabase('user', [
-            'id' => $this->user->id,
-            'is_confirmed' => true,
-            'confirmation_code' => null
+            'id'                => $this->user->id,
+            'is_confirmed'      => true,
+            'confirmation_code' => null,
         ]);
     }
 }

@@ -23,15 +23,15 @@ class AddGoogleToUserTest extends TestCase
         $googleId = '☭';
 
         $this->notSeeInDatabase('user', [
-            'id' => $user->id,
-            'google_id' => $googleId
+            'id'        => $user->id,
+            'google_id' => $googleId,
         ]);
 
         $this->userRepository->addGoogleToUser($user->email, $googleId);
 
         $this->seeInDatabase('user', [
-            'id' => $user->id,
-            'google_id' => $googleId
+            'id'        => $user->id,
+            'google_id' => $googleId,
         ]);
     }
 }

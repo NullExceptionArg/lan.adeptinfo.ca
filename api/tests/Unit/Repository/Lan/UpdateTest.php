@@ -15,18 +15,18 @@ class UpdateTest extends TestCase
     protected $lan;
 
     protected $paramsContent = [
-        'name' => "Bolshevik Revolution",
-        'lan_start' => "2100-10-11 12:00:00",
-        'lan_end' => "2100-10-12 12:00:00",
-        'seat_reservation_start' => "2100-10-04 12:00:00",
-        'tournament_reservation_start' => "2100-10-07 00:00:00",
-        "event_key" => "",
-        "latitude" => -67.5,
-        "longitude" => 64.0333330,
-        "places" => 10,
-        "price" => 0,
-        "rules" => '☭',
-        "description" => '☭'
+        'name'                         => 'Bolshevik Revolution',
+        'lan_start'                    => '2100-10-11 12:00:00',
+        'lan_end'                      => '2100-10-12 12:00:00',
+        'seat_reservation_start'       => '2100-10-04 12:00:00',
+        'tournament_reservation_start' => '2100-10-07 00:00:00',
+        'event_key'                    => '',
+        'latitude'                     => -67.5,
+        'longitude'                    => 64.0333330,
+        'places'                       => 10,
+        'price'                        => 0,
+        'rules'                        => '☭',
+        'description'                  => '☭',
     ];
 
     public function setUp(): void
@@ -58,18 +58,18 @@ class UpdateTest extends TestCase
             $this->paramsContent['description']
         );
         $this->seeInDatabase('lan', [
-            'name' => $this->paramsContent['name'],
-            'lan_start' => $this->paramsContent['lan_start'],
-            'lan_end' => $this->paramsContent['lan_end'],
-            'seat_reservation_start' => $this->paramsContent['seat_reservation_start'],
+            'name'                         => $this->paramsContent['name'],
+            'lan_start'                    => $this->paramsContent['lan_start'],
+            'lan_end'                      => $this->paramsContent['lan_end'],
+            'seat_reservation_start'       => $this->paramsContent['seat_reservation_start'],
             'tournament_reservation_start' => $this->paramsContent['tournament_reservation_start'],
-            'event_key' => $this->paramsContent['event_key'],
-            'latitude' => $this->paramsContent['latitude'],
-            'longitude' => $this->paramsContent['longitude'],
-            'places' => $this->paramsContent['places'],
-            'price' => $this->paramsContent['price'],
-            'rules' => $this->paramsContent['rules'],
-            'description' => $this->paramsContent['description'],
+            'event_key'                    => $this->paramsContent['event_key'],
+            'latitude'                     => $this->paramsContent['latitude'],
+            'longitude'                    => $this->paramsContent['longitude'],
+            'places'                       => $this->paramsContent['places'],
+            'price'                        => $this->paramsContent['price'],
+            'rules'                        => $this->paramsContent['rules'],
+            'description'                  => $this->paramsContent['description'],
         ]);
     }
 }

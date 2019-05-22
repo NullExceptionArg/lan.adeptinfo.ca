@@ -23,7 +23,7 @@ class GetLanRolePermissionsTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->globalRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $this->permissions = Permission::inRandomOrder()
             ->where('can_be_per_lan', true)
@@ -32,8 +32,8 @@ class GetLanRolePermissionsTest extends TestCase
 
         foreach ($this->permissions as $permission) {
             factory('App\Model\PermissionLanRole')->create([
-                'role_id' => $this->globalRole->id,
-                'permission_id' => $permission->id
+                'role_id'       => $this->globalRole->id,
+                'permission_id' => $permission->id,
             ]);
         }
     }

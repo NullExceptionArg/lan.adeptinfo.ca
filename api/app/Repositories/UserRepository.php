@@ -2,7 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Model\{Tag, User};
+use App\Model\Tag;
+use App\Model\User;
 use Illuminate\Pagination\AbstractPaginator;
 use Laravel\Passport\Token;
 
@@ -10,14 +11,13 @@ use Laravel\Passport\Token;
  * Méthodes pour accéder aux tables de base de donnée liées aux utilisateurs.
  *
  * Interface UserRepository
- * @package App\Repositories
  */
 interface UserRepository
 {
     /**
      * Ajouter un code de confirmation à un utilisateur.
      *
-     * @param string $email Courriel de l'utilisateur à qui le code de confirmation est ajouté.
+     * @param string $email            Courriel de l'utilisateur à qui le code de confirmation est ajouté.
      * @param string $confirmationCode Code de confirmation.
      */
     public function addConfirmationCode(string $email, string $confirmationCode): void;
@@ -25,7 +25,7 @@ interface UserRepository
     /**
      * Ajouter Facebook à un utilisateur.
      *
-     * @param string $email Courriel de l'utilisateur.
+     * @param string $email      Courriel de l'utilisateur.
      * @param string $facebookId Id Facebook de l'utilisateur.
      */
     public function addFacebookToUser(string $email, string $facebookId): void;
@@ -33,7 +33,7 @@ interface UserRepository
     /**
      * Ajouter Google à un utilisateur.
      *
-     * @param string $email Courriel de l'utilisateur.
+     * @param string $email    Courriel de l'utilisateur.
      * @param string $googleId Id Google de l'utilisateur.
      */
     public function addGoogleToUser(string $email, string $googleId): void;
@@ -49,9 +49,10 @@ interface UserRepository
      * Créer un utilisateur Facebook.
      *
      * @param string $facebookId Id facebook de l'utilisateur.
-     * @param string $firstName Prénom de l'utilisateur.
-     * @param string $lastName Nom de l'utilisateur.
-     * @param string $email Courriel de l'utilisateur.
+     * @param string $firstName  Prénom de l'utilisateur.
+     * @param string $lastName   Nom de l'utilisateur.
+     * @param string $email      Courriel de l'utilisateur.
+     *
      * @return int Id de l'utilisateur créé.
      */
     public function createFacebookUser(string $facebookId, string $firstName, string $lastName, string $email): int;
@@ -59,10 +60,11 @@ interface UserRepository
     /**
      * Créer un utilisateur Google.
      *
-     * @param string $googleId Id Google de l'utilisateur.
+     * @param string $googleId  Id Google de l'utilisateur.
      * @param string $firstName Prénom de l'utilisateur.
-     * @param string $lastName Nom de l'utilisateur.
-     * @param string $email Courriel de l'utilisateur.
+     * @param string $lastName  Nom de l'utilisateur.
+     * @param string $email     Courriel de l'utilisateur.
+     *
      * @return int Id de l'utilisateur créé.
      */
     public function createGoogleUser(string $googleId, string $firstName, string $lastName, string $email): int;
@@ -70,8 +72,9 @@ interface UserRepository
     /**
      * Créer un tag de joueur.
      *
-     * @param int $userId Id de l'utilisateur (joueur).
-     * @param string $name Nom du tag.
+     * @param int    $userId Id de l'utilisateur (joueur).
+     * @param string $name   Nom du tag.
+     *
      * @return int Id du Tag créé.
      */
     public function createTag(
@@ -81,11 +84,13 @@ interface UserRepository
 
     /**
      * Créer un nouvel utilisateur de l'application.
-     * @param string $firstName Prénom de l'utilisateur.
-     * @param string $lastName Nom de l'utilisateur.
-     * @param string $email Courriel de l'utilisateur.
-     * @param string $password Mot de passe de l'utilisateur.
+     *
+     * @param string $firstName        Prénom de l'utilisateur.
+     * @param string $lastName         Nom de l'utilisateur.
+     * @param string $email            Courriel de l'utilisateur.
+     * @param string $password         Mot de passe de l'utilisateur.
      * @param string $confirmationCode Code de confirmation.
+     *
      * @return int Id de l'utilisateur créé.
      */
     public function createUser(
@@ -95,7 +100,7 @@ interface UserRepository
         string $confirmationCode): int;
 
     /**
-     * Supprimer un utilisateur
+     * Supprimer un utilisateur.
      *
      * @param int $userId Id de l'utilisateur à supprimer.
      */
@@ -105,6 +110,7 @@ interface UserRepository
      * Trouver un utilisateur par son code de confirmation.
      *
      * @param string $confirmationCode Code de confirmation.
+     *
      * @return User Utilisateur trouvé.
      */
     public function findByConfirmationCode(string $confirmationCode): User;
@@ -113,6 +119,7 @@ interface UserRepository
      * Trouver un utilisateur par son courriel.
      *
      * @param string $userEmail Courriel de l'utilisateur.
+     *
      * @return User|null Utilisateur trouvé, null si rien n'a été trouvé.
      */
     public function findByEmail(string $userEmail): ?User;
@@ -121,6 +128,7 @@ interface UserRepository
      * Trouver un utilisateur.
      *
      * @param int $userId Id de l'utilisateur.
+     *
      * @return User|null Utilisateur trouvé, null si rien n'a été trouvé.
      */
     public function findById(int $userId): ?User;
@@ -129,6 +137,7 @@ interface UserRepository
      * Trouver un tag de joueur.
      *
      * @param int $id Id du tag de joueur.
+     *
      * @return Tag|null Tag trouvé, null si rien n'a été trouvé.
      */
     public function findTagById(int $id): ?Tag;
@@ -136,11 +145,12 @@ interface UserRepository
     /**
      * Obtenir les utilisateurs selon certains critères.
      *
-     * @param string $queryString Terme à rechercher.
-     * @param string $orderColumn Colonne à utiliser pour l'ordre des résultats.
+     * @param string $queryString    Terme à rechercher.
+     * @param string $orderColumn    Colonne à utiliser pour l'ordre des résultats.
      * @param string $orderDirection Si les résultats sont en ordre ascendant ou descendants.
-     * @param int $itemsPerPage Nombre de résulats par page.
-     * @param int $currentPage Page courante des résultats.
+     * @param int    $itemsPerPage   Nombre de résulats par page.
+     * @param int    $currentPage    Page courante des résultats.
+     *
      * @return AbstractPaginator Utilisateurs trouvés, paginés.
      */
     public function getPaginatedUsersCriteria(

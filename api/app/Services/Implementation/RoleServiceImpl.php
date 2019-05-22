@@ -2,11 +2,16 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\{Role\GetPermissionsResource, Role\GetRoleResource};
-use App\Model\{GlobalRole, LanRole};
-use App\Repositories\Implementation\{LanRepositoryImpl, RoleRepositoryImpl, UserRepositoryImpl};
+use App\Http\Resources\Role\GetPermissionsResource;
+use App\Http\Resources\Role\GetRoleResource;
+use App\Model\GlobalRole;
+use App\Model\LanRole;
+use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\RoleService;
-use Illuminate\{Http\Resources\Json\AnonymousResourceCollection, Support\Collection};
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Collection;
 
 class RoleServiceImpl implements RoleService
 {
@@ -16,16 +21,16 @@ class RoleServiceImpl implements RoleService
 
     /**
      * RoleServiceImpl constructor.
+     *
      * @param RoleRepositoryImpl $roleRepository
-     * @param LanRepositoryImpl $lanRepository
+     * @param LanRepositoryImpl  $lanRepository
      * @param UserRepositoryImpl $userRepository
      */
     public function __construct(
         RoleRepositoryImpl $roleRepository,
         LanRepositoryImpl $lanRepository,
         UserRepositoryImpl $userRepository
-    )
-    {
+    ) {
         $this->roleRepository = $roleRepository;
         $this->lanRepository = $lanRepository;
         $this->userRepository = $userRepository;
@@ -35,7 +40,6 @@ class RoleServiceImpl implements RoleService
     {
         // Pour chaque id de permission
         foreach ($permissions as $permissionId) {
-
             $this->roleRepository->linkPermissionIdGlobalRole($permissionId, $roleId);
         }
 
@@ -92,8 +96,7 @@ class RoleServiceImpl implements RoleService
         string $frDisplayName,
         string $frDescription,
         array $permissions
-    ): GlobalRole
-    {
+    ): GlobalRole {
         // Créer le rôle global
         $roleId = $this->roleRepository->createGlobalRole(
             $name,
@@ -121,8 +124,7 @@ class RoleServiceImpl implements RoleService
         string $frDisplayName,
         string $frDescription,
         array $permissions
-    ): LanRole
-    {
+    ): LanRole {
         // Créer le rôle de LAN
         $roleId = $this->roleRepository->createLanRole(
             $lanId,
@@ -243,8 +245,7 @@ class RoleServiceImpl implements RoleService
         ?string $enDescription,
         ?string $frDisplayName,
         ?string $frDescription
-    ): GlobalRole
-    {
+    ): GlobalRole {
         // Mettre à jour le rôle global
         $this->roleRepository->updateGlobalRole(
             $roleId,
@@ -266,8 +267,7 @@ class RoleServiceImpl implements RoleService
         ?string $enDescription,
         ?string $frDisplayName,
         ?string $frDescription
-    ): LanRole
-    {
+    ): LanRole {
         // Mettre à jour le rôle de LAN
         $this->roleRepository->updateLanRole(
             $roleId,

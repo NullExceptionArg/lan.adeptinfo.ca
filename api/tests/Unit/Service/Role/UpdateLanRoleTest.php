@@ -16,12 +16,12 @@ class UpdateLanRoleTest extends TestCase
     protected $lanRole;
 
     protected $paramsContent = [
-        'role_id' => null,
-        'name' => 'comrade',
+        'role_id'         => null,
+        'name'            => 'comrade',
         'en_display_name' => 'Comrade',
-        'en_description' => 'Our equal',
+        'en_description'  => 'Our equal',
         'fr_display_name' => 'Camarade',
-        'fr_description' => 'Notre égal.',
+        'fr_description'  => 'Notre égal.',
     ];
 
     public function setUp(): void
@@ -32,7 +32,7 @@ class UpdateLanRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->lanRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

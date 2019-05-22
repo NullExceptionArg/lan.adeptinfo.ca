@@ -28,21 +28,21 @@ class GetRequestsTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->lan = factory('App\Model\Lan')->create();
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
         $this->request = factory('App\Model\Request')->create([
-            'tag_id' => $this->tag->id,
+            'tag_id'  => $this->tag->id,
             'team_id' => $this->team->id,
         ]);
     }

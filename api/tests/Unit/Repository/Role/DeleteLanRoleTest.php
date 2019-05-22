@@ -24,7 +24,7 @@ class DeleteLanRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
 
         $permissions = Permission::inRandomOrder()
@@ -35,22 +35,22 @@ class DeleteLanRoleTest extends TestCase
 
         foreach ($permissions as $permissionId) {
             factory('App\Model\PermissionLanRole')->create([
-                'role_id' => $this->role->id,
-                'permission_id' => $permissionId
+                'role_id'       => $this->role->id,
+                'permission_id' => $permissionId,
             ]);
         }
 
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $this->role->id
+            'role_id' => $this->role->id,
         ]);
     }
 
     public function testDeleteLanRole(): void
     {
         $this->seeInDatabase('lan_role', [
-            'id' => $this->role->id,
-            'name' => $this->role->name
+            'id'   => $this->role->id,
+            'name' => $this->role->name,
         ]);
 
         $this->roleRepository->deleteLanRole(
@@ -58,8 +58,8 @@ class DeleteLanRoleTest extends TestCase
         );
 
         $this->notSeeInDatabase('lan_role', [
-            'id' => $this->role->id,
-            'name' => $this->role->name
+            'id'   => $this->role->id,
+            'name' => $this->role->name,
         ]);
     }
 }

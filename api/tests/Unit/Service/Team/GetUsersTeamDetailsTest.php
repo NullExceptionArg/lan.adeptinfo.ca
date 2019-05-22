@@ -26,23 +26,23 @@ class GetUsersTeamDetailsTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->lan = factory('App\Model\Lan')->create();
 
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
         $this->tagTeam = factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->tag->id,
-            'team_id' => $this->team->id
+            'tag_id'  => $this->tag->id,
+            'team_id' => $this->team->id,
         ]);
 
         $this->requestContent['team_id'] = $this->team->id;
@@ -52,20 +52,20 @@ class GetUsersTeamDetailsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
         $tagTeam = factory('App\Model\TagTeam')->create([
-            'tag_id' => $tag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $tag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
 
         $user2 = factory('App\Model\User')->create();
         $tag2 = factory('App\Model\Tag')->create([
-            'user_id' => $user2->id
+            'user_id' => $user2->id,
         ]);
         $tagTeam2 = factory('App\Model\Request')->create([
-            'tag_id' => $tag2->id,
+            'tag_id'  => $tag2->id,
             'team_id' => $this->team->id,
         ]);
 
@@ -100,12 +100,12 @@ class GetUsersTeamDetailsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $tag = factory('App\Model\Tag')->create([
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
         $tagTeam = factory('App\Model\TagTeam')->create([
-            'tag_id' => $tag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $tag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
 
         $result = $this->teamService->getUsersTeamDetails($user->id, $this->team->id)->jsonSerialize();

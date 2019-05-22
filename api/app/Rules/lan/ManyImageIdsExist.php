@@ -6,10 +6,9 @@ use App\Model\LanImage;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
- * Un tableau est constitué uniquement d'id d'images
+ * Un tableau est constitué uniquement d'id d'images.
  *
  * Class ManyImageIdsExist
- * @package App\Rules\Lan
  */
 class ManyImageIdsExist implements Rule
 {
@@ -18,8 +17,9 @@ class ManyImageIdsExist implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  string $imageIds
+     * @param string $attribute
+     * @param string $imageIds
+     *
      * @return bool
      */
     public function passes($attribute, $imageIds): bool
@@ -64,8 +64,8 @@ class ManyImageIdsExist implements Rule
     public function message(): string
     {
         return trans('validation.many_image_ids_exist', [
-            'ids' => implode(', ', $this->badImageIds),
-            'attribute' => ':attribute'
+            'ids'       => implode(', ', $this->badImageIds),
+            'attribute' => ':attribute',
         ]);
     }
 }

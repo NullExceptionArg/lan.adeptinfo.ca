@@ -2,13 +2,13 @@
 
 namespace App\Rules\Tournament;
 
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Un utilisateur n'est qu'une seule fois dans un tournoi.
  *
  * Class UniqueUserPerTournament
- * @package App\Rules\Team
  */
 class UniqueUserPerTournament implements Rule
 {
@@ -16,6 +16,7 @@ class UniqueUserPerTournament implements Rule
 
     /**
      * UniqueUserPerTournament constructor.
+     *
      * @param int $userId Id de l'uitilisateur
      */
     public function __construct($userId)
@@ -23,12 +24,12 @@ class UniqueUserPerTournament implements Rule
         $this->userId = $userId;
     }
 
-
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $tournamentId
+     * @param string $attribute
+     * @param mixed  $tournamentId
+     *
      * @return bool
      */
     public function passes($attribute, $tournamentId): bool

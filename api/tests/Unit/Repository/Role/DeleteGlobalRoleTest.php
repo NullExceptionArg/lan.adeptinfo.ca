@@ -30,22 +30,22 @@ class DeleteGlobalRoleTest extends TestCase
 
         foreach ($permissions as $permissionId) {
             factory('App\Model\PermissionGlobalRole')->create([
-                'role_id' => $this->role->id,
-                'permission_id' => $permissionId
+                'role_id'       => $this->role->id,
+                'permission_id' => $permissionId,
             ]);
         }
 
         factory('App\Model\GlobalRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $this->role->id
+            'role_id' => $this->role->id,
         ]);
     }
 
     public function testDeleteGlobalRole(): void
     {
         $this->seeInDatabase('global_role', [
-            'id' => $this->role->id,
-            'name' => $this->role->name
+            'id'   => $this->role->id,
+            'name' => $this->role->name,
         ]);
 
         $this->roleRepository->deleteGlobalRole(
@@ -53,8 +53,8 @@ class DeleteGlobalRoleTest extends TestCase
         );
 
         $this->notSeeInDatabase('global_role', [
-            'id' => $this->role->id,
-            'name' => $this->role->name
+            'id'   => $this->role->id,
+            'name' => $this->role->name,
         ]);
     }
 }

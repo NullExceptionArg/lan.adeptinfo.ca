@@ -31,40 +31,40 @@ class GetLanRoleUsersTest extends TestCase
     {
         $users = factory('App\Model\User', 4)->create();
         $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $permission = Permission::first();
         factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role,
-            'permission_id' => $permission->id
+            'role_id'       => $role,
+            'permission_id' => $permission->id,
         ]);
         foreach ($users as $user) {
             factory('App\Model\LanRoleUser')->create([
                 'role_id' => $role,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         }
 
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => $role->id])
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/users', ['role_id' => $role->id])
             ->seeJsonEquals([
                 [
-                    'email' => $users[0]->email,
+                    'email'      => $users[0]->email,
                     'first_name' => $users[0]->first_name,
-                    'last_name' => $users[0]->last_name
+                    'last_name'  => $users[0]->last_name,
                 ], [
-                    'email' => $users[1]->email,
+                    'email'      => $users[1]->email,
                     'first_name' => $users[1]->first_name,
-                    'last_name' => $users[1]->last_name
+                    'last_name'  => $users[1]->last_name,
                 ], [
-                    'email' => $users[2]->email,
+                    'email'      => $users[2]->email,
                     'first_name' => $users[2]->first_name,
-                    'last_name' => $users[2]->last_name
+                    'last_name'  => $users[2]->last_name,
                 ], [
-                    'email' => $users[3]->email,
+                    'email'      => $users[3]->email,
                     'first_name' => $users[3]->first_name,
-                    'last_name' => $users[3]->last_name
-                ]
+                    'last_name'  => $users[3]->last_name,
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -72,15 +72,15 @@ class GetLanRoleUsersTest extends TestCase
     public function testGetLanRoleUsersHasPermission(): void
     {
         $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => $role->id])
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/users', ['role_id' => $role->id])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -88,15 +88,15 @@ class GetLanRoleUsersTest extends TestCase
     public function testGetLanRoleUsersRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => null])
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/users', ['role_id' => null])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -104,15 +104,15 @@ class GetLanRoleUsersTest extends TestCase
     public function testGetLanRoleUsersRoleIdInteger(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => '☭'])
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/users', ['role_id' => '☭'])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -120,15 +120,15 @@ class GetLanRoleUsersTest extends TestCase
     public function testGetLanRoleUsersRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/users', ['role_id' => -1])
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/users', ['role_id' => -1])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The selected role id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

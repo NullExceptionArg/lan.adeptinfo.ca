@@ -11,15 +11,15 @@ use Illuminate\Contracts\Validation\Rule;
  * et qu'il n'est pas en attente de confirmation.
  *
  * Class UniqueEmailSocialLogin
- * @package App\Rules\User
  */
 class UniqueEmailSocialLogin implements Rule
 {
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $courriel Courriel de l'utilisateur
+     * @param string $attribute
+     * @param mixed  $courriel  Courriel de l'utilisateur
+     *
      * @return bool
      */
     public function passes($attribute, $courriel): bool

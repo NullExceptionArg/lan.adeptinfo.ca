@@ -4,13 +4,13 @@ namespace App\Rules\Seat;
 
 use App\Model\Lan;
 use Illuminate\Contracts\Validation\Rule;
-use Seatsio\{SeatsioClient, SeatsioException};
+use Seatsio\SeatsioClient;
+use Seatsio\SeatsioException;
 
 /**
  * Un siège existe dans l'API seats.io pour certain LAN.
  *
  * Class SeatExistInLanSeatIo
- * @package App\Rules\Seat
  */
 class SeatExistInLanSeatIo implements Rule
 {
@@ -18,6 +18,7 @@ class SeatExistInLanSeatIo implements Rule
 
     /**
      * SeatOncePerLan constructor.
+     *
      * @param null $lanId Id du LAN
      */
     public function __construct($lanId)
@@ -28,8 +29,9 @@ class SeatExistInLanSeatIo implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  string $seatId Id du siège
+     * @param string $attribute
+     * @param string $seatId    Id du siège
+     *
      * @return bool
      */
     public function passes($attribute, $seatId): bool
@@ -47,6 +49,7 @@ class SeatExistInLanSeatIo implements Rule
         }
 
         $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
+
         try {
             // Demander à l'API de retrouver le siège pour l'événement du LAN, pour l'id du siège
             $seatsClient->events->retrieveObjectStatus($lan->event_key, $seatId);
@@ -54,6 +57,7 @@ class SeatExistInLanSeatIo implements Rule
             // Une erreur est lancée si aucun siège n'est trouvé
             return false;
         }
+
         return true;
     }
 

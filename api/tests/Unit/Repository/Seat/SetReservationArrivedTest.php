@@ -23,27 +23,27 @@ class SetReservationArrivedTest extends SeatsTestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id
+            'lan_id'  => $this->lan->id,
+            'user_id' => $this->user->id,
         ]);
     }
 
     public function testSetReservationArrived(): void
     {
         $this->seeInDatabase('reservation', [
-            'lan_id' => $this->reservation->lan_id,
-            'user_id' => $this->reservation->user_id,
-            'seat_id' => $this->reservation->seat_id,
-            'arrived_at' => null
+            'lan_id'     => $this->reservation->lan_id,
+            'user_id'    => $this->reservation->user_id,
+            'seat_id'    => $this->reservation->seat_id,
+            'arrived_at' => null,
         ]);
 
         $this->seatRepository->setReservationArrived($this->reservation->id, $this->lan->id);
 
         $this->seeInDatabase('reservation', [
-            'lan_id' => $this->reservation->lan_id,
-            'user_id' => $this->reservation->user_id,
-            'seat_id' => $this->reservation->seat_id,
-            'arrived_at' => $this->reservation->arrived_at
+            'lan_id'     => $this->reservation->lan_id,
+            'user_id'    => $this->reservation->user_id,
+            'seat_id'    => $this->reservation->seat_id,
+            'arrived_at' => $this->reservation->arrived_at,
         ]);
     }
 }
