@@ -1,17 +1,19 @@
 <?php
 
-use Illuminate\{Database\Migrations\Migration, Database\Schema\Blueprint, Support\Facades\Schema};
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class CreateTableLan extends Migration
 {
     /**
-     * Exécuter les migrations
+     * Exécuter les migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('lan', function(Blueprint $table) {
+        Schema::create('lan', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->dateTime('lan_start');

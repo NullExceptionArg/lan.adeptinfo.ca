@@ -24,13 +24,13 @@ class GetGlobalUserRolesTest extends TestCase
         $role = factory('App\Model\GlobalRole')->create();
         $permission = Permission::first();
         factory('App\Model\PermissionGlobalRole')->create([
-            'role_id' => $role,
-            'permission_id' => $permission->id
+            'role_id'       => $role,
+            'permission_id' => $permission->id,
         ]);
         foreach ($users as $user) {
             factory('App\Model\GlobalRoleUser')->create([
                 'role_id' => $role,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         }
 

@@ -20,20 +20,20 @@ class RemoveCurrentTest extends TestCase
     public function testRemoveCurrent(): void
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         factory('App\Model\Lan')->create();
 
         $this->seeInDatabase('lan', [
-            'id' => $lan->id,
-            'is_current' => true
+            'id'         => $lan->id,
+            'is_current' => true,
         ]);
 
         $this->lanRepository->removeCurrent();
 
         $this->seeInDatabase('lan', [
-            'id' => $lan->id,
-            'is_current' => false
+            'id'         => $lan->id,
+            'is_current' => false,
         ]);
     }
 }

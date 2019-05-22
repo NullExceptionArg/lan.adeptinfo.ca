@@ -9,7 +9,6 @@ use Illuminate\Contracts\Validation\Rule;
  * Un siège n'est pas déjà réservé ou occupé par un utilisateur pour un certain LAN.
  *
  * Class SeatOncePerLan
- * @package App\Rules\Seat
  */
 class SeatOncePerLan implements Rule
 {
@@ -17,6 +16,7 @@ class SeatOncePerLan implements Rule
 
     /**
      * SeatOncePerLan constructor.
+     *
      * @param string $lanId Id du LAN
      */
     public function __construct($lanId)
@@ -27,8 +27,9 @@ class SeatOncePerLan implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $seatId Id du siège
+     * @param string $attribute
+     * @param mixed  $seatId    Id du siège
+     *
      * @return bool
      */
     public function passes($attribute, $seatId): bool

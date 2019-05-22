@@ -4,17 +4,17 @@ namespace App\Exceptions;
 
 use Dingo\Api\Exception\Handler as DingoHandler;
 use Exception;
-use Illuminate\{Auth\Access\AuthorizationException, Http\Response};
-use Symfony\{Component\HttpKernel\Exception\BadRequestHttpException,
-    Component\HttpKernel\Exception\MethodNotAllowedHttpException,
-    Component\HttpKernel\Exception\NotFoundHttpException};
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Gestionnaire d'exceptions.
  * Quand une exception est lancée par l'application, elle est transformée en réponse HTTP ici.
  *
  * Class ApiExceptionsHandler
- * @package App\Exceptions
  */
 class ApiExceptionsHandler extends DingoHandler
 {
@@ -49,8 +49,8 @@ class ApiExceptionsHandler extends DingoHandler
 
         return response()->json([
             'success' => false,
-            'status' => $status,
-            'message' => $message
+            'status'  => $status,
+            'message' => $message,
         ], $status);
     }
 }

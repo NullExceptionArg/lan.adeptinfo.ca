@@ -2,9 +2,12 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{Tag, User};
+use App\Model\Tag;
+use App\Model\User;
 use App\Repositories\UserRepository;
-use Illuminate\{Pagination\AbstractPaginator, Support\Facades\DB, Support\Facades\Hash};
+use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\Token;
 
 class UserRepositoryImpl implements UserRepository
@@ -14,7 +17,7 @@ class UserRepositoryImpl implements UserRepository
         DB::table('user')
             ->where('email', $email)
             ->update([
-                'confirmation_code' => $confirmationCode
+                'confirmation_code' => $confirmationCode,
             ]);
     }
 
@@ -23,7 +26,7 @@ class UserRepositoryImpl implements UserRepository
         DB::table('user')
             ->where('email', $email)
             ->update([
-                'facebook_id' => $facebookId
+                'facebook_id' => $facebookId,
             ]);
     }
 
@@ -32,7 +35,7 @@ class UserRepositoryImpl implements UserRepository
         DB::table('user')
             ->where('email', $email)
             ->update([
-                'google_id' => $googleId
+                'google_id' => $googleId,
             ]);
     }
 
@@ -41,8 +44,8 @@ class UserRepositoryImpl implements UserRepository
         DB::table('user')
             ->where('id', $userId)
             ->update([
-                'is_confirmed' => true,
-                'confirmation_code' => null
+                'is_confirmed'      => true,
+                'confirmation_code' => null,
             ]);
     }
 
@@ -51,9 +54,9 @@ class UserRepositoryImpl implements UserRepository
         return DB::table('user')
             ->insertGetId([
                 'facebook_id' => $facebookId,
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $email,
+                'first_name'  => $firstName,
+                'last_name'   => $lastName,
+                'email'       => $email,
             ]);
     }
 
@@ -61,22 +64,21 @@ class UserRepositoryImpl implements UserRepository
     {
         return DB::table('user')
             ->insertGetId([
-                'google_id' => $googleId,
+                'google_id'  => $googleId,
                 'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $email,
+                'last_name'  => $lastName,
+                'email'      => $email,
             ]);
     }
 
     public function createTag(
         int $userId,
         string $name
-    ): int
-    {
+    ): int {
         return DB::table('tag')
             ->insertGetId([
-                'name' => $name,
-                'user_id' => $userId
+                'name'    => $name,
+                'user_id' => $userId,
             ]);
     }
 
@@ -88,11 +90,11 @@ class UserRepositoryImpl implements UserRepository
     {
         return DB::table('user')
             ->insertGetId([
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'email' => $email,
-                'password' => Hash::make($password),
-                'confirmation_code' => $confirmationCode
+                'first_name'        => $firstName,
+                'last_name'         => $lastName,
+                'email'             => $email,
+                'password'          => Hash::make($password),
+                'confirmation_code' => $confirmationCode,
             ]);
     }
 
@@ -127,11 +129,10 @@ class UserRepositoryImpl implements UserRepository
         string $orderDirection,
         int $itemsPerPage,
         int $currentPage
-    ): AbstractPaginator
-    {
-        return User::where('last_name', 'like', '%' . $queryString . '%')
-            ->orWhere('first_name', 'like', '%' . $queryString . '%')
-            ->orWhere('email', 'like', '%' . $queryString . '%')
+    ): AbstractPaginator {
+        return User::where('last_name', 'like', '%'.$queryString.'%')
+            ->orWhere('first_name', 'like', '%'.$queryString.'%')
+            ->orWhere('email', 'like', '%'.$queryString.'%')
             ->orderBy($orderColumn, $orderDirection)
             ->paginate($itemsPerPage, ['*'], '', $currentPage);
     }
@@ -141,7 +142,7 @@ class UserRepositoryImpl implements UserRepository
         DB::table('oauth_refresh_tokens')
             ->where('access_token_id', $token->id)
             ->update([
-                'revoked' => true
+                'revoked' => true,
             ]);
     }
 }

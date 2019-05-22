@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
  * Le nom d'un tag d'équipe n'est déjà utilisé dans un tournoi.
  *
  * Class UniqueTeamTagPerTournament
- * @package App\Rules\Team
  */
 class UniqueTeamTagPerTournament implements Rule
 {
@@ -17,6 +16,7 @@ class UniqueTeamTagPerTournament implements Rule
 
     /**
      * UniqueTeamTagPerTournament constructor.
+     *
      * @param int $tournamentId Id du tournoi
      */
     public function __construct($tournamentId)
@@ -27,8 +27,9 @@ class UniqueTeamTagPerTournament implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $name
+     * @param string $attribute
+     * @param mixed  $name
+     *
      * @return bool
      */
     public function passes($attribute, $name): bool

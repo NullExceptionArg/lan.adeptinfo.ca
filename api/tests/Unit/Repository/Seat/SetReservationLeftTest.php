@@ -23,27 +23,27 @@ class SetReservationLeftTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id
+            'lan_id'  => $this->lan->id,
+            'user_id' => $this->user->id,
         ]);
     }
 
     public function testSetReservationLeft(): void
     {
         $this->seeInDatabase('reservation', [
-            'lan_id' => $this->reservation->lan_id,
+            'lan_id'  => $this->reservation->lan_id,
             'user_id' => $this->reservation->user_id,
             'seat_id' => $this->reservation->seat_id,
-            'left_at' => null
+            'left_at' => null,
         ]);
 
         $this->seatRepository->setReservationLeft($this->reservation, $this->lan->id);
 
         $this->seeInDatabase('reservation', [
-            'lan_id' => $this->reservation->lan_id,
+            'lan_id'  => $this->reservation->lan_id,
             'user_id' => $this->reservation->user_id,
             'seat_id' => $this->reservation->seat_id,
-            'left_at' => $this->reservation->left_at
+            'left_at' => $this->reservation->left_at,
         ]);
     }
 }

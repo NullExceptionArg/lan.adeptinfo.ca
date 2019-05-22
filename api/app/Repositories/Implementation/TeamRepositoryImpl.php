@@ -2,9 +2,13 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{Request, Tag, TagTeam, Team};
+use App\Model\Request;
+use App\Model\Tag;
+use App\Model\TagTeam;
+use App\Model\Team;
 use App\Repositories\TeamRepository;
-use Illuminate\{Support\Collection, Support\Facades\DB};
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TeamRepositoryImpl implements TeamRepository
 {
@@ -13,7 +17,7 @@ class TeamRepositoryImpl implements TeamRepository
         return DB::table('request')
             ->insertGetId([
                 'team_id' => $teamId,
-                'tag_id' => $userTagId
+                'tag_id'  => $userTagId,
             ]);
     }
 
@@ -21,13 +25,12 @@ class TeamRepositoryImpl implements TeamRepository
         int $tournamentId,
         string $name,
         string $tag
-    ): int
-    {
+    ): int {
         return DB::table('team')
             ->insertGetId([
                 'tournament_id' => $tournamentId,
-                'name' => $name,
-                'tag' => $tag
+                'name'          => $name,
+                'tag'           => $tag,
             ]);
     }
 
@@ -147,6 +150,7 @@ class TeamRepositoryImpl implements TeamRepository
             ->where('team.id', $teamId)
             ->select('tournament.lan_id')
             ->first();
+
         return !is_null($lanId) ? $lanId->lan_id : null;
     }
 
@@ -209,9 +213,9 @@ class TeamRepositoryImpl implements TeamRepository
     {
         DB::table('tag_team')
             ->insert([
-                'tag_id' => $tagId,
-                'team_id' => $teamId,
-                'is_leader' => $isLeader
+                'tag_id'    => $tagId,
+                'team_id'   => $teamId,
+                'is_leader' => $isLeader,
             ]);
     }
 
@@ -235,14 +239,14 @@ class TeamRepositoryImpl implements TeamRepository
         // Mettre à jour l'équipe pour qu'elle n'ait plus de leader
         TagTeam::where('team_id', $teamId)
             ->update([
-                'is_leader' => false
+                'is_leader' => false,
             ]);
 
         // Mettre à jour l'équipe pour que le chef soit celui spécifié
         TagTeam::where('team_id', $teamId)
             ->where('tag_id', $tagId)
             ->update([
-                'is_leader' => true
+                'is_leader' => true,
             ]);
     }
 

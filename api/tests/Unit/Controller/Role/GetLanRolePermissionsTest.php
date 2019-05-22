@@ -23,7 +23,7 @@ class GetLanRolePermissionsTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->lanRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
 
         $this->permissions = Permission::inRandomOrder()
@@ -34,8 +34,8 @@ class GetLanRolePermissionsTest extends TestCase
 
         foreach ($this->permissions as $permission) {
             factory('App\Model\PermissionLanRole')->create([
-                'role_id' => $this->lanRole->id,
-                'permission_id' => $permission->id
+                'role_id'       => $this->lanRole->id,
+                'permission_id' => $permission->id,
             ]);
         }
 
@@ -49,31 +49,31 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissions(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
-                'role_id' => $this->lanRole->id
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/permissions', [
+                'role_id' => $this->lanRole->id,
             ])
             ->seeJsonEquals([
                 [
-                    'id' => $this->permissions[0]['id'],
-                    'name' => $this->permissions[0]['name'],
-                    'can_be_per_lan' => (boolean)$this->permissions[0]['can_be_per_lan'],
-                    'display_name' => trans('permission.display-name-' . $this->permissions[0]->name),
-                    'description' => trans('permission.description-' . $this->permissions[0]->name)
+                    'id'             => $this->permissions[0]['id'],
+                    'name'           => $this->permissions[0]['name'],
+                    'can_be_per_lan' => (bool) $this->permissions[0]['can_be_per_lan'],
+                    'display_name'   => trans('permission.display-name-'.$this->permissions[0]->name),
+                    'description'    => trans('permission.description-'.$this->permissions[0]->name),
                 ],
                 [
-                    'id' => $this->permissions[1]['id'],
-                    'name' => $this->permissions[1]['name'],
-                    'can_be_per_lan' => (boolean)$this->permissions[1]['can_be_per_lan'],
-                    'display_name' => trans('permission.display-name-' . $this->permissions[1]->name),
-                    'description' => trans('permission.description-' . $this->permissions[1]->name)
+                    'id'             => $this->permissions[1]['id'],
+                    'name'           => $this->permissions[1]['name'],
+                    'can_be_per_lan' => (bool) $this->permissions[1]['can_be_per_lan'],
+                    'display_name'   => trans('permission.display-name-'.$this->permissions[1]->name),
+                    'description'    => trans('permission.description-'.$this->permissions[1]->name),
                 ],
                 [
-                    'id' => $this->permissions[2]['id'],
-                    'name' => $this->permissions[2]['name'],
-                    'can_be_per_lan' => (boolean)$this->permissions[2]['can_be_per_lan'],
-                    'display_name' => trans('permission.display-name-' . $this->permissions[2]->name),
-                    'description' => trans('permission.description-' . $this->permissions[2]->name)
-                ]
+                    'id'             => $this->permissions[2]['id'],
+                    'name'           => $this->permissions[2]['name'],
+                    'can_be_per_lan' => (bool) $this->permissions[2]['can_be_per_lan'],
+                    'display_name'   => trans('permission.display-name-'.$this->permissions[2]->name),
+                    'description'    => trans('permission.description-'.$this->permissions[2]->name),
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -82,13 +82,13 @@ class GetLanRolePermissionsTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
-                'role_id' => $this->lanRole->id
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/permissions', [
+                'role_id' => $this->lanRole->id,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -96,17 +96,17 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissionsRoleIdRequired(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
-                'role_id' => null
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/permissions', [
+                'role_id' => null,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -114,17 +114,17 @@ class GetLanRolePermissionsTest extends TestCase
     public function testGetLanRolePermissionsRoleIdExist(): void
     {
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/role/lan/permissions', [
-                'role_id' => '☭'
+            ->json('GET', 'http://'.env('API_DOMAIN').'/role/lan/permissions', [
+                'role_id' => '☭',
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'role_id' => [
                         0 => 'The role id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

@@ -4,13 +4,13 @@ use App\Model\User;
 
 return [
     'defaults' => [
-        'guard' => 'api',
+        'guard'     => 'api',
         'passwords' => 'user',
     ],
 
     'guards' => [
         'api' => [
-            'driver' => 'passport',
+            'driver'   => 'passport',
             'provider' => 'user',
         ],
     ],
@@ -18,7 +18,7 @@ return [
     'providers' => [
         'user' => [
             'driver' => 'eloquent',
-            'model' => User::class
-        ]
-    ]
+            'model'  => User::class,
+        ],
+    ],
 ];

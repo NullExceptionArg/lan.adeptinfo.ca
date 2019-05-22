@@ -38,8 +38,8 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsReservedAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id
+            'lan_id'  => $this->lan->id,
+            'user_id' => $this->user->id,
         ]);
         $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
         $placeHistory = $result['place_history']->jsonSerialize();
@@ -58,9 +58,9 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsArrivedAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id,
-            'arrived_at' => Carbon::now()
+            'lan_id'     => $this->lan->id,
+            'user_id'    => $this->user->id,
+            'arrived_at' => Carbon::now(),
         ]);
 
         $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
@@ -80,10 +80,10 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsLeftAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id,
+            'lan_id'     => $this->lan->id,
+            'user_id'    => $this->user->id,
             'arrived_at' => Carbon::now(),
-            'left_at' => Carbon::now()
+            'left_at'    => Carbon::now(),
         ]);
 
         $result = $this->userService->getUserDetails($this->lan->id, $this->user->email)->jsonSerialize();
@@ -103,10 +103,10 @@ class GetUserDetailsTest extends SeatsTestCase
     public function testGetUserDetailsCanceledAt(): void
     {
         $reservation = factory('App\Model\Reservation')->create([
-            'lan_id' => $this->lan->id,
-            'user_id' => $this->user->id,
+            'lan_id'     => $this->lan->id,
+            'user_id'    => $this->user->id,
             'arrived_at' => Carbon::now(),
-            'left_at' => Carbon::now(),
+            'left_at'    => Carbon::now(),
         ]);
         $reservation->delete();
 

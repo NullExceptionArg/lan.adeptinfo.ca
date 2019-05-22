@@ -2,9 +2,14 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\{Lan\GetAllResource, Lan\GetResource, Lan\ImageResource, Lan\UpdateResource};
+use App\Http\Resources\Lan\GetAllResource;
+use App\Http\Resources\Lan\GetResource;
+use App\Http\Resources\Lan\ImageResource;
+use App\Http\Resources\Lan\UpdateResource;
 use App\Model\Lan;
-use App\Repositories\Implementation\{LanRepositoryImpl, RoleRepositoryImpl, SeatRepositoryImpl};
+use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
+use App\Repositories\Implementation\SeatRepositoryImpl;
 use App\Services\LanService;
 use DateTime;
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -17,7 +22,8 @@ class LanServiceImpl implements LanService
 
     /**
      * LanServiceImpl constructor.
-     * @param LanRepositoryImpl $lanRepository
+     *
+     * @param LanRepositoryImpl  $lanRepository
      * @param RoleRepositoryImpl $roleRepository
      * @param SeatRepositoryImpl $seatRepository
      */
@@ -25,8 +31,7 @@ class LanServiceImpl implements LanService
         LanRepositoryImpl $lanRepository,
         RoleRepositoryImpl $roleRepository,
         SeatRepositoryImpl $seatRepository
-    )
-    {
+    ) {
         $this->lanRepository = $lanRepository;
         $this->roleRepository = $roleRepository;
         $this->seatRepository = $seatRepository;
@@ -54,14 +59,12 @@ class LanServiceImpl implements LanService
         ?int $price,
         ?string $rules,
         ?string $description
-    ): Lan
-    {
+    ): Lan {
         // Vérifier s'il existe un LAN courant
         $hasNoCurrentLan = is_null(Lan::getCurrent());
 
         // Créer le LAN
-        $lanId = $this->lanRepository->create
-        (
+        $lanId = $this->lanRepository->create(
             $name,
             $lanStart,
             $lanEnd,
@@ -142,8 +145,7 @@ class LanServiceImpl implements LanService
         ?int $price,
         ?string $rules,
         ?string $description
-    ): UpdateResource
-    {
+    ): UpdateResource {
         // Mettre à jour les détails du LAN
         $this->lanRepository->update(
             $lanId,
@@ -169,7 +171,6 @@ class LanServiceImpl implements LanService
 
         // Trouver le LAN
         $lan = $this->lanRepository->findById($lanId);
-
 
         // Retourner les détails du LAN mis à jour
         return new UpdateResource($lan, $placeCount, $images);

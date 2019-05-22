@@ -23,7 +23,7 @@ class AssignLanRoleTest extends TestCase
         $this->lan = factory('App\Model\Lan')->create();
         $this->user = factory('App\Model\User')->create();
         $this->role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

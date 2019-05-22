@@ -4,7 +4,8 @@ namespace App\Model;
 
 use Carbon\Carbon;
 use DateTime;
-use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Tournoi de jeu organisé dans un LAN.
@@ -48,7 +49,7 @@ class Tournament extends Model
      * @var array
      */
     protected $casts = [
-        'lan_id' => 'integer', 'players_to_reach' => 'integer', 'teams_to_reach' => 'integer', 'price' => 'integer'
+        'lan_id' => 'integer', 'players_to_reach' => 'integer', 'teams_to_reach' => 'integer', 'price' => 'integer',
     ];
 
     /**
@@ -62,17 +63,17 @@ class Tournament extends Model
         $now = Carbon::now();
         if ($state == 'hidden') {
             return TournamentState::HIDDEN;
-        } else if ($state == 'finished') {
+        } elseif ($state == 'finished') {
             return TournamentState::FINISHED;
-        } else if ($state == 'visible' && $now < $this->tournament_start) {
+        } elseif ($state == 'visible' && $now < $this->tournament_start) {
             return TournamentState::FOURTHCOMING;
-        } else if ($state == 'visible' && $now >= $this->tournament_start) {
+        } elseif ($state == 'visible' && $now >= $this->tournament_start) {
             return TournamentState::LATE;
-        } else if ($state == 'started' && $now < $this->tournament_start) {
+        } elseif ($state == 'started' && $now < $this->tournament_start) {
             return TournamentState::OUTGUESSED;
-        } else if ($state == 'started' && $now >= $this->tournament_start && $now <= $this->tournament_end) {
+        } elseif ($state == 'started' && $now >= $this->tournament_start && $now <= $this->tournament_end) {
             return TournamentState::RUNNING;
-        } else if ($state == 'started' && $now > $this->tournament_end) {
+        } elseif ($state == 'started' && $now > $this->tournament_end) {
             return TournamentState::BEHINDHAND;
         } else {
             return TournamentState::UNKNOWN;

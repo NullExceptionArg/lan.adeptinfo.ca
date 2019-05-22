@@ -29,17 +29,17 @@ class GetAdminPermissionsTest extends TestCase
             ->take(5)
             ->get();
         $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         foreach ($permissions as $permission) {
             factory('App\Model\PermissionLanRole')->create([
                 'permission_id' => $permission->id,
-                'role_id' => $role->id
+                'role_id'       => $role->id,
             ]);
         }
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $role->id
+            'role_id' => $role->id,
         ]);
         $permissionsResult = $this->roleRepository->getAdminPermissions($lan->id, $this->user->id);
 

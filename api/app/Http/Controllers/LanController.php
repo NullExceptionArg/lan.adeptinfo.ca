@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\{Image\HasPermissionInLan as HasPermissionInLanImages,
-    Lan\LowerReservedPlace,
-    Lan\ManyImageIdsExist,
-    Seat\ValidEventKey,
-    User\HasPermission,
-    User\HasPermissionInLan};
+use App\Rules\Image\HasPermissionInLan as HasPermissionInLanImages;
+use App\Rules\Lan\LowerReservedPlace;
+use App\Rules\Lan\ManyImageIdsExist;
+use App\Rules\Seat\ValidEventKey;
+use App\Rules\User\HasPermission;
+use App\Rules\User\HasPermissionInLan;
 use App\Services\Implementation\LanServiceImpl;
 use Carbon\Carbon;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Validation et application de la logique applicative sur les LANs.
  *
  * Class LanController
- * @package App\Http\Controllers
  */
 class LanController extends Controller
 {
@@ -29,6 +30,7 @@ class LanController extends Controller
 
     /**
      * LanController constructor.
+     *
      * @param LanServiceImpl $lanServiceImpl
      */
     public function __construct(LanServiceImpl $lanServiceImpl)
@@ -38,20 +40,22 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-une-image
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function addLanImage(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'image' => $request->input('image'),
-            'permission' => 'add-image'
+            'lan_id'     => $request->input('lan_id'),
+            'image'      => $request->input('image'),
+            'permission' => 'add-image',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'image' => 'required|string',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'lan_id'     => 'integer|exists:lan,id,deleted_at,NULL',
+            'image'      => 'required|string',
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -64,39 +68,41 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-lan
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {
         $validator = Validator::make([
-            'name' => $request->input('name'),
-            'lan_start' => $request->input('lan_start'),
-            'lan_end' => $request->input('lan_end'),
-            'seat_reservation_start' => $request->input('seat_reservation_start'),
+            'name'                         => $request->input('name'),
+            'lan_start'                    => $request->input('lan_start'),
+            'lan_end'                      => $request->input('lan_end'),
+            'seat_reservation_start'       => $request->input('seat_reservation_start'),
             'tournament_reservation_start' => $request->input('tournament_reservation_start'),
-            'event_key' => $request->input('event_key'),
-            'latitude' => $request->input('latitude'),
-            'longitude' => $request->input('longitude'),
-            'places' => $request->input('places'),
-            'price' => $request->input('price'),
-            'rules' => $request->input('rules'),
-            'description' => $request->input('description'),
-            'permission' => 'create-lan',
+            'event_key'                    => $request->input('event_key'),
+            'latitude'                     => $request->input('latitude'),
+            'longitude'                    => $request->input('longitude'),
+            'places'                       => $request->input('places'),
+            'price'                        => $request->input('price'),
+            'rules'                        => $request->input('rules'),
+            'description'                  => $request->input('description'),
+            'permission'                   => 'create-lan',
         ], [
-            'name' => 'required|string|max:255',
-            'lan_start' => 'required|after:seat_reservation_start|after:tournament_reservation_start',
-            'lan_end' => 'required|after:lan_start',
-            'seat_reservation_start' => 'required|before_or_equal:lan_start',
+            'name'                         => 'required|string|max:255',
+            'lan_start'                    => 'required|after:seat_reservation_start|after:tournament_reservation_start',
+            'lan_end'                      => 'required|after:lan_start',
+            'seat_reservation_start'       => 'required|before_or_equal:lan_start',
             'tournament_reservation_start' => 'required|before_or_equal:lan_start',
-            'event_key' => ['required', 'string', 'max:255', new ValidEventKey],
-            'latitude' => 'required|numeric|min:-85|max:85',
-            'longitude' => 'required|numeric|min:-180|max:180',
-            'places' => 'required|integer|min:1',
-            'price' => 'integer|min:0',
-            'rules' => 'nullable|string',
-            'description' => 'nullable|string',
-            'permission' => new HasPermission(Auth::id())
+            'event_key'                    => ['required', 'string', 'max:255', new ValidEventKey()],
+            'latitude'                     => 'required|numeric|min:-85|max:85',
+            'longitude'                    => 'required|numeric|min:-180|max:180',
+            'places'                       => 'required|integer|min:1',
+            'price'                        => 'integer|min:0',
+            'rules'                        => 'nullable|string',
+            'description'                  => 'nullable|string',
+            'permission'                   => new HasPermission(Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -119,18 +125,20 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-des-images
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteLanImages(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'image_ids' => $request->input('image_ids'),
-            'permission' => 'delete-image'
+            'image_ids'  => $request->input('image_ids'),
+            'permission' => 'delete-image',
         ], [
-            'image_ids' => ['required', 'string', new ManyImageIdsExist],
-            'permission' => new HasPermissionInLanImages($request->input('image_ids'), Auth::id())
+            'image_ids'  => ['required', 'string', new ManyImageIdsExist()],
+            'permission' => new HasPermissionInLanImages($request->input('image_ids'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -142,6 +150,7 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-lans
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getAll()
@@ -151,7 +160,9 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-lan
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function get(Request $request)
@@ -160,7 +171,7 @@ class LanController extends Controller
         $validator = Validator::make([
             'lan_id' => $request->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         $this->checkValidation($validator);
@@ -174,17 +185,19 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#changer-de-lan-courant
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function setCurrent(Request $request)
     {
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'permission' => 'set-current-lan'
+            'lan_id'     => $request->input('lan_id'),
+            'permission' => 'set-current-lan',
         ], [
-            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
-            'permission' => new HasPermission(Auth::id())
+            'lan_id'     => 'required|integer|exists:lan,id,deleted_at,NULL',
+            'permission' => new HasPermission(Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -196,47 +209,49 @@ class LanController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#mettre-a-jour-un-lan
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'name' => $request->input('name'),
-            'lan_start' => $request->input('lan_start'),
-            'lan_end' => $request->input('lan_end'),
-            'seat_reservation_start' => $request->input('seat_reservation_start'),
+            'lan_id'                       => $request->input('lan_id'),
+            'name'                         => $request->input('name'),
+            'lan_start'                    => $request->input('lan_start'),
+            'lan_end'                      => $request->input('lan_end'),
+            'seat_reservation_start'       => $request->input('seat_reservation_start'),
             'tournament_reservation_start' => $request->input('tournament_reservation_start'),
-            'event_key' => $request->input('event_key'),
-            'latitude' => $request->input('latitude'),
-            'longitude' => $request->input('longitude'),
-            'places' => $request->input('places'),
-            'price' => $request->input('price'),
-            'rules' => $request->input('rules'),
-            'description' => $request->input('description'),
-            'permission' => 'edit-lan',
+            'event_key'                    => $request->input('event_key'),
+            'latitude'                     => $request->input('latitude'),
+            'longitude'                    => $request->input('longitude'),
+            'places'                       => $request->input('places'),
+            'price'                        => $request->input('price'),
+            'rules'                        => $request->input('rules'),
+            'description'                  => $request->input('description'),
+            'permission'                   => 'edit-lan',
         ], [
-            'lan_id' => 'nullable|integer|exists:lan,id,deleted_at,NULL',
-            'name' => 'nullable|string|max:255',
-            'lan_start' => 'nullable|after:seat_reservation_start|after:tournament_reservation_start',
-            'lan_end' => 'nullable|after:lan_start',
-            'seat_reservation_start' => 'nullable|before_or_equal:lan_start',
+            'lan_id'                       => 'nullable|integer|exists:lan,id,deleted_at,NULL',
+            'name'                         => 'nullable|string|max:255',
+            'lan_start'                    => 'nullable|after:seat_reservation_start|after:tournament_reservation_start',
+            'lan_end'                      => 'nullable|after:lan_start',
+            'seat_reservation_start'       => 'nullable|before_or_equal:lan_start',
             'tournament_reservation_start' => 'nullable|before_or_equal:lan_start',
-            'event_key' => [
+            'event_key'                    => [
                 'nullable',
                 'string',
                 'max:255',
-                new ValidEventKey
+                new ValidEventKey(),
             ],
-            'latitude' => 'nullable|numeric|min:-85|max:85',
-            'longitude' => 'nullable|numeric|min:-180|max:180',
-            'places' => ['nullable', 'integer', 'min:1', new LowerReservedPlace($request->input('lan_id'))],
-            'price' => 'nullable|integer|min:0',
-            'rules' => 'nullable|string',
+            'latitude'    => 'nullable|numeric|min:-85|max:85',
+            'longitude'   => 'nullable|numeric|min:-180|max:180',
+            'places'      => ['nullable', 'integer', 'min:1', new LowerReservedPlace($request->input('lan_id'))],
+            'price'       => 'nullable|integer|min:0',
+            'rules'       => 'nullable|string',
             'description' => 'nullable|string',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission'  => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);

@@ -10,7 +10,7 @@ class ConfirmTest extends TestCase
     use DatabaseMigrations;
 
     protected $requestContent = [
-        'confirmation_code' => '123456789'
+        'confirmation_code' => '123456789',
     ];
 
     protected $user;
@@ -19,28 +19,28 @@ class ConfirmTest extends TestCase
     {
         parent::setUp();
         $this->user = factory('App\Model\User')->create([
-            'confirmation_code' => $this->requestContent['confirmation_code']
+            'confirmation_code' => $this->requestContent['confirmation_code'],
         ]);
     }
 
     public function testConfirm(): void
     {
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/user/confirm/' . $this->requestContent['confirmation_code'])
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/user/confirm/'.$this->requestContent['confirmation_code'])
             ->assertResponseStatus(200);
     }
 
     public function testConfirmConfirmationCodeExist(): void
     {
         $this->requestContent['confirmation_code'] = -1;
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/user/confirm/' . $this->requestContent['confirmation_code'])
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/user/confirm/'.$this->requestContent['confirmation_code'])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'confirmation_code' => [
                         0 => 'The selected confirmation code is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

@@ -21,7 +21,7 @@ class FindTagByIdTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
     }
 

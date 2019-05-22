@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__)
@@ -18,7 +18,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 */
 
 $app = new Laravel\Lumen\Application(
-    realpath(__DIR__ . '/../')
+    realpath(__DIR__.'/../')
 );
 
 $app->singleton(
@@ -75,13 +75,13 @@ $app->singleton(
 */
 
 $app->middleware([
-    'cors' => \Barryvdh\Cors\HandleCors::class
+    'cors' => \Barryvdh\Cors\HandleCors::class,
 ]);
 
 $app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
+    'auth'     => App\Http\Middleware\Authenticate::class,
     'language' => App\Http\Middleware\Language::class,
-    'login' => App\Http\Middleware\Login::class
+    'login'    => App\Http\Middleware\Login::class,
 ]);
 
 /*
@@ -123,9 +123,8 @@ $app->register(Illuminate\Mail\MailServiceProvider::class);
 */
 $app['translator']->setLocale(env('APP_LOCALE', 'en'));
 
-
 $app->router->group([], function () {
-    require __DIR__ . '/../routes/api.php';
+    require __DIR__.'/../routes/api.php';
 });
 
 return $app;

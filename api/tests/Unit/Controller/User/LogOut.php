@@ -7,23 +7,22 @@ use Tests\TestCase;
 
 class LogOut extends TestCase
 {
-
     use DatabaseMigrations;
 
     protected $requestContent = [
         'first_name' => 'John',
-        'last_name' => 'Doe',
-        'email' => 'john@doe.com',
-        'password' => 'Passw0rd!'
+        'last_name'  => 'Doe',
+        'email'      => 'john@doe.com',
+        'password'   => 'Passw0rd!',
     ];
 
     public function testLogOut(): void
     {
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->requestContent['first_name'],
-                'last_name' => $this->requestContent['last_name'],
-                'email' => $this->requestContent['email']
+                'last_name'  => $this->requestContent['last_name'],
+                'email'      => $this->requestContent['email'],
             ])
             ->assertResponseStatus(201);
     }
@@ -31,15 +30,15 @@ class LogOut extends TestCase
     public function testLogOutEmailRequired(): void
     {
         $this->requestContent['email'] = '';
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The email field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

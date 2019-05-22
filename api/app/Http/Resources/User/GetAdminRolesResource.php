@@ -3,7 +3,8 @@
 namespace App\Http\Resources\User;
 
 use App\Http\Resources\Role\GetRoleResource;
-use Illuminate\{Http\Resources\Json\Resource, Support\Collection};
+use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Support\Collection;
 
 class GetAdminRolesResource extends Resource
 {
@@ -18,14 +19,15 @@ class GetAdminRolesResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         return [
             'global_roles' => GetRoleResource::collection($this),
-            'lan_roles' => GetRoleResource::collection($this->lanRoles),
+            'lan_roles'    => GetRoleResource::collection($this->lanRoles),
         ];
     }
 }

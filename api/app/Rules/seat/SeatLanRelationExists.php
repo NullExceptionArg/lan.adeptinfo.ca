@@ -2,14 +2,14 @@
 
 namespace App\Rules\Seat;
 
-use App\Model\{Lan, Reservation};
+use App\Model\Lan;
+use App\Model\Reservation;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Une réservation entre un siège et un LAN.
  *
  * Class SeatLanRelationExists
- * @package App\Rules\Seat
  */
 class SeatLanRelationExists implements Rule
 {
@@ -18,6 +18,7 @@ class SeatLanRelationExists implements Rule
 
     /**
      * SeatLanRelationExists constructor.
+     *
      * @param string|null $lanId Id du LAN
      */
     public function __construct($lanId)
@@ -28,8 +29,9 @@ class SeatLanRelationExists implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  string $seatId
+     * @param string $attribute
+     * @param string $seatId
+     *
      * @return bool
      */
     public function passes($attribute, $seatId): bool

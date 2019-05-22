@@ -2,5 +2,5 @@
 
 return [
     '404' => 'Resource not found.',
-    '405' => 'Method not allowed'
+    '405' => 'Method not allowed',
 ];

@@ -22,7 +22,7 @@ class CreateContributionUserIdTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $lan = factory('App\Model\Lan')->create();
         $this->contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
     }
 
@@ -35,9 +35,9 @@ class CreateContributionUserIdTest extends TestCase
 
         $this->assertIsInt($result);
         $this->seeInDatabase('contribution', [
-            'id' => 1,
+            'id'             => 1,
             'user_full_name' => null,
-            'user_id' => $this->user->id
+            'user_id'        => $this->user->id,
         ]);
     }
 }

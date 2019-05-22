@@ -2,13 +2,14 @@
 
 namespace App\Rules\User;
 
-use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Un utilisateur possède une permission dans un rôle global.
  *
  * Class HasPermission
- * @package App\Rules\User
  */
 class HasPermission implements Rule
 {
@@ -16,6 +17,7 @@ class HasPermission implements Rule
 
     /**
      * HasPermission constructor.
+     *
      * @param string $userId Id de l'utilisateur
      */
     public function __construct($userId)
@@ -26,10 +28,12 @@ class HasPermission implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $permission Nom de la permission
-     * @return bool
+     * @param string $attribute
+     * @param mixed  $permission Nom de la permission
+     *
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function passes($attribute, $permission): bool
     {

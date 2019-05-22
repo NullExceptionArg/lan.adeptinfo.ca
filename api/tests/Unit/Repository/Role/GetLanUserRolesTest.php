@@ -23,17 +23,17 @@ class GetLanUserRolesTest extends TestCase
         $users = factory('App\Model\User', 4)->create();
         $lan = factory('App\Model\Lan')->create();
         $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         $permission = Permission::first();
         factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role,
-            'permission_id' => $permission->id
+            'role_id'       => $role,
+            'permission_id' => $permission->id,
         ]);
         foreach ($users as $user) {
             factory('App\Model\LanRoleUser')->create([
                 'role_id' => $role,
-                'user_id' => $user->id
+                'user_id' => $user->id,
             ]);
         }
 

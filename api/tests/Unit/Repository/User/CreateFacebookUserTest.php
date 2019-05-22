@@ -13,9 +13,9 @@ class CreateFacebookUserTest extends TestCase
 
     protected $params = [
         'facebook_id' => '☭',
-        'first_name' => 'karl',
-        'last_name' => 'marx',
-        'email' => 'karl.marx@unite.org',
+        'first_name'  => 'karl',
+        'last_name'   => 'marx',
+        'email'       => 'karl.marx@unite.org',
     ];
 
     public function setUp(): void
@@ -28,9 +28,9 @@ class CreateFacebookUserTest extends TestCase
     {
         $this->notSeeInDatabase('user', [
             'facebook_id' => $this->params['facebook_id'],
-            'first_name' => $this->params['first_name'],
-            'last_name' => $this->params['last_name'],
-            'email' => $this->params['email']
+            'first_name'  => $this->params['first_name'],
+            'last_name'   => $this->params['last_name'],
+            'email'       => $this->params['email'],
         ]);
 
         $this->userRepository->createFacebookUser(
@@ -42,9 +42,9 @@ class CreateFacebookUserTest extends TestCase
 
         $this->seeInDatabase('user', [
             'facebook_id' => $this->params['facebook_id'],
-            'first_name' => $this->params['first_name'],
-            'last_name' => $this->params['last_name'],
-            'email' => $this->params['email']
+            'first_name'  => $this->params['first_name'],
+            'last_name'   => $this->params['last_name'],
+            'email'       => $this->params['email'],
         ]);
     }
 }

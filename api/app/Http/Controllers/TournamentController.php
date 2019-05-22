@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\{Role\HasPermissionInLanOrIsTournamentAdmin,
-    Tournament\AfterOrEqualLanStartTime,
-    Tournament\BeforeOrEqualLanEndTime,
-    Tournament\PlayersToReachLock,
-    Tournament\UserIsTournamentAdmin,
-    User\EmailNotCurrentUser,
-    User\HasPermissionInLan};
+use App\Rules\Role\HasPermissionInLanOrIsTournamentAdmin;
+use App\Rules\Tournament\AfterOrEqualLanStartTime;
+use App\Rules\Tournament\BeforeOrEqualLanEndTime;
+use App\Rules\Tournament\PlayersToReachLock;
+use App\Rules\Tournament\UserIsTournamentAdmin;
+use App\Rules\User\EmailNotCurrentUser;
+use App\Rules\User\HasPermissionInLan;
 use App\Services\Implementation\TournamentServiceImpl;
 use Carbon\Carbon;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 /**
  * Validation et application de la logique applicative sur les tournois.
  *
  * Class TournamentController
- * @package App\Http\Controllers
  */
 class TournamentController extends Controller
 {
@@ -30,6 +32,7 @@ class TournamentController extends Controller
 
     /**
      * TournamentController constructor.
+     *
      * @param TournamentServiceImpl $tournamentService
      */
     public function __construct(TournamentServiceImpl $tournamentService)
@@ -39,20 +42,22 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#ajouter-un-organisateur-a-un-tournoi
+     *
      * @param Request $request
-     * @param string $tournamentId
+     * @param string  $tournamentId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function addOrganizer(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => (int)$tournamentId,
-            'email' => $request->input('email'),
-            'permission' => 'add-organizer'
+            'tournament_id' => (int) $tournamentId,
+            'email'         => $request->input('email'),
+            'permission'    => 'add-organizer',
         ], [
             'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
-            'email' => ['string', 'exists:user', new EmailNotCurrentUser(Auth::user()->email)],
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
+            'email'         => ['string', 'exists:user', new EmailNotCurrentUser(Auth::user()->email)],
+            'permission'    => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int) $tournamentId),
         ]);
 
         $this->checkValidation($validator);
@@ -65,32 +70,34 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-tournoi
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function create(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'name' => $request->input('name'),
-            'price' => $request->input('price'),
+            'lan_id'           => $request->input('lan_id'),
+            'name'             => $request->input('name'),
+            'price'            => $request->input('price'),
             'tournament_start' => $request->input('tournament_start'),
-            'tournament_end' => $request->input('tournament_end'),
+            'tournament_end'   => $request->input('tournament_end'),
             'players_to_reach' => $request->input('players_to_reach'),
-            'teams_to_reach' => $request->input('teams_to_reach'),
-            'rules' => $request->input('rules'),
-            'permission' => 'create-tournament'
+            'teams_to_reach'   => $request->input('teams_to_reach'),
+            'rules'            => $request->input('rules'),
+            'permission'       => 'create-tournament',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'name' => 'required|string|max:255',
-            'price' => 'integer|min:0',
+            'lan_id'           => 'integer|exists:lan,id,deleted_at,NULL',
+            'name'             => 'required|string|max:255',
+            'price'            => 'integer|min:0',
             'tournament_start' => ['required', new AfterOrEqualLanStartTime($request->input('lan_id'))],
-            'tournament_end' => ['required', 'after:tournament_start', new BeforeOrEqualLanEndTime($request->input('lan_id'))],
+            'tournament_end'   => ['required', 'after:tournament_start', new BeforeOrEqualLanEndTime($request->input('lan_id'))],
             'players_to_reach' => 'required|min:1|integer',
-            'teams_to_reach' => 'required|min:1|integer',
-            'rules' => 'required|string',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'teams_to_reach'   => 'required|min:1|integer',
+            'rules'            => 'required|string',
+            'permission'       => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -110,18 +117,20 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-un-tournoi
+     *
      * @param Request $request
-     * @param string $tournamentId
+     * @param string  $tournamentId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function delete(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => (int)$tournamentId,
-            'permission' => 'delete-tournament'
+            'tournament_id' => (int) $tournamentId,
+            'permission'    => 'delete-tournament',
         ], [
             'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
+            'permission'    => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int) $tournamentId),
         ]);
 
         $this->checkValidation($validator);
@@ -131,16 +140,18 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#tournois-d-39-un-organisateur
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getAllForOrganizer(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id')
+            'lan_id' => $request->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         $this->checkValidation($validator);
@@ -153,16 +164,18 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#obtenir-tous-les-tournois
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getAll(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id')
+            'lan_id' => $request->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         $this->checkValidation($validator);
@@ -172,16 +185,18 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-tournoi
+     *
      * @param Request $request
-     * @param string $tournamentId
+     * @param string  $tournamentId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function get(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => (int)$tournamentId
+            'tournament_id' => (int) $tournamentId,
         ], [
-            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL'
+            'tournament_id' => 'integer|exists:tournament,id,deleted_at,NULL',
         ]);
 
         $this->checkValidation($validator);
@@ -191,19 +206,21 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#quitter-l-39-organisation-d-39-un-tournoi
+     *
      * @param Request $request
-     * @param string $tournamentId
+     * @param string  $tournamentId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function quit(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => (int)$tournamentId
+            'tournament_id' => (int) $tournamentId,
         ], [
             'tournament_id' => [
                 'integer',
                 'exists:tournament,id,deleted_at,NULL',
-                new UserIsTournamentAdmin(Auth::id())
+                new UserIsTournamentAdmin(Auth::id()),
             ],
         ]);
 
@@ -214,20 +231,22 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#retirer-un-organisateur-d-39-un-tournoi
+     *
      * @param Request $request
-     * @param string $tournamentId
+     * @param string  $tournamentId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function removeOrganizer(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => (int)$tournamentId,
-            'email' => $request->input('email'),
-            'permission' => 'remove-organizer'
+            'tournament_id' => (int) $tournamentId,
+            'email'         => $request->input('email'),
+            'permission'    => 'remove-organizer',
         ], [
             'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL'],
-            'email' => ['string', 'exists:user', new EmailNotCurrentUser(Auth::user()->email)],
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
+            'email'         => ['string', 'exists:user', new EmailNotCurrentUser(Auth::user()->email)],
+            'permission'    => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int) $tournamentId),
         ]);
 
         $this->checkValidation($validator);
@@ -240,34 +259,36 @@ class TournamentController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#modifier-un-tournoi
+     *
      * @param Request $request
-     * @param string $tournamentId
+     * @param string  $tournamentId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, string $tournamentId)
     {
         $validator = Validator::make([
-            'tournament_id' => (int)$tournamentId,
-            'name' => $request->input('name'),
-            'state' => $request->input('state'),
-            'price' => $request->input('price'),
+            'tournament_id'    => (int) $tournamentId,
+            'name'             => $request->input('name'),
+            'state'            => $request->input('state'),
+            'price'            => $request->input('price'),
             'tournament_start' => $request->input('tournament_start'),
-            'tournament_end' => $request->input('tournament_end'),
+            'tournament_end'   => $request->input('tournament_end'),
             'players_to_reach' => $request->input('players_to_reach'),
-            'teams_to_reach' => $request->input('teams_to_reach'),
-            'rules' => $request->input('rules'),
-            'permission' => 'edit-tournament'
+            'teams_to_reach'   => $request->input('teams_to_reach'),
+            'rules'            => $request->input('rules'),
+            'permission'       => 'edit-tournament',
         ], [
-            'tournament_id' => ['integer', 'exists:tournament,id,deleted_at,NULL', new PlayersToReachLock],
-            'name' => 'string|max:255',
-            'state' => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
-            'price' => 'integer|min:0',
+            'tournament_id'    => ['integer', 'exists:tournament,id,deleted_at,NULL', new PlayersToReachLock()],
+            'name'             => 'string|max:255',
+            'state'            => ['nullable', Rule::in(['hidden', 'visible', 'started', 'finished'])],
+            'price'            => 'integer|min:0',
             'tournament_start' => [new AfterOrEqualLanStartTime($request->input('lan_id'))],
-            'tournament_end' => ['after:tournament_start', new BeforeOrEqualLanEndTime($request->input('lan_id'))],
+            'tournament_end'   => ['after:tournament_start', new BeforeOrEqualLanEndTime($request->input('lan_id'))],
             'players_to_reach' => ['min:1', 'integer'],
-            'teams_to_reach' => 'min:1|integer',
-            'rules' => 'string',
-            'permission' => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int)$tournamentId)
+            'teams_to_reach'   => 'min:1|integer',
+            'rules'            => 'string',
+            'permission'       => new HasPermissionInLanOrIsTournamentAdmin(Auth::id(), (int) $tournamentId),
         ]);
 
         $this->checkValidation($validator);

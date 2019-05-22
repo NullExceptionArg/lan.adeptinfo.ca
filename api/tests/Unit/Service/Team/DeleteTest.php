@@ -27,30 +27,30 @@ class DeleteTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
         $this->organizer = factory('App\Model\User')->create();
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->organizer->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $this->organizer->id,
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $permission = Permission::where('name', 'delete-team')->first();
         factory('App\Model\PermissionLanRole')->create([
-            'role_id' => $role->id,
-            'permission_id' => $permission->id
+            'role_id'       => $role->id,
+            'permission_id' => $permission->id,
         ]);
         factory('App\Model\LanRoleUser')->create([
             'role_id' => $role->id,
-            'user_id' => $this->organizer->id
+            'user_id' => $this->organizer->id,
         ]);
     }
 

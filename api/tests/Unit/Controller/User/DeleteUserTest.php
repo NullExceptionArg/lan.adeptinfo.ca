@@ -14,7 +14,7 @@ class DeleteUserTest extends TestCase
         $user = factory('App\Model\User')->create();
         $this->be($user);
 
-        $this->json('DELETE', 'http://' . env('API_DOMAIN') . '/user')
+        $this->json('DELETE', 'http://'.env('API_DOMAIN').'/user')
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }

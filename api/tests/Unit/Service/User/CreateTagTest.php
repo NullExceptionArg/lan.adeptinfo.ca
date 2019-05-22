@@ -14,7 +14,7 @@ class CreateTagTest extends TestCase
     protected $user;
 
     protected $requestContent = [
-        'name' => 'PRO'
+        'name' => 'PRO',
     ];
 
     public function setUp(): void

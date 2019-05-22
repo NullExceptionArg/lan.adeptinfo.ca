@@ -14,11 +14,11 @@ class GetUsersTest extends TestCase
     protected $users;
 
     protected $paramsContent = [
-        'query_string' => '',
-        'order_column' => 'first_name',
+        'query_string'    => '',
+        'order_column'    => 'first_name',
         'order_direction' => 'desc',
-        'items_per_page' => 2,
-        'current_page' => 1
+        'items_per_page'  => 2,
+        'current_page'    => 1,
     ];
 
     public function setUp(): void
@@ -28,26 +28,26 @@ class GetUsersTest extends TestCase
 
         $this->users[0] = factory('App\Model\User')->create([
             'first_name' => 'Karl',
-            'last_name' => 'Marx',
-            'email' => 'karl.marx@unite.org',
+            'last_name'  => 'Marx',
+            'email'      => 'karl.marx@unite.org',
         ]);
 
         $this->users[1] = factory('App\Model\User')->create([
             'first_name' => 'Vladimir',
-            'last_name' => 'Lenin',
-            'email' => 'vlad.lenin@unite.org',
+            'last_name'  => 'Lenin',
+            'email'      => 'vlad.lenin@unite.org',
         ]);
 
         $this->users[2] = factory('App\Model\User')->create([
             'first_name' => 'Leon',
-            'last_name' => 'Trotsky',
-            'email' => 'leon.trotsky@unite.org',
+            'last_name'  => 'Trotsky',
+            'email'      => 'leon.trotsky@unite.org',
         ]);
 
         $this->users[3] = factory('App\Model\User')->create([
             'first_name' => 'Joseph',
-            'last_name' => 'Stalin',
-            'email' => 'joseph.stalin@unite.org',
+            'last_name'  => 'Stalin',
+            'email'      => 'joseph.stalin@unite.org',
         ]);
     }
 

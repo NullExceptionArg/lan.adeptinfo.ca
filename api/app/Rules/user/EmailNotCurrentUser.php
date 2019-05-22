@@ -8,7 +8,6 @@ use Illuminate\Contracts\Validation\Rule;
  * Un courriel ne correspond pas à celui de l'utilisateur courant.
  *
  * Class EmailNotCurrentUser
- * @package App\Rules\User
  */
 class EmailNotCurrentUser implements Rule
 {
@@ -16,6 +15,7 @@ class EmailNotCurrentUser implements Rule
 
     /**
      * EmailNotCurrentUser constructor.
+     *
      * @param $currentUserEmail string courriel de l'utilisateur courant
      */
     public function __construct($currentUserEmail)
@@ -26,8 +26,9 @@ class EmailNotCurrentUser implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $email Courriel à valider
+     * @param string $attribute
+     * @param mixed  $email     Courriel à valider
+     *
      * @return bool
      */
     public function passes($attribute, $email): bool

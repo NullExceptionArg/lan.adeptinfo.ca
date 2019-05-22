@@ -9,7 +9,6 @@ use Illuminate\Contracts\Validation\Rule;
  * Le nom d'un rôle de LAN n'existe qu'une fois par LAN.
  *
  * Class LanRoleNameOncePerLan
- * @package App\Rules\Role
  */
 class LanRoleNameOncePerLan implements Rule
 {
@@ -17,6 +16,7 @@ class LanRoleNameOncePerLan implements Rule
 
     /**
      * SeatOncePerLan constructor.
+     *
      * @param null $lanId Id du LAN
      */
     public function __construct($lanId)
@@ -27,8 +27,9 @@ class LanRoleNameOncePerLan implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  string $roleName Nom du rôle
+     * @param string $attribute
+     * @param string $roleName  Nom du rôle
+     *
      * @return bool
      */
     public function passes($attribute, $roleName): bool
@@ -45,6 +46,7 @@ class LanRoleNameOncePerLan implements Rule
 
         $lanSeatReservation = LanRole::where('lan_id', $this->lanId)
             ->where('name', $roleName)->first();
+
         return is_null($lanSeatReservation) || $lanSeatReservation->count() == 0;
     }
 

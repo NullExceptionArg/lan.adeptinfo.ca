@@ -2,21 +2,20 @@
 
 namespace App\Rules\Role;
 
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
- *
- *
- * Class ElementsInArrayExistInPermission
- * @package App\Rules\Role
+ * Class ElementsInArrayExistInPermission.
  */
 class ElementsInArrayExistInPermission implements Rule
 {
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  array $permissionIds
+     * @param string $attribute
+     * @param array  $permissionIds
+     *
      * @return bool
      */
     public function passes($attribute, $permissionIds): bool
@@ -37,6 +36,7 @@ class ElementsInArrayExistInPermission implements Rule
                 return false;
             }
         }
+
         return true;
     }
 

@@ -2,7 +2,6 @@
 
 namespace App\Utils;
 
-
 class DateUtils
 {
     protected static $months = [
@@ -18,7 +17,7 @@ class DateUtils
             'Septembre',
             'Octobre',
             'Novembre',
-            'Décembre'
+            'Décembre',
         ],
         'en' => [
             'January',
@@ -32,12 +31,12 @@ class DateUtils
             'September',
             'October',
             'November',
-            'December'
-        ]
+            'December',
+        ],
     ];
 
     public static function getLocalizedMonth(int $month, string $language)
     {
-        return DateUtils::$months[$language][$month - 1];
+        return self::$months[$language][$month - 1];
     }
 }

@@ -27,7 +27,7 @@ class ConfirmArrivalTest extends SeatsTestCase
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
         $result = $this->seatService->confirmArrival($this->lan->id, env('SEAT_TEST_ID'));
 

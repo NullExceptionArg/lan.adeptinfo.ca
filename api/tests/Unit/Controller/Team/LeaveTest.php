@@ -20,7 +20,7 @@ class LeaveTest extends TestCase
     protected $userTagTeam;
 
     protected $requestContent = [
-        'team_id' => null
+        'team_id' => null,
     ];
 
     public function setUp(): void
@@ -28,11 +28,11 @@ class LeaveTest extends TestCase
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->userTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->leader = factory('App\Model\User')->create();
         $this->leaderTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->leader->id
+            'user_id' => $this->leader->id,
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
@@ -40,23 +40,23 @@ class LeaveTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
 
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $this->userTagTeam = factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->userTag->id,
-            'team_id' => $this->team->id
+            'tag_id'  => $this->userTag->id,
+            'team_id' => $this->team->id,
         ]);
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->leaderTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $this->leaderTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
 
         $this->requestContent['team_id'] = $this->team->id;
@@ -65,12 +65,12 @@ class LeaveTest extends TestCase
     public function testLeave(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/team/leave', $this->requestContent)
             ->seeJsonEquals([
-                'id' => $this->team->id,
-                'name' => $this->team->name,
-                'tag' => $this->team->tag,
-                'tournament_id' => $this->team->tournament_id
+                'id'            => $this->team->id,
+                'name'          => $this->team->name,
+                'tag'           => $this->team->tag,
+                'tournament_id' => $this->team->tournament_id,
             ])
             ->assertResponseStatus(200);
     }
@@ -78,12 +78,12 @@ class LeaveTest extends TestCase
     public function testLeaveIsLeader(): void
     {
         $this->actingAs($this->leader)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/team/leave', $this->requestContent)
             ->seeJsonEquals([
-                'id' => $this->team->id,
-                'name' => $this->team->name,
-                'tag' => $this->team->tag,
-                'tournament_id' => $this->team->tournament_id
+                'id'            => $this->team->id,
+                'name'          => $this->team->name,
+                'tag'           => $this->team->tag,
+                'tournament_id' => $this->team->tournament_id,
             ])
             ->assertResponseStatus(200);
     }
@@ -94,12 +94,12 @@ class LeaveTest extends TestCase
         $this->userTag->delete();
         $this->user->delete();
         $this->actingAs($this->leader)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/team/leave', $this->requestContent)
             ->seeJsonEquals([
-                'id' => $this->team->id,
-                'name' => $this->team->name,
-                'tag' => $this->team->tag,
-                'tournament_id' => $this->team->tournament_id
+                'id'            => $this->team->id,
+                'name'          => $this->team->name,
+                'tag'           => $this->team->tag,
+                'tournament_id' => $this->team->tournament_id,
             ])
             ->assertResponseStatus(200);
     }
@@ -108,15 +108,15 @@ class LeaveTest extends TestCase
     {
         $this->requestContent['team_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/team/leave', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'team_id' => [
-                        0 => 'The team id must be an integer.'
+                        0 => 'The team id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -125,15 +125,15 @@ class LeaveTest extends TestCase
     {
         $this->requestContent['team_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/team/leave', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/team/leave', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'team_id' => [
-                        0 => 'The selected team id is invalid.'
+                        0 => 'The selected team id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

@@ -10,8 +10,9 @@ class PermissionsCanBePerLan implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  array $permissionsIds
+     * @param string $attribute
+     * @param array  $permissionsIds
+     *
      * @return bool
      */
     public function passes($attribute, $permissionsIds): bool
@@ -40,6 +41,7 @@ class PermissionsCanBePerLan implements Rule
                 return false;
             }
         }
+
         return true;
     }
 

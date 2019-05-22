@@ -17,18 +17,18 @@ class GetCategoriesTest extends TestCase
         parent::setUp();
         $this->lan = factory('App\Model\Lan')->create();
         $this->category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 
     public function testGetCategories(): void
     {
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category', [
-            'lan_id' => $this->lan->id
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/contribution/category', [
+            'lan_id' => $this->lan->id,
         ])
             ->seeJsonEquals([[
-                'id' => $this->category->id,
-                'name' => $this->category->name
+                'id'   => $this->category->id,
+                'name' => $this->category->name,
             ]])
             ->assertResponseStatus(200);
     }
@@ -36,49 +36,49 @@ class GetCategoriesTest extends TestCase
     public function testGetCategoriesCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         $category = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category')
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/contribution/category')
             ->seeJsonEquals([[
-                'id' => $category->id,
-                'name' => $category->name
+                'id'   => $category->id,
+                'name' => $category->name,
             ]])
             ->assertResponseStatus(200);
     }
 
     public function testGetLanIdExist(): void
     {
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category', [
-            'lan_id' => -1
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/contribution/category', [
+            'lan_id' => -1,
         ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
 
     public function testGetLanIdInteger(): void
     {
-        $this->json('GET', 'http://' . env('API_DOMAIN') . '/contribution/category', [
-            'lan_id' => '☭'
+        $this->json('GET', 'http://'.env('API_DOMAIN').'/contribution/category', [
+            'lan_id' => '☭',
         ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The lan id must be an integer.'
+                        0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

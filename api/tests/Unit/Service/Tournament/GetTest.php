@@ -33,15 +33,15 @@ class GetTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->user2 = factory('App\Model\User')->create();
         $this->tag2 = factory('App\Model\Tag')->create([
-            'user_id' => $this->user2->id
+            'user_id' => $this->user2->id,
         ]);
         $this->user3 = factory('App\Model\User')->create();
         $this->tag3 = factory('App\Model\Tag')->create([
-            'user_id' => $this->user3->id
+            'user_id' => $this->user3->id,
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
@@ -49,34 +49,34 @@ class GetTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'teams_to_reach' => 10,
-            'players_to_reach' => 10
+            'tournament_end'   => $endTime->subHour(1),
+            'teams_to_reach'   => 10,
+            'players_to_reach' => 10,
         ]);
 
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
         $this->team2 = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
 
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->tag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $this->tag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->tag2->id,
-            'team_id' => $this->team->id,
-            'is_leader' => false
+            'tag_id'    => $this->tag2->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => false,
         ]);
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->tag3->id,
-            'team_id' => $this->team2->id,
-            'is_leader' => true
+            'tag_id'    => $this->tag3->id,
+            'team_id'   => $this->team2->id,
+            'is_leader' => true,
         ]);
 
         $this->reservation = new Reservation();

@@ -3,13 +3,13 @@
 namespace App\Rules\Team;
 
 use App\Model\Tag;
-use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule};
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Un tag de joueur appartient à un utilisateur.
  *
  * Class TagBelongsToUser
- * @package App\Rules\Team
  */
 class TagBelongsToUser implements Rule
 {
@@ -17,6 +17,7 @@ class TagBelongsToUser implements Rule
 
     /**
      * TagBelongsToUser constructor.
+     *
      * @param int $userId Id de l'utilisateur
      */
     public function __construct($userId)
@@ -24,14 +25,15 @@ class TagBelongsToUser implements Rule
         $this->userId = $userId;
     }
 
-
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $tagId Id du tag
-     * @return bool
+     * @param string $attribute
+     * @param mixed  $tagId     Id du tag
+     *
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function passes($attribute, $tagId): bool
     {

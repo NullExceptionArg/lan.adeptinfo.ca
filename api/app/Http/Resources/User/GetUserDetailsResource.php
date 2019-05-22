@@ -23,16 +23,17 @@ class GetUserDetailsResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         return [
-            'full_name' => $this->getFullName(),
-            'email' => $this->email,
+            'full_name'     => $this->getFullName(),
+            'email'         => $this->email,
             'current_place' => $this->currentSeat != null ? $this->currentSeat->seat_id : null,
-            'place_history' => GetUserDetailsReservationResource::collection($this->seatHistory)
+            'place_history' => GetUserDetailsReservationResource::collection($this->seatHistory),
         ];
     }
 }

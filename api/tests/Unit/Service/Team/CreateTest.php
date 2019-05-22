@@ -19,7 +19,7 @@ class CreateTest extends TestCase
 
     protected $requestContent = [
         'name' => 'WorkersUnite',
-        'tag' => 'PRO',
+        'tag'  => 'PRO',
     ];
 
     public function setUp(): void
@@ -29,16 +29,16 @@ class CreateTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->lan = factory('App\Model\Lan')->create();
 
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
     }
 
@@ -62,17 +62,17 @@ class CreateTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $team = factory('App\Model\Team')->create([
-            'tournament_id' => $tournament->id
+            'tournament_id' => $tournament->id,
         ]);
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->tag->id,
-            'team_id' => $team->id,
-            'is_leader' => true
+            'tag_id'    => $this->tag->id,
+            'team_id'   => $team->id,
+            'is_leader' => true,
         ]);
 
         $result = $this->teamService->create(

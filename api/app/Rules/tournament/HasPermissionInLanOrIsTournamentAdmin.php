@@ -2,14 +2,17 @@
 
 namespace App\Rules\Role;
 
-use App\Model\{Lan, OrganizerTournament, Tournament};
-use Illuminate\{Auth\Access\AuthorizationException, Contracts\Validation\Rule, Support\Facades\DB};
+use App\Model\Lan;
+use App\Model\OrganizerTournament;
+use App\Model\Tournament;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Un utilisateur possède une permission ou fait partie de l'équipe d'administrateurs du tournoi.
  *
  * Class HasPermissionInLanOrIsTournamentAdmin
- * @package App\Rules\Role
  */
 class HasPermissionInLanOrIsTournamentAdmin implements Rule
 {
@@ -18,7 +21,8 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
 
     /**
      * HasPermissionInLanOrIsTournamentAdmin constructor.
-     * @param string $userId Id de l'utilisateur
+     *
+     * @param string $userId       Id de l'utilisateur
      * @param string $tournamentId Id du tournoi
      */
     public function __construct($userId, $tournamentId)
@@ -30,10 +34,12 @@ class HasPermissionInLanOrIsTournamentAdmin implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $permission Nom de la permission
-     * @return bool
+     * @param string $attribute
+     * @param mixed  $permission Nom de la permission
+     *
      * @throws AuthorizationException
+     *
+     * @return bool
      */
     public function passes($attribute, $permission): bool
     {

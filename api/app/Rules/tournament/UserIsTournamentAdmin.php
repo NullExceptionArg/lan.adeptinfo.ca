@@ -2,14 +2,14 @@
 
 namespace App\Rules\Tournament;
 
-use App\Model\{OrganizerTournament, Tournament};
+use App\Model\OrganizerTournament;
+use App\Model\Tournament;
 use Illuminate\{Contracts\Validation\Rule};
 
 /**
  * Un utilisateur est administrateur d'un tournoi.
  *
  * Class UserIsTournamentAdmin
- * @package App\Rules\Tournament
  */
 class UserIsTournamentAdmin implements Rule
 {
@@ -17,6 +17,7 @@ class UserIsTournamentAdmin implements Rule
 
     /**
      * UserIsTournamentAdmin constructor.
+     *
      * @param int $userId Id de l'utilisateur
      */
     public function __construct($userId)
@@ -24,12 +25,12 @@ class UserIsTournamentAdmin implements Rule
         $this->userId = $userId;
     }
 
-
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $tournamentId
+     * @param string $attribute
+     * @param mixed  $tournamentId
+     *
      * @return bool
      */
     public function passes($attribute, $tournamentId): bool

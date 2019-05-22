@@ -7,23 +7,22 @@ use Tests\TestCase;
 
 class SignUpTest extends TestCase
 {
-
     use DatabaseMigrations;
 
     protected $requestContent = [
         'first_name' => 'John',
-        'last_name' => 'Doe',
-        'email' => 'john@doe.com',
-        'password' => 'Passw0rd!'
+        'last_name'  => 'Doe',
+        'email'      => 'john@doe.com',
+        'password'   => 'Passw0rd!',
     ];
 
     public function testSignUp(): void
     {
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->requestContent['first_name'],
-                'last_name' => $this->requestContent['last_name'],
-                'email' => $this->requestContent['email']
+                'last_name'  => $this->requestContent['last_name'],
+                'email'      => $this->requestContent['email'],
             ])
             ->assertResponseStatus(201);
     }
@@ -31,15 +30,15 @@ class SignUpTest extends TestCase
     public function testSignUpEmailRequired(): void
     {
         $this->requestContent['email'] = '';
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The email field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -47,15 +46,15 @@ class SignUpTest extends TestCase
     public function testSignUpEmailFormattedEmail(): void
     {
         $this->requestContent['email'] = 'john.doe.com';
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The email must be a valid email address.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -63,15 +62,15 @@ class SignUpTest extends TestCase
     public function testSignUpPasswordRequired(): void
     {
         $this->requestContent['password'] = '';
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'password' => [
                         0 => 'The password field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -79,15 +78,15 @@ class SignUpTest extends TestCase
     public function testSignUpPasswordMinLength(): void
     {
         $this->requestContent['password'] = str_repeat('☭', 2);
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'password' => [
                         0 => 'The password must be at least 6 characters.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -95,15 +94,15 @@ class SignUpTest extends TestCase
     public function testSignUpPasswordMaxLength(): void
     {
         $this->requestContent['password'] = str_repeat('☭', 22);
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'password' => [
                         0 => 'The password may not be greater than 20 characters.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -111,15 +110,15 @@ class SignUpTest extends TestCase
     public function testSignUpFirstNameRequired(): void
     {
         $this->requestContent['first_name'] = '';
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'first_name' => [
                         0 => 'The first name field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -127,15 +126,15 @@ class SignUpTest extends TestCase
     public function testSignUpFirstNameMaxLength(): void
     {
         $this->requestContent['first_name'] = str_repeat('☭', 256);
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'first_name' => [
                         0 => 'The first name may not be greater than 255 characters.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -143,15 +142,15 @@ class SignUpTest extends TestCase
     public function testSignUpLastNameRequired(): void
     {
         $this->requestContent['last_name'] = '';
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'last_name' => [
                         0 => 'The last name field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -159,15 +158,15 @@ class SignUpTest extends TestCase
     public function testSignUpLastNameMaxLength(): void
     {
         $this->requestContent['last_name'] = str_repeat('☭', 256);
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'last_name' => [
                         0 => 'The last name may not be greater than 255 characters.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -176,32 +175,32 @@ class SignUpTest extends TestCase
     {
         factory('App\Model\User')->create([
             'facebook_id' => '12345678',
-            'first_name' => $this->requestContent['first_name'],
-            'last_name' => $this->requestContent['last_name'],
-            'email' => $this->requestContent['email'],
-            'password' => null
+            'first_name'  => $this->requestContent['first_name'],
+            'last_name'   => $this->requestContent['last_name'],
+            'email'       => $this->requestContent['email'],
+            'password'    => null,
         ]);
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'first_name' => $this->requestContent['first_name'],
-                'last_name' => $this->requestContent['last_name'],
-                'email' => $this->requestContent['email']
+                'last_name'  => $this->requestContent['last_name'],
+                'email'      => $this->requestContent['email'],
             ])
             ->assertResponseStatus(201);
     }
 
     public function testSignUpUniqueEmailSocialLoginAlreadyAwaitingConfirmation(): void
     {
-        $this->call('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent);
-        $this->json('POST', 'http://' . env('API_DOMAIN') . '/user', $this->requestContent)
+        $this->call('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent);
+        $this->json('POST', 'http://'.env('API_DOMAIN').'/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'email' => [
                         0 => 'The email has already been taken.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

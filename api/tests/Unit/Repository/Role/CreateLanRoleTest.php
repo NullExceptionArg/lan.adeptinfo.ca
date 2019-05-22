@@ -16,12 +16,12 @@ class CreateLanRoleTest extends TestCase
     protected $lan;
 
     protected $paramsContent = [
-        'lan_id' => null,
-        'name' => 'comrade',
+        'lan_id'          => null,
+        'name'            => 'comrade',
         'en_display_name' => 'Comrade',
-        'en_description' => 'Our equal',
+        'en_description'  => 'Our equal',
         'fr_display_name' => 'Camarade',
-        'fr_description' => 'Notre égal.',
+        'fr_description'  => 'Notre égal.',
     ];
 
     public function setUp(): void
@@ -43,12 +43,12 @@ class CreateLanRoleTest extends TestCase
     public function testCreateLanRole(): void
     {
         $this->notSeeInDatabase('lan_role', [
-            'lan_id' => $this->paramsContent['lan_id'],
-            'name' => $this->paramsContent['name'],
+            'lan_id'          => $this->paramsContent['lan_id'],
+            'name'            => $this->paramsContent['name'],
             'en_display_name' => $this->paramsContent['en_display_name'],
-            'en_description' => $this->paramsContent['en_description'],
+            'en_description'  => $this->paramsContent['en_description'],
             'fr_display_name' => $this->paramsContent['fr_display_name'],
-            'fr_description' => $this->paramsContent['fr_description']
+            'fr_description'  => $this->paramsContent['fr_description'],
         ]);
 
         $this->roleRepository->createLanRole(
@@ -61,12 +61,12 @@ class CreateLanRoleTest extends TestCase
         );
 
         $this->seeInDatabase('lan_role', [
-            'lan_id' => $this->paramsContent['lan_id'],
-            'name' => $this->paramsContent['name'],
+            'lan_id'          => $this->paramsContent['lan_id'],
+            'name'            => $this->paramsContent['name'],
             'en_display_name' => $this->paramsContent['en_display_name'],
-            'en_description' => $this->paramsContent['en_description'],
+            'en_description'  => $this->paramsContent['en_description'],
             'fr_display_name' => $this->paramsContent['fr_display_name'],
-            'fr_description' => $this->paramsContent['fr_description']
+            'fr_description'  => $this->paramsContent['fr_description'],
         ]);
     }
 }

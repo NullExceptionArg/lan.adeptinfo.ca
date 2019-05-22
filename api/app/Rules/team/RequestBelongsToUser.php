@@ -2,14 +2,14 @@
 
 namespace App\Rules\Team;
 
-use App\Model\{Request, Tag};
+use App\Model\Request;
+use App\Model\Tag;
 use Illuminate\{Contracts\Validation\Rule};
 
 /**
  * Une requête appartient à un utilisateur.
  *
  * Class RequestBelongsToUser
- * @package App\Rules\Team
  */
 class RequestBelongsToUser implements Rule
 {
@@ -17,6 +17,7 @@ class RequestBelongsToUser implements Rule
 
     /**
      * RequestBelongsToUser constructor.
+     *
      * @param int $userId Id de l'utilisateur
      */
     public function __construct($userId)
@@ -24,12 +25,12 @@ class RequestBelongsToUser implements Rule
         $this->userId = $userId;
     }
 
-
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $requestId Id de la requête
+     * @param string $attribute
+     * @param mixed  $requestId Id de la requête
+     *
      * @return bool
      */
     public function passes($attribute, $requestId): bool

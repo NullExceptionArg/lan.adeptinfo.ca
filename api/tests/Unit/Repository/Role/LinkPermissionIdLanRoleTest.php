@@ -24,7 +24,7 @@ class LinkPermissionIdLanRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->role = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 
@@ -35,7 +35,7 @@ class LinkPermissionIdLanRoleTest extends TestCase
 
         $this->notSeeInDatabase('permission_lan_role', [
             'permission_id' => $permission->id,
-            'role_id' => $this->role->id
+            'role_id'       => $this->role->id,
         ]);
 
         $this->roleRepository->linkPermissionIdLanRole(
@@ -45,7 +45,7 @@ class LinkPermissionIdLanRoleTest extends TestCase
 
         $this->seeInDatabase('permission_lan_role', [
             'permission_id' => $permission->id,
-            'role_id' => $this->role->id
+            'role_id'       => $this->role->id,
         ]);
     }
 }

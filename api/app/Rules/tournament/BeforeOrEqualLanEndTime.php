@@ -9,7 +9,6 @@ use Illuminate\Contracts\Validation\Rule;
  * Une date et heure est avant ou en même temps que le moment de fin d'un LAN.
  *
  * Class BeforeOrEqualLanEndTime
- * @package App\Rules\Tournament
  */
 class BeforeOrEqualLanEndTime implements Rule
 {
@@ -17,6 +16,7 @@ class BeforeOrEqualLanEndTime implements Rule
 
     /**
      * BeforeOrEqualLanEndTime constructor.
+     *
      * @param string $lanId Id du LAN
      */
     public function __construct($lanId)
@@ -27,8 +27,9 @@ class BeforeOrEqualLanEndTime implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $dateTime Date et heure
+     * @param string $attribute
+     * @param mixed  $dateTime  Date et heure
+     *
      * @return bool
      */
     public function passes($attribute, $dateTime): bool

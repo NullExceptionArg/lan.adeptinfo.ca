@@ -10,15 +10,15 @@ use Illuminate\Contracts\Validation\Rule;
  * Un utilisateur Facebook donne la permission à l'API d'accéder à son courriel.
  *
  * Class FacebookEmailPermission
- * @package App\Rules\User
  */
 class FacebookEmailPermission implements Rule
 {
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $token Token de connection Facebook de l'utilisateur
+     * @param string $attribute
+     * @param mixed  $token     Token de connection Facebook de l'utilisateur
+     *
      * @return bool
      */
     public function passes($attribute, $token): bool
@@ -32,6 +32,7 @@ class FacebookEmailPermission implements Rule
         }
 
         $response = null;
+
         try {
             // Tenter d'obtenir les informations (y comprit le courriel) de l'utilisateur à partir de son token
             $response = FacebookUtils::getFacebook()->get(

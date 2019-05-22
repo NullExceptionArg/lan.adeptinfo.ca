@@ -32,7 +32,7 @@ class GetRequestsForUserTest extends TestCase
 
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
@@ -40,42 +40,42 @@ class GetRequestsForUserTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament1 = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament2 = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
 
         $this->team1 = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament1->id
+            'tournament_id' => $this->tournament1->id,
         ]);
         $this->team2 = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament1->id
+            'tournament_id' => $this->tournament1->id,
         ]);
         $this->team3 = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament1->id
+            'tournament_id' => $this->tournament1->id,
         ]);
         $this->team4 = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament2->id
+            'tournament_id' => $this->tournament2->id,
         ]);
 
         $this->request1 = factory('App\Model\Request')->create([
-            'tag_id' => $this->tag->id,
-            'team_id' => $this->team1->id
+            'tag_id'  => $this->tag->id,
+            'team_id' => $this->team1->id,
         ]);
         $this->request2 = factory('App\Model\Request')->create([
-            'tag_id' => $this->tag->id,
-            'team_id' => $this->team2->id
+            'tag_id'  => $this->tag->id,
+            'team_id' => $this->team2->id,
         ]);
         $this->request3 = factory('App\Model\Request')->create([
-            'tag_id' => $this->tag->id,
-            'team_id' => $this->team4->id
+            'tag_id'  => $this->tag->id,
+            'team_id' => $this->team4->id,
         ]);
     }
 

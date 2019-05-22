@@ -29,28 +29,28 @@ class GetAdminSummaryTest extends TestCase
             ->take(8)
             ->get();
         $lanRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         $globalRole = factory('App\Model\GlobalRole')->create();
         for ($i = 0; $i < 5; $i++) {
             factory('App\Model\PermissionLanRole')->create([
                 'permission_id' => $permissions[$i]->id,
-                'role_id' => $lanRole->id
+                'role_id'       => $lanRole->id,
             ]);
         }
         for ($i = 5; $i < 8; $i++) {
             factory('App\Model\PermissionGlobalRole')->create([
                 'permission_id' => $permissions[$i]->id,
-                'role_id' => $globalRole->id
+                'role_id'       => $globalRole->id,
             ]);
         }
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $lanRole->id
+            'role_id' => $lanRole->id,
         ]);
         factory('App\Model\GlobalRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $globalRole->id
+            'role_id' => $globalRole->id,
         ]);
 
         $result = $this->userService->getAdminSummary($this->user->id, $lan->id)->jsonSerialize();

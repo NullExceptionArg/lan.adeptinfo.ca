@@ -2,10 +2,14 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{OrganizerTournament, TagTeam, Team, Tournament};
+use App\Model\OrganizerTournament;
+use App\Model\TagTeam;
+use App\Model\Team;
+use App\Model\Tournament;
 use App\Repositories\TournamentRepository;
 use DateTime;
-use Illuminate\{Support\Collection, Support\Facades\DB};
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class TournamentRepositoryImpl implements TournamentRepository
 {
@@ -21,8 +25,8 @@ class TournamentRepositoryImpl implements TournamentRepository
     public function associateOrganizerTournament(int $organizerId, int $tournamentId): void
     {
         DB::table('organizer_tournament')->insert([
-            'organizer_id' => $organizerId,
-            'tournament_id' => $tournamentId
+            'organizer_id'  => $organizerId,
+            'tournament_id' => $tournamentId,
         ]);
     }
 
@@ -35,17 +39,16 @@ class TournamentRepositoryImpl implements TournamentRepository
         int $teamsToReach,
         string $rules,
         ?int $price
-    ): int
-    {
+    ): int {
         return DB::table('tournament')->insertGetId([
-            'lan_id' => $lanId,
-            'name' => $name,
+            'lan_id'           => $lanId,
+            'name'             => $name,
             'tournament_start' => $tournamentStart->format('Y-m-d H:i:s'),
-            'tournament_end' => $tournamentEnd->format('Y-m-d H:i:s'),
+            'tournament_end'   => $tournamentEnd->format('Y-m-d H:i:s'),
             'players_to_reach' => $playersToReach,
-            'teams_to_reach' => $teamsToReach,
-            'rules' => $rules,
-            'price' => $price
+            'teams_to_reach'   => $teamsToReach,
+            'rules'            => $rules,
+            'price'            => $price,
         ]);
     }
 
@@ -99,6 +102,7 @@ class TournamentRepositoryImpl implements TournamentRepository
                 break;
             }
         }
+
         return $teamsReached;
     }
 
@@ -120,6 +124,7 @@ class TournamentRepositoryImpl implements TournamentRepository
     public function getTournamentsLanId(int $tournamentId): ?int
     {
         $tournament = Tournament::find($tournamentId);
+
         return !is_null($tournament) ? $tournament->lan_id : null;
     }
 
@@ -133,20 +138,19 @@ class TournamentRepositoryImpl implements TournamentRepository
         ?int $teamsToReach,
         ?string $rules,
         ?int $price
-    ): void
-    {
+    ): void {
         $tournament = Tournament::find($tournamentId);
         DB::table('tournament')
             ->where('id', $tournamentId)
             ->update([
-                'name' => $name != null ? $name : $tournament->name,
-                'state' => $state != null ? $state : $tournament->state,
+                'name'             => $name != null ? $name : $tournament->name,
+                'state'            => $state != null ? $state : $tournament->state,
                 'tournament_start' => $tournamentStart != null ? $tournamentStart->format('Y-m-d H:i:s') : $tournament->tournament_start->format('Y-m-d H:i:s'),
-                'tournament_end' => $tournamentEnd != null ? $tournamentEnd->format('Y-m-d H:i:s') : $tournament->tournament_end->format('Y-m-d H:i:s'),
+                'tournament_end'   => $tournamentEnd != null ? $tournamentEnd->format('Y-m-d H:i:s') : $tournament->tournament_end->format('Y-m-d H:i:s'),
                 'players_to_reach' => $playersToReach != null ? $playersToReach : $tournament->players_to_reach,
-                'teams_to_reach' => $teamsToReach != null ? $teamsToReach : $tournament->teams_to_reach,
-                'rules' => $rules != null ? $rules : $tournament->rules,
-                'price' => is_null($price) ? $tournament->price : $price
+                'teams_to_reach'   => $teamsToReach != null ? $teamsToReach : $tournament->teams_to_reach,
+                'rules'            => $rules != null ? $rules : $tournament->rules,
+                'price'            => is_null($price) ? $tournament->price : $price,
             ]);
     }
 }

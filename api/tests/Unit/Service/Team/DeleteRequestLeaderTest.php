@@ -28,33 +28,33 @@ class DeleteRequestLeaderTest extends TestCase
 
         $this->leader = factory('App\Model\User')->create();
         $this->leadersTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->leader->id
+            'user_id' => $this->leader->id,
         ]);
         $this->requestingUser = factory('App\Model\User')->create();
         $this->requestingUsersTag = factory('App\Model\Tag')->create([
-            'user_id' => $this->requestingUser->id
+            'user_id' => $this->requestingUser->id,
         ]);
 
         $this->lan = factory('App\Model\Lan')->create();
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
 
         factory('App\Model\TagTeam')->create([
-            'tag_id' => $this->leadersTag->id,
-            'team_id' => $this->team->id,
-            'is_leader' => true
+            'tag_id'    => $this->leadersTag->id,
+            'team_id'   => $this->team->id,
+            'is_leader' => true,
         ]);
         $this->request = factory('App\Model\Request')->create([
-            'tag_id' => $this->requestingUsersTag->id,
-            'team_id' => $this->team->id
+            'tag_id'  => $this->requestingUsersTag->id,
+            'team_id' => $this->team->id,
         ]);
     }
 

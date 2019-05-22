@@ -20,11 +20,11 @@ class FindContributionByIdTest extends TestCase
 
         $lan = factory('App\Model\Lan')->create();
         $contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         $this->contribution = factory('App\Model\Contribution')->create([
-            'user_full_name' => 'Karl Marx',
-            'contribution_category_id' => $contributionCategory->id
+            'user_full_name'           => 'Karl Marx',
+            'contribution_category_id' => $contributionCategory->id,
         ]);
     }
 

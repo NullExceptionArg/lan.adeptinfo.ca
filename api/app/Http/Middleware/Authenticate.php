@@ -9,12 +9,10 @@ use Illuminate\Contracts\Auth\Factory as Auth;
  * Assurer qu'un utilisateur entrant est authentifié.
  *
  * Class Authenticate
- * @package App\Http\Middleware
  */
 class Authenticate
 {
     /**
-     *
      * Instance de fabrique de garde d'authentification.
      *
      * @var \Illuminate\Contracts\Auth\Factory
@@ -24,7 +22,8 @@ class Authenticate
     /**
      * Créer une nouvelle instance de middleware.
      *
-     * @param  \Illuminate\Contracts\Auth\Factory  $auth
+     * @param \Illuminate\Contracts\Auth\Factory $auth
+     *
      * @return void
      */
     public function __construct(Auth $auth)
@@ -35,9 +34,10 @@ class Authenticate
     /**
      * Traiter une demande entrante.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string|null  $guard
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     * @param string|null              $guard
+     *
      * @return mixed
      */
     public function handle($request, Closure $next, $guard = null)

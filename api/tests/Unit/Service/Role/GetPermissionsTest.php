@@ -25,13 +25,13 @@ class GetPermissionsTest extends TestCase
     {
         $result = $this->roleService->getPermissions();
         $arrayResults = $result->collection->jsonSerialize();
-        $permissions = include(base_path() . '/resources/permissions.php');
+        $permissions = include base_path().'/resources/permissions.php';
         for ($i = 0; $i < count($permissions); $i++) {
             $this->assertNotNull($arrayResults[$i]['id']);
             $this->assertEquals($permissions[$i]['name'], $arrayResults[$i]['name']);
-            $this->assertEquals($permissions[$i]['can_be_per_lan'], (bool)$arrayResults[$i]['can_be_per_lan']);
-            $this->assertEquals(trans('permission.display-name-' . $permissions[$i]['name']), $arrayResults[$i]['display_name']);
-            $this->assertEquals(trans('permission.description-' . $permissions[$i]['name']), $arrayResults[$i]['description']);
+            $this->assertEquals($permissions[$i]['can_be_per_lan'], (bool) $arrayResults[$i]['can_be_per_lan']);
+            $this->assertEquals(trans('permission.display-name-'.$permissions[$i]['name']), $arrayResults[$i]['display_name']);
+            $this->assertEquals(trans('permission.description-'.$permissions[$i]['name']), $arrayResults[$i]['description']);
         }
     }
 }

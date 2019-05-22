@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Model\Lan;
-use App\Rules\{User\FacebookEmailPermission,
-    User\HasPermissionInLan,
-    User\UniqueEmailSocialLogin,
-    User\ValidFacebookToken,
-    User\ValidGoogleToken};
+use App\Rules\User\FacebookEmailPermission;
+use App\Rules\User\HasPermissionInLan;
+use App\Rules\User\UniqueEmailSocialLogin;
+use App\Rules\User\ValidFacebookToken;
+use App\Rules\User\ValidGoogleToken;
 use App\Services\Implementation\UserServiceImpl;
-use Illuminate\{Http\JsonResponse, Http\Request, Support\Facades\Auth, Support\Facades\Validator, Validation\Rule};
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 /**
  * Validation et application de la logique applicative sur les utilisateurs de l'application.
  *
  * Class UserController
- * @package App\Http\Controllers
  */
 class UserController extends Controller
 {
@@ -28,6 +31,7 @@ class UserController extends Controller
 
     /**
      * UserController constructor.
+     *
      * @param UserServiceImpl $userService
      */
     public function __construct(UserServiceImpl $userService)
@@ -37,8 +41,10 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#confirmer-un-compte
+     *
      * @param Request $request
-     * @param string $confirmationCode
+     * @param string  $confirmationCode
+     *
      * @return JsonResponse
      */
     public function confirm(Request $request, string $confirmationCode)
@@ -46,18 +52,21 @@ class UserController extends Controller
         $validator = Validator::make([
             'confirmation_code' => $confirmationCode,
         ], [
-            'confirmation_code' => 'exists:user,confirmation_code'
+            'confirmation_code' => 'exists:user,confirmation_code',
         ]);
 
         $this->checkValidation($validator);
 
         $this->userService->confirm($confirmationCode);
+
         return response()->json([], 200);
     }
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-tag
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function createTag(Request $request)
@@ -78,17 +87,21 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-l-39-utilisateur
+     *
      * @return JsonResponse
      */
     public function deleteUser()
     {
         $this->userService->deleteUser(Auth::id());
+
         return response()->json([], 200);
     }
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#roles-d-39-un-administrateur
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function getAdminRoles(Request $request)
@@ -96,12 +109,12 @@ class UserController extends Controller
         $request = $this->adjustRequestForLan($request);
         $request = $this->adjustRequestForEmail($request);
         $validator = Validator::make([
-            'email' => $request->input('email'),
-            'lan_id' => $request->input('lan_id'),
-            'permission' => 'get-admin-roles'
+            'email'      => $request->input('email'),
+            'lan_id'     => $request->input('lan_id'),
+            'permission' => 'get-admin-roles',
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'email' => 'string|exists:user,email'
+            'email'  => 'string|exists:user,email',
         ]);
 
         $validator->sometimes('permission', [new HasPermissionInLan($request->input('lan_id'), Auth::id())], function ($request) {
@@ -118,12 +131,15 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#sommaire-de-l-39-administrateur
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function getAdminSummary(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
+
         return response()->json($this->userService->getAdminSummary(
             Auth::id(),
             $request->input('lan_id')
@@ -132,20 +148,22 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#details-d-39-un-utilisateur
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function getUserDetails(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'email' => $request->input('email'),
-            'permission' => 'get-user-details'
+            'lan_id'     => $request->input('lan_id'),
+            'email'      => $request->input('email'),
+            'permission' => 'get-user-details',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'email' => 'required|exists:user,email',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'lan_id'     => 'integer|exists:lan,id,deleted_at,NULL',
+            'email'      => 'required|exists:user,email',
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -158,7 +176,9 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-utilisateurs
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function getUsers(Request $request)
@@ -177,19 +197,19 @@ class UserController extends Controller
         }
 
         $validator = Validator::make([
-            'query_string' => $request->input('query_string'),
-            'order_column' => $request->input('order_column'),
+            'query_string'    => $request->input('query_string'),
+            'order_column'    => $request->input('order_column'),
             'order_direction' => $request->input('order_direction'),
-            'items_per_page' => $request->input('items_per_page'),
-            'current_page' => $request->input('current_page'),
-            'permission' => 'get-users'
+            'items_per_page'  => $request->input('items_per_page'),
+            'current_page'    => $request->input('current_page'),
+            'permission'      => 'get-users',
         ], [
-            'query_string' => 'max:255|string',
-            'order_column' => [Rule::in(['first_name', 'last_name', 'email']),],
-            'order_direction' => ['nullable', Rule::in(['asc', 'desc']),],
-            'items_per_page' => 'integer|nullable|min:1|max:75',
-            'current_page' => 'integer|nullable|min:1',
-            'permission' => new HasPermissionInLan(Lan::getCurrent()->id, Auth::id())
+            'query_string'    => 'max:255|string',
+            'order_column'    => [Rule::in(['first_name', 'last_name', 'email'])],
+            'order_direction' => ['nullable', Rule::in(['asc', 'desc'])],
+            'items_per_page'  => 'integer|nullable|min:1|max:75',
+            'current_page'    => 'integer|nullable|min:1',
+            'permission'      => new HasPermissionInLan(Lan::getCurrent()->id, Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -205,16 +225,18 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#sommaire-de-l-39-utilisateur
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function getUserSummary(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id')
+            'lan_id' => $request->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         $this->checkValidation($validator);
@@ -227,17 +249,21 @@ class UserController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#deconnexion
+     *
      * @return JsonResponse
      */
     public function logOut()
     {
         $this->userService->logOut();
+
         return response()->json([], 200);
     }
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#connexion-avec-facebook
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function signInFacebook(Request $request)
@@ -245,18 +271,21 @@ class UserController extends Controller
         $validator = Validator::make([
             'access_token' => $request->input('access_token'),
         ], [
-            'access_token' => [new ValidFacebookToken, new FacebookEmailPermission]
+            'access_token' => [new ValidFacebookToken(), new FacebookEmailPermission()],
         ]);
 
         $this->checkValidation($validator);
 
         $response = $this->userService->signInFacebook($request->input('access_token'));
+
         return response()->json(['token' => $response['token']], $response['is_new'] ? 201 : 200);
     }
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#connexion-avec-google
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function signInGoogle(Request $request)
@@ -264,27 +293,30 @@ class UserController extends Controller
         $validator = Validator::make([
             'access_token' => $request->input('access_token'),
         ], [
-            'access_token' => [new ValidGoogleToken]
+            'access_token' => [new ValidGoogleToken()],
         ]);
 
         $this->checkValidation($validator);
 
         $response = $this->userService->signInGoogle($request->input('access_token'));
+
         return response()->json(['token' => $response['token']], $response['is_new'] ? 201 : 200);
     }
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-un-compte-utilisateur
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function signUp(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|max:255',
-            'last_name' => 'required|max:255',
-            'email' => ['required', 'email', new UniqueEmailSocialLogin],
-            'password' => 'required|min:6|max:20',
+            'last_name'  => 'required|max:255',
+            'email'      => ['required', 'email', new UniqueEmailSocialLogin()],
+            'password'   => 'required|min:6|max:20',
         ]);
 
         $this->checkValidation($validator);

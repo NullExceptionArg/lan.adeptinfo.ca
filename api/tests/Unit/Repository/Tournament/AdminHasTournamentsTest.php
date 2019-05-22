@@ -27,16 +27,16 @@ class AdminHasTournamentsTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
     }
 
     public function testAdminHasTournamentsTrue()
     {
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
+            'organizer_id'  => $this->user->id,
             'tournament_id' => $this->tournament->id,
         ]);
         $result = $this->tournamentRepository->adminHasTournaments($this->user->id, $this->lan->id);
@@ -55,12 +55,12 @@ class AdminHasTournamentsTest extends TestCase
         $startTime = Carbon::parse($lan->lan_start);
         $endTime = Carbon::parse($lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $lan->id,
+            'lan_id'           => $lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->user->id,
+            'organizer_id'  => $this->user->id,
             'tournament_id' => $tournament->id,
         ]);
         $result = $this->tournamentRepository->adminHasTournaments($this->user->id, $this->lan->id);

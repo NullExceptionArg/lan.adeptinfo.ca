@@ -2,7 +2,8 @@
 
 namespace App\Model;
 
-use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Une contribution est une remarque qui permet de dire qu'un utilisateur a participé à l'organisation d'un LAN.

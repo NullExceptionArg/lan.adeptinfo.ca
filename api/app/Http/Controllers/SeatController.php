@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\{Seat\SeatExistInLanSeatIo,
-    Seat\SeatLanRelationExists,
-    Seat\SeatNotArrivedSeatIo,
-    Seat\SeatNotBookedSeatIo,
-    Seat\SeatNotFreeSeatIo,
-    Seat\SeatOncePerLan,
-    Seat\SeatOncePerLanSeatIo,
-    Seat\UserOncePerLan,
-    User\HasPermission,
-    User\HasPermissionInLan};
+use App\Rules\Seat\SeatExistInLanSeatIo;
+use App\Rules\Seat\SeatLanRelationExists;
+use App\Rules\Seat\SeatNotArrivedSeatIo;
+use App\Rules\Seat\SeatNotBookedSeatIo;
+use App\Rules\Seat\SeatNotFreeSeatIo;
+use App\Rules\Seat\SeatOncePerLan;
+use App\Rules\Seat\SeatOncePerLanSeatIo;
+use App\Rules\Seat\UserOncePerLan;
+use App\Rules\User\HasPermission;
+use App\Rules\User\HasPermissionInLan;
 use App\Services\Implementation\SeatServiceImpl;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Validation et application de la logique applicative sur les places.
  *
  * Class SeatController
- * @package App\Http\Controllers
  */
 class SeatController extends Controller
 {
@@ -32,6 +33,7 @@ class SeatController extends Controller
 
     /**
      * SeatController constructor.
+     *
      * @param SeatServiceImpl $seatServiceImpl
      */
     public function __construct(SeatServiceImpl $seatServiceImpl)
@@ -41,33 +43,35 @@ class SeatController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#assigner-une-place
+     *
      * @param Request $request
-     * @param string $seatId
+     * @param string  $seatId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function assign(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'seat_id' => $seatId,
+            'lan_id'     => $request->input('lan_id'),
+            'seat_id'    => $seatId,
             'user_email' => $request->input('user_email'),
             'permission' => 'assign-seat',
         ], [
             'user_email' => 'exists:user,email',
-            'lan_id' => [
+            'lan_id'     => [
                 'integer',
                 'exists:lan,id,deleted_at,NULL',
-                new UserOncePerLan(null, $request->input('user_email'))
+                new UserOncePerLan(null, $request->input('user_email')),
             ],
             'seat_id' => [
                 'required',
                 'string',
                 new SeatOncePerLan($request->input('lan_id')),
                 new SeatOncePerLanSeatIo($request->input('lan_id')),
-                new SeatExistInLanSeatIo($request->input('lan_id'))
+                new SeatExistInLanSeatIo($request->input('lan_id')),
             ],
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -81,29 +85,31 @@ class SeatController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#reserver-une-place
+     *
      * @param Request $request
-     * @param string $seatId
+     * @param string  $seatId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function book(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'seat_id' => $seatId
+            'lan_id'  => $request->input('lan_id'),
+            'seat_id' => $seatId,
         ], [
             'lan_id' => [
                 'required',
                 'integer',
                 'exists:lan,id,deleted_at,NULL',
-                new UserOncePerLan(Auth::user(), null)
+                new UserOncePerLan(Auth::user(), null),
             ],
             'seat_id' => [
                 'required',
                 'string',
                 new SeatOncePerLan($request->input('lan_id')),
                 new SeatOncePerLanSeatIo($request->input('lan_id')),
-                new SeatExistInLanSeatIo($request->input('lan_id'))
+                new SeatExistInLanSeatIo($request->input('lan_id')),
             ],
         ]);
 
@@ -118,28 +124,30 @@ class SeatController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#confirmer-l-39-arrivee-d-39-un-joueur
+     *
      * @param Request $request
-     * @param string $seatId
+     * @param string  $seatId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function confirmArrival(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'seat_id' => $seatId,
-            'permission' => 'confirm-arrival'
+            'lan_id'     => $request->input('lan_id'),
+            'seat_id'    => $seatId,
+            'permission' => 'confirm-arrival',
         ], [
-            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
+            'lan_id'  => 'required|integer|exists:lan,id,deleted_at,NULL',
             'seat_id' => [
                 'required',
                 'string',
                 new SeatExistInLanSeatIo($request->input('lan_id')),
                 new SeatNotFreeSeatIo($request->input('lan_id')),
                 new SeatNotArrivedSeatIo($request->input('lan_id')),
-                new SeatLanRelationExists($request->input('lan_id'))
+                new SeatLanRelationExists($request->input('lan_id')),
             ],
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -152,14 +160,15 @@ class SeatController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-cartes-seats-io
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getSeatCharts()
     {
         $validator = Validator::make([
-            'permission' => 'get-seat-charts'
+            'permission' => 'get-seat-charts',
         ], [
-            'permission' => new HasPermission(Auth::id())
+            'permission' => new HasPermission(Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -169,32 +178,34 @@ class SeatController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#annuler-une-assignation
+     *
      * @param Request $request
-     * @param string $seatId
+     * @param string  $seatId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function unAssign(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
+            'lan_id'     => $request->input('lan_id'),
             'user_email' => $request->input('user_email'),
-            'seat_id' => $seatId,
+            'seat_id'    => $seatId,
             'permission' => 'unassign-seat',
         ], [
             'user_email' => 'exists:user,email',
-            'lan_id' => [
+            'lan_id'     => [
                 'required',
                 'integer',
-                'exists:lan,id,deleted_at,NULL'
+                'exists:lan,id,deleted_at,NULL',
             ],
             'seat_id' => [
                 'required',
                 'string',
                 new SeatExistInLanSeatIo($request->input('lan_id')),
-                new SeatLanRelationExists($request->input('lan_id'))
+                new SeatLanRelationExists($request->input('lan_id')),
             ],
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -208,27 +219,29 @@ class SeatController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#annuler-une-reservation
+     *
      * @param Request $request
-     * @param string $seatId
+     * @param string  $seatId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function unBook(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'seat_id' => $seatId
+            'lan_id'  => $request->input('lan_id'),
+            'seat_id' => $seatId,
         ], [
             'lan_id' => [
                 'required',
                 'integer',
-                'exists:lan,id,deleted_at,NULL'
+                'exists:lan,id,deleted_at,NULL',
             ],
             'seat_id' => [
                 'required',
                 'string',
                 new SeatExistInLanSeatIo($request->input('lan_id')),
-                new SeatLanRelationExists($request->input('lan_id'))
+                new SeatLanRelationExists($request->input('lan_id')),
             ],
         ]);
 
@@ -243,19 +256,21 @@ class SeatController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#deconfirmer-une-place
+     *
      * @param Request $request
-     * @param string $seatId
+     * @param string  $seatId
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function unConfirmArrival(Request $request, string $seatId)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'seat_id' => $seatId,
+            'lan_id'     => $request->input('lan_id'),
+            'seat_id'    => $seatId,
             'permission' => 'unconfirm-arrival',
         ], [
-            'lan_id' => 'required|integer|exists:lan,id,deleted_at,NULL',
+            'lan_id'  => 'required|integer|exists:lan,id,deleted_at,NULL',
             'seat_id' => [
                 'required',
                 'string',
@@ -263,9 +278,9 @@ class SeatController extends Controller
                 new SeatNotFreeSeatIo($request->input('lan_id')),
                 new SeatNotBookedSeatIo($request->input('lan_id')),
                 new SeatExistInLanSeatIo($request->input('lan_id')),
-                new SeatLanRelationExists($request->input('lan_id'))
+                new SeatLanRelationExists($request->input('lan_id')),
             ],
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);

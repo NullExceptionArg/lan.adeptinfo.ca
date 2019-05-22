@@ -29,15 +29,15 @@ class RemoveOrganizerTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1),
-            'teams_to_reach' => 10,
-            'players_to_reach' => 10
+            'tournament_end'   => $endTime->subHour(1),
+            'teams_to_reach'   => 10,
+            'players_to_reach' => 10,
         ]);
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $this->organizer->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $this->organizer->id,
+            'tournament_id' => $this->tournament->id,
         ]);
     }
 
@@ -45,8 +45,8 @@ class RemoveOrganizerTest extends TestCase
     {
         $organizer2 = factory('App\Model\User')->create();
         factory('App\Model\OrganizerTournament')->create([
-            'organizer_id' => $organizer2->id,
-            'tournament_id' => $this->tournament->id
+            'organizer_id'  => $organizer2->id,
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $result = $this->tournamentService->removeOrganizer($this->organizer->email, $this->tournament->id);

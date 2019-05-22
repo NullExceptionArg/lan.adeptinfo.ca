@@ -2,9 +2,11 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{Contribution, ContributionCategory};
+use App\Model\Contribution;
+use App\Model\ContributionCategory;
 use App\Repositories\ContributionRepository;
-use Illuminate\{Support\Collection, Support\Facades\DB};
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ContributionRepositoryImpl implements ContributionRepository
 {
@@ -13,7 +15,7 @@ class ContributionRepositoryImpl implements ContributionRepository
         return DB::table('contribution_category')
             ->insertGetId([
                 'lan_id' => $lanId,
-                'name' => $name
+                'name'   => $name,
             ]);
     }
 
@@ -21,8 +23,8 @@ class ContributionRepositoryImpl implements ContributionRepository
     {
         return DB::table('contribution')
             ->insertGetId([
-                'user_full_name' => $userFullName,
-                'contribution_category_id' => $contributionCategoryId
+                'user_full_name'           => $userFullName,
+                'contribution_category_id' => $contributionCategoryId,
             ]);
     }
 
@@ -30,8 +32,8 @@ class ContributionRepositoryImpl implements ContributionRepository
     {
         return DB::table('contribution')
             ->insertGetId([
-                'user_id' => $userId,
-                'contribution_category_id' => $contributionCategoryId
+                'user_id'                  => $userId,
+                'contribution_category_id' => $contributionCategoryId,
             ]);
     }
 

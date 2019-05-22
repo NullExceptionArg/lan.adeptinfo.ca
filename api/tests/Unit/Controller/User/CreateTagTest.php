@@ -12,7 +12,7 @@ class CreateTagTest extends TestCase
     protected $user;
 
     protected $requestContent = [
-        'name' => 'PRO'
+        'name' => 'PRO',
     ];
 
     public function setUp(): void
@@ -24,10 +24,10 @@ class CreateTagTest extends TestCase
     public function testCreate(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/tag', $this->requestContent)
             ->seeJsonEquals([
-                'id' => 1,
-                'name' => $this->requestContent['name']
+                'id'   => 1,
+                'name' => $this->requestContent['name'],
             ])
             ->assertResponseStatus(201);
     }
@@ -36,15 +36,15 @@ class CreateTagTest extends TestCase
     {
         $this->requestContent['name'] = null;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name field is required.'
+                        0 => 'The name field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -53,15 +53,15 @@ class CreateTagTest extends TestCase
     {
         $this->requestContent['name'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name must be a string.'
+                        0 => 'The name must be a string.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -70,15 +70,15 @@ class CreateTagTest extends TestCase
     {
         $this->requestContent['name'] = str_repeat('☭', 6);
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name may not be greater than 5 characters.'
+                        0 => 'The name may not be greater than 5 characters.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -87,18 +87,18 @@ class CreateTagTest extends TestCase
     {
         factory('App\Model\Tag')->create([
             'user_id' => $this->user->id,
-            'name' => $this->requestContent['name']
+            'name'    => $this->requestContent['name'],
         ]);
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/tag', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/tag', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'name' => [
-                        0 => 'The name has already been taken.'
+                        0 => 'The name has already been taken.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

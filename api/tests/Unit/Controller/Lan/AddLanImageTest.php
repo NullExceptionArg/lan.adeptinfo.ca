@@ -5,7 +5,7 @@ namespace Tests\Unit\Controller\Lan;
 use Laravel\Lumen\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
-class addImageTest extends TestCase
+class AddLanImageTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -13,8 +13,8 @@ class addImageTest extends TestCase
     protected $lan;
 
     protected $requestContent = [
-        'image' => null,
-        'lan_id' => null
+        'image'  => null,
+        'lan_id' => null,
     ];
 
     public function setUp(): void
@@ -29,17 +29,17 @@ class addImageTest extends TestCase
             'add-image'
         );
 
-        $this->requestContent['image'] = 'data:image/png;base64,' . base64_encode(base_path() . '/resources/misc/image/HammerAndSickle.png');
+        $this->requestContent['image'] = 'data:image/png;base64,'.base64_encode(base_path().'/resources/misc/image/HammerAndSickle.png');
         $this->requestContent['lan_id'] = $this->lan->id;
     }
 
     public function testAddLanImage(): void
     {
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/image', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/image', $this->requestContent)
             ->seeJsonEquals([
-                'id' => 1,
-                'image' => $this->requestContent['image']
+                'id'    => 1,
+                'image' => $this->requestContent['image'],
             ])
             ->assertResponseStatus(201);
     }
@@ -47,7 +47,7 @@ class addImageTest extends TestCase
     public function testAddLanImageCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
 
         $this->addLanPermissionToUser(
@@ -58,10 +58,10 @@ class addImageTest extends TestCase
 
         $this->requestContent['lan_id'] = null;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/image', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/image', $this->requestContent)
             ->seeJsonEquals([
-                'id' => 1,
-                'image' => $this->requestContent['image']
+                'id'    => 1,
+                'image' => $this->requestContent['image'],
             ])
             ->assertResponseStatus(201);
     }
@@ -70,11 +70,11 @@ class addImageTest extends TestCase
     {
         $user = factory('App\Model\User')->create();
         $this->actingAs($user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/image', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 403,
-                'message' => 'REEEEEEEEEE'
+                'status'  => 403,
+                'message' => 'REEEEEEEEEE',
             ])
             ->assertResponseStatus(403);
     }
@@ -83,15 +83,15 @@ class addImageTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/image', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -100,15 +100,15 @@ class addImageTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/image', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -117,15 +117,15 @@ class addImageTest extends TestCase
     {
         $this->requestContent['image'] = null;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/image', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'image' => [
                         0 => 'The image field is required.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -134,15 +134,15 @@ class addImageTest extends TestCase
     {
         $this->requestContent['image'] = 1;
         $this->actingAs($this->user)
-            ->json('POST', 'http://' . env('API_DOMAIN') . '/lan/image', $this->requestContent)
+            ->json('POST', 'http://'.env('API_DOMAIN').'/lan/image', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'image' => [
                         0 => 'The image must be a string.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

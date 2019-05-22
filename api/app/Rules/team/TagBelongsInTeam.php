@@ -2,14 +2,15 @@
 
 namespace App\Rules\Team;
 
-use App\Model\{Tag, TagTeam, Team};
+use App\Model\Tag;
+use App\Model\TagTeam;
+use App\Model\Team;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Un tag de joueur fait parti d'une équipe.
  *
  * Class TagBelongsInTeam
- * @package App\Rules\Team
  */
 class TagBelongsInTeam implements Rule
 {
@@ -17,6 +18,7 @@ class TagBelongsInTeam implements Rule
 
     /**
      * TagBelongsInTeam constructor.
+     *
      * @param string|null $teamId Id de l'équipe
      */
     public function __construct($teamId)
@@ -27,8 +29,9 @@ class TagBelongsInTeam implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $tagId Id du tag de joueur
+     * @param string $attribute
+     * @param mixed  $tagId     Id du tag de joueur
+     *
      * @return bool
      */
     public function passes($attribute, $tagId): bool

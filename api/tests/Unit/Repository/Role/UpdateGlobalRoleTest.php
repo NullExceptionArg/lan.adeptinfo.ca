@@ -15,11 +15,11 @@ class UpdateGlobalRoleTest extends TestCase
     protected $globalRole;
 
     protected $paramsContent = [
-        'name' => 'comrade',
+        'name'            => 'comrade',
         'en_display_name' => 'Comrade',
-        'en_description' => 'Our equal',
+        'en_description'  => 'Our equal',
         'fr_display_name' => 'Camarade',
-        'fr_description' => 'Notre égal.',
+        'fr_description'  => 'Notre égal.',
     ];
 
     public function setUp(): void
@@ -34,11 +34,11 @@ class UpdateGlobalRoleTest extends TestCase
     public function testUpdateGlobalRole(): void
     {
         $this->seeInDatabase('global_role', [
-            'name' => $this->globalRole->name,
+            'name'            => $this->globalRole->name,
             'en_display_name' => $this->globalRole->en_display_name,
-            'en_description' => $this->globalRole->en_description,
+            'en_description'  => $this->globalRole->en_description,
             'fr_display_name' => $this->globalRole->fr_display_name,
-            'fr_description' => $this->globalRole->fr_description
+            'fr_description'  => $this->globalRole->fr_description,
         ]);
 
         $this->roleRepository->updateGlobalRole(
@@ -51,11 +51,11 @@ class UpdateGlobalRoleTest extends TestCase
         );
 
         $this->seeInDatabase('global_role', [
-            'name' => $this->paramsContent['name'],
+            'name'            => $this->paramsContent['name'],
             'en_display_name' => $this->paramsContent['en_display_name'],
-            'en_description' => $this->paramsContent['en_description'],
+            'en_description'  => $this->paramsContent['en_description'],
             'fr_display_name' => $this->paramsContent['fr_display_name'],
-            'fr_description' => $this->paramsContent['fr_description']
+            'fr_description'  => $this->paramsContent['fr_description'],
         ]);
     }
 }

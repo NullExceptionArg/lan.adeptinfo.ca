@@ -29,16 +29,16 @@ class GetUsersLanRolesTest extends TestCase
             ->get();
 
         $lanRoles = factory('App\Model\LanRole', 4)->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         for ($i = 0; $i <= 3; $i++) {
             factory('App\Model\PermissionLanRole')->create([
                 'permission_id' => $permissions[$i]->id,
-                'role_id' => $lanRoles[$i]->id
+                'role_id'       => $lanRoles[$i]->id,
             ]);
             factory('App\Model\LanRoleUser')->create([
                 'user_id' => $user->id,
-                'role_id' => $lanRoles[$i]->id
+                'role_id' => $lanRoles[$i]->id,
             ]);
         }
 

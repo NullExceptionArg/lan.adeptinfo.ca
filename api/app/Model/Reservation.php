@@ -3,10 +3,11 @@
 namespace App\Model;
 
 use DateTime;
-use Illuminate\{Database\Eloquent\Model, Database\Eloquent\SoftDeletes};
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
- * Réservation d'une place par un utilisateur et son état
+ * Réservation d'une place par un utilisateur et son état.
  *
  * @property int user_id
  * @property int lan_id
@@ -34,7 +35,7 @@ class Reservation extends Model
      * @var array
      */
     protected $fillable = [
-        'seat_id', 'lan_id'
+        'seat_id', 'lan_id',
     ];
 
     /**

@@ -21,20 +21,20 @@ class DeleteContributionByIdTest extends TestCase
 
         $lan = factory('App\Model\Lan')->create();
         $contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
         $this->contribution = factory('App\Model\Contribution')->create([
-            'user_full_name' => 'Karl Marx',
-            'contribution_category_id' => $contributionCategory->id
+            'user_full_name'           => 'Karl Marx',
+            'contribution_category_id' => $contributionCategory->id,
         ]);
     }
 
     public function testDeleteContributionById(): void
     {
         $this->seeInDatabase('contribution', [
-            'id' => $this->contribution->id,
+            'id'             => $this->contribution->id,
             'user_full_name' => $this->contribution->user_full_name,
-            'user_id' => null
+            'user_id'        => null,
         ]);
 
         $this->contributionRepository->deleteContributionById($this->contribution->id);

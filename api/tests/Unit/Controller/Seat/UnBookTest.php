@@ -23,14 +23,14 @@ class UnBookTest extends SeatsTestCase
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $this->lan->id
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/seat/book/'.env('SEAT_TEST_ID'), [
+                'lan_id' => $this->lan->id,
             ])
             ->seeJsonEquals([
-                "seat_id" => env('SEAT_TEST_ID')
+                'seat_id' => env('SEAT_TEST_ID'),
             ])
             ->assertResponseStatus(200);
     }
@@ -38,16 +38,16 @@ class UnBookTest extends SeatsTestCase
     public function testUnBookCurrentLan(): void
     {
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $lan
+            'lan_id'  => $lan,
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'))
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/seat/book/'.env('SEAT_TEST_ID'))
             ->seeJsonEquals([
-                "seat_id" => env('SEAT_TEST_ID')
+                'seat_id' => env('SEAT_TEST_ID'),
             ])
             ->assertResponseStatus(200);
     }
@@ -56,20 +56,20 @@ class UnBookTest extends SeatsTestCase
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'), [
-                'lan_id' => -1
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/seat/book/'.env('SEAT_TEST_ID'), [
+                'lan_id' => -1,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
                         0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -79,21 +79,21 @@ class UnBookTest extends SeatsTestCase
         $badSeatId = '☭';
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . $badSeatId, [
-                'lan_id' => $this->lan->id
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/seat/book/'.$badSeatId, [
+                'lan_id' => $this->lan->id,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'seat_id' => [
                         0 => 'The selected seat id is invalid.',
-                        1 => 'The relation between seat with id ' . $badSeatId . ' and LAN with id ' . $this->lan->id . ' doesn\'t exist.'
+                        1 => 'The relation between seat with id '.$badSeatId.' and LAN with id '.$this->lan->id.' doesn\'t exist.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -103,20 +103,20 @@ class UnBookTest extends SeatsTestCase
         $badLanId = '☭';
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
         $this->actingAs($this->user)
-            ->json('DELETE', 'http://' . env('API_DOMAIN') . '/seat/book/' . env('SEAT_TEST_ID'), [
-                'lan_id' => $badLanId
+            ->json('DELETE', 'http://'.env('API_DOMAIN').'/seat/book/'.env('SEAT_TEST_ID'), [
+                'lan_id' => $badLanId,
             ])
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The lan id must be an integer.'
+                        0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }

@@ -29,11 +29,11 @@ class GetUsersGlobalRolesTest extends TestCase
         for ($i = 0; $i <= 3; $i++) {
             factory('App\Model\PermissionGlobalRole')->create([
                 'permission_id' => $permissions[$i]->id,
-                'role_id' => $globalRoles[$i]->id
+                'role_id'       => $globalRoles[$i]->id,
             ]);
             factory('App\Model\GlobalRoleUser')->create([
                 'user_id' => $user->id,
-                'role_id' => $globalRoles[$i]->id
+                'role_id' => $globalRoles[$i]->id,
             ]);
         }
 

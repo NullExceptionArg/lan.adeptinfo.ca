@@ -2,14 +2,14 @@
 
 namespace App\Rules\Role;
 
-use App\Model\{GlobalRoleUser, User};
+use App\Model\GlobalRoleUser;
+use App\Model\User;
 use Illuminate\Contracts\Validation\Rule;
 
 /**
  * Un rôle global n'est associé qu'une fois par utilisateur.
  *
  * Class GlobalRoleOncePerUser
- * @package App\Rules\Role
  */
 class GlobalRoleOncePerUser implements Rule
 {
@@ -17,6 +17,7 @@ class GlobalRoleOncePerUser implements Rule
 
     /**
      * SeatOncePerLan constructor.
+     *
      * @param null $email Courriel de l'utilisateur
      */
     public function __construct($email)
@@ -27,8 +28,9 @@ class GlobalRoleOncePerUser implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
+     * @param string $attribute
      * @param  mixed int Id du rôle global
+     *
      * @return bool
      */
     public function passes($attribute, $globalRoleId): bool

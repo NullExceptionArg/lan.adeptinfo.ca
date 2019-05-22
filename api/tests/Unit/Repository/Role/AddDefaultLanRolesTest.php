@@ -27,7 +27,7 @@ class AddDefaultLanRolesTest extends TestCase
 
         $this->roleRepository->addDefaultLanRoles($this->lan->id);
 
-        $lanRoles = (include(base_path() . '/resources/roles.php'))['lan_roles'];
+        $lanRoles = (include(base_path().'/resources/roles.php'))['lan_roles'];
         $this->assertEquals(count($lanRoles), LanRole::all()->count());
     }
 }

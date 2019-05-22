@@ -4,13 +4,15 @@ namespace App\Console\Commands;
 
 use App\Model\GlobalRole;
 use App\Rules\User\UniqueEmailSocialLogin;
-use Illuminate\{Console\Command, Support\Facades\DB, Support\Facades\Hash, Support\Facades\Validator};
+use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Générer un administrateur général, possédant toutes les permissions dans l'application.
  *
  * Class GenerateGeneralAdmin
- * @package App\Console\Commands
  */
 class GenerateGeneralAdmin extends Command
 {
@@ -45,7 +47,7 @@ class GenerateGeneralAdmin extends Command
         // Courriel
         do {
             $email = $this->ask('Courriel (Format de courriel valide, s\'il n\'est pas en attente de confirmation, il est nouveau dans l\'application ou est utilisé par Google ou Facebook.  : ');
-            $emailValidator = Validator::make(['email' => $email,], ['email' => ['required', 'email', new UniqueEmailSocialLogin]]);
+            $emailValidator = Validator::make(['email' => $email], ['email' => ['required', 'email', new UniqueEmailSocialLogin()]]);
 
             if ($emailValidator->fails()) {
                 $this->warn('Courriel invalide. Veuillez réessayer.');
@@ -55,7 +57,7 @@ class GenerateGeneralAdmin extends Command
         // Prénom
         do {
             $firstName = $this->ask('Prénom (255 caractères max) : ');
-            $firstNameValidator = Validator::make(['first_name' => $firstName,], ['first_name' => 'required|max:255']);
+            $firstNameValidator = Validator::make(['first_name' => $firstName], ['first_name' => 'required|max:255']);
             if ($firstNameValidator->fails()) {
                 $this->warn('Prénom invalide. Veuillez réessayer.');
             }
@@ -64,7 +66,7 @@ class GenerateGeneralAdmin extends Command
         // Nom
         do {
             $lastName = $this->ask('Nom (255 caractères max) : ');
-            $lastNameValidator = Validator::make(['last_name' => $lastName,], ['last_name' => 'required|max:255']);
+            $lastNameValidator = Validator::make(['last_name' => $lastName], ['last_name' => 'required|max:255']);
 
             if ($lastNameValidator->fails()) {
                 $this->warn('Nom invalide. Veuillez réessayer.');
@@ -76,7 +78,7 @@ class GenerateGeneralAdmin extends Command
             $password = $this->secret('Mot de passe invalide (6 caractères min, 20 caractères max) : ');
             $passwordConfirmation = $this->secret('Confirm password');
             $samePasswords = $password == $passwordConfirmation;
-            $passwordValidator = Validator::make(['password' => $password,], ['password' => 'required|min:6|max:20']);
+            $passwordValidator = Validator::make(['password' => $password], ['password' => 'required|min:6|max:20']);
 
             if ($passwordValidator->fails() || !$samePasswords) {
                 $this->warn('Mot de passe invalide. Veuillez réessayer.');
@@ -85,17 +87,17 @@ class GenerateGeneralAdmin extends Command
 
         // Ajouter l'utilisateur
         $userId = DB::table('user')->insertGetId([
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'email' => $email,
-            'password' => Hash::make($password),
-            'is_confirmed' => true
+            'first_name'   => $firstName,
+            'last_name'    => $lastName,
+            'email'        => $email,
+            'password'     => Hash::make($password),
+            'is_confirmed' => true,
         ]);
 
         // Lier l'utilisateur créé au rôle d'administrateur général (Possède toutes les permissions)
         DB::table('global_role_user')->insert([
             'role_id' => GlobalRole::where('name', 'general-admin')->first()->id,
-            'user_id' => $userId
+            'user_id' => $userId,
         ]);
 
         // Afficher l'utilisateur créé dans la console

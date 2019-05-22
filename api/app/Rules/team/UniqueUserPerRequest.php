@@ -2,14 +2,15 @@
 
 namespace App\Rules\Team;
 
-use App\Model\{Tag, Team};
-use Illuminate\{Contracts\Validation\Rule, Support\Facades\DB};
+use App\Model\Tag;
+use App\Model\Team;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Une requête n'existe qu'une fois par utilisateur.
  *
  * Class UniqueUserPerRequest
- * @package App\Rules\Team
  */
 class UniqueUserPerRequest implements Rule
 {
@@ -18,7 +19,8 @@ class UniqueUserPerRequest implements Rule
 
     /**
      * UniqueUserPerRequest constructor.
-     * @param int $tagId Id du tag de joueur
+     *
+     * @param int $tagId  Id du tag de joueur
      * @param int $userId
      */
     public function __construct($tagId, $userId)
@@ -30,8 +32,9 @@ class UniqueUserPerRequest implements Rule
     /**
      * Déterminer si la règle de validation passe.
      *
-     * @param  string $attribute
-     * @param  mixed $teamId Id de l'équipe
+     * @param string $attribute
+     * @param mixed  $teamId    Id de l'équipe
+     *
      * @return bool
      */
     public function passes($attribute, $teamId): bool

@@ -31,8 +31,8 @@ class DeletePermissionsGlobalRoleTest extends TestCase
 
         foreach ($this->permissions as $permissionId) {
             factory('App\Model\PermissionGlobalRole')->create([
-                'role_id' => $this->globalRole->id,
-                'permission_id' => $permissionId
+                'role_id'       => $this->globalRole->id,
+                'permission_id' => $permissionId,
             ]);
         }
     }

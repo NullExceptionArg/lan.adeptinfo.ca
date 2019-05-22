@@ -2,11 +2,12 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\{Contribution\ContributionCategoryResource,
-    Contribution\ContributionResource,
-    Contribution\GetContributionsResource};
+use App\Http\Resources\Contribution\ContributionCategoryResource;
+use App\Http\Resources\Contribution\ContributionResource;
+use App\Http\Resources\Contribution\GetContributionsResource;
 use App\Model\ContributionCategory;
-use App\Repositories\{Implementation\ContributionRepositoryImpl, Implementation\UserRepositoryImpl};
+use App\Repositories\Implementation\ContributionRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\ContributionService;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -17,14 +18,14 @@ class ContributionServiceImpl implements ContributionService
 
     /**
      * ContributionServiceImpl constructor.
+     *
      * @param ContributionRepositoryImpl $contributionRepository
-     * @param UserRepositoryImpl $userRepository
+     * @param UserRepositoryImpl         $userRepository
      */
     public function __construct(
         ContributionRepositoryImpl $contributionRepository,
         UserRepositoryImpl $userRepository
-    )
-    {
+    ) {
         $this->contributionRepository = $contributionRepository;
         $this->userRepository = $userRepository;
     }
@@ -42,8 +43,7 @@ class ContributionServiceImpl implements ContributionService
         int $contributionCategoryId,
         ?string $userFullName,
         ?string $email
-    ): ContributionResource
-    {
+    ): ContributionResource {
         $contributionId = null;
 
         // Si c'est le nom complet du contributeur qui est utilisé

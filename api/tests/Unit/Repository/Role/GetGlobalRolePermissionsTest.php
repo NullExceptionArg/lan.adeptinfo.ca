@@ -27,8 +27,8 @@ class GetGlobalRolePermissionsTest extends TestCase
 
         foreach ($this->permissions as $permission) {
             factory('App\Model\PermissionGlobalRole')->create([
-                'role_id' => $this->globalRole->id,
-                'permission_id' => $permission->id
+                'role_id'       => $this->globalRole->id,
+                'permission_id' => $permission->id,
             ]);
         }
     }

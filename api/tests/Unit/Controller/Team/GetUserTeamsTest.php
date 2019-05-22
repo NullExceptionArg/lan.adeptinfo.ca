@@ -17,7 +17,7 @@ class GetUserTeamsTest extends TestCase
     protected $team;
 
     protected $requestContent = [
-        'lan_id' => null
+        'lan_id' => null,
     ];
 
     public function setUp(): void
@@ -25,19 +25,19 @@ class GetUserTeamsTest extends TestCase
         parent::setUp();
         $this->user = factory('App\Model\User')->create();
         $this->tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         $this->lan = factory('App\Model\Lan')->create();
 
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $this->tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $this->team = factory('App\Model\Team')->create([
-            'tournament_id' => $this->tournament->id
+            'tournament_id' => $this->tournament->id,
         ]);
 
         $this->requestContent['lan_id'] = $this->lan->id;
@@ -47,21 +47,21 @@ class GetUserTeamsTest extends TestCase
     {
         factory('App\Model\Request')->create([
             'team_id' => $this->team->id,
-            'tag_id' => $this->tag->id
+            'tag_id'  => $this->tag->id,
         ]);
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
-                    'id' => 1,
-                    'name' => $this->team->name,
-                    'player_state' => 'not-confirmed',
+                    'id'               => 1,
+                    'name'             => $this->team->name,
+                    'player_state'     => 'not-confirmed',
                     'players_to_reach' => $this->tournament->players_to_reach,
-                    'players_reached' => 0,
-                    'requests' => 1,
-                    'tag' => $this->team->tag,
-                    'tournament_name' => $this->tournament->name
-                ]
+                    'players_reached'  => 0,
+                    'requests'         => 1,
+                    'tag'              => $this->team->tag,
+                    'tournament_name'  => $this->tournament->name,
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -70,38 +70,38 @@ class GetUserTeamsTest extends TestCase
     {
         $this->requestContent['lan_id'] = null;
         $lan = factory('App\Model\Lan')->create([
-            'is_current' => true
+            'is_current' => true,
         ]);
         $startTime = Carbon::parse($lan->lan_start);
         $endTime = Carbon::parse($lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $lan->id,
+            'lan_id'           => $lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $team = factory('App\Model\Team')->create([
-            'tournament_id' => $tournament->id
+            'tournament_id' => $tournament->id,
         ]);
         $tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         factory('App\Model\Request')->create([
             'team_id' => $team->id,
-            'tag_id' => $tag->id
+            'tag_id'  => $tag->id,
         ]);
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
-                    'id' => 2,
-                    'name' => $team->name,
-                    'player_state' => 'not-confirmed',
+                    'id'               => 2,
+                    'name'             => $team->name,
+                    'player_state'     => 'not-confirmed',
                     'players_to_reach' => $tournament->players_to_reach,
-                    'players_reached' => 0,
-                    'requests' => 1,
-                    'tag' => $team->tag,
-                    'tournament_name' => $tournament->name
-                ]
+                    'players_reached'  => 0,
+                    'requests'         => 1,
+                    'tag'              => $team->tag,
+                    'tournament_name'  => $tournament->name,
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -110,15 +110,15 @@ class GetUserTeamsTest extends TestCase
     {
         $this->requestContent['lan_id'] = '☭';
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The lan id must be an integer.'
+                        0 => 'The lan id must be an integer.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -127,15 +127,15 @@ class GetUserTeamsTest extends TestCase
     {
         $this->requestContent['lan_id'] = -1;
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([
                 'success' => false,
-                'status' => 400,
+                'status'  => 400,
                 'message' => [
                     'lan_id' => [
-                        0 => 'The selected lan id is invalid.'
+                        0 => 'The selected lan id is invalid.',
                     ],
-                ]
+                ],
             ])
             ->assertResponseStatus(400);
     }
@@ -144,21 +144,21 @@ class GetUserTeamsTest extends TestCase
     {
         factory('App\Model\TagTeam')->create([
             'team_id' => $this->team->id,
-            'tag_id' => $this->tag->id
+            'tag_id'  => $this->tag->id,
         ]);
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
-                    'id' => 1,
-                    'name' => $this->team->name,
-                    'player_state' => 'confirmed',
+                    'id'               => 1,
+                    'name'             => $this->team->name,
+                    'player_state'     => 'confirmed',
                     'players_to_reach' => $this->tournament->players_to_reach,
-                    'players_reached' => 1,
-                    'requests' => 0,
-                    'tag' => $this->team->tag,
-                    'tournament_name' => $this->tournament->name
-                ]
+                    'players_reached'  => 1,
+                    'requests'         => 0,
+                    'tag'              => $this->team->tag,
+                    'tournament_name'  => $this->tournament->name,
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -166,23 +166,23 @@ class GetUserTeamsTest extends TestCase
     public function testCreateRequestLeader(): void
     {
         factory('App\Model\TagTeam')->create([
-            'team_id' => $this->team->id,
-            'tag_id' => $this->tag->id,
-            'is_leader' => true
+            'team_id'   => $this->team->id,
+            'tag_id'    => $this->tag->id,
+            'is_leader' => true,
         ]);
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
-                    'id' => 1,
-                    'name' => $this->team->name,
-                    'player_state' => 'leader',
+                    'id'               => 1,
+                    'name'             => $this->team->name,
+                    'player_state'     => 'leader',
                     'players_to_reach' => $this->tournament->players_to_reach,
-                    'players_reached' => 1,
-                    'requests' => 0,
-                    'tag' => $this->team->tag,
-                    'tournament_name' => $this->tournament->name
-                ]
+                    'players_reached'  => 1,
+                    'requests'         => 0,
+                    'tag'              => $this->team->tag,
+                    'tournament_name'  => $this->tournament->name,
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -192,47 +192,47 @@ class GetUserTeamsTest extends TestCase
         $startTime = Carbon::parse($this->lan->lan_start);
         $endTime = Carbon::parse($this->lan->lan_end);
         $tournament = factory('App\Model\Tournament')->create([
-            'lan_id' => $this->lan->id,
+            'lan_id'           => $this->lan->id,
             'tournament_start' => $startTime->addHour(1),
-            'tournament_end' => $endTime->subHour(1)
+            'tournament_end'   => $endTime->subHour(1),
         ]);
         $team = factory('App\Model\Team')->create([
-            'tournament_id' => $tournament->id
+            'tournament_id' => $tournament->id,
         ]);
         $tag = factory('App\Model\Tag')->create([
-            'user_id' => $this->user->id
+            'user_id' => $this->user->id,
         ]);
         factory('App\Model\TagTeam')->create([
             'team_id' => $team->id,
-            'tag_id' => $tag->id
+            'tag_id'  => $tag->id,
         ]);
         factory('App\Model\TagTeam')->create([
             'team_id' => $this->team->id,
-            'tag_id' => $this->tag->id
+            'tag_id'  => $this->tag->id,
         ]);
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([
                 [
-                    'id' => 1,
-                    'name' => $this->team->name,
-                    'player_state' => 'confirmed',
+                    'id'               => 1,
+                    'name'             => $this->team->name,
+                    'player_state'     => 'confirmed',
                     'players_to_reach' => $this->tournament->players_to_reach,
-                    'players_reached' => 1,
-                    'requests' => 0,
-                    'tag' => $this->team->tag,
-                    'tournament_name' => $this->tournament->name
+                    'players_reached'  => 1,
+                    'requests'         => 0,
+                    'tag'              => $this->team->tag,
+                    'tournament_name'  => $this->tournament->name,
                 ],
                 [
-                    'id' => 2,
-                    'name' => $team->name,
-                    'player_state' => 'confirmed',
+                    'id'               => 2,
+                    'name'             => $team->name,
+                    'player_state'     => 'confirmed',
                     'players_to_reach' => $tournament->players_to_reach,
-                    'players_reached' => 1,
-                    'requests' => 0,
-                    'tag' => $team->tag,
-                    'tournament_name' => $tournament->name
-                ]
+                    'players_reached'  => 1,
+                    'requests'         => 0,
+                    'tag'              => $team->tag,
+                    'tournament_name'  => $tournament->name,
+                ],
             ])
             ->assertResponseStatus(200);
     }
@@ -241,7 +241,7 @@ class GetUserTeamsTest extends TestCase
     {
         $this->team->delete();
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }
@@ -251,7 +251,7 @@ class GetUserTeamsTest extends TestCase
         $this->team->delete();
         $this->tournament->delete();
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }
@@ -260,7 +260,7 @@ class GetUserTeamsTest extends TestCase
     {
         $this->tag->delete();
         $this->actingAs($this->user)
-            ->json('GET', 'http://' . env('API_DOMAIN') . '/team/user', $this->requestContent)
+            ->json('GET', 'http://'.env('API_DOMAIN').'/team/user', $this->requestContent)
             ->seeJsonEquals([])
             ->assertResponseStatus(200);
     }

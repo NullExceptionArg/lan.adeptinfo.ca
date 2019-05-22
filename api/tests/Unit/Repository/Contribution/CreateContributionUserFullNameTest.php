@@ -14,7 +14,7 @@ class CreateContributionUserFullNameTest extends TestCase
     protected $contributionCategory;
 
     protected $paramsContent = [
-        "user_full_name" => 'Karl Marx'
+        'user_full_name' => 'Karl Marx',
     ];
 
     public function setUp(): void
@@ -25,7 +25,7 @@ class CreateContributionUserFullNameTest extends TestCase
 
         $lan = factory('App\Model\Lan')->create();
         $this->contributionCategory = factory('App\Model\ContributionCategory')->create([
-            'lan_id' => $lan->id
+            'lan_id' => $lan->id,
         ]);
     }
 
@@ -38,9 +38,9 @@ class CreateContributionUserFullNameTest extends TestCase
 
         $this->assertIsInt($result);
         $this->seeInDatabase('contribution', [
-            'id' => 1,
+            'id'             => 1,
             'user_full_name' => $this->paramsContent['user_full_name'],
-            'user_id' => null
+            'user_id'        => null,
         ]);
     }
 }

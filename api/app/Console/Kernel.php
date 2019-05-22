@@ -15,13 +15,14 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\GeneratePermissions::class,
         Commands\GenerateGlobalRoles::class,
-        Commands\GenerateGeneralAdmin::class
+        Commands\GenerateGeneralAdmin::class,
     ];
 
     /**
      * Planification des commandes à exécuter.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     *
      * @return void
      */
     protected function schedule(Schedule $schedule)

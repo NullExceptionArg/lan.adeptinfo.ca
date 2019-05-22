@@ -2,11 +2,12 @@
 
 namespace App\Services\Implementation;
 
-use App\Http\Resources\{Tournament\TournamentDetailsResource, Tournament\TournamentResource};
-use App\Repositories\Implementation\{LanRepositoryImpl,
-    RoleRepositoryImpl,
-    TournamentRepositoryImpl,
-    UserRepositoryImpl};
+use App\Http\Resources\Tournament\TournamentDetailsResource;
+use App\Http\Resources\Tournament\TournamentResource;
+use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\RoleRepositoryImpl;
+use App\Repositories\Implementation\TournamentRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\TournamentService;
 use DateTime;
 use Illuminate\{Http\Resources\Json\AnonymousResourceCollection};
@@ -20,18 +21,18 @@ class TournamentServiceImpl implements TournamentService
 
     /**
      * TournamentServiceImpl constructor.
-     * @param LanRepositoryImpl $lanRepository
+     *
+     * @param LanRepositoryImpl        $lanRepository
      * @param TournamentRepositoryImpl $tournamentRepository
-     * @param UserRepositoryImpl $userRepository
-     * @param RoleRepositoryImpl $roleRepository
+     * @param UserRepositoryImpl       $userRepository
+     * @param RoleRepositoryImpl       $roleRepository
      */
     public function __construct(
         LanRepositoryImpl $lanRepository,
         TournamentRepositoryImpl $tournamentRepository,
         UserRepositoryImpl $userRepository,
         RoleRepositoryImpl $roleRepository
-    )
-    {
+    ) {
         $this->lanRepository = $lanRepository;
         $this->tournamentRepository = $tournamentRepository;
         $this->userRepository = $userRepository;
@@ -63,8 +64,7 @@ class TournamentServiceImpl implements TournamentService
         int $teamsToReach,
         string $rules,
         ?int $price
-    ): TournamentDetailsResource
-    {
+    ): TournamentDetailsResource {
         // Créer le tournoi
         $tournamentId = $this->tournamentRepository->create(
             $lanId,
@@ -193,8 +193,7 @@ class TournamentServiceImpl implements TournamentService
         ?string $state,
         ?string $rules,
         ?int $price
-    ): TournamentDetailsResource
-    {
+    ): TournamentDetailsResource {
         // Mettre à jour le tournoi
         $this->tournamentRepository->update(
             $tournamentId,

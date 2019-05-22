@@ -12,7 +12,8 @@ class TournamentDetailsResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -38,21 +39,22 @@ class TournamentDetailsResource extends Resource
         // Ajouter l'id du LAN aux équipes
         $teams->map(function ($team) {
             $team['lan_id'] = $this->lan_id;
+
             return $team;
         });
 
         return [
-            'id' => intval($this->id),
-            'name' => $this->name,
-            'rules' => $this->rules,
-            'price' => intval($this->price),
+            'id'               => intval($this->id),
+            'name'             => $this->name,
+            'rules'            => $this->rules,
+            'price'            => intval($this->price),
             'tournament_start' => date('Y-m-d H:i:s', strtotime($this->tournament_start)),
-            'tournament_end' => date('Y-m-d H:i:s', strtotime($this->tournament_end)),
-            'teams_to_reach' => intval($this->teams_to_reach),
-            'teams_reached' => $teamsReached,
+            'tournament_end'   => date('Y-m-d H:i:s', strtotime($this->tournament_end)),
+            'teams_to_reach'   => intval($this->teams_to_reach),
+            'teams_reached'    => $teamsReached,
             'players_to_reach' => intval($this->players_to_reach),
-            'state' => $this->getCurrentState(),
-            'teams' => GetTournamentDetailsTeamResource::collection($teams)
+            'state'            => $this->getCurrentState(),
+            'teams'            => GetTournamentDetailsTeamResource::collection($teams),
         ];
     }
 }

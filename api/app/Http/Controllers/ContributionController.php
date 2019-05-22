@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Rules\{Contribution\HasPermissionInLan as HasPermissionInLanContribution,
-    ContributionCategory\HasPermissionInLan as HasPermissionInLanContributionCategory,
-    General\OneOfTwoFields,
-    User\HasPermissionInLan};
+use App\Rules\Contribution\HasPermissionInLan as HasPermissionInLanContribution;
+use App\Rules\ContributionCategory\HasPermissionInLan as HasPermissionInLanContributionCategory;
+use App\Rules\General\OneOfTwoFields;
+use App\Rules\User\HasPermissionInLan;
 use App\Services\Implementation\ContributionServiceImpl;
-use Illuminate\{Http\Request, Support\Facades\Auth, Support\Facades\Validator};
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Validation et application de la logique applicative sur les contributions.
  *
  * Class ContributionController
- * @package App\Http\Controllers
  */
 class ContributionController extends Controller
 {
@@ -26,6 +27,7 @@ class ContributionController extends Controller
 
     /**
      * ContributionController constructor.
+     *
      * @param ContributionServiceImpl $contributionService
      */
     public function __construct(ContributionServiceImpl $contributionService)
@@ -35,20 +37,22 @@ class ContributionController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#contribution
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function createCategory(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id'),
-            'name' => $request->input('name'),
-            'permission' => 'create-contribution-category'
+            'lan_id'     => $request->input('lan_id'),
+            'name'       => $request->input('name'),
+            'permission' => 'create-contribution-category',
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
-            'name' => 'required|string',
-            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id())
+            'lan_id'     => 'integer|exists:lan,id,deleted_at,NULL',
+            'name'       => 'required|string',
+            'permission' => new HasPermissionInLan($request->input('lan_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -61,7 +65,9 @@ class ContributionController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#creer-une-contribution
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function createContribution(Request $request)
@@ -69,27 +75,27 @@ class ContributionController extends Controller
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
             'contribution_category_id' => $request->input('contribution_category_id'),
-            'user_full_name' => $request->input('user_full_name'),
-            'user_email' => $request->input('user_email'),
-            'permission' => 'create-contribution'
+            'user_full_name'           => $request->input('user_full_name'),
+            'user_email'               => $request->input('user_email'),
+            'permission'               => 'create-contribution',
         ], [
             'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
-            'user_full_name' => [
+            'user_full_name'           => [
                 'required_without:user_email',
                 'string',
                 'nullable',
-                new OneOfTwoFields($request->input('user_email'), 'user_email')
+                new OneOfTwoFields($request->input('user_email'), 'user_email'),
             ],
             'user_email' => [
                 'required_without:user_full_name',
                 'string',
                 'nullable',
                 'exists:user,email',
-                new OneOfTwoFields($request->input('user_full_name'), 'user_full_name')
+                new OneOfTwoFields($request->input('user_full_name'), 'user_full_name'),
             ],
             'permission' => new HasPermissionInLanContributionCategory(
                 $request->input('contribution_category_id'), Auth::id()
-            )
+            ),
         ]);
 
         $this->checkValidation($validator);
@@ -103,19 +109,21 @@ class ContributionController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-une-categorie-de-contribution
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteCategory(Request $request)
     {
         $validator = Validator::make([
             'contribution_category_id' => $request->input('contribution_category_id'),
-            'permission' => 'delete-contribution-category'
+            'permission'               => 'delete-contribution-category',
         ], [
             'contribution_category_id' => 'required|integer|exists:contribution_category,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLanContributionCategory(
+            'permission'               => new HasPermissionInLanContributionCategory(
                 $request->input('contribution_category_id'), Auth::id()
-            )
+            ),
         ]);
 
         $this->checkValidation($validator);
@@ -127,17 +135,19 @@ class ContributionController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#supprimer-une-contribution
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function deleteContribution(Request $request)
     {
         $validator = Validator::make([
             'contribution_id' => $request->input('contribution_id'),
-            'permission' => 'delete-contribution'
+            'permission'      => 'delete-contribution',
         ], [
             'contribution_id' => 'required|integer|exists:contribution,id,deleted_at,NULL',
-            'permission' => new HasPermissionInLanContribution($request->input('contribution_id'), Auth::id())
+            'permission'      => new HasPermissionInLanContribution($request->input('contribution_id'), Auth::id()),
         ]);
 
         $this->checkValidation($validator);
@@ -149,7 +159,9 @@ class ContributionController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-categories-de-contribution
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getCategories(Request $request)
@@ -158,7 +170,7 @@ class ContributionController extends Controller
         $validator = Validator::make([
             'lan_id' => $request->input('lan_id'),
         ], [
-            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL'
+            'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);
 
         $this->checkValidation($validator);
@@ -170,14 +182,16 @@ class ContributionController extends Controller
 
     /**
      * @link https://adept-informatique.github.io/lan.adeptinfo.ca/#lister-les-contributions
+     *
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function getContributions(Request $request)
     {
         $request = $this->adjustRequestForLan($request);
         $validator = Validator::make([
-            'lan_id' => $request->input('lan_id')
+            'lan_id' => $request->input('lan_id'),
         ], [
             'lan_id' => 'integer|exists:lan,id,deleted_at,NULL',
         ]);

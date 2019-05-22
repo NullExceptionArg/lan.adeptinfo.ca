@@ -9,7 +9,6 @@ $factory->define(App\Model\Reservation::class, function (Faker\Generator $faker)
     $seatsClient->events->book(env('EVENT_TEST_KEY'), [env('SEAT_TEST_ID')]);
 
     return [
-        "seat_id" => env('SEAT_TEST_ID')
+        'seat_id' => env('SEAT_TEST_ID'),
     ];
-
 });

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Model\Lan;
-use Illuminate\{Contracts\Validation\Validator, Http\Request, Support\Facades\Auth};
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -12,7 +14,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  * Contient les méthodes récurentes.
  *
  * Class Controller
- * @package App\Http\Controllers
  */
 class Controller extends BaseController
 {
@@ -20,6 +21,7 @@ class Controller extends BaseController
      * Si aucun LAN n'est spécifié dans une requête qui nécessite un LAN, ce sera le LAN par défaut qui sera utilisé.
      *
      * @param Request $request
+     *
      * @return Request
      */
     public function adjustRequestForLan(Request $request): Request
@@ -34,6 +36,7 @@ class Controller extends BaseController
                 $request['lan_id'] = $lan->id;
             }
         }
+
         return $request;
     }
 
@@ -42,6 +45,7 @@ class Controller extends BaseController
      * Cette méthode ne devrait être utilisé que pour des requêtes où l'utilisateur est authentifié.
      *
      * @param Request $request
+     *
      * @return Request
      */
     public function adjustRequestForEmail(Request $request): Request
@@ -51,6 +55,7 @@ class Controller extends BaseController
             // Ajouter l'adresse courriel de l'utilisateur connecté
             $request['email'] = Auth::user()->email;
         }
+
         return $request;
     }
 

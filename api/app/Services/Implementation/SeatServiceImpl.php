@@ -2,7 +2,9 @@
 
 namespace App\Services\Implementation;
 
-use App\Repositories\Implementation\{LanRepositoryImpl, SeatRepositoryImpl, UserRepositoryImpl};
+use App\Repositories\Implementation\LanRepositoryImpl;
+use App\Repositories\Implementation\SeatRepositoryImpl;
+use App\Repositories\Implementation\UserRepositoryImpl;
 use App\Services\SeatService;
 use Seatsio\Charts\ChartListParams;
 use Seatsio\Charts\ChartPage;
@@ -16,7 +18,8 @@ class SeatServiceImpl implements SeatService
 
     /**
      * SeatServiceImpl constructor.
-     * @param LanRepositoryImpl $lanRepositoryImpl
+     *
+     * @param LanRepositoryImpl  $lanRepositoryImpl
      * @param SeatRepositoryImpl $seatRepositoryImpl
      * @param UserRepositoryImpl $userRepositoryImpl
      */
@@ -24,8 +27,7 @@ class SeatServiceImpl implements SeatService
         LanRepositoryImpl $lanRepositoryImpl,
         SeatRepositoryImpl $seatRepositoryImpl,
         UserRepositoryImpl $userRepositoryImpl
-    )
-    {
+    ) {
         $this->lanRepository = $lanRepositoryImpl;
         $this->seatRepository = $seatRepositoryImpl;
         $this->userRepository = $userRepositoryImpl;
@@ -44,11 +46,11 @@ class SeatServiceImpl implements SeatService
 
         // Créer un objet pour la place, au nom de l'utilisateur, avec son courriel et son nom complet
         $seatObject = [[
-            'objectId' => $seatId,
+            'objectId'  => $seatId,
             'extraData' => [
-                'name' => $user->getFullName(),
-                'email' => $user->email
-            ]
+                'name'  => $user->getFullName(),
+                'email' => $user->email,
+            ],
         ]];
 
         // Effectuer la réservation dans l'API de seats.io
@@ -74,10 +76,10 @@ class SeatServiceImpl implements SeatService
 
         // Créer un objet pour la place, au nom de l'utilisateur, avec son courriel et son nom complet
         $seatObject = [[
-            'objectId' => $seatId,
+            'objectId'  => $seatId,
             'extraData' => [
-                'name' => $user->getFullName(),
-                'email' => $user->email]
+                'name'  => $user->getFullName(),
+                'email' => $user->email, ],
         ]];
 
         // Effectuer la réservation dans l'API de seats.io
@@ -102,7 +104,7 @@ class SeatServiceImpl implements SeatService
         $reservation = $this->seatRepository->findReservationByLanIdAndSeatId($lan->id, $seatId);
 
         // Mettre le status du siège à "arrived" dans l'API seats.io
-        $seatsClient->events->changeObjectStatus($lan->event_key, [$seatId], "arrived");
+        $seatsClient->events->changeObjectStatus($lan->event_key, [$seatId], 'arrived');
 
         // Mettre le statut de la place à arrivé
         $this->seatRepository->setReservationArrived($reservation->id, $lan->id);
@@ -181,7 +183,7 @@ class SeatServiceImpl implements SeatService
 
         // Changer le status du siège à "booked" dans seats.io, ce qui signifie que la place est réservée, mais
         // que le joueur n'est toujours pas arrivé
-        $seatsClient->events->changeObjectStatus($lan->event_key, [$seatId], "booked");
+        $seatsClient->events->changeObjectStatus($lan->event_key, [$seatId], 'booked');
 
         // Mettre le statut de la place à réservé
         $this->seatRepository->setReservationLeft($reservation->id, $lan->id);

@@ -12,10 +12,10 @@ class CreateGoogleUserTest extends TestCase
     protected $userRepository;
 
     protected $params = [
-        'google_id' => '☭',
+        'google_id'  => '☭',
         'first_name' => 'karl',
-        'last_name' => 'marx',
-        'email' => 'karl.marx@unite.org',
+        'last_name'  => 'marx',
+        'email'      => 'karl.marx@unite.org',
     ];
 
     public function setUp(): void
@@ -27,10 +27,10 @@ class CreateGoogleUserTest extends TestCase
     public function testCreateGoogleUser(): void
     {
         $this->notSeeInDatabase('user', [
-            'google_id' => $this->params['google_id'],
+            'google_id'  => $this->params['google_id'],
             'first_name' => $this->params['first_name'],
-            'last_name' => $this->params['last_name'],
-            'email' => $this->params['email']
+            'last_name'  => $this->params['last_name'],
+            'email'      => $this->params['email'],
         ]);
 
         $this->userRepository->createGoogleUser(
@@ -41,10 +41,10 @@ class CreateGoogleUserTest extends TestCase
         );
 
         $this->seeInDatabase('user', [
-            'google_id' => $this->params['google_id'],
+            'google_id'  => $this->params['google_id'],
             'first_name' => $this->params['first_name'],
-            'last_name' => $this->params['last_name'],
-            'email' => $this->params['email']
+            'last_name'  => $this->params['last_name'],
+            'email'      => $this->params['email'],
         ]);
     }
 }

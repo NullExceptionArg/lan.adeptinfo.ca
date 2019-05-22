@@ -28,7 +28,7 @@ class CreateTagTest extends TestCase
     public function testCreateTag(): void
     {
         $this->notSeeInDatabase('tag', [
-            'name' => $this->paramsContent['name']
+            'name' => $this->paramsContent['name'],
         ]);
 
         $this->teamRepository->createTag(
@@ -37,7 +37,7 @@ class CreateTagTest extends TestCase
         );
 
         $this->seeInDatabase('tag', [
-            'name' => $this->paramsContent['name']
+            'name' => $this->paramsContent['name'],
         ]);
     }
 }

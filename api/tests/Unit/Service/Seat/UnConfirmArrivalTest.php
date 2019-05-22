@@ -29,7 +29,7 @@ class UnConfirmArrivalTest extends SeatsTestCase
     {
         factory('App\Model\Reservation')->create([
             'user_id' => $this->user->id,
-            'lan_id' => $this->lan->id
+            'lan_id'  => $this->lan->id,
         ]);
         $seatsClient = new SeatsioClient(env('SEAT_SECRET_KEY'));
         $seatsClient->events->changeObjectStatus($this->lan->event_key, [env('SEAT_TEST_ID')], 'arrived');

@@ -10,7 +10,8 @@ class GetContributionsResource extends Resource
     /**
      * Transformer la ressource en tableau.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -18,8 +19,9 @@ class GetContributionsResource extends Resource
         $contributions = DB::table('contribution')
             ->where('contribution_category_id', $this->id)
             ->get();
+
         return [
-            'category_id' => $this->id,
+            'category_id'   => $this->id,
             'category_name' => $this->name,
             'contributions' => ContributionResource::collection($contributions),
         ];

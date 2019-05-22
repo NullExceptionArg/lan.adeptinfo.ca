@@ -39,8 +39,8 @@ class LanRole extends Model
      * @var array
      */
     protected $casts = [
-        'id' => 'integer',
-        'lan_id' => 'integer'
+        'id'     => 'integer',
+        'lan_id' => 'integer',
     ];
 
     protected static function boot()

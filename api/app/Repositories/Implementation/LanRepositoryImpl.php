@@ -2,10 +2,12 @@
 
 namespace App\Repositories\Implementation;
 
-use App\Model\{Lan, LanImage};
+use App\Model\Lan;
+use App\Model\LanImage;
 use App\Repositories\LanRepository;
 use DateTime;
-use Illuminate\{Support\Collection, Support\Facades\DB};
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class LanRepositoryImpl implements LanRepository
 {
@@ -14,7 +16,7 @@ class LanRepositoryImpl implements LanRepository
         return DB::table('image')
             ->insertGetId([
                 'lan_id' => $lanId,
-                'image' => $image
+                'image'  => $image,
             ]);
     }
 
@@ -32,23 +34,22 @@ class LanRepositoryImpl implements LanRepository
         ?int $price,
         ?string $rules,
         ?string $description
-    ): int
-    {
+    ): int {
         return DB::table('lan')
             ->insertGetId([
-                'name' => $name,
-                'lan_start' => $lanStart->format('Y-m-d H:i:s'),
-                'lan_end' => $lanEnd->format('Y-m-d H:i:s'),
-                'seat_reservation_start' => $seatReservationStart->format('Y-m-d H:i:s'),
+                'name'                         => $name,
+                'lan_start'                    => $lanStart->format('Y-m-d H:i:s'),
+                'lan_end'                      => $lanEnd->format('Y-m-d H:i:s'),
+                'seat_reservation_start'       => $seatReservationStart->format('Y-m-d H:i:s'),
                 'tournament_reservation_start' => $tournamentReservationStart->format('Y-m-d H:i:s'),
-                'event_key' => $eventKey,
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'places' => $places,
-                'is_current' => $isCurrent,
-                'price' => $price,
-                'rules' => $rules,
-                'description' => $description,
+                'event_key'                    => $eventKey,
+                'latitude'                     => $latitude,
+                'longitude'                    => $longitude,
+                'places'                       => $places,
+                'is_current'                   => $isCurrent,
+                'price'                        => $price,
+                'rules'                        => $rules,
+                'description'                  => $description,
             ]);
     }
 
@@ -105,24 +106,23 @@ class LanRepositoryImpl implements LanRepository
         ?int $price,
         ?string $rules,
         ?string $description
-    ): void
-    {
+    ): void {
         $lan = $this->findById($lanId);
         DB::table('lan')
             ->where('id', $lanId)
             ->update([
-                'name' => $name != null ? $name : $lan->name,
-                'lan_start' => $lanStart != null ? $lanStart->format('Y-m-d H:i:s') : $lan->lan_start->format('Y-m-d H:i:s'),
-                'lan_end' => $lanEnd != null ? $lanEnd->format('Y-m-d H:i:s') : $lan->lan_end->format('Y-m-d H:i:s'),
-                'seat_reservation_start' => $seatReservationStart != null ? $seatReservationStart->format('Y-m-d H:i:s') : $lan->seat_reservation_start->format('Y-m-d H:i:s'),
+                'name'                         => $name != null ? $name : $lan->name,
+                'lan_start'                    => $lanStart != null ? $lanStart->format('Y-m-d H:i:s') : $lan->lan_start->format('Y-m-d H:i:s'),
+                'lan_end'                      => $lanEnd != null ? $lanEnd->format('Y-m-d H:i:s') : $lan->lan_end->format('Y-m-d H:i:s'),
+                'seat_reservation_start'       => $seatReservationStart != null ? $seatReservationStart->format('Y-m-d H:i:s') : $lan->seat_reservation_start->format('Y-m-d H:i:s'),
                 'tournament_reservation_start' => $tournamentReservationStart != null ? $tournamentReservationStart->format('Y-m-d H:i:s') : $lan->tournament_reservation_start->format('Y-m-d H:i:s'),
-                'event_key' => $eventKey != null ? $eventKey : $lan->event_key,
-                'latitude' => $latitude != null ? $latitude : $lan->latitude,
-                'longitude' => $longitude != null ? $longitude : $lan->longitude,
-                'places' => $places != null ? $places : $lan->places,
-                'price' => $price != null ? $price : $lan->price,
-                'rules' => $rules != null ? $rules : $lan->rules,
-                'description' => $description != null ? $description : $lan->description,
+                'event_key'                    => $eventKey != null ? $eventKey : $lan->event_key,
+                'latitude'                     => $latitude != null ? $latitude : $lan->latitude,
+                'longitude'                    => $longitude != null ? $longitude : $lan->longitude,
+                'places'                       => $places != null ? $places : $lan->places,
+                'price'                        => $price != null ? $price : $lan->price,
+                'rules'                        => $rules != null ? $rules : $lan->rules,
+                'description'                  => $description != null ? $description : $lan->description,
             ]);
     }
 }

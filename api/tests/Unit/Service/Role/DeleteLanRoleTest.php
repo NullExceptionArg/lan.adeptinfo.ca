@@ -24,7 +24,7 @@ class DeleteLanRoleTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->lanRole = factory('App\Model\LanRole')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
 
         $permissions = Permission::inRandomOrder()
@@ -35,14 +35,14 @@ class DeleteLanRoleTest extends TestCase
 
         foreach ($permissions as $permissionId) {
             factory('App\Model\PermissionLanRole')->create([
-                'role_id' => $this->lanRole->id,
-                'permission_id' => $permissionId
+                'role_id'       => $this->lanRole->id,
+                'permission_id' => $permissionId,
             ]);
         }
 
         factory('App\Model\LanRoleUser')->create([
             'user_id' => $this->user->id,
-            'role_id' => $this->lanRole->id
+            'role_id' => $this->lanRole->id,
         ]);
     }
 

@@ -21,7 +21,7 @@ class GetLanRolesTest extends TestCase
 
         $this->lan = factory('App\Model\Lan')->create();
         $this->lanRoles = factory('App\Model\LanRole', 3)->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 

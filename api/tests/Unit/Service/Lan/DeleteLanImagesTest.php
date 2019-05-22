@@ -24,23 +24,23 @@ class DeleteLanImagesTest extends TestCase
         $this->user = factory('App\Model\User')->create();
         $this->lan = factory('App\Model\Lan')->create();
         $this->image = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $this->image1 = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
         $this->image2 = factory('App\Model\LanImage')->create([
-            'lan_id' => $this->lan->id
+            'lan_id' => $this->lan->id,
         ]);
     }
 
     public function testDeleteLanImages(): void
     {
-        $result = $this->lanService->deleteLanImages($this->image1->id . ',' . $this->image2->id);
+        $result = $this->lanService->deleteLanImages($this->image1->id.','.$this->image2->id);
 
         $this->assertEquals([
             $this->image1->id,
-            $this->image2->id
+            $this->image2->id,
         ], $result);
     }
 }
