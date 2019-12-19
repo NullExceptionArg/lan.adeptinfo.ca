@@ -33,7 +33,7 @@ class GenerateGlobalRoles extends Command
         $this->preconditions();
         $this->comment('Génération des rôles globaux par défaut.');
 
-        $lanRoles = (include(base_path().'/resources/roles.php'))['global_roles'];
+        $lanRoles = (include base_path().'/resources/roles.php')['global_roles'];
         $bar = $this->output->createProgressBar(count($lanRoles));
 
         foreach ($lanRoles as $role) {

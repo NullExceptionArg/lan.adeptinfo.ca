@@ -32,7 +32,7 @@ class GetPermissionsTest extends TestCase
                 'id', 'name', 'can_be_per_lan', 'display_name', 'description',
             ]])
             ->assertResponseStatus(200);
-        $this->assertEquals(count(include(base_path().'/resources/permissions.php')), count(json_decode($this->response->content())));
+        $this->assertEquals(count(include base_path().'/resources/permissions.php'), count(json_decode($this->response->content())));
     }
 
     public function testGetPermissionsLanHasPermission(): void
