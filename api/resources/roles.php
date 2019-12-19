@@ -46,7 +46,7 @@ return [
             'en_description'  => 'Has every permissions for a LAN',
             'fr_display_name' => 'Administrateur général de LAN',
             'fr_description'  => 'Possède toutes les permissions pour un LAN',
-            'permissions'     => collect(include(base_path().'/resources/permissions.php'))
+            'permissions'     => collect(include base_path().'/resources/permissions.php')
                 ->where('can_be_per_lan', true),
         ],
         [
@@ -77,5 +77,4 @@ return [
                 ['name' => 'remove-organizer', 'can_be_per_lan' => true],
             ],
         ],
-    ],
-];
+    ], ];

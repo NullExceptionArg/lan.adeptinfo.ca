@@ -24,7 +24,7 @@ class GeneratePermissions extends Command
     public function handle()
     {
         $this->comment('Generating permissions');
-        DB::table('permission')->insert(include(base_path().'/resources/permissions.php'));
+        DB::table('permission')->insert(include base_path().'/resources/permissions.php');
         $this->info('Permissions generated');
 
         $headers = ['id', 'name'];

@@ -14,7 +14,7 @@ class RoleRepositoryImpl implements RoleRepository
     public function addDefaultLanRoles(int $lanId): void
     {
         // Les rôles de LAN par défaut sont définis dans /resources/roles.php, dans l'entrée de tableau nommé lan_roles
-        $lanRoles = (include(base_path().'/resources/roles.php'))['lan_roles'];
+        $lanRoles = (include base_path().'/resources/roles.php')['lan_roles'];
         // Pour chaque rôle trouvés
         foreach ($lanRoles as $role) {
             // Créer le rôle
