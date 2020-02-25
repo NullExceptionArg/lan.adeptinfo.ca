@@ -1,0 +1,16 @@
+﻿<h2>Login</h2>
+<div (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <label for="username">Email</label>
+        <input [(ngModel)]="login.email" class="form-control"  />
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input [(ngModel)]="login.password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary">
+            Se connecter
+        </button>
+    </div>
+</div>
