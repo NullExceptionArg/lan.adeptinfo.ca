@@ -26,7 +26,10 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  
+
   onSubmit() {
+    this.userService.attemptAuth("")._subscribe( resp => {
+      console.log(resp);
+    })
   }
 }

@@ -1,3 +1,4 @@
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -28,7 +29,6 @@ import {
 } from '@angular/material';
 import {ShowAuthedDirective} from './show-authed.directive';
 import {HasPermissionPipe} from './has-permission.pipe';
-import {AmazingTimePickerModule} from 'amazing-time-picker';
 import {MatMomentDateModule} from '@angular/material-moment-adapter';
 import {SweetAlert2Module} from '@sweetalert2/ngx-sweetalert2';
 

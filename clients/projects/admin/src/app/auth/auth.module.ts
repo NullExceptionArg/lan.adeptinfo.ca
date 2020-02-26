@@ -4,7 +4,7 @@ import {AuthComponent} from './auth.component';
 import {AuthRoutingModule} from './auth-routing.module';
 import {NoAuthGuard} from './no-auth-guard.service';
 import {AuthServiceConfig, FacebookLoginProvider, GoogleLoginProvider, SocialLoginModule} from 'angularx-social-login';
-import {environment} from '../../environments/environment';
+import { environment } from 'projects/user/src/environments/environment';
 
 const config = new AuthServiceConfig([
   {
