@@ -9,7 +9,7 @@ import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthModule } from './auth/auth.module';
 import { LandingModule } from './landing/landing.module';
-import { UserService, LanService } from 'projects/core/src/public_api';
+import { UserService, LanService, CoreModule } from 'projects/core/src/public_api';
 
 @NgModule({
   declarations: [
@@ -20,6 +20,7 @@ import { UserService, LanService } from 'projects/core/src/public_api';
     BrowserModule,
     SharedModule,
     AuthModule,
+    CoreModule,
     LandingModule,
     AppRoutingModule
   ],

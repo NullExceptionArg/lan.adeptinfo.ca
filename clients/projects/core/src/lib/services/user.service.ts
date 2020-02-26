@@ -113,7 +113,6 @@ export class UserService {
 
           // Sauvegarder le JWT renvoyé du serveur dans le localstorage
           JwtService.saveToken(data.access_token);
-
           // Obtenir les informations sommaires de l'utilisateur nouvellement connecté
           this.populate();
 
