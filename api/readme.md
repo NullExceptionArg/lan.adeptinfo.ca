@@ -102,12 +102,13 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
  - Copier le fichier .env.example pour .env et informer les champs.
     - Veuillez contacter un administrateur du projet pour avoir une configuration de .env préremplie.
 
-    ##### Si vous êtes sous linux:
-    - Ouvrir le fichier php.ini qui devrait se trouver sous `/etc/php/7.x/cli`.
-    - Décommenter `;extension=pdo_mysql.so` dans la section Dynamic Extensions du fichier en retirant le `;` au début de la ligne.
+##### Si vous êtes sous linux:
+   - Ouvrir le fichier php.ini qui devrait se trouver sous `/etc/php/7.x/cli`.
+   - Décommenter `;extension=pdo_mysql.so` dans la section Dynamic Extensions du fichier en retirant le `;` au début de la ligne.
 
-    ##### Sous Windows:
-    - S'assurer que la ligne `extension=php_fileinfo.dll` a bien été rajouté dans php.ini(Si vous ne l'avez pas déjà fait).
+##### Sous Windows:
+   - S'assurer que la ligne `extension=php_fileinfo.dll` a bien été rajouté dans php.ini(Si vous ne l'avez pas déjà fait).
+
  - Exécuter `php artisan key:generate`
  - Exécuter `php artisan migrate`
  - Exécuter `php artisan passport:install`
