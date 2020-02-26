@@ -109,6 +109,7 @@ Les configurations de la VM sont déjà dans le projet, à la racine sous `Vagra
 ##### Sous Windows:
    - S'assurer que la ligne `extension=php_fileinfo.dll` a bien été rajouté dans php.ini(Si vous ne l'avez pas déjà fait).
 
+
  - Exécuter `php artisan key:generate`
  - Exécuter `php artisan migrate`
  - Exécuter `php artisan passport:install`
