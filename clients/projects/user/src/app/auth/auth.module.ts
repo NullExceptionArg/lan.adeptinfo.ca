@@ -4,6 +4,8 @@ import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from "@angular/forms";
 import { RegisterComponent } from './register/register.component';
+import { core } from '@angular/compiler';
+
 
 const appRoutes: Routes = [
   { path: 'auth/login', component: LoginComponent },
