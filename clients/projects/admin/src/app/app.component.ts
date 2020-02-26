@@ -3,8 +3,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
-import { environment } from '../environments/environment';
 import { UserService, LanService, User } from 'projects/core/src/public_api';
+import { environment } from 'projects/user/src/environments/environment';
 
 @Component({
   selector: 'app-root',
