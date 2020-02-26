@@ -7,13 +7,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { HomeComponent } from './home/home.component';
 import { CountdownComponent } from './countdown/countdown/countdown.component';
 import { DatecountdownComponent } from './countdown/datecountdown/datecountdown.component';
-import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
+import { AuthModule } from './auth/auth.module';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 const routes: Routes = [
-  {path:"Home", component:HomeComponent},
-  {path:"login", component:LoginComponent},
-  {path:"**", redirectTo:"/Home"}
+  { path: "Home", component: HomeComponent },
+  { path: "auth", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  { path: "**", redirectTo: "/Home" }
 ];
 
 @NgModule({
@@ -22,7 +23,7 @@ const routes: Routes = [
     HomeComponent,
     CountdownComponent,
     DatecountdownComponent,
-    LoginComponent
+    NotfoundComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +32,7 @@ const routes: Routes = [
     RouterModule.forRoot(
       routes
     ),
+    AuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
