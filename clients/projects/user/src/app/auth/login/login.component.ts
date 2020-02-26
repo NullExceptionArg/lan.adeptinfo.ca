@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { loginRequest } from '../../service/dto';
 import {FormsModule} from '@angular/forms';
+import { core } from '@angular/compiler';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +18,5 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
   onSubmit(){
-    
   }
 }

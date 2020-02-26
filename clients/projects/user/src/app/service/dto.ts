@@ -6,6 +6,13 @@ export class loginRequest{
     grant_type;
 }
 
+export class registerRequest{
+    first_name;
+    last_name;
+    email;
+    password;
+}
+
 
 // export class loginRequest{
 //     firstName:string="";
