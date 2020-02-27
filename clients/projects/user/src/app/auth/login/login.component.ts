@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
 
 
   onSubmit() {
-    this.userService.attemptAuth("")._subscribe( resp => {
-      console.log(resp);
-    })
+    // this.userService.attemptAuth("")._subscribe( resp => {
+    //   console.log(resp);
+    // })
   }
 }
