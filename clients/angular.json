@@ -142,7 +142,7 @@
               "projects/user/src/assets"
             ],
             "styles": [
-              "projects/user/src/styles.css"
+              "projects/user/src/styles.scss"
             ],
             "scripts": []
           },
