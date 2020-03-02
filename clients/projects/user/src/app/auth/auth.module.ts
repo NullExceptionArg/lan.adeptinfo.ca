@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from "@angular/forms";
 import { RegisterComponent } from './register/register.component';
 import { core } from '@angular/compiler';
+import { SharedModule } from 'projects/admin/src/app/shared/shared.module';
 
 
 const appRoutes: Routes = [
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
   imports: [
     CommonModule,
     FormsModule,
+    SharedModule,
     RouterModule.forChild(appRoutes)
   ]
 })

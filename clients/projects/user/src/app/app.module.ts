@@ -10,6 +10,8 @@ import { DatecountdownComponent } from './countdown/datecountdown/datecountdown.
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { NotfoundComponent } from './notfound/notfound.component';
+import { UserService, JwtService } from 'projects/core/src/public_api';
+import { ApiService } from 'projects/core/src/lib/services/api.service';
 
 const routes: Routes = [
   { path: "Home", component: HomeComponent },
@@ -34,7 +36,7 @@ const routes: Routes = [
     ),
     AuthModule,
   ],
-  providers: [],
+  providers: [UserService,ApiService,JwtService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,8 +4,10 @@
 /*--------------------------------------------------------------
 # General
 --------------------------------------------------------------*/
-
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500');
+
+
 @font-face {
     font-family: 'Imagine';
     src: url('assets/font/imagine-font.woff2') format('woff2'), 
