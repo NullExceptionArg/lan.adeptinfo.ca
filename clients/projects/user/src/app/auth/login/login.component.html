@@ -19,12 +19,12 @@
 <!-- Section de connexion avec l'API -->
 <div class="col-10 col-md-2 col-xl-2 offset-xl-5 offset-md-5 offset-1" style="background-color: white; padding:10px; padding-top: 20px;border-radius: 5px;">
     <form [formGroup]="authForm" (ngSubmit)="login()">
-        <fieldset [disabled]="isSubmitting">
+        <fieldset>
 
             <!-- Champ pour le courriel de l'utilisateur -->
             <mat-form-field appearance="outline">
                 <mat-label>Courriel</mat-label>
-                <input matInput formControlName="email" type="text" placeholder="moi@adeptinfo.ca">
+                <input matInput formControlName="email" type="email" placeholder="moi@adeptinfo.ca">
                 <mat-error>{{getEmailErrorMessage()}}</mat-error>
             </mat-form-field>
             <br />

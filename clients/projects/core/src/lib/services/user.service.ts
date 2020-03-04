@@ -39,14 +39,14 @@ export class UserService {
         params.append('lan_id', lanId.toString());
       }
 
-      this.apiService.get('/admin/summary', params)
-        .subscribe(
-          // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
-          data => this.setAuth(data),
+      // this.apiService.get('/admin/summary', params)
+      //   .subscribe(
+      //     // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
+      //     data => this.setAuth(data),
 
-          // Si l'appel échoue, supprimer les informations de l'utilisateur pour qu'il s'authentifie à nouveau
-          () => this.purgeAuth()
-        );
+      //     // Si l'appel échoue, supprimer les informations de l'utilisateur pour qu'il s'authentifie à nouveau
+      //     () => this.purgeAuth()
+      //   );
     } else {
       // Retirer ce qui pourait rester dans la mémoire de l'application de l'utilisateur précédent
       this.purgeAuth();

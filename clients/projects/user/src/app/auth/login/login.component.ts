@@ -13,7 +13,6 @@ export class LoginComponent{
   authForm : FormGroup;
   emailServerError = '';
   passwordServerError = '';
-  isSubmitting = false;
   mobileQuery: MediaQueryList;
   passwordFocusLoss = false;
   emailFocusLoss = false;
@@ -27,7 +26,7 @@ export class LoginComponent{
       this.mobileQuery = this.media.matchMedia('(min-width: 960px)');
       this.authForm = this.formBuilder.group({
         // Le champ du courriel doit avoir la forme d'un courriel et est requis
-        'email': ['', [Validators.required, Validators.email]],
+        'email': [''],
   
         // Le champ du mot de passe et est requis
         'password': ['', Validators.required]
@@ -37,11 +36,11 @@ export class LoginComponent{
   login(){
     // Ne procède pas à l'authentification si le formulaire n'est pas valide.
     if(!this.authForm.valid) return;
-    this.isSubmitting = true;
+    console.log("Clicked!")
     this.userService.attemptAuth(this.authForm.value).subscribe(
 
                 // Si l'authentification est un succès, naviguer à la page principale
-                () => { this.router.navigateByUrl('/'); },
+                (response) => { this.router.navigateByUrl('/'); },
 
                 /*
                 * Si l'authentification échoue :
@@ -49,11 +48,11 @@ export class LoginComponent{
                 * Afficher les champs de connexion comme incorrects
                 * Assigner le message du serveur
                 * */
-                () => {
-                  this.isSubmitting = false;
-                  this.authForm.controls['email'].setErrors([]);
+                (error) => {console.log(error)
+                  if(error == "Unauthorized.")
+                    this.authForm.controls['email'].setErrors([]);
                   this.authForm.controls['password'].setErrors([]);
-                  this.emailServerError = 'Courriel incorrect';
+                  this.emailServerError = 'Courriel invalide';
                   this.passwordServerError = 'Mot de passe incorrect';
                 }
     )
