@@ -13,9 +13,11 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { UserService, JwtService, CoreModule } from 'projects/core/src/public_api';
 import { ApiService } from 'projects/core/src/lib/services/api.service';
 import { PlacesComponent } from './places/places.component';
+import { SeatsioAngularModule } from '@seatsio/seatsio-angular';
 
 const routes: Routes = [
   { path: "Home", component: HomeComponent },
+  { path: "places", component: PlacesComponent },
   { path: "auth", loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
   { path: "**", redirectTo: "/Home" }
 ];
@@ -34,6 +36,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     CoreModule,
+    SeatsioAngularModule,
     RouterModule.forRoot(
       routes
     ),
