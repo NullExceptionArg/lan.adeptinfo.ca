@@ -6,16 +6,17 @@ import { FormsModule } from "@angular/forms";
 import { RegisterComponent } from './register/register.component';
 import { core } from '@angular/compiler';
 import { SharedModule } from 'projects/admin/src/app/shared/shared.module';
+import { LogoutComponent } from './logout/logout.component';
 
 
 const appRoutes: Routes = [
   { path: 'auth/login', component: LoginComponent },
   { path: 'auth/register', component: RegisterComponent },
-  { path: 'auth/logout', component: LoginComponent },
+  { path: 'auth/logout', component: LogoutComponent },
   { path: 'auth/**', component:LoginComponent}
 ]
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent],
+  declarations: [LoginComponent, RegisterComponent, LogoutComponent],
   imports: [
     CommonModule,
     FormsModule,

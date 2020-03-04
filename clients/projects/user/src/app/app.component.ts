@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { fromEvent, Observable, Subscription } from "rxjs";
+import { UserService, AuthGuard, User, JwtService } from 'projects/core/src/public_api';
+import { take } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
@@ -10,9 +12,20 @@ export class AppComponent {
     resizeObservable$: Observable<Event>
     resizeSubscription$: Subscription
 
-    constructor() { }
+
+
+    constructor(public userService:UserService) {
+
+        
+    }
 
     ngOnInit(): void {
         
+
+
+
+
     }
+
+
 }

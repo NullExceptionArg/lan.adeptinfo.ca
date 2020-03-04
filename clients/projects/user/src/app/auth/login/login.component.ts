@@ -26,7 +26,7 @@ export class LoginComponent{
       this.mobileQuery = this.media.matchMedia('(min-width: 960px)');
       this.authForm = this.formBuilder.group({
         // Le champ du courriel doit avoir la forme d'un courriel et est requis
-        'email': [''],
+        'email': ['',[Validators.required, Validators.email]],
   
         // Le champ du mot de passe et est requis
         'password': ['', Validators.required]
@@ -48,11 +48,8 @@ export class LoginComponent{
                 * Afficher les champs de connexion comme incorrects
                 * Assigner le message du serveur
                 * */
-                (error) => {console.log(error)
-                  if(error == "Unauthorized.")
-                    this.authForm.controls['email'].setErrors([]);
+                (error) => {console.log(error);
                   this.authForm.controls['password'].setErrors([]);
-                  this.emailServerError = 'Courriel invalide';
                   this.passwordServerError = 'Mot de passe incorrect';
                 }
     )

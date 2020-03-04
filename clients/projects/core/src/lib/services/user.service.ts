@@ -39,14 +39,16 @@ export class UserService {
         params.append('lan_id', lanId.toString());
       }
 
-      // this.apiService.get('/admin/summary', params)
-      //   .subscribe(
-      //     // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
-      //     data => this.setAuth(data),
+      //this.isAuthenticatedSubject.next(true);
 
-      //     // Si l'appel échoue, supprimer les informations de l'utilisateur pour qu'il s'authentifie à nouveau
-      //     () => this.purgeAuth()
-      //   );
+      this.apiService.get('/user/summary', params)
+        .subscribe(
+          // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
+          data => this.setAuth(data),
+
+          // Si l'appel échoue, supprimer les informations de l'utilisateur pour qu'il s'authentifie à nouveau
+          () => this.purgeAuth()
+        );
     } else {
       // Retirer ce qui pourait rester dans la mémoire de l'application de l'utilisateur précédent
       this.purgeAuth();
@@ -74,7 +76,7 @@ export class UserService {
    * Supprimer toute traces de l'utilisateur dans le localstorage et dans la mémoire.
    */
   purgeAuth(): void {
-
+    console.log("purge")
     // Supprimer le JWT du localstorage
     JwtService.destroyToken();
 
