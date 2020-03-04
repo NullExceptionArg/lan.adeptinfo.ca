@@ -10,8 +10,9 @@ import { DatecountdownComponent } from './countdown/datecountdown/datecountdown.
 import { FormsModule } from '@angular/forms';
 import { AuthModule } from './auth/auth.module';
 import { NotfoundComponent } from './notfound/notfound.component';
-import { UserService, JwtService } from 'projects/core/src/public_api';
+import { UserService, JwtService, CoreModule } from 'projects/core/src/public_api';
 import { ApiService } from 'projects/core/src/lib/services/api.service';
+import { PlacesComponent } from './places/places.component';
 
 const routes: Routes = [
   { path: "Home", component: HomeComponent },
@@ -25,12 +26,14 @@ const routes: Routes = [
     HomeComponent,
     CountdownComponent,
     DatecountdownComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    PlacesComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
+    CoreModule,
     RouterModule.forRoot(
       routes
     ),

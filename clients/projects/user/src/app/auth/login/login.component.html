@@ -17,13 +17,17 @@
     </form>
 </div> -->
 <!-- Section de connexion avec l'API -->
-<div class="col-10 col-md-2 col-xl-2 offset-xl-5 offset-md-5 offset-1" style="background-color: white; padding:10px; padding-top: 20px;border-radius: 5px;">
+<div class="banner col-10 col-md-4 col-xl-4 offset-xl-4 offset-md-4 offset-1">
+    <h2 class="banner">Connexion</h2>
+</div>
+
+<div class="col-10 col-md-4 col-xl-4 offset-xl-4 offset-md-4 offset-1 formContainer" style="background-color: #232323 ; padding:10px; padding-top: 20px;border-radius: 0px 0px 5px 5px;">
     <form [formGroup]="authForm" (ngSubmit)="login()">
         <fieldset>
 
             <!-- Champ pour le courriel de l'utilisateur -->
             <mat-form-field appearance="outline">
-                <mat-label>Courriel</mat-label>
+                <mat-label style="color:white">Courriel</mat-label>
                 <input matInput formControlName="email" type="email" placeholder="moi@adeptinfo.ca">
                 <mat-error>{{getEmailErrorMessage()}}</mat-error>
             </mat-form-field>
@@ -32,13 +36,13 @@
 
             <!-- Champ pour le mot de passe de l'utlisateur -->
             <mat-form-field appearance="outline">
-                <mat-label>Mot de Passe</mat-label>
+                <mat-label style="color:white">Mot de Passe</mat-label>
                 <input matInput formControlName="password" type="password" placeholder="Passw0rd!">
                 <mat-error>{{getPasswordErrorMessage()}}</mat-error>
             </mat-form-field>
             <br />
             <!-- Bouton de connection -->
-            <button mat-raised-button color="primary" id="login-button">Se connecter</button>
+            <button mat-raised-button color="primary" id="login-button" style="color:white;">Se connecter</button>
 
         </fieldset>
     </form>

@@ -41,7 +41,7 @@ export class UserService {
 
       //this.isAuthenticatedSubject.next(true);
 
-      this.apiService.get('/user/summary', params)
+      this.apiService.get('/admin/summary', params)
         .subscribe(
           // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
           data => this.setAuth(data),

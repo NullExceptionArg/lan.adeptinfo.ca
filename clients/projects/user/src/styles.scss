@@ -68,6 +68,41 @@ $md-dark: (
         A700 : #ffffff,
     )
 );
+$md-white: (
+    50 : #ffffff,
+    100 : #ffffff,
+    200 : #ffffff,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
+
 
 @import '~@angular/material/theming';
 @include mat-core();
@@ -80,8 +115,13 @@ $lan-adept-warn: mat-palette($mat-red);
 
 $lan-adept-theme: mat-light-theme($lan-adept-primary,$lan-adept-accent,$lan-adept-warn);
 
-@include angular-material-theme($lan-adept-theme);
+$lan-adept-button-primary: mat-palette($md-green);
+$lan-adept-button-accent: mat-palette($md-white);
+$lan-adept-button-warn: mat-palette($mat-red);
+$lan-adept-button-theme: mat-light-theme($lan-adept-button-primary,$lan-adept-button-accent,$lan-adept-button-warn);
 
+@include angular-material-theme($lan-adept-theme);
+@include mat-button-theme($lan-adept-button-theme);
 @font-face {
     font-family: 'Imagine';
     src: url('assets/font/imagine-font.woff2') format('woff2'), 
@@ -90,6 +130,39 @@ $lan-adept-theme: mat-light-theme($lan-adept-primary,$lan-adept-accent,$lan-adep
     font-weight: normal;
     font-style: normal;
 }
+
+.mat-form-field-outline{
+    background-color: #121212 !important;
+    border-radius: 5px;
+}
+.formContainer{
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+}
+.banner{
+    background-color: #00c102;
+    color:white;
+    font-family: Ubuntu;
+    margin-bottom: 0px;
+    border-radius: 5px 5px 0px 0px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+form{
+    button{
+        color:white;
+    }
+}
+.mat-form-field-placeholder {
+    color: white;
+}
+.mat-focused .mat-form-field-placeholder {
+    color: white;
+}
+.mat-form-field-label{
+    color: white;
+}
+
 
 body {
     background: #000;
