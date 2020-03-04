@@ -9,6 +9,7 @@
                 <li><a href="">Places</a></li>
                 <li *ngIf="!(this.userService.isAuthenticated | async)"><a href="/auth/login">Se connecter</a></li>
                 <li *ngIf="this.userService.isAuthenticated | async"><a href="/auth/logout">Se déconnecter</a></li>
+                <li *ngIf="!(this.userService.isAuthenticated | async)"><a href="/auth/register">Création Compte</a></li>
             </ul>
         </nav>
     </div>
