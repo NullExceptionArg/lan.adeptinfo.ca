@@ -130,6 +130,11 @@ $lan-adept-button-theme: mat-light-theme($lan-adept-button-primary,$lan-adept-bu
     font-weight: normal;
     font-style: normal;
 }
+#chart{
+    display: block;
+    height: 400px !important;
+}
+
 
 .mat-form-field-outline{
     background-color: #121212 !important;

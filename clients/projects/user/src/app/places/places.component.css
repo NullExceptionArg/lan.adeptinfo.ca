@@ -1,0 +1,12 @@
+
+si-seatsio-seating-chart{
+    display: block;
+    height: 400px !important;
+}
+
+#container{
+    background-color: #232323;
+    border-radius: 5px;
+    padding-top: 50px;
+    padding-bottom: 100px;
+}
