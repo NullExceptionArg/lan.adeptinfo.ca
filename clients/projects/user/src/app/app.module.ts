@@ -14,6 +14,7 @@ import { UserService, JwtService, CoreModule } from 'projects/core/src/public_ap
 import { ApiService } from 'projects/core/src/lib/services/api.service';
 import { PlacesComponent } from './places/places.component';
 import { SeatsioAngularModule } from '@seatsio/seatsio-angular';
+import { ToastrModule } from 'ngx-toastr';
 
 const routes: Routes = [
   { path: "Home", component: HomeComponent },
@@ -40,7 +41,8 @@ const routes: Routes = [
     RouterModule.forRoot(
       routes
     ),
-    AuthModule,
+    AuthModule, // required animations module
+    ToastrModule.forRoot() // ToastrModule added
   ],
   providers: [UserService,ApiService,JwtService],
   bootstrap: [AppComponent]

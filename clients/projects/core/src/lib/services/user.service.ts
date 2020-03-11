@@ -24,7 +24,8 @@ export class UserService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
+
 
   /**
    * Obtenir les détails de l'utilisateur.
@@ -37,8 +38,6 @@ export class UserService {
       if (lanId != null) {
         params.append("lan_id", lanId.toString());
       }
-
-      //this.isAuthenticatedSubject.next(true);
 
       this.apiService.get("/user/summary", params).subscribe(
         // Si l'appel est un succès, mettre les données reçues dans l'utilisateur courant
@@ -60,11 +59,12 @@ export class UserService {
   attemptSignup(signupReq: Signup): Observable<any> {
     return this.apiService.post("/user", signupReq).pipe(
       map(data => {
+
       })
     );
   }
 
-  /**
+/**
    * Détails de l'authentification.
    * @param user Utilisateur authentifié
    */
@@ -83,7 +83,6 @@ export class UserService {
    * Supprimer toute traces de l'utilisateur dans le localstorage et dans la mémoire.
    */
   purgeAuth(): void {
-    console.log("purge");
     // Supprimer le JWT du localstorage
     JwtService.destroyToken();
 
@@ -194,4 +193,18 @@ export class UserService {
   getCurrentUser(): User {
     return this.currentUserSubject.value;
   }
+
+  /**
+   * Verifie si il y a un utilisateur de connecter grace au Token.
+   */
+  isConnected() : boolean {
+    if (JwtService.checkToken()) {
+      return true;
+    }
+    else {
+      //Si il n'y a pas de token l'utilisateur n'a pas comment etre connecté.
+      return false;
+    }
+  }
+
 }

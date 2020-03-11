@@ -14,9 +14,8 @@ export class AppComponent {
 
 
 
-    constructor(public userService:UserService) {
-
-        
+    constructor(public userService:UserService, public jwtService: JwtService) {
+  
     }
 
     ngOnInit(): void {
