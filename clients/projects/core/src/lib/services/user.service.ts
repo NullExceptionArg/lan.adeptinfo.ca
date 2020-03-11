@@ -71,6 +71,7 @@ export class UserService {
   setAuth(user: User): void {
     // Rendre les données de l'utilisateur courant observables
     this.currentUserSubject.next(user);
+    JwtService.saveUser(user);
 
     // Vider la valeur
     this.isAuthenticatedSubject.next();
@@ -191,7 +192,7 @@ export class UserService {
    * Obtenir les détails de l'utilisateur courant.
    */
   getCurrentUser(): User {
-    return this.currentUserSubject.value;
+    return JwtService.getUser();
   }
 
   /**

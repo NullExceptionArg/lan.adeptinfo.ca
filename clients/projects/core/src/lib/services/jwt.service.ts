@@ -51,7 +51,7 @@ export class JwtService {
    * @param user L'utilisateur conserver
    */
   static saveUser(user: User): void {
-    window.localStorage['appUser'] = user;
+    window.localStorage['appUser'] = JSON.stringify(user);
   }
 
   /**
@@ -59,13 +59,13 @@ export class JwtService {
    * 
    */
   static checkUser():boolean{
-    return window.localStorage['jwtToken'] != '' || window.localStorage['jwtToken'] != null;
+    return window.localStorage['appUser'] != '' || window.localStorage['appUser'] != null;
   }
 
   /**
    * Supprimer l'utilisateur connecté du localstorage.
    */
   static destroyUser(): void {
-    window.localStorage.removeItem('jwtToken');
+    window.localStorage.removeItem('appUser');
   }
 }
