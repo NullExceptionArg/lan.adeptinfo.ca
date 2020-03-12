@@ -4,40 +4,24 @@ import { ApiService } from "./api.service";
 @Injectable({
   providedIn: "root"
 })
-export class TournamentamentService {
+export class TournamentService {
   constructor(private apiService: ApiService) {}
 
-  createTournament(){
+  createTournament() {}
 
+  deleteTournament() {}
+
+  tournamentByOrganizer() {}
+
+  allTournament() {
+    return this.apiService.get("/tournament/all");
   }
 
-  deleteTournament(){
+  updateTournament() {}
 
-  }
+  detailsTournament() {}
 
-  tournamentByOrganizer(){
+  addOrganizer() {}
 
-  }
-
-  allTournament(){
-
-  }
-
-  updateTournament(){
-
-  }
-
-  detailsTournament(){
-
-  }
-
-  addOrganizer(){
-
-  }
-
-  removeOrganiser(){
-
-  }
-
-  
+  removeOrganiser() {}
 }
