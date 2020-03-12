@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, TournamentService ,Tournament } from 'projects/core/src/public_api';
+import { UserService, TournamentService } from 'projects/core/src/public_api';
 
 @Component({
   selector: 'app-tournament-list',
